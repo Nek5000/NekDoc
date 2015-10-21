@@ -1,6 +1,7 @@
-#[Nek5000 Documentation](http://nek5000.mcs.anl.gov/)
+# Nek5000 Documentation
 
-This is the repository of the Nek5000 documenation written in LaTex.
+This is the repository of the [Nek5000](http://nek5000.mcs.anl.gov/) documenation 
+written in LaTex.
 
 ## How to build
 
