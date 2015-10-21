@@ -8,13 +8,13 @@ written in LaTex.
 'make all' builds both the user documentation as well as the developer
 documentation
 
-'make Nek_doc' and 'make Nek_users' builds the developer and user documentation, 
+'make Nek_doc' and 'make Nek_users' build the developer and user documentation, 
 respectively.
 
 ## How to contribute
 
 Please create a fork of the repository and make pull/merge requests. Keep in 
-mind that number of binary files should be kept minimal. The Makefile should be 
+mind that the number of binary files should be kept minimal. The Makefile should be 
 adapted to any special build requirements.
 
-And new issues are welcome to be reported.
+New issues or requests are welcome to be reported.
