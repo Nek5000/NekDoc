@@ -5,11 +5,7 @@ written in LaTex.
 
 ## How to build
 
-'make all' builds both the user documentation as well as the developer
-documentation
-
-'make Nek_doc' and 'make Nek_users' build the developer and user documentation, 
-respectively.
+'make' builds both the user documentation.
 
 ## How to contribute
 
