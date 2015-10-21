@@ -1,0 +1,41 @@
+This chapter provides a quick overview to using Nek5000
+for some basic flow problems provided in the {\tt .../examples}
+directory.
+           
+Nek5000 runs under Linux or any Linux-like OS such as MAC, AIX, BG, Cray etc.  
+The source is maintained in an svn repository and can be downloaded
+from the Nek5000 homepage (google nek5000) or, on linux systems,
+with the svn checkout command:
+
+\begin{verbatim}
+svn co https://svn.mcs.anl.gov/repos/nek5 nek5_svn
+\end{verbatim}
+\noindent
+After downloading, build the tools by typing
+\begin{verbatim}
+cd nek5_svn/trunk/tools
+maketools all
+\end{verbatim}
+\noindent
+which will put the tools {\tt genbox, genmap, n2to3, postx,
+prex,} and {\tt pretex} in the top-level {\tt /bin} directory
+(and will create {\tt /bin} if it does not exist).
+It may be necessary to edit the {\tt maketools} file to change 
+the compilers (e.g., to pgf77/pgcc or ifort/icc).  However,
+the default gfortran/gcc is generally fine.
+%\footnote{In some cases it may be necessary to reduce the memory
+%footprint of some of the tools. The procedures are (will be)
+%described in \sc{sec. troubleshooting}.}
+
+In addition to the compiled tools, there are numerous scripts in
+\begin{verbatim}
+nek5_svn/trunk/tools/scripts
+\end{verbatim}
+that are useful to have in the execution path, achieved 
+either by adding this directory to the path or copying its
+contents to the top-level /bin directory.  In the following,
+we assume that scripts such as {\tt nek} and {\tt nekb}
+are in the path.  We further assume that the {\tt nek5\_svn/}
+prefix is implied in any future directory reference, unless
+otherwise specified.
+

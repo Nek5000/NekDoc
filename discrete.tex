@@ -1,0 +1,110 @@
+Here we shall present the Spectral Element Method starting with the variational formulation, the emerging spatial discretization and close with the timestepping method. The core of the NEK5000 code is given by the robust solution to the Navier-Stokes equations via both an algebraic type of solution ($\mathbb{P}_N-\mathbb{P}_{N-2}$), as well as via a splitting scheme ($\mathbb{P}_N-\mathbb{P}_N$). However since the Navier-Stokes equations can be regarded as a non-linear  Convection-Diffusion equation with an additional constraint (divergence free velocity field) enforced by the pressure gradient it is suitable to start the presentation from a purely Convective-Diffusion equation and work our way towards the full Navier-Stokes.
+
+\section{The Spectral Element Method}
+Let us define the spaces
+$$
+L^2(\Omega)=\lbrace f :\Omega\rightarrow \mathbb R |\quad \bigg(\int_{\Omega} |f|^2 \d \Omega \bigg)^{1/2}<\infty,\ \rbrace
+$$
+with the subset
+$$
+H^1_0(\Omega)=\lbrace f \in L^2(\Omega) |\quad \frac{\partial f}{\partial \vect x} \ \text{in}\  L^2(\Omega),\ \rbrace
+$$
+
+The Spectral Element Method is a subclass of Galerkin methods, or weighted residual methods. The idea is to minimize the error of the numerical computation in the energy norm over a chosen space of polynomials. 
+
+\subsection{Convection-Diffusion}
+Consider the energy equation in non-dimensional form Eq.~\ref{eq:energy_nondim}, this is a convection diffusion equation with the Laplacian term weighted by the P\' eclet number. For the simplicity of the presentation we make two changes 
+\begin{itemize}
+\item replace the advection velocity $\vect u$ by a constant velocity field $c$ that is divergence free
+\item denote the temperature $T$ in the energy equation by $u$
+\end{itemize}
+The variational formulation of the Convection-Diffusion equation reads
+\begin{eqnarray}\label{eq:Conv_diff}
+\int_{\Omega}\frac{\partial u}{\partial t} \cdot v\d \Omega+ \int_{\Omega}(c \cdot \nabla u)\cdot  v\d \Omega\ &=& \frac{1}{Pe}\int_{\Omega} (\nabla\cdot \nabla  u)\cdot  v\d \Omega + \int_{\Omega}f\cdot v\d \Omega.
+\end{eqnarray}
+with $ u,\ v \ \in \  H^1_0(\Omega)$.
+
+The terms in the convection diffusion equation can be further expanded to give
+\begin{eqnarray}\label{eq:var_cd}
+\int_{\Omega}\frac{\partial u}{\partial t} \cdot \vect v\d \Omega &=&\frac{\partial}{\partial t} \int_{\Omega}u \cdot \vect v\d \Omega\\
+\int_{\Omega} \nabla\cdot \nabla u\cdot v\d \Omega &=&\int_{\Omega}  \nabla u\cdot \nabla v\d \Omega +\int_{\partial\Omega} v \nabla u \cdot \vect n\d\Omega
+\end{eqnarray}
+
+
+Let us now define $X=H^1_0(\Omega)^d$. The space of polynomials of order $N$ defined over an element $\Omega^e, \ e=1,\ldots, E$ is
+$$
+\mathbb P_{N,E}=\lbrace  \phi| \phi \in L^2(\Omega); \quad \phi|_{\Omega^e} \text{polynomial of degree} \leq N\rbrace
+$$
+Subsequently $X_N=X\cap  P_{N,E}^d$, where $d$ is the dimension of the problem.
+
+In the polynomial space $X_N$ we expand the numerical solution $u=\sum_i^N u_i\phi_i$.
+With this choice the solution as well as the test space function $\vect v$ can be expanded as
+$$
+u(\vect x)=\sum_{i=1}^N u_{i}\phi_i(\vect x)
+$$
+
+Given the choice of the polynomial space $X_N$ the boundary integral term in \ref{eq:var_cd} vanishes. Upon insertion of the ansatz into the variational formulation we have
+\begin{eqnarray}\label{eq:cd_ansatz}
+\int_{\Omega}\frac{\partial u}{\partial t} \cdot \vect v\d \Omega &=&\frac{\partial}{\partial t} \sum_i^N\sum_j^N v_i\bigg(\int_{\Omega}  \phi_i(\vect x) \cdot \phi_j(\vect x)\d \Omega u_j\bigg) \\
+\int_{\Omega}(c \cdot \nabla u)\cdot  v\d \Omega\ &=&\sum_i^N\sum_j^N v_i\bigg (\int_{\Omega}(c \cdot \phi_i(\vect x)\cdot \nabla\phi_j(\vect x)  \d \Omega\bigg) u_j\ \\
+\int_{\Omega} (\nabla\cdot \nabla  u)\cdot  v\d \Omega &=&\sum_{i=1}^N \sum_{j=1}^N v_{i}(\int_{\Omega}\nabla\phi_i(\vect x) \cdot \nabla \phi_j(\vect x)\d \Omega)u_j \\
+\end{eqnarray}
+
+To discretize the integrals in \ref{eq:cd_ansatz} we need to introduce a quadrature rule. For spectral accuracy the choice is the Gauss-Legendre quadrature
+$\int_{-1}^1\phi(\vect x)\d x=\sum_k \rho_k\phi(x_k)$
+where the quadrature points $x_k$ are given by the Gauss-Legendre-Lobatto points, and the weights $\rho_k$ are based on the Legendre polynomials as in \ref{dfm02}.
+To start with we consider the one dimensional case and proceed to higher dimensions and curvilinear elements.
+
+\subsubsection{One Dimensional case}
+Let us first regard a one dimensional case on the domain $\Omega=[a\ b]$ and analyse one by one the terms in Eq.~\ref{eq:cd_ansatz}. Since the quadrature rule is defined on the interval $[-1, \ 1]$ we map $x \in \Omega$ to $r\in [-1,\ 1]$ via $x=a+(b-a)(r+1)/2$ and take $L=b-a$.
+The mass matrix is given by 
+\begin{equation}
+M_{ij}=\int_{\Omega}\phi_i(x) \phi_j(x)\d \Omega=\frac{L}{2}\int_{-1}^1\phi_i(r) \phi_j(r)\d r=\frac{L}{2}\sum_k \rho_k\phi_i(r_k) \phi_j(r_k)
+\end{equation}
+since $\phi_i(x_k) \phi_j(x_k)=\delta_{ij}$, $M$ is a diagonal matrix which holds on the diagonal the weights of the quadrature rule. In practice $M$ can also be used as an integration operator, therefore one can write $\int_{-1}^1f(x)\d x\approx Mf$
+
+The stiffness matrix corresponding to the second order term is 
+\begin{equation}
+A_{ij}=\int_{\Omega}\phi'_i(\vect x) \phi'_j(\vect x)\d \Omega=\frac{L}{2}\int_{-1}^1\phi'_i(r) \phi'_j(r)\d r=\frac{L}{2}\sum_k \rho_k\phi'_i(r_k) \phi'_j(r_k)
+\end{equation}
+and the convection operator
+\begin{equation}
+C_{ij}=\int_{\Omega}c\phi_i(\vect x) \phi'_j(\vect x)\d \Omega=\frac{L}{2}\int_{-1}^1c(r)\phi_i(r) \phi'_j(r)\d r=\frac{L}{2}\sum_k c(r_k)\rho_k\phi_i(r_k) \phi'_j(r_k)
+\end{equation}
+
+This leads to the following spatial discretized system of equations
+\begin{equation}\label{eq:advd}
+M \frac{d u}{dt} = \, Au -Cu + M f, 
+\end{equation}
+
+\begin{comment}
+\subsubsection{Two Dimensional case}
+Consider $\Omega=[-1,\ 1]^2$ discretized in $N$ GLL points. Then the basis function $\pi_k(x_1,x_2)=\phi_i(x_1)\phi_j(x_2)$ where $i,j=1,\ldots,N$ and $k=i+(N+1)\cdot j$.
+
+The ansatz on the solution 
+$$u(x,y)=\sum_{i=0}^M\sum_{j=0}^N u_{ij}\phi_i(x)\phi_j(y)$$
+
+
+
+
+
+To start with we introduce a notation for tensor product form of matrix multiplication
+\begin{equation}
+w_{ij}=\sum_{l=1}^M\sum_{k=1}^N a_{jl}b_{ik}u_{kl}
+\end{equation}
+In the tensor product notation $c_{ij}=\sum_{l=1}^M\sum_{k=1}^N a_{jl}b_{ik}$ can be written as $C=A\otimes B)$. By unrolling the vector $w_{ij}$ as $\underline{w}_{\hat{i}}$ with components given by the ordering $\hat{i}=i+M\cdot(j-1)$ and similarly for $u_{kl}$ we can expand the tensor matrix product as \footnote{this doesn't match the one before.. careful with N+1, N}
+
+$$\underline{w}=(A\otimes I)(I\otimes B)\underline{u}$$
+
+From this notation simpler cases arise such as
+\begin{equation}
+w_{ij}=\sum_{k=1}^N a_{ik}u_{kj}\quad \rightarrow \quad \underline{w}=
+\end{equation}
+
+Let us plug this in the 
+\subsubsection{Curvilinear elements}
+\end{comment}
+
+
+
+
