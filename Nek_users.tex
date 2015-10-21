@@ -1,4 +1,6 @@
 \documentclass[11pt]{report}              % Book class in 11 points
+\usepackage{mcs_pack}
+\usepackage{chngcntr}
 
 \input{pf.tex}
 \input{psfig.tex}
@@ -13,19 +15,35 @@
 %\parskip10pt             % make block paragraphs
 %\raggedright                            % do not right justify
 
-\title{\bf NEK5000 documentation}    % Supply information
-%\author{Paul Fischer et al.}              %   for the title page.
+\title{Nek5000 User Documentation}    % Supply information
+\author{Paul Fischer et al.}              %   for the title page.
+\publicationdate{date set on next release}
+\report_no{ANL/MCS-TM-351}
 \date{\today}                           %   Use current date. 
 %\makeindex
 % Note that book class by default is formatted to be printed back-to-back.
 \begin{document}                        % End of preamble, start of text
 %\frontmatter                            % only in book class (roman page #s)
-\maketitle                              % Print title page.
-\tableofcontents                        % Print table of contents
 %\mainmatter      
 
-                      % only in book class (arabic page #s)
-\part{User's manual} 
+\maketitle
+\clearpage
+\thispagestyle{empty}
+\pagenumbering{roman}
+\tableofcontents
+\clearpage
+
+\section*{Executive Summary} 
+
+
+Abstract here.
+
+\addcontentsline{toc}{section}{Executive Summary}
+\newpage
+
+\pagenumbering{arabic}
+\setcounter{page}{1}
+\counterwithout{section}{chapter}
 
 \chapter{Introduction}
 
