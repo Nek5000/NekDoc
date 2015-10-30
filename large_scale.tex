@@ -1,4 +1,4 @@
-The largest simulations performed so far with Nek5000 are in the range of $5\times 10^6$. 
+The largest simulations performed so far with Nek5000 are in the range of \(5\times 10^6\). 
 Performance aspects to keep in mind
 \begin{itemize}
 \item design your SEM-mesh for a polynomial order N=7 or N=9 (lx1 in SIZE)
@@ -6,7 +6,7 @@ Performance aspects to keep in mind
 \item ensure that you have at least 50 elements per MPI process (the more the better)
 \item explore the pressure solver performance using AMG solver (sweet spot depends on number of processors and elements)
 \item make sure usrchk() does not contain time consuming operations getting called in the time loop
-\item enable tuned MxM implementation for your platform (see makenek options)\footnote{don't understand this}
+\item enable tuned MxM implementation for your platform (see makenek options)
 \item turn on residual projection scheme (see .rea file parameters)
 \item tune your pressure/velocity tolerances (e.g. use 5e-5 for pressure and 1e-8 for velocity solver) having in mind your overall accuracy
 \item try to maximize the timestep, if needed turn on OIFS scheme with a target Courant number of around 2.0

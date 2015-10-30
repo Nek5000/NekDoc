@@ -8,7 +8,7 @@ The {\tt .rea} file consists of several sections:
     frequency of output, iteration tolerances, flow rate, filter strength,
     etc.   There are also a number of free parameters that the user can
     use as handles to be passed into the user defined routines in the .usr file.
-\item{\bf passive scalar data} This information can be specified also in the \texttt{.uservp} routine in the .usr file. If specified in the .rea file then the coefficients for the conductivity term are listed in ascending order for passive scalars ranging \texttt{1..9} followed by the values for the $\rho c_p$ coefficients.
+\item{\bf passive scalar data} This information can be specified also in the \texttt{.uservp} routine in the .usr file. If specified in the .rea file then the coefficients for the conductivity term are listed in ascending order for passive scalars ranging \texttt{1..9} followed by the values for the \(\rho c_p\) coefficients.
 \begin{verbatim}
 4  Lines of passive scalar data follows 2 CONDUCT; 2 RHOCP
    1.00000       1.00000       1.00000       1.00000       1.00000
@@ -38,8 +38,8 @@ The {\tt .rea} file consists of several sections:
 \subsubsection*{Mesh and boundary condition info} 
 \begin{description}
 \item{\bf geometry} The geometry is specified in an arcane format specifying
-    the $xyz$ locations of each of the eight points for each element,
-    or the $xy$ locations of each of the four points for each element in 2D.
+    the \(xyz\) locations of each of the eight points for each element,
+    or the \(xy\) locations of each of the four points for each element in 2D.
 A line of the following type may be encountered at the beginning of the mesh section of the area file.    
 \begin{verbatim}
 3.33333       3.33333     -0.833333      -1.16667     XFAC,YFAC,XZERO,YZERO
@@ -53,7 +53,7 @@ The header of the mesh data may have the following representation
      ELEMENT           1 [    1A]    GROUP    0
      \end{verbatim}
      \end{center}
-The header states first how many elements are available in total ($226$), what dimension is the the problem (here three dimensional), and how many elements are in the flow mesh ($192$). 
+The header states first how many elements are available in total (\(226\)), what dimension is the the problem (here three dimensional), and how many elements are in the flow mesh (\(192\)). 
 
 %\begin{center}
 %     \begin{tabular}{l|l|l|l}
@@ -70,14 +70,14 @@ The header states first how many elements are available in total ($226$), what d
 \subfloat[Descriptor]{
 \begin{tabular}{l c c c c}
 %\fontsize 
-  $\texttt{Face \{1,2,3,4\}}$&&&&\\
-  $x_{1,\ldots,4}=$& 0.000000E+00 & 0.171820E+00 & 0.146403E+00 & 0.000000E+00 \\
-  $y_{1,\ldots,4}=$&0.190000E+00 & 0.168202E+00 & 0.343640E+00 & 0.380000E+00 \\
-  $z_{1,\ldots,4}=$&0.000000E+00 & 0.000000E+00 & 0.000000E+00 & 0.000000E+00 \\
-  $\texttt{Face \{5,6,7,8\}}$&&&&\\
-  $x_{5,\ldots,8}=$&0.000000E+00 & 0.171820E+00 & 0.146403E+00 & 0.000000E+00 \\
-  $y_{5,\ldots,8}=$&0.190000E+00 & 0.168202E+00 & 0.343640E+00 & 0.380000E+00  \\
-  $z_{5,\ldots,8}=$&0.250000E+00 & 0.250000E+00 & 0.250000E+00 & 0.250000E+00  
+  \(\texttt{Face \{1,2,3,4\}}\)&&&&\\
+  \(x_{1,\ldots,4}=\)& 0.000000E+00 & 0.171820E+00 & 0.146403E+00 & 0.000000E+00 \\
+  \(y_{1,\ldots,4}=\)&0.190000E+00 & 0.168202E+00 & 0.343640E+00 & 0.380000E+00 \\
+  \(z_{1,\ldots,4}=\)&0.000000E+00 & 0.000000E+00 & 0.000000E+00 & 0.000000E+00 \\
+  \(\texttt{Face \{5,6,7,8\}}\)&&&&\\
+  \(x_{5,\ldots,8}=\)&0.000000E+00 & 0.171820E+00 & 0.146403E+00 & 0.000000E+00 \\
+  \(y_{5,\ldots,8}=\)&0.190000E+00 & 0.168202E+00 & 0.343640E+00 & 0.380000E+00  \\
+  \(z_{5,\ldots,8}=\)&0.250000E+00 & 0.250000E+00 & 0.250000E+00 & 0.250000E+00  
   \end{tabular}} 
 %\subfloat[Element]{\raisebox{-10pt}{\vspace{0.5cm}\includegraphics[scale=0.4]{Figs/3dcube}\label{fig:3dcube}}}
 %{\begin{minipage}[c][1\width]{0.4\textwidth}\centering \includegraphics[width=0.4\textwidth]{Figs/3dcube} \end{minipage}}
@@ -222,4 +222,4 @@ file by having a negative number of elements.
 There are converters, {\tt reatore2} and {\tt re2torea}, in the Nek5000
 tools directory to change between formats.   The binary file
 format is the default and important for {\tt I/O} performance when the
-number of elements is large ( $>$ 100000, say).
+number of elements is large ( \(>\) 100000, say).

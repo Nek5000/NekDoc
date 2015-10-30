@@ -5,7 +5,7 @@ This section tells nek5000
 \item The combination of heat transfer, Stokes, Navier-Stokes, steady or unsteady to be run.
 \item The relevant physical parameters.
 \item The solution algorithm within nek5000 to use.
-\item The timestep size or Courant number to use, or whether to run variable DT ($dt$), etc.
+\item The timestep size or Courant number to use, or whether to run variable DT (\(dt\)), etc.
 \end{itemize}
 A .rea file starts with the following three parameters:
 \begin{description}
@@ -22,34 +22,34 @@ The latter specifies how many lines of .rea file, starting from the next line, a
 %     \hline
 %       number & name & def. value & comments \\ \hline
 %       \textbf{P001}   & DENSITY  &  & density for the case of constant properties (see parameter \textbf{P030})\\ \hline
-%       \textbf{P002}   & VISCOS   &  & kinematic viscosity (if $<0 \rightarrow Re$, otherwise $1/Re$).\\
+%       \textbf{P002}   & VISCOS   &  & kinematic viscosity (if \(<0 \rightarrow Re\), otherwise \(1/Re\)).\\
 %     \hline
 %     \end{tabular}
 % \end{center}
 \begin{description}
 \item [P001  DENSITY] density for the case of constant properties (for variable density see parameter \textbf{P030}).
-\item [P002  VISCOS]  kinematic viscosity (if $<0 \rightarrow Re$, otherwise $1/Re$).
-\item [P003  BETAG] if $>0$, natural convection is turned on (Boussinesq approximation). {\textcolor{red}{NOT IN USE !}}
+\item [P002  VISCOS]  kinematic viscosity (if \(<0 \rightarrow Re\), otherwise \(1/Re\)).
+\item [P003  BETAG] if \(>0\), natural convection is turned on (Boussinesq approximation). {\textcolor{red}{NOT IN USE !}}
 \item [P004  GTHETA] model parameter for Boussinesq approximation (see parameter P003). {\textcolor{red}{ NOT IN USE!}}
 \item [P005  PGRADX] {\textcolor{red}{ NOT IN USE!}}
 \item [P006  ] {\textcolor{red}{ NOT IN USE!}}
 \item [P007  RHOCP] navier5.f:      param(7) = param(1)  ! rhoCP   = rho {\textcolor{red}{ NOT IN USE!}}
-\item [P008  CONDUCT] conductivity for the case of constant properties (if $<0$, it defines the Peclet number, see parameter P030). \\
+\item [P008  CONDUCT] conductivity for the case of constant properties (if \(<0\), it defines the Peclet number, see parameter P030). \\
 connect2.f:      if(param(8) .lt.0.0) param(8)  = -1.0/param(8)\\
 navier5.f:      param(8) = param(2)  ! conduct = dyn. visc
 \item [P009  ] {\textcolor{red}{ NOT IN USE!}} (passed to CPFLD(2,3)!)\\
 connect2.f:      CPFLD(2,3)=PARAM(9)
-\item [P010  FINTIME] if $>0$, specifies simulation end time. Otherwise, use NSTEP (P011).\\
+\item [P010  FINTIME] if \(>0\), specifies simulation end time. Otherwise, use NSTEP (P011).\\
 drive2.f:      FINTIM = PARAM(10)
 \item [P011  NSTEP] number of time steps.\\
 connect2.f:            param(11) = 1.0\\
 drive2.f:      NSTEPS = PARAM(11)
-\item [P012  DT] upper bound on time step $dt$   (if $<0$, then $dt=|P012|$ constant)\\
+\item [P012  DT] upper bound on time step \(dt\)   (if \(<0\), then \(dt=|P012|\) constant)\\
 connect2.f:            param(12) = 1.0\\
 drive2.f:      DT     = abs(PARAM(12))
 \item [P013  IOCOMM] frequency of iteration histories\\
 drive2.f:      IOCOMM = PARAM(13)
-\item [P014  IOTIME] if $>0$, time interval to dump the fld file. Otherwise, use IOSTEP (P015).\\
+\item [P014  IOTIME] if \(>0\), time interval to dump the fld file. Otherwise, use IOSTEP (P015).\\
 drive2.f:      TIMEIO = PARAM(14)
 \item [P015  IOSTEP] dump frequency, number of time steps between dumps.\\
 drive2.f:      IOSTEP = PARAM(15)\\
@@ -83,7 +83,7 @@ drive2.f:      CTARG  = PARAM(26)
 \item [P027  TORDER] temporal discretization order (2 or 3).\\
 drive2.f:      NBDINP = PARAM(27)
 \item [P028  NABMSH] Order of temporal integration for mesh velocity.if 1, 2, or 3 use Adams-Bashforth of corresponding order. Otherwise, extrapolation of order TORDER (P027).\\
-\item [P029  MHD\_VISCOS] if $>0 \rightarrow$ magnetic viscosity, if $<0 \rightarrow$ magnetic Reynolds number.\\
+\item [P029  MHD\_VISCOS] if \(>0 \rightarrow\) magnetic viscosity, if \(<0 \rightarrow\) magnetic Reynolds number.\\
 connect2.f:      if(param(29).lt.0.0) param(29) = -1.0/param(29)\\
 connect2.f:      if (param(29).ne.0.) ifmhd  = .true.\\
 connect2.f:         cpfld(ifldmhd,1) = param(29)  ! magnetic viscosity
@@ -91,11 +91,11 @@ connect2.f:         cpfld(ifldmhd,1) = param(29)  ! magnetic viscosity
 	\subitem 0: constant properties
 	\subitem 1: user-defined properties via USERVP subroutine (each scalar separately)
 	\subitem 2: user-defined properties via USERVP subroutine (all scalars at once)
-\item [P031  NPERT]  if $\ne 0$, number of perturbation modes in linearized N-S.\\
+\item [P031  NPERT]  if \(\ne 0\), number of perturbation modes in linearized N-S.\\
 connect2.f:      if (param(31).ne.0.) ifpert = .true.\\
 connect2.f:      if (param(31).lt.0.) ifbase = .false.   ! don't time adv base flow\\
 connect2.f:      npert = abs(param(31)) 
-\item [P032  NBCRE2] if $>0$, number of BCs in .re2 file, 0: all.\\
+\item [P032  NBCRE2] if \(>0\), number of BCs in .re2 file, 0: all.\\
 connect2.f:      if (param(32).gt.0) nfldt = ibc + param(32)-1
 \item [P033  ] {\textcolor{red}{ NOT IN USE!}}
 \item [P034  ] {\textcolor{red}{ NOT IN USE!}}
@@ -105,9 +105,9 @@ connect2.f:      if (param(32).gt.0) nfldt = ibc + param(32)-1
 \item [P038  NORDER2] {\textcolor{red}{ NOT IN USE!}}
 \item [P039  NORDER3] {\textcolor{red}{ NOT IN USE!}}
 \item [P040  ] {\textcolor{red}{ NOT IN USE!}}
-\item [P041  ] 1 $\rightarrow$ multiplicative SEMG\\
-hsmg.f:c     if (param(41).eq.1) ifhybrid = .true. $\leftarrow$ {\textcolor{red}{ NOT IN USE!}}
-\item [P042  ] linear solver for the pressure equation, 0 $\rightarrow$ GMRES or 1 $\rightarrow$ PCG
+\item [P041  ] 1 \(\rightarrow\) multiplicative SEMG\\
+hsmg.f:c     if (param(41).eq.1) ifhybrid = .true. \(\leftarrow\) {\textcolor{red}{ NOT IN USE!}}
+\item [P042  ] linear solver for the pressure equation, 0 \(\rightarrow\) GMRES or 1 \(\rightarrow\) PCG
 \item [P043  ] 0: additive multilevel scheme - 1: original two level scheme.\\
 navier6.f:      if (lx1.eq.2) param(43)=1.\\   
 navier6.f:            if (param(43).eq.0) call hsmg\_setup         
@@ -132,10 +132,10 @@ c        Set up matrices for each element.
 c
          if (param(44).eq.1) then
            call set_up_fast_1D_fem( sr(1,e),lr,nr ,lbr,rbr
-     $                      ,llr(e),lmr(e),lrr(e),zgm2(1,1),nx2,e)
+     \(                      ,llr(e),lmr(e),lrr(e),zgm2(1,1),nx2,e)
          else
            call set_up_fast_1D_sem( sr(1,e),lr,nr ,lbr,rbr
-     $                      ,llr(e),lmr(e),lrr(e),e)
+     \)                      ,llr(e),lmr(e),lrr(e),e)
          endif
 
       if (param(44).eq.1) then
@@ -176,49 +176,49 @@ c   navier6.f:
 \end{lstlisting} 
 \item [P045  ] Free-surface stability control (defaults to 1.0)\\
 subs1.f:      FACTOR = PARAM(45)
-\item [P046  ] if $>0$, do not set Initial Condition (no call to subroutine SETICS).\\
+\item [P046  ] if \(>0\), do not set Initial Condition (no call to subroutine SETICS).\\
 drive2.f:      irst = param(46)\\
 ic.f:      irst = param(46)        ! for lee's restart (rarely used)\\
 subs1.f:      irst = param(46)
 \item [P047  ] parameter for moving mesh (Poisson ratio for mesh elasticity solve (default 0.4)).\\
 mvmesh.f:      VNU    = param(47)
 \item [P048  ] {\textcolor{red}{ NOT IN USE!}}
-\item [P049  ] if $<0$, mixing length factor {\textcolor{red}{ NOT IN USE!}}.\\
+\item [P049  ] if \(<0\), mixing length factor {\textcolor{red}{ NOT IN USE!}}.\\
 drive2.f:c     IF (PARAM(49) .LE. 0.0) PARAM(49) = TLFAC\\
 turb.f:      TLFAC = PARAM(49)
 \item [P050  ] {\textcolor{red}{ NOT IN USE!}}
 \item [P051  ] {\textcolor{red}{ NOT IN USE!}}
-\item [P052  HISTEP] if $>1$, history points dump frequency (in number of steps).\\
+\item [P052  HISTEP] if \(>1\), history points dump frequency (in number of steps).\\
 prepost.f:      if (param(52).ge.1) iohis=param(52)
 \item [P053  ] {\textcolor{red}{ NOT IN USE!}}
-\item [P054  ] direction of fixed mass flowrate (1: $x$-, 2: $y$-, 3: $z$-direction). If 0: $x$-direction.\\
+\item [P054  ] direction of fixed mass flowrate (1: \(x\)-, 2: \(y\)-, 3: \(z\)-direction). If 0: \(x\)-direction.\\
 drive2.f:      if (param(54).ne.0) icvflow = abs(param(54))\\
 drive2.f:      if (param(54).lt.0) iavflow = 1 ! mean velocity
-\item [P055  ] volumetric flow rate for periodic case;  if p54$<0$, then p55:=mean velocity.\\
+\item [P055  ] volumetric flow rate for periodic case;  if p54\(<0\), then p55:=mean velocity.\\
 drive2.f:      flowrate = param(55)
 \item [P056  ] {\textcolor{red}{ NOT IN USE!}}
 \item [P057  ] {\textcolor{red}{ NOT IN USE!}}
 \item [P058  ] {\textcolor{red}{ NOT IN USE!}}
-\item [P059  ] if $\neq0$, deformed elements (only relevant for FDM). !=0 $\rightarrow$ full Jac. eval. for each el.
-\item [P060  ] if $\neq0$, initialize velocity to 1e-10 (for steady Stokes problem).
+\item [P059  ] if \(\neq0\), deformed elements (only relevant for FDM). !=0 \(\rightarrow\) full Jac. eval. for each el.
+\item [P060  ] if \(\neq0\), initialize velocity to 1e-10 (for steady Stokes problem).
 \item [P061  ] {\textcolor{red}{ NOT IN USE!}}
-\item [P062  ] if $>0$, swap bytes for output.
+\item [P062  ] if \(>0\), swap bytes for output.
 \item [P063  WDSIZO] real output wordsize (8: 8-byte reals, else 4-byte).\\
 prepost.f:      if (param(63).gt.0) wdsizo = 8         ! 64-bit .fld file
-\item [P064  ] if $=1$, restart perturbation solution\\
+\item [P064  ] if \(=1\), restart perturbation solution\\
 pertsupport.f:      if(param(64).ne.1) then !fresh start, param(64) is restart flag
-\item [P065  ] number of I\/O nodes (if $< 0$ write in separate subdirectories).
-\item [P066  ] Output format: (only postx uses .rea value; other nondefault should be set in usrdat) (if $\geq 0$ binary else ASCII).\\
+\item [P065  ] number of I\/O nodes (if \(< 0\) write in separate subdirectories).
+\item [P066  ] Output format: (only postx uses .rea value; other nondefault should be set in usrdat) (if \(\geq 0\) binary else ASCII).\\
 connect2.f:         param(66) = 6        ! binary is default\\
 connect2.f:         param(66) = 0        ! ASCII
-\item [P067  ] read format (if $\geq 0$ binary else ASCII).
+\item [P067  ] read format (if \(\geq 0\) binary else ASCII).
 \item [P068  ] averaging frequency in avg\_all (0: every timestep).
 \item [P069  ] {\textcolor{red}{ NOT IN USE!}}
 \item [P070  ] {\textcolor{red}{ NOT IN USE!}}
 \item [P071  ] {\textcolor{red}{ NOT IN USE!}}
 \item [P072  ] {\textcolor{red}{ NOT IN USE!}}
 \item [P073  ] {\textcolor{red}{ NOT IN USE!}}
-\item [P074  ] if $ > 0$ print Helmholtz solver iterations.\\
+\item [P074  ] if \( > 0\) print Helmholtz solver iterations.\\
 hmholtz.f:         if (nid.eq.0.and.ifprint.and.param(74).ne.0) ifprinthmh=.true.
 \item [P075  ] {\textcolor{red}{ NOT IN USE!}}
 \item [P076  ] {\textcolor{red}{ NOT IN USE!}}
@@ -229,7 +229,7 @@ hmholtz.f:         if (nid.eq.0.and.ifprint.and.param(74).ne.0) ifprinthmh=.true
 \item [P081  ] {\textcolor{red}{ NOT IN USE!}}
 \item [P082  ] coarse-grid dimension (2: linear). {\textcolor{red}{ NOT IN USE!}}
 \item [P083  ] {\textcolor{red}{ NOT IN USE!}}
-\item [P084  ] if $<0$, force initial time step to this value.
+\item [P084  ] if \(<0\), force initial time step to this value.
 \begin{lstlisting}
 c  subs1.f: 
       if (param(12).lt.0.or.iffxdt) then
@@ -253,9 +253,9 @@ c  subs1.f:
          endif
       endif
 \end{lstlisting}
-\item [P085  ] set $dt$ in \textit{setdt}.\\
+\item [P085  ] set \(dt\) in \textit{setdt}.\\
 subs1.f:            dt=dtopf*param(85)
-\item [P086  ] {\textcolor{red}{RESERVED !}} if $\neq0$, use skew-symmetric form, else convective form.\\
+\item [P086  ] {\textcolor{red}{RESERVED !}} if \(\neq0\), use skew-symmetric form, else convective form.\\
 drive2.f:      PARAM(86) = 0 ! No skew-symm. convection for now\\
 navier1.f:      if (param(86).ne.0.0) then  ! skew-symmetric form
 \begin{lstlisting}
@@ -282,21 +282,21 @@ c   navier1.f:
 \item [P092  ] {\textcolor{red}{ NOT IN USE!}}
 \item [P093  ] number of previous solutions to use for residual projection.\\
 (adjust MXPREF in SIZEu accordingly)
-\item [P094  ] if $>0$, start projecting velocity and passive scalars after P094 steps
-\item [P095  ] if $>0$, start projecting pressure after P095 steps
+\item [P094  ] if \(>0\), start projecting velocity and passive scalars after P094 steps
+\item [P095  ] if \(>0\), start projecting pressure after P095 steps
 \item [P096  ] {\textcolor{red}{ NOT IN USE!}}
 \item [P097  ] {\textcolor{red}{ NOT IN USE!}}
 \item [P098  ] {\textcolor{red}{ NOT IN USE!}}
 \item [P099  ] dealiasing: 
-	\subitem $<0$:  disable
+	\subitem \(<0\):  disable
 	\subitem 3:  old dealiasing
 	\subitem 4:  new dealiasing
-\item [P100  ] {\textcolor{red}{RESERVED !}} pressure preconditioner when using CG solver (0: Jacobi, $>0$: two-level Schwarz) {\textcolor{red}{or wiseversa?}}
+\item [P100  ] {\textcolor{red}{RESERVED !}} pressure preconditioner when using CG solver (0: Jacobi, \(>0\): two-level Schwarz) {\textcolor{red}{or wiseversa?}}
 \item [P101  ] number of additional modes to filter (0: only last mode)\\
 navier5.f:         ncut = param(101)+1
 \item [P102  ] {\textcolor{red}{ NOT IN USE!}}
-\item [P103  ] filter weight for last mode ($<0$: disabled)
-\item [P107  ] if $\neq0$, add it to h2 in sethlm
+\item [P103  ] filter weight for last mode (\(<0\): disabled)
+\item [P107  ] if \(\neq0\), add it to h2 in sethlm
 \item [P116 NELX] number of elements in x for Fast Tensor Product FTP solver (0: do not use FTP).\\
 NOTE: box geometries, constant properties only!
 \item [P117  NELY] number of elements in y for FTP
@@ -310,7 +310,7 @@ This part of .rea file starts with such a line:
 \begin{verbatim}
 n   LOGICAL SWITCHES FOLLOW 
 \end{verbatim}
-where $n$ is the number of logical switches which is set in the following lines.
+where \(n\) is the number of logical switches which is set in the following lines.
 \subsection{Logical switches}
 Note that by default all logical switches are set to false.
 \begin{description}
@@ -326,7 +326,7 @@ Note that by default all logical switches are set to false.
  \item[IFMVBD] moving boundary (for free surface flow).
  \item[IFCHAR] use characteristics for convection operator.
  \item[IFSYNC] use mpi barriers to provide better timing information.
- \item[IFUSERVP] user-defined properties (e.g., $\mu$, $\rho$) varying with space and time.
+ \item[IFUSERVP] user-defined properties (e.g., \(\mu\), \(\rho\)) varying with space and time.
 \end{description}
 
 \begin{comment}

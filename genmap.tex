@@ -1,18 +1,18 @@
 Genmap is spectral graph partitioning tool, similar to e.g. METIS, which partitions the graph associated to the mesh to assure optimal communication time in HPC applications. Let us consider a simple mesh such as the one in Fig.~\ref{fig:genmap}. The vertices are distributed in a random fashion, which is the way they may be provided by some mesh generator. Let us assume the vertices are here given as 
-$$V_1=(-1,0),\ V_2=(0,1),\ V_3=(-1,2),\ V_4=(-1,1),\ V_5=(0,2),\ V_6=(0,0),\ V_7=(1,1),\ V_8=(1,0)$$ 
+\[V_1=(-1,0),\ V_2=(0,1),\ V_3=(-1,2),\ V_4=(-1,1),\ V_5=(0,2),\ V_6=(0,0),\ V_7=(1,1),\ V_8=(1,0)\] 
 The geometry is already stored in the .rea file by the point coordinates, and not vertex numbers
 %\begin{table}
 \begin{tabular}{c c c c}
 %\fontsize 
-  $\texttt{Element } 1=[V_1\ V_6\ V_2\ V_4]$&&&\\
-  $x_{1,\ldots,4}=$ -1. & 0. & 0. & -1.\\
-  $y_{1,\ldots,4}=$ 0.  & 0. & 1. &1.\\
-  $\texttt{Element } 2=[V_8\ V_7\ V_2\ V_6]$&&&\\
-  $x_{1,\ldots,4}=$ 1. & 1. & 0. & 0.\\
-  $y_{1,\ldots,4}=$ 0. & 1. & 1. &0.\\
-  $\texttt{Element } 3=[V_5\ V_3\ V_4\ V_2]$&&&\\
-  $x_{1,\ldots,4}=$ 0. & -1. & -1. & 0.\\
-  $y_{1,\ldots,4}=$ 2 .& 2.  & 1.  &1.\\
+  \(\texttt{Element } 1=[V_1\ V_6\ V_2\ V_4]\)&&&\\
+  \(x_{1,\ldots,4}=\) -1. & 0. & 0. & -1.\\
+  \(y_{1,\ldots,4}=\) 0.  & 0. & 1. &1.\\
+  \(\texttt{Element } 2=[V_8\ V_7\ V_2\ V_6]\)&&&\\
+  \(x_{1,\ldots,4}=\) 1. & 1. & 0. & 0.\\
+  \(y_{1,\ldots,4}=\) 0. & 1. & 1. &0.\\
+  \(\texttt{Element } 3=[V_5\ V_3\ V_4\ V_2]\)&&&\\
+  \(x_{1,\ldots,4}=\) 0. & -1. & -1. & 0.\\
+  \(y_{1,\ldots,4}=\) 2 .& 2.  & 1.  &1.\\
   \end{tabular}
 %\end{table}
 
@@ -23,11 +23,11 @@ The geometry is already stored in the .rea file by the point coordinates, and no
 \label{fig:genmap}
 \end{figure}
 
-Let us a regard the mesh in Fig.~\ref{fig:genmap} as a graph of $N$ vertices and $M$ edges, $G(V_N,E_M)$. We define the Laplacian matrix associated to a graph $G$ as $L(G)$. We define as the degree of a node $V_i$ the number of incident edges, e.g. in Fig.~\ref{fig:genmap} $deg(V_2)=4$ and $deg(V_6)=3$.
+Let us a regard the mesh in Fig.~\ref{fig:genmap} as a graph of \(N\) vertices and \(M\) edges, \(G(V_N,E_M)\). We define the Laplacian matrix associated to a graph \(G\) as \(L(G)\). We define as the degree of a node \(V_i\) the number of incident edges, e.g. in Fig.~\ref{fig:genmap} \(deg(V_2)=4\) and \(deg(V_6)=3\).
 \begin{equation}
 L(G)_{ij}= \left\{
   \begin{array}{l l}
-    i=j & \quad \text{deg($V_i$)}\\
+    i=j & \quad \mathrm deg(V_i)\\
     i\neq j & \quad -1 \text{ if there is and edge (i,j) and } 0 \text{ otherwise}
   \end{array} \right .
 \end{equation}
@@ -47,24 +47,24 @@ L(G)= \begin{pmatrix}
 \end{pmatrix}
 \end{equation}
 
-Properties of $L(G)$
+Properties of \(L(G)\)
 \begin{itemize}
-\item $L(G)$ symmetric
-\item the unit vector $e=[1, \ldots 1]\in \mathcal{N}(L(G))$ is in the nullspace of the Laplacian matrix
-\item $\forall\lambda \in \sigma(L(G)>0$, i.e. all the eigenvalues of $L(G)$ are positive except $\lambda_0$ corresponding to the unit vector
-\item $\lambda_2\neq 0$ if the graph is connected, $\lambda_2(L(G))$ is also called the algebraic connectivity of the graph
+\item \(L(G)\) symmetric
+\item the unit vector \(e=[1, \ldots 1]\in \mathcal{N}(L(G))\) is in the nullspace of the Laplacian matrix
+\item \(\forall\lambda \in \sigma(L(G)>0\), i.e. all the eigenvalues of \(L(G)\) are positive except \(\lambda_0\) corresponding to the unit vector
+\item \(\lambda_2\neq 0\) if the graph is connected, \(\lambda_2(L(G))\) is also called the algebraic connectivity of the graph
 \end{itemize}
 
 The main ides of the spectral bisection algorithm is
 \begin{verbatim}
-compute $v_2$ eigenvector corresponding to $\lambda_2(L(G))$
+compute \(v_2\) eigenvector corresponding to \(\lambda_2(L(G))\)
 for i=1,N
-  if v_2(i) < 0 put vertex $V_i$ in N_{-} 
-  else put vertex $V_i$ in N_{-} 
+  if v_2(i) < 0 put vertex \(V_i\) in N_{-} 
+  else put vertex \(V_i\) in N_{-} 
 \end{verbatim}
 
 The eigenvectors and eigenvalues are computed using Lanczos's algorithm.
-These steps are repeated recursively on each of the two branches of the graph $N_{-}, N_{+}$. This is possible since according to Fiedler's theorems the graph $N_{-}$ is connected, $N_{+}$ connected only if no $v_2(i)=0$,  and for each subgraph $G_1$ the algebraic connectivities satisfy $\lambda_2(L(G_1))\leq\lambda_2(L(G))$.
+These steps are repeated recursively on each of the two branches of the graph \(N_{-}, N_{+}\). This is possible since according to Fiedler's theorems the graph \(N_{-}\) is connected, \(N_{+}\) connected only if no \(v_2(i)=0\),  and for each subgraph \(G_1\) the algebraic connectivities satisfy \(\lambda_2(L(G_1))\leq\lambda_2(L(G))\).
 
 
 
@@ -116,7 +116,7 @@ Line number 1 contains the header {\tt nel, nactive, depth, d2, npts, nrank, nou
 \item {\tt nel}  number of elements
 \item {\tt nactive} nrank-noutflow
 \item {\tt depth} floor(log2(nel))
-\item {\tt d2} $2^{depth}$
+\item {\tt d2} \(2^{depth}\)
 \item {\tt npts} number of corner points ({\tt nel*4} in 2D, {\tt nel*8} in 3D)
 \item {\tt nrank} number of unique corner points
 \item {\tt noutflow} number of outflows (not used anymore, is zero)

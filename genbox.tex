@@ -1,8 +1,8 @@
 \subsection{Uniformly Distributed Mesh}
 
 Suppose you wish to simulate flow through an axisymmetric pipe,
-of radius $R=0.5$ and length $L=4$.  You estimate that you will
-need 3 elements in radial ($y$) direction, and 5 in the $x$ direction,
+of radius \(R=0.5\) and length \(L=4\).  You estimate that you will
+need 3 elements in radial (\(y\)) direction, and 5 in the \(x\) direction,
 as depicted in Fig. \ref{fig:mesh_axi1}.
 This would be specified by the following input file (called {\em pipe.box})
 to genbox:
@@ -51,36 +51,36 @@ key characters (the first character of Box, ``B'') are ``C'' and ``M'',
 more on those later.
 \item
 The first line after ``Box'' specifies the number of elements in the
-$x$ and $y$ directions.   The fact that these values are negative indicates
+\(x\) and \(y\) directions.   The fact that these values are negative indicates
 that you want genbox to automatically generate the element distribution 
 along each axis, rather than providing it by hand.  (More on this below.)
 \item
-The next line specifies the distribution of the 5 elements in the $x$ direction.
-The mesh starts at $x=0$ and ends at $x=4.0$.  The {\em ratio} indicates the
+The next line specifies the distribution of the 5 elements in the \(x\) direction.
+The mesh starts at \(x=0\) and ends at \(x=4.0\).  The {\em ratio} indicates the
 relative size of each element, progressing from left to right.  Here, 
 \item
-The next line specifies the distribution of the 3 elements in the $y$ direction,
-starting at $y=0$ and going to $y=0.5$.  Again, 
+The next line specifies the distribution of the 3 elements in the \(y\) direction,
+starting at \(y=0\) and going to \(y=0.5\).  Again, 
 {\em ratio}=1.0 indicates that the elements will be of uniform height.
 \item
 The last line specifies boundary conditions on each of the 4 sides of the
 box:  
 \begin{itemize}
 \item
-Lower-case {\em v} indicates that the left ($x$) boundary is to be a velocity
+Lower-case {\em v} indicates that the left (\(x\)) boundary is to be a velocity
 boundary condition, with a user-specified distribution determined by 
-routine {\em userbc} in the .usr file.  (Upper-case $V$ would indicate that
+routine {\em userbc} in the .usr file.  (Upper-case \(V\) would indicate that
 the velocity is constant, with values specified in the .rea file.)
 \item
-{\em O} indicates that the right ($x$) boundary is an outflow boundary -- the
-flow leaves the domain at the left and the default exit pressure is $p=0$.
+{\em O} indicates that the right (\(x\)) boundary is an outflow boundary -- the
+flow leaves the domain at the left and the default exit pressure is \(p=0\).
 \item
-{\em A} indicates that the lower ($y$) boundary is the axis---this condition
+{\em A} indicates that the lower (\(y\)) boundary is the axis---this condition
 is mandatory for the axisymmetric case, given the fact that the lower domain
-boundary is at $y=0$, which corresponds to $r=0$.
+boundary is at \(y=0\), which corresponds to \(r=0\).
 \item
-{\em W} indicates that the upper ($y$) boundary is a wall.  This would be
-equivalent to a {\em v} or {\em V} boundary condition, with $\bu=0$.
+{\em W} indicates that the upper (\(y\)) boundary is a wall.  This would be
+equivalent to a {\em v} or {\em V} boundary condition, with \(\bu=0\).
 \end{itemize}
 \end{itemize}
 
@@ -95,7 +95,7 @@ equivalent to a {\em v} or {\em V} boundary condition, with $\bu=0$.
 
 Suppose you wish to have the mesh be graded,
 that you have increased resolution near the wall.
-In this case you change {\em ratio} in the $y$-specification
+In this case you change {\em ratio} in the \(y\)-specification
 of the element distribution.  For example, changing the 3 lines
 in the above genbox input file from
 
@@ -139,10 +139,10 @@ genbox input file to contain:
 \end{verbatim}
 
 \noindent
-Here, the positive number of elements for the $y$ direction indicates
-that genbox is expecting {\tt Nely+1} values of $y$ positions on the
-$y$-element distribution line.   This is the genbox default, which
-explains why it corresponds to {\tt Nely} $>$ 0.  The corresponding mesh
+Here, the positive number of elements for the \(y\) direction indicates
+that genbox is expecting {\tt Nely+1} values of \(y\) positions on the
+\(y\)-element distribution line.   This is the genbox default, which
+explains why it corresponds to {\tt Nely} \(>\) 0.  The corresponding mesh
 is shown in Fig. \ref{fig:mesh_axi3}.
 
 
@@ -157,15 +157,15 @@ Thus, one can use the existing geometry to map to a new geometry
 of interest.
 
 For example, suppose you want the above pipe geometry to have
-a sinusoidal wall.  Let $\bx := (x,y)$ denote the old geometry,
-and $\bx' := (x',y')$ denote the new geometry.  For a domain
-with $y\in [0,0.5]$, the following function will map the straight
-pipe geometry to a wavy wall with amplitude $A$, wavelength $\lambda$:
+a sinusoidal wall.  Let \(\bx := (x,y)\) denote the old geometry,
+and \(\bx' := (x',y')\) denote the new geometry.  For a domain
+with \(y\in [0,0.5]\), the following function will map the straight
+pipe geometry to a wavy wall with amplitude \(A\), wavelength \(\lambda\):
 \begin{eqnarray*}
 y'(x,y) = y  + y A \sin( 2 \pi x / \lambda ).
 \end{eqnarray*}
-Note that, as $y \longrightarrow 0$, the perturbation, 
-$yA \sin( 2 \pi x / \lambda )$, goes to zero.  So, near the axis,
+Note that, as \(y \longrightarrow 0\), the perturbation, 
+\(yA \sin( 2 \pi x / \lambda )\), goes to zero.  So, near the axis,
 the mesh recovers its original form.
 
 In nek5000, you would specify this through usrdat2 as follows

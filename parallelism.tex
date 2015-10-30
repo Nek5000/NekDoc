@@ -44,7 +44,7 @@ Now for global to local we have two common arrays (scaling as {\tt nelgt}, but o
 
 
 
-All data contiguously packed (and quad-aligned) {\tt real  u(lx1,ly1,lz1,lelt)} indicates that {\tt u} is a collection of elements, {\tt e=1,$\ldots$,Nelt =< lelt}, each of size $(N+1)d, d=2 or 3$.
+All data contiguously packed (and quad-aligned) {\tt real  u(lx1,ly1,lz1,lelt)} indicates that {\tt u} is a collection of elements, {\tt e=1,\(\ldots\),Nelt =< lelt}, each of size \((N+1)d, d=2 or 3\).
 
 \textbf{Example: Summation}
 
@@ -56,7 +56,7 @@ do iz=1,nz1 \\
 do iy=1,ny1 \\
 do ix=1,nx1 \\
 s=s+u(ix,iy,iz,e) \\
-enddo,$\ldots$,enddo}
+enddo,\(\ldots\),enddo}
 
 Second approach, serial version (works in parallel in Nek)
 {\tt

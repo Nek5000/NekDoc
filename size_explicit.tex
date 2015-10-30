@@ -2,33 +2,33 @@
 
 \begin{description}
 \item [ldim]: number of spatial dimensions (2 or 3).% - has to match the setting in the .rea file).
-\item [lx1, ly1, lz1]: number of (GLL) points in the $x$, $y$ and $z$ directions, respectively, within each element of mesh1 (velocity) which is equal to the (polynomial order$+$1) by definition. $ly1$ is usually the same as $lx1$ and for 2D cases $lz1=1$. \\
-\footnote{is $lx1\ne ly1$ supported?}
-\footnote{$lx1$ recomeneded odd for better performance}
-\item [lx2, ly2, lz2]: number of (GLL) points in the $x$, $y$ and $z$ directions, respectively, within each element of mesh2 (pressure). Use $lx2=lx1$ for PN/PN formulation or $lx2=lx1-2$ for PN/PN-2 formulation.
-\item [lx3, ly3, lz3]: number of (GLL) points in the $x$, $y$ and $z$ directions, respectively, within each element of mesh3.\\
+\item [lx1, ly1, lz1]: number of (GLL) points in the \(x\), \(y\) and \(z\) directions, respectively, within each element of mesh1 (velocity) which is equal to the (polynomial order\(+\)1) by definition. \(ly1\) is usually the same as \(lx1\) and for 2D cases \(lz1=1\). \\
+\footnote{is \(lx1\ne ly1\) supported?}
+\footnote{\(lx1\) recomeneded odd for better performance}
+\item [lx2, ly2, lz2]: number of (GLL) points in the \(x\), \(y\) and \(z\) directions, respectively, within each element of mesh2 (pressure). Use \(lx2=lx1\) for PN/PN formulation or \(lx2=lx1-2\) for PN/PN-2 formulation.
+\item [lx3, ly3, lz3]: number of (GLL) points in the \(x\), \(y\) and \(z\) directions, respectively, within each element of mesh3.\\
 \footnote{mesh3 is rarely used}
-\item [lxd, lyd, lzd]: number of points for over integration (dealiasing), use three half rule e.g. for $lx1=8$ use $lxd=12$.\\
+\item [lxd, lyd, lzd]: number of points for over integration (dealiasing), use three half rule e.g. for \(lx1=8\) use \(lxd=12\).\\
 
 \item [lelx, lely, lelz]: maximum number of elements per rank for global FDM (Fast Diagonalization Method) solver.
 \item [ldimt]:  maximum number of T-array fields (temperature + additional scalars).
 \item [lp]: maximum number of ranks.
 \item [lelg]: maximum (global) number of elements (it is usually set more than the \# of elements existing in the mesh, for making maximum use of memory is can be set to the exact number of mesh elements).\\
-\item [lelt]: maximum number of local elements for T-mesh (per rank, $lelt \geq lelg/np +1 $).
-\item [lelv]: maximum number of local elements for V-mesh ($lelv = lelt$).
+\item [lelt]: maximum number of local elements for T-mesh (per rank, \(lelt \geq lelg/np +1 \)).
+\item [lelv]: maximum number of local elements for V-mesh (\(lelv = lelt\)).
 \item [lpelv,lpelt,lpert ]: Number of elements of the perturbation field, number of perturbation fields
-\item [lpx1, lpy1, lpz1]: Number of point in $x$,$y$,$z$ direction of perturbation field within each element of mesh1
-\item [lpx2, lpy2, lpz2]: Number of point in $x$,$y$,$z$ direction of perturbation field within each element of mesh2
+\item [lpx1, lpy1, lpz1]: Number of point in \(x\),\(y\),\(z\) direction of perturbation field within each element of mesh1
+\item [lpx2, lpy2, lpz2]: Number of point in \(x\),\(y\),\(z\) direction of perturbation field within each element of mesh2
 \item [lbelv, lbelt]: Total Number of elements of the B-field (MHD)
-\item [lbx1, lby1, lbz1]: Number of point in $x$,$y$,$z$ direction of B-field within each element of mesh1
-\item [lbx2, lby2, lbz2]: Number of point in $x$,$y$,$z$ direction of B-field within each element of mesh2
-\item [lx1m, ly1m, lz1m]: when the mesh is a moving type $lx1m=lx1$, otherwise it is set to 1.
+\item [lbx1, lby1, lbz1]: Number of point in \(x\),\(y\),\(z\) direction of B-field within each element of mesh1
+\item [lbx2, lby2, lbz2]: Number of point in \(x\),\(y\),\(z\) direction of B-field within each element of mesh2
+\item [lx1m, ly1m, lz1m]: when the mesh is a moving type \(lx1m=lx1\), otherwise it is set to 1.
 \item [lxz] : LXZ = LX1*LZ1\\
 \code{connect1.f:      common /scruz/  snx(lxz) , sny(lxz) , snz(lxz) ,  efc(lxz)}
 \item [lorder]: maximum time integration order (2 or 3).
 \item [maxobj]: maximum number of objects. {\textcolor{red}{zero if not using objects?}}
 \item [maxmbr]: maximum number of members in an object.
-\item [lhis]: maximum number of history points a single rank will read in (NP*LHIS $<$ number of points in hpts.in).
+\item [lhis]: maximum number of history points a single rank will read in (NP*LHIS \(<\) number of points in hpts.in).
 \item [lctmp0] : {\textcolor{red}{NOT IN USE!}} \\
 \code{drive1.f:c      COMMON /CTMP0/ DUMMY0(LCTMP0)}
 \item [lctmp1] : \\
@@ -40,8 +40,8 @@
 \item [lmvec] : {\textcolor{red}{NOT IN USE !}}
 \item [lsvec] : {\textcolor{red}{NOT IN USE!}}
 \item [lstore] : {\textcolor{red}{NOT IN USE!}}
-\item [maxmor] : $=lelt$
-\item [lzl]: for 2D cases $lzl=1$ and for 3D cases $lzl=3$ (computed automatically).
+\item [maxmor] : \(=lelt\)
+\item [lzl]: for 2D cases \(lzl=1\) and for 3D cases \(lzl=3\) (computed automatically).
 \end{description}
 
 The following parameters are deprecated and were subsequently removed in newer versions.

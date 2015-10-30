@@ -4,7 +4,7 @@
 In the spatial discretization, the entire computational
 domain is subdivided into macro-elements, the boundary
 segments shared by any two of these macro-elements
-in $\Omega_f$ and $\Omega_s$ are denoted as internal boundaries.
+in \(\Omega_f\) and \(\Omega_s\) are denoted as internal boundaries.
 For fluid flow analysis with a single-fluid system or heat
 transfer analysis without change-of-phase, internal
 boundary conditions are irrelevant as the corresponding
@@ -33,9 +33,9 @@ If the fluid flow problem is considered, i.e., the energy
 equation is solved in conjunction with the momentum and
 continuity equations, then only
 the common boundary between the fluid and the solid
-(i.e., all or portion of $\partial \overline{\Omega}_f'$ in Fig.~\ref{fig:domains})
+(i.e., all or portion of \(\partial \overline{\Omega}_f'\) in Fig.~\ref{fig:domains})
 can be defined as the melting front.
-In this case, segments on $\partial \overline{\Omega}_f'$ that
+In this case, segments on \(\partial \overline{\Omega}_f'\) that
 belong to the dynamic melting/freezing interface need to be
 specified by the user.
 Nek5000 always assumes that the density of the two phases
@@ -49,8 +49,8 @@ a melting front.
 The temperature boundary condition at the melting front
 corresponds to a Dirichlet
 condition; that is, the entire segment maintains a constant temperature
-equal to the user-specified melting temperature $T_{melt}$
+equal to the user-specified melting temperature \(T_{melt}\)
 throughout the solution.
-In addition, the volumetric latent heat of fusion $\rho L$
+In addition, the volumetric latent heat of fusion \(\rho L\)
 for the two phases,
 which is also assumed to be constant, should be specified.

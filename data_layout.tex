@@ -21,13 +21,13 @@ Some fundamentals of Nek5000's internal data layout are given below.
 
 \begin{enumerate}
 \item
-Data is laid out as  $u_{ijk}^e = u(i,j,k,e)$ \\
+Data is laid out as  \(u_{ijk}^e = u(i,j,k,e)\) \\
 
 {\tt   i=1,...,nx1   (nx1 = lx1)} \\
 {\tt   j=1,...,ny1   (ny1 = lx1)} \\
 {\tt   k=1,...,nz1   (nz1 = lx1} or 1, according to ndim=3 or 2) \\
 
-{\tt   e=1,...,nelv}, where {\tt nelv} $\le$ {\tt lelv}, and {\tt lelv} is the upper
+{\tt   e=1,...,nelv}, where {\tt nelv} \(\le\) {\tt lelv}, and {\tt lelv} is the upper
                  bound on number of elements, {\em per processor}.
 
 
@@ -35,7 +35,7 @@ Data is laid out as  $u_{ijk}^e = u(i,j,k,e)$ \\
  Fortran data is stored in column major order (opposite of C).
 
 \item
- All data arrays are thus contiguous, even when {\tt nelv} $<$ {\tt lelv}
+ All data arrays are thus contiguous, even when {\tt nelv} \(<\) {\tt lelv}
 
 \item Data accesses are thus primarily unit-stride (see chap.8 of DFM
    for importance of this point), and in particular, all data on

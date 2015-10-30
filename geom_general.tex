@@ -1,31 +1,31 @@
 The domain in which the fluid flow/heat transfer
 problem is solved consists of two distinct subdomains. The
 first subdomain is that part of the region occupied by
-fluid, denoted $\Omega_f$, while the second subdomain is that part
-of the region occupied by a solid, denoted $\Omega_s$. These two
-subdomains are depicted in Fig.~\ref{fig:domains}. The entire domain is denoted as $D=\Omega_f \cup \Omega_s$.
-The fluid problem is solved in the domain $\Omega_f$, while the
+fluid, denoted \(\Omega_f\), while the second subdomain is that part
+of the region occupied by a solid, denoted \(\Omega_s\). These two
+subdomains are depicted in Fig.~\ref{fig:domains}. The entire domain is denoted as \(D=\Omega_f \cup \Omega_s\).
+The fluid problem is solved in the domain \(\Omega_f\), while the
 temperature in the energy equation is solved in the
 entire domain; the passive scalars can be solved in either
 the fluid or the entire domain.
   
-We denote the entire boundary of $\Omega_f$ as $\partial \Omega_f$, that part
-of the boundary of $\Omega_f$ which is not shared by $\Omega_s$ as
-$\overline{\partial \Omega_f}$, and
-that part of the boundary of $\Omega_f$ which is shared by $\Omega_s$.
-In addition, $\partial \Omega_{s}, \overline{\partial \Omega_s}$ are analogously defined.
+We denote the entire boundary of \(\Omega_f\) as \(\partial \Omega_f\), that part
+of the boundary of \(\Omega_f\) which is not shared by \(\Omega_s\) as
+\(\overline{\partial \Omega_f}\), and
+that part of the boundary of \(\Omega_f\) which is shared by \(\Omega_s\).
+In addition, \(\partial \Omega_{s}, \overline{\partial \Omega_s}\) are analogously defined.
 These distinct portions of the
 domain boundary are illustrated in Fig.\ref{fig:domains}.
 The restrictions on the domain for Nek5000 are itemized below.
 \begin{itemize}
-\item The domain $\Omega=\Omega_f \cup \Omega_s$ must correspond either to a
+\item The domain \(\Omega=\Omega_f \cup \Omega_s\) must correspond either to a
   planar (Cartesian) two-dimensional geometry, or to the
   cross-section of an axisymmetric region specified by
   revolution of the cross-section about a specified axis, or
   by a (Cartesian) three-dimensional geometry.
 \item For two-dimensional and axisymmetric geometries, the
-  boundaries of both subdomains, $\partial \Omega_f$ and
-  $\partial \Omega_s$, must be
+  boundaries of both subdomains, \(\partial \Omega_f\) and
+  \(\partial \Omega_s\), must be
   representable as (or at least approximated by) the union of
   straight line segments, splines, or circular arcs.
 \item Nek5000 can interpret a two-dimensional image as either
@@ -36,7 +36,7 @@ The restrictions on the domain for Nek5000 are itemized below.
   Although an axisymmetric geometry is, in fact,
   three-dimensional, Nek5000 can assume that the field variables
   are also axisymmetric ( that is, do not depend on azimuth,
-  but only $y$, that is, radius, $x$, and $t$ ), thus reducing the
+  but only \(y\), that is, radius, \(x\), and \(t\) ), thus reducing the
   relevant equations to "two-dimensional" form.
 \end{itemize}
 

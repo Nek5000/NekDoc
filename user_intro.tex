@@ -9,7 +9,7 @@ generated from the .rea file by running {\tt genmap} which will determine how th
 %Suppose you are doing a calculation called ``shear.''
 %The key files defining the problem would be shear.rea, shear.map, and shear.usr.
 SIZE controls (at compile time) the polynomial degree used in the simulation,
-as well as the space dimension $d=2$ or 3.
+as well as the space dimension \(d=2\) or 3.
 
 The SESSION.NAME file contains the current run, it must provide the name of the .rea file and the path to it.  It does not however need to correspond to an .usr file of an identical name. This allows for different test cases (.usr files) that use the same geometry and boundary conditions (.rea files).
 
@@ -30,9 +30,9 @@ The routine {\tt userchk()} allows the user to interrogate the solution
 at the end of each timestep for diagnostic purposes.   The {\tt .usr}
 files provided in the {\tt /examples/... } directories illustrate
 several of the more common analysis tools.  For instance, there are utilities
-for computing the time average of $u$, $u^2$, etc. so that one can
+for computing the time average of \(u\), \(u^2\), etc. so that one can
 analyze mean and rms distributions with the postprocessor.  There are
-routines for computing the vorticity or the scalar $\lambda_2$ 
+routines for computing the vorticity or the scalar \(\lambda_2\) 
 for vortex identification, and so forth.
 
 
@@ -40,15 +40,15 @@ for vortex identification, and so forth.
 
 The routine {\tt uservp} specifies the variable properties of the governing equations.
 This routine is called once per processor, and once per discrete point therein. 
-%For each field (fluid {\tt ifield.eq.1}, passive scalar {ifield.eq.2}(3,4..)) we have to specify two %components, {\tt utrans} corresponding to the transport term ($\rho$ in Eq.\ref{eq:ns_momentum}, $\rhocp$ in %Eq
+%For each field (fluid {\tt ifield.eq.1}, passive scalar {ifield.eq.2}(3,4..)) we have to specify two %components, {\tt utrans} corresponding to the transport term (\(\rho\) in Eq.\ref{eq:ns_momentum}, \(\rhocp\) in %Eq
 \\
 
 \begin{tabular}{ l|l|l|l }
    \hline
    Equation & {\tt udiff} & {\tt utrans} & {\tt ifield} \\ \hline \hline
-   Momentum Eq.\ref{eq:ns_momentum} & $\rho$ & $\mu$ & 1 \\ 
-   Energy Eq.\ref{eq:energy} & $\rho c_p$ & $k$ & 2\\ 
-   Passive scalar Eq.\ref{eq:pass_scal} &$(\rho c_p)_i$ & $k_i$& i-1\\
+   Momentum Eq.\ref{eq:ns_momentum} & \(\rho\) & \(\mu\) & 1 \\ 
+   Energy Eq.\ref{eq:energy} & \(\rho c_p\) & \(k\) & 2\\ 
+   Passive scalar Eq.\ref{eq:pass_scal} &\((\rho c_p)_i\) & \(k_i\)& i-1\\
    \hline
 \end{tabular}
 
@@ -98,7 +98,7 @@ The routine {\tt usrdat2} is called after the GLL points were distributed and al
       end
 \end{lstlisting}
 
-The routine {\tt userf} is called once for each point and provides the force term in Eq.\ref{eq:momentum}. Not that according to the dimensionalization in Eq.\ref{eq:momentum} the force term $\vect f$ is in fact multiplied by the density $\rho$.
+The routine {\tt userf} is called once for each point and provides the force term in Eq.\ref{eq:momentum}. Not that according to the dimensionalization in Eq.\ref{eq:momentum} the force term \(\vect f\) is in fact multiplied by the density \(\rho\).
 \begin{lstlisting}
       subroutine userf  (ix,iy,iz,eg)
       include 'SIZE'
@@ -188,10 +188,10 @@ Nek5000 can solve the dimensional or non-dimensional equations by setting the fo
 \begin{tabular}{ l|l| }
    \hline
    Dimensional parameters & Non-dimensional parameters\\ \hline \hline
-{\tt p1}=$\rho$      &      {\tt p1}=1\\
-{\tt p2}=$\nu$       &      {\tt p2}=1/Re (-Re)\\
-{\tt p7}=$\rho C_p$  &      {\tt p7}=1\\
-{\tt p8}=$k$         &      {\tt p8}=1/Pe (-Pe)\\
+{\tt p1}=\(\rho\)      &      {\tt p1}=1\\
+{\tt p2}=\(\nu\)       &      {\tt p2}=1/Re (-Re)\\
+{\tt p7}=\(\rho C_p\)  &      {\tt p7}=1\\
+{\tt p8}=\(k\)         &      {\tt p8}=1/Pe (-Pe)\\
    \hline
 \end{tabular}
 \end{table}

@@ -64,13 +64,13 @@ The spatial discretization is based on
 the spectral element method (SEM) \cite{pat84}, which is a high-order 
 weighted residual technique similar to the finite element method.   
 In the SEM, the solution and data are represented in terms of 
-$N$th-order tensor-product polynomials within each of $E$ deformable 
-hexahedral (brick) elements. Typical discretizations involve $E$=100--10,000 elements of order 
-$N$=8--16 (corresponding to 512--4096 points per element).
+\(N\)th-order tensor-product polynomials within each of \(E\) deformable 
+hexahedral (brick) elements. Typical discretizations involve \(E\)=100--10,000 elements of order 
+\(N\)=8--16 (corresponding to 512--4096 points per element).
 Vectorization and cache efficiency derive from the local lexicographical
 ordering within each macro-element and from the fact that the action of
-discrete operators, which nominally have $O(EN^6)$ nonzeros, can be evaluated
-in only $O(EN^4)$ work and $O(EN^3)$ storage through the use of 
+discrete operators, which nominally have \(O(EN^6)\) nonzeros, can be evaluated
+in only \(O(EN^4)\) work and \(O(EN^3)\) storage through the use of 
 tensor-product-sum factorization \cite{sao80}.   The SEM exhibits 
 very little numerical dispersion and dissipation, which can be important, 
 for example, in stability calculations, for long time integrations, 

@@ -31,16 +31,16 @@ fluid velocity : essential (Dirichlet) boundary
 condition in which the velocity is specified;
 natural (Neumann) boundary condition in which the traction
 is specified.
-For segments that constitute the boundary $\partial \Omega_f$, see Fig.~\ref{fig:domains},
+For segments that constitute the boundary \(\partial \Omega_f\), see Fig.~\ref{fig:domains},
 one of these two types of boundary conditions must be
 assigned to each component of the fluid velocity.
 The fluid boundary condition can be {\em all Dirichlet}
-if all velocity components of $\bu$ are
+if all velocity components of \(\bu\) are
 specified; or it can be {\em all Neumann} if all traction components
-${\bf t} = [-p {\bf I} + \mu (\nabla \bu +
-(\nabla \bu)^{T})] \cdot {\bf n}$, where
-${\bf I}$ is the identity tensor, ${\bf n}$ is the unit normal
-and $\mu$ is the dynamic viscosity, are specified;
+\({\bf t} = [-p {\bf I} + \mu (\nabla \bu +
+(\nabla \bu)^{T})] \cdot {\bf n}\), where
+\({\bf I}\) is the identity tensor, \({\bf n}\) is the unit normal
+and \(\mu\) is the dynamic viscosity, are specified;
 or it can be {\em mixed Dirichlet/Neumann}
 if Dirichlet and Neumann conditions are selected for different
 velocity components.
@@ -112,12 +112,12 @@ The open(outflow) boundary condition ("O") arises as a natural boundary conditio
 \vect u \cdot \vect n&=&0\ ,\\
 (\nabla \vect u \cdot \vect t)\cdot \vect n&=&0
 \end{eqnarray}
-where $\vect n$ is the normal vector and $\vect t$ the tangent vector. If the normal and tangent vector are not aligned with the mesh the stress formulation has to be used.
+where \(\vect n\) is the normal vector and \(\vect t\) the tangent vector. If the normal and tangent vector are not aligned with the mesh the stress formulation has to be used.
 
 
-\item the periodic boundary condition ("P") needs to be prescribed in the .rea file since it already assigns the last point to first via $\vect u(\vect x)=\vect u(\vect x + L) $, where $L$ is the periodic length.
+\item the periodic boundary condition ("P") needs to be prescribed in the .rea file since it already assigns the last point to first via \(\vect u(\vect x)=\vect u(\vect x + L) \), where \(L\) is the periodic length.
 
-\item the wall boundary condition ("W") corresponds to $\vect u=0$.
+\item the wall boundary condition ("W") corresponds to \(\vect u=0\).
 \end{itemize}
 
 \begin{comment}
@@ -144,7 +144,7 @@ are set to zero.
 
 For free-surface boundary segments, the inhomogeneous
 traction boundary conditions
-involve both the surface tension coefficient $\sigma$
+involve both the surface tension coefficient \(\sigma\)
 and the mean curvature of the free surface.
 \subsubsection{Passive scalars and Temperature}
   
@@ -156,19 +156,19 @@ is specified; and mixed (Robin) boundary condition
 in which the heat flux is dependent on the temperature
 on the boundary.
 For segments that constitute the boundary
-$\partial \Omega_f' \cup \partial \Omega_s'$ (refer to Fig. 2.1),
+\(\partial \Omega_f' \cup \partial \Omega_s'\) (refer to Fig. 2.1),
 one of the above three types of boundary conditions must be
 assigned to the temperature.
 
 The two types of Robin boundary condition for temperature
 are : convection boundary conditions for which the heat
 flux into the domain depends on the heat transfer coefficient
-$h_{c}$ and the difference between the environmental temperature
-$T_{\infty}$ and the surface temperature; and radiation
+\(h_{c}\) and the difference between the environmental temperature
+\(T_{\infty}\) and the surface temperature; and radiation
 boundary conditions for which the heat flux into the domain
 depends on the Stefan-Boltzmann constant/view-factor
-product $h_{rad}$ and the difference between the fourth power
-of the environmental temperature $T_{\infty}$ and the fourth
+product \(h_{rad}\) and the difference between the fourth power
+of the environmental temperature \(T_{\infty}\) and the fourth
 power of the surface temperature.
 \begin{table}
 \begin{tabular}{ |l|l|l|l| }
@@ -205,9 +205,9 @@ k(\nabla T)\cdot \vect n=0
 \begin{equation}
 k(\nabla T)\cdot \vect n=0
 \end{equation}
-where $\vect n$ is the normal vector and $\vect t$ the tangent vector. If the normal and tangent vector are not aligned with the mesh the stress formulation has to be used.
+where \(\vect n\) is the normal vector and \(\vect t\) the tangent vector. If the normal and tangent vector are not aligned with the mesh the stress formulation has to be used.
 
-\item the periodic boundary condition ("P") needs to be prescribed in the .rea file since it already assigns the last point to first via $\vect u(\vect x)=\vect u(\vect x + L) $, where $L$ is the periodic length.
+\item the periodic boundary condition ("P") needs to be prescribed in the .rea file since it already assigns the last point to first via \(\vect u(\vect x)=\vect u(\vect x + L) \), where \(L\) is the periodic length.
 
 \item Newton cooling boundary condition ("c")
 \begin{equation}
