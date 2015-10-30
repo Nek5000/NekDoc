@@ -2,6 +2,9 @@ TEX_FILES  =  $(wildcard *.tex)
 
 all: Nek_users
 
+html: $(TEX_FILES)
+	htlatex Nek_users.tex
+
 Nek_users: Nek_users.pdf
 
 Nek_users.pdf: $(TEX_FILES)
