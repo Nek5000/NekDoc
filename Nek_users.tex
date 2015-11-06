@@ -1,5 +1,9 @@
 \documentclass[11pt]{report}              % Book class in 11 points
+\ifdefined\HCode
+\usepackage{tex4ht}
+\else
 \usepackage{mcs_pack}
+\fi
 \usepackage{chngcntr}
 
 \input{pf.tex}
@@ -17,8 +21,10 @@
 
 \title{Nek5000 User Documentation}    % Supply information
 \author{Paul Fischer et al.}              %   for the title page.
+\ifdefined\HCode\else
 \publicationdate{date set on next release}
 \report_no{ANL/MCS-TM-351}
+\fi
 \date{\today}                           %   Use current date. 
 %\makeindex
 % Note that book class by default is formatted to be printed back-to-back.
