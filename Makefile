@@ -2,8 +2,12 @@ TEX_FILES  =  $(wildcard *.tex)
 
 all: Nek_users
 
+# This is a horrible hack to make the main page "index.html".  
+# This was required for the GitHub Project Page and I couldn't find a
+# workaround.  --RR
 html: $(TEX_FILES)
-	htlatex Nek_users.tex "html,index=1,2,fn-in"
+	cp Nek_users.tex index.tex
+	htlatex index.tex "html,index=1,2,fn-in"
 
 Nek_users: Nek_users.pdf
 

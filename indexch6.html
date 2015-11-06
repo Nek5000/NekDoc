@@ -1,0 +1,202 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN"  
+  "http://www.w3.org/TR/html4/loose.dtd">  
+<html > 
+<head><title>6 Mathematical routines of interest</title> 
+<meta http-equiv="Content-Type" content="text/html; charset=iso-8859-1"> 
+<meta name="generator" content="TeX4ht (http://www.cse.ohio-state.edu/~gurari/TeX4ht/)"> 
+<meta name="originator" content="TeX4ht (http://www.cse.ohio-state.edu/~gurari/TeX4ht/)"> 
+<!-- html,index=1,2,fn-in --> 
+<meta name="src" content="index.tex"> 
+<meta name="date" content="2015-11-06 15:54:00"> 
+<link rel="stylesheet" type="text/css" href="index.css"> 
+</head><body 
+>
+   <!--l. 133--><div class="crosslinks"><p class="noindent">[<a 
+href="indexch7.html" >next</a>] [<a 
+href="indexch5.html" >prev</a>] [<a 
+href="indexch5.html#tailindexch5.html" >prev-tail</a>] [<a 
+href="#tailindexch6.html">tail</a>] [<a 
+href="index.html#indexch6.html" >up</a>] </p></div>
+   <h2 class="chapterHead"><span class="titlemark">Chapter&#x00A0;6</span><br /><a 
+ id="x8-560006"></a>Mathematical routines of interest</h2>
+   <h4 class="likesubsectionHead"><a 
+ id="x8-570006"></a>An example of specifying surface normals in the .usr file</h4>
+                                                                                         
+                                                                                         
+   <div class="verbatim" id="verbatim-40">
+&#x00A0;<br />c-----------------------------------------------------------------------
+&#x00A0;<br />&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;subroutine&#x00A0;userbc&#x00A0;(ix,iy,iz,iside,eg)
+&#x00A0;<br />&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;include&#x00A0;&#8217;SIZE&#8217;
+&#x00A0;<br />&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;include&#x00A0;&#8217;TOTAL&#8217;
+&#x00A0;<br />&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;include&#x00A0;&#8217;NEKUSE&#8217;
+&#x00A0;<br />
+&#x00A0;<br />&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;integer&#x00A0;e,eg,f
+&#x00A0;<br />&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;real&#x00A0;snx,sny,snz&#x00A0;&#x00A0;&#x00A0;!&#x00A0;surface&#x00A0;normals
+&#x00A0;<br />
+&#x00A0;<br />&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;f&#x00A0;=&#x00A0;eface1(iside)
+&#x00A0;<br />&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;e&#x00A0;=&#x00A0;gllel&#x00A0;(eg)
+&#x00A0;<br />
+&#x00A0;<br />&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;if&#x00A0;(f.eq.1.or.f.eq.2)&#x00A0;then&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;!&#x00A0;"r&#x00A0;face"
+&#x00A0;<br />&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;snx&#x00A0;=&#x00A0;unx(iy,iz,iside,e)&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;!&#x00A0;Note:&#x00A0;&#x00A0;iy,iz
+&#x00A0;<br />&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;sny&#x00A0;=&#x00A0;uny(iy,iz,iside,e)
+&#x00A0;<br />&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;snz&#x00A0;=&#x00A0;unz(iy,iz,iside,e)
+&#x00A0;<br />&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;elseif&#x00A0;(f.eq.3.or.f.eq.4)&#x00A0;&#x00A0;then&#x00A0;!&#x00A0;"s&#x00A0;face"
+&#x00A0;<br />&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;snx&#x00A0;=&#x00A0;unx(ix,iz,iside,e)&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;!&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;ix,iz
+&#x00A0;<br />&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;sny&#x00A0;=&#x00A0;uny(ix,iz,iside,e)
+&#x00A0;<br />&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;snz&#x00A0;=&#x00A0;unz(ix,iz,iside,e)
+&#x00A0;<br />&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;elseif&#x00A0;(f.eq.5.or.f.eq.6)&#x00A0;&#x00A0;then&#x00A0;!&#x00A0;"t&#x00A0;face"
+&#x00A0;<br />&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;snx&#x00A0;=&#x00A0;unx(ix,iy,iside,e)&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;!&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;ix,iy
+&#x00A0;<br />&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;sny&#x00A0;=&#x00A0;uny(ix,iy,iside,e)
+&#x00A0;<br />&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;snz&#x00A0;=&#x00A0;unz(ix,iy,iside,e)
+&#x00A0;<br />&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;endif
+&#x00A0;<br />
+&#x00A0;<br />&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;ux=0.0
+&#x00A0;<br />&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;uy=0.0
+&#x00A0;<br />&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;uz=0.0
+&#x00A0;<br />&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;temp=0.0
+&#x00A0;<br />
+&#x00A0;<br />&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;return
+&#x00A0;<br />&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;end
+</div>
+<!--l. 37--><p class="nopar" > This example will load a list of field files (filenames are read from a file) into the solver using the load_
+fld() function. After the data is loaded, the user is free to compute other postprocessing quantities.
+At the end the results are dumped onto a regular (uniform) mesh by a subsequent call to
+prepost().
+<!--l. 40--><p class="indent" >   Note: The regular grid data (field files) cannot be used as a restart file (uniform-&#x003E;GLL interpolation is
+unstable)!
+<!--l. 43--><p class="indent" >   SUBROUTINE USERCHK INCLUDE &#8217;SIZE&#8217; INCLUDE &#8217;TOTAL&#8217; INCLUDE &#8217;RESTART&#8217;
+                                                                                         
+                                                                                         
+<!--l. 48--><p class="indent" >   character*80 filename(9999)
+<!--l. 50--><p class="indent" >   ntot = nx1*ny1*nz1*nelv
+<!--l. 52--><p class="indent" >   ifreguo = .true. ! dump on regular (uniform) grid instead of GLL nrg = 16 ! dimension of regular grid
+(nrg**ndim)
+<!--l. 55--><p class="indent" >   ! read file-list if (nid.eq.0) then open(unit=199,file=&#8217;file.list&#8217;,form=&#8217;formatted&#8217;,status=&#8217;old&#8217;)
+read(199,*) nfiles read(199,&#8217;(A80)&#8217;) (filename(i),i=1,nfiles) close(199) endif call bcast(nfiles,isize) call
+bcast(filename,nfiles*80)
+<!--l. 65--><p class="indent" >   do i = 1,nfiles call load_ fld(filename(i))
+<!--l. 68--><p class="indent" >   ! do something ! note: make sure you save the result into arrays which are ! dumped by prepost() e.g.
+T(nx1,ny1,nz1,nelt,ldimt) ...
+<!--l. 73--><p class="indent" >   ! dump results into file call prepost(.true.,&#8217;his&#8217;) enddo
+<!--l. 77--><p class="indent" >   ! we&#8217;re done call exitt
+<!--l. 80--><p class="indent" >   Spectral Interpolation Tool
+<!--l. 82--><p class="indent" >   Check intpts(). Monitor Points
+<!--l. 85--><p class="indent" >   Multiple monitor points can be defined in the file hpts.in to examine the field data at every
+timestep.
+<!--l. 87--><p class="indent" >   setup an ASCII file called &#8217;hpts.in&#8217; e.g:
+<!--l. 89--><p class="indent" >   3 !number of monitoring points 1.1 -1.2 1.0 . . . x y z
+<!--l. 94--><p class="indent" >   depending on the number number of monitoring points you may need to increase lhis in SIZE add &#8217;call
+hpts()&#8217; to userchk()
+<!--l. 97--><p class="indent" >   Grid to Grid Interpolation
+<!--l. 99--><p class="indent" >   To interpolate an existing field file (e.g. base.fld) onto a new mesh do the following:
+<!--l. 101--><p class="indent" >   set lpart in SIZE to a large value (e.g. 100&#8217;000 or larger) depending on your memory footprint compile
+Nek with MPIIO support set NSTEPS=0 in the .rea file (post-processing mode) run nek using the new
+geometry (e.g. new_ geom.f0000) run nek using the old geometry and add this code snipplet to
+userchk()
+<!--l. 107--><p class="indent" >   character*132 newfld, oldfld, newgfld data newfld, oldfld, newgfld /&#8217;new0.f0001&#8217;,&#8217;base.fld&#8217;,&#8217;new_
+geom.f0000&#8217;/ c call g2gi(newfld, oldfld, newgfld) ! grid2grid interpolation call exitt()
+<!--l. 113--><p class="indent" >   Lagrangian Particle Tracking
+<!--l. 115--><p class="indent" >   The interpolation tool can be used for Lagrangian particle tracking (the particles are the interpolation
+points).
+<!--l. 117--><p class="indent" >   Workflow:
+<!--l. 119--><p class="indent" >   set initial particle positions (e.g. reading a file particle.pos0) x_ part &#x003C;- x_ pos0
+<!--l. 121--><p class="indent" >   LOOP
+<!--l. 123--><p class="indent" >   compute field quantities interpolate field quantities for all particles using intpts() dump/store particle
+data advect particles using particle_ advect()
+<!--l. 128--><p class="indent" >   END LOOP
+                                                                                         
+                                                                                         
+   <div class="verbatim" id="verbatim-41">
+&#x00A0;&#x00A0;&#x00A0;&#x00A0;subroutine&#x00A0;particle\_&#x00A0;advect(rtl,mr,npart,dt\_&#x00A0;p)
+&#x00A0;<br />c
+&#x00A0;<br />c&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;Advance&#x00A0;particle&#x00A0;position&#x00A0;in&#x00A0;time&#x00A0;using&#x00A0;4th-order&#x00A0;Adams-Bashford.
+&#x00A0;<br />c&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;U[x\_&#x00A0;i(t)]&#x00A0;for&#x00A0;a&#x00A0;given&#x00A0;x\_&#x00A0;i(t)&#x00A0;will&#x00A0;be&#x00A0;evaluated&#x00A0;by&#x00A0;spectral&#x00A0;interpolation.
+&#x00A0;<br />c&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;Note:&#x00A0;The&#x00A0;particle&#x00A0;timestep&#x00A0;dt\_&#x00A0;p&#x00A0;has&#x00A0;be&#x00A0;constant!
+&#x00A0;<br />c
+&#x00A0;<br />&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;include&#x00A0;&#8217;SIZE&#8217;
+&#x00A0;<br />&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;include&#x00A0;&#8217;TOTAL&#8217;
+&#x00A0;<br />
+&#x00A0;<br />&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;real&#x00A0;rtl(mr,1)
+&#x00A0;<br />
+&#x00A0;<br />&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;real&#x00A0;vell(ldim,3,lpart)&#x00A0;&#x00A0;!&#x00A0;lagged&#x00A0;velocities
+&#x00A0;<br />&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;save&#x00A0;vell
+&#x00A0;<br />
+&#x00A0;<br />&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;integer&#x00A0;icalld
+&#x00A0;<br />&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;save&#x00A0;&#x00A0;&#x00A0;&#x00A0;icalld
+&#x00A0;<br />&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;data&#x00A0;&#x00A0;&#x00A0;&#x00A0;icalld&#x00A0;/0/
+&#x00A0;<br />
+&#x00A0;<br />&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;if(npart.gt.lpart)&#x00A0;then
+&#x00A0;<br />&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;write(6,*)&#x00A0;&#8217;ABORT:&#x00A0;npart&#x003E;lpart&#x00A0;-&#x00A0;increase&#x00A0;lpart&#x00A0;in&#x00A0;SIZE.&#x00A0;&#8217;,nid
+&#x00A0;<br />&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;call&#x00A0;exitt
+&#x00A0;<br />&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;endif
+&#x00A0;<br />
+&#x00A0;<br />&#x00A0;&#x00A0;&#x00A0;&#x00A0;!&#x00A0;compute&#x00A0;AB&#x00A0;coefficients&#x00A0;(for&#x00A0;constant&#x00A0;timestep)
+&#x00A0;<br />&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;if&#x00A0;(icalld.eq.0)&#x00A0;then
+&#x00A0;<br />&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;call&#x00A0;rzero(vell,3*ldim*npart)&#x00A0;!&#x00A0;k&#x00A0;=&#x00A0;1
+&#x00A0;<br />&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;c0&#x00A0;=&#x00A0;1.
+&#x00A0;<br />&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;c1&#x00A0;=&#x00A0;0.
+&#x00A0;<br />&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;c2&#x00A0;=&#x00A0;0.
+&#x00A0;<br />&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;c3&#x00A0;=&#x00A0;0.
+&#x00A0;<br />&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;icalld&#x00A0;=&#x00A0;1
+&#x00A0;<br />&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;elseif&#x00A0;(icalld.eq.1)&#x00A0;then&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;!&#x00A0;k&#x00A0;=&#x00A0;2
+&#x00A0;<br />&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;c0&#x00A0;=&#x00A0;1.5
+&#x00A0;<br />&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;c1&#x00A0;=&#x00A0;-.5
+&#x00A0;<br />&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;c2&#x00A0;=&#x00A0;0.
+&#x00A0;<br />&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;c3&#x00A0;=&#x00A0;0.
+&#x00A0;<br />&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;icalld&#x00A0;=&#x00A0;2
+&#x00A0;<br />&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;elseif&#x00A0;(icalld.eq.2)&#x00A0;then&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;!&#x00A0;k&#x00A0;=&#x00A0;3
+&#x00A0;<br />&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;c0&#x00A0;=&#x00A0;23.
+&#x00A0;<br />&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;c1&#x00A0;=&#x00A0;-16.
+&#x00A0;<br />&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;c2&#x00A0;=&#x00A0;5.
+&#x00A0;<br />&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;c0&#x00A0;=&#x00A0;c0/12.
+                                                                                         
+                                                                                         
+&#x00A0;<br />&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;c1&#x00A0;=&#x00A0;c1/12.
+&#x00A0;<br />&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;c2&#x00A0;=&#x00A0;c2/12.
+&#x00A0;<br />&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;c3&#x00A0;=&#x00A0;0.
+&#x00A0;<br />&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;icalld&#x00A0;=&#x00A0;3
+&#x00A0;<br />&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;else&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;!&#x00A0;k&#x00A0;=&#x00A0;4
+&#x00A0;<br />&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;c0&#x00A0;=&#x00A0;55.
+&#x00A0;<br />&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;c1&#x00A0;=&#x00A0;-59.
+&#x00A0;<br />&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;c2&#x00A0;=&#x00A0;37.
+&#x00A0;<br />&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;c3&#x00A0;=&#x00A0;-9.
+&#x00A0;<br />&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;c0&#x00A0;=&#x00A0;c0/24.
+&#x00A0;<br />&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;c1&#x00A0;=&#x00A0;c1/24.
+&#x00A0;<br />&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;c2&#x00A0;=&#x00A0;c2/24.
+&#x00A0;<br />&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;c3&#x00A0;=&#x00A0;c3/24.
+&#x00A0;<br />&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;endif
+&#x00A0;<br />
+&#x00A0;<br />&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;!&#x00A0;compute&#x00A0;new&#x00A0;position&#x00A0;x[t(n+1)]
+&#x00A0;<br />&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;do&#x00A0;i=1,npart
+&#x00A0;<br />&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;do&#x00A0;k=1,ndim
+&#x00A0;<br />&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;vv&#x00A0;=&#x00A0;rtl(1+2*ndim+k,i)
+&#x00A0;<br />&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;rtl(1+k,i)&#x00A0;=&#x00A0;&#x00A0;rtl(1+k,i)&#x00A0;+
+&#x00A0;<br />&#x00A0;&#x00A0;&#x00A0;&#x00A0;\&amp;&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;dt_p*(
+&#x00A0;<br />&#x00A0;&#x00A0;&#x00A0;&#x00A0;\&amp;&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;+&#x00A0;c0*vv
+&#x00A0;<br />&#x00A0;&#x00A0;&#x00A0;&#x00A0;\&amp;&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;+&#x00A0;c1*vell(k,1,i)
+&#x00A0;<br />&#x00A0;&#x00A0;&#x00A0;&#x00A0;\&amp;&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;+&#x00A0;c2*vell(k,2,i)
+&#x00A0;<br />&#x00A0;&#x00A0;&#x00A0;&#x00A0;\&amp;&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;+&#x00A0;c3*vell(k,3,i)
+&#x00A0;<br />&#x00A0;&#x00A0;&#x00A0;&#x00A0;\&amp;&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;)
+&#x00A0;<br />&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;!&#x00A0;store&#x00A0;velocity&#x00A0;history
+&#x00A0;<br />&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;vell(k,3,i)&#x00A0;=&#x00A0;vell(k,2,i)
+&#x00A0;<br />&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;vell(k,2,i)&#x00A0;=&#x00A0;vell(k,1,i)
+&#x00A0;<br />&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;vell(k,1,i)&#x00A0;=&#x00A0;vv
+&#x00A0;<br />&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;enddo
+&#x00A0;<br />&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;enddo
+&#x00A0;<br />
+&#x00A0;<br />&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;return
+&#x00A0;<br />&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;end
+&#x00A0;<br />&#x00A0;&#x00A0;
+</div>
+<!--l. 208--><p class="nopar" >
+                                                                                         
+                                                                                         
+   <!--l. 147--><div class="crosslinks"><p class="noindent">[<a 
+href="indexch7.html" >next</a>] [<a 
+href="indexch5.html" >prev</a>] [<a 
+href="indexch5.html#tailindexch5.html" >prev-tail</a>] [<a 
+href="indexch6.html" >front</a>] [<a 
+href="index.html#indexch6.html" >up</a>] </p></div>
+<!--l. 147--><p class="indent" >   <a 
+ id="tailindexch6.html"></a>   
+</body></html> 

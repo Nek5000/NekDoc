@@ -1,0 +1,445 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN"  
+  "http://www.w3.org/TR/html4/loose.dtd">  
+<html > 
+<head><title>5 Performing large scale simulations in Nek5000</title> 
+<meta http-equiv="Content-Type" content="text/html; charset=iso-8859-1"> 
+<meta name="generator" content="TeX4ht (http://www.cse.ohio-state.edu/~gurari/TeX4ht/)"> 
+<meta name="originator" content="TeX4ht (http://www.cse.ohio-state.edu/~gurari/TeX4ht/)"> 
+<!-- html,index=1,2,fn-in --> 
+<meta name="src" content="index.tex"> 
+<meta name="date" content="2015-11-06 15:54:00"> 
+<link rel="stylesheet" type="text/css" href="index.css"> 
+</head><body 
+>
+   <!--l. 125--><div class="crosslinks"><p class="noindent">[<a 
+href="indexch6.html" >next</a>] [<a 
+href="indexch4.html" >prev</a>] [<a 
+href="indexch4.html#tailindexch4.html" >prev-tail</a>] [<a 
+href="#tailindexch5.html">tail</a>] [<a 
+href="index.html#indexch5.html" >up</a>] </p></div>
+   <h2 class="chapterHead"><span class="titlemark">Chapter&#x00A0;5</span><br /><a 
+ id="x7-490005"></a>Performing large scale simulations in Nek5000</h2>
+   <h3 class="sectionHead"><span class="titlemark">5.1   </span> <a 
+ id="x7-500005.1"></a>Large scale simulations</h3>
+<!--l. 1--><p class="noindent" >The largest simulations performed so far with Nek5000 are in the range of <img 
+src="index245x.png" alt="5&#x00D7; 106   "  class="math" >. Performance aspects
+to keep in mind
+     <ul class="itemize1">
+     <li class="itemize">design your SEM-mesh for a polynomial order N=7 or N=9 (lx1 in SIZE)
+     </li>
+     <li class="itemize">turn on dealiasing only if needed and try to minimize the polynomial order used for the fine
+     grid (lxd in SIZE)
+     </li>
+     <li class="itemize">ensure that you have at least 50 elements per MPI process (the more the better)
+     </li>
+     <li class="itemize">explore the pressure solver performance using AMG solver (sweet spot depends on number of
+     processors and elements)
+     </li>
+     <li class="itemize">make sure usrchk() does not contain time consuming operations getting called in the time
+     loop
+     </li>
+     <li class="itemize">enable tuned MxM implementation for your platform (see makenek options)
+     </li>
+     <li class="itemize">turn on residual projection scheme (see .rea file parameters)
+     </li>
+     <li class="itemize">tune your pressure/velocity tolerances (e.g. use 5e-5 for pressure and 1e-8 for velocity solver)
+     having in mind your overall accuracy
+     </li>
+     <li class="itemize">try to maximize the timestep, if needed turn on OIFS scheme with a target Courant number
+     of around 2.0
+     </li>
+     <li class="itemize">use the parallel I/O (MPI-IO or custom kernel) to write checkpoints to disk
+     </li>
+     <li class="itemize">understand where you spend most of the time - turn on solver and MPI timings to monitor
+     solver performance (see makenek options)</li></ul>
+<!--l. 19--><p class="indent" >   In such context it is recommendable to save the .rea file as a binary re2.
+                                                                                         
+                                                                                         
+<!--l. 21--><p class="indent" >   Also for input/output it may be necessary to use MPI I/O. In this case the code has to be compiled
+with MPI I/O, i.e. the line PPLIST="MPIIO" in the makefile should not be commented. For output we
+may use iofiles, the parameter 65 in the .rea file specifies the number of directories and separate files that
+have to be created as specified by the user.
+<!--l. 23--><p class="indent" >   For large scale simulations the AMG solver is a better, faster choice for solving the Poisson problem
+(the default solver is XXT).
+<!--l. 25--><p class="indent" >   <span class="likesubparagraphHead"><a 
+ id="x7-510005.1"></a><span 
+class="ecbx-1095">AMG solver</span></span> The code should be compiled once with the settings <span 
+class="ectt-1095">AMG=true</span>, <span 
+class="ectt-1095">AMG_ DUMP=true</span>. In the
+tools folder of Nek5000 we can find the AMG solver, a Matlab version for the moment which is
+subject to further integration in the main code. The user should run the script run which
+will read the AMG dump files and create new ones. The new files are now to be used in the
+code and with <span 
+class="ectt-1095">AMG_ DUMP </span>commented out the user should recompile and run his Nek5000
+version.
+   The AMG solver is a 3 stage process.
+<!--l. 30--><p class="indent" >   The first step will generate the files needed for the matlab code. Next matlab must run the setup code
+and generate a set of .dat files. Then nek can run with the .dat files and use the AMG pressure
+solver.
+<!--l. 32--><p class="indent" >   AMG dump stage
+<!--l. 34--><p class="indent" >   Make sure <span 
+class="ectt-1095">IFAMG </span>and <span 
+class="ectt-1095">IFAMG_ DUMP </span>in makenek are uncommented and set to true Run makenek clean,
+then makenek &#x003C;casename&#x003E; Run Nek (this will produce a set of *.dat files)
+<!--l. 38--><p class="indent" >   MATLAB AMG stage
+<!--l. 40--><p class="indent" >   Move the <span 
+class="ectt-1095">amgdmp_ *.dat </span>files to <span 
+class="ectt-1095">nek5_ svn/trunk/tools/amg_ matlab</span>:
+<!--l. 42--><p class="indent" >   <span 
+class="ectt-1095">mv amgdmp*.dat ../../trunk/tools/amg_ matlab</span>
+<!--l. 44--><p class="indent" >   <span 
+class="ectt-1095">cd ../../trunk/tools/amg_ matlab</span>
+<!--l. 46--><p class="indent" >   Run the script: <span 
+class="ectt-1095">tools/amg_ matlab/run </span>(this may take several hours and will produce set of
+files)
+<!--l. 48--><p class="indent" >   AMG run stage
+<!--l. 50--><p class="indent" >   Move all *.dat files produced back to your case directory:
+<!--l. 52--><p class="indent" >   <span 
+class="ectt-1095">mv *.dat /path/to/case/dir</span>
+<!--l. 54--><p class="indent" >   Comment IFAMG_ DUMP in makenek (IFAMG should still be set to TRUE) Run makenek clean,
+then run <span 
+class="ectt-1095">makenek &#x003C;casename&#x003E; </span>Run Nek (the generated AMG files will be read during the AMG setup
+phase)
+<!--l. 58--><p class="indent" >   Notes on improving AMG results:
+<!--l. 60--><p class="indent" >   To help speed up the matlab process, try running the 1st stage, the AMG dump stage, with <span 
+class="ectt-1095">lx1=3 </span>in
+the SIZE file. Using a lower lx1 number will create a sparser matrix and thus a speedier matlab resolution.
+lx1 can be increased when ready to run the 2nd stage, the AMG run stage, after the .dat files are
+produced.
+<!--l. 62--><p class="indent" >   To increase accuracy in the AMG results, try tightening the tolerances in the run script, in
+<span 
+class="ectt-1095">trunk/tools/amg_ matlab</span>. Specifically, the first tolerance (default set to 0.5). Lowering this (say, to 0.1),
+will increase the time the matlab code stage takes, but the result will be a faster convergence in the
+pressure solves of the AMG run stage.
+<!--l. 64--><p class="indent" >   <span class="likesubparagraphHead"><a 
+ id="x7-520005.1"></a><span 
+class="ecbx-1095">Size related issues</span></span>
+                                                                                         
+                                                                                         
+   Large simulations require a high number of nodes and thus a high number of variables. So far Nek5000
+supports by default 4 byte integers, however the node numbering for big meshes may exceed this size and 8
+byte integers may be needed. How is this done?
+<!--l. 68--><p class="indent" >   If more than 9 passive scalars are needed
+<!--l. 70--><p class="indent" >   Exiting Nek5000 while a batch job in being executed should be done not using <span 
+class="ectt-1095">"qdel" </span>but <span 
+class="ectt-1095">echo -1 &#x003E;</span>
+<span 
+class="ectt-1095">ioinfo</span>.
+<!--l. 72--><p class="indent" >   <span class="likesubparagraphHead"><a 
+ id="x7-530005.1"></a><span 
+class="ecbx-1095">MAKENEK</span></span> The shell script makenek is designed to assist the compilation process of NEK5000. The
+script will create a makefile based on the user settings section in makenek. The GNU gmake utility is used
+to build NEK5000. Available configurations options: <div class="table">
+                                                                                         
+                                                                                         
+<!--l. 75--><p class="indent" >   <a 
+ id="x7-530011"></a><hr class="float"><div class="float" 
+>
+                                                                                         
+                                                                                         
+ <div class="caption" 
+><span class="id">Table&#x00A0;5.1: </span><span  
+class="content">Compiler options</span></div><!--tex4ht:label?: x7-530011 -->
+<div class="center" 
+>
+<!--l. 79--><p class="noindent" >
+ <table id="TBL-10" class="tabular" 
+cellspacing="0" cellpadding="0"  
+><colgroup id="TBL-10-1g"><col 
+id="TBL-10-1"><col 
+id="TBL-10-2"><col 
+id="TBL-10-3"><col 
+id="TBL-10-4"></colgroup><tr 
+class="hline"><td><hr></td><td><hr></td><td><hr></td><td><hr></td></tr><tr 
+class="hline"><td><hr></td><td><hr></td><td><hr></td><td><hr></td></tr><tr  
+ style="vertical-align:baseline;" id="TBL-10-1-"><td  style="white-space:nowrap; text-align:center;" id="TBL-10-1-1"  
+class="td01">       name             </td><td  style="white-space:nowrap; text-align:center;" id="TBL-10-1-2"  
+class="td11">  values    </td><td  style="white-space:nowrap; text-align:center;" id="TBL-10-1-3"  
+class="td11">      default         </td><td  style="white-space:wrap; text-align:left;" id="TBL-10-1-4"  
+class="td10"> <!--l. 100--><p class="noindent" >description                          </td>
+</tr><tr 
+class="hline"><td><hr></td><td><hr></td><td><hr></td><td><hr></td></tr><tr 
+class="hline"><td><hr></td><td><hr></td><td><hr></td><td><hr></td></tr><tr  
+ style="vertical-align:baseline;" id="TBL-10-2-"><td  style="white-space:nowrap; text-align:center;" id="TBL-10-2-1"  
+class="td01">      PPLIST            </td><td  style="white-space:nowrap; text-align:center;" id="TBL-10-2-2"  
+class="td11">  string    </td><td  style="white-space:nowrap; text-align:center;" id="TBL-10-2-3"  
+class="td11">                 </td><td  style="white-space:wrap; text-align:left;" id="TBL-10-2-4"  
+class="td10"> <!--l. 100--><p class="noindent" >list of pre-processor symbols
+  (BG,MOAB,BLAS_ MXM,
+  MPIIO)                              </td>
+</tr><tr 
+class="hline"><td><hr></td><td><hr></td><td><hr></td><td><hr></td></tr><tr  
+ style="vertical-align:baseline;" id="TBL-10-3-"><td  style="white-space:nowrap; text-align:center;" id="TBL-10-3-1"  
+class="td01">       IFMPI             </td><td  style="white-space:nowrap; text-align:center;" id="TBL-10-3-2"  
+class="td11"> true,false  </td><td  style="white-space:nowrap; text-align:center;" id="TBL-10-3-3"  
+class="td11">       true           </td><td  style="white-space:wrap; text-align:left;" id="TBL-10-3-4"  
+class="td10"> <!--l. 100--><p class="noindent" >use MPI (needed for a
+  multiprocessor computation)   </td>
+</tr><tr 
+class="hline"><td><hr></td><td><hr></td><td><hr></td><td><hr></td></tr><tr  
+ style="vertical-align:baseline;" id="TBL-10-4-"><td  style="white-space:nowrap; text-align:center;" id="TBL-10-4-1"  
+class="td01">   IFAMG_ DUMP      </td><td  style="white-space:nowrap; text-align:center;" id="TBL-10-4-2"  
+class="td11"> true,false  </td><td  style="white-space:nowrap; text-align:center;" id="TBL-10-4-3"  
+class="td11">       false           </td><td  style="white-space:wrap; text-align:left;" id="TBL-10-4-4"  
+class="td10"> <!--l. 100--><p class="noindent" >dump AMG pre-processing
+  files                                   </td>
+</tr><tr 
+class="hline"><td><hr></td><td><hr></td><td><hr></td><td><hr></td></tr><tr  
+ style="vertical-align:baseline;" id="TBL-10-5-"><td  style="white-space:nowrap; text-align:center;" id="TBL-10-5-1"  
+class="td01">       IFAMG            </td><td  style="white-space:nowrap; text-align:center;" id="TBL-10-5-2"  
+class="td11"> true,false  </td><td  style="white-space:nowrap; text-align:center;" id="TBL-10-5-3"  
+class="td11">       false           </td><td  style="white-space:wrap; text-align:left;" id="TBL-10-5-4"  
+class="td10"> <!--l. 100--><p class="noindent" >use AMG as coarse grid solver
+  for pressure preconditioner
+  else XXT                            </td>
+</tr><tr 
+class="hline"><td><hr></td><td><hr></td><td><hr></td><td><hr></td></tr><tr  
+ style="vertical-align:baseline;" id="TBL-10-6-"><td  style="white-space:nowrap; text-align:center;" id="TBL-10-6-1"  
+class="td01">        F77               </td><td  style="white-space:nowrap; text-align:center;" id="TBL-10-6-2"  
+class="td11">  string    </td><td  style="white-space:nowrap; text-align:center;" id="TBL-10-6-3"  
+class="td11">    mandatory      </td><td  style="white-space:wrap; text-align:left;" id="TBL-10-6-4"  
+class="td10"> <!--l. 100--><p class="noindent" >Fortran compiler (e.g. MPI:
+  mpif77)                              </td>
+</tr><tr 
+class="hline"><td><hr></td><td><hr></td><td><hr></td><td><hr></td></tr><tr  
+ style="vertical-align:baseline;" id="TBL-10-7-"><td  style="white-space:nowrap; text-align:center;" id="TBL-10-7-1"  
+class="td01">         CC               </td><td  style="white-space:nowrap; text-align:center;" id="TBL-10-7-2"  
+class="td11">  string    </td><td  style="white-space:nowrap; text-align:center;" id="TBL-10-7-3"  
+class="td11">    mandatory      </td><td  style="white-space:wrap; text-align:left;" id="TBL-10-7-4"  
+class="td10"> <!--l. 100--><p class="noindent" >C compiler (e.g. MPI: mpicc)  </td>
+</tr><tr 
+class="hline"><td><hr></td><td><hr></td><td><hr></td><td><hr></td></tr><tr  
+ style="vertical-align:baseline;" id="TBL-10-8-"><td  style="white-space:nowrap; text-align:center;" id="TBL-10-8-1"  
+class="td01">         G                </td><td  style="white-space:nowrap; text-align:center;" id="TBL-10-8-2"  
+class="td11">  string    </td><td  style="white-space:nowrap; text-align:center;" id="TBL-10-8-3"  
+class="td11">     optional        </td><td  style="white-space:wrap; text-align:left;" id="TBL-10-8-4"  
+class="td10"> <!--l. 100--><p class="noindent" >optional compilation flags       </td>
+</tr><tr 
+class="hline"><td><hr></td><td><hr></td><td><hr></td><td><hr></td></tr><tr  
+ style="vertical-align:baseline;" id="TBL-10-9-"><td  style="white-space:nowrap; text-align:center;" id="TBL-10-9-1"  
+class="td01">OPT_ FLAGS_ STD7  </td><td  style="white-space:nowrap; text-align:center;" id="TBL-10-9-2"  
+class="td11">  string    </td><td  style="white-space:nowrap; text-align:center;" id="TBL-10-9-3"  
+class="td11">     optional        </td><td  style="white-space:wrap; text-align:left;" id="TBL-10-9-4"  
+class="td10"> <!--l. 100--><p class="noindent" >optimization flags for
+  L1,L2,L3                             </td>
+</tr><tr 
+class="hline"><td><hr></td><td><hr></td><td><hr></td><td><hr></td></tr><tr  
+ style="vertical-align:baseline;" id="TBL-10-10-"><td  style="white-space:nowrap; text-align:center;" id="TBL-10-10-1"  
+class="td01">OPT_ FLAGS_ MAG  </td><td  style="white-space:nowrap; text-align:center;" id="TBL-10-10-2"  
+class="td11">  string    </td><td  style="white-space:nowrap; text-align:center;" id="TBL-10-10-3"  
+class="td11">     optional        </td><td  style="white-space:wrap; text-align:left;" id="TBL-10-10-4"  
+class="td10"> <!--l. 100--><p class="noindent" >optimization flags for L4
+  (highest opt level)                 </td>
+</tr><tr 
+class="hline"><td><hr></td><td><hr></td><td><hr></td><td><hr></td></tr><tr  
+ style="vertical-align:baseline;" id="TBL-10-11-"><td  style="white-space:nowrap; text-align:center;" id="TBL-10-11-1"  
+class="td01">  SOURCE_ ROOT     </td><td  style="white-space:nowrap; text-align:center;" id="TBL-10-11-2"  
+class="td11">  string    </td><td  style="white-space:nowrap; text-align:center;" id="TBL-10-11-3"  
+class="td11">    mandatory      </td><td  style="white-space:wrap; text-align:left;" id="TBL-10-11-4"  
+class="td10"> <!--l. 100--><p class="noindent" >path of nek5000 source          </td>
+</tr><tr 
+class="hline"><td><hr></td><td><hr></td><td><hr></td><td><hr></td></tr><tr  
+ style="vertical-align:baseline;" id="TBL-10-12-"><td  style="white-space:nowrap; text-align:center;" id="TBL-10-12-1"  
+class="td01">        USR              </td><td  style="white-space:nowrap; text-align:center;" id="TBL-10-12-2"  
+class="td11">  string    </td><td  style="white-space:nowrap; text-align:center;" id="TBL-10-12-3"  
+class="td11">     optional        </td><td  style="white-space:wrap; text-align:left;" id="TBL-10-12-4"  
+class="td10"> <!--l. 100--><p class="noindent" >object list of additional files
+  to compile (make intructions
+  (makefile_ usr.inc required)    </td>
+</tr><tr 
+class="hline"><td><hr></td><td><hr></td><td><hr></td><td><hr></td></tr><tr  
+ style="vertical-align:baseline;" id="TBL-10-13-"><td  style="white-space:nowrap; text-align:center;" id="TBL-10-13-1"  
+class="td01">   USR_ LFLAGS      </td><td  style="white-space:nowrap; text-align:center;" id="TBL-10-13-2"  
+class="td11">  string    </td><td  style="white-space:nowrap; text-align:center;" id="TBL-10-13-3"  
+class="td11">     optional        </td><td  style="white-space:wrap; text-align:left;" id="TBL-10-13-4"  
+class="td10"> <!--l. 100--><p class="noindent" >optional linking flags             </td>
+</tr><tr 
+class="hline"><td><hr></td><td><hr></td><td><hr></td><td><hr></td></tr><tr  
+ style="vertical-align:baseline;" id="TBL-10-14-"><td  style="white-space:nowrap; text-align:center;" id="TBL-10-14-1"  
+class="td01">    MOAB_ DIR        </td><td  style="white-space:nowrap; text-align:center;" id="TBL-10-14-2"  
+class="td11">  string    </td><td  style="white-space:nowrap; text-align:center;" id="TBL-10-14-3"  
+class="td11"> NEK with MOAB  </td><td  style="white-space:wrap; text-align:left;" id="TBL-10-14-4"  
+class="td10"> <!--l. 100--><p class="noindent" >Path to MOAB directories      </td>
+</tr><tr 
+class="hline"><td><hr></td><td><hr></td><td><hr></td><td><hr></td></tr><tr  
+ style="vertical-align:baseline;" id="TBL-10-15-"><td  style="white-space:nowrap; text-align:center;" id="TBL-10-15-1"  
+class="td01">      IFVISIT           </td><td  style="white-space:nowrap; text-align:center;" id="TBL-10-15-2"  
+class="td11"> true,false  </td><td  style="white-space:nowrap; text-align:center;" id="TBL-10-15-3"  
+class="td11">       false           </td><td  style="white-space:wrap; text-align:left;" id="TBL-10-15-4"  
+class="td10"> <!--l. 100--><p class="noindent" >Toggles Visit in situ. See
+  Visit_ in_ situ for details      </td>
+</tr><tr 
+class="hline"><td><hr></td><td><hr></td><td><hr></td><td><hr></td></tr><tr  
+ style="vertical-align:baseline;" id="TBL-10-16-"><td  style="white-space:nowrap; text-align:center;" id="TBL-10-16-1"  
+class="td01">  VISIT_ INSTALL     </td><td  style="white-space:nowrap; text-align:center;" id="TBL-10-16-2"  
+class="td11">  string    </td><td  style="white-space:nowrap; text-align:center;" id="TBL-10-16-3"  
+class="td11">   VISIT in situ     </td><td  style="white-space:wrap; text-align:left;" id="TBL-10-16-4"  
+class="td10"> <!--l. 100--><p class="noindent" >Path to VISIT install path.
+  See Visit_ in_ situ for
+  details.                               </td>
+</tr><tr 
+class="hline"><td><hr></td><td><hr></td><td><hr></td><td><hr></td></tr><tr  
+ style="vertical-align:baseline;" id="TBL-10-17-"><td  style="white-space:nowrap; text-align:center;" id="TBL-10-17-1"  
+class="td01">    VISIT_ STOP       </td><td  style="white-space:nowrap; text-align:center;" id="TBL-10-17-2"  
+class="td11"> true,false  </td><td  style="white-space:nowrap; text-align:center;" id="TBL-10-17-3"  
+class="td11">       false           </td><td  style="white-space:wrap; text-align:left;" id="TBL-10-17-4"  
+class="td10"> <!--l. 100--><p class="noindent" >When running VISIT in situ,
+  simulation stops after step 1
+  to connect VISIT.                 </td>
+</tr><tr 
+class="hline"><td><hr></td><td><hr></td><td><hr></td><td><hr></td></tr><tr 
+class="hline"><td><hr></td><td><hr></td><td><hr></td><td><hr></td></tr><tr  
+ style="vertical-align:baseline;" id="TBL-10-18-"><td  style="white-space:nowrap; text-align:center;" id="TBL-10-18-1"  
+class="td01">                     </td></tr></table></div>
+                                                                                         
+                                                                                         
+   </div><hr class="endfloat" />
+   </div>
+<!--l. 106--><p class="indent" >   <span class="likesubparagraphHead"><a 
+ id="x7-540005.1"></a><span 
+class="ecbx-1095">Binary geometry</span></span> Reatore2 Jump to: navigation, search
+   The NEK5000 tool, reatore2 allows users to split an ASCII .rea file to an ASCII .rea and a binary .re2
+file. The .re2 file contains the mesh and boundary condition data that is normally written in ASCII in the
+.rea file. For large simulations, this information can be substantial, so storing it in binary lowers the
+memory footprint for the simulation. Running reatore2
+<!--l. 113--><p class="indent" >   Be sure that your nekton tools are up-to-date and compiled. At the command prompt type:
+reatore2
+<!--l. 116--><p class="indent" >   NOTE-If the executables for the tools were not placed in the bin directory(default), include the path to
+the reatore2 executable
+<!--l. 119--><p class="indent" >   User is prompted for name of .rea file
+<!--l. 121--><p class="indent" >   -Enter the name to the .rea file, excluding the .rea extenstion
+<!--l. 123--><p class="indent" >   User is prompted for the new files name
+<!--l. 125--><p class="indent" >   -Enter the name for your new files
+<!--l. 128--><p class="noindent" >
+   <h3 class="sectionHead"><span class="titlemark">5.2   </span> <a 
+ id="x7-550005.2"></a>Parallelism in Nek5000</h3>
+<!--l. 4--><p class="noindent" >The parallelism of Nek5000 is accomplished via domain decomposition methods and a suitable
+gather-scatter code. All this is implemented in such way that the user does not have to be concerned with
+the parallelism and only focus on the actual solvers while keepin in mind a few simple rules and routines
+that switch from local to global and back.
+     <ul class="itemize1">
+     <li class="itemize">Locally, the SEM is structured.
+     </li>
+     <li class="itemize">Globally, the SEM is unstructured.
+     </li>
+     <li class="itemize">Vectorization and serial performance derive from the structured aspects of the computation.
+     </li>
+     <li class="itemize">Parallelism  and  geometric  flexibility  derive  from  the  unstructured,  element-by-element,
+     operator evaluation.
+     </li>
+     <li class="itemize">Elements, or groups of elements are distributed across processors, but an element is never
+     subdivided.</li></ul>
+<!--l. 17--><p class="indent" >   For the most part, the global element numbering is not relevant since Nek5000 assigns it randomly but
+following certain rules.
+<!--l. 19--><p class="indent" >   There are two types of array sizes, starting with lx1, lelv, etc. which give an upper bound of the arrays.
+And nx1, nelv, etc. which give the actual number of elements/grid points per processors. For the example
+in Fig.&#x00A0;<a 
+href="#x7-550011">5.1<!--tex4ht:ref: fig:procsplit --></a> we have
+                                                                                         
+                                                                                         
+     <ul class="itemize1">
+     <li class="itemize">on proc 0, <span 
+class="ectt-1095">nelt=2 </span>(nelt = no elements in temperature domain)
+     </li>
+     <li class="itemize">on proc 1, <span 
+class="ectt-1095">nelt=3 </span>(nelv = no elements in fluid domain, usually = nelt)</li></ul>
+<!--l. 25--><p class="indent" >   <hr class="figure"><div class="figure" 
+>
+                                                                                         
+                                                                                         
+<a 
+ id="x7-550011"></a>
+                                                                                         
+                                                                                         
+<!--l. 27--><p class="noindent" ><img 
+src="index246x.png" alt="PIC" class="graphics" width="249.43187pt" height="133.49875pt" ><!--tex4ht:graphics  
+name="index246x.png" src="Figs/serial_parallel.eps"  
+-->
+<br /> <div class="caption" 
+><span class="id">Figure&#x00A0;5.1: </span><span  
+class="content">A simple SEM row of elements and a potential splitting</span></div><!--tex4ht:label?: x7-550011 -->
+                                                                                         
+                                                                                         
+<!--l. 30--><p class="indent" >   </div><hr class="endfigure">
+<!--l. 31--><p class="indent" >   Arrays <span 
+class="ectt-1095">lglel </span>that distinguish which processor has which elements,
+     <ul class="itemize1">
+     <li class="itemize">on proc 0, <span 
+class="ectt-1095">nelt=2, lglel=(2,5)</span>, local element <span 
+class="ectt-1095">1-&#x003E;2 </span>and <span 
+class="ectt-1095">2-&#x003E;5</span>
+     </li>
+     <li class="itemize">on proc 1, <span 
+class="ectt-1095">nelt=3, lglel=(1,3,4)</span>, local element <span 
+class="ectt-1095">1-&#x003E;1</span>, <span 
+class="ectt-1095">2-&#x003E;3 </span>and <span 
+class="ectt-1095">4-&#x003E;3</span></li></ul>
+<!--l. 38--><p class="indent" >   Now for global to local we have two common arrays (scaling as <span 
+class="ectt-1095">nelgt</span>, but only two such
+arrays)
+     <ul class="itemize1">
+     <li class="itemize"><span 
+class="ectt-1095">gllel=(1,1,2,3,2)</span>, assigns a global element to its local correspondent, i.e. global element
+     <span 
+class="ectt-1095">1-&#x003E;1</span>, <span 
+class="ectt-1095">2-&#x003E;1 </span>and <span 
+class="ectt-1095">3-&#x003E;2 </span>etc.
+     </li>
+     <li class="itemize"><span 
+class="ectt-1095">gllnid=(1,0,1,1,0)</span>, assigns a global element to its processor, i.e. <span 
+class="ectt-1095">1-&#x003E;1</span>, <span 
+class="ectt-1095">2-&#x003E;0 </span>and <span 
+class="ectt-1095">3-&#x003E;1 </span>etc.</li></ul>
+<!--l. 47--><p class="indent" >   All data contiguously packed (and quad-aligned) <span 
+class="ectt-1095">real u(lx1,ly1,lz1,lelt) </span>indicates that <span 
+class="ectt-1095">u </span>is a
+collection of elements, <span 
+class="ectt-1095">e=1,</span><img 
+src="index247x.png" alt="...   "  class="math" ><span 
+class="ectt-1095">,Nelt =&#x003C; lelt</span>, each of size <img 
+src="index248x.png" alt="(N + 1)d,d = 2or3  "  class="math" >.
+<!--l. 49--><p class="indent" >   <span 
+class="ecbx-1095">Example: Summation</span>
+<!--l. 51--><p class="indent" >   Serial version <span 
+class="ectt-1095">s = 0 </span><br 
+class="newline" /><span 
+class="ectt-1095">do e=1,nelv </span><br 
+class="newline" /><span 
+class="ectt-1095">do iz=1,nz1 </span><br 
+class="newline" /><span 
+class="ectt-1095">do iy=1,ny1 </span><br 
+class="newline" /><span 
+class="ectt-1095">do ix=1,nx1 </span><br 
+class="newline" /><span 
+class="ectt-1095">s=s+u(ix,iy,iz,e) </span><br 
+class="newline" /><span 
+class="ectt-1095">enddo,</span><img 
+src="index249x.png" alt="...   "  class="math" ><span 
+class="ectt-1095">,enddo</span>
+<!--l. 61--><p class="indent" >   Second approach, serial version (works in parallel in Nek) <span 
+class="ectt-1095">n=nx1*ny1*nz1*nelv </span><br 
+class="newline" /><span 
+class="ectt-1095">s=0 </span><br 
+class="newline" /><span 
+class="ectt-1095">do i=1,n </span><br 
+class="newline" /><span 
+class="ectt-1095">s=s+u(i,1,1,1) </span><br 
+class="newline" /><span 
+class="ectt-1095">enddo</span>
+<!--l. 70--><p class="indent" >   Nek Parallel Version
+<!--l. 72--><p class="indent" >   <span 
+class="ectt-1095">s=glsum(s,n)</span>
+<!--l. 74--><p class="indent" >   If you want a local max <span 
+class="ectt-1095">s=vlmax(u,n)</span>, or a global max <span 
+class="ectt-1095">s=glmax(u,n)</span>.
+                                                                                         
+                                                                                         
+   <!--l. 133--><div class="crosslinks"><p class="noindent">[<a 
+href="indexch6.html" >next</a>] [<a 
+href="indexch4.html" >prev</a>] [<a 
+href="indexch4.html#tailindexch4.html" >prev-tail</a>] [<a 
+href="indexch5.html" >front</a>] [<a 
+href="index.html#indexch5.html" >up</a>] </p></div>
+<!--l. 133--><p class="indent" >   <a 
+ id="tailindexch5.html"></a>   
+</body></html> 

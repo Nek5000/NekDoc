@@ -1,0 +1,349 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN"  
+  "http://www.w3.org/TR/html4/loose.dtd">  
+<html > 
+<head><title>2 Quick start</title> 
+<meta http-equiv="Content-Type" content="text/html; charset=iso-8859-1"> 
+<meta name="generator" content="TeX4ht (http://www.cse.ohio-state.edu/~gurari/TeX4ht/)"> 
+<meta name="originator" content="TeX4ht (http://www.cse.ohio-state.edu/~gurari/TeX4ht/)"> 
+<!-- html,index=1,2,fn-in --> 
+<meta name="src" content="index.tex"> 
+<meta name="date" content="2015-11-06 15:54:00"> 
+<link rel="stylesheet" type="text/css" href="index.css"> 
+</head><body 
+>
+   <!--l. 90--><div class="crosslinks"><p class="noindent">[<a 
+href="indexch3.html" >next</a>] [<a 
+href="indexch1.html" >prev</a>] [<a 
+href="indexch1.html#tailindexch1.html" >prev-tail</a>] [<a 
+href="#tailindexch2.html">tail</a>] [<a 
+href="index.html#indexch2.html" >up</a>] </p></div>
+   <h2 class="chapterHead"><span class="titlemark">Chapter&#x00A0;2</span><br /><a 
+ id="x4-170002"></a>Quick start</h2>
+   <h3 class="sectionHead"><span class="titlemark">2.1   </span> <a 
+ id="x4-180002.1"></a>Download and Build</h3>
+<!--l. 1--><p class="noindent" >This chapter provides a quick overview to using Nek5000 for some basic flow problems provided in the
+<span 
+class="ectt-1095">.../examples </span>directory.
+<!--l. 5--><p class="indent" >   Nek5000 runs under Linux or any Linux-like OS such as MAC, AIX, BG, Cray etc. The source is
+maintained in an svn repository and can be downloaded from the Nek5000 homepage (google nek5000) or,
+on linux systems, with the svn checkout command:
+                                                                                         
+                                                                                         
+   <div class="verbatim" id="verbatim-1">
+svn&#x00A0;co&#x00A0;https://svn.mcs.anl.gov/repos/nek5&#x00A0;nek5_svn
+</div>
+<!--l. 12--><p class="nopar" > After downloading, build the tools by typing
+                                                                                         
+                                                                                         
+   <div class="verbatim" id="verbatim-2">
+cd&#x00A0;nek5_svn/trunk/tools
+&#x00A0;<br />maketools&#x00A0;all
+</div>
+<!--l. 18--><p class="nopar" > which will put the tools <span 
+class="ectt-1095">genbox, genmap, n2to3, postx, prex, </span>and <span 
+class="ectt-1095">pretex </span>in the top-level <span 
+class="ectt-1095">/bin</span>
+directory (and will create <span 
+class="ectt-1095">/bin </span>if it does not exist). It may be necessary to edit the <span 
+class="ectt-1095">maketools </span>file to
+change the compilers (e.g., to pgf77/pgcc or ifort/icc). However, the default gfortran/gcc is generally
+fine.
+<!--l. 30--><p class="indent" >   In addition to the compiled tools, there are numerous scripts in
+                                                                                         
+                                                                                         
+   <div class="verbatim" id="verbatim-3">
+nek5_svn/trunk/tools/scripts
+</div>
+<!--l. 33--><p class="nopar" > that are useful to have in the execution path, achieved either by adding this directory to the path or
+copying its contents to the top-level /bin directory. In the following, we assume that scripts such as <span 
+class="ectt-1095">nek</span>
+and <span 
+class="ectt-1095">nekb </span>are in the path. We further assume that the <span 
+class="ectt-1095">nek5_svn/ </span>prefix is implied in any future directory
+reference, unless otherwise specified.
+<!--l. 93--><p class="noindent" >
+   <h3 class="sectionHead"><span class="titlemark">2.2   </span> <a 
+ id="x4-190002.2"></a>A worked example</h3>
+<!--l. 2--><p class="noindent" >As a first example, we consider the eddy problem due to Walsh
+<span class="footnote-mark"><a 
+href="#fn1x3" id="fn1x3-bk"><sup class="textsuperscript">1</sup></a></span><a 
+ id="x4-19001f1"></a>. To
+get started, execute the following commands,
+                                                                                         
+                                                                                         
+   <div class="verbatim" id="verbatim-4">
+cd
+&#x00A0;<br />mkdir&#x00A0;eddy
+&#x00A0;<br />cd&#x00A0;eddy
+&#x00A0;<br />cp&#x00A0;~/nek5_svn/examples/eddy/*&#x00A0;.
+&#x00A0;<br />cp&#x00A0;~/nek5_svn/trunk/nek/makenek&#x00A0;.
+</div>
+<!--l. 13--><p class="nopar" >
+<!--l. 15--><p class="indent" >   <span 
+class="ecbx-1095">Modify </span><span 
+class="ectt-1095">makenek</span><span 
+class="ecbx-1095">.</span>
+<!--l. 17--><p class="indent" >   If you do not have <span 
+class="ectt-1095">mpi </span>installed on your system, edit <span 
+class="ectt-1095">makenek</span>, uncomment the <span 
+class="ectt-1095">IFMPI="false" </span>flag,
+and change the Fortran and C compilers according to what is available on your machine. (Most any
+Fortran compiler save g77 or g95 will work.)
+<!--l. 22--><p class="indent" >   Nek5000 is written in F77 which has implicit typesetting as default. This means in practice
+that if the user defines a new variable in the user file and forgets to define its type explicitly
+then variable beginning with a character from I to N, its type is <span 
+class="ectt-1095">INTEGER</span>. Otherwise, it is
+<span 
+class="ectt-1095">REAL</span>.
+<!--l. 24--><p class="indent" >   This common type of mistake for a beginner can be avoided using a warning flag <span 
+class="ectt-1095">-Wimplicit</span>. This flag
+warns whenever a variable, array, or function is implicitly declared. Has an effect similar to using the
+IMPLICIT NONE statement in every program unit.
+<!--l. 26--><p class="indent" >   Another useful flag may <span 
+class="ectt-1095">-mcmodel </span>which allows for arrays of size larger than 2GB. This option tells the
+compiler to use a specific memory model to generate code and store data. It can affect code size and
+performance. If your program has global and static data with a total size smaller than 2GB,
+<span 
+class="ectt-1095">-mcmodel=small </span>is sufficient. Global and static data larger than 2GB requires <span 
+class="ectt-1095">-mcmodel=medium </span>or
+<span 
+class="ectt-1095">-mcmodel=large</span>.
+<!--l. 29--><p class="indent" >   If you have <span 
+class="ectt-1095">mpi </span>installed on your system or have made the prescribed changes to makenek, the eddy
+problem can be compiled as follows
+<!--l. 33--><p class="indent" >   <span 
+class="ecbx-1095">Compiling nek. </span><span 
+class="ectt-1095">makenek eddy_uv</span>
+<!--l. 36--><p class="noindent" >If all works properly, upon comilation the executable <span 
+class="ectt-1095">nek5000 </span>will be generated using <span 
+class="ectt-1095">eddy_uv.usr </span>to
+provide user-supplied initial conditions and analysis. Note that if you encountered a problem during a prior
+attempt to build the code you should type
+<!--l. 41--><p class="indent" >   <span 
+class="ectt-1095">makenek clean;</span>
+<!--l. 43--><p class="indent" >   <span 
+class="ectt-1095">makenek eddy_uv</span>
+<!--l. 45--><p class="noindent" >Once compilation is successful, start the simulation by typing
+<!--l. 49--><p class="indent" >   <span 
+class="ecbx-1095">Running a case: </span><span 
+class="ectt-1095">nekb eddy_uv</span>
+<!--l. 52--><p class="indent" >   which runs the executable in the background (<span 
+class="ectt-1095">nekb</span>, as opposed to <span 
+class="ectt-1095">nek</span>, which will run in the
+foreground). If you are running on a multi-processor machine that supports MPI, you can also run this
+case via
+<!--l. 57--><p class="indent" >   <span 
+class="ecbx-1095">A parallel run: </span><span 
+class="ectt-1095">nekbmpi eddy_uv 4</span>
+<!--l. 60--><p class="noindent" >which would run on 4 processors. If you are running on a system that supports queuing for batch jobs
+(e.g., pbs), then the following would be a typical job submission command
+<!--l. 66--><p class="indent" >   <span 
+class="ectt-1095">nekpbs eddy_uv 4</span>
+<!--l. 68--><p class="indent" >   In most cases, however, the details of the nekpbs script would need to be modified to accommodate an
+individual&#8217;s user account, the desired runtime and perhaps the particular queue. Note that the scripts <span 
+class="ectt-1095">nek,</span>
+                                                                                         
+                                                                                         
+<span 
+class="ectt-1095">nekb, nekmpi, nekbmpi, </span>etc. perform some essential file manipulations prior to executing <span 
+class="ectt-1095">nek5000</span>, so it
+is important to use them rather than invoking <span 
+class="ectt-1095">nek5000 </span>directly.
+<!--l. 76--><p class="indent" >   To check the error for this case, type
+                                                                                         
+                                                                                         
+   <div class="verbatim" id="verbatim-5">
+grep&#x00A0;-i&#x00A0;err&#x00A0;eddy_uv.log&#x00A0;|&#x00A0;tail
+</div>
+<!--l. 79--><p class="nopar" > or equivalently
+                                                                                         
+                                                                                         
+   <div class="verbatim" id="verbatim-6">
+grep&#x00A0;-i&#x00A0;err&#x00A0;logfile&#x00A0;|&#x00A0;tail
+</div>
+<!--l. 83--><p class="nopar" > where, because of the <span 
+class="ectt-1095">nekb </span>script, <span 
+class="ectt-1095">logfile </span>is linked to the <span 
+class="ectt-1095">.log </span>file of the given simulation. If the run has
+completed, the above <span 
+class="ectt-1095">grep </span>command should yield lines like
+                                                                                         
+                                                                                         
+   <div class="verbatim" id="verbatim-7">
+&#x00A0;1000&#x00A0;&#x00A0;1.000000E-01&#x00A0;&#x00A0;6.759103E-05&#x00A0;&#x00A0;2.764445E+00&#x00A0;&#x00A0;2.764444E+00&#x00A0;&#x00A0;1.000000E+00&#x00A0;&#x00A0;X&#x00A0;err
+&#x00A0;<br />&#x00A0;1000&#x00A0;&#x00A0;1.000000E-01&#x00A0;&#x00A0;7.842019E-05&#x00A0;&#x00A0;1.818632E+00&#x00A0;&#x00A0;1.818628E+00&#x00A0;&#x00A0;3.000000E-01&#x00A0;&#x00A0;Y&#x00A0;err
+</div>
+<!--l. 91--><p class="nopar" > which gives for the <span 
+class="cmmi-10x-x-109">x</span>- and <span 
+class="cmmi-10x-x-109">y</span>-velocity components the step number, the physical time, the maxiumum
+error, the maximum exact and computed values and the mean (bulk) values.
+<!--l. 97--><p class="indent" >   A common command to check on the progress of a simulation is
+                                                                                         
+                                                                                         
+   <div class="verbatim" id="verbatim-8">
+grep&#x00A0;tep&#x00A0;logfile&#x00A0;|&#x00A0;tail
+</div>
+<!--l. 100--><p class="nopar" > which typically produces lines such as
+                                                                                         
+                                                                                         
+   <div class="verbatim" id="verbatim-9">
+Step&#x00A0;&#x00A0;&#x00A0;&#x00A0;996,&#x00A0;t=&#x00A0;9.9600000E-02,&#x00A0;DT=&#x00A0;1.0000000E-04,&#x00A0;C=&#x00A0;&#x00A0;0.015&#x00A0;4.6555E+01&#x00A0;3.7611E-02
+</div>
+<!--l. 105--><p class="nopar" > indicating, respectively, the step number, the physical time, the timestep size, the Courant (or CFL)
+number, the cumulative wall clock time (in seconds) and the wall-clock time for the most recent step.
+Generally, one would adjust <span 
+class="cmr-10x-x-109">&Delta;</span><span 
+class="cmmi-10x-x-109">t </span>to have a CFL of <span 
+class="cmsy-10x-x-109">&sim;</span>0.5. See Section <span 
+class="ecbx-1095">??</span> for a comprehensive discussion of
+timestep selection.
+<!--l. 113--><p class="noindent" >
+   <h3 class="sectionHead"><span class="titlemark">2.3   </span> <a 
+ id="x4-200002.3"></a>Viewing the First 2D Example</h3>
+<!--l. 115--><p class="noindent" >The preferred mode for data visualization and analysis with Nek5000 is to use VisIt. For a quick peek at
+the data, however, we list a few commands for the native Nek5000 postprocessor. Assuming
+that the <span 
+class="ectt-1095">maketools </span>script has been executed and that <span 
+class="ectt-1095">/bin </span>is in the execution path, then
+typing
+<!--l. 121--><p class="noindent" ><span 
+class="ectt-1095">postx</span>
+<!--l. 124--><p class="noindent" >in the working directory should open a new window with a sidebar menu. With the cursor focus in this
+window (move the cursor to the window and left click), hit <span 
+class="ectt-1095">return </span>on the keyboard accept the default
+session name and click <span 
+class="eccc-1095"><span 
+class="small-caps">P</span><span 
+class="small-caps">L</span><span 
+class="small-caps">O</span><span 
+class="small-caps">T</span> </span>with the left mouse button. This should bring up a color plot of the pressure
+distribution for the first output file from the simulation (here, <span 
+class="ectt-1095">eddy_uv.fld01</span>), which contains the
+geometry, velocity, and pressure.
+<!--l. 132--><p class="indent" >   Alternatively one can use the script <span 
+class="ecti-1095">visnek</span>, to be found in <span 
+class="ectt-1095">/scripts</span>. It is sufficent to run
+<!--l. 134--><p class="noindent" ><span 
+class="ectt-1095">visnek eddy_uv </span><span 
+class="ecti-1095">(or the name of your session)</span>
+<!--l. 137--><p class="indent" >   to obatain a file named <span 
+class="ectt-1095">eddy_uv.nek5000 </span>which can be recognized in VisIt
+<span class="footnote-mark"><a 
+href="#fn2x3" id="fn2x3-bk"><sup class="textsuperscript">2</sup></a></span><a 
+ id="x4-20001f2"></a>
+<!--l. 152--><p class="indent" >   <span 
+class="ecbx-1095">Plotting the error: </span>For this case, the error has been written to <span 
+class="ectt-1095">eddy_uv.fld11 </span>by making a call to
+<span 
+class="ectt-1095">outpost() </span>in the <span 
+class="ectt-1095">userchk() </span>routine in <span 
+class="ectt-1095">eddy_uv.usr</span>. The error in the velocity components is stored in the
+velocity-field locations and can be viewed with postx, or VisIt as before.
+<!--l. 171--><p class="noindent" >
+   <h4 class="subsectionHead"><span class="titlemark">2.3.1   </span> <a 
+ id="x4-210002.3.1"></a>Modifying the First Example</h4>
+<!--l. 173--><p class="noindent" >A common step in the Nek5000 workflow is to rerun with a higher polynomial order. Typically, one runs a
+relatively low-order case (e.g., <span 
+class="ectt-1095">lx1</span>=5) for one or two flow-through times and then uses the result as an
+initial condition for a higher-order run (e.g., <span 
+class="ectt-1095">lx1</span>=8). We illustrate the procedure with the <span 
+class="ectt-1095">eddy_uv</span>
+example.
+<!--l. 180--><p class="indent" >   Assuming that the contents of <span 
+class="ectt-1095">nek5_svn/trunk/tools/scripts </span>are in the execution path, begin by
+typing
+                                                                                         
+                                                                                         
+   <div class="verbatim" id="verbatim-10">
+cp&#x00A0;eddy_uv&#x00A0;eddy_new
+</div>
+<!--l. 184--><p class="nopar" > which will copy the requisite <span 
+class="ectt-1095">eddy_uv </span>case files to <span 
+class="ectt-1095">eddy_new</span>. Next, edit <span 
+class="ectt-1095">SIZE </span>and change the two lines
+defining <span 
+class="ectt-1095">lx1 </span>and <span 
+class="ectt-1095">lxd </span>from
+                                                                                         
+                                                                                         
+   <div class="verbatim" id="verbatim-11">
+&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;parameter&#x00A0;(lx1=8,ly1=lx1,lz1=1,lelt=300,lelv=lelt)
+&#x00A0;<br />&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;parameter&#x00A0;(lxd=12,lyd=lxd,lzd=1)
+</div>
+<!--l. 192--><p class="nopar" > to
+                                                                                         
+                                                                                         
+   <div class="verbatim" id="verbatim-12">
+&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;parameter&#x00A0;(lx1=12,ly1=lx1,lz1=1,lelt=300,lelv=lelt)
+&#x00A0;<br />&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;parameter&#x00A0;(lxd=18,lyd=lxd,lzd=1)
+</div>
+<!--l. 197--><p class="nopar" > Then recompile the source by typing
+                                                                                         
+                                                                                         
+   <div class="verbatim" id="verbatim-13">
+makenek&#x00A0;eddy_new
+</div>
+<!--l. 201--><p class="nopar" >
+<!--l. 203--><p class="indent" >   Next, edit <span 
+class="ectt-1095">eddy_new.rea </span>and change the line
+                                                                                         
+                                                                                         
+   <div class="verbatim" id="verbatim-14">
+&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;0&#x00A0;PRESOLVE/RESTART&#x00A0;OPTIONS&#x00A0;&#x00A0;*****
+</div>
+<!--l. 206--><p class="nopar" > (found roughly 33 lines from the bottom of the file) to
+                                                                                         
+                                                                                         
+   <div class="verbatim" id="verbatim-15">
+&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;1&#x00A0;PRESOLVE/RESTART&#x00A0;OPTIONS&#x00A0;&#x00A0;*****
+&#x00A0;<br />eddy_uv.fld12
+</div>
+<!--l. 211--><p class="nopar" > which tells nek5000 to use the contents of <span 
+class="ectt-1095">eddy_uv.fld12 </span>as the initial condition for <span 
+class="ectt-1095">eddy_new</span>. The
+simulation is started in the usual way:
+                                                                                         
+                                                                                         
+   <div class="verbatim" id="verbatim-16">
+nekb&#x00A0;eddy_new
+</div>
+<!--l. 217--><p class="nopar" > after which the command
+                                                                                         
+                                                                                         
+   <div class="verbatim" id="verbatim-17">
+grep&#x00A0;err&#x00A0;logfile&#x00A0;|&#x00A0;tail
+</div>
+<!--l. 221--><p class="nopar" > will show a much smaller error (<span 
+class="cmsy-10x-x-109">&sim; </span><span 
+class="cmr-10x-x-109">10</span><sup><span style="margin-left:3.0235pt" class="tmspace"></span> <span 
+class="cmr-10x-x-109">+</span> <span style="margin-left:3.0235pt" class="tmspace"></span><span 
+class="cmsy-10x-x-109">&minus;</span><span 
+class="cmr-10x-x-109">9</span></sup>) than the <span 
+class="ectt-1095">lx1=8 </span>case.
+<!--l. 225--><p class="indent" >   Note that one normally would not use a restart file for the <span 
+class="ecti-1095">eddy </span>problem, which is really designed as a
+convergence study. The purpose here, however, was two-fold, namely, to illustrate a change of order and its
+impact on the error, and to demonstrate the frequently-used restart procedure. However for a higher order
+timestepping scheme an accurate restart would require a number of field files of the same size (+1) as the
+order of the multistep scheme
+                                                                                         
+                                                                                         
+   <div class="footnotes"><!--l. 5--><p class="indent" >     <span class="footnote-mark"><a 
+href="#fn1x3-bk" id="fn1x3"><sup class="textsuperscript">1</sup></a></span><span 
+class="ecrm-0900">O. Walsh, &#8220;Eddy solutions of the Navier-Stokes equations,&#8221; </span><span 
+class="ecti-0900">The NSE II-Theory and Numerical Methods</span><span 
+class="ecrm-0900">, J.G.</span>
+<span 
+class="ecrm-0900">Heywood, K. Masuda, R. Rautmann, and V.A. Solonikkov, eds., Springer, pp. 306&#8211;309 (1992)</span>
+<!--l. 137--><p class="indent" >      <span class="footnote-mark"><a 
+href="#fn2x3-bk" id="fn2x3"><sup class="textsuperscript">2</sup></a></span><span 
+class="ecrm-0900">https://wci.llnl.gov/simulation/computer-codes/visit/</span>                                                                       </div>
+<!--l. 96--><div class="crosslinks"><p class="noindent">[<a 
+href="indexch3.html" >next</a>] [<a 
+href="indexch1.html" >prev</a>] [<a 
+href="indexch1.html#tailindexch1.html" >prev-tail</a>] [<a 
+href="indexch2.html" >front</a>] [<a 
+href="index.html#indexch2.html" >up</a>] </p></div>
+<!--l. 96--><p class="indent" >   <a 
+ id="tailindexch2.html"></a>    
+</body></html> 

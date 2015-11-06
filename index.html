@@ -1,0 +1,102 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN"  
+  "http://www.w3.org/TR/html4/loose.dtd">  
+<html > 
+<head><title>Nek5000 User Documentation</title> 
+<meta http-equiv="Content-Type" content="text/html; charset=iso-8859-1"> 
+<meta name="generator" content="TeX4ht (http://www.cse.ohio-state.edu/~gurari/TeX4ht/)"> 
+<meta name="originator" content="TeX4ht (http://www.cse.ohio-state.edu/~gurari/TeX4ht/)"> 
+<!-- html,index=1,2,fn-in --> 
+<meta name="src" content="index.tex"> 
+<meta name="date" content="2015-11-06 15:54:00"> 
+<link rel="stylesheet" type="text/css" href="index.css"> 
+</head><body 
+>
+   <div class="maketitle">
+                                                                                         
+                                                                                         
+
+<h2 class="titleHead">Nek5000 User Documentation</h2>
+ <div class="author" ><span 
+class="ecrm-1200">Paul Fischer et al.</span></div><br />
+<div class="date" ><span 
+class="ecrm-1200">November 6, 2015</span></div>
+                                                                                         
+                                                                                         
+   </div>
+                                                                                         
+                                                                                         
+                                                                                         
+                                                                                         
+   <div class="tableofcontents">
+   <span class="likechapterToc" ><a 
+href="indexli1.html#x2-1000" id="QQ2-2-1">Contents</a></span>
+<br />   &#x00A0;<span class="likesectionToc" ><a 
+href="indexli1.html#x2-2000" id="QQ2-2-2">Executive Summary</a></span>
+<br />   &#x00A0;<span class="sectionToc" ><a 
+href="indexli1.html#Q1-2-3">Executive Summary</a></span>
+<br />   <span class="chapterToc" >1 <a 
+href="indexch1.html#x3-30001" id="QQ2-3-4">Introduction</a></span>
+<br />   &#x00A0;<span class="sectionToc" >1.1 <a 
+href="indexch1.html#x3-50001.1" id="QQ2-3-6">Nek5000 solvers</a></span>
+<br />   <span class="chapterToc" >2 <a 
+href="indexch2.html#x4-170002" id="QQ2-4-19">Quick start</a></span>
+<br />   &#x00A0;<span class="sectionToc" >2.1 <a 
+href="indexch2.html#x4-180002.1" id="QQ2-4-20">Download and Build</a></span>
+<br />   &#x00A0;<span class="sectionToc" >2.2 <a 
+href="indexch2.html#x4-190002.2" id="QQ2-4-21">A worked example</a></span>
+<br />   &#x00A0;<span class="sectionToc" >2.3 <a 
+href="indexch2.html#x4-200002.3" id="QQ2-4-22">Viewing the First 2D Example</a></span>
+<br />   <span class="chapterToc" >3 <a 
+href="indexch3.html#x5-220003" id="QQ2-5-24">User files</a></span>
+<br />   &#x00A0;<span class="sectionToc" >3.1 <a 
+href="indexch3.html#x5-230003.1" id="QQ2-5-25">Case set-up .usr</a></span>
+<br />   &#x00A0;<span class="sectionToc" >3.2 <a 
+href="indexch3.html#x5-260003.2" id="QQ2-5-28">Problem size file SIZE</a></span>
+<br />   &#x00A0;<span class="sectionToc" >3.3 <a 
+href="indexch3.html#x5-280003.3" id="QQ2-5-30">Geometry and Parameters file .rea</a></span>
+<br />   &#x00A0;<span class="sectionToc" >3.4 <a 
+href="indexch3.html#x5-320003.4" id="QQ2-5-36">Data Layout</a></span>
+<br />   <span class="chapterToc" >4 <a 
+href="indexch4.html#x6-330004" id="QQ2-6-37">Geometry</a></span>
+<br />   &#x00A0;<span class="sectionToc" >4.1 <a 
+href="indexch4.html#x6-350004.1" id="QQ2-6-39">Setting up the geometry</a></span>
+<br />   &#x00A0;<span class="sectionToc" >4.2 <a 
+href="indexch4.html#x6-420004.2" id="QQ2-6-51">Extrusion/Mirroring</a></span>
+<br />   &#x00A0;<span class="sectionToc" >4.3 <a 
+href="indexch4.html#x6-440004.3" id="QQ2-6-53">Boundary and initial conditions</a></span>
+<br />   &#x00A0;<span class="sectionToc" >4.4 <a 
+href="indexch4.html#x6-480004.4" id="QQ2-6-57">Mesh Partioning for Parallel Computing</a></span>
+<br />   <span class="chapterToc" >5 <a 
+href="indexch5.html#x7-490005" id="QQ2-7-59">Performing large scale simulations in Nek5000</a></span>
+<br />   &#x00A0;<span class="sectionToc" >5.1 <a 
+href="indexch5.html#x7-500005.1" id="QQ2-7-60">Large scale simulations</a></span>
+<br />   &#x00A0;<span class="sectionToc" >5.2 <a 
+href="indexch5.html#x7-550005.2" id="QQ2-7-66">Parallelism in Nek5000</a></span>
+<br />   <span class="chapterToc" >6 <a 
+href="indexch6.html#x8-560006" id="QQ2-8-68">Mathematical routines of interest</a></span>
+<br />   <span class="chapterToc" >7 <a 
+href="indexch7.html#x9-580007" id="QQ2-9-70">Appendix</a></span>
+<br />   &#x00A0;<span class="sectionToc" >7.1 <a 
+href="indexch7.html#x9-590007.1" id="QQ2-9-71">Appendix A. Extensive list of parameters .rea file</a></span>
+<br />   &#x00A0;<span class="sectionToc" >7.2 <a 
+href="indexch7.html#x9-640007.2" id="QQ2-9-76">Appendix B. Extensive list of parameters SIZE file</a></span>
+   </div>
+                                                                                         
+                                                                                         
+                                                                                         
+                                                                                         
+                                                                                         
+                                                                                         
+                                                                                         
+                                                                                         
+                                                                                         
+                                                                                         
+                                                                                         
+                                                                                         
+                                                                                         
+                                                                                          
+</body></html> 
+
+                                                                                         
+
+

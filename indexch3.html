@@ -1,0 +1,1980 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN"  
+  "http://www.w3.org/TR/html4/loose.dtd">  
+<html > 
+<head><title>3 User files</title> 
+<meta http-equiv="Content-Type" content="text/html; charset=iso-8859-1"> 
+<meta name="generator" content="TeX4ht (http://www.cse.ohio-state.edu/~gurari/TeX4ht/)"> 
+<meta name="originator" content="TeX4ht (http://www.cse.ohio-state.edu/~gurari/TeX4ht/)"> 
+<!-- html,index=1,2,fn-in --> 
+<meta name="src" content="index.tex"> 
+<meta name="date" content="2015-11-06 15:54:00"> 
+<link rel="stylesheet" type="text/css" href="index.css"> 
+</head><body 
+>
+   <!--l. 96--><div class="crosslinks"><p class="noindent">[<a 
+href="indexch4.html" >next</a>] [<a 
+href="indexch2.html" >prev</a>] [<a 
+href="indexch2.html#tailindexch2.html" >prev-tail</a>] [<a 
+href="#tailindexch3.html">tail</a>] [<a 
+href="index.html#indexch3.html" >up</a>] </p></div>
+   <h2 class="chapterHead"><span class="titlemark">Chapter&#x00A0;3</span><br /><a 
+ id="x5-220003"></a>User files</h2>
+   <h3 class="sectionHead"><span class="titlemark">3.1   </span> <a 
+ id="x5-230003.1"></a>Case set-up .usr</h3>
+<!--l. 6--><p class="noindent" >Each simulation is defined by three files, the .rea file, the .usr file, and the SIZE file. In addition, there is a
+derived .map file that is generated from the .rea file by running <span 
+class="ectt-1095">genmap </span>which will determine how the
+elements will be split across processors in the case of a parallel run. SIZE controls (at compile
+time) the polynomial degree used in the simulation, as well as the space dimension <img 
+src="index83x.png" alt="d = 2  "  class="math" > or
+3.
+<!--l. 14--><p class="indent" >   The SESSION.NAME file contains the current run, it must provide the name of the .rea file and the
+path to it. It does not however need to correspond to an .usr file of an identical name. This allows
+for different test cases (.usr files) that use the same geometry and boundary conditions (.rea
+files).
+<!--l. 16--><p class="indent" >   This chapter provides an introduction to the basic files required to set up a Nek5000 simulation.
+<!--l. 20--><p class="noindent" >
+   <h4 class="subsectionHead"><span class="titlemark">3.1.1   </span> <a 
+ id="x5-240003.1.1"></a>Contents of .usr file</h4>
+<!--l. 22--><p class="noindent" >The most important interface to Nek5000 is the set of Fortran subroutines that are contained in the <span 
+class="ectt-1095">.usr</span>
+file. This file allows direct access to all runtime variables. Here, the user may specify spatially varying
+properties (e.g., viscosity), volumetric heating sources, body forces, and so forth. One can also specify
+arbitrary initial and boundary conditions through the routines <span 
+class="ectt-1095">useric() </span>and <span 
+class="ectt-1095">userbc()</span>. The routine
+<span 
+class="ectt-1095">userchk() </span>allows the user to interrogate the solution at the end of each timestep for diagnostic
+purposes. The <span 
+class="ectt-1095">.usr </span>files provided in the <span 
+class="ectt-1095">/examples/...  </span>directories illustrate several of the more
+common analysis tools. For instance, there are utilities for computing the time average of <img 
+src="index84x.png" alt="u  "  class="math" >,
+<img 
+src="index85x.png" alt="u2   "  class="math" >, etc. so that one can analyze mean and rms distributions with the postprocessor. There
+are routines for computing the vorticity or the scalar <img 
+src="index86x.png" alt="&lambda;2   "  class="math" > for vortex identification, and so
+forth.
+<!--l. 39--><p class="noindent" >
+   <h5 class="likesubsubsectionHead"><a 
+ id="x5-250003.1.1"></a>Routines in .usr file</h5>
+<!--l. 41--><p class="noindent" >The routine <span 
+class="ectt-1095">uservp </span>specifies the variable properties of the governing equations. This routine is called once
+per processor, and once per discrete point therein. <br 
+class="newline" />
+   <div class="tabular"> <table id="TBL-2" class="tabular" 
+cellspacing="0" cellpadding="0" rules="groups" 
+><colgroup id="TBL-2-1g"><col 
+id="TBL-2-1"></colgroup><colgroup id="TBL-2-2g"><col 
+id="TBL-2-2"></colgroup><colgroup id="TBL-2-3g"><col 
+id="TBL-2-3"></colgroup><colgroup id="TBL-2-4g"><col 
+id="TBL-2-4"></colgroup><tr 
+class="hline"><td><hr></td><td><hr></td><td><hr></td><td><hr></td></tr><tr  
+ style="vertical-align:baseline;" id="TBL-2-1-"><td  style="white-space:nowrap; text-align:left;" id="TBL-2-1-1"  
+class="td11"> Equation                </td><td  style="white-space:nowrap; text-align:left;" id="TBL-2-1-2"  
+class="td11"> <span 
+class="ectt-1095">udiff   </span></td><td  style="white-space:nowrap; text-align:left;" id="TBL-2-1-3"  
+class="td11"> <span 
+class="ectt-1095">utrans </span></td><td  style="white-space:nowrap; text-align:left;" id="TBL-2-1-4"  
+class="td11"> <span 
+class="ectt-1095">ifield </span></td>
+</tr><tr 
+class="hline"><td><hr></td><td><hr></td><td><hr></td><td><hr></td></tr><tr 
+class="hline"><td><hr></td><td><hr></td><td><hr></td><td><hr></td></tr><tr  
+ style="vertical-align:baseline;" id="TBL-2-2-"><td  style="white-space:nowrap; text-align:left;" id="TBL-2-2-1"  
+class="td11"> Momentum Eq.<a 
+href="indexch1.html#x3-6001r1.1">1.1<!--tex4ht:ref: eq:ns_momentum --></a>     </td><td  style="white-space:nowrap; text-align:left;" id="TBL-2-2-2"  
+class="td11"> <img 
+src="index87x.png" alt="&rho;  "  class="math" >      </td><td  style="white-space:nowrap; text-align:left;" id="TBL-2-2-3"  
+class="td11"> <img 
+src="index88x.png" alt="&mu;  "  class="math" >     </td><td  style="white-space:nowrap; text-align:left;" id="TBL-2-2-4"  
+class="td11"> 1          </td>
+</tr><tr  
+ style="vertical-align:baseline;" id="TBL-2-3-"><td  style="white-space:nowrap; text-align:left;" id="TBL-2-3-1"  
+class="td11"> Energy Eq.<a 
+href="indexch1.html#x3-8001r1.4">1.4<!--tex4ht:ref: eq:energy --></a>          </td><td  style="white-space:nowrap; text-align:left;" id="TBL-2-3-2"  
+class="td11"> <img 
+src="index89x.png" alt="&rho;cp  "  class="math" >     </td><td  style="white-space:nowrap; text-align:left;" id="TBL-2-3-3"  
+class="td11"> <img 
+src="index90x.png" alt="k  "  class="math" >     </td><td  style="white-space:nowrap; text-align:left;" id="TBL-2-3-4"  
+class="td11"> 2          </td>
+</tr><tr  
+ style="vertical-align:baseline;" id="TBL-2-4-"><td  style="white-space:nowrap; text-align:left;" id="TBL-2-4-1"  
+class="td11"> Passive scalar Eq.<a 
+href="indexch1.html#x3-10001r1.6">1.6<!--tex4ht:ref: eq:pass_scal --></a>  </td><td  style="white-space:nowrap; text-align:left;" id="TBL-2-4-2"  
+class="td11"> <img 
+src="index91x.png" alt="(&rho;cp)i  "  class="math" >  </td><td  style="white-space:nowrap; text-align:left;" id="TBL-2-4-3"  
+class="td11"> <img 
+src="index92x.png" alt="ki  "  class="math" >      </td><td  style="white-space:nowrap; text-align:left;" id="TBL-2-4-4"  
+class="td11"> i-1        </td>
+</tr><tr 
+class="hline"><td><hr></td><td><hr></td><td><hr></td><td><hr></td></tr><tr  
+ style="vertical-align:baseline;" id="TBL-2-5-"><td  style="white-space:nowrap; text-align:left;" id="TBL-2-5-1"  
+class="td11">                    </td> </tr></table></div>
+   <!--l. 56-->
+   <div class="lstlisting" id="listing-1"><span class="label"><a 
+ id="x5-25001r1"></a></span><span 
+class="ectt-0900">&#x00A0;</span><span 
+class="ectt-0900">&#x00A0;</span><span 
+class="ectt-0900">&#x00A0;</span><span 
+class="ectt-0900">&#x00A0;</span><span 
+class="ectt-0900">&#x00A0;</span><span 
+class="ectt-0900">&#x00A0;</span><span 
+class="ectt-0900">subroutine</span><span 
+class="ectt-0900">&#x00A0;</span><span 
+class="ectt-0900">uservp</span><span 
+class="ectt-0900">&#x00A0;</span><span 
+class="ectt-0900">(</span><span 
+class="ectt-0900">ix</span><span 
+class="ectt-0900">,</span><span 
+class="ectt-0900">iy</span><span 
+class="ectt-0900">,</span><span 
+class="ectt-0900">iz</span><span 
+class="ectt-0900">,</span><span 
+class="ectt-0900">eg</span><span 
+class="ectt-0900">)</span><span 
+class="ectt-0900">&#x00A0;</span><br /><span class="label"><a 
+ id="x5-25002r2"></a></span><span 
+class="ectt-0900">&#x00A0;</span><span 
+class="ectt-0900">&#x00A0;</span><span 
+class="ectt-0900">&#x00A0;</span><span 
+class="ectt-0900">&#x00A0;</span><span 
+class="ectt-0900">&#x00A0;</span><span 
+class="ectt-0900">&#x00A0;</span><span 
+class="ectt-0900">include</span><span 
+class="ectt-0900">&#x00A0;</span><span 
+class="ectt-0900">&#8217;</span><span 
+class="ectt-0900">SIZE</span><span 
+class="ectt-0900">&#8217;</span><span 
+class="ectt-0900">&#x00A0;</span><br /><span class="label"><a 
+ id="x5-25003r3"></a></span><span 
+class="ectt-0900">&#x00A0;</span><span 
+class="ectt-0900">&#x00A0;</span><span 
+class="ectt-0900">&#x00A0;</span><span 
+class="ectt-0900">&#x00A0;</span><span 
+class="ectt-0900">&#x00A0;</span><span 
+class="ectt-0900">&#x00A0;</span><span 
+class="ectt-0900">include</span><span 
+class="ectt-0900">&#x00A0;</span><span 
+class="ectt-0900">&#8217;</span><span 
+class="ectt-0900">TOTAL</span><span 
+class="ectt-0900">&#8217;</span><span 
+class="ectt-0900">&#x00A0;</span><br /><span class="label"><a 
+ id="x5-25004r4"></a></span><span 
+class="ectt-0900">&#x00A0;</span><span 
+class="ectt-0900">&#x00A0;</span><span 
+class="ectt-0900">&#x00A0;</span><span 
+class="ectt-0900">&#x00A0;</span><span 
+class="ectt-0900">&#x00A0;</span><span 
+class="ectt-0900">&#x00A0;</span><span 
+class="ectt-0900">include</span><span 
+class="ectt-0900">&#x00A0;</span><span 
+class="ectt-0900">&#8217;</span><span 
+class="ectt-0900">NEKUSE</span><span 
+class="ectt-0900">&#8217;</span><span 
+class="ectt-0900">&#x00A0;</span><br /><span class="label"><a 
+ id="x5-25005r5"></a></span><span 
+class="ectt-0900">&#x00A0;</span><br /><span class="label"><a 
+ id="x5-25006r6"></a></span><span 
+class="ectt-0900">&#x00A0;</span><span 
+class="ectt-0900">&#x00A0;</span><span 
+class="ectt-0900">&#x00A0;</span><span 
+class="ectt-0900">&#x00A0;</span><span 
+class="ectt-0900">&#x00A0;</span><span 
+class="ectt-0900">&#x00A0;</span><span 
+class="ectt-0900">integer</span><span 
+class="ectt-0900">&#x00A0;</span><span 
+class="ectt-0900">iel</span><span 
+class="ectt-0900">&#x00A0;</span><br /><span class="label"><a 
+ id="x5-25007r7"></a></span><span 
+class="ectt-0900">&#x00A0;</span><span 
+class="ectt-0900">&#x00A0;</span><span 
+class="ectt-0900">&#x00A0;</span><span 
+class="ectt-0900">&#x00A0;</span><span 
+class="ectt-0900">&#x00A0;</span><span 
+class="ectt-0900">&#x00A0;</span><span 
+class="ectt-0900">iel</span><span 
+class="ectt-0900">&#x00A0;</span><span 
+class="ectt-0900">=</span><span 
+class="ectt-0900">&#x00A0;</span><span 
+class="ectt-0900">gllel</span><span 
+class="ectt-0900">(</span><span 
+class="ectt-0900">eg</span><span 
+class="ectt-0900">)</span><span 
+class="ectt-0900">&#x00A0;</span><br /><span class="label"><a 
+ id="x5-25008r8"></a></span><span 
+class="ectt-0900">&#x00A0;</span><br /><span class="label"><a 
+ id="x5-25009r9"></a></span><span 
+class="ectt-0900">&#x00A0;</span><span 
+class="ectt-0900">&#x00A0;</span><span 
+class="ectt-0900">&#x00A0;</span><span 
+class="ectt-0900">&#x00A0;</span><span 
+class="ectt-0900">&#x00A0;</span><span 
+class="ectt-0900">&#x00A0;</span><span 
+class="ectt-0900">udiff</span><span 
+class="ectt-0900">&#x00A0;</span><span 
+class="ectt-0900">=0.</span><span 
+class="ectt-0900">&#x00A0;</span><br /><span class="label"><a 
+ id="x5-25010r10"></a></span><span 
+class="ectt-0900">&#x00A0;</span><span 
+class="ectt-0900">&#x00A0;</span><span 
+class="ectt-0900">&#x00A0;</span><span 
+class="ectt-0900">&#x00A0;</span><span 
+class="ectt-0900">&#x00A0;</span><span 
+class="ectt-0900">&#x00A0;</span><span 
+class="ectt-0900">utrans</span><span 
+class="ectt-0900">=0.</span><span 
+class="ectt-0900">&#x00A0;</span><br /><span class="label"><a 
+ id="x5-25011r11"></a></span><span 
+class="ectt-0900">&#x00A0;</span><br /><span class="label"><a 
+ id="x5-25012r12"></a></span><span 
+class="ectt-0900">&#x00A0;</span><span 
+class="ectt-0900">&#x00A0;</span><span 
+class="ectt-0900">&#x00A0;</span><span 
+class="ectt-0900">&#x00A0;</span><span 
+class="ectt-0900">&#x00A0;</span><span 
+class="ectt-0900">&#x00A0;</span><span 
+class="ectt-0900">return</span><span 
+class="ectt-0900">&#x00A0;</span><br /><span class="label"><a 
+ id="x5-25013r13"></a></span><span 
+class="ectt-0900">&#x00A0;</span><span 
+class="ectt-0900">&#x00A0;</span><span 
+class="ectt-0900">&#x00A0;</span><span 
+class="ectt-0900">&#x00A0;</span><span 
+class="ectt-0900">&#x00A0;</span><span 
+class="ectt-0900">&#x00A0;</span><span 
+class="ectt-0900">end</span>
+   
+   </div>
+                                                                                         
+                                                                                         
+<!--l. 72--><p class="indent" >   The routine <span 
+class="ectt-1095">userdat </span>is called right after the geometry is loaded into NEK5000 and prior to the
+distribution of the GLL points. This routine is called once per processor but for all the data on that
+processor. At this stage the elements can be modified as long as the topology is preserved. It is
+also possible to alter the type of boundary condition that is initially attributed in the <span 
+class="ectt-1095">.rea</span>
+file, as illustrated below (the array <span 
+class="ectt-1095">cbc(face,iel,field</span>) contains the boundary conditions
+per face and field of each element). Note the spacing allocated to each BC string is of three
+units.
+   <!--l. 74-->
+   <div class="lstlisting" id="listing-2"><span class="label"><a 
+ id="x5-25014r1"></a></span><span 
+class="ectt-0900">&#x00A0;</span><span 
+class="ectt-0900">&#x00A0;</span><span 
+class="ectt-0900">&#x00A0;</span><span 
+class="ectt-0900">&#x00A0;</span><span 
+class="ectt-0900">&#x00A0;</span><span 
+class="ectt-0900">&#x00A0;</span><span 
+class="ectt-0900">subroutine</span><span 
+class="ectt-0900">&#x00A0;</span><span 
+class="ectt-0900">usrdat</span><span 
+class="ectt-0900">&#x00A0;</span><br /><span class="label"><a 
+ id="x5-25015r2"></a></span><span 
+class="ectt-0900">&#x00A0;</span><span 
+class="ectt-0900">&#x00A0;</span><span 
+class="ectt-0900">&#x00A0;</span><span 
+class="ectt-0900">&#x00A0;</span><span 
+class="ectt-0900">&#x00A0;</span><span 
+class="ectt-0900">&#x00A0;</span><span 
+class="ectt-0900">include</span><span 
+class="ectt-0900">&#x00A0;</span><span 
+class="ectt-0900">&#8217;</span><span 
+class="ectt-0900">SIZE</span><span 
+class="ectt-0900">&#8217;</span><span 
+class="ectt-0900">&#x00A0;</span><br /><span class="label"><a 
+ id="x5-25016r3"></a></span><span 
+class="ectt-0900">&#x00A0;</span><span 
+class="ectt-0900">&#x00A0;</span><span 
+class="ectt-0900">&#x00A0;</span><span 
+class="ectt-0900">&#x00A0;</span><span 
+class="ectt-0900">&#x00A0;</span><span 
+class="ectt-0900">&#x00A0;</span><span 
+class="ectt-0900">include</span><span 
+class="ectt-0900">&#x00A0;</span><span 
+class="ectt-0900">&#8217;</span><span 
+class="ectt-0900">TOTAL</span><span 
+class="ectt-0900">&#8217;</span><span 
+class="ectt-0900">&#x00A0;</span><br /><span class="label"><a 
+ id="x5-25017r4"></a></span><span 
+class="ectt-0900">&#x00A0;</span><span 
+class="ectt-0900">&#x00A0;</span><span 
+class="ectt-0900">&#x00A0;</span><span 
+class="ectt-0900">&#x00A0;</span><span 
+class="ectt-0900">&#x00A0;</span><span 
+class="ectt-0900">&#x00A0;</span><span 
+class="ectt-0900">include</span><span 
+class="ectt-0900">&#x00A0;</span><span 
+class="ectt-0900">&#8217;</span><span 
+class="ectt-0900">NEKUSE</span><span 
+class="ectt-0900">&#8217;</span><span 
+class="ectt-0900">&#x00A0;</span><br /><span class="label"><a 
+ id="x5-25018r5"></a></span><span 
+class="ectt-0900">&#x00A0;</span><span 
+class="ectt-0900">&#x00A0;</span><span 
+class="ectt-0900">&#x00A0;</span><span 
+class="ectt-0900">&#x00A0;</span><span 
+class="ectt-0900">&#x00A0;</span><span 
+class="ectt-0900">&#x00A0;</span><span 
+class="ectt-0900">integer</span><span 
+class="ectt-0900">&#x00A0;</span><span 
+class="ectt-0900">iel</span><span 
+class="ectt-0900">,</span><span 
+class="ectt-0900">f</span><span 
+class="ectt-0900">&#x00A0;</span><br /><span class="label"><a 
+ id="x5-25019r6"></a></span><span 
+class="ectt-0900">&#x00A0;</span><br /><span class="label"><a 
+ id="x5-25020r7"></a></span><span 
+class="ectt-0900">&#x00A0;</span><span 
+class="ectt-0900">&#x00A0;</span><span 
+class="ectt-0900">&#x00A0;</span><span 
+class="ectt-0900">&#x00A0;</span><span 
+class="ectt-0900">&#x00A0;</span><span 
+class="ectt-0900">&#x00A0;</span><span 
+class="ectt-0900">do</span><span 
+class="ectt-0900">&#x00A0;</span><span 
+class="ectt-0900">iel</span><span 
+class="ectt-0900">=1,</span><span 
+class="ectt-0900">nelt</span><span 
+class="ectt-0900">&#x00A0;</span><span 
+class="ectt-0900">&#x00A0;</span><span 
+class="ectt-0900">!</span><span 
+class="ectt-0900">&#x00A0;</span><span 
+class="ectt-0900">&#x00A0;</span><span 
+class="ectt-0900">Force</span><span 
+class="ectt-0900">&#x00A0;</span><span 
+class="ectt-0900">flux</span><span 
+class="ectt-0900">&#x00A0;</span><span 
+class="ectt-0900">BCs</span><span 
+class="ectt-0900">&#x00A0;</span><br /><span class="label"><a 
+ id="x5-25021r8"></a></span><span 
+class="ectt-0900">&#x00A0;</span><span 
+class="ectt-0900">&#x00A0;</span><span 
+class="ectt-0900">&#x00A0;</span><span 
+class="ectt-0900">&#x00A0;</span><span 
+class="ectt-0900">&#x00A0;</span><span 
+class="ectt-0900">&#x00A0;</span><span 
+class="ectt-0900">do</span><span 
+class="ectt-0900">&#x00A0;</span><span 
+class="ectt-0900">f</span><span 
+class="ectt-0900">=1,2*</span><span 
+class="ectt-0900">ndim</span><span 
+class="ectt-0900">&#x00A0;</span><br /><span class="label"><a 
+ id="x5-25022r9"></a></span><span 
+class="ectt-0900">&#x00A0;</span><span 
+class="ectt-0900">&#x00A0;</span><span 
+class="ectt-0900">&#x00A0;</span><span 
+class="ectt-0900">&#x00A0;</span><span 
+class="ectt-0900">&#x00A0;</span><span 
+class="ectt-0900">&#x00A0;</span><span 
+class="ectt-0900">&#x00A0;</span><span 
+class="ectt-0900">&#x00A0;</span><span 
+class="ectt-0900">&#x00A0;</span><span 
+class="ectt-0900">if</span><span 
+class="ectt-0900">&#x00A0;</span><span 
+class="ectt-0900">(</span><span 
+class="ectt-0900">cbc</span><span 
+class="ectt-0900">(</span><span 
+class="ectt-0900">f</span><span 
+class="ectt-0900">,</span><span 
+class="ectt-0900">iel</span><span 
+class="ectt-0900">,1).</span><span 
+class="ectt-0900">eq</span><span 
+class="ectt-0900">.&#8217;</span><span 
+class="ectt-0900">W</span><span 
+class="ectt-0900">&#x00A0;</span><span 
+class="ectt-0900">&#x00A0;</span><span 
+class="ectt-0900">&#8217;)</span><span 
+class="ectt-0900">&#x00A0;</span><span 
+class="ectt-0900">cbc</span><span 
+class="ectt-0900">(</span><span 
+class="ectt-0900">f</span><span 
+class="ectt-0900">,</span><span 
+class="ectt-0900">iel</span><span 
+class="ectt-0900">,2)</span><span 
+class="ectt-0900">&#x00A0;</span><span 
+class="ectt-0900">=</span><span 
+class="ectt-0900">&#x00A0;</span><span 
+class="ectt-0900">&#8217;</span><span 
+class="ectt-0900">f</span><span 
+class="ectt-0900">&#x00A0;</span><span 
+class="ectt-0900">&#x00A0;</span><span 
+class="ectt-0900">&#8217;</span><span 
+class="ectt-0900">&#x00A0;</span><span 
+class="ectt-0900">!</span><span 
+class="ectt-0900">&#x00A0;</span><span 
+class="ectt-0900">flux</span><span 
+class="ectt-0900">&#x00A0;</span><span 
+class="ectt-0900">BC</span><span 
+class="ectt-0900">&#x00A0;</span><span 
+class="ectt-0900">for</span><span 
+class="ectt-0900">&#x00A0;</span><span 
+class="ectt-0900">temperature</span><span 
+class="ectt-0900">&#x00A0;</span><br /><span class="label"><a 
+ id="x5-25023r10"></a></span><span 
+class="ectt-0900">&#x00A0;</span><span 
+class="ectt-0900">&#x00A0;</span><span 
+class="ectt-0900">&#x00A0;</span><span 
+class="ectt-0900">&#x00A0;</span><span 
+class="ectt-0900">&#x00A0;</span><span 
+class="ectt-0900">&#x00A0;</span><span 
+class="ectt-0900">enddo</span><span 
+class="ectt-0900">&#x00A0;</span><br /><span class="label"><a 
+ id="x5-25024r11"></a></span><span 
+class="ectt-0900">&#x00A0;</span><span 
+class="ectt-0900">&#x00A0;</span><span 
+class="ectt-0900">&#x00A0;</span><span 
+class="ectt-0900">&#x00A0;</span><span 
+class="ectt-0900">&#x00A0;</span><span 
+class="ectt-0900">&#x00A0;</span><span 
+class="ectt-0900">enddo</span><span 
+class="ectt-0900">&#x00A0;</span><br /><span class="label"><a 
+ id="x5-25025r12"></a></span><span 
+class="ectt-0900">&#x00A0;</span><br /><span class="label"><a 
+ id="x5-25026r13"></a></span><span 
+class="ectt-0900">&#x00A0;</span><span 
+class="ectt-0900">&#x00A0;</span><span 
+class="ectt-0900">&#x00A0;</span><span 
+class="ectt-0900">&#x00A0;</span><span 
+class="ectt-0900">&#x00A0;</span><span 
+class="ectt-0900">&#x00A0;</span><span 
+class="ectt-0900">return</span><span 
+class="ectt-0900">&#x00A0;</span><br /><span class="label"><a 
+ id="x5-25027r14"></a></span><span 
+class="ectt-0900">&#x00A0;</span><span 
+class="ectt-0900">&#x00A0;</span><span 
+class="ectt-0900">&#x00A0;</span><span 
+class="ectt-0900">&#x00A0;</span><span 
+class="ectt-0900">&#x00A0;</span><span 
+class="ectt-0900">&#x00A0;</span><span 
+class="ectt-0900">end</span>
+   
+   </div>
+<!--l. 91--><p class="indent" >   The routine <span 
+class="ectt-1095">usrdat2 </span>is called after the GLL points were distributed and allows at this point only for
+affine transformations of the geometry. <!--l. 92-->
+   <div class="lstlisting" id="listing-3"><span class="label"><a 
+ id="x5-25028r1"></a></span><span 
+class="ectt-0900">&#x00A0;</span><span 
+class="ectt-0900">&#x00A0;</span><span 
+class="ectt-0900">&#x00A0;</span><span 
+class="ectt-0900">&#x00A0;</span><span 
+class="ectt-0900">&#x00A0;</span><span 
+class="ectt-0900">&#x00A0;</span><span 
+class="ectt-0900">subroutine</span><span 
+class="ectt-0900">&#x00A0;</span><span 
+class="ectt-0900">usrdat2</span><span 
+class="ectt-0900">&#x00A0;</span><br /><span class="label"><a 
+ id="x5-25029r2"></a></span><span 
+class="ectt-0900">&#x00A0;</span><span 
+class="ectt-0900">&#x00A0;</span><span 
+class="ectt-0900">&#x00A0;</span><span 
+class="ectt-0900">&#x00A0;</span><span 
+class="ectt-0900">&#x00A0;</span><span 
+class="ectt-0900">&#x00A0;</span><span 
+class="ectt-0900">include</span><span 
+class="ectt-0900">&#x00A0;</span><span 
+class="ectt-0900">&#8217;</span><span 
+class="ectt-0900">SIZE</span><span 
+class="ectt-0900">&#8217;</span><span 
+class="ectt-0900">&#x00A0;</span><br /><span class="label"><a 
+ id="x5-25030r3"></a></span><span 
+class="ectt-0900">&#x00A0;</span><span 
+class="ectt-0900">&#x00A0;</span><span 
+class="ectt-0900">&#x00A0;</span><span 
+class="ectt-0900">&#x00A0;</span><span 
+class="ectt-0900">&#x00A0;</span><span 
+class="ectt-0900">&#x00A0;</span><span 
+class="ectt-0900">include</span><span 
+class="ectt-0900">&#x00A0;</span><span 
+class="ectt-0900">&#8217;</span><span 
+class="ectt-0900">TOTAL</span><span 
+class="ectt-0900">&#8217;</span><span 
+class="ectt-0900">&#x00A0;</span><br /><span class="label"><a 
+ id="x5-25031r4"></a></span><span 
+class="ectt-0900">&#x00A0;</span><br /><span class="label"><a 
+ id="x5-25032r5"></a></span><span 
+class="ectt-0900">&#x00A0;</span><span 
+class="ectt-0900">&#x00A0;</span><span 
+class="ectt-0900">&#x00A0;</span><span 
+class="ectt-0900">&#x00A0;</span><span 
+class="ectt-0900">&#x00A0;</span><span 
+class="ectt-0900">&#x00A0;</span><span 
+class="ectt-0900">return</span><span 
+class="ectt-0900">&#x00A0;</span><br /><span class="label"><a 
+ id="x5-25033r6"></a></span><span 
+class="ectt-0900">&#x00A0;</span><span 
+class="ectt-0900">&#x00A0;</span><span 
+class="ectt-0900">&#x00A0;</span><span 
+class="ectt-0900">&#x00A0;</span><span 
+class="ectt-0900">&#x00A0;</span><span 
+class="ectt-0900">&#x00A0;</span><span 
+class="ectt-0900">end</span>
+   
+   </div>
+<!--l. 101--><p class="indent" >   The routine <span 
+class="ectt-1095">userf </span>is called once for each point and provides the force term in Eq.<span 
+class="ecbx-1095">??</span>. Not that
+according to the dimensionalization in Eq.<span 
+class="ecbx-1095">??</span> the force term <img 
+src="index93x.png" alt="f  "  class="math" > is in fact multiplied by the density <img 
+src="index94x.png" alt="&rho;  "  class="math" >.
+<!--l. 102-->
+   <div class="lstlisting" id="listing-4"><span class="label"><a 
+ id="x5-25034r1"></a></span><span 
+class="ectt-0900">&#x00A0;</span><span 
+class="ectt-0900">&#x00A0;</span><span 
+class="ectt-0900">&#x00A0;</span><span 
+class="ectt-0900">&#x00A0;</span><span 
+class="ectt-0900">&#x00A0;</span><span 
+class="ectt-0900">&#x00A0;</span><span 
+class="ectt-0900">subroutine</span><span 
+class="ectt-0900">&#x00A0;</span><span 
+class="ectt-0900">userf</span><span 
+class="ectt-0900">&#x00A0;</span><span 
+class="ectt-0900">&#x00A0;</span><span 
+class="ectt-0900">(</span><span 
+class="ectt-0900">ix</span><span 
+class="ectt-0900">,</span><span 
+class="ectt-0900">iy</span><span 
+class="ectt-0900">,</span><span 
+class="ectt-0900">iz</span><span 
+class="ectt-0900">,</span><span 
+class="ectt-0900">eg</span><span 
+class="ectt-0900">)</span><span 
+class="ectt-0900">&#x00A0;</span><br /><span class="label"><a 
+ id="x5-25035r2"></a></span><span 
+class="ectt-0900">&#x00A0;</span><span 
+class="ectt-0900">&#x00A0;</span><span 
+class="ectt-0900">&#x00A0;</span><span 
+class="ectt-0900">&#x00A0;</span><span 
+class="ectt-0900">&#x00A0;</span><span 
+class="ectt-0900">&#x00A0;</span><span 
+class="ectt-0900">include</span><span 
+class="ectt-0900">&#x00A0;</span><span 
+class="ectt-0900">&#8217;</span><span 
+class="ectt-0900">SIZE</span><span 
+class="ectt-0900">&#8217;</span><span 
+class="ectt-0900">&#x00A0;</span><br /><span class="label"><a 
+ id="x5-25036r3"></a></span><span 
+class="ectt-0900">&#x00A0;</span><span 
+class="ectt-0900">&#x00A0;</span><span 
+class="ectt-0900">&#x00A0;</span><span 
+class="ectt-0900">&#x00A0;</span><span 
+class="ectt-0900">&#x00A0;</span><span 
+class="ectt-0900">&#x00A0;</span><span 
+class="ectt-0900">include</span><span 
+class="ectt-0900">&#x00A0;</span><span 
+class="ectt-0900">&#8217;</span><span 
+class="ectt-0900">TOTAL</span><span 
+class="ectt-0900">&#8217;</span><span 
+class="ectt-0900">&#x00A0;</span><br /><span class="label"><a 
+ id="x5-25037r4"></a></span><span 
+class="ectt-0900">&#x00A0;</span><span 
+class="ectt-0900">&#x00A0;</span><span 
+class="ectt-0900">&#x00A0;</span><span 
+class="ectt-0900">&#x00A0;</span><span 
+class="ectt-0900">&#x00A0;</span><span 
+class="ectt-0900">&#x00A0;</span><span 
+class="ectt-0900">include</span><span 
+class="ectt-0900">&#x00A0;</span><span 
+class="ectt-0900">&#8217;</span><span 
+class="ectt-0900">NEKUSE</span><span 
+class="ectt-0900">&#8217;</span><span 
+class="ectt-0900">&#x00A0;</span><br /><span class="label"><a 
+ id="x5-25038r5"></a></span><span 
+class="ectt-0900">&#x00A0;</span><br /><span class="label"><a 
+ id="x5-25039r6"></a></span><span 
+class="ectt-0900">&#x00A0;</span><span 
+class="ectt-0900">&#x00A0;</span><span 
+class="ectt-0900">&#x00A0;</span><span 
+class="ectt-0900">&#x00A0;</span><span 
+class="ectt-0900">&#x00A0;</span><span 
+class="ectt-0900">&#x00A0;</span><span 
+class="ectt-0900">ffx</span><span 
+class="ectt-0900">&#x00A0;</span><span 
+class="ectt-0900">=</span><span 
+class="ectt-0900">&#x00A0;</span><span 
+class="ectt-0900">0.0</span><span 
+class="ectt-0900">&#x00A0;</span><br /><span class="label"><a 
+ id="x5-25040r7"></a></span><span 
+class="ectt-0900">&#x00A0;</span><span 
+class="ectt-0900">&#x00A0;</span><span 
+class="ectt-0900">&#x00A0;</span><span 
+class="ectt-0900">&#x00A0;</span><span 
+class="ectt-0900">&#x00A0;</span><span 
+class="ectt-0900">&#x00A0;</span><span 
+class="ectt-0900">ffy</span><span 
+class="ectt-0900">&#x00A0;</span><span 
+class="ectt-0900">=</span><span 
+class="ectt-0900">&#x00A0;</span><span 
+class="ectt-0900">0.0</span><span 
+class="ectt-0900">&#x00A0;</span><br /><span class="label"><a 
+ id="x5-25041r8"></a></span><span 
+class="ectt-0900">&#x00A0;</span><span 
+class="ectt-0900">&#x00A0;</span><span 
+class="ectt-0900">&#x00A0;</span><span 
+class="ectt-0900">&#x00A0;</span><span 
+class="ectt-0900">&#x00A0;</span><span 
+class="ectt-0900">&#x00A0;</span><span 
+class="ectt-0900">ffz</span><span 
+class="ectt-0900">&#x00A0;</span><span 
+class="ectt-0900">=</span><span 
+class="ectt-0900">&#x00A0;</span><span 
+class="ectt-0900">0.0</span><span 
+class="ectt-0900">&#x00A0;</span><br /><span class="label"><a 
+ id="x5-25042r9"></a></span><span 
+class="ectt-0900">&#x00A0;</span><br /><span class="label"><a 
+ id="x5-25043r10"></a></span><span 
+class="ectt-0900">&#x00A0;</span><span 
+class="ectt-0900">&#x00A0;</span><span 
+class="ectt-0900">&#x00A0;</span><span 
+class="ectt-0900">&#x00A0;</span><span 
+class="ectt-0900">&#x00A0;</span><span 
+class="ectt-0900">&#x00A0;</span><span 
+class="ectt-0900">return</span><span 
+class="ectt-0900">&#x00A0;</span><br /><span class="label"><a 
+ id="x5-25044r11"></a></span><span 
+class="ectt-0900">&#x00A0;</span><span 
+class="ectt-0900">&#x00A0;</span><span 
+class="ectt-0900">&#x00A0;</span><span 
+class="ectt-0900">&#x00A0;</span><span 
+class="ectt-0900">&#x00A0;</span><span 
+class="ectt-0900">&#x00A0;</span><span 
+class="ectt-0900">end</span>
+   
+   </div>
+<!--l. 116--><p class="indent" >   Similarly to <span 
+class="ectt-1095">userf </span>the routine <span 
+class="ectt-1095">userq </span>provides the force term in Eq.<a 
+href="indexch1.html#x3-8001r1.4">1.4<!--tex4ht:ref: eq:energy --></a> and the subsequent passive
+scalar equations according to Eq.<a 
+href="indexch1.html#x3-10001r1.6">1.6<!--tex4ht:ref: eq:pass_scal --></a>. <!--l. 117-->
+   <div class="lstlisting" id="listing-5"><span class="label"><a 
+ id="x5-25045r1"></a></span><span 
+class="ectt-0900">&#x00A0;</span><span 
+class="ectt-0900">&#x00A0;</span><span 
+class="ectt-0900">&#x00A0;</span><span 
+class="ectt-0900">&#x00A0;</span><span 
+class="ectt-0900">&#x00A0;</span><span 
+class="ectt-0900">&#x00A0;</span><span 
+class="ectt-0900">subroutine</span><span 
+class="ectt-0900">&#x00A0;</span><span 
+class="ectt-0900">userq</span><span 
+class="ectt-0900">&#x00A0;</span><span 
+class="ectt-0900">&#x00A0;</span><span 
+class="ectt-0900">(</span><span 
+class="ectt-0900">ix</span><span 
+class="ectt-0900">,</span><span 
+class="ectt-0900">iy</span><span 
+class="ectt-0900">,</span><span 
+class="ectt-0900">iz</span><span 
+class="ectt-0900">,</span><span 
+class="ectt-0900">eg</span><span 
+class="ectt-0900">)</span><span 
+class="ectt-0900">&#x00A0;</span><br /><span class="label"><a 
+ id="x5-25046r2"></a></span><span 
+class="ectt-0900">&#x00A0;</span><span 
+class="ectt-0900">&#x00A0;</span><span 
+class="ectt-0900">&#x00A0;</span><span 
+class="ectt-0900">&#x00A0;</span><span 
+class="ectt-0900">&#x00A0;</span><span 
+class="ectt-0900">&#x00A0;</span><span 
+class="ectt-0900">include</span><span 
+class="ectt-0900">&#x00A0;</span><span 
+class="ectt-0900">&#8217;</span><span 
+class="ectt-0900">SIZE</span><span 
+class="ectt-0900">&#8217;</span><span 
+class="ectt-0900">&#x00A0;</span><br /><span class="label"><a 
+ id="x5-25047r3"></a></span><span 
+class="ectt-0900">&#x00A0;</span><span 
+class="ectt-0900">&#x00A0;</span><span 
+class="ectt-0900">&#x00A0;</span><span 
+class="ectt-0900">&#x00A0;</span><span 
+class="ectt-0900">&#x00A0;</span><span 
+class="ectt-0900">&#x00A0;</span><span 
+class="ectt-0900">include</span><span 
+class="ectt-0900">&#x00A0;</span><span 
+class="ectt-0900">&#8217;</span><span 
+class="ectt-0900">TOTAL</span><span 
+class="ectt-0900">&#8217;</span><span 
+class="ectt-0900">&#x00A0;</span><br /><span class="label"><a 
+ id="x5-25048r4"></a></span><span 
+class="ectt-0900">&#x00A0;</span><span 
+class="ectt-0900">&#x00A0;</span><span 
+class="ectt-0900">&#x00A0;</span><span 
+class="ectt-0900">&#x00A0;</span><span 
+class="ectt-0900">&#x00A0;</span><span 
+class="ectt-0900">&#x00A0;</span><span 
+class="ectt-0900">include</span><span 
+class="ectt-0900">&#x00A0;</span><span 
+class="ectt-0900">&#8217;</span><span 
+class="ectt-0900">NEKUSE</span><span 
+class="ectt-0900">&#8217;</span><span 
+class="ectt-0900">&#x00A0;</span><br /><span class="label"><a 
+ id="x5-25049r5"></a></span><span 
+class="ectt-0900">&#x00A0;</span><br /><span class="label"><a 
+ id="x5-25050r6"></a></span><span 
+class="ectt-0900">&#x00A0;</span><span 
+class="ectt-0900">&#x00A0;</span><span 
+class="ectt-0900">&#x00A0;</span><span 
+class="ectt-0900">&#x00A0;</span><span 
+class="ectt-0900">&#x00A0;</span><span 
+class="ectt-0900">&#x00A0;</span><span 
+class="ectt-0900">qvol</span><span 
+class="ectt-0900">&#x00A0;</span><span 
+class="ectt-0900">&#x00A0;</span><span 
+class="ectt-0900">&#x00A0;</span><span 
+class="ectt-0900">=</span><span 
+class="ectt-0900">&#x00A0;</span><span 
+class="ectt-0900">0.</span><span 
+class="ectt-0900">&#x00A0;</span><br /><span class="label"><a 
+ id="x5-25051r7"></a></span><span 
+class="ectt-0900">&#x00A0;</span><br /><span class="label"><a 
+ id="x5-25052r8"></a></span><span 
+class="ectt-0900">&#x00A0;</span><span 
+class="ectt-0900">&#x00A0;</span><span 
+class="ectt-0900">&#x00A0;</span><span 
+class="ectt-0900">&#x00A0;</span><span 
+class="ectt-0900">&#x00A0;</span><span 
+class="ectt-0900">&#x00A0;</span><span 
+class="ectt-0900">return</span><span 
+class="ectt-0900">&#x00A0;</span><br /><span class="label"><a 
+ id="x5-25053r9"></a></span><span 
+class="ectt-0900">&#x00A0;</span><span 
+class="ectt-0900">&#x00A0;</span><span 
+class="ectt-0900">&#x00A0;</span><span 
+class="ectt-0900">&#x00A0;</span><span 
+class="ectt-0900">&#x00A0;</span><span 
+class="ectt-0900">&#x00A0;</span><span 
+class="ectt-0900">end</span>
+   
+   </div>
+<!--l. 129--><p class="indent" >   The boundary conditions are assigned in <span 
+class="ectt-1095">userbc </span>for both the fluid, temperature and all other
+scalars. An extensive list of such possible boundary conditions is available in Section.&#x00A0;<span 
+class="ecbx-1095">??</span>.
+<!--l. 130-->
+   <div class="lstlisting" id="listing-6"><span class="label"><a 
+ id="x5-25054r1"></a></span><span 
+class="ectt-0900">&#x00A0;</span><span 
+class="ectt-0900">&#x00A0;</span><span 
+class="ectt-0900">&#x00A0;</span><span 
+class="ectt-0900">&#x00A0;</span><span 
+class="ectt-0900">&#x00A0;</span><span 
+class="ectt-0900">&#x00A0;</span><span 
+class="ectt-0900">subroutine</span><span 
+class="ectt-0900">&#x00A0;</span><span 
+class="ectt-0900">userbc</span><span 
+class="ectt-0900">&#x00A0;</span><span 
+class="ectt-0900">(</span><span 
+class="ectt-0900">ix</span><span 
+class="ectt-0900">,</span><span 
+class="ectt-0900">iy</span><span 
+class="ectt-0900">,</span><span 
+class="ectt-0900">iz</span><span 
+class="ectt-0900">,</span><span 
+class="ectt-0900">iside</span><span 
+class="ectt-0900">,</span><span 
+class="ectt-0900">ieg</span><span 
+class="ectt-0900">)</span><span 
+class="ectt-0900">&#x00A0;</span><br /><span class="label"><a 
+ id="x5-25055r2"></a></span><span 
+class="ectt-0900">&#x00A0;</span><span 
+class="ectt-0900">&#x00A0;</span><span 
+class="ectt-0900">&#x00A0;</span><span 
+class="ectt-0900">&#x00A0;</span><span 
+class="ectt-0900">&#x00A0;</span><span 
+class="ectt-0900">&#x00A0;</span><span 
+class="ectt-0900">include</span><span 
+class="ectt-0900">&#x00A0;</span><span 
+class="ectt-0900">&#8217;</span><span 
+class="ectt-0900">SIZE</span><span 
+class="ectt-0900">&#8217;</span><span 
+class="ectt-0900">&#x00A0;</span><br /><span class="label"><a 
+ id="x5-25056r3"></a></span><span 
+class="ectt-0900">&#x00A0;</span><span 
+class="ectt-0900">&#x00A0;</span><span 
+class="ectt-0900">&#x00A0;</span><span 
+class="ectt-0900">&#x00A0;</span><span 
+class="ectt-0900">&#x00A0;</span><span 
+class="ectt-0900">&#x00A0;</span><span 
+class="ectt-0900">include</span><span 
+class="ectt-0900">&#x00A0;</span><span 
+class="ectt-0900">&#8217;</span><span 
+class="ectt-0900">TOTAL</span><span 
+class="ectt-0900">&#8217;</span><span 
+class="ectt-0900">&#x00A0;</span><br /><span class="label"><a 
+ id="x5-25057r4"></a></span><span 
+class="ectt-0900">&#x00A0;</span><span 
+class="ectt-0900">&#x00A0;</span><span 
+class="ectt-0900">&#x00A0;</span><span 
+class="ectt-0900">&#x00A0;</span><span 
+class="ectt-0900">&#x00A0;</span><span 
+class="ectt-0900">&#x00A0;</span><span 
+class="ectt-0900">include</span><span 
+class="ectt-0900">&#x00A0;</span><span 
+class="ectt-0900">&#8217;</span><span 
+class="ectt-0900">NEKUSE</span><span 
+class="ectt-0900">&#8217;</span><span 
+class="ectt-0900">&#x00A0;</span><br /><span class="label"><a 
+ id="x5-25058r5"></a></span><span 
+class="ectt-0900">&#x00A0;</span><br /><span class="label"><a 
+ id="x5-25059r6"></a></span><span 
+class="ectt-0900">&#x00A0;</span><span 
+class="ectt-0900">&#x00A0;</span><span 
+class="ectt-0900">&#x00A0;</span><span 
+class="ectt-0900">&#x00A0;</span><span 
+class="ectt-0900">&#x00A0;</span><span 
+class="ectt-0900">&#x00A0;</span><span 
+class="ectt-0900">ux</span><span 
+class="ectt-0900">=0.0</span><span 
+class="ectt-0900">&#x00A0;</span><br /><span class="label"><a 
+ id="x5-25060r7"></a></span><span 
+class="ectt-0900">&#x00A0;</span><span 
+class="ectt-0900">&#x00A0;</span><span 
+class="ectt-0900">&#x00A0;</span><span 
+class="ectt-0900">&#x00A0;</span><span 
+class="ectt-0900">&#x00A0;</span><span 
+class="ectt-0900">&#x00A0;</span><span 
+class="ectt-0900">uy</span><span 
+class="ectt-0900">=0.0</span><span 
+class="ectt-0900">&#x00A0;</span><br /><span class="label"><a 
+ id="x5-25061r8"></a></span><span 
+class="ectt-0900">&#x00A0;</span><span 
+class="ectt-0900">&#x00A0;</span><span 
+class="ectt-0900">&#x00A0;</span><span 
+class="ectt-0900">&#x00A0;</span><span 
+class="ectt-0900">&#x00A0;</span><span 
+class="ectt-0900">&#x00A0;</span><span 
+class="ectt-0900">uz</span><span 
+class="ectt-0900">=0.0</span><span 
+class="ectt-0900">&#x00A0;</span><br /><span class="label"><a 
+ id="x5-25062r9"></a></span><span 
+class="ectt-0900">&#x00A0;</span><span 
+class="ectt-0900">&#x00A0;</span><span 
+class="ectt-0900">&#x00A0;</span><span 
+class="ectt-0900">&#x00A0;</span><span 
+class="ectt-0900">&#x00A0;</span><span 
+class="ectt-0900">&#x00A0;</span><span 
+class="ectt-0900">temp</span><span 
+class="ectt-0900">=0.0</span><span 
+class="ectt-0900">&#x00A0;</span><br /><span class="label"><a 
+ id="x5-25063r10"></a></span><span 
+class="ectt-0900">&#x00A0;</span><span 
+class="ectt-0900">&#x00A0;</span><span 
+class="ectt-0900">&#x00A0;</span><span 
+class="ectt-0900">&#x00A0;</span><span 
+class="ectt-0900">&#x00A0;</span><span 
+class="ectt-0900">&#x00A0;</span><span 
+class="ectt-0900">flux</span><span 
+class="ectt-0900">&#x00A0;</span><span 
+class="ectt-0900">=</span><span 
+class="ectt-0900">&#x00A0;</span><span 
+class="ectt-0900">1.0</span><span 
+class="ectt-0900">&#x00A0;</span><br /><span class="label"><a 
+ id="x5-25064r11"></a></span><span 
+class="ectt-0900">&#x00A0;</span><br /><span class="label"><a 
+ id="x5-25065r12"></a></span><span 
+class="ectt-0900">&#x00A0;</span><span 
+class="ectt-0900">&#x00A0;</span><span 
+class="ectt-0900">&#x00A0;</span><span 
+class="ectt-0900">&#x00A0;</span><span 
+class="ectt-0900">&#x00A0;</span><span 
+class="ectt-0900">&#x00A0;</span><span 
+class="ectt-0900">return</span><span 
+class="ectt-0900">&#x00A0;</span><br /><span class="label"><a 
+ id="x5-25066r13"></a></span><span 
+class="ectt-0900">&#x00A0;</span><span 
+class="ectt-0900">&#x00A0;</span><span 
+class="ectt-0900">&#x00A0;</span><span 
+class="ectt-0900">&#x00A0;</span><span 
+class="ectt-0900">&#x00A0;</span><span 
+class="ectt-0900">&#x00A0;</span><span 
+class="ectt-0900">end</span>
+   
+   </div>
+<!--l. 146--><p class="indent" >   Initial conditions are attributed in <span 
+class="ectt-1095">useric </span>similarly to the boundary conditions <!--l. 147-->
+   <div class="lstlisting" id="listing-7"><span class="label"><a 
+ id="x5-25067r1"></a></span><span 
+class="ectt-0900">&#x00A0;</span><span 
+class="ectt-0900">&#x00A0;</span><span 
+class="ectt-0900">&#x00A0;</span><span 
+class="ectt-0900">&#x00A0;</span><span 
+class="ectt-0900">&#x00A0;</span><span 
+class="ectt-0900">&#x00A0;</span><span 
+class="ectt-0900">subroutine</span><span 
+class="ectt-0900">&#x00A0;</span><span 
+class="ectt-0900">useric</span><span 
+class="ectt-0900">&#x00A0;</span><span 
+class="ectt-0900">(</span><span 
+class="ectt-0900">ix</span><span 
+class="ectt-0900">,</span><span 
+class="ectt-0900">iy</span><span 
+class="ectt-0900">,</span><span 
+class="ectt-0900">iz</span><span 
+class="ectt-0900">,</span><span 
+class="ectt-0900">ieg</span><span 
+class="ectt-0900">)</span><span 
+class="ectt-0900">&#x00A0;</span><br /><span class="label"><a 
+ id="x5-25068r2"></a></span><span 
+class="ectt-0900">&#x00A0;</span><span 
+class="ectt-0900">&#x00A0;</span><span 
+class="ectt-0900">&#x00A0;</span><span 
+class="ectt-0900">&#x00A0;</span><span 
+class="ectt-0900">&#x00A0;</span><span 
+class="ectt-0900">&#x00A0;</span><span 
+class="ectt-0900">include</span><span 
+class="ectt-0900">&#x00A0;</span><span 
+class="ectt-0900">&#8217;</span><span 
+class="ectt-0900">SIZE</span><span 
+class="ectt-0900">&#8217;</span><span 
+class="ectt-0900">&#x00A0;</span><br /><span class="label"><a 
+ id="x5-25069r3"></a></span><span 
+class="ectt-0900">&#x00A0;</span><span 
+class="ectt-0900">&#x00A0;</span><span 
+class="ectt-0900">&#x00A0;</span><span 
+class="ectt-0900">&#x00A0;</span><span 
+class="ectt-0900">&#x00A0;</span><span 
+class="ectt-0900">&#x00A0;</span><span 
+class="ectt-0900">include</span><span 
+class="ectt-0900">&#x00A0;</span><span 
+class="ectt-0900">&#8217;</span><span 
+class="ectt-0900">TOTAL</span><span 
+class="ectt-0900">&#8217;</span><span 
+class="ectt-0900">&#x00A0;</span><br /><span class="label"><a 
+ id="x5-25070r4"></a></span><span 
+class="ectt-0900">&#x00A0;</span><span 
+class="ectt-0900">&#x00A0;</span><span 
+class="ectt-0900">&#x00A0;</span><span 
+class="ectt-0900">&#x00A0;</span><span 
+class="ectt-0900">&#x00A0;</span><span 
+class="ectt-0900">&#x00A0;</span><span 
+class="ectt-0900">include</span><span 
+class="ectt-0900">&#x00A0;</span><span 
+class="ectt-0900">&#8217;</span><span 
+class="ectt-0900">NEKUSE</span><span 
+class="ectt-0900">&#8217;</span><span 
+class="ectt-0900">&#x00A0;</span><br /><span class="label"><a 
+ id="x5-25071r5"></a></span><span 
+class="ectt-0900">&#x00A0;</span><br /><span class="label"><a 
+ id="x5-25072r6"></a></span><span 
+class="ectt-0900">&#x00A0;</span><span 
+class="ectt-0900">&#x00A0;</span><span 
+class="ectt-0900">&#x00A0;</span><span 
+class="ectt-0900">&#x00A0;</span><span 
+class="ectt-0900">&#x00A0;</span><span 
+class="ectt-0900">&#x00A0;</span><span 
+class="ectt-0900">uy</span><span 
+class="ectt-0900">=0.0</span><span 
+class="ectt-0900">&#x00A0;</span><br /><span class="label"><a 
+ id="x5-25073r7"></a></span><span 
+class="ectt-0900">&#x00A0;</span><span 
+class="ectt-0900">&#x00A0;</span><span 
+class="ectt-0900">&#x00A0;</span><span 
+class="ectt-0900">&#x00A0;</span><span 
+class="ectt-0900">&#x00A0;</span><span 
+class="ectt-0900">&#x00A0;</span><span 
+class="ectt-0900">ux</span><span 
+class="ectt-0900">=0.0</span><span 
+class="ectt-0900">&#x00A0;</span><br /><span class="label"><a 
+ id="x5-25074r8"></a></span><span 
+class="ectt-0900">&#x00A0;</span><span 
+class="ectt-0900">&#x00A0;</span><span 
+class="ectt-0900">&#x00A0;</span><span 
+class="ectt-0900">&#x00A0;</span><span 
+class="ectt-0900">&#x00A0;</span><span 
+class="ectt-0900">&#x00A0;</span><span 
+class="ectt-0900">uz</span><span 
+class="ectt-0900">=1.0</span><span 
+class="ectt-0900">&#x00A0;</span><br /><span class="label"><a 
+ id="x5-25075r9"></a></span><span 
+class="ectt-0900">&#x00A0;</span><br /><span class="label"><a 
+ id="x5-25076r10"></a></span><span 
+class="ectt-0900">&#x00A0;</span><span 
+class="ectt-0900">&#x00A0;</span><span 
+class="ectt-0900">&#x00A0;</span><span 
+class="ectt-0900">&#x00A0;</span><span 
+class="ectt-0900">&#x00A0;</span><span 
+class="ectt-0900">&#x00A0;</span><span 
+class="ectt-0900">return</span><span 
+class="ectt-0900">&#x00A0;</span><br /><span class="label"><a 
+ id="x5-25077r11"></a></span><span 
+class="ectt-0900">&#x00A0;</span><span 
+class="ectt-0900">&#x00A0;</span><span 
+class="ectt-0900">&#x00A0;</span><span 
+class="ectt-0900">&#x00A0;</span><span 
+class="ectt-0900">&#x00A0;</span><span 
+class="ectt-0900">&#x00A0;</span><span 
+class="ectt-0900">end</span>
+   
+   </div>
+<!--l. 161--><p class="indent" >   The routine <span 
+class="ectt-1095">userchk </span>is called once per processor after each timestep (and once after the initialization is
+finished). This is the section where the solution can be interrogated and subsequent changes can be made.
+<!--l. 162-->
+   <div class="lstlisting" id="listing-8"><span class="label"><a 
+ id="x5-25080r1"></a></span><span 
+class="ectt-0900">&#x00A0;</span><span 
+class="ectt-0900">&#x00A0;</span><span 
+class="ectt-0900">&#x00A0;</span><span 
+class="ectt-0900">&#x00A0;</span><span 
+class="ectt-0900">&#x00A0;</span><span 
+class="ectt-0900">&#x00A0;</span><span 
+class="ectt-0900">subroutine</span><span 
+class="ectt-0900">&#x00A0;</span><span 
+class="ectt-0900">userchk</span><span 
+class="ectt-0900">&#x00A0;</span><br /><span class="label"><a 
+ id="x5-25081r2"></a></span><span 
+class="ectt-0900">&#x00A0;</span><span 
+class="ectt-0900">&#x00A0;</span><span 
+class="ectt-0900">&#x00A0;</span><span 
+class="ectt-0900">&#x00A0;</span><span 
+class="ectt-0900">&#x00A0;</span><span 
+class="ectt-0900">&#x00A0;</span><span 
+class="ectt-0900">include</span><span 
+class="ectt-0900">&#x00A0;</span><span 
+class="ectt-0900">&#8217;</span><span 
+class="ectt-0900">SIZE</span><span 
+class="ectt-0900">&#8217;</span><span 
+class="ectt-0900">&#x00A0;</span><br /><span class="label"><a 
+ id="x5-25082r3"></a></span><span 
+class="ectt-0900">&#x00A0;</span><span 
+class="ectt-0900">&#x00A0;</span><span 
+class="ectt-0900">&#x00A0;</span><span 
+class="ectt-0900">&#x00A0;</span><span 
+class="ectt-0900">&#x00A0;</span><span 
+class="ectt-0900">&#x00A0;</span><span 
+class="ectt-0900">include</span><span 
+class="ectt-0900">&#x00A0;</span><span 
+class="ectt-0900">&#8217;</span><span 
+class="ectt-0900">TOTAL</span><span 
+class="ectt-0900">&#8217;</span><span 
+class="ectt-0900">&#x00A0;</span><br /><span class="label"><a 
+ id="x5-25083r4"></a></span><span 
+class="ectt-0900">&#x00A0;</span><span 
+class="ectt-0900">&#x00A0;</span><span 
+class="ectt-0900">&#x00A0;</span><span 
+class="ectt-0900">&#x00A0;</span><span 
+class="ectt-0900">&#x00A0;</span><span 
+class="ectt-0900">&#x00A0;</span><span 
+class="ectt-0900">include</span><span 
+class="ectt-0900">&#x00A0;</span><span 
+class="ectt-0900">&#8217;</span><span 
+class="ectt-0900">NEKUSE</span><span 
+class="ectt-0900">&#8217;</span><span 
+class="ectt-0900">&#x00A0;</span><br /><span class="label"><a 
+ id="x5-25084r5"></a></span><span 
+class="ectt-0900">&#x00A0;</span><br /><span class="label"><a 
+ id="x5-25085r6"></a></span><span 
+class="ectt-0900">&#x00A0;</span><span 
+class="ectt-0900">&#x00A0;</span><span 
+class="ectt-0900">&#x00A0;</span><span 
+class="ectt-0900">&#x00A0;</span><span 
+class="ectt-0900">&#x00A0;</span><span 
+class="ectt-0900">&#x00A0;</span><span 
+class="ectt-0900">call</span><span 
+class="ectt-0900">&#x00A0;</span><span 
+class="ectt-0900">outpost</span><span 
+class="ectt-0900">(</span><span 
+class="ectt-0900">vx</span><span 
+class="ectt-0900">,</span><span 
+class="ectt-0900">vy</span><span 
+class="ectt-0900">,</span><span 
+class="ectt-0900">vz</span><span 
+class="ectt-0900">,</span><span 
+class="ectt-0900">pr</span><span 
+class="ectt-0900">,</span><span 
+class="ectt-0900">t</span><span 
+class="ectt-0900">,&#8217;</span><span 
+class="ectt-0900">ext</span><span 
+class="ectt-0900">&#8217;)</span><span 
+class="ectt-0900">&#x00A0;</span><br /><span class="label"><a 
+ id="x5-25086r7"></a></span><span 
+class="ectt-0900">&#x00A0;</span><br /><span class="label"><a 
+ id="x5-25087r8"></a></span><span 
+class="ectt-0900">&#x00A0;</span><span 
+class="ectt-0900">&#x00A0;</span><span 
+class="ectt-0900">&#x00A0;</span><span 
+class="ectt-0900">&#x00A0;</span><span 
+class="ectt-0900">&#x00A0;</span><span 
+class="ectt-0900">&#x00A0;</span><span 
+class="ectt-0900">return</span><span 
+class="ectt-0900">&#x00A0;</span><br /><span class="label"><a 
+ id="x5-25088r9"></a></span><span 
+class="ectt-0900">&#x00A0;</span><span 
+class="ectt-0900">&#x00A0;</span><span 
+class="ectt-0900">&#x00A0;</span><span 
+class="ectt-0900">&#x00A0;</span><span 
+class="ectt-0900">&#x00A0;</span><span 
+class="ectt-0900">&#x00A0;</span><span 
+class="ectt-0900">end</span>
+   
+                                                                                         
+                                                                                         
+   </div>
+<!--l. 174--><p class="indent" >   The routine <span 
+class="ectt-1095">usrdat3 </span>is not widely used, however it shares the same properties with <span 
+class="ectt-1095">usrdat2</span>.
+<!--l. 175-->
+   <div class="lstlisting" id="listing-9"><span class="label"><a 
+ id="x5-25089r1"></a></span><span 
+class="ectt-0900">&#x00A0;</span><span 
+class="ectt-0900">&#x00A0;</span><span 
+class="ectt-0900">&#x00A0;</span><span 
+class="ectt-0900">&#x00A0;</span><span 
+class="ectt-0900">&#x00A0;</span><span 
+class="ectt-0900">&#x00A0;</span><span 
+class="ectt-0900">subroutine</span><span 
+class="ectt-0900">&#x00A0;</span><span 
+class="ectt-0900">usrdat3</span><span 
+class="ectt-0900">&#x00A0;</span><br /><span class="label"><a 
+ id="x5-25090r2"></a></span><span 
+class="ectt-0900">&#x00A0;</span><span 
+class="ectt-0900">&#x00A0;</span><span 
+class="ectt-0900">&#x00A0;</span><span 
+class="ectt-0900">&#x00A0;</span><span 
+class="ectt-0900">&#x00A0;</span><span 
+class="ectt-0900">&#x00A0;</span><span 
+class="ectt-0900">include</span><span 
+class="ectt-0900">&#x00A0;</span><span 
+class="ectt-0900">&#8217;</span><span 
+class="ectt-0900">SIZE</span><span 
+class="ectt-0900">&#8217;</span><span 
+class="ectt-0900">&#x00A0;</span><br /><span class="label"><a 
+ id="x5-25091r3"></a></span><span 
+class="ectt-0900">&#x00A0;</span><span 
+class="ectt-0900">&#x00A0;</span><span 
+class="ectt-0900">&#x00A0;</span><span 
+class="ectt-0900">&#x00A0;</span><span 
+class="ectt-0900">&#x00A0;</span><span 
+class="ectt-0900">&#x00A0;</span><span 
+class="ectt-0900">include</span><span 
+class="ectt-0900">&#x00A0;</span><span 
+class="ectt-0900">&#8217;</span><span 
+class="ectt-0900">TOTAL</span><span 
+class="ectt-0900">&#8217;</span><span 
+class="ectt-0900">&#x00A0;</span><br /><span class="label"><a 
+ id="x5-25092r4"></a></span><span 
+class="ectt-0900">c</span><span 
+class="ectt-0900">&#x00A0;</span><br /><span class="label"><a 
+ id="x5-25093r5"></a></span><span 
+class="ectt-0900">&#x00A0;</span><span 
+class="ectt-0900">&#x00A0;</span><span 
+class="ectt-0900">&#x00A0;</span><span 
+class="ectt-0900">&#x00A0;</span><span 
+class="ectt-0900">&#x00A0;</span><span 
+class="ectt-0900">&#x00A0;</span><span 
+class="ectt-0900">return</span><span 
+class="ectt-0900">&#x00A0;</span><br /><span class="label"><a 
+ id="x5-25094r6"></a></span><span 
+class="ectt-0900">&#x00A0;</span><span 
+class="ectt-0900">&#x00A0;</span><span 
+class="ectt-0900">&#x00A0;</span><span 
+class="ectt-0900">&#x00A0;</span><span 
+class="ectt-0900">&#x00A0;</span><span 
+class="ectt-0900">&#x00A0;</span><span 
+class="ectt-0900">end</span>
+   
+   </div>
+<!--l. 184--><p class="indent" >   Nek5000 can solve the dimensional or non-dimensional equations by setting the following
+parameters
+   <div class="table">
+                                                                                         
+                                                                                         
+<!--l. 187--><p class="indent" >   <hr class="float"><div class="float" 
+>
+                                                                                         
+                                                                                         
+<div class="tabular"> <table id="TBL-3" class="tabular" 
+cellspacing="0" cellpadding="0" rules="groups" 
+><colgroup id="TBL-3-1g"><col 
+id="TBL-3-1"></colgroup><colgroup id="TBL-3-2g"><col 
+id="TBL-3-2"></colgroup><tr 
+class="hline"><td><hr></td><td><hr></td></tr><tr  
+ style="vertical-align:baseline;" id="TBL-3-1-"><td  style="white-space:nowrap; text-align:left;" id="TBL-3-1-1"  
+class="td11"> Dimensional parameters  </td><td  style="white-space:nowrap; text-align:left;" id="TBL-3-1-2"  
+class="td11"> Non-dimensional parameters  </td>
+</tr><tr 
+class="hline"><td><hr></td><td><hr></td></tr><tr 
+class="hline"><td><hr></td><td><hr></td></tr><tr  
+ style="vertical-align:baseline;" id="TBL-3-2-"><td  style="white-space:nowrap; text-align:left;" id="TBL-3-2-1"  
+class="td11"> <span 
+class="ectt-1095">p1</span>=<img 
+src="index95x.png" alt="&rho;  "  class="math" >                    </td><td  style="white-space:nowrap; text-align:left;" id="TBL-3-2-2"  
+class="td11"> <span 
+class="ectt-1095">p1</span>=1                                </td>
+</tr><tr  
+ style="vertical-align:baseline;" id="TBL-3-3-"><td  style="white-space:nowrap; text-align:left;" id="TBL-3-3-1"  
+class="td11"> <span 
+class="ectt-1095">p2</span>=<img 
+src="index96x.png" alt="&nu;  "  class="math" >                    </td><td  style="white-space:nowrap; text-align:left;" id="TBL-3-3-2"  
+class="td11"> <span 
+class="ectt-1095">p2</span>=1/Re (-Re)                   </td>
+</tr><tr  
+ style="vertical-align:baseline;" id="TBL-3-4-"><td  style="white-space:nowrap; text-align:left;" id="TBL-3-4-1"  
+class="td11"> <span 
+class="ectt-1095">p7</span>=<img 
+src="index97x.png" alt="&rho;Cp  "  class="math" >                       </td><td  style="white-space:nowrap; text-align:left;" id="TBL-3-4-2"  
+class="td11"> <span 
+class="ectt-1095">p7</span>=1                                </td>
+</tr><tr  
+ style="vertical-align:baseline;" id="TBL-3-5-"><td  style="white-space:nowrap; text-align:left;" id="TBL-3-5-1"  
+class="td11"> <span 
+class="ectt-1095">p8</span>=<img 
+src="index98x.png" alt="k  "  class="math" >                    </td><td  style="white-space:nowrap; text-align:left;" id="TBL-3-5-2"  
+class="td11"> <span 
+class="ectt-1095">p8</span>=1/Pe (-Pe)                    </td>
+</tr><tr 
+class="hline"><td><hr></td><td><hr></td></tr><tr  
+ style="vertical-align:baseline;" id="TBL-3-6-"><td  style="white-space:nowrap; text-align:left;" id="TBL-3-6-1"  
+class="td11">                       </td></tr></table></div>
+                                                                                         
+                                                                                         
+   </div><hr class="endfloat" />
+   </div>
+<!--l. 199--><p class="indent" >   alternatively the variable properties can be set in the USERVP routine.
+<!--l. 202--><p class="indent" >   <span 
+class="ecbx-1095">What is a SESSION file?</span>
+<!--l. 204--><p class="indent" >   To run NEK5000, each simulation must have a SESSION.NAME file. This file is read in by the code
+and gives the path to the relevant files describing the structure and parameters of the simulation. The
+SESSION.NAME file is a file that contains the name of the simulation and the full path to supporting files.
+For example, to run the eddy example from the repository, the SESSION.NAME file would look
+like:
+                                                                                         
+                                                                                         
+   <div class="verbatim" id="verbatim-18">
+eddy_uv\\
+&#x00A0;<br />/homes/user\_&#x00A0;name/nek5\_&#x00A0;svn/examples/eddy/
+</div>
+<!--l. 209--><p class="nopar" >
+   <h3 class="sectionHead"><span class="titlemark">3.2   </span> <a 
+ id="x5-260003.2"></a>Problem size file SIZE</h3>
+<!--l. 1--><p class="noindent" >The SIZE file defines the problem size, i.e. spatial points at which the solution is to be evaluated within
+each element, number of elements per processor etc. The SIZE file governs the memory allocation for most
+of the arrays in Nek5000, with the exception of those required by the C utilities. The primary parameters
+of interest in SIZE are:
+     <dl class="description"><dt class="description">
+ </dt><dd 
+class="description"><span 
+class="ecbx-1095">ldim </span>= 2 or 3. This must be set to 2 for two-dimensional or axisymmetric simulations (the latter
+     only partially supported) or to 3 for three-dimensional simulations.
+     </dd><dt class="description">
+ </dt><dd 
+class="description"><span 
+class="ecbx-1095">lx1 </span>controls the polynomial order of the approximation, <img 
+src="index99x.png" alt="N  "  class="math" >=<span 
+class="ectt-1095">lx1-1</span>.
+     </dd><dt class="description">
+ </dt><dd 
+class="description"><span 
+class="ecbx-1095">lxd </span>controls the polynomial order of the integration for convective terms. Generally, <span 
+class="ectt-1095">lxd=3 *</span>
+     <span 
+class="ectt-1095">lx1/2</span>. On some platforms, however, it is important for memory access performance that <span 
+class="ectt-1095">lx1</span>
+     and <span 
+class="ectt-1095">lxd </span>be even.
+     </dd><dt class="description">
+ </dt><dd 
+class="description"><span 
+class="ecbx-1095">lx2 </span>= <span 
+class="ectt-1095">lx1 </span>or <span 
+class="ectt-1095">lx1-2</span>. This determines the formulation for the Navier-Stokes solver (i.e., the choice
+     between the <img 
+src="index100x.png" alt="lP N  "  class="math" >&#8211;<img 
+src="index101x.png" alt="lP N  "  class="math" > or <img 
+src="index102x.png" alt="lP N  "  class="math" >&#8211;<img 
+src="index103x.png" alt="lPN &minus;2   "  class="math" > methods) and the approximation order for the
+     pressure, <span 
+class="ectt-1095">lx2-1</span>.
+     </dd><dt class="description">
+ </dt><dd 
+class="description"><span 
+class="ecbx-1095">lelt </span>determines the <span 
+class="ecti-1095">maximum </span>number of elements <span 
+class="ecti-1095">per processor</span>.</dd></dl>
+<!--l. 22--><p class="indent" >   The total size of the problem is <span 
+class="ectt-1095">lx1*ly1*lz1*lelt</span>.
+<!--l. 24--><p class="noindent" >
+   <h4 class="subsectionHead"><span class="titlemark">3.2.1   </span> <a 
+ id="x5-270003.2.1"></a>Memory Requirements</h4>
+<!--l. 26--><p class="noindent" >Per-processor memory requirements for Nek5000 scale roughly as 400 8-byte words per allocated gridpoint.
+The number of <span 
+class="ecti-1095">allocated </span>gridpoints per processor is <img 
+src="index104x.png" alt="nmax   "  class="math" >=<span 
+class="ectt-1095">lx1*ly1*lz1*lelt</span>. (For 3D,
+<span 
+class="ectt-1095">lz1=ly1=lx1</span>; for 2D, <span 
+class="ectt-1095">lz1=1</span>, <span 
+class="ectt-1095">ly1=lx1</span>.) If required for a particular simulation, more memory
+may be made available by using additional processors. For example, suppose one needed to
+run a simulation with 6000 elements of order <img 
+src="index105x.png" alt="N  = 9  "  class="math" >. To leading order, the total memory
+requirements would be <img 
+src="index106x.png" alt="           3
+&asymp;  E(N  + 1)    "  class="math" >  <span 
+class="ectt-1095">points</span> <img 
+src="index107x.png" alt="&#x00D7; "  class="math" > <span 
+class="ectt-1095">400 (wds/pt)</span> <img 
+src="index108x.png" alt="&#x00D7; "  class="math" > <span 
+class="ectt-1095">8 bytes/wd = 6000</span>
+<img 
+src="index109x.png" alt="    3
+&#x00D7;10  &#x00D7; 400 &#x00D7; 8   "  class="math" ><span 
+class="ectt-1095">= 19.2 </span>GB. Assuming there is 400 MB of memory per core available to the user (after
+                                                                                         
+                                                                                         
+accounting for OS requirements), then one could run this simulation with <img 
+src="index110x.png" alt="P &ge;  19,200   "  class="math" >  <span 
+class="ectt-1095">MB</span>
+<img 
+src="index111x.png" alt="&#x2215;(400   "  class="math" ><span 
+class="ectt-1095">MB/proc</span><span 
+class="ectt-1095">)</span> <img 
+src="index112x.png" alt="= 48   "  class="math" > processors. To do so, it would be necessary to set <span 
+class="ectt-1095">lelt</span> <img 
+src="index113x.png" alt="&ge; "  class="math" > 6000/48 =
+125.
+<!--l. 42--><p class="indent" >   We note two other parameters of interest in the parallel context:
+     <dl class="description"><dt class="description">
+ </dt><dd 
+class="description"><span 
+class="ecbx-1095">lp</span>, the maximum number of processors that can be used.
+     </dd><dt class="description">
+ </dt><dd 
+class="description"><span 
+class="ecbx-1095">lelg</span>, an upper bound on the number of elements in the simulation.</dd></dl>
+<!--l. 47--><p class="noindent" >There is a slight memory penalty associated with these variables, so one generally does not want to have them
+excessively large. It is common, however, to have lp be as large as anticipated for a given case so that the
+executable can be run without recompiling on any admissible number of processors (<img 
+src="index114x.png" alt="Pmem  &le;  P &le; E  "  class="math" >,
+where <img 
+src="index115x.png" alt="Pmem  "  class="math" > is the value computed above).
+<!--l. 101--><p class="noindent" >
+   <h3 class="sectionHead"><span class="titlemark">3.3   </span> <a 
+ id="x5-280003.3"></a>Geometry and Parameters file .rea</h3>
+<!--l. 3--><p class="noindent" >The <span 
+class="ectt-1095">.rea </span>file consists of several sections:
+   <h5 class="likesubsubsectionHead"><a 
+ id="x5-290003.3"></a> Parameters and logical switches</h5>
+     <dl class="description"><dt class="description">
+ </dt><dd 
+class="description"><span 
+class="ecbx-1095">parameters </span>These control the runtime parameters such as viscosity, conductivity, number of steps,
+     timestep size, order of the timestepping, frequency of output, iteration tolerances, flow rate,
+     filter strength, etc. There are also a number of free parameters that the user can use as handles
+     to be passed into the user defined routines in the .usr file.
+     </dd><dt class="description">
+ </dt><dd 
+class="description"><span 
+class="ecbx-1095">passive scalar data </span>This information can be specified also in the <span 
+class="ectt-1095">.uservp </span>routine in the .usr file.
+     If specified in the .rea file then the coefficients for the conductivity term are listed in
+     ascending order for passive scalars ranging <span 
+class="ectt-1095">1..9 </span>followed by the values for the <img 
+src="index116x.png" alt="&rho;cp  "  class="math" >
+     coefficients.
+                                                                                         
+                                                                                         
+     <div class="verbatim" id="verbatim-19">
+     4&#x00A0;&#x00A0;Lines&#x00A0;of&#x00A0;passive&#x00A0;scalar&#x00A0;data&#x00A0;follows&#x00A0;2&#x00A0;CONDUCT;&#x00A0;2&#x00A0;RHOCP
+     &#x00A0;<br />&#x00A0;&#x00A0;&#x00A0;1.00000&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;1.00000&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;1.00000&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;1.00000&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;1.00000
+     &#x00A0;<br />&#x00A0;&#x00A0;&#x00A0;1.00000&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;1.00000&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;1.00000&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;1.00000
+     &#x00A0;<br />&#x00A0;&#x00A0;&#x00A0;1.00000&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;1.00000&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;1.00000&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;1.00000&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;1.00000
+     &#x00A0;<br />&#x00A0;&#x00A0;&#x00A0;1.00000&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;1.00000&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;1.00000&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;1.00000
+</div>
+     <!--l. 18--><p class="nopar" >
+     </dd><dt class="description">
+ </dt><dd 
+class="description"><span 
+class="ecbx-1095">logicals </span>These determine whether one is computing a steady or unsteady solution, whether advection is
+     turned on, etc.</dd></dl>
+<!--l. 38--><p class="noindent" >
+   <h5 class="likesubsubsectionHead"><a 
+ id="x5-300003.3"></a>Mesh and boundary condition info</h5>
+     <dl class="description"><dt class="description">
+ </dt><dd 
+class="description"><span 
+class="ecbx-1095">geometry </span>The geometry is specified in an arcane format specifying the <img 
+src="index117x.png" alt="xyz  "  class="math" > locations of each of the
+     eight points for each element, or the <img 
+src="index118x.png" alt="xy  "  class="math" > locations of each of the four points for each element in 2D.
+     A line of the following type may be encountered at the beginning of the mesh section of the area
+     file.
+                                                                                         
+                                                                                         
+     <div class="verbatim" id="verbatim-20">
+     3.33333&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;3.33333&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;-0.833333&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;-1.16667&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;XFAC,YFAC,XZERO,YZERO
+</div>
+     <!--l. 46--><p class="nopar" > This part is to be read by PRENEK and provides the origin of the system of coordinates
+     <span 
+class="ectt-1095">XZERO;YZERO </span>as well as the size of the cartesian units <span 
+class="ectt-1095">XFAC;YFAC</span>. This one line has no impact on the
+     mesh as being read in NEK.
+     <!--l. 49--><p class="noindent" >The header of the mesh data may have the following representation
+     <div class="center" 
+>
+<!--l. 50--><p class="noindent" >
+                                                                                         
+                                                                                         
+<div class="verbatim" id="verbatim-21">
+     &#x00A0;**MESH&#x00A0;DATA**&#x00A0;6&#x00A0;lines&#x00A0;are&#x00A0;X,Y,Z;X,Y,Z.&#x00A0;Columns&#x00A0;corners&#x00A0;1-4;5-8
+     &#x00A0;<br />&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;226&#x00A0;&#x00A0;3&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;192&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;NEL,NDIM,NELV
+     &#x00A0;<br />&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;ELEMENT&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;1&#x00A0;[&#x00A0;&#x00A0;&#x00A0;&#x00A0;1A]&#x00A0;&#x00A0;&#x00A0;&#x00A0;GROUP&#x00A0;&#x00A0;&#x00A0;&#x00A0;0
+     &#x00A0;<br />&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;
+</div>
+<!--l. 54--><p class="nopar" ></div>
+     <!--l. 56--><p class="noindent" >The header states first how many elements are available in total (<img 
+src="index119x.png" alt="226  "  class="math" >), what dimension is the
+     the problem (here three dimensional), and how many elements are in the flow mesh
+     (<img 
+src="index120x.png" alt="192  "  class="math" >).
+     <div class="table">
+     <!--l. 70--><p class="noindent" ><a 
+ id="x5-300021"></a><hr class="float"><div class="float" 
+><a 
+ id="x5-30001r1"></a> <!--tex4ht:inline--><div class="tabular"> <table id="TBL-4" class="tabular" 
+cellspacing="0" cellpadding="0"  
+><colgroup id="TBL-4-1g"><col 
+id="TBL-4-1"><col 
+id="TBL-4-2"><col 
+id="TBL-4-3"><col 
+id="TBL-4-4"><col 
+id="TBL-4-5"></colgroup><tr  
+ style="vertical-align:baseline;" id="TBL-4-1-"><td  style="white-space:nowrap; text-align:left;" id="TBL-4-1-1"  
+class="td11"> <img 
+src="index121x.png" alt="Face  {1,2,3,4} "  class="math" > </td><td  style="white-space:nowrap; text-align:center;" id="TBL-4-1-2"  
+class="td11">              </td><td  style="white-space:nowrap; text-align:center;" id="TBL-4-1-3"  
+class="td11">              </td><td  style="white-space:nowrap; text-align:center;" id="TBL-4-1-4"  
+class="td11">              </td><td  style="white-space:nowrap; text-align:center;" id="TBL-4-1-5"  
+class="td11">              </td>
+</tr><tr  
+ style="vertical-align:baseline;" id="TBL-4-2-"><td  style="white-space:nowrap; text-align:left;" id="TBL-4-2-1"  
+class="td11"> <img 
+src="index122x.png" alt="x1,...,4 =  "  class="math" >              </td><td  style="white-space:nowrap; text-align:center;" id="TBL-4-2-2"  
+class="td11"> 0.000000E+00  </td><td  style="white-space:nowrap; text-align:center;" id="TBL-4-2-3"  
+class="td11"> 0.171820E+00  </td><td  style="white-space:nowrap; text-align:center;" id="TBL-4-2-4"  
+class="td11"> 0.146403E+00  </td><td  style="white-space:nowrap; text-align:center;" id="TBL-4-2-5"  
+class="td11"> 0.000000E+00  </td>
+</tr><tr  
+ style="vertical-align:baseline;" id="TBL-4-3-"><td  style="white-space:nowrap; text-align:left;" id="TBL-4-3-1"  
+class="td11"> <img 
+src="index123x.png" alt="y1,...,4 =  "  class="math" >              </td><td  style="white-space:nowrap; text-align:center;" id="TBL-4-3-2"  
+class="td11"> 0.190000E+00  </td><td  style="white-space:nowrap; text-align:center;" id="TBL-4-3-3"  
+class="td11"> 0.168202E+00  </td><td  style="white-space:nowrap; text-align:center;" id="TBL-4-3-4"  
+class="td11"> 0.343640E+00  </td><td  style="white-space:nowrap; text-align:center;" id="TBL-4-3-5"  
+class="td11"> 0.380000E+00  </td>
+</tr><tr  
+ style="vertical-align:baseline;" id="TBL-4-4-"><td  style="white-space:nowrap; text-align:left;" id="TBL-4-4-1"  
+class="td11"> <img 
+src="index124x.png" alt="z1,...,4 =  "  class="math" >              </td><td  style="white-space:nowrap; text-align:center;" id="TBL-4-4-2"  
+class="td11"> 0.000000E+00  </td><td  style="white-space:nowrap; text-align:center;" id="TBL-4-4-3"  
+class="td11"> 0.000000E+00  </td><td  style="white-space:nowrap; text-align:center;" id="TBL-4-4-4"  
+class="td11"> 0.000000E+00  </td><td  style="white-space:nowrap; text-align:center;" id="TBL-4-4-5"  
+class="td11"> 0.000000E+00  </td>
+</tr><tr  
+ style="vertical-align:baseline;" id="TBL-4-5-"><td  style="white-space:nowrap; text-align:left;" id="TBL-4-5-1"  
+class="td11"> <img 
+src="index125x.png" alt="Face  {5,6,7,8} "  class="math" >  </td><td  style="white-space:nowrap; text-align:center;" id="TBL-4-5-2"  
+class="td11">              </td><td  style="white-space:nowrap; text-align:center;" id="TBL-4-5-3"  
+class="td11">              </td><td  style="white-space:nowrap; text-align:center;" id="TBL-4-5-4"  
+class="td11">              </td><td  style="white-space:nowrap; text-align:center;" id="TBL-4-5-5"  
+class="td11">              </td>
+</tr><tr  
+ style="vertical-align:baseline;" id="TBL-4-6-"><td  style="white-space:nowrap; text-align:left;" id="TBL-4-6-1"  
+class="td11"> <img 
+src="index126x.png" alt="x5,...,8 =  "  class="math" >              </td><td  style="white-space:nowrap; text-align:center;" id="TBL-4-6-2"  
+class="td11"> 0.000000E+00  </td><td  style="white-space:nowrap; text-align:center;" id="TBL-4-6-3"  
+class="td11"> 0.171820E+00  </td><td  style="white-space:nowrap; text-align:center;" id="TBL-4-6-4"  
+class="td11"> 0.146403E+00  </td><td  style="white-space:nowrap; text-align:center;" id="TBL-4-6-5"  
+class="td11"> 0.000000E+00  </td>
+</tr><tr  
+ style="vertical-align:baseline;" id="TBL-4-7-"><td  style="white-space:nowrap; text-align:left;" id="TBL-4-7-1"  
+class="td11"> <img 
+src="index127x.png" alt="y5,...,8 =  "  class="math" >              </td><td  style="white-space:nowrap; text-align:center;" id="TBL-4-7-2"  
+class="td11"> 0.190000E+00  </td><td  style="white-space:nowrap; text-align:center;" id="TBL-4-7-3"  
+class="td11"> 0.168202E+00  </td><td  style="white-space:nowrap; text-align:center;" id="TBL-4-7-4"  
+class="td11"> 0.343640E+00  </td><td  style="white-space:nowrap; text-align:center;" id="TBL-4-7-5"  
+class="td11"> 0.380000E+00  </td>
+</tr><tr  
+ style="vertical-align:baseline;" id="TBL-4-8-"><td  style="white-space:nowrap; text-align:left;" id="TBL-4-8-1"  
+class="td11"> <img 
+src="index128x.png" alt="z     =
+ 5,...,8  "  class="math" >              </td><td  style="white-space:nowrap; text-align:center;" id="TBL-4-8-2"  
+class="td11"> 0.250000E+00  </td><td  style="white-space:nowrap; text-align:center;" id="TBL-4-8-3"  
+class="td11"> 0.250000E+00  </td><td  style="white-space:nowrap; text-align:center;" id="TBL-4-8-4"  
+class="td11"> 0.250000E+00  </td><td  style="white-space:nowrap; text-align:center;" id="TBL-4-8-5"  
+class="td11"> 0.250000E+00  </td></tr></table></div>
+<span 
+class="ecrm-0900">(a) Descriptor</span>
+<br /> <div class="caption" 
+><span class="id">Table&#x00A0;3.1: </span><span  
+class="content">Geometry description in .rea file</span></div><!--tex4ht:label?: x5-300021 -->
+     </div><hr class="endfloat" />
+     </div>
+     <!--l. 88--><p class="noindent" ><hr class="figure"><div class="figure" 
+><a 
+ id="x5-300031"></a><img 
+src="index129x.png" alt="PIC" class="graphics" width="118.94437pt" height="115.93312pt" ><!--tex4ht:graphics  
+name="index129x.png" src="Figs/3dcube.eps"  
+-->
+<br /> <div class="caption" 
+><span class="id">Figure&#x00A0;3.1: </span><span  
+class="content">Geometry description in .rea file (sketch of one element ordering)</span></div><!--tex4ht:label?: x5-300031 -->
+     <!--l. 91--><p class="noindent" ></div><hr class="endfigure">
+     </dd><dt class="description">
+ </dt><dd 
+class="description"><span 
+class="ecbx-1095">curvature </span>This section describes the deformation for elements that are curved. Currently-supported
+     curved side or edge definitions include &#8220;C&#8221; for circles, &#8220;s&#8221; for spheres, and &#8220;m&#8221; for midside-node
+     positions associated with quadratic edge displacement. If no curved data is available the section
+     remains empty. Example
+     <!--l. 100--><p class="noindent" >The section header may look like this
+                                                                                         
+                                                                                         
+     <div class="center" 
+>
+<!--l. 101--><p class="noindent" >
+<!--l. 102--><p class="noindent" ><span 
+class="ectt-1095">640 Curved sides follow IEDGE,IEL,CURVE(I),I=1,5, CCURVE</span></div>
+     <!--l. 104--><p class="noindent" >and the data is stored as follows
+     <div class="center" 
+>
+<!--l. 106--><p class="noindent" >
+<div class="tabular"> <table id="TBL-5" class="tabular" 
+cellspacing="0" cellpadding="0" rules="groups" 
+><colgroup id="TBL-5-1g"><col 
+id="TBL-5-1"></colgroup><colgroup id="TBL-5-2g"><col 
+id="TBL-5-2"></colgroup><colgroup id="TBL-5-3g"><col 
+id="TBL-5-3"></colgroup><colgroup id="TBL-5-4g"><col 
+id="TBL-5-4"></colgroup><colgroup id="TBL-5-5g"><col 
+id="TBL-5-5"></colgroup><tr 
+class="hline"><td><hr></td><td><hr></td><td><hr></td><td><hr></td><td><hr></td></tr><tr  
+ style="vertical-align:baseline;" id="TBL-5-1-"><td  style="white-space:nowrap; text-align:left;" id="TBL-5-1-1"  
+class="td11"> <span 
+class="ectt-0900">IEDGE </span></td><td  style="white-space:nowrap; text-align:left;" id="TBL-5-1-2"  
+class="td11"> <span 
+class="ectt-0900">IEL </span></td><td  style="white-space:nowrap; text-align:left;" id="TBL-5-1-3"  
+class="td11"> <span 
+class="ectt-0900">CURVE(12,1,IEL) </span></td><td  style="white-space:nowrap; text-align:left;" id="TBL-5-1-4"  
+class="td11"> <span 
+class="ectt-0900">CURVE(12,2..5,IEL) </span></td><td  style="white-space:nowrap; text-align:left;" id="TBL-5-1-5"  
+class="td11"> <span 
+class="ectt-0900">CCURVE(12,IEL) </span></td>
+</tr><tr 
+class="hline"><td><hr></td><td><hr></td><td><hr></td><td><hr></td><td><hr></td></tr><tr 
+class="hline"><td><hr></td><td><hr></td><td><hr></td><td><hr></td><td><hr></td></tr><tr  
+ style="vertical-align:baseline;" id="TBL-5-2-"><td  style="white-space:nowrap; text-align:left;" id="TBL-5-2-1"  
+class="td11"> <span 
+class="ecrm-0900">3         </span></td><td  style="white-space:nowrap; text-align:left;" id="TBL-5-2-2"  
+class="td11"> <span 
+class="ecrm-0900">1     </span></td><td  style="white-space:nowrap; text-align:left;" id="TBL-5-2-3"  
+class="td11"> <span 
+class="ecrm-0900">1.0000                 </span></td><td  style="white-space:nowrap; text-align:left;" id="TBL-5-2-4"  
+class="td11"> <span 
+class="ecrm-0900">0.0000                     </span></td><td  style="white-space:nowrap; text-align:left;" id="TBL-5-2-5"  
+class="td11"> <span 
+class="ecrm-0900">C                     </span></td>
+</tr><tr  
+ style="vertical-align:baseline;" id="TBL-5-3-"><td  style="white-space:nowrap; text-align:left;" id="TBL-5-3-1"  
+class="td11"> <span 
+class="ecrm-0900">7         </span></td><td  style="white-space:nowrap; text-align:left;" id="TBL-5-3-2"  
+class="td11"> <span 
+class="ecrm-0900">1     </span></td><td  style="white-space:nowrap; text-align:left;" id="TBL-5-3-3"  
+class="td11"> <span 
+class="ecrm-0900">1.0000                 </span></td><td  style="white-space:nowrap; text-align:left;" id="TBL-5-3-4"  
+class="td11"> <span 
+class="ecrm-0900">0.0000                     </span></td><td  style="white-space:nowrap; text-align:left;" id="TBL-5-3-5"  
+class="td11"> <span 
+class="ecrm-0900">C                     </span></td>
+</tr><tr 
+class="hline"><td><hr></td><td><hr></td><td><hr></td><td><hr></td><td><hr></td></tr><tr  
+ style="vertical-align:baseline;" id="TBL-5-4-"><td  style="white-space:nowrap; text-align:left;" id="TBL-5-4-1"  
+class="td11">        </td>
+</tr></table></div></div>
+     <!--l. 116--><p class="noindent" >The array <span 
+class="ectt-1095">CCURVE </span>(char curve) holds a character denoting the type of curved boundary, while the
+     array <span 
+class="ectt-1095">CURVE </span>holds the actual information about the curved boundary. There are up to five available
+     components in the <span 
+class="ectt-1095">CURVE </span>array in case more information is needed by other implementations, that do
+     not represent the default. We may have
+          <ul class="itemize1">
+          <li class="itemize">&#8217;C&#8217; stands for circle and is given by the radius of the circle, thus filling in only the first
+          component of the <span 
+class="ectt-1095">CURVE(12,1,NEL)</span>
+          </li>
+          <li class="itemize">&#8217;S&#8217; stands for sphere and is given by the radius and the center of the sphere, thus filling
+          the first 4 components of the <span 
+class="ectt-1095">CURVE(12,1</span><span 
+class="ectt-1095">&hellip;4,NEL)</span>
+          </li>
+          <li class="itemize">&#8217;M&#8217; is given by the coordinates of the midside-node, thus filling the first 3 components
+          of the <span 
+class="ectt-1095">CURVE(12,1</span><span 
+class="ectt-1095">&hellip;3,NEL)</span>, and leads to a second order reconstruction of the face.</li></ul>
+     <!--l. 122--><p class="noindent" >Both &#8217;C&#8217; and &#8217;S&#8217; types allow for a surface of as high order as the polynomial used in the spectral
+     method, since they have an underlying analytical description, any circle arc can be fully determined
+     by the radius and end points. However for the &#8217;M&#8217; curved element descriptor the surface can be
+     reconstructed only up to second order. This can be later updated to match the high-order
+     polynomial after the GLL points have been distributed across the boundaries. In .usrdat2
+     the user can move the geometry to match the intended surface, followed by a call to
+     the subroutine &#8217;fixgeom&#8217; which can realign the point distribution in the interior of the
+     element.
+     </dd><dt class="description">
+ </dt><dd 
+class="description"><span 
+class="ecbx-1095">boundary conditions </span>Boundary conditions (BCs) are specified for each face of each element, for each
+     <span 
+class="ectt-1095">field </span>(velocity, temperature, passive scalar #1, etc.). A common BC is <span 
+class="ectt-1095">P</span>, which indicates that an
+     element face is connected to another element to establish a periodic BC. Many of the BCs support
+     either a constant specification or a user defined specification which may be an arbitrary function. For
+     example, a constant Dirichlet BC for velocity is specified by <span 
+class="ectt-1095">V</span>, while a user defined BC is specified by
+     <span 
+class="ectt-1095">v</span>. This upper/lower-case distinction is used for all cases. There are about 70 different types of
+     boundary conditions in all, including free-surface, moving boundary, heat flux, convective cooling,
+     etc.
+     <!--l. 138--><p class="noindent" >The section header may look like this
+                                                                                         
+                                                                                         
+     <div class="center" 
+>
+<!--l. 139--><p class="noindent" >
+<!--l. 140--><p class="noindent" > <span 
+class="ectt-1095">***** FLUID BOUNDARY CONDITIONS *****</span>
+</div>
+     <!--l. 143--><p class="noindent" >and the data is stored as follows
+     <div class="center" 
+>
+<!--l. 145--><p class="noindent" >
+<div class="tabular"> <table id="TBL-6" class="tabular" 
+cellspacing="0" cellpadding="0" rules="groups" 
+><colgroup id="TBL-6-1g"><col 
+id="TBL-6-1"></colgroup><colgroup id="TBL-6-2g"><col 
+id="TBL-6-2"></colgroup><colgroup id="TBL-6-3g"><col 
+id="TBL-6-3"></colgroup><colgroup id="TBL-6-4g"><col 
+id="TBL-6-4"></colgroup><colgroup id="TBL-6-5g"><col 
+id="TBL-6-5"></colgroup><colgroup id="TBL-6-6g"><col 
+id="TBL-6-6"></colgroup><tr 
+class="hline"><td><hr></td><td><hr></td><td><hr></td><td><hr></td><td><hr></td><td><hr></td></tr><tr  
+ style="vertical-align:baseline;" id="TBL-6-1-"><td  style="white-space:nowrap; text-align:left;" id="TBL-6-1-1"  
+class="td11"> <span 
+class="ectt-0900">CBC </span></td><td  style="white-space:nowrap; text-align:left;" id="TBL-6-1-2"  
+class="td11"> <span 
+class="ectt-0900">IEL </span></td><td  style="white-space:nowrap; text-align:left;" id="TBL-6-1-3"  
+class="td11"> <span 
+class="ectt-0900">IEDGE </span></td><td  style="white-space:nowrap; text-align:left;" id="TBL-6-1-4"  
+class="td11"> <span 
+class="ectt-0900">CONN-IEL </span></td><td  style="white-space:nowrap; text-align:left;" id="TBL-6-1-5"  
+class="td11"> <span 
+class="ectt-0900">CONN-IEDGE </span></td><td  style="white-space:nowrap; text-align:left;" id="TBL-6-1-6"  
+class="td11"> <span 
+class="ecrm-0900">redundant  </span></td></tr><tr 
+class="hline"><td><hr></td><td><hr></td><td><hr></td><td><hr></td><td><hr></td><td><hr></td></tr><tr 
+class="hline"><td><hr></td><td><hr></td><td><hr></td><td><hr></td><td><hr></td><td><hr></td></tr><tr  
+ style="vertical-align:baseline;" id="TBL-6-2-"><td  style="white-space:nowrap; text-align:left;" id="TBL-6-2-1"  
+class="td11"> <span 
+class="ecrm-0900">E </span></td><td  style="white-space:nowrap; text-align:left;" id="TBL-6-2-2"  
+class="td11"> <span 
+class="ecrm-0900">1 </span></td><td  style="white-space:nowrap; text-align:left;" id="TBL-6-2-3"  
+class="td11"> <span 
+class="ecrm-0900">1 </span></td><td  style="white-space:nowrap; text-align:left;" id="TBL-6-2-4"  
+class="td11"> <span 
+class="ecrm-0900">4.00000 </span></td><td  style="white-space:nowrap; text-align:left;" id="TBL-6-2-5"  
+class="td11"> <span 
+class="ecrm-0900">3.00000 </span></td><td  style="white-space:nowrap; text-align:left;" id="TBL-6-2-6"  
+class="td11"> <span 
+class="ecrm-0900">0.00000</span></td>
+</tr><tr  
+ style="vertical-align:baseline;" id="TBL-6-3-"><td  style="white-space:nowrap; text-align:left;" id="TBL-6-3-1"  
+class="td11"> <span 
+class="ecrm-0900">..      </span></td><td  style="white-space:nowrap; text-align:left;" id="TBL-6-3-2"  
+class="td11"> <span 
+class="ecrm-0900">..     </span></td><td  style="white-space:nowrap; text-align:left;" id="TBL-6-3-3"  
+class="td11"> <span 
+class="ecrm-0900">..        </span></td><td  style="white-space:nowrap; text-align:left;" id="TBL-6-3-4"  
+class="td11"> <span 
+class="ecrm-0900">..             </span></td><td  style="white-space:nowrap; text-align:left;" id="TBL-6-3-5"  
+class="td11"> <span 
+class="ecrm-0900">..                </span></td><td  style="white-space:nowrap; text-align:left;" id="TBL-6-3-6"  
+class="td11"> <span 
+class="ecrm-0900">..              </span></td></tr><tr  
+ style="vertical-align:baseline;" id="TBL-6-4-"><td  style="white-space:nowrap; text-align:left;" id="TBL-6-4-1"  
+class="td11"> <span 
+class="ecrm-0900">W </span></td><td  style="white-space:nowrap; text-align:left;" id="TBL-6-4-2"  
+class="td11"> <span 
+class="ecrm-0900">5 </span></td><td  style="white-space:nowrap; text-align:left;" id="TBL-6-4-3"  
+class="td11"> <span 
+class="ecrm-0900">3 </span></td><td  style="white-space:nowrap; text-align:left;" id="TBL-6-4-4"  
+class="td11"> <span 
+class="ecrm-0900">0.00000 </span></td><td  style="white-space:nowrap; text-align:left;" id="TBL-6-4-5"  
+class="td11"> <span 
+class="ecrm-0900">0.00000 </span></td><td  style="white-space:nowrap; text-align:left;" id="TBL-6-4-6"  
+class="td11"> <span 
+class="ecrm-0900">0.00000</span></td>
+</tr><tr  
+ style="vertical-align:baseline;" id="TBL-6-5-"><td  style="white-space:nowrap; text-align:left;" id="TBL-6-5-1"  
+class="td11"> <span 
+class="ecrm-0900">..      </span></td><td  style="white-space:nowrap; text-align:left;" id="TBL-6-5-2"  
+class="td11"> <span 
+class="ecrm-0900">..     </span></td><td  style="white-space:nowrap; text-align:left;" id="TBL-6-5-3"  
+class="td11"> <span 
+class="ecrm-0900">..        </span></td><td  style="white-space:nowrap; text-align:left;" id="TBL-6-5-4"  
+class="td11"> <span 
+class="ecrm-0900">..             </span></td><td  style="white-space:nowrap; text-align:left;" id="TBL-6-5-5"  
+class="td11"> <span 
+class="ecrm-0900">..                </span></td><td  style="white-space:nowrap; text-align:left;" id="TBL-6-5-6"  
+class="td11"> <span 
+class="ecrm-0900">..              </span></td>
+</tr><tr  
+ style="vertical-align:baseline;" id="TBL-6-6-"><td  style="white-space:nowrap; text-align:left;" id="TBL-6-6-1"  
+class="td11"> <span 
+class="ecrm-0900">P      </span></td><td  style="white-space:nowrap; text-align:left;" id="TBL-6-6-2"  
+class="td11"> <span 
+class="ecrm-0900">5     </span></td><td  style="white-space:nowrap; text-align:left;" id="TBL-6-6-3"  
+class="td11"> <span 
+class="ecrm-0900">5        </span></td><td  style="white-space:nowrap; text-align:left;" id="TBL-6-6-4"  
+class="td11"> <span 
+class="ecrm-0900">149.000    </span></td><td  style="white-space:nowrap; text-align:left;" id="TBL-6-6-5"  
+class="td11"> <span 
+class="ecrm-0900">6.00000       </span></td><td  style="white-space:nowrap; text-align:left;" id="TBL-6-6-6"  
+class="td11"> <span 
+class="ecrm-0900">0.00000      </span></td>
+</tr><tr 
+class="hline"><td><hr></td><td><hr></td><td><hr></td><td><hr></td><td><hr></td><td><hr></td></tr><tr  
+ style="vertical-align:baseline;" id="TBL-6-7-"><td  style="white-space:nowrap; text-align:left;" id="TBL-6-7-1"  
+class="td11">      </td>
+</tr></table></div></div>
+     </dd></dl>
+<!--l. 161--><p class="noindent" >
+   <h5 class="likesubsubsectionHead"><a 
+ id="x5-310003.3"></a> Output info</h5>
+     <dl class="description"><dt class="description">
+ </dt><dd 
+class="description"><span 
+class="ecbx-1095">restart conditions</span>
+     <!--l. 165--><p class="noindent" >Here, one can specify a file to use as an initial condition. The initial condition need not be of
+     the same polynomial order as the current simulation. One can also specify that, for example,
+     the velocity is to come from one file and the temperature from another. The initial time is
+     taken from the last specified restart file, but this can be overridden.
+     </dd><dt class="description">
+ </dt><dd 
+class="description"><span 
+class="ecbx-1095">History points</span>
+     <!--l. 173--><p class="noindent" >The following section defines history points in the <span 
+class="ectt-1095">.rea </span>file, see example <span 
+class="ectt-1095">vortex/r1854a.rea</span>, or
+     <span 
+class="ectt-1095">shear4/shear4.rea</span>
+                                                                                         
+                                                                                         
+     <div class="verbatim" id="verbatim-22">
+     0&#x00A0;PACKETS&#x00A0;OF&#x00A0;DATA&#x00A0;FOLLOW\\
+     &#x00A0;<br />*****&#x00A0;HISTORY&#x00A0;AND&#x00A0;INTEGRAL&#x00A0;DATA&#x00A0;*****\\
+     &#x00A0;<br />&#x00A0;&#x00A0;&#x00A0;&#x00A0;56&#x00A0;POINTS.&#x00A0;H&#x00A0;code,&#x00A0;I,J,H,IEL&#x00A0;\\
+     &#x00A0;<br />UVWP&#x00A0;&#x00A0;&#x00A0;&#x00A0;H&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;31&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;31&#x00A0;&#x00A0;&#x00A0;1&#x00A0;&#x00A0;&#x00A0;6\\
+     &#x00A0;<br />UVWP&#x00A0;&#x00A0;&#x00A0;&#x00A0;H&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;31&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;31&#x00A0;&#x00A0;&#x00A0;31&#x00A0;&#x00A0;6\\
+     &#x00A0;<br />UVWP&#x00A0;&#x00A0;&#x00A0;&#x00A0;H&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;31&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;31&#x00A0;&#x00A0;&#x00A0;31&#x00A0;&#x00A0;54\\
+     &#x00A0;<br />&#x00A0;"&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;"&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;"&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;"&#x00A0;&#x00A0;&#x00A0;&#x00A0;"&#x00A0;&#x00A0;&#x00A0;"\\
+</div>
+     <!--l. 182--><p class="nopar" >
+     <!--l. 184--><p class="noindent" >The <span 
+class="ectt-1095">"56 POINTS" </span>line needs to be followed by 56 lines of the type shown. However, in each of the
+     following lines, which have the <span 
+class="ectt-1095">UVWP </span>etc., location is CRUCIAL, it must be layed out exactly as indicated
+     above<span class="footnote-mark"><a 
+href="#fn1x4" id="fn1x4-bk"><sup class="textsuperscript">1</sup></a></span><a 
+ id="x5-31001f1"></a>,
+     it is therefore advisable to refer to the examples <span 
+class="ectt-1095">vortex, shear4</span>. If you want to pick points close to
+     the center of element 1 and are running with lx1=10, say, you might choose <span 
+class="ectt-1095">UVWP H 5 5 5 1</span>.
+     <span class="footnote-mark"><a 
+href="#fn2x4" id="fn2x4-bk"><sup class="textsuperscript">2</sup></a></span><a 
+ id="x5-31002f2"></a>
+     <!--l. 187--><p class="noindent" >The UVWP tells the code to write the 3 velocity components and pressure to the .sch file at each
+     timestep (or, more precisely, whenever <span 
+class="ectt-1095">mod(istep,iohis)=0</span>, where <span 
+class="ectt-1095">iohis=param(52))</span>. Note that if
+     you have more than one history point then they are written sequentially at each timestep. Thus 10
+     steps in the first example with <span 
+class="ectt-1095">param(52)=2 </span>would write <span 
+class="ectt-1095">(10/2)*56 = 280 </span>lines to the .sch file, with
+     4 entries per line. The "H" indicates that the entry corresponds to a requested history point. A note
+     of caution: if the <span 
+class="ectt-1095">ijk </span>values (5 5 5 in the preceding example line) exceed <span 
+class="ectt-1095">lx1,ly1,lz1 </span>of your
+     SIZE file, then they are truncated to that value. For example, if <span 
+class="ectt-1095">lx1=10 </span>for the data
+     at the top (31 31 31) then the code will use <span 
+class="ectt-1095">ijk </span>of (10 10 10), plus the given element
+     number, in identifying the history point. It is often useful to set <span 
+class="ectt-1095">ijk </span>to large values (i.e.,
+     &#x003E; <span 
+class="ectt-1095">lx1</span>) because the endpoints of the spectral element mesh are invariant when <span 
+class="ectt-1095">lx1 </span>is
+     changed.
+     </dd><dt class="description">
+ </dt><dd 
+class="description"><span 
+class="ecbx-1095">output specifications </span>Outputs are discussed in a separate section below.</dd></dl>
+<!--l. 211--><p class="noindent" >It is important to note that Nek5000 currently supports two input file formats, ascii and binary. The <span 
+class="ectt-1095">.rea</span>
+file format described above is ascii. For the binary format, all sections of the .rea file having storage
+requirements that scale with number of elements (i.e., geometry, curvature, and boundary conditions)
+are moved to a second, <span 
+class="ectt-1095">.re2</span>, file and written in binary. The remaining sections continue to
+reside in the <span 
+class="ectt-1095">.rea </span>file. The distinction between the ascii and binary formats is indicated in
+the <span 
+class="ectt-1095">.rea </span>file by having a negative number of elements. There are converters, <span 
+class="ectt-1095">reatore2 </span>and
+<span 
+class="ectt-1095">re2torea</span>, in the Nek5000 tools directory to change between formats. The binary file format is the
+default and important for <span 
+class="ectt-1095">I/O </span>performance when the number of elements is large ( <img 
+src="index130x.png" alt="&#x003E;  "  class="math" > 100000,
+say).
+                                                                                         
+                                                                                         
+   <h3 class="sectionHead"><span class="titlemark">3.4   </span> <a 
+ id="x5-320003.4"></a>Data Layout</h3>
+<!--l. 4--><p class="noindent" >Nek5000 was designed with two principal performance criteria in mind, namely, <span 
+class="ecti-1095">single-node </span>performance
+and <span 
+class="ecti-1095">parallel </span>performance.
+<!--l. 7--><p class="indent" >   A key precept in obtaining good single node performance was to use, wherever possible, unit-stride
+memory addressing, which is realized by using contiguously declared arrays and then accessing the data in
+the correct order. Data locality is thus central to good serial performance. To ensure that this performance
+is not compromised in parallel, the parallel message-passing data model is used, in which each
+processor has its own local (private) address space. Parallel data, therefore, is laid out just as
+in the serial case, save that there are multiple copies of the arrays&#8212;one per processor, each
+containing different data. Unlike the shared memory model, this distributed memory model makes
+data locality transparent and thus simplifies the task of analyzing and optimizing parallel
+performance.
+<!--l. 20--><p class="indent" >   Some fundamentals of Nek5000&#8217;s internal data layout are given below.
+<!--l. 23--><p class="indent" >
+     <dl class="enumerate"><dt class="enumerate">
+  [1] </dt><dd 
+class="enumerate">Data is laid out as <img 
+src="index131x.png" alt=" e
+uijk = u(i,j,k,e)  "  class="math" > <br 
+class="newline" />
+     <!--l. 26--><p class="noindent" ><span 
+class="ectt-1095">i=1,...,nx1 (nx1 = lx1) </span><br 
+class="newline" /><span 
+class="ectt-1095">j=1,...,ny1 (ny1 = lx1) </span><br 
+class="newline" /><span 
+class="ectt-1095">k=1,...,nz1 (nz1 = lx1 </span>or 1, according to ndim=3 or 2) <br 
+class="newline" />
+     <!--l. 30--><p class="noindent" ><span 
+class="ectt-1095">e=1,...,nelv</span>, where <span 
+class="ectt-1095">nelv</span> <img 
+src="index132x.png" alt="&le; "  class="math" > <span 
+class="ectt-1095">lelv</span>, and <span 
+class="ectt-1095">lelv </span>is the upper bound on number of elements,
+     <span 
+class="ecti-1095">per processor</span>.
+     </dd><dt class="enumerate">
+  [2] </dt><dd 
+class="enumerate">Fortran data is stored in column major order (opposite of C).
+     </dd><dt class="enumerate">
+  [3] </dt><dd 
+class="enumerate">All data arrays are thus contiguous, even when <span 
+class="ectt-1095">nelv</span> <img 
+src="index133x.png" alt="&#x003C;  "  class="math" > <span 
+class="ectt-1095">lelv</span>
+     </dd><dt class="enumerate">
+  [4] </dt><dd 
+class="enumerate">Data accesses are thus primarily unit-stride (see chap.8 of DFM for importance of this point),
+     and in particular, all data on a given processor can be accessed as, e.g.,
+                                                                                         
+                                                                                         
+     <div class="verbatim" id="verbatim-23">
+     &#x00A0;&#x00A0;&#x00A0;do&#x00A0;i=1,nx1*ny1*nz1*nelv
+     &#x00A0;<br />&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;u(i,1,1,1)&#x00A0;=&#x00A0;vx(i,1,1,1)
+     &#x00A0;<br />&#x00A0;&#x00A0;&#x00A0;enddo
+</div>
+     <!--l. 49--><p class="nopar" >
+     <!--l. 51--><p class="noindent" >which is equivalent but superior (WHY?) to:
+                                                                                         
+                                                                                         
+     <div class="verbatim" id="verbatim-24">
+     &#x00A0;&#x00A0;&#x00A0;do&#x00A0;e=1,nelv
+     &#x00A0;<br />&#x00A0;&#x00A0;&#x00A0;do&#x00A0;k=1,nz1
+     &#x00A0;<br />&#x00A0;&#x00A0;&#x00A0;do&#x00A0;j=1,ny1
+     &#x00A0;<br />&#x00A0;&#x00A0;&#x00A0;do&#x00A0;i=1,nx1
+     &#x00A0;<br />&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;u(i,j,k,e)&#x00A0;=&#x00A0;vx(i,j,k,e)
+     &#x00A0;<br />&#x00A0;&#x00A0;&#x00A0;enddo
+     &#x00A0;<br />&#x00A0;&#x00A0;&#x00A0;enddo
+     &#x00A0;<br />&#x00A0;&#x00A0;&#x00A0;enddo
+     &#x00A0;<br />&#x00A0;&#x00A0;&#x00A0;enddo
+</div>
+     <!--l. 63--><p class="nopar" >
+     <!--l. 66--><p class="noindent" >which is equivalent but vastly superior (WHY?) to:
+                                                                                         
+                                                                                         
+     <div class="verbatim" id="verbatim-25">
+     &#x00A0;&#x00A0;&#x00A0;do&#x00A0;i=1,nx1
+     &#x00A0;<br />&#x00A0;&#x00A0;&#x00A0;do&#x00A0;j=1,ny1
+     &#x00A0;<br />&#x00A0;&#x00A0;&#x00A0;do&#x00A0;k=1,nz1
+     &#x00A0;<br />&#x00A0;&#x00A0;&#x00A0;do&#x00A0;e=1,nelv
+     &#x00A0;<br />&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;u(i,j,k,e)&#x00A0;=&#x00A0;vx(i,j,k,e)
+     &#x00A0;<br />&#x00A0;&#x00A0;&#x00A0;enddo
+     &#x00A0;<br />&#x00A0;&#x00A0;&#x00A0;enddo
+     &#x00A0;<br />&#x00A0;&#x00A0;&#x00A0;enddo
+     &#x00A0;<br />&#x00A0;&#x00A0;&#x00A0;enddo
+</div>
+     <!--l. 78--><p class="nopar" >
+     </dd><dt class="enumerate">
+  [5] </dt><dd 
+class="enumerate">All data arrays are stored according to the SPMD programming model, in which address spaces that
+     are local to each processor are private &#8212; not accessible to other processors except through
+     interprocessor data-transfer (i.e., message passing). Thus
+                                                                                         
+                                                                                         
+     <div class="verbatim" id="verbatim-26">
+     &#x00A0;&#x00A0;&#x00A0;do&#x00A0;i=1,nx1*ny1*nz1*nelv
+     &#x00A0;<br />&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;u(i,1,1,1)&#x00A0;=&#x00A0;vx(i,1,1,1)
+     &#x00A0;<br />&#x00A0;&#x00A0;&#x00A0;enddo
+</div>
+     <!--l. 90--><p class="nopar" >
+     <!--l. 92--><p class="noindent" >means different things on different processors and <span 
+class="ectt-1095">nelv </span>may differ from one processor to the next.
+     (By at most 1, WHY ?)
+     </dd><dt class="enumerate">
+  [6] </dt><dd 
+class="enumerate">For the most part, low-level loops such as above are expressed in higher level routines only through
+     subroutine calls, e.g.,:
+                                                                                         
+                                                                                         
+     <div class="verbatim" id="verbatim-27">
+     &#x00A0;&#x00A0;&#x00A0;call&#x00A0;copy(u,vx,n)
+</div>
+     <!--l. 101--><p class="nopar" >
+     <!--l. 103--><p class="noindent" >where <span 
+class="ectt-1095">n:=nx1*ny1*nz1*nelv</span>. Notable exceptions are in places where performance is critical, e.g., in
+     the middle of certain iterative solvers.
+     </dd></dl>
+                                                                                         
+                                                                                         
+   <div class="footnotes"><!--l. 185--><p class="noindent" ><span class="footnote-mark"><a 
+href="#fn1x4-bk" id="fn1x4"><sup class="textsuperscript">1</sup></a></span><span 
+class="ecrm-0900">these lines contain character strings, they use formatted reads</span>
+<!--l. 185--><p class="noindent" ><span class="footnote-mark"><a 
+href="#fn2x4-bk" id="fn2x4"><sup class="textsuperscript">2</sup></a></span><span 
+class="ecrm-0900">the indicated point would really be at the middle of the element only if lx1=9</span>                                            </div>
+<!--l. 108--><div class="crosslinks"><p class="noindent">[<a 
+href="indexch4.html" >next</a>] [<a 
+href="indexch2.html" >prev</a>] [<a 
+href="indexch2.html#tailindexch2.html" >prev-tail</a>] [<a 
+href="indexch3.html" >front</a>] [<a 
+href="index.html#indexch3.html" >up</a>] </p></div>
+<!--l. 108--><p class="indent" >   <a 
+ id="tailindexch3.html"></a>   
+</body></html> 

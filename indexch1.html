@@ -1,0 +1,430 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN"  
+  "http://www.w3.org/TR/html4/loose.dtd">  
+<html > 
+<head><title>1 Introduction</title> 
+<meta http-equiv="Content-Type" content="text/html; charset=iso-8859-1"> 
+<meta name="generator" content="TeX4ht (http://www.cse.ohio-state.edu/~gurari/TeX4ht/)"> 
+<meta name="originator" content="TeX4ht (http://www.cse.ohio-state.edu/~gurari/TeX4ht/)"> 
+<!-- html,index=1,2,fn-in --> 
+<meta name="src" content="index.tex"> 
+<meta name="date" content="2015-11-06 15:54:00"> 
+<link rel="stylesheet" type="text/css" href="index.css"> 
+</head><body 
+>
+   <!--l. 53--><div class="crosslinks"><p class="noindent">[<a 
+href="indexch2.html" >next</a>] [<a 
+href="indexli1.html" >prev</a>] [<a 
+href="indexli1.html#tailindexli1.html" >prev-tail</a>] [<a 
+href="#tailindexch1.html">tail</a>] [<a 
+href="index.html#indexch1.html" >up</a>] </p></div>
+   <h2 class="chapterHead"><span class="titlemark">Chapter&#x00A0;1</span><br /><a 
+ id="x3-30001"></a>Introduction</h2>
+<!--l. 55--><p class="noindent" >Nek5000 is designed to simulate laminar, transitional, and turbulent incompressible or low Mach-number
+flows with heat transfer and species transport. It is also suitable for incompressible magnetohydrodynamics
+(MHD). Nek5000 is written in f77 and C. It uses MPI for message passing (but can be compiled without
+MPI for serial applications) and some LAPACK routines for eigenvalue computations (depending on the
+particular solver employed). In addition, it can be optionally coupled with MOAB, which
+provides an interface to meshes generated with CUBIT. Nek5000 output formats can be read
+by either <span 
+class="ectt-1095">postx </span>or the parallel visualization package VisIt developed by Hank Childs and
+colleagues at LLNL/LBNL. VisIt is mandatory for large problems (e.g., more than 100,000 spectral
+elements).
+   <h4 class="likesubsectionHead"><a 
+ id="x3-40001"></a>Computational approach</h4>
+<!--l. 68--><p class="noindent" >The spatial discretization is based on the spectral element method (SEM) [<span 
+class="ecbx-1095">? </span>], which is a high-order
+weighted residual technique similar to the finite element method. In the SEM, the solution and data are
+represented in terms of <img 
+src="index0x.png" alt="N  "  class="math" >th-order tensor-product polynomials within each of <img 
+src="index1x.png" alt="E  "  class="math" > deformable hexahedral
+(brick) elements. Typical discretizations involve <img 
+src="index2x.png" alt="E  "  class="math" >=100&#8211;10,000 elements of order <img 
+src="index3x.png" alt="N  "  class="math" >=8&#8211;16
+(corresponding to 512&#8211;4096 points per element). Vectorization and cache efficiency derive from the local
+lexicographical ordering within each macro-element and from the fact that the action of discrete
+operators, which nominally have <img 
+src="index4x.png" alt="      6
+O(EN  )  "  class="math" > nonzeros, can be evaluated in only <img 
+src="index5x.png" alt="      4
+O (EN  )  "  class="math" >
+work and <img 
+src="index6x.png" alt="      3
+O (EN  )  "  class="math" > storage through the use of tensor-product-sum factorization [<span 
+class="ecbx-1095">? </span>]. The
+SEM exhibits very little numerical dispersion and dissipation, which can be important, for
+example, in stability calculations, for long time integrations, and for high Reynolds number
+flows. We refer to [<span 
+class="ecbx-1095">? </span>] for more details. The code Nek5000 is based on the following design
+principles
+     <ul class="itemize1">
+     <li class="itemize">accessible both to beginners and experts alike
+     </li>
+     <li class="itemize">accessible interface via Fortran to include user-defined modules
+     </li>
+     <li class="itemize">the  code  intrinsics  can  be  accessed  and  modified  via  the  user  files  for  more  experienced
+     developers
+     </li>
+     <li class="itemize">portability
+     </li>
+     <li class="itemize">minimal use of external libraries to assure fast compile times
+     </li>
+     <li class="itemize">fast matrix free operator evaluation with minimal storage
+     </li>
+     <li class="itemize">matrix  operations  are  implemented  in  assembler  code  <img 
+src="index7x.png" alt="M  &#x00D7; M  "  class="math" >  routines  to  speed  up
+     computations
+                                                                                         
+                                                                                         
+     </li>
+     <li class="itemize">the parallelism is "under the hood" demanding from the user only care in handling local versus
+     global operations and array sizes
+     </li>
+     <li class="itemize">by testing at the beginning of each run which one of the 3 readily implemented parallel
+     algorithms behaves optimally it can be stated that the parallelism of Nek5000 is automatically
+     tuned to each machine
+     </li>
+     <li class="itemize">direct access to parameters at runtime
+     </li>
+     <li class="itemize">geometry and boundary conditions exposed to the user via the .rea file
+     </li>
+     <li class="itemize">handling complex geometries that can be imported from external codes</li></ul>
+<!--l. 85--><p class="noindent" >
+   <h3 class="sectionHead"><span class="titlemark">1.1   </span> <a 
+ id="x3-50001.1"></a>Nek5000 solvers</h3>
+<!--l. 1--><p class="noindent" >Nek5000 solves the unsteady incompressible two-dimensional, axisymmetric, or three-dimensional Stokes or
+Navier-Stokes equations with forced or natural convection heat transfer in both stationary (fixed) or
+time-dependent geometry. It also solves the compressible Navier-Stokes in the Low Mach regime, the
+magnetohydrodynamic equation (MHD). The solution variables are the fluid velocity <img 
+src="index8x.png" alt="u = (ux,uy,uz)  "  class="math" >,
+the pressure <img 
+src="index9x.png" alt="p  "  class="math" >, the temperature <img 
+src="index10x.png" alt="T  "  class="math" >. All of the above field variables are functions of space <img 
+src="index11x.png" alt="x = (x,y,z)  "  class="math" >
+and time <img 
+src="index12x.png" alt="t  "  class="math" > in domains <img 
+src="index13x.png" alt="&Omega;f  "  class="math" > and/or <img 
+src="index14x.png" alt="&Omega;s  "  class="math" > defined in Fig. <a 
+href="#x3-50011">1.1<!--tex4ht:ref: fig:domains --></a>. Additionally Nek5000 can handle conjugate
+heat transfer problems.
+<!--l. 16--><p class="indent" >   <hr class="figure"><div class="figure" 
+>
+                                                                                         
+                                                                                         
+<a 
+ id="x3-50011"></a>
+                                                                                         
+                                                                                         
+<!--l. 19--><p class="noindent" ><img 
+src="index15x.png" alt="PIC" class="graphics" width="281.85587pt" height="160.73364pt" ><!--tex4ht:graphics  
+name="index15x.png" src="Figs/walls.eps"  
+-->
+<br /> <div class="caption" 
+><span class="id">Figure&#x00A0;1.1: </span><span  
+class="content">Computational domain showing respective fluid and solid subdomains, <img 
+src="index16x.png" alt="&Omega;f  "  class="math" > and <img 
+src="index17x.png" alt="&Omega;s  "  class="math" >.
+The shared boundaries are denoted <img 
+src="index18x.png" alt="&part;&Omega;f = &part;&Omega;s  "  class="math" > and the solid boundary which is not shared by
+fluid is <img 
+src="index19x.png" alt="----
+&part;&Omega;s  "  class="math" >, while the fluid boundary not shared by solid <img 
+src="index20x.png" alt="----
+&part;&Omega;f  "  class="math" >.</span></div><!--tex4ht:label?: x3-50011 -->
+                                                                                         
+                                                                                         
+<!--l. 23--><p class="indent" >   </div><hr class="endfigure">
+   <h5 class="likesubsubsectionHead"><a 
+ id="x3-60001.1"></a>Incompressible Navier&#8211;Stokes equations</h5>
+<!--l. 27--><p class="noindent" >The governing equations of flow motion in dimensional form are <div class="eqnarray">
+   <center class="math-display" >
+<img 
+src="index21x.png" alt="&rho;(&part;tu+  u&sdot;&nabla;u ) = &minus; &nabla;p + &nabla; &sdot;&tau; + &rho;f,in &Omega;f ,   (Momentum   )               (1.1)
+" class="math-display" ><a 
+ id="x3-6001r1.1"></a></center>
+</div>where <img 
+src="index22x.png" alt="               T
+&tau; = &mu;[&nabla;u  + &nabla;u  ]  "  class="math" >. <div class="eqnarray">
+   <center class="math-display" >
+<img 
+src="index23x.png" alt="&nabla; &sdot;u = 0,in &Omega;f ,  (Continuity)                            (1.2)
+" class="math-display" ><a 
+ id="x3-6002r1.2"></a></center>
+</div>
+<!--l. 36--><p class="indent" >   If the fluid viscosity is constant in the entire domain the viscous stress tensor can be contracted
+<img 
+src="index24x.png" alt="&nabla; &sdot;&tau; = &mu; &Delta;u  "  class="math" >, therefore one may solve the Navier&#8211;Stokes equations in either the stress formulation, or no
+stress
+     <ul class="itemize1">
+     <li class="itemize">Variable viscosity requires the full stress tensor <img 
+src="index25x.png" alt="&nabla; &sdot;&tau; = &nabla; &sdot;&mu; [&nabla;u  + &nabla;uT ]  "  class="math" >, and we shall refer
+     to this as the stress formulation
+     </li>
+     <li class="itemize">Constant viscosity leads to a simpler stress tensor <img 
+src="index26x.png" alt="&nabla;  &sdot;&tau; = &mu;&Delta;u  "  class="math" >, which we refer to as the
+     &#8217;no stress&#8217; formulation</li></ul>
+                                                                                         
+                                                                                         
+<!--l. 43--><p class="noindent" >
+   <h5 class="subsubsectionHead"><a 
+ id="x3-70001.1"></a>Non-dimensional Navier-Stokes</h5>
+<!--l. 44--><p class="noindent" >Let us introduce the following non-dimensional variables <img 
+src="index27x.png" alt="x&lowast;  = xL-  "  class="math" >, <img 
+src="index28x.png" alt="u&lowast; =  uU-  "  class="math" >, <img 
+src="index29x.png" alt="t&lowast; =  -t--
+      L&#x2215;U  "  class="math" >. For the
+pressure scale we have two options
+     <ul class="itemize1">
+     <li class="itemize">convective effects are dominant i.e. high velocity flows <img 
+src="index30x.png" alt="p&lowast; = -p2
+     &rho;U   "  class="math" >
+     </li>
+     <li class="itemize">viscous effects are dominant i.e. creeping flows (Stokes flow) <img 
+src="index31x.png" alt="p&lowast; = pL-
+     &mu;U  "  class="math" ></li></ul>
+<!--l. 52--><p class="noindent" >For highly convective flows we choose the first scaling of the pressure and obtain the non-dimensional
+Navier-Stokes:
+   <table 
+class="equation"><tr><td><a 
+ id="x3-7001r3"></a>
+   <center class="math-display" >
+<img 
+src="index32x.png" alt="   &lowast;
+&part;u--+ u &lowast; &sdot;&nabla;u &lowast; = &minus; &nabla;p &lowast; + 1-&nabla; &sdot;&tau;&lowast; +-1--f.
+&part;t&lowast;                       Re        F rg
+" class="math-display" ></center></td><td class="equation-label">(1.3)</td></tr></table>
+<!--l. 55--><p class="nopar" >
+where <img 
+src="index33x.png" alt="&tau;&lowast; = [&nabla;u &lowast; + &nabla;u &lowast;T]  "  class="math" >. The two non-dimensional numbers here are the Reynolds number <img 
+src="index34x.png" alt="Re = -&nu;-
+     UL  "  class="math" >
+<img 
+src="index35x.png" alt="F r  "  class="math" > and the Froude number, defined as <img 
+src="index36x.png" alt="      U2
+F r = gL-  "  class="math" >.
+<!--l. 75--><p class="noindent" >
+   <h5 class="likesubsubsectionHead"><a 
+ id="x3-80001.1"></a>Energy equation</h5>
+<!--l. 76--><p class="noindent" >In addition to the fluid flow, Nek5000 computes automatically the energy equation <div class="eqnarray">
+   <center class="math-display" >
+<img 
+src="index37x.png" alt="&rho;cp(&part;tT + u &sdot;&nabla;T ) = &nabla; &sdot;(k&nabla;T )+  qvol,in &Omega;f &cup; &Omega;s (Energy)                (1.4)
+" class="math-display" ><a 
+ id="x3-8001r1.4"></a></center>
+</div>
+                                                                                         
+                                                                                         
+<!--l. 82--><p class="noindent" >
+   <h5 class="likesubsubsectionHead"><a 
+ id="x3-90001.1"></a>Non-dimensional energy/passive scalar equation</h5>
+<!--l. 83--><p class="noindent" >A similar non-dimensionalization as for the flow equations using the non-dimensional variables <img 
+src="index38x.png" alt="x &lowast; = xL-  "  class="math" >,
+<img 
+src="index39x.png" alt="u &lowast; = u-
+      U  "  class="math" >, <img 
+src="index40x.png" alt="t&lowast; = --t-
+     L&#x2215;U  "  class="math" >, <img 
+src="index41x.png" alt="T =  T&lowast;&minus;T0
+      &delta;T  "  class="math" > leads to <div class="eqnarray">
+   <center class="math-display" >
+<img 
+src="index42x.png" alt="&part;t&lowast;T &lowast; + u&lowast; &sdot;&nabla;T &lowast; =-1-&nabla; &sdot;&nabla;T &lowast; + qvol,in &Omega;f &cup; &Omega;s (Energy)                (1.5)
+                   P e
+" class="math-display" ><a 
+ id="x3-9001r1.5"></a></center>
+</div>where <img 
+src="index43x.png" alt="P e = LU &#x2215;&alpha;  "  class="math" >, with <img 
+src="index44x.png" alt="&alpha; = k&#x2215;&rho;cp  "  class="math" >.
+<!--l. 92--><p class="noindent" >
+   <h5 class="subsubsectionHead"><a 
+ id="x3-100001.1"></a>Passive scalars</h5>
+<!--l. 94--><p class="noindent" >We can additionally solve a convection-diffusion equation for each passive scalar <img 
+src="index45x.png" alt="&#x03D5;i  "  class="math" >, <img 
+src="index46x.png" alt="i  "  class="math" >=1,2,<img 
+src="index47x.png" alt="...  "  class="math" > in
+<img 
+src="index48x.png" alt="&Omega;f &cup; &Omega;s  "  class="math" > <div class="eqnarray">
+   <center class="math-display" >
+<img 
+src="index49x.png" alt="(&rho;c )(&part; &#x03D5; + u &sdot;&nabla; &#x03D5; ) = &nabla; &sdot;(k &nabla; &#x03D5; )+ (q  ) .                     (1.6)
+   p i t i        i        i   i     vol i
+" class="math-display" ><a 
+ id="x3-10001r1.6"></a></center>
+</div>
+<!--l. 101--><p class="indent" >   The terminology and restrictions of the temperature equations are retained for the passive scalars, so
+that it is the responsibility of the user to convert the notation of the passive scalar parameters to their
+thermal analogues. For example, in the context of mass transfer, the user should recognize that the values
+specified for temperature and heat flux will represent concentration and mass flux, respectively. Any
+combination of these equation characteristics is permissible with the following restrictions.
+First, the equation must be set to unsteady if it is time-dependent or if there is any type of
+advection. For these cases, the steady-state (if it exists) is found as stable evolution of the
+initial-value-problem. Secondly, the stress formulation must be selected if the geometry is time-dependent.
+In addition, stress formulation must be employed if there are traction boundary conditions applied
+on any fluid boundary, or if any mixed velocity/traction boundaries, such as symmetry and
+                                                                                         
+                                                                                         
+outflow/n, are not aligned with either one of the Cartesian <img 
+src="index50x.png" alt="x, y  "  class="math" > or <img 
+src="index51x.png" alt="z  "  class="math" > axes. Other capabilities
+of Nek5000 are the linearized Navier-Stokes for flow stability, magnetohydrodynamic flows
+etc.
+<!--l. 123--><p class="noindent" >
+   <h5 class="likesubsubsectionHead"><a 
+ id="x3-110001.1"></a>Unsteady Stokes </h5>
+<!--l. 124--><p class="noindent" >In the case of flows dominated by viscous effects Nek5000 can solve the reduced Stokes equations
+<div class="eqnarray">
+   <center class="math-display" >
+<img 
+src="index52x.png" alt="&rho;(&part;tu ) = &minus; &nabla;p + &nabla; &sdot;&tau; + &rho;f,in &Omega;f (Momentum )                     (1.7)
+" class="math-display" ><a 
+ id="x3-11001r1.7"></a></center>
+</div>where <img 
+src="index53x.png" alt="&nabla; &sdot;&tau; = &nabla;  &sdot;&mu;[&nabla;u  + &nabla;uT ]  "  class="math" > and <div class="eqnarray">
+   <center class="math-display" >
+<img 
+src="index54x.png" alt="&nabla; &sdot;u = 0,in &Omega;f (Continuity )                             (1.8)
+" class="math-display" ><a 
+ id="x3-11002r1.8"></a></center>
+</div>Also here we can distinguish between the stress and non-stress formulation according to whether the
+viscosity is variable or not. The non-dimensional form of these equations can be obtained using the viscous
+scaling of the pressure.
+<!--l. 135--><p class="noindent" >
+   <h5 class="likesubsubsectionHead"><a 
+ id="x3-120001.1"></a>Steady Stokes </h5>
+<!--l. 136--><p class="noindent" >If there is no time-dependence, then Nek5000 can further reduce to <div class="eqnarray">
+                                                                                         
+                                                                                         
+   <center class="math-display" >
+<img 
+src="index55x.png" alt="&minus; &nabla;p + &nabla;  &sdot;&tau; + &rho;f = 0,in &Omega;f (Momentum )                       (1.9)
+" class="math-display" ><a 
+ id="x3-12001r1.9"></a></center>
+</div>where <img 
+src="index56x.png" alt="&nabla; &sdot;&tau; = &nabla;  &sdot;&mu;[&nabla;u  + &nabla;uT ]  "  class="math" > and <div class="eqnarray">
+   <center class="math-display" >
+<img 
+src="index57x.png" alt="&nabla; &sdot;u = 0,in &Omega;f (Continuity )                            (1.10)
+" class="math-display" ><a 
+ id="x3-12002r1.10"></a></center>
+</div>
+<!--l. 145--><p class="noindent" >
+   <h4 class="likesubsectionHead"><a 
+ id="x3-130001.1"></a>Linearized Equations</h4>
+<!--l. 146--><p class="noindent" >In addition to the basic evolution equations described above, Nek5000 provides support for the evolution of
+small perturbations about a base state by solving the <span 
+class="ecti-1095">linearized equations</span>
+   <table 
+class="equation"><tr><td><a 
+ id="x3-13001r11"></a>
+   <center class="math-display" >
+<img 
+src="index58x.png" alt="               &prime;
+&rho; (&part;tui&prime; + u &sdot;&nabla;ui + u&prime;i &sdot;&nabla;u ) = &minus; &nabla;p &prime;i + &mu;&nabla;2u &prime;i, &nabla; &sdot;u&prime;i = 0,
+" class="math-display" ></center></td><td class="equation-label">(1.11)</td></tr></table>
+<!--l. 152--><p class="nopar" >
+for multiple perturbation fields <img 
+src="index59x.png" alt="i = 1,2,...  "  class="math" > subject to different initial conditions and (typically)
+homogeneous boundary conditions. These solutions can be evolved concurrently with the base fields
+<img 
+src="index60x.png" alt="(u,p,T )  "  class="math" >. There is also support for computing perturbation solutions to the Boussinesq equations for
+natural convection. Calculations such as these can be used to estimate Lyapunov exponents of chaotic
+                                                                                         
+                                                                                         
+flows, etc.
+<!--l. 162--><p class="noindent" >
+   <h4 class="likesubsectionHead"><a 
+ id="x3-140001.1"></a>Steady conduction</h4>
+<!--l. 163--><p class="noindent" >The energy Eq.&#x00A0;<a 
+href="#x3-8001r1.4">1.4<!--tex4ht:ref: eq:energy --></a> in which the advection term <img 
+src="index61x.png" alt="u&sdot; &nabla;T  "  class="math" > and the transient term <img 
+src="index62x.png" alt="&part;tT  "  class="math" > are zero. In
+essence this represents a Poisson equation.
+<!--l. 167--><p class="noindent" >
+   <h4 class="likesubsectionHead"><a 
+ id="x3-150001.1"></a>Low-Mach Navier-Stokes</h4>
+<!--l. 168--><p class="noindent" >The compressible Navier-Stokes differ mathematically from the incompressible ones mainly in the
+divergence constraint <img 
+src="index63x.png" alt="&nabla; &sdot;u &frasl;= 0  "  class="math" >. In this case the system of equations is not closed and an additional
+equation of state (EOS) is required to connect the state variables, e.g. <img 
+src="index64x.png" alt="p = f(&rho;,T )  "  class="math" >. However Nek5000
+can only solve the Low Mach approximation of the compressible Navier-Stokes. The Low-Mach
+approximation decouples the pressure from the velocity leading to a system of equations which can be
+solved numerically in a similar fashion as the incompressible Navier-Stokes.
+<!--l. 170--><p class="indent" >   The Low Mach equations in non-dimensional form are <div class="eqnarray">
+   <center class="math-display" >
+<img 
+src="index65x.png" alt=" (            )
+&rho;  du-+ u &sdot;&nabla;u   = &minus; &nabla;p + &nabla; &sdot;&tau; + &rho;f                     (1.12)
+   dt
+ ( d&rho;        )
+&rho;  ---+ u &sdot;&nabla;&rho;   = &minus; &nabla; &sdot;u
+ ( dt         )
+&rho;  dT-+ u &sdot;&nabla;T   =  &minus; &nabla; &sdot;k &nabla;T
+   dt
+" class="math-display" ></center>
+</div>where <img 
+src="index66x.png" alt="&tau; = &mu;[&nabla;u  + &nabla;uT &minus;  23&nabla; &sdot;uI]  "  class="math" >.
+<!--l. 179--><p class="indent" >   The implementation of the equation if state for the Low Mach formulation is for the moment
+hard-coded to be the ideal gas equation of state <img 
+src="index67x.png" alt="p = &rho;RT  "  class="math" >. This allows for both variable density and
+variable viscosity. The system is solved by substituting <img 
+src="index68x.png" alt="&rho; = f (p,T )  "  class="math" > into the continuity equation and
+obtaining a so-called thermal divergence (the term <img 
+src="index69x.png" alt="&nabla; &sdot;u  "  class="math" > is given as a function of the temperature). A
+more detailed description on how these equations connect is given in section <a 
+href="#x3-150001.1">1.1<!--tex4ht:ref: sec:lowma --></a> as well as in the
+developer&#8217;s manual.
+                                                                                         
+                                                                                         
+<!--l. 182--><p class="noindent" >
+   <h4 class="likesubsectionHead"><a 
+ id="x3-160001.1"></a>Incompressible MHD equations</h4>
+<!--l. 183--><p class="noindent" >Magnetohydrodynamics is based on the idea that magnetic fields can induce currents in a moving
+conductive fluid, which in turn creates forces on the fluid and changing the magnetic field itself.
+The set of equations which describe MHD are a combination of the Navier-Stokes equations
+of fluid dynamics and Maxwell&#8217;s equations of electromagnetism. These differential equations
+have to be solved simultaneously, and Nek5000 has an implementation for the incompressible
+MHD.
+<!--l. 185--><p class="indent" >   Consider a fluid of velocity <img 
+src="index70x.png" alt="u  "  class="math" > subject to a magnetic field <img 
+src="index71x.png" alt="B  "  class="math" > then the incompressible MHD
+equations are <div class="eqnarray">
+   <center class="math-display" >
+<img 
+src="index72x.png" alt="&rho;(&part;tu+ u &sdot;&nabla;u )  =  &minus; &nabla;p + &mu;&Delta;u  + B &sdot;&nabla;B  ,                   (1.13)
+         &nabla;  &sdot;u  =  0                                        (1.14)
+  &part;B  + u&sdot;&nabla;B    =  &minus; &nabla;q + &eta;&Delta;B  + B &sdot;&nabla;u  ,
+   t
+         &nabla; &sdot;B   =  0
+" class="math-display" ></center>
+</div>where <img 
+src="index73x.png" alt="&rho;  "  class="math" > is the density <img 
+src="index74x.png" alt="&mu;  "  class="math" > the viscosity, <img 
+src="index75x.png" alt="&eta;  "  class="math" > resistivity, and pressure <img 
+src="index76x.png" alt="p  "  class="math" >.
+<!--l. 195--><p class="indent" >   The total magnetic field can be split into two parts: <img 
+src="index77x.png" alt="B =  B0 + b  "  class="math" > (mean + fluctuations). The above
+equations become in terms of Elsässer variables (<img 
+src="index78x.png" alt="z± = u ± b  "  class="math" >) <div class="eqnarray">
+   <center class="math-display" >
+<img 
+src="index79x.png" alt="   ±                (     )
+&part;z-- &#x2213; (B0 &sdot;&nabla;) z± +  z&#x2213; &sdot; &nabla; z± = &minus; &nabla;p + &nu;+&nabla;2z ± + &nu;&minus; &nabla;2z &#x2213;            (1.15)
+ &part;t
+" class="math-display" ></center>
+</div>where <img 
+src="index80x.png" alt="&nu;± = &nu; ± &eta;  "  class="math" >.
+<!--l. 202--><p class="indent" >   The important non-dimensional parameters for MHD are <img 
+src="index81x.png" alt="Re = U L &#x2215;&nu;  "  class="math" > and the magnetic Re
+<img 
+src="index82x.png" alt="ReM  = U L&#x2215; &eta;  "  class="math" >.
+                                                                                         
+                                                                                         
+   <!--l. 90--><div class="crosslinks"><p class="noindent">[<a 
+href="indexch2.html" >next</a>] [<a 
+href="indexli1.html" >prev</a>] [<a 
+href="indexli1.html#tailindexli1.html" >prev-tail</a>] [<a 
+href="indexch1.html" >front</a>] [<a 
+href="index.html#indexch1.html" >up</a>] </p></div>
+<!--l. 90--><p class="indent" >   <a 
+ id="tailindexch1.html"></a>    
+</body></html> 
