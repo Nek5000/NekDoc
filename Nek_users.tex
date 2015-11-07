@@ -82,8 +82,8 @@ for example, in stability calculations, for long time integrations,
 and for high Reynolds number flows. We refer to \cite{dfm02} for more
 details.
 \input{philosophy}
-\section{Nek5000 solvers}\label{sec:ns_eqns}
 \input{ns_eqns}
+\input{additional}
 %\section{Nek5000 code layout}
 %\input{code_layout}
 
@@ -101,12 +101,13 @@ details.
 \section{Geometry and Parameters file .rea}
 
 \input{rea_intro}
+\input{physical_parameters}
 %\begin{comment}
 \input{data_layout}
 %\subsection{Additional files}
 
 \chapter{Geometry}\label{sec:geom}
-\input{geom_general}
+
 Note that in case of any changes in the SIZE file, a recompilation is necessary.\\
 \section{Setting up the geometry}
 \subsection{Rectangular geometries}
@@ -115,6 +116,7 @@ Note that in case of any changes in the SIZE file, a recompilation is necessary.
 %\section{Curvilinear geometry}
 \section{Extrusion/Mirroring}
 \input{n2to3}
+\input{geom_general}
 \section{Boundary and initial conditions}
 \input{boundaryc}
 \input{internal_bc}
@@ -130,7 +132,7 @@ Note that in case of any changes in the SIZE file, a recompilation is necessary.
 %\end{comment}
 %\begin{comment}
 
-\chapter{Mathematical routines of interest}
+\chapter{Routines of interest}
 \input{help}
 
 %\section{Troubleshooting}

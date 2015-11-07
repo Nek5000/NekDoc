@@ -22,7 +22,7 @@ and solid subdomains, \(\Omega_f\) and \(\Omega_s\). The shared boundaries are d
 \label{fig:domains}
 \end{figure}
 
-\subsubsection{Incompressible Navier--Stokes equations}
+\section{Incompressible Navier--Stokes equations}
 %
 The governing equations of flow motion in dimensional form are
 \begin{eqnarray}\label{eq:ns_momentum}
@@ -40,7 +40,7 @@ If the fluid viscosity is constant in the entire domain the viscous stress tenso
 \item Constant viscosity leads to a simpler stress tensor \(\nabla \cdot \tau=\mu\Delta \vect u\), which we refer to as the 'no stress' formulation
 \end{itemize}
 
-\subsubsection{Non-dimensional Navier-Stokes}
+\section{Non-dimensional Navier-Stokes}
 Let us introduce the following non-dimensional variables \(\vect x^*\ = \frac{\vect x}{L}\), \(\vect u^*\ = \frac{u}{U}\), \(t^*\ = \frac{t}{L/U}\,\).
 For the pressure scale we have two options 
 \begin{itemize}
@@ -72,14 +72,14 @@ The two non-dimensional numbers here are the Reynolds number \(Re=\frac{\nu}{U L
 %\end{tabular}
 
 %\newline
-\subsubsection{Energy equation}
+\section{Energy equation}
 In addition to the fluid flow, Nek5000 computes automatically the energy equation
 \begin{eqnarray}\label{eq:energy}
  \rho c_{p} ( \partial_{t} T + \bu \cdot \nabla T ) =
    \nabla \cdot (k \nabla T) + q_{vol}\,\, ,\text{in } \Omega_f\cup \Omega_s  \text{  (Energy)  } 
 \end{eqnarray}
 
-\subsubsection{Non-dimensional energy/passive scalar equation}
+\section{Non-dimensional energy/passive scalar equation}
 A similar non-dimensionalization as for the flow equations using the non-dimensional variables
 \(\vect x^*\ = \frac{\vect x}{L}\),  \(\vect u^*\ = \frac{u}{U}\), \(t^*\ = \frac{t}{L/U}\), \(T=\frac{T^*-T_0}{\delta T}\) leads to
 \begin{eqnarray}\label{eq:energy_nondim}
@@ -89,7 +89,7 @@ A similar non-dimensionalization as for the flow equations using the non-dimensi
 where \(Pe=LU/\alpha\), with \(\alpha=k/\rho c_p\).
 
 
-\subsubsection{Passive scalars}\label{sec:passive_scal}
+\section{Passive scalars}\label{sec:passive_scal}
 
 We can additionally solve a convection-diffusion equation for each passive scalar \(\phi_i\),
 \(i\)=1,2,\(\ldots\) in \(\Omega_f \cup \Omega_s\)
@@ -120,7 +120,7 @@ Other capabilities of Nek5000 are the linearized Navier-Stokes for flow stabilit
 
 
 
-\subsubsection{Unsteady Stokes }
+\section{Unsteady Stokes }
 In the case of flows dominated by viscous effects Nek5000 can solve the reduced Stokes equations
 \begin{eqnarray}\label{eq:ns_momentum_stokes}
  \rho(\partial_{t} \bu ) = - \nabla p + \nabla \cdot \tau + \rho {\bf f} \,\, , \text{in } \Omega_f \text{  (Momentum)  }
@@ -132,7 +132,7 @@ where \(\nabla \cdot\tau=\nabla\cdot\mu[\nabla \vect u+\nabla \vect u^{T}]\) and
 Also here we can distinguish between the stress and non-stress formulation according to whether the viscosity is variable or not. The non-dimensional form of these equations can be obtained using the viscous scaling of the pressure.
 
 
-\subsubsection{Steady Stokes }
+\section{Steady Stokes }
 If there is no time-dependence, then Nek5000 can further reduce to
 \begin{eqnarray}\label{eq:ns_momentum_steady_stokes}
  - \nabla p + \nabla \cdot \tau + \rho {\bf f}=0 \,\, , \text{in } \Omega_f \text{  (Momentum)  }
@@ -142,7 +142,7 @@ where \(\nabla \cdot\tau=\nabla\cdot\mu[\nabla \vect u+\nabla {\vect u}^{T}]\) a
  \nabla \cdot \bu =0 \,\, , \text{in } \Omega_f  \text{  (Continuity)  } 
 \end{eqnarray}
 
-\subsection{Linearized Equations}
+\section{Linearized Equations}
 In addition to the basic evolution equations described above, Nek5000
 provides support for the evolution of small perturbations about
 a base state by solving the {\em linearized equations}
@@ -159,12 +159,12 @@ natural convection.  Calculations such as these can be used to estimate Lyapunov
 
 
 
-\subsection{Steady conduction}    
+\section{Steady conduction}    
 The energy Eq.~\ref{eq:energy} in which the advection term \(\bu \cdot \nabla T\)
     and the transient term \(\partial_{t} T\) are zero. In essence this represents a Poisson equation.
     
 
-\subsection{Low-Mach Navier-Stokes}\label{sec:lowma}
+\section{Low-Mach Navier-Stokes}\label{sec:lowma}
 The compressible Navier-Stokes differ mathematically from the incompressible ones mainly in the divergence constraint \(\nabla \cdot \vect u\neq 0\). In this case the system of equations is not closed and an additional equation of state (EOS) is required to connect the state variables, e.g. \(p=f(\rho,T)\). However Nek5000 can only solve the Low Mach approximation of the compressible Navier-Stokes. The Low-Mach approximation decouples the pressure from the velocity leading to a system of equations which can be solved numerically in a similar fashion as the incompressible Navier-Stokes.
 
 The Low Mach equations in non-dimensional form are 
@@ -179,7 +179,7 @@ where \(\tau=\mu[\nabla \vect u+\nabla \vect u^{T}-\frac{2}{3}\nabla \cdot \vect
 The implementation of the equation if state for the Low Mach formulation is for the moment hard-coded to be the ideal gas equation of state \(p=\rho R T\). This allows for both variable density and variable viscosity. The system is solved by substituting \(\rho=f(p,T)\) into the continuity equation and obtaining a so-called thermal divergence (the term \(\nabla \cdot u\) is given as a function of the temperature).
 A more detailed description on how these equations connect is given in section \ref{sec:lowma} as well as in the developer's manual.
 
-\subsection{Incompressible MHD equations}\label{sec:mhd}
+\section{Incompressible MHD equations}\label{sec:mhd}
 Magnetohydrodynamics is based on the idea that magnetic fields can induce currents in a moving conductive fluid, which in turn creates forces on the fluid and changing the magnetic field itself. The set of equations which describe MHD are a combination of the Navier-Stokes equations of fluid dynamics and Maxwell's equations of electromagnetism. These differential equations have to be solved simultaneously, and Nek5000 has an implementation for the incompressible MHD.
 
 Consider a fluid of velocity \(\vect u\) subject to a magnetic field \(\vect B\) then the incompressible MHD equations are
