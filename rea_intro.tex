@@ -174,13 +174,13 @@ Both 'C' and 'S' types allow for a surface of as high order as the polynomial us
 
 The following section defines history points in the {\tt .rea} file, see example {\tt vortex/r1854a.rea}, or {\tt shear4/shear4.rea}
 \begin{verbatim}
-0 PACKETS OF DATA FOLLOW\\
-***** HISTORY AND INTEGRAL DATA *****\\
-    56 POINTS. H code, I,J,H,IEL \\
-UVWP    H     31     31   1   6\\
-UVWP    H     31     31   31  6\\
-UVWP    H     31     31   31  54\\
- "      "      "      "    "   "\\
+0 PACKETS OF DATA FOLLOW
+***** HISTORY AND INTEGRAL DATA *****
+    56 POINTS. H code, I,J,H,IEL 
+UVWP    H     31     31   1   6
+UVWP    H     31     31   31  6
+UVWP    H     31     31   31  54
+ "      "      "      "    "   "
 \end{verbatim}
 
 The {\tt "56 POINTS"} line needs to be followed by 56 lines of the type shown. However, in each of the following lines, which have the {\tt UVWP} etc., location is CRUCIAL, it
@@ -212,14 +212,14 @@ so that you can verify the point locations.
 
 \noindent
 It is important to note that Nek5000 currently supports two input file
-formats, ascii and binary.   The {\tt .rea} file format
-described above is ascii.  For the binary format, all sections
+formats, ASCII and binary.   The {\tt .rea} file format
+described above is ASCII.  For the binary format, all sections
 of the .rea file having storage requirements that scale with 
 number of elements (i.e., geometry, curvature, and boundary 
 conditions) are moved to a second, {\tt .re2}, file and
 written in binary.   The remaining sections continue to 
 reside in the {\tt .rea} file.   The distinction between
-the ascii and binary formats is indicated in the {\tt .rea}
+the ASCII and binary formats is indicated in the {\tt .rea}
 file by having a negative number of elements.
 There are converters, {\tt reatore2} and {\tt re2torea}, in the Nek5000
 tools directory to change between formats.   The binary file
