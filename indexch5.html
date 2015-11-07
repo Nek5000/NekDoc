@@ -7,7 +7,7 @@
 <meta name="originator" content="TeX4ht (http://www.cse.ohio-state.edu/~gurari/TeX4ht/)"> 
 <!-- html,index=1,2,fn-in --> 
 <meta name="src" content="index.tex"> 
-<meta name="date" content="2015-11-06 15:54:00"> 
+<meta name="date" content="2015-11-06 21:44:00"> 
 <link rel="stylesheet" type="text/css" href="index.css"> 
 </head><body 
 >
@@ -18,11 +18,11 @@ href="indexch4.html#tailindexch4.html" >prev-tail</a>] [<a
 href="#tailindexch5.html">tail</a>] [<a 
 href="index.html#indexch5.html" >up</a>] </p></div>
    <h2 class="chapterHead"><span class="titlemark">Chapter&#x00A0;5</span><br /><a 
- id="x7-490005"></a>Performing large scale simulations in Nek5000</h2>
+ id="x7-530005"></a>Performing large scale simulations in Nek5000</h2>
    <h3 class="sectionHead"><span class="titlemark">5.1   </span> <a 
- id="x7-500005.1"></a>Large scale simulations</h3>
+ id="x7-540005.1"></a>Large scale simulations</h3>
 <!--l. 1--><p class="noindent" >The largest simulations performed so far with Nek5000 are in the range of <img 
-src="index245x.png" alt="5&#x00D7; 106   "  class="math" >. Performance aspects
+src="index265x.png" alt="5&#x00D7; 106   "  class="math" >. Performance aspects
 to keep in mind
      <ul class="itemize1">
      <li class="itemize">design your SEM-mesh for a polynomial order N=7 or N=9 (lx1 in SIZE)
@@ -62,7 +62,7 @@ have to be created as specified by the user.
 <!--l. 23--><p class="indent" >   For large scale simulations the AMG solver is a better, faster choice for solving the Poisson problem
 (the default solver is XXT).
 <!--l. 25--><p class="indent" >   <span class="likesubparagraphHead"><a 
- id="x7-510005.1"></a><span 
+ id="x7-550005.1"></a><span 
 class="ecbx-1095">AMG solver</span></span> The code should be compiled once with the settings <span 
 class="ectt-1095">AMG=true</span>, <span 
 class="ectt-1095">AMG_ DUMP=true</span>. In the
@@ -112,7 +112,7 @@ class="ectt-1095">trunk/tools/amg_ matlab</span>. Specifically, the first tolera
 will increase the time the matlab code stage takes, but the result will be a faster convergence in the
 pressure solves of the AMG run stage.
 <!--l. 64--><p class="indent" >   <span class="likesubparagraphHead"><a 
- id="x7-520005.1"></a><span 
+ id="x7-560005.1"></a><span 
 class="ecbx-1095">Size related issues</span></span>
                                                                                          
                                                                                          
@@ -126,177 +126,177 @@ class="ectt-1095">echo -1 &#x003E;</span>
 <span 
 class="ectt-1095">ioinfo</span>.
 <!--l. 72--><p class="indent" >   <span class="likesubparagraphHead"><a 
- id="x7-530005.1"></a><span 
+ id="x7-570005.1"></a><span 
 class="ecbx-1095">MAKENEK</span></span> The shell script makenek is designed to assist the compilation process of NEK5000. The
 script will create a makefile based on the user settings section in makenek. The GNU gmake utility is used
 to build NEK5000. Available configurations options: <div class="table">
                                                                                          
                                                                                          
 <!--l. 75--><p class="indent" >   <a 
- id="x7-530011"></a><hr class="float"><div class="float" 
+ id="x7-570011"></a><hr class="float"><div class="float" 
 >
                                                                                          
                                                                                          
  <div class="caption" 
 ><span class="id">Table&#x00A0;5.1: </span><span  
-class="content">Compiler options</span></div><!--tex4ht:label?: x7-530011 -->
+class="content">Compiler options</span></div><!--tex4ht:label?: x7-570011 -->
 <div class="center" 
 >
 <!--l. 79--><p class="noindent" >
- <table id="TBL-10" class="tabular" 
+ <table id="TBL-14" class="tabular" 
 cellspacing="0" cellpadding="0"  
-><colgroup id="TBL-10-1g"><col 
-id="TBL-10-1"><col 
-id="TBL-10-2"><col 
-id="TBL-10-3"><col 
-id="TBL-10-4"></colgroup><tr 
+><colgroup id="TBL-14-1g"><col 
+id="TBL-14-1"><col 
+id="TBL-14-2"><col 
+id="TBL-14-3"><col 
+id="TBL-14-4"></colgroup><tr 
 class="hline"><td><hr></td><td><hr></td><td><hr></td><td><hr></td></tr><tr 
 class="hline"><td><hr></td><td><hr></td><td><hr></td><td><hr></td></tr><tr  
- style="vertical-align:baseline;" id="TBL-10-1-"><td  style="white-space:nowrap; text-align:center;" id="TBL-10-1-1"  
-class="td01">       name             </td><td  style="white-space:nowrap; text-align:center;" id="TBL-10-1-2"  
-class="td11">  values    </td><td  style="white-space:nowrap; text-align:center;" id="TBL-10-1-3"  
-class="td11">      default         </td><td  style="white-space:wrap; text-align:left;" id="TBL-10-1-4"  
+ style="vertical-align:baseline;" id="TBL-14-1-"><td  style="white-space:nowrap; text-align:center;" id="TBL-14-1-1"  
+class="td01">       name             </td><td  style="white-space:nowrap; text-align:center;" id="TBL-14-1-2"  
+class="td11">  values    </td><td  style="white-space:nowrap; text-align:center;" id="TBL-14-1-3"  
+class="td11">      default         </td><td  style="white-space:wrap; text-align:left;" id="TBL-14-1-4"  
 class="td10"> <!--l. 100--><p class="noindent" >description                          </td>
 </tr><tr 
 class="hline"><td><hr></td><td><hr></td><td><hr></td><td><hr></td></tr><tr 
 class="hline"><td><hr></td><td><hr></td><td><hr></td><td><hr></td></tr><tr  
- style="vertical-align:baseline;" id="TBL-10-2-"><td  style="white-space:nowrap; text-align:center;" id="TBL-10-2-1"  
-class="td01">      PPLIST            </td><td  style="white-space:nowrap; text-align:center;" id="TBL-10-2-2"  
-class="td11">  string    </td><td  style="white-space:nowrap; text-align:center;" id="TBL-10-2-3"  
-class="td11">                 </td><td  style="white-space:wrap; text-align:left;" id="TBL-10-2-4"  
+ style="vertical-align:baseline;" id="TBL-14-2-"><td  style="white-space:nowrap; text-align:center;" id="TBL-14-2-1"  
+class="td01">      PPLIST            </td><td  style="white-space:nowrap; text-align:center;" id="TBL-14-2-2"  
+class="td11">  string    </td><td  style="white-space:nowrap; text-align:center;" id="TBL-14-2-3"  
+class="td11">                 </td><td  style="white-space:wrap; text-align:left;" id="TBL-14-2-4"  
 class="td10"> <!--l. 100--><p class="noindent" >list of pre-processor symbols
   (BG,MOAB,BLAS_ MXM,
   MPIIO)                              </td>
 </tr><tr 
 class="hline"><td><hr></td><td><hr></td><td><hr></td><td><hr></td></tr><tr  
- style="vertical-align:baseline;" id="TBL-10-3-"><td  style="white-space:nowrap; text-align:center;" id="TBL-10-3-1"  
-class="td01">       IFMPI             </td><td  style="white-space:nowrap; text-align:center;" id="TBL-10-3-2"  
-class="td11"> true,false  </td><td  style="white-space:nowrap; text-align:center;" id="TBL-10-3-3"  
-class="td11">       true           </td><td  style="white-space:wrap; text-align:left;" id="TBL-10-3-4"  
+ style="vertical-align:baseline;" id="TBL-14-3-"><td  style="white-space:nowrap; text-align:center;" id="TBL-14-3-1"  
+class="td01">       IFMPI             </td><td  style="white-space:nowrap; text-align:center;" id="TBL-14-3-2"  
+class="td11"> true,false  </td><td  style="white-space:nowrap; text-align:center;" id="TBL-14-3-3"  
+class="td11">       true           </td><td  style="white-space:wrap; text-align:left;" id="TBL-14-3-4"  
 class="td10"> <!--l. 100--><p class="noindent" >use MPI (needed for a
   multiprocessor computation)   </td>
 </tr><tr 
 class="hline"><td><hr></td><td><hr></td><td><hr></td><td><hr></td></tr><tr  
- style="vertical-align:baseline;" id="TBL-10-4-"><td  style="white-space:nowrap; text-align:center;" id="TBL-10-4-1"  
-class="td01">   IFAMG_ DUMP      </td><td  style="white-space:nowrap; text-align:center;" id="TBL-10-4-2"  
-class="td11"> true,false  </td><td  style="white-space:nowrap; text-align:center;" id="TBL-10-4-3"  
-class="td11">       false           </td><td  style="white-space:wrap; text-align:left;" id="TBL-10-4-4"  
+ style="vertical-align:baseline;" id="TBL-14-4-"><td  style="white-space:nowrap; text-align:center;" id="TBL-14-4-1"  
+class="td01">   IFAMG_ DUMP      </td><td  style="white-space:nowrap; text-align:center;" id="TBL-14-4-2"  
+class="td11"> true,false  </td><td  style="white-space:nowrap; text-align:center;" id="TBL-14-4-3"  
+class="td11">       false           </td><td  style="white-space:wrap; text-align:left;" id="TBL-14-4-4"  
 class="td10"> <!--l. 100--><p class="noindent" >dump AMG pre-processing
   files                                   </td>
 </tr><tr 
 class="hline"><td><hr></td><td><hr></td><td><hr></td><td><hr></td></tr><tr  
- style="vertical-align:baseline;" id="TBL-10-5-"><td  style="white-space:nowrap; text-align:center;" id="TBL-10-5-1"  
-class="td01">       IFAMG            </td><td  style="white-space:nowrap; text-align:center;" id="TBL-10-5-2"  
-class="td11"> true,false  </td><td  style="white-space:nowrap; text-align:center;" id="TBL-10-5-3"  
-class="td11">       false           </td><td  style="white-space:wrap; text-align:left;" id="TBL-10-5-4"  
+ style="vertical-align:baseline;" id="TBL-14-5-"><td  style="white-space:nowrap; text-align:center;" id="TBL-14-5-1"  
+class="td01">       IFAMG            </td><td  style="white-space:nowrap; text-align:center;" id="TBL-14-5-2"  
+class="td11"> true,false  </td><td  style="white-space:nowrap; text-align:center;" id="TBL-14-5-3"  
+class="td11">       false           </td><td  style="white-space:wrap; text-align:left;" id="TBL-14-5-4"  
 class="td10"> <!--l. 100--><p class="noindent" >use AMG as coarse grid solver
   for pressure preconditioner
   else XXT                            </td>
 </tr><tr 
 class="hline"><td><hr></td><td><hr></td><td><hr></td><td><hr></td></tr><tr  
- style="vertical-align:baseline;" id="TBL-10-6-"><td  style="white-space:nowrap; text-align:center;" id="TBL-10-6-1"  
-class="td01">        F77               </td><td  style="white-space:nowrap; text-align:center;" id="TBL-10-6-2"  
-class="td11">  string    </td><td  style="white-space:nowrap; text-align:center;" id="TBL-10-6-3"  
-class="td11">    mandatory      </td><td  style="white-space:wrap; text-align:left;" id="TBL-10-6-4"  
+ style="vertical-align:baseline;" id="TBL-14-6-"><td  style="white-space:nowrap; text-align:center;" id="TBL-14-6-1"  
+class="td01">        F77               </td><td  style="white-space:nowrap; text-align:center;" id="TBL-14-6-2"  
+class="td11">  string    </td><td  style="white-space:nowrap; text-align:center;" id="TBL-14-6-3"  
+class="td11">    mandatory      </td><td  style="white-space:wrap; text-align:left;" id="TBL-14-6-4"  
 class="td10"> <!--l. 100--><p class="noindent" >Fortran compiler (e.g. MPI:
   mpif77)                              </td>
 </tr><tr 
 class="hline"><td><hr></td><td><hr></td><td><hr></td><td><hr></td></tr><tr  
- style="vertical-align:baseline;" id="TBL-10-7-"><td  style="white-space:nowrap; text-align:center;" id="TBL-10-7-1"  
-class="td01">         CC               </td><td  style="white-space:nowrap; text-align:center;" id="TBL-10-7-2"  
-class="td11">  string    </td><td  style="white-space:nowrap; text-align:center;" id="TBL-10-7-3"  
-class="td11">    mandatory      </td><td  style="white-space:wrap; text-align:left;" id="TBL-10-7-4"  
+ style="vertical-align:baseline;" id="TBL-14-7-"><td  style="white-space:nowrap; text-align:center;" id="TBL-14-7-1"  
+class="td01">         CC               </td><td  style="white-space:nowrap; text-align:center;" id="TBL-14-7-2"  
+class="td11">  string    </td><td  style="white-space:nowrap; text-align:center;" id="TBL-14-7-3"  
+class="td11">    mandatory      </td><td  style="white-space:wrap; text-align:left;" id="TBL-14-7-4"  
 class="td10"> <!--l. 100--><p class="noindent" >C compiler (e.g. MPI: mpicc)  </td>
 </tr><tr 
 class="hline"><td><hr></td><td><hr></td><td><hr></td><td><hr></td></tr><tr  
- style="vertical-align:baseline;" id="TBL-10-8-"><td  style="white-space:nowrap; text-align:center;" id="TBL-10-8-1"  
-class="td01">         G                </td><td  style="white-space:nowrap; text-align:center;" id="TBL-10-8-2"  
-class="td11">  string    </td><td  style="white-space:nowrap; text-align:center;" id="TBL-10-8-3"  
-class="td11">     optional        </td><td  style="white-space:wrap; text-align:left;" id="TBL-10-8-4"  
+ style="vertical-align:baseline;" id="TBL-14-8-"><td  style="white-space:nowrap; text-align:center;" id="TBL-14-8-1"  
+class="td01">         G                </td><td  style="white-space:nowrap; text-align:center;" id="TBL-14-8-2"  
+class="td11">  string    </td><td  style="white-space:nowrap; text-align:center;" id="TBL-14-8-3"  
+class="td11">     optional        </td><td  style="white-space:wrap; text-align:left;" id="TBL-14-8-4"  
 class="td10"> <!--l. 100--><p class="noindent" >optional compilation flags       </td>
 </tr><tr 
 class="hline"><td><hr></td><td><hr></td><td><hr></td><td><hr></td></tr><tr  
- style="vertical-align:baseline;" id="TBL-10-9-"><td  style="white-space:nowrap; text-align:center;" id="TBL-10-9-1"  
-class="td01">OPT_ FLAGS_ STD7  </td><td  style="white-space:nowrap; text-align:center;" id="TBL-10-9-2"  
-class="td11">  string    </td><td  style="white-space:nowrap; text-align:center;" id="TBL-10-9-3"  
-class="td11">     optional        </td><td  style="white-space:wrap; text-align:left;" id="TBL-10-9-4"  
+ style="vertical-align:baseline;" id="TBL-14-9-"><td  style="white-space:nowrap; text-align:center;" id="TBL-14-9-1"  
+class="td01">OPT_ FLAGS_ STD7  </td><td  style="white-space:nowrap; text-align:center;" id="TBL-14-9-2"  
+class="td11">  string    </td><td  style="white-space:nowrap; text-align:center;" id="TBL-14-9-3"  
+class="td11">     optional        </td><td  style="white-space:wrap; text-align:left;" id="TBL-14-9-4"  
 class="td10"> <!--l. 100--><p class="noindent" >optimization flags for
   L1,L2,L3                             </td>
 </tr><tr 
 class="hline"><td><hr></td><td><hr></td><td><hr></td><td><hr></td></tr><tr  
- style="vertical-align:baseline;" id="TBL-10-10-"><td  style="white-space:nowrap; text-align:center;" id="TBL-10-10-1"  
-class="td01">OPT_ FLAGS_ MAG  </td><td  style="white-space:nowrap; text-align:center;" id="TBL-10-10-2"  
-class="td11">  string    </td><td  style="white-space:nowrap; text-align:center;" id="TBL-10-10-3"  
-class="td11">     optional        </td><td  style="white-space:wrap; text-align:left;" id="TBL-10-10-4"  
+ style="vertical-align:baseline;" id="TBL-14-10-"><td  style="white-space:nowrap; text-align:center;" id="TBL-14-10-1"  
+class="td01">OPT_ FLAGS_ MAG  </td><td  style="white-space:nowrap; text-align:center;" id="TBL-14-10-2"  
+class="td11">  string    </td><td  style="white-space:nowrap; text-align:center;" id="TBL-14-10-3"  
+class="td11">     optional        </td><td  style="white-space:wrap; text-align:left;" id="TBL-14-10-4"  
 class="td10"> <!--l. 100--><p class="noindent" >optimization flags for L4
   (highest opt level)                 </td>
 </tr><tr 
 class="hline"><td><hr></td><td><hr></td><td><hr></td><td><hr></td></tr><tr  
- style="vertical-align:baseline;" id="TBL-10-11-"><td  style="white-space:nowrap; text-align:center;" id="TBL-10-11-1"  
-class="td01">  SOURCE_ ROOT     </td><td  style="white-space:nowrap; text-align:center;" id="TBL-10-11-2"  
-class="td11">  string    </td><td  style="white-space:nowrap; text-align:center;" id="TBL-10-11-3"  
-class="td11">    mandatory      </td><td  style="white-space:wrap; text-align:left;" id="TBL-10-11-4"  
+ style="vertical-align:baseline;" id="TBL-14-11-"><td  style="white-space:nowrap; text-align:center;" id="TBL-14-11-1"  
+class="td01">  SOURCE_ ROOT     </td><td  style="white-space:nowrap; text-align:center;" id="TBL-14-11-2"  
+class="td11">  string    </td><td  style="white-space:nowrap; text-align:center;" id="TBL-14-11-3"  
+class="td11">    mandatory      </td><td  style="white-space:wrap; text-align:left;" id="TBL-14-11-4"  
 class="td10"> <!--l. 100--><p class="noindent" >path of nek5000 source          </td>
 </tr><tr 
 class="hline"><td><hr></td><td><hr></td><td><hr></td><td><hr></td></tr><tr  
- style="vertical-align:baseline;" id="TBL-10-12-"><td  style="white-space:nowrap; text-align:center;" id="TBL-10-12-1"  
-class="td01">        USR              </td><td  style="white-space:nowrap; text-align:center;" id="TBL-10-12-2"  
-class="td11">  string    </td><td  style="white-space:nowrap; text-align:center;" id="TBL-10-12-3"  
-class="td11">     optional        </td><td  style="white-space:wrap; text-align:left;" id="TBL-10-12-4"  
+ style="vertical-align:baseline;" id="TBL-14-12-"><td  style="white-space:nowrap; text-align:center;" id="TBL-14-12-1"  
+class="td01">        USR              </td><td  style="white-space:nowrap; text-align:center;" id="TBL-14-12-2"  
+class="td11">  string    </td><td  style="white-space:nowrap; text-align:center;" id="TBL-14-12-3"  
+class="td11">     optional        </td><td  style="white-space:wrap; text-align:left;" id="TBL-14-12-4"  
 class="td10"> <!--l. 100--><p class="noindent" >object list of additional files
   to compile (make intructions
   (makefile_ usr.inc required)    </td>
 </tr><tr 
 class="hline"><td><hr></td><td><hr></td><td><hr></td><td><hr></td></tr><tr  
- style="vertical-align:baseline;" id="TBL-10-13-"><td  style="white-space:nowrap; text-align:center;" id="TBL-10-13-1"  
-class="td01">   USR_ LFLAGS      </td><td  style="white-space:nowrap; text-align:center;" id="TBL-10-13-2"  
-class="td11">  string    </td><td  style="white-space:nowrap; text-align:center;" id="TBL-10-13-3"  
-class="td11">     optional        </td><td  style="white-space:wrap; text-align:left;" id="TBL-10-13-4"  
+ style="vertical-align:baseline;" id="TBL-14-13-"><td  style="white-space:nowrap; text-align:center;" id="TBL-14-13-1"  
+class="td01">   USR_ LFLAGS      </td><td  style="white-space:nowrap; text-align:center;" id="TBL-14-13-2"  
+class="td11">  string    </td><td  style="white-space:nowrap; text-align:center;" id="TBL-14-13-3"  
+class="td11">     optional        </td><td  style="white-space:wrap; text-align:left;" id="TBL-14-13-4"  
 class="td10"> <!--l. 100--><p class="noindent" >optional linking flags             </td>
 </tr><tr 
 class="hline"><td><hr></td><td><hr></td><td><hr></td><td><hr></td></tr><tr  
- style="vertical-align:baseline;" id="TBL-10-14-"><td  style="white-space:nowrap; text-align:center;" id="TBL-10-14-1"  
-class="td01">    MOAB_ DIR        </td><td  style="white-space:nowrap; text-align:center;" id="TBL-10-14-2"  
-class="td11">  string    </td><td  style="white-space:nowrap; text-align:center;" id="TBL-10-14-3"  
-class="td11"> NEK with MOAB  </td><td  style="white-space:wrap; text-align:left;" id="TBL-10-14-4"  
+ style="vertical-align:baseline;" id="TBL-14-14-"><td  style="white-space:nowrap; text-align:center;" id="TBL-14-14-1"  
+class="td01">    MOAB_ DIR        </td><td  style="white-space:nowrap; text-align:center;" id="TBL-14-14-2"  
+class="td11">  string    </td><td  style="white-space:nowrap; text-align:center;" id="TBL-14-14-3"  
+class="td11"> NEK with MOAB  </td><td  style="white-space:wrap; text-align:left;" id="TBL-14-14-4"  
 class="td10"> <!--l. 100--><p class="noindent" >Path to MOAB directories      </td>
 </tr><tr 
 class="hline"><td><hr></td><td><hr></td><td><hr></td><td><hr></td></tr><tr  
- style="vertical-align:baseline;" id="TBL-10-15-"><td  style="white-space:nowrap; text-align:center;" id="TBL-10-15-1"  
-class="td01">      IFVISIT           </td><td  style="white-space:nowrap; text-align:center;" id="TBL-10-15-2"  
-class="td11"> true,false  </td><td  style="white-space:nowrap; text-align:center;" id="TBL-10-15-3"  
-class="td11">       false           </td><td  style="white-space:wrap; text-align:left;" id="TBL-10-15-4"  
+ style="vertical-align:baseline;" id="TBL-14-15-"><td  style="white-space:nowrap; text-align:center;" id="TBL-14-15-1"  
+class="td01">      IFVISIT           </td><td  style="white-space:nowrap; text-align:center;" id="TBL-14-15-2"  
+class="td11"> true,false  </td><td  style="white-space:nowrap; text-align:center;" id="TBL-14-15-3"  
+class="td11">       false           </td><td  style="white-space:wrap; text-align:left;" id="TBL-14-15-4"  
 class="td10"> <!--l. 100--><p class="noindent" >Toggles Visit in situ. See
   Visit_ in_ situ for details      </td>
 </tr><tr 
 class="hline"><td><hr></td><td><hr></td><td><hr></td><td><hr></td></tr><tr  
- style="vertical-align:baseline;" id="TBL-10-16-"><td  style="white-space:nowrap; text-align:center;" id="TBL-10-16-1"  
-class="td01">  VISIT_ INSTALL     </td><td  style="white-space:nowrap; text-align:center;" id="TBL-10-16-2"  
-class="td11">  string    </td><td  style="white-space:nowrap; text-align:center;" id="TBL-10-16-3"  
-class="td11">   VISIT in situ     </td><td  style="white-space:wrap; text-align:left;" id="TBL-10-16-4"  
+ style="vertical-align:baseline;" id="TBL-14-16-"><td  style="white-space:nowrap; text-align:center;" id="TBL-14-16-1"  
+class="td01">  VISIT_ INSTALL     </td><td  style="white-space:nowrap; text-align:center;" id="TBL-14-16-2"  
+class="td11">  string    </td><td  style="white-space:nowrap; text-align:center;" id="TBL-14-16-3"  
+class="td11">   VISIT in situ     </td><td  style="white-space:wrap; text-align:left;" id="TBL-14-16-4"  
 class="td10"> <!--l. 100--><p class="noindent" >Path to VISIT install path.
   See Visit_ in_ situ for
   details.                               </td>
 </tr><tr 
 class="hline"><td><hr></td><td><hr></td><td><hr></td><td><hr></td></tr><tr  
- style="vertical-align:baseline;" id="TBL-10-17-"><td  style="white-space:nowrap; text-align:center;" id="TBL-10-17-1"  
-class="td01">    VISIT_ STOP       </td><td  style="white-space:nowrap; text-align:center;" id="TBL-10-17-2"  
-class="td11"> true,false  </td><td  style="white-space:nowrap; text-align:center;" id="TBL-10-17-3"  
-class="td11">       false           </td><td  style="white-space:wrap; text-align:left;" id="TBL-10-17-4"  
+ style="vertical-align:baseline;" id="TBL-14-17-"><td  style="white-space:nowrap; text-align:center;" id="TBL-14-17-1"  
+class="td01">    VISIT_ STOP       </td><td  style="white-space:nowrap; text-align:center;" id="TBL-14-17-2"  
+class="td11"> true,false  </td><td  style="white-space:nowrap; text-align:center;" id="TBL-14-17-3"  
+class="td11">       false           </td><td  style="white-space:wrap; text-align:left;" id="TBL-14-17-4"  
 class="td10"> <!--l. 100--><p class="noindent" >When running VISIT in situ,
   simulation stops after step 1
   to connect VISIT.                 </td>
 </tr><tr 
 class="hline"><td><hr></td><td><hr></td><td><hr></td><td><hr></td></tr><tr 
 class="hline"><td><hr></td><td><hr></td><td><hr></td><td><hr></td></tr><tr  
- style="vertical-align:baseline;" id="TBL-10-18-"><td  style="white-space:nowrap; text-align:center;" id="TBL-10-18-1"  
+ style="vertical-align:baseline;" id="TBL-14-18-"><td  style="white-space:nowrap; text-align:center;" id="TBL-14-18-1"  
 class="td01">                     </td></tr></table></div>
                                                                                          
                                                                                          
    </div><hr class="endfloat" />
    </div>
 <!--l. 106--><p class="indent" >   <span class="likesubparagraphHead"><a 
- id="x7-540005.1"></a><span 
+ id="x7-580005.1"></a><span 
 class="ecbx-1095">Binary geometry</span></span> Reatore2 Jump to: navigation, search
    The NEK5000 tool, reatore2 allows users to split an ASCII .rea file to an ASCII .rea and a binary .re2
 file. The .re2 file contains the mesh and boundary condition data that is normally written in ASCII in the
@@ -312,7 +312,7 @@ the reatore2 executable
 <!--l. 125--><p class="indent" >   -Enter the name for your new files
 <!--l. 128--><p class="noindent" >
    <h3 class="sectionHead"><span class="titlemark">5.2   </span> <a 
- id="x7-550005.2"></a>Parallelism in Nek5000</h3>
+ id="x7-590005.2"></a>Parallelism in Nek5000</h3>
 <!--l. 4--><p class="noindent" >The parallelism of Nek5000 is accomplished via domain decomposition methods and a suitable
 gather-scatter code. All this is implemented in such way that the user does not have to be concerned with
 the parallelism and only focus on the actual solvers while keepin in mind a few simple rules and routines
@@ -334,7 +334,7 @@ following certain rules.
 <!--l. 19--><p class="indent" >   There are two types of array sizes, starting with lx1, lelv, etc. which give an upper bound of the arrays.
 And nx1, nelv, etc. which give the actual number of elements/grid points per processors. For the example
 in Fig.&#x00A0;<a 
-href="#x7-550011">5.1<!--tex4ht:ref: fig:procsplit --></a> we have
+href="#x7-590011">5.1<!--tex4ht:ref: fig:procsplit --></a> we have
                                                                                          
                                                                                          
      <ul class="itemize1">
@@ -348,16 +348,16 @@ class="ectt-1095">nelt=3 </span>(nelv = no elements in fluid domain, usually = n
                                                                                          
                                                                                          
 <a 
- id="x7-550011"></a>
+ id="x7-590011"></a>
                                                                                          
                                                                                          
 <!--l. 27--><p class="noindent" ><img 
-src="index246x.png" alt="PIC" class="graphics" width="249.43187pt" height="133.49875pt" ><!--tex4ht:graphics  
-name="index246x.png" src="Figs/serial_parallel.eps"  
+src="index266x.png" alt="PIC" class="graphics" width="249.43187pt" height="133.49875pt" ><!--tex4ht:graphics  
+name="index266x.png" src="Figs/serial_parallel.eps"  
 -->
 <br /> <div class="caption" 
 ><span class="id">Figure&#x00A0;5.1: </span><span  
-class="content">A simple SEM row of elements and a potential splitting</span></div><!--tex4ht:label?: x7-550011 -->
+class="content">A simple SEM row of elements and a potential splitting</span></div><!--tex4ht:label?: x7-590011 -->
                                                                                          
                                                                                          
 <!--l. 30--><p class="indent" >   </div><hr class="endfigure">
@@ -395,9 +395,9 @@ class="ectt-1095">real u(lx1,ly1,lz1,lelt) </span>indicates that <span
 class="ectt-1095">u </span>is a
 collection of elements, <span 
 class="ectt-1095">e=1,</span><img 
-src="index247x.png" alt="...   "  class="math" ><span 
+src="index267x.png" alt="...   "  class="math" ><span 
 class="ectt-1095">,Nelt =&#x003C; lelt</span>, each of size <img 
-src="index248x.png" alt="(N + 1)d,d = 2or3  "  class="math" >.
+src="index268x.png" alt="(N + 1)d,d = 2or3  "  class="math" >.
 <!--l. 49--><p class="indent" >   <span 
 class="ecbx-1095">Example: Summation</span>
 <!--l. 51--><p class="indent" >   Serial version <span 
@@ -414,7 +414,7 @@ class="newline" /><span
 class="ectt-1095">s=s+u(ix,iy,iz,e) </span><br 
 class="newline" /><span 
 class="ectt-1095">enddo,</span><img 
-src="index249x.png" alt="...   "  class="math" ><span 
+src="index269x.png" alt="...   "  class="math" ><span 
 class="ectt-1095">,enddo</span>
 <!--l. 61--><p class="indent" >   Second approach, serial version (works in parallel in Nek) <span 
 class="ectt-1095">n=nx1*ny1*nz1*nelv </span><br 

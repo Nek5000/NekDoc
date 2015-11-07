@@ -7,7 +7,7 @@
 <meta name="originator" content="TeX4ht (http://www.cse.ohio-state.edu/~gurari/TeX4ht/)"> 
 <!-- html,index=1,2,fn-in --> 
 <meta name="src" content="index.tex"> 
-<meta name="date" content="2015-11-06 15:54:00"> 
+<meta name="date" content="2015-11-06 21:44:00"> 
 <link rel="stylesheet" type="text/css" href="index.css"> 
 </head><body 
 >
@@ -23,14 +23,22 @@ href="#Q1-2-3">Executive Summary</a></span>
 href="indexch1.html#x3-30001">Introduction</a></span>
 <br />   &#x00A0;<span class="sectionToc" >1.1 <a 
 href="indexch1.html#x3-50001.1">Nek5000 solvers</a></span>
+<br />   &#x00A0;&#x00A0;<span class="subsectionToc" >1.1.1 <a 
+href="indexch1.html#x3-130001.1.1" id="QQ2-3-15">Linearized Equations</a></span>
+<br />   &#x00A0;&#x00A0;<span class="subsectionToc" >1.1.2 <a 
+href="indexch1.html#x3-140001.1.2" id="QQ2-3-16">Steady conduction</a></span>
+<br />   &#x00A0;&#x00A0;<span class="subsectionToc" >1.1.3 <a 
+href="indexch1.html#x3-150001.1.3" id="QQ2-3-17">Low-Mach Navier-Stokes</a></span>
+                                                                                         
+                                                                                         
+<br />   &#x00A0;&#x00A0;<span class="subsectionToc" >1.1.4 <a 
+href="indexch1.html#x3-160001.1.4" id="QQ2-3-18">Incompressible MHD equations</a></span>
 <br />   <span class="chapterToc" >2 <a 
 href="indexch2.html#x4-170002">Quick start</a></span>
 <br />   &#x00A0;<span class="sectionToc" >2.1 <a 
 href="indexch2.html#x4-180002.1">Download and Build</a></span>
 <br />   &#x00A0;<span class="sectionToc" >2.2 <a 
 href="indexch2.html#x4-190002.2">A worked example</a></span>
-                                                                                         
-                                                                                         
 <br />   &#x00A0;<span class="sectionToc" >2.3 <a 
 href="indexch2.html#x4-200002.3">Viewing the First 2D Example</a></span>
 <br />   &#x00A0;&#x00A0;<span class="subsectionToc" >2.3.1 <a 
@@ -74,33 +82,53 @@ href="indexch4.html#x6-430004.2.1" id="QQ2-6-52">Building Extruded Meshes with n
 <br />   &#x00A0;<span class="sectionToc" >4.3 <a 
 href="indexch4.html#x6-440004.3">Boundary and initial conditions</a></span>
 <br />   &#x00A0;&#x00A0;<span class="subsectionToc" >4.3.1 <a 
-href="indexch4.html#x6-460004.3.1" id="QQ2-6-55">Internal Boundary Conditions</a></span>
+href="indexch4.html#x6-450004.3.1" id="QQ2-6-54">Boundary Conditions</a></span>
 <br />   &#x00A0;&#x00A0;<span class="subsectionToc" >4.3.2 <a 
-href="indexch4.html#x6-470004.3.2" id="QQ2-6-56">Initial Conditions</a></span>
+href="indexch4.html#x6-460004.3.2" id="QQ2-6-55">Fluid Velocity</a></span>
+<br />   &#x00A0;&#x00A0;<span class="subsectionToc" >4.3.3 <a 
+href="indexch4.html#x6-500004.3.3" id="QQ2-6-63">Internal Boundary Conditions</a></span>
+<br />   &#x00A0;&#x00A0;<span class="subsectionToc" >4.3.4 <a 
+href="indexch4.html#x6-510004.3.4" id="QQ2-6-64">Initial Conditions</a></span>
 <br />   &#x00A0;<span class="sectionToc" >4.4 <a 
-href="indexch4.html#x6-480004.4">Mesh Partioning for Parallel Computing</a></span>
+href="indexch4.html#x6-520004.4">Mesh Partioning for Parallel Computing</a></span>
 <br />   <span class="chapterToc" >5 <a 
-href="indexch5.html#x7-490005">Performing large scale simulations in Nek5000</a></span>
+href="indexch5.html#x7-530005">Performing large scale simulations in Nek5000</a></span>
 <br />   &#x00A0;<span class="sectionToc" >5.1 <a 
-href="indexch5.html#x7-500005.1">Large scale simulations</a></span>
+href="indexch5.html#x7-540005.1">Large scale simulations</a></span>
 <br />   &#x00A0;<span class="sectionToc" >5.2 <a 
-href="indexch5.html#x7-550005.2">Parallelism in Nek5000</a></span>
+href="indexch5.html#x7-590005.2">Parallelism in Nek5000</a></span>
 <br />   <span class="chapterToc" >6 <a 
-href="indexch6.html#x8-560006">Mathematical routines of interest</a></span>
+href="indexch6.html#x8-600006">Mathematical routines of interest</a></span>
+<br />   &#x00A0;&#x00A0;<span class="subsectionToc" >6.0.1 <a 
+href="indexch6.html#x8-610006.0.1" id="QQ2-8-77">Naming conventions</a></span>
+<br />   &#x00A0;&#x00A0;<span class="subsectionToc" >6.0.2 <a 
+href="indexch6.html#x8-620006.0.2" id="QQ2-8-78">Subroutines</a></span>
+<br />   &#x00A0;&#x00A0;<span class="subsectionToc" >6.0.3 <a 
+href="indexch6.html#x8-630006.0.3" id="QQ2-8-79">Functions</a></span>
+<br />   &#x00A0;&#x00A0;<span class="subsectionToc" >6.0.4 <a 
+href="indexch6.html#x8-640006.0.4" id="QQ2-8-80">An example of specifying surface normals in the .usr file</a></span>
+<br />   &#x00A0;&#x00A0;<span class="subsectionToc" >6.0.5 <a 
+href="indexch6.html#x8-650006.0.5" id="QQ2-8-81">Spectral Interpolation Tool</a></span>
+<br />   &#x00A0;&#x00A0;<span class="subsectionToc" >6.0.6 <a 
+href="indexch6.html#x8-660006.0.6" id="QQ2-8-82">Grid to Grid Interpolation</a></span>
+<br />   &#x00A0;&#x00A0;<span class="subsectionToc" >6.0.7 <a 
+href="indexch6.html#x8-670006.0.7" id="QQ2-8-83">Lagrangian Particle Tracking</a></span>
 <br />   <span class="chapterToc" >7 <a 
-href="indexch7.html#x9-580007">Appendix</a></span>
+href="indexch7.html#x9-680007">Appendix</a></span>
 <br />   &#x00A0;<span class="sectionToc" >7.1 <a 
-href="indexch7.html#x9-590007.1">Appendix A. Extensive list of parameters .rea file</a></span>
+href="indexch7.html#x9-690007.1">Appendix A. Extensive list of parameters .rea file</a></span>
 <br />   &#x00A0;&#x00A0;<span class="subsectionToc" >7.1.1 <a 
-href="indexch7.html#x9-600007.1.1" id="QQ2-9-72">Parameters</a></span>
+href="indexch7.html#x9-700007.1.1" id="QQ2-9-86">Parameters</a></span>
 <br />   &#x00A0;&#x00A0;<span class="subsectionToc" >7.1.2 <a 
-href="indexch7.html#x9-610007.1.2" id="QQ2-9-73">Available Parameters</a></span>
+href="indexch7.html#x9-710007.1.2" id="QQ2-9-87">Available Parameters</a></span>
+                                                                                         
+                                                                                         
 <br />   &#x00A0;&#x00A0;<span class="subsectionToc" >7.1.3 <a 
-href="indexch7.html#x9-620007.1.3" id="QQ2-9-74">Available Logical Switches</a></span>
+href="indexch7.html#x9-720007.1.3" id="QQ2-9-88">Available Logical Switches</a></span>
 <br />   &#x00A0;&#x00A0;<span class="subsectionToc" >7.1.4 <a 
-href="indexch7.html#x9-630007.1.4" id="QQ2-9-75">Logical switches</a></span>
+href="indexch7.html#x9-730007.1.4" id="QQ2-9-89">Logical switches</a></span>
 <br />   &#x00A0;<span class="sectionToc" >7.2 <a 
-href="indexch7.html#x9-640007.2">Appendix B. Extensive list of parameters SIZE file</a></span>
+href="indexch7.html#x9-740007.2">Appendix B. Extensive list of parameters SIZE file</a></span>
    </div>
                                                                                          
                                                                                          

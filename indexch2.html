@@ -7,7 +7,7 @@
 <meta name="originator" content="TeX4ht (http://www.cse.ohio-state.edu/~gurari/TeX4ht/)"> 
 <!-- html,index=1,2,fn-in --> 
 <meta name="src" content="index.tex"> 
-<meta name="date" content="2015-11-06 15:54:00"> 
+<meta name="date" content="2015-11-06 21:44:00"> 
 <link rel="stylesheet" type="text/css" href="index.css"> 
 </head><body 
 >
@@ -194,21 +194,19 @@ number, the cumulative wall clock time (in seconds) and the wall-clock time for 
 Generally, one would adjust <span 
 class="cmr-10x-x-109">&Delta;</span><span 
 class="cmmi-10x-x-109">t </span>to have a CFL of <span 
-class="cmsy-10x-x-109">&sim;</span>0.5. See Section <span 
-class="ecbx-1095">??</span> for a comprehensive discussion of
-timestep selection.
-<!--l. 113--><p class="noindent" >
+class="cmsy-10x-x-109">&sim;</span>0.5.
+<!--l. 115--><p class="noindent" >
    <h3 class="sectionHead"><span class="titlemark">2.3   </span> <a 
  id="x4-200002.3"></a>Viewing the First 2D Example</h3>
-<!--l. 115--><p class="noindent" >The preferred mode for data visualization and analysis with Nek5000 is to use VisIt. For a quick peek at
+<!--l. 117--><p class="noindent" >The preferred mode for data visualization and analysis with Nek5000 is to use VisIt. For a quick peek at
 the data, however, we list a few commands for the native Nek5000 postprocessor. Assuming
 that the <span 
 class="ectt-1095">maketools </span>script has been executed and that <span 
 class="ectt-1095">/bin </span>is in the execution path, then
 typing
-<!--l. 121--><p class="noindent" ><span 
+<!--l. 123--><p class="noindent" ><span 
 class="ectt-1095">postx</span>
-<!--l. 124--><p class="noindent" >in the working directory should open a new window with a sidebar menu. With the cursor focus in this
+<!--l. 126--><p class="noindent" >in the working directory should open a new window with a sidebar menu. With the cursor focus in this
 window (move the cursor to the window and left click), hit <span 
 class="ectt-1095">return </span>on the keyboard accept the default
 session name and click <span 
@@ -220,18 +218,18 @@ class="small-caps">T</span> </span>with the left mouse button. This should bring
 distribution for the first output file from the simulation (here, <span 
 class="ectt-1095">eddy_uv.fld01</span>), which contains the
 geometry, velocity, and pressure.
-<!--l. 132--><p class="indent" >   Alternatively one can use the script <span 
+<!--l. 134--><p class="indent" >   Alternatively one can use the script <span 
 class="ecti-1095">visnek</span>, to be found in <span 
 class="ectt-1095">/scripts</span>. It is sufficent to run
-<!--l. 134--><p class="noindent" ><span 
+<!--l. 136--><p class="noindent" ><span 
 class="ectt-1095">visnek eddy_uv </span><span 
 class="ecti-1095">(or the name of your session)</span>
-<!--l. 137--><p class="indent" >   to obatain a file named <span 
+<!--l. 139--><p class="indent" >   to obatain a file named <span 
 class="ectt-1095">eddy_uv.nek5000 </span>which can be recognized in VisIt
 <span class="footnote-mark"><a 
 href="#fn2x3" id="fn2x3-bk"><sup class="textsuperscript">2</sup></a></span><a 
  id="x4-20001f2"></a>
-<!--l. 152--><p class="indent" >   <span 
+<!--l. 154--><p class="indent" >   <span 
 class="ecbx-1095">Plotting the error: </span>For this case, the error has been written to <span 
 class="ectt-1095">eddy_uv.fld11 </span>by making a call to
 <span 
@@ -239,17 +237,17 @@ class="ectt-1095">outpost() </span>in the <span
 class="ectt-1095">userchk() </span>routine in <span 
 class="ectt-1095">eddy_uv.usr</span>. The error in the velocity components is stored in the
 velocity-field locations and can be viewed with postx, or VisIt as before.
-<!--l. 171--><p class="noindent" >
+<!--l. 173--><p class="noindent" >
    <h4 class="subsectionHead"><span class="titlemark">2.3.1   </span> <a 
  id="x4-210002.3.1"></a>Modifying the First Example</h4>
-<!--l. 173--><p class="noindent" >A common step in the Nek5000 workflow is to rerun with a higher polynomial order. Typically, one runs a
+<!--l. 175--><p class="noindent" >A common step in the Nek5000 workflow is to rerun with a higher polynomial order. Typically, one runs a
 relatively low-order case (e.g., <span 
 class="ectt-1095">lx1</span>=5) for one or two flow-through times and then uses the result as an
 initial condition for a higher-order run (e.g., <span 
 class="ectt-1095">lx1</span>=8). We illustrate the procedure with the <span 
 class="ectt-1095">eddy_uv</span>
 example.
-<!--l. 180--><p class="indent" >   Assuming that the contents of <span 
+<!--l. 182--><p class="indent" >   Assuming that the contents of <span 
 class="ectt-1095">nek5_svn/trunk/tools/scripts </span>are in the execution path, begin by
 typing
                                                                                          
@@ -257,7 +255,7 @@ typing
    <div class="verbatim" id="verbatim-10">
 cp&#x00A0;eddy_uv&#x00A0;eddy_new
 </div>
-<!--l. 184--><p class="nopar" > which will copy the requisite <span 
+<!--l. 186--><p class="nopar" > which will copy the requisite <span 
 class="ectt-1095">eddy_uv </span>case files to <span 
 class="ectt-1095">eddy_new</span>. Next, edit <span 
 class="ectt-1095">SIZE </span>and change the two lines
@@ -270,35 +268,35 @@ class="ectt-1095">lxd </span>from
 &#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;parameter&#x00A0;(lx1=8,ly1=lx1,lz1=1,lelt=300,lelv=lelt)
 &#x00A0;<br />&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;parameter&#x00A0;(lxd=12,lyd=lxd,lzd=1)
 </div>
-<!--l. 192--><p class="nopar" > to
+<!--l. 194--><p class="nopar" > to
                                                                                          
                                                                                          
    <div class="verbatim" id="verbatim-12">
 &#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;parameter&#x00A0;(lx1=12,ly1=lx1,lz1=1,lelt=300,lelv=lelt)
 &#x00A0;<br />&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;parameter&#x00A0;(lxd=18,lyd=lxd,lzd=1)
 </div>
-<!--l. 197--><p class="nopar" > Then recompile the source by typing
+<!--l. 199--><p class="nopar" > Then recompile the source by typing
                                                                                          
                                                                                          
    <div class="verbatim" id="verbatim-13">
 makenek&#x00A0;eddy_new
 </div>
-<!--l. 201--><p class="nopar" >
-<!--l. 203--><p class="indent" >   Next, edit <span 
+<!--l. 203--><p class="nopar" >
+<!--l. 205--><p class="indent" >   Next, edit <span 
 class="ectt-1095">eddy_new.rea </span>and change the line
                                                                                          
                                                                                          
    <div class="verbatim" id="verbatim-14">
 &#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;0&#x00A0;PRESOLVE/RESTART&#x00A0;OPTIONS&#x00A0;&#x00A0;*****
 </div>
-<!--l. 206--><p class="nopar" > (found roughly 33 lines from the bottom of the file) to
+<!--l. 208--><p class="nopar" > (found roughly 33 lines from the bottom of the file) to
                                                                                          
                                                                                          
    <div class="verbatim" id="verbatim-15">
 &#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;1&#x00A0;PRESOLVE/RESTART&#x00A0;OPTIONS&#x00A0;&#x00A0;*****
 &#x00A0;<br />eddy_uv.fld12
 </div>
-<!--l. 211--><p class="nopar" > which tells nek5000 to use the contents of <span 
+<!--l. 213--><p class="nopar" > which tells nek5000 to use the contents of <span 
 class="ectt-1095">eddy_uv.fld12 </span>as the initial condition for <span 
 class="ectt-1095">eddy_new</span>. The
 simulation is started in the usual way:
@@ -307,20 +305,20 @@ simulation is started in the usual way:
    <div class="verbatim" id="verbatim-16">
 nekb&#x00A0;eddy_new
 </div>
-<!--l. 217--><p class="nopar" > after which the command
+<!--l. 219--><p class="nopar" > after which the command
                                                                                          
                                                                                          
    <div class="verbatim" id="verbatim-17">
 grep&#x00A0;err&#x00A0;logfile&#x00A0;|&#x00A0;tail
 </div>
-<!--l. 221--><p class="nopar" > will show a much smaller error (<span 
+<!--l. 223--><p class="nopar" > will show a much smaller error (<span 
 class="cmsy-10x-x-109">&sim; </span><span 
 class="cmr-10x-x-109">10</span><sup><span style="margin-left:3.0235pt" class="tmspace"></span> <span 
 class="cmr-10x-x-109">+</span> <span style="margin-left:3.0235pt" class="tmspace"></span><span 
 class="cmsy-10x-x-109">&minus;</span><span 
 class="cmr-10x-x-109">9</span></sup>) than the <span 
 class="ectt-1095">lx1=8 </span>case.
-<!--l. 225--><p class="indent" >   Note that one normally would not use a restart file for the <span 
+<!--l. 227--><p class="indent" >   Note that one normally would not use a restart file for the <span 
 class="ecti-1095">eddy </span>problem, which is really designed as a
 convergence study. The purpose here, however, was two-fold, namely, to illustrate a change of order and its
 impact on the error, and to demonstrate the frequently-used restart procedure. However for a higher order
@@ -335,7 +333,7 @@ class="ecti-0900">The NSE II-Theory and Numerical Methods</span><span
 class="ecrm-0900">, J.G.</span>
 <span 
 class="ecrm-0900">Heywood, K. Masuda, R. Rautmann, and V.A. Solonikkov, eds., Springer, pp. 306&#8211;309 (1992)</span>
-<!--l. 137--><p class="indent" >      <span class="footnote-mark"><a 
+<!--l. 139--><p class="indent" >      <span class="footnote-mark"><a 
 href="#fn2x3-bk" id="fn2x3"><sup class="textsuperscript">2</sup></a></span><span 
 class="ecrm-0900">https://wci.llnl.gov/simulation/computer-codes/visit/</span>                                                                       </div>
 <!--l. 96--><div class="crosslinks"><p class="noindent">[<a 

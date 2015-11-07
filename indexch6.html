@@ -7,7 +7,7 @@
 <meta name="originator" content="TeX4ht (http://www.cse.ohio-state.edu/~gurari/TeX4ht/)"> 
 <!-- html,index=1,2,fn-in --> 
 <meta name="src" content="index.tex"> 
-<meta name="date" content="2015-11-06 15:54:00"> 
+<meta name="date" content="2015-11-06 21:44:00"> 
 <link rel="stylesheet" type="text/css" href="index.css"> 
 </head><body 
 >
@@ -18,12 +18,128 @@ href="indexch5.html#tailindexch5.html" >prev-tail</a>] [<a
 href="#tailindexch6.html">tail</a>] [<a 
 href="index.html#indexch6.html" >up</a>] </p></div>
    <h2 class="chapterHead"><span class="titlemark">Chapter&#x00A0;6</span><br /><a 
- id="x8-560006"></a>Mathematical routines of interest</h2>
-   <h4 class="likesubsectionHead"><a 
- id="x8-570006"></a>An example of specifying surface normals in the .usr file</h4>
+ id="x8-600006"></a>Mathematical routines of interest</h2>
+<!--l. 1--><p class="noindent" >The most common routines needed in nek500 are
+   <h4 class="subsectionHead"><span class="titlemark">6.0.1   </span> <a 
+ id="x8-610006.0.1"></a>Naming conventions</h4>
+     <ul class="itemize1">
+     <li class="itemize"><span 
+class="ectt-1095">subroutine f(a,b,c) </span>a- returned variable b,c -input data
+     </li>
+     <li class="itemize"><span 
+class="ectt-1095">op[] </span>represent operations on operators
+     </li>
+     <li class="itemize"><span 
+class="ectt-1095">c[] </span>operations on constants
+     </li>
+     <li class="itemize"><span 
+class="ectt-1095">gl[] </span>global operations
+     </li>
+     <li class="itemize"><span 
+class="ectt-1095">col2[] </span>&#8212;
+     </li>
+     <li class="itemize"><span 
+class="ectt-1095">col3[] </span>&#8211;</li></ul>
+<!--l. 14--><p class="noindent" >
+   <h4 class="subsectionHead"><span class="titlemark">6.0.2   </span> <a 
+ id="x8-620006.0.2"></a>Subroutines</h4>
+<!--l. 15--><p class="noindent" ><span 
+class="ectt-1095">subroutine rescale_x(x,x0,x1)</span>
+<!--l. 17--><p class="indent" >   Rescales the array x to be in the range (x0,x1). This is usually called from usrdat2 in the .usr
+file
+<!--l. 19--><p class="indent" >   <span 
+class="ectt-1095">subroutine normvc(h1,semi,l2,linf,x1,x2,x3)</span>
+<!--l. 21--><p class="indent" >   Computes the error norms of a vector field variable(x1,x2,x3) defined on mesh 1, the velocity mesh.
+The error norms are normalized with respect to the volume, with the exception on the infinity norm,
+linf.
+<!--l. 23--><p class="indent" >   <span 
+class="ectt-1095">subroutine comp_vort3(vort,work1,work2,u,v,w)</span>
+<!--l. 25--><p class="indent" >   Computes the vorticity (vort) of the velocity field, (u,v,w)
+<!--l. 27--><p class="indent" >   <span 
+class="ectt-1095">subroutine lambda2(l2)</span>
+<!--l. 29--><p class="indent" >   Generates the Lambda-2 vortex criterion proposed by Jeong and Hussain (1995)
+<!--l. 31--><p class="indent" >   <span 
+class="ectt-1095">subroutine planar_average_z(ua,u,w1,w2)</span>
+<!--l. 33--><p class="indent" >   Computes the r-s planar average of the quantity u.
+<!--l. 35--><p class="indent" >   <span 
+class="ectt-1095">subroutine torque_calc(scale,x0,ifdout,iftout)</span>
+<!--l. 37--><p class="indent" >   Computes torque about the point x0. Here scale is a user supplied multiplier so that the results may be
+scaled to any convenient non-dimensionalization. Both the drag and the torque can be printed to the
+screen by switching the appropriate ifdout(drag) or iftout(torque) logical.
+<!--l. 39--><p class="indent" >   <span 
+class="ectt-1095">subroutine set_obj</span>
                                                                                          
                                                                                          
-   <div class="verbatim" id="verbatim-40">
+<!--l. 41--><p class="indent" >   Defines objects for surface integrals by changing the value of hcode for future calculations. Typically
+called once within userchk (for istep = 0) and used for calculating torque. (see above)
+<!--l. 43--><p class="indent" >   <span 
+class="ectt-1095">subroutine avg1(avg,f, alpha,beta,n,name,ifverbose)</span>
+<!--l. 45--><p class="indent" >   <span 
+class="ectt-1095">subroutine avg2(avg,f, alpha,beta,n,name,ifverbose)</span>
+<!--l. 47--><p class="indent" >   <span 
+class="ectt-1095">subroutine avg3(avg,f,g, alpha,beta,n,name,ifverbose)</span>
+<!--l. 49--><p class="indent" >   These three subroutines calculate the (weighted) average of f. Depending on the value of the logical,
+ifverbose, the results will be printed to standard output along with name. In avg2, the f component is
+squared. In avg3, vector g also contributes to the average calculation.
+<!--l. 51--><p class="indent" >   <span 
+class="ectt-1095">subroutine outpost(x,vy,vz,pr,tz,&#8217; &#8217;)</span>
+<!--l. 53--><p class="indent" >   Dumps the current data of x,vy,vz,pr,tz to an <span 
+class="ectt-1095">.fld </span>or <span 
+class="ectt-1095">.f0???? </span>file for post processing.
+<!--l. 55--><p class="indent" >   <span 
+class="ectt-1095">subroutine platform_timer(ivrb)</span>
+<!--l. 57--><p class="indent" >   Runs the battery of timing tests for matrix-matrix products,contention-free processor-to-processor
+ping-pong tests, and <span 
+class="ectt-1095">mpi_all_reduce </span>times. Allows one to check the performance of the communication
+routines used on specific platforms.
+<!--l. 59--><p class="indent" >   <span 
+class="ectt-1095">subroutine quickmv</span>
+<!--l. 61--><p class="indent" >   Moves the mesh to allow user affine motion.
+<!--l. 63--><p class="indent" >   <span 
+class="ectt-1095">subroutine runtimeavg(ay,y,j,istep1,ipostep,s5)</span>
+<!--l. 65--><p class="indent" >   Computes,stores, and (for ipostep!0) prints runtime averages of j-quantity y (along w/ y itself unless
+ipostep&#x003C;0) with j + &#8217;rtavg_&#8217; + (unique) s5 every ipostep for istep&#x003E;=istep1. s5 is a string to append to
+rtavg_ for storage file naming.
+<!--l. 67--><p class="indent" >   <span 
+class="ectt-1095">subroutine lagrng(uo,y,yvec,uvec,work,n,m)</span>
+<!--l. 69--><p class="indent" >   Compute Lagrangian interpolant for uo
+<!--l. 71--><p class="indent" >   <span 
+class="ectt-1095">subroutine opcopy(a1,a2,a3,b1,b2,b3)</span>
+<!--l. 73--><p class="indent" >   Copies b1 to a1, b2 to a2, and b3 to a3, when ndim = 3,
+<!--l. 75--><p class="indent" >   <span 
+class="ectt-1095">subroutine cadd(a,const,n)</span>
+<!--l. 77--><p class="indent" >   Adds const to vector a of size n.
+<!--l. 79--><p class="indent" >   <span 
+class="ectt-1095">subroutine col2(a,b,n)</span>
+<!--l. 81--><p class="indent" >   For n entries, calculates a=a*b.
+<!--l. 83--><p class="indent" >   <span 
+class="ectt-1095">subroutine col3(a,b,c,n)</span>
+<!--l. 85--><p class="indent" >   For n entries, calculates a=b*c.
+   <h4 class="subsectionHead"><span class="titlemark">6.0.3   </span> <a 
+ id="x8-630006.0.3"></a>Functions</h4>
+<!--l. 88--><p class="noindent" ><span 
+class="ectt-1095">function glmax(a,n) function glamax(a,n) function iglmax(a,n) </span>Calculates the (absolute) max of a
+vector that is size n. Prefix i implies integer type. <span 
+class="ectt-1095">function i8glmax(a,n) </span>Calculates the max of
+an integer*8 vector that is size n. <span 
+class="ectt-1095">function glmin(a,n) function glamin(a,n) function</span>
+<span 
+class="ectt-1095">iglmin(a,n) </span>Calculates the (absolute) min of a vector that is size n. Prefix i implies integer
+type.
+<!--l. 100--><p class="indent" >   <span 
+class="ectt-1095">function glsc2(a,b,n) function glsc3(a,b,mult,n) function glsc23(z,y,z,n) </span>Performs the
+inner product in double precision. glsc3 uses a multiplier, mult and glsc23 performs x*x*y*z.
+<!--l. 106--><p class="indent" >   <span 
+class="ectt-1095">function glsum(x,n) function iglsum(x,n) function i8glsum(x,n) </span>Computes the global sum of
+x, where the prefix, i specifies type integer, and i8 specifies type integer*8.
+                                                                                         
+                                                                                         
+<!--l. 111--><p class="noindent" >
+   <h4 class="subsectionHead"><span class="titlemark">6.0.4   </span> <a 
+ id="x8-640006.0.4"></a>An example of specifying surface normals in the .usr file</h4>
+                                                                                         
+                                                                                         
+   <div class="verbatim" id="verbatim-41">
 &#x00A0;<br />c-----------------------------------------------------------------------
 &#x00A0;<br />&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;subroutine&#x00A0;userbc&#x00A0;(ix,iy,iz,iside,eg)
 &#x00A0;<br />&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;include&#x00A0;&#8217;SIZE&#8217;
@@ -58,55 +174,127 @@ href="index.html#indexch6.html" >up</a>] </p></div>
 &#x00A0;<br />&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;return
 &#x00A0;<br />&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;end
 </div>
-<!--l. 37--><p class="nopar" > This example will load a list of field files (filenames are read from a file) into the solver using the load_
-fld() function. After the data is loaded, the user is free to compute other postprocessing quantities.
+<!--l. 147--><p class="nopar" >
+<!--l. 149--><p class="indent" >   This example will load a list of field files (filenames are read from a file) into the solver using the
+<span 
+class="ectt-1095">load_fld() </span>function. After the data is loaded, the user is free to compute other postprocessing quantities.
 At the end the results are dumped onto a regular (uniform) mesh by a subsequent call to
 prepost().
-<!--l. 40--><p class="indent" >   Note: The regular grid data (field files) cannot be used as a restart file (uniform-&#x003E;GLL interpolation is
+<!--l. 151--><p class="indent" >   Note: The regular grid data (field files) cannot be used as a restart file (uniform-&#x003E;GLL interpolation is
 unstable)!
-<!--l. 43--><p class="indent" >   SUBROUTINE USERCHK INCLUDE &#8217;SIZE&#8217; INCLUDE &#8217;TOTAL&#8217; INCLUDE &#8217;RESTART&#8217;
                                                                                          
                                                                                          
-<!--l. 48--><p class="indent" >   character*80 filename(9999)
-<!--l. 50--><p class="indent" >   ntot = nx1*ny1*nz1*nelv
-<!--l. 52--><p class="indent" >   ifreguo = .true. ! dump on regular (uniform) grid instead of GLL nrg = 16 ! dimension of regular grid
-(nrg**ndim)
-<!--l. 55--><p class="indent" >   ! read file-list if (nid.eq.0) then open(unit=199,file=&#8217;file.list&#8217;,form=&#8217;formatted&#8217;,status=&#8217;old&#8217;)
-read(199,*) nfiles read(199,&#8217;(A80)&#8217;) (filename(i),i=1,nfiles) close(199) endif call bcast(nfiles,isize) call
-bcast(filename,nfiles*80)
-<!--l. 65--><p class="indent" >   do i = 1,nfiles call load_ fld(filename(i))
-<!--l. 68--><p class="indent" >   ! do something ! note: make sure you save the result into arrays which are ! dumped by prepost() e.g.
-T(nx1,ny1,nz1,nelt,ldimt) ...
-<!--l. 73--><p class="indent" >   ! dump results into file call prepost(.true.,&#8217;his&#8217;) enddo
-<!--l. 77--><p class="indent" >   ! we&#8217;re done call exitt
-<!--l. 80--><p class="indent" >   Spectral Interpolation Tool
-<!--l. 82--><p class="indent" >   Check intpts(). Monitor Points
-<!--l. 85--><p class="indent" >   Multiple monitor points can be defined in the file hpts.in to examine the field data at every
+   <div class="verbatim" id="verbatim-42">
+&#x00A0;<br />
+&#x00A0;<br />&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;SUBROUTINE&#x00A0;USERCHK
+&#x00A0;<br />&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;INCLUDE&#x00A0;&#8217;SIZE&#8217;
+&#x00A0;<br />&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;INCLUDE&#x00A0;&#8217;TOTAL&#8217;
+&#x00A0;<br />&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;INCLUDE&#x00A0;&#8217;RESTART&#8217;
+&#x00A0;<br />
+&#x00A0;<br />&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;character*80&#x00A0;filename(9999)
+&#x00A0;<br />
+&#x00A0;<br />&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;ntot&#x00A0;&#x00A0;&#x00A0;=&#x00A0;nx1*ny1*nz1*nelv
+&#x00A0;<br />
+&#x00A0;<br />&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;ifreguo&#x00A0;=&#x00A0;.true.&#x00A0;&#x00A0;&#x00A0;!&#x00A0;dump&#x00A0;on&#x00A0;regular&#x00A0;(uniform)&#x00A0;grid&#x00A0;instead&#x00A0;of&#x00A0;GLL
+&#x00A0;<br />&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;nrg&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;=&#x00A0;16&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;!&#x00A0;dimension&#x00A0;of&#x00A0;regular&#x00A0;grid&#x00A0;(nrg**ndim)
+&#x00A0;<br />
+&#x00A0;<br />&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;!&#x00A0;read&#x00A0;file-list
+&#x00A0;<br />&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;if&#x00A0;(nid.eq.0)&#x00A0;then
+&#x00A0;<br />&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;open(unit=199,file=&#8217;file.list&#8217;,form=&#8217;formatted&#8217;,status=&#8217;old&#8217;)
+&#x00A0;<br />&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;read(199,*)&#x00A0;nfiles
+&#x00A0;<br />&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;read(199,&#8217;(A80)&#8217;)&#x00A0;(filename(i),i=1,nfiles)
+&#x00A0;<br />&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;close(199)
+&#x00A0;<br />&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;endif
+&#x00A0;<br />&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;call&#x00A0;bcast(nfiles,isize)
+&#x00A0;<br />&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;call&#x00A0;bcast(filename,nfiles*80)
+&#x00A0;<br />
+&#x00A0;<br />&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;do&#x00A0;i&#x00A0;=&#x00A0;1,nfiles
+&#x00A0;<br />&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;call&#x00A0;load\_&#x00A0;fld(filename(i))
+&#x00A0;<br />
+&#x00A0;<br />&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;!&#x00A0;do&#x00A0;something
+&#x00A0;<br />&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;!&#x00A0;note:&#x00A0;make&#x00A0;sure&#x00A0;you&#x00A0;save&#x00A0;the&#x00A0;result&#x00A0;into&#x00A0;arrays&#x00A0;which&#x00A0;are
+&#x00A0;<br />&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;!&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;dumped&#x00A0;by&#x00A0;prepost()&#x00A0;e.g.&#x00A0;T(nx1,ny1,nz1,nelt,ldimt)
+&#x00A0;<br />&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;...
+&#x00A0;<br />
+&#x00A0;<br />&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;!&#x00A0;dump&#x00A0;results&#x00A0;into&#x00A0;file
+&#x00A0;<br />&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;call&#x00A0;prepost(.true.,&#8217;his&#8217;)
+&#x00A0;<br />&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;enddo
+&#x00A0;<br />
+&#x00A0;<br />&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;!&#x00A0;we&#8217;re&#x00A0;done
+&#x00A0;<br />&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;call&#x00A0;exitt
+&#x00A0;<br />
+</div>
+<!--l. 193--><p class="nopar" >
+                                                                                         
+                                                                                         
+<!--l. 195--><p class="noindent" >
+   <h4 class="subsectionHead"><span class="titlemark">6.0.5   </span> <a 
+ id="x8-650006.0.5"></a>Spectral Interpolation Tool</h4>
+<!--l. 197--><p class="noindent" ><span 
+class="ectt-1095">Check intpts(). </span>Monitor Points
+<!--l. 200--><p class="indent" >   Multiple monitor points can be defined in the file hpts.in to examine the field data at every
 timestep.
-<!--l. 87--><p class="indent" >   setup an ASCII file called &#8217;hpts.in&#8217; e.g:
-<!--l. 89--><p class="indent" >   3 !number of monitoring points 1.1 -1.2 1.0 . . . x y z
-<!--l. 94--><p class="indent" >   depending on the number number of monitoring points you may need to increase lhis in SIZE add &#8217;call
-hpts()&#8217; to userchk()
-<!--l. 97--><p class="indent" >   Grid to Grid Interpolation
-<!--l. 99--><p class="indent" >   To interpolate an existing field file (e.g. base.fld) onto a new mesh do the following:
-<!--l. 101--><p class="indent" >   set lpart in SIZE to a large value (e.g. 100&#8217;000 or larger) depending on your memory footprint compile
-Nek with MPIIO support set NSTEPS=0 in the .rea file (post-processing mode) run nek using the new
-geometry (e.g. new_ geom.f0000) run nek using the old geometry and add this code snipplet to
-userchk()
-<!--l. 107--><p class="indent" >   character*132 newfld, oldfld, newgfld data newfld, oldfld, newgfld /&#8217;new0.f0001&#8217;,&#8217;base.fld&#8217;,&#8217;new_
-geom.f0000&#8217;/ c call g2gi(newfld, oldfld, newgfld) ! grid2grid interpolation call exitt()
-<!--l. 113--><p class="indent" >   Lagrangian Particle Tracking
-<!--l. 115--><p class="indent" >   The interpolation tool can be used for Lagrangian particle tracking (the particles are the interpolation
+     <ul class="itemize1">
+     <li class="itemize">setup an ASCII file called &#8217;hpts.in&#8217; e.g:
+                                                                                         
+                                                                                         
+     <div class="verbatim" id="verbatim-43">
+     3&#x00A0;!number&#x00A0;of&#x00A0;monitoring&#x00A0;points
+     &#x00A0;<br />1.1&#x00A0;-1.2&#x00A0;1.0
+     &#x00A0;<br />.&#x00A0;.&#x00A0;.
+     &#x00A0;<br />x&#x00A0;y&#x00A0;z
+</div>
+     <!--l. 209--><p class="nopar" >
+     </li>
+     <li class="itemize">depending on the number number of monitoring points you may need to increase <span 
+class="ectt-1095">lhis </span>in
+     SIZE.
+     </li>
+     <li class="itemize">add <span 
+class="ectt-1095">&#8217;call hpts()&#8217; </span>to <span 
+class="ectt-1095">userchk()</span></li></ul>
+<!--l. 215--><p class="noindent" >
+   <h4 class="subsectionHead"><span class="titlemark">6.0.6   </span> <a 
+ id="x8-660006.0.6"></a>Grid to Grid Interpolation</h4>
+<!--l. 217--><p class="noindent" >To interpolate an existing field file (e.g. base.fld) onto a new mesh do the following:
+     <ul class="itemize1">
+     <li class="itemize">set lpart in SIZE to a large value (e.g. 100&#8217;000 or larger) depending on your memory footprint
+     </li>
+     <li class="itemize">compile Nek with MPIIO support
+     </li>
+     <li class="itemize">set NSTEPS=0 in the .rea file (post-processing mode)
+     </li>
+     <li class="itemize">run nek using the new geometry (e.g. new_geom.f0000)
+     </li>
+     <li class="itemize">run nek using the old geometry and add this code snipplet to userchk()
+                                                                                         
+                                                                                         
+     <div class="verbatim" id="verbatim-44">
+     &#x00A0;character*132&#x00A0;&#x00A0;newfld,&#x00A0;oldfld,&#x00A0;newgfld
+     &#x00A0;<br />&#x00A0;data&#x00A0;newfld,&#x00A0;oldfld,&#x00A0;newgfld&#x00A0;/&#8217;new0.f0001&#8217;,&#8217;base.fld&#8217;,&#8217;new\_geom.f0000&#8217;/
+     &#x00A0;<br />&#x00A0;call&#x00A0;g2gi(newfld,&#x00A0;oldfld,&#x00A0;newgfld)&#x00A0;!&#x00A0;grid2grid&#x00A0;interpolation
+     &#x00A0;<br />&#x00A0;call&#x00A0;exitt()
+</div>
+     <!--l. 229--><p class="nopar" ></li></ul>
+<!--l. 233--><p class="noindent" >
+   <h4 class="subsectionHead"><span class="titlemark">6.0.7   </span> <a 
+ id="x8-670006.0.7"></a>Lagrangian Particle Tracking</h4>
+<!--l. 235--><p class="noindent" >The interpolation tool can be used for Lagrangian particle tracking (the particles are the interpolation
 points).
-<!--l. 117--><p class="indent" >   Workflow:
-<!--l. 119--><p class="indent" >   set initial particle positions (e.g. reading a file particle.pos0) x_ part &#x003C;- x_ pos0
-<!--l. 121--><p class="indent" >   LOOP
-<!--l. 123--><p class="indent" >   compute field quantities interpolate field quantities for all particles using intpts() dump/store particle
-data advect particles using particle_ advect()
-<!--l. 128--><p class="indent" >   END LOOP
+<!--l. 237--><p class="indent" >   Workflow: Set initial particle positions (e.g. reading a file particle.pos0) x_part &#x003C;- x_pos0
+<!--l. 239--><p class="indent" >   LOOP
+     <ul class="itemize1">
+     <li class="itemize">compute field quantities
+     </li>
+     <li class="itemize">interpolate field quantities for all particles using intpts()
+     </li>
+     <li class="itemize">dump/store particle data
+     </li>
+     <li class="itemize">advect particles using particle_advect()</li></ul>
+<!--l. 246--><p class="noindent" >END LOOP
                                                                                          
                                                                                          
-   <div class="verbatim" id="verbatim-41">
+   <div class="verbatim" id="verbatim-45">
 &#x00A0;&#x00A0;&#x00A0;&#x00A0;subroutine&#x00A0;particle\_&#x00A0;advect(rtl,mr,npart,dt\_&#x00A0;p)
 &#x00A0;<br />c
 &#x00A0;<br />c&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;Advance&#x00A0;particle&#x00A0;position&#x00A0;in&#x00A0;time&#x00A0;using&#x00A0;4th-order&#x00A0;Adams-Bashford.
@@ -171,7 +359,7 @@ data advect particles using particle_ advect()
 &#x00A0;<br />&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;do&#x00A0;k=1,ndim
 &#x00A0;<br />&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;vv&#x00A0;=&#x00A0;rtl(1+2*ndim+k,i)
 &#x00A0;<br />&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;rtl(1+k,i)&#x00A0;=&#x00A0;&#x00A0;rtl(1+k,i)&#x00A0;+
-&#x00A0;<br />&#x00A0;&#x00A0;&#x00A0;&#x00A0;\&amp;&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;dt_p*(
+&#x00A0;<br />&#x00A0;&#x00A0;&#x00A0;&#x00A0;\&amp;&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;dt\_p*(
 &#x00A0;<br />&#x00A0;&#x00A0;&#x00A0;&#x00A0;\&amp;&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;+&#x00A0;c0*vv
 &#x00A0;<br />&#x00A0;&#x00A0;&#x00A0;&#x00A0;\&amp;&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;+&#x00A0;c1*vell(k,1,i)
 &#x00A0;<br />&#x00A0;&#x00A0;&#x00A0;&#x00A0;\&amp;&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;+&#x00A0;c2*vell(k,2,i)
@@ -188,7 +376,7 @@ data advect particles using particle_ advect()
 &#x00A0;<br />&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;end
 &#x00A0;<br />&#x00A0;&#x00A0;
 </div>
-<!--l. 208--><p class="nopar" >
+<!--l. 325--><p class="nopar" >
                                                                                          
                                                                                          
    <!--l. 147--><div class="crosslinks"><p class="noindent">[<a 

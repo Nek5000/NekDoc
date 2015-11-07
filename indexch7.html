@@ -7,7 +7,7 @@
 <meta name="originator" content="TeX4ht (http://www.cse.ohio-state.edu/~gurari/TeX4ht/)"> 
 <!-- html,index=1,2,fn-in --> 
 <meta name="src" content="index.tex"> 
-<meta name="date" content="2015-11-06 15:54:00"> 
+<meta name="date" content="2015-11-06 21:44:00"> 
 <link rel="stylesheet" type="text/css" href="index.css"> 
 </head><body 
 >
@@ -17,12 +17,12 @@ href="indexch6.html#tailindexch6.html" >prev-tail</a>] [<a
 href="#tailindexch7.html">tail</a>] [<a 
 href="index.html#indexch7.html" >up</a>] </p></div>
    <h2 class="chapterHead"><span class="titlemark">Chapter&#x00A0;7</span><br /><a 
- id="x9-580007"></a>Appendix</h2>
+ id="x9-680007"></a>Appendix</h2>
    <h3 class="sectionHead"><span class="titlemark">7.1   </span> <a 
- id="x9-590007.1"></a>Appendix A. Extensive list of parameters .rea file</h3>
+ id="x9-690007.1"></a>Appendix A. Extensive list of parameters .rea file</h3>
 <!--l. 1--><p class="noindent" >
    <h4 class="subsectionHead"><span class="titlemark">7.1.1   </span> <a 
- id="x9-600007.1.1"></a>Parameters</h4>
+ id="x9-700007.1.1"></a>Parameters</h4>
 <!--l. 2--><p class="noindent" >This section tells nek5000
      <ul class="itemize1">
      <li class="itemize">If the input file reflects a 2D or 3D job (it should match the <span 
@@ -35,7 +35,7 @@ class="ecti-1095">ldim </span>parameter in the SIZE file).
      <li class="itemize">The solution algorithm within nek5000 to use.
      </li>
      <li class="itemize">The timestep size or Courant number to use, or whether to run variable DT (<img 
-src="index250x.png" alt="dt  "  class="math" >), etc.</li></ul>
+src="index270x.png" alt="dt  "  class="math" >), etc.</li></ul>
 <!--l. 10--><p class="noindent" >A .rea file starts with the following three parameters:
      <dl class="description"><dt class="description">
 <span 
@@ -56,7 +56,7 @@ read by the program.<br
 class="newline" />
 <!--l. 19--><p class="noindent" >
    <h4 class="subsectionHead"><span class="titlemark">7.1.2   </span> <a 
- id="x9-610007.1.2"></a>Available Parameters</h4>
+ id="x9-710007.1.2"></a>Available Parameters</h4>
                                                                                          
                                                                                          
      <dl class="description"><dt class="description">
@@ -69,13 +69,13 @@ class="ecbx-1095">P030</span>).
 <span 
 class="ecbx-1095">P002 VISCOS</span> </dt><dd 
 class="description">kinematic viscosity (if <img 
-src="index251x.png" alt="&#x003C; 0 &rarr; Re  "  class="math" >, otherwise <img 
-src="index252x.png" alt="1&#x2215;Re  "  class="math" >).
+src="index271x.png" alt="&#x003C; 0 &rarr; Re  "  class="math" >, otherwise <img 
+src="index272x.png" alt="1&#x2215;Re  "  class="math" >).
      </dd><dt class="description">
 <span 
 class="ecbx-1095">P003 BETAG</span> </dt><dd 
 class="description">if <img 
-src="index253x.png" alt="&#x003E; 0  "  class="math" >, natural convection is turned on (Boussinesq approximation). <span id="textcolor1">NOT IN
+src="index273x.png" alt="&#x003E; 0  "  class="math" >, natural convection is turned on (Boussinesq approximation). <span id="textcolor1">NOT IN
      USE !</span>
      </dd><dt class="description">
 <span 
@@ -98,7 +98,7 @@ class="description">navier5.f: param(7) = param(1) ! rhoCP = rho <span id="textc
 <span 
 class="ecbx-1095">P008 CONDUCT</span> </dt><dd 
 class="description">conductivity for the case of constant properties (if <img 
-src="index254x.png" alt="&#x003C;  0  "  class="math" >, it defines the Peclet
+src="index274x.png" alt="&#x003C;  0  "  class="math" >, it defines the Peclet
      number, see parameter P030). <br 
 class="newline" />connect2.f: if(param(8) .lt.0.0) param(8) = -1.0/param(8)<br 
 class="newline" />navier5.f: param(8) = param(2) ! conduct = dyn. visc
@@ -111,7 +111,7 @@ class="newline" />connect2.f: CPFLD(2,3)=PARAM(9)
 <span 
 class="ecbx-1095">P010 FINTIME</span> </dt><dd 
 class="description">if <img 
-src="index255x.png" alt="&#x003E; 0  "  class="math" >, specifies simulation end time. Otherwise, use NSTEP (P011).<br 
+src="index275x.png" alt="&#x003E; 0  "  class="math" >, specifies simulation end time. Otherwise, use NSTEP (P011).<br 
 class="newline" />drive2.f: FINTIM = PARAM(10)
      </dd><dt class="description">
 <span 
@@ -123,9 +123,9 @@ class="newline" />drive2.f: NSTEPS = PARAM(11)
 <span 
 class="ecbx-1095">P012 DT</span> </dt><dd 
 class="description">upper bound on time step <img 
-src="index256x.png" alt="dt  "  class="math" > (if <img 
-src="index257x.png" alt="&#x003C;  0  "  class="math" >, then <img 
-src="index258x.png" alt="dt = |P 012| "  class="math" > constant)<br 
+src="index276x.png" alt="dt  "  class="math" > (if <img 
+src="index277x.png" alt="&#x003C;  0  "  class="math" >, then <img 
+src="index278x.png" alt="dt = |P 012| "  class="math" > constant)<br 
 class="newline" />connect2.f: param(12) = 1.0<br 
 class="newline" />drive2.f: DT = abs(PARAM(12))
      </dd><dt class="description">
@@ -139,7 +139,7 @@ class="newline" />drive2.f: IOCOMM = PARAM(13)
 <span 
 class="ecbx-1095">P014 IOTIME</span> </dt><dd 
 class="description">if <img 
-src="index259x.png" alt="&#x003E; 0  "  class="math" >, time interval to dump the fld file. Otherwise, use IOSTEP (P015).<br 
+src="index279x.png" alt="&#x003E; 0  "  class="math" >, time interval to dump the fld file. Otherwise, use IOSTEP (P015).<br 
 class="newline" />drive2.f: TIMEIO = PARAM(14)
      </dd><dt class="description">
 <span 
@@ -223,8 +223,8 @@ class="newline" />
 <span 
 class="ecbx-1095">P029 MHD_VISCOS</span> </dt><dd 
 class="description">if <img 
-src="index260x.png" alt="&#x003E; 0 &rarr; "  class="math" > magnetic viscosity, if <img 
-src="index261x.png" alt="&#x003C; 0 &rarr; "  class="math" > magnetic Reynolds number.<br 
+src="index280x.png" alt="&#x003E; 0 &rarr; "  class="math" > magnetic viscosity, if <img 
+src="index281x.png" alt="&#x003C; 0 &rarr; "  class="math" > magnetic Reynolds number.<br 
 class="newline" />connect2.f: if(param(29).lt.0.0) param(29) = -1.0/param(29)<br 
 class="newline" />connect2.f: if (param(29).ne.0.) ifmhd = .true.<br 
 class="newline" />connect2.f: cpfld(ifldmhd,1) = param(29) ! magnetic viscosity
@@ -239,7 +239,7 @@ class="description">if
 <span 
 class="ecbx-1095">P031 NPERT</span> </dt><dd 
 class="description">if <img 
-src="index262x.png" alt="&frasl;=  0  "  class="math" >, number of perturbation modes in linearized N-S.<br 
+src="index282x.png" alt="&frasl;=  0  "  class="math" >, number of perturbation modes in linearized N-S.<br 
 class="newline" />connect2.f: if (param(31).ne.0.) ifpert = .true.<br 
 class="newline" />connect2.f: if (param(31).lt.0.) ifbase = .false. ! don&#8217;t time adv base flow<br 
 class="newline" />connect2.f: npert = abs(param(31))
@@ -247,7 +247,7 @@ class="newline" />connect2.f: npert = abs(param(31))
 <span 
 class="ecbx-1095">P032 NBCRE2</span> </dt><dd 
 class="description">if <img 
-src="index263x.png" alt="&#x003E; 0  "  class="math" >, number of BCs in .re2 file, 0: all.<br 
+src="index283x.png" alt="&#x003E; 0  "  class="math" >, number of BCs in .re2 file, 0: all.<br 
 class="newline" />connect2.f: if (param(32).gt.0) nfldt = ibc + param(32)-1
      </dd><dt class="description">
 <span 
@@ -287,1187 +287,35 @@ class="description"><span id="textcolor18">NOT IN USE!</span>
 <span 
 class="ecbx-1095">P041</span>  </dt><dd 
 class="description">1 <img 
-src="index264x.png" alt="&rarr; "  class="math" > multiplicative SEMG<br 
+src="index284x.png" alt="&rarr; "  class="math" > multiplicative SEMG<br 
 class="newline" />hsmg.f:c if (param(41).eq.1) ifhybrid = .true. <img 
-src="index265x.png" alt="&larr; "  class="math" ><span id="textcolor19">NOT IN USE!</span>
+src="index285x.png" alt="&larr; "  class="math" ><span id="textcolor19">NOT IN USE!</span>
      </dd><dt class="description">
 <span 
 class="ecbx-1095">P042</span>  </dt><dd 
 class="description">linear solver for the pressure equation, 0 <img 
-src="index266x.png" alt="&rarr; "  class="math" > GMRES or 1 <img 
-src="index267x.png" alt="&rarr; "  class="math" > PCG
+src="index286x.png" alt="&rarr; "  class="math" > GMRES or 1 <img 
+src="index287x.png" alt="&rarr; "  class="math" > PCG
      </dd><dt class="description">
 <span 
 class="ecbx-1095">P043</span>  </dt><dd 
 class="description">0: additive multilevel scheme - 1: original two level scheme.<br 
 class="newline" />navier6.f: if (lx1.eq.2) param(43)=1.<br 
-class="newline" />navier6.f: if (param(43).eq.0) call hsmg_setup <!--l. 114-->
-     <div class="lstlisting" id="listing-10"><span class="label"><a 
- id="x9-61001r1"></a></span><span 
-class="ectt-0900">c</span><span 
-class="ectt-0900">&#x00A0;</span><span 
-class="ectt-0900">&#x00A0;</span><span 
-class="ectt-0900">gmres</span><span 
-class="ectt-0900">.</span><span 
-class="ectt-0900">f</span><span 
-class="ectt-0900">:</span><span 
-class="ectt-0900">&#x00A0;</span><br /><span class="label"><a 
- id="x9-61002r2"></a></span><span 
-class="ectt-0900">&#x00A0;</span><span 
-class="ectt-0900">&#x00A0;</span><span 
-class="ectt-0900">if</span><span 
-class="ectt-0900">(</span><span 
-class="ectt-0900">param</span><span 
-class="ectt-0900">(43).</span><span 
-class="ectt-0900">eq</span><span 
-class="ectt-0900">.1)</span><span 
-class="ectt-0900">&#x00A0;</span><span 
-class="ectt-0900">then</span><span 
-class="ectt-0900">&#x00A0;</span><br /><span class="label"><a 
- id="x9-61003r3"></a></span><span 
-class="ectt-0900">&#x00A0;</span><span 
-class="ectt-0900">&#x00A0;</span><span 
-class="ectt-0900">&#x00A0;</span><span 
-class="ectt-0900">&#x00A0;</span><span 
-class="ectt-0900">call</span><span 
-class="ectt-0900">&#x00A0;</span><span 
-class="ectt-0900">uzprec</span><span 
-class="ectt-0900">(</span><span 
-class="ectt-0900">z</span><span 
-class="ectt-0900">(1,</span><span 
-class="ectt-0900">j</span><span 
-class="ectt-0900">),</span><span 
-class="ectt-0900">w</span><span 
-class="ectt-0900">,</span><span 
-class="ectt-0900">h1</span><span 
-class="ectt-0900">,</span><span 
-class="ectt-0900">h2</span><span 
-class="ectt-0900">,</span><span 
-class="ectt-0900">intype</span><span 
-class="ectt-0900">,</span><span 
-class="ectt-0900">wp</span><span 
-class="ectt-0900">)</span><span 
-class="ectt-0900">&#x00A0;</span><br /><span class="label"><a 
- id="x9-61004r4"></a></span><span 
-class="ectt-0900">&#x00A0;</span><span 
-class="ectt-0900">&#x00A0;</span><span 
-class="ectt-0900">else</span><span 
-class="ectt-0900">&#x00A0;</span><span 
-class="ectt-0900">&#x00A0;</span><span 
-class="ectt-0900">&#x00A0;</span><span 
-class="ectt-0900">&#x00A0;</span><span 
-class="ectt-0900">&#x00A0;</span><span 
-class="ectt-0900">&#x00A0;</span><span 
-class="ectt-0900">&#x00A0;</span><span 
-class="ectt-0900">&#x00A0;</span><span 
-class="ectt-0900">&#x00A0;</span><span 
-class="ectt-0900">&#x00A0;</span><span 
-class="ectt-0900">&#x00A0;</span><span 
-class="ectt-0900">&#x00A0;</span><span 
-class="ectt-0900">&#x00A0;</span><span 
-class="ectt-0900">&#x00A0;</span><span 
-class="ectt-0900">&#x00A0;</span><span 
-class="ectt-0900">&#x00A0;</span><span 
-class="ectt-0900">&#x00A0;</span><span 
-class="ectt-0900">&#x00A0;</span><span 
-class="ectt-0900">&#x00A0;</span><span 
-class="ectt-0900">&#x00A0;</span><span 
-class="ectt-0900">&#x00A0;</span><span 
-class="ectt-0900">&#x00A0;</span><span 
-class="ectt-0900">&#x00A0;</span><span 
-class="ectt-0900">&#x00A0;</span><span 
-class="ectt-0900">&#x00A0;</span><span 
-class="ectt-0900">&#x00A0;</span><span 
-class="ectt-0900">&#x00A0;</span><span 
-class="ectt-0900">&#x00A0;</span><span 
-class="ectt-0900">&#x00A0;</span><span 
-class="ectt-0900">&#x00A0;</span><span 
-class="ectt-0900">&#x00A0;</span><span 
-class="ectt-0900">&#x00A0;</span><span 
-class="ectt-0900">&#x00A0;</span><span 
-class="ectt-0900">&#x00A0;</span><span 
-class="ectt-0900">!</span><span 
-class="ectt-0900">&#x00A0;</span><span 
-class="ectt-0900">&#x00A0;</span><span 
-class="ectt-0900">&#x00A0;</span><span 
-class="ectt-0900">&#x00A0;</span><span 
-class="ectt-0900">&#x00A0;</span><span 
-class="ectt-0900">&#x00A0;</span><span 
-class="ectt-0900">&#x00A0;</span><span 
-class="ectt-0900">-1</span><span 
-class="ectt-0900">&#x00A0;</span><br /><span class="label"><a 
- id="x9-61005r5"></a></span><span 
-class="ectt-0900">&#x00A0;</span><span 
-class="ectt-0900">&#x00A0;</span><span 
-class="ectt-0900">&#x00A0;</span><span 
-class="ectt-0900">&#x00A0;</span><span 
-class="ectt-0900">call</span><span 
-class="ectt-0900">&#x00A0;</span><span 
-class="ectt-0900">hsmg_solve</span><span 
-class="ectt-0900">(</span><span 
-class="ectt-0900">z</span><span 
-class="ectt-0900">(1,</span><span 
-class="ectt-0900">j</span><span 
-class="ectt-0900">),</span><span 
-class="ectt-0900">w</span><span 
-class="ectt-0900">)</span><span 
-class="ectt-0900">&#x00A0;</span><span 
-class="ectt-0900">&#x00A0;</span><span 
-class="ectt-0900">&#x00A0;</span><span 
-class="ectt-0900">&#x00A0;</span><span 
-class="ectt-0900">&#x00A0;</span><span 
-class="ectt-0900">&#x00A0;</span><span 
-class="ectt-0900">&#x00A0;</span><span 
-class="ectt-0900">&#x00A0;</span><span 
-class="ectt-0900">&#x00A0;</span><span 
-class="ectt-0900">&#x00A0;</span><span 
-class="ectt-0900">!</span><span 
-class="ectt-0900">&#x00A0;</span><span 
-class="ectt-0900">z</span><span 
-class="ectt-0900">&#x00A0;</span><span 
-class="ectt-0900">&#x00A0;</span><span 
-class="ectt-0900">=</span><span 
-class="ectt-0900">&#x00A0;</span><span 
-class="ectt-0900">M</span><span 
-class="ectt-0900">&#x00A0;</span><span 
-class="ectt-0900">&#x00A0;</span><span 
-class="ectt-0900">&#x00A0;</span><span 
-class="ectt-0900">w</span><span 
-class="ectt-0900">&#x00A0;</span><br /><span class="label"><a 
- id="x9-61006r6"></a></span><span 
-class="ectt-0900">&#x00A0;</span><span 
-class="ectt-0900">&#x00A0;</span><span 
-class="ectt-0900">endif</span>
-     
-     </div>
+class="newline" />navier6.f: if (param(43).eq.0) call hsmg_setup
      </dd><dt class="description">
 <span 
 class="ecbx-1095">P044</span>  </dt><dd 
-class="description">0=E-based additive Schwarz for PnPn-2; 1=A-based. <!--l. 123-->
-     <div class="lstlisting" id="listing-11"><span class="label"><a 
- id="x9-61007r1"></a></span><span 
-class="ectt-0900">c</span><span 
-class="ectt-0900">&#x00A0;</span><span 
-class="ectt-0900">&#x00A0;</span><span 
-class="ectt-0900">fast3d</span><span 
-class="ectt-0900">.</span><span 
-class="ectt-0900">f</span><span 
-class="ectt-0900">:</span><span 
-class="ectt-0900">&#x00A0;</span><br /><span class="label"><a 
- id="x9-61008r2"></a></span><span 
-class="ectt-0900">&#x00A0;</span><span 
-class="ectt-0900">&#x00A0;</span><span 
-class="ectt-0900">&#x00A0;</span><span 
-class="ectt-0900">&#x00A0;</span><span 
-class="ectt-0900">&#x00A0;</span><span 
-class="ectt-0900">&#x00A0;</span><span 
-class="ectt-0900">&#x00A0;</span><span 
-class="ectt-0900">&#x00A0;</span><span 
-class="ectt-0900">&#x00A0;</span><span 
-class="ectt-0900">if</span><span 
-class="ectt-0900">&#x00A0;</span><span 
-class="ectt-0900">(</span><span 
-class="ectt-0900">param</span><span 
-class="ectt-0900">(44).</span><span 
-class="ectt-0900">eq</span><span 
-class="ectt-0900">.1)</span><span 
-class="ectt-0900">&#x00A0;</span><span 
-class="ectt-0900">then</span><span 
-class="ectt-0900">&#x00A0;</span><br /><span class="label"><a 
- id="x9-61009r3"></a></span><span 
-class="ectt-0900">&#x00A0;</span><span 
-class="ectt-0900">&#x00A0;</span><span 
-class="ectt-0900">&#x00A0;</span><span 
-class="ectt-0900">&#x00A0;</span><span 
-class="ectt-0900">&#x00A0;</span><span 
-class="ectt-0900">&#x00A0;</span><span 
-class="ectt-0900">&#x00A0;</span><span 
-class="ectt-0900">&#x00A0;</span><span 
-class="ectt-0900">&#x00A0;</span><span 
-class="ectt-0900">&#x00A0;</span><span 
-class="ectt-0900">&#x00A0;</span><span 
-class="ectt-0900">call</span><span 
-class="ectt-0900">&#x00A0;</span><span 
-class="ectt-0900">get_fast_bc</span><span 
-class="ectt-0900">(</span><span 
-class="ectt-0900">lbr</span><span 
-class="ectt-0900">,</span><span 
-class="ectt-0900">rbr</span><span 
-class="ectt-0900">,</span><span 
-class="ectt-0900">lbs</span><span 
-class="ectt-0900">,</span><span 
-class="ectt-0900">rbs</span><span 
-class="ectt-0900">,</span><span 
-class="ectt-0900">lbt</span><span 
-class="ectt-0900">,</span><span 
-class="ectt-0900">rbt</span><span 
-class="ectt-0900">,</span><span 
-class="ectt-0900">e</span><span 
-class="ectt-0900">,2,</span><span 
-class="ectt-0900">ierr</span><span 
-class="ectt-0900">)</span><span 
-class="ectt-0900">&#x00A0;</span><br /><span class="label"><a 
- id="x9-61010r4"></a></span><span 
-class="ectt-0900">&#x00A0;</span><span 
-class="ectt-0900">&#x00A0;</span><span 
-class="ectt-0900">&#x00A0;</span><span 
-class="ectt-0900">&#x00A0;</span><span 
-class="ectt-0900">&#x00A0;</span><span 
-class="ectt-0900">&#x00A0;</span><span 
-class="ectt-0900">&#x00A0;</span><span 
-class="ectt-0900">&#x00A0;</span><span 
-class="ectt-0900">&#x00A0;</span><span 
-class="ectt-0900">else</span><span 
-class="ectt-0900">&#x00A0;</span><br /><span class="label"><a 
- id="x9-61011r5"></a></span><span 
-class="ectt-0900">&#x00A0;</span><span 
-class="ectt-0900">&#x00A0;</span><span 
-class="ectt-0900">&#x00A0;</span><span 
-class="ectt-0900">&#x00A0;</span><span 
-class="ectt-0900">&#x00A0;</span><span 
-class="ectt-0900">&#x00A0;</span><span 
-class="ectt-0900">&#x00A0;</span><span 
-class="ectt-0900">&#x00A0;</span><span 
-class="ectt-0900">&#x00A0;</span><span 
-class="ectt-0900">&#x00A0;</span><span 
-class="ectt-0900">&#x00A0;</span><span 
-class="ectt-0900">call</span><span 
-class="ectt-0900">&#x00A0;</span><span 
-class="ectt-0900">get_fast_bc</span><span 
-class="ectt-0900">(</span><span 
-class="ectt-0900">lbr</span><span 
-class="ectt-0900">,</span><span 
-class="ectt-0900">rbr</span><span 
-class="ectt-0900">,</span><span 
-class="ectt-0900">lbs</span><span 
-class="ectt-0900">,</span><span 
-class="ectt-0900">rbs</span><span 
-class="ectt-0900">,</span><span 
-class="ectt-0900">lbt</span><span 
-class="ectt-0900">,</span><span 
-class="ectt-0900">rbt</span><span 
-class="ectt-0900">,</span><span 
-class="ectt-0900">e</span><span 
-class="ectt-0900">,3,</span><span 
-class="ectt-0900">ierr</span><span 
-class="ectt-0900">)</span><span 
-class="ectt-0900">&#x00A0;</span><br /><span class="label"><a 
- id="x9-61012r6"></a></span><span 
-class="ectt-0900">&#x00A0;</span><span 
-class="ectt-0900">&#x00A0;</span><span 
-class="ectt-0900">&#x00A0;</span><span 
-class="ectt-0900">&#x00A0;</span><span 
-class="ectt-0900">&#x00A0;</span><span 
-class="ectt-0900">&#x00A0;</span><span 
-class="ectt-0900">&#x00A0;</span><span 
-class="ectt-0900">&#x00A0;</span><span 
-class="ectt-0900">&#x00A0;</span><span 
-class="ectt-0900">endif</span><span 
-class="ectt-0900">&#x00A0;</span><br /><span class="label"><a 
- id="x9-61013r7"></a></span><span 
-class="ectt-0900">c</span><span 
-class="ectt-0900">&#x00A0;</span><br /><span class="label"><a 
- id="x9-61014r8"></a></span><span 
-class="ectt-0900">c</span><span 
-class="ectt-0900">&#x00A0;</span><span 
-class="ectt-0900">&#x00A0;</span><span 
-class="ectt-0900">&#x00A0;</span><span 
-class="ectt-0900">&#x00A0;</span><span 
-class="ectt-0900">&#x00A0;</span><span 
-class="ectt-0900">&#x00A0;</span><span 
-class="ectt-0900">&#x00A0;</span><span 
-class="ectt-0900">&#x00A0;</span><span 
-class="ectt-0900">Set</span><span 
-class="ectt-0900">&#x00A0;</span><span 
-class="ectt-0900">up</span><span 
-class="ectt-0900">&#x00A0;</span><span 
-class="ectt-0900">matrices</span><span 
-class="ectt-0900">&#x00A0;</span><span 
-class="ectt-0900">for</span><span 
-class="ectt-0900">&#x00A0;</span><span 
-class="ectt-0900">each</span><span 
-class="ectt-0900">&#x00A0;</span><span 
-class="ectt-0900">element</span><span 
-class="ectt-0900">.</span><span 
-class="ectt-0900">&#x00A0;</span><br /><span class="label"><a 
- id="x9-61015r9"></a></span><span 
-class="ectt-0900">c</span><span 
-class="ectt-0900">&#x00A0;</span><br /><span class="label"><a 
- id="x9-61016r10"></a></span><span 
-class="ectt-0900">&#x00A0;</span><span 
-class="ectt-0900">&#x00A0;</span><span 
-class="ectt-0900">&#x00A0;</span><span 
-class="ectt-0900">&#x00A0;</span><span 
-class="ectt-0900">&#x00A0;</span><span 
-class="ectt-0900">&#x00A0;</span><span 
-class="ectt-0900">&#x00A0;</span><span 
-class="ectt-0900">&#x00A0;</span><span 
-class="ectt-0900">&#x00A0;</span><span 
-class="ectt-0900">if</span><span 
-class="ectt-0900">&#x00A0;</span><span 
-class="ectt-0900">(</span><span 
-class="ectt-0900">param</span><span 
-class="ectt-0900">(44).</span><span 
-class="ectt-0900">eq</span><span 
-class="ectt-0900">.1)</span><span 
-class="ectt-0900">&#x00A0;</span><span 
-class="ectt-0900">then</span><span 
-class="ectt-0900">&#x00A0;</span><br /><span class="label"><a 
- id="x9-61017r11"></a></span><span 
-class="ectt-0900">&#x00A0;</span><span 
-class="ectt-0900">&#x00A0;</span><span 
-class="ectt-0900">&#x00A0;</span><span 
-class="ectt-0900">&#x00A0;</span><span 
-class="ectt-0900">&#x00A0;</span><span 
-class="ectt-0900">&#x00A0;</span><span 
-class="ectt-0900">&#x00A0;</span><span 
-class="ectt-0900">&#x00A0;</span><span 
-class="ectt-0900">&#x00A0;</span><span 
-class="ectt-0900">&#x00A0;</span><span 
-class="ectt-0900">&#x00A0;</span><span 
-class="ectt-0900">call</span><span 
-class="ectt-0900">&#x00A0;</span><span 
-class="ectt-0900">set_up_fast_1D_fem</span><span 
-class="ectt-0900">(</span><span 
-class="ectt-0900">&#x00A0;</span><span 
-class="ectt-0900">sr</span><span 
-class="ectt-0900">(1,</span><span 
-class="ectt-0900">e</span><span 
-class="ectt-0900">),</span><span 
-class="ectt-0900">lr</span><span 
-class="ectt-0900">,</span><span 
-class="ectt-0900">nr</span><span 
-class="ectt-0900">&#x00A0;</span><span 
-class="ectt-0900">,</span><span 
-class="ectt-0900">lbr</span><span 
-class="ectt-0900">,</span><span 
-class="ectt-0900">rbr</span><span 
-class="ectt-0900">&#x00A0;</span><br /><span class="label"><a 
- id="x9-61018r12"></a></span><span 
-class="ectt-0900">&#x00A0;</span><span 
-class="ectt-0900">&#x00A0;</span><span 
-class="ectt-0900">&#x00A0;</span><span 
-class="ectt-0900">&#x00A0;</span><span 
-class="ectt-0900">&#x00A0;</span><span 
-class="ectt-0900">\(</span><span 
-class="ectt-0900">&#x00A0;</span><span 
-class="ectt-0900">&#x00A0;</span><span 
-class="ectt-0900">&#x00A0;</span><span 
-class="ectt-0900">&#x00A0;</span><span 
-class="ectt-0900">&#x00A0;</span><span 
-class="ectt-0900">&#x00A0;</span><span 
-class="ectt-0900">&#x00A0;</span><span 
-class="ectt-0900">&#x00A0;</span><span 
-class="ectt-0900">&#x00A0;</span><span 
-class="ectt-0900">&#x00A0;</span><span 
-class="ectt-0900">&#x00A0;</span><span 
-class="ectt-0900">&#x00A0;</span><span 
-class="ectt-0900">&#x00A0;</span><span 
-class="ectt-0900">&#x00A0;</span><span 
-class="ectt-0900">&#x00A0;</span><span 
-class="ectt-0900">&#x00A0;</span><span 
-class="ectt-0900">&#x00A0;</span><span 
-class="ectt-0900">&#x00A0;</span><span 
-class="ectt-0900">&#x00A0;</span><span 
-class="ectt-0900">&#x00A0;</span><span 
-class="ectt-0900">&#x00A0;</span><span 
-class="ectt-0900">&#x00A0;</span><span 
-class="ectt-0900">,</span><span 
-class="ectt-0900">llr</span><span 
-class="ectt-0900">(</span><span 
-class="ectt-0900">e</span><span 
-class="ectt-0900">),</span><span 
-class="ectt-0900">lmr</span><span 
-class="ectt-0900">(</span><span 
-class="ectt-0900">e</span><span 
-class="ectt-0900">),</span><span 
-class="ectt-0900">lrr</span><span 
-class="ectt-0900">(</span><span 
-class="ectt-0900">e</span><span 
-class="ectt-0900">),</span><span 
-class="ectt-0900">zgm2</span><span 
-class="ectt-0900">(1,1),</span><span 
-class="ectt-0900">nx2</span><span 
-class="ectt-0900">,</span><span 
-class="ectt-0900">e</span><span 
-class="ectt-0900">)</span><span 
-class="ectt-0900">&#x00A0;</span><br /><span class="label"><a 
- id="x9-61019r13"></a></span><span 
-class="ectt-0900">&#x00A0;</span><span 
-class="ectt-0900">&#x00A0;</span><span 
-class="ectt-0900">&#x00A0;</span><span 
-class="ectt-0900">&#x00A0;</span><span 
-class="ectt-0900">&#x00A0;</span><span 
-class="ectt-0900">&#x00A0;</span><span 
-class="ectt-0900">&#x00A0;</span><span 
-class="ectt-0900">&#x00A0;</span><span 
-class="ectt-0900">&#x00A0;</span><span 
-class="ectt-0900">else</span><span 
-class="ectt-0900">&#x00A0;</span><br /><span class="label"><a 
- id="x9-61020r14"></a></span><span 
-class="ectt-0900">&#x00A0;</span><span 
-class="ectt-0900">&#x00A0;</span><span 
-class="ectt-0900">&#x00A0;</span><span 
-class="ectt-0900">&#x00A0;</span><span 
-class="ectt-0900">&#x00A0;</span><span 
-class="ectt-0900">&#x00A0;</span><span 
-class="ectt-0900">&#x00A0;</span><span 
-class="ectt-0900">&#x00A0;</span><span 
-class="ectt-0900">&#x00A0;</span><span 
-class="ectt-0900">&#x00A0;</span><span 
-class="ectt-0900">&#x00A0;</span><span 
-class="ectt-0900">call</span><span 
-class="ectt-0900">&#x00A0;</span><span 
-class="ectt-0900">set_up_fast_1D_sem</span><span 
-class="ectt-0900">(</span><span 
-class="ectt-0900">&#x00A0;</span><span 
-class="ectt-0900">sr</span><span 
-class="ectt-0900">(1,</span><span 
-class="ectt-0900">e</span><span 
-class="ectt-0900">),</span><span 
-class="ectt-0900">lr</span><span 
-class="ectt-0900">,</span><span 
-class="ectt-0900">nr</span><span 
-class="ectt-0900">&#x00A0;</span><span 
-class="ectt-0900">,</span><span 
-class="ectt-0900">lbr</span><span 
-class="ectt-0900">,</span><span 
-class="ectt-0900">rbr</span><span 
-class="ectt-0900">&#x00A0;</span><br /><span class="label"><a 
- id="x9-61021r15"></a></span><span 
-class="ectt-0900">&#x00A0;</span><span 
-class="ectt-0900">&#x00A0;</span><span 
-class="ectt-0900">&#x00A0;</span><span 
-class="ectt-0900">&#x00A0;</span><span 
-class="ectt-0900">&#x00A0;</span><span 
-class="ectt-0900">\)</span><span 
-class="ectt-0900">&#x00A0;</span><span 
-class="ectt-0900">&#x00A0;</span><span 
-class="ectt-0900">&#x00A0;</span><span 
-class="ectt-0900">&#x00A0;</span><span 
-class="ectt-0900">&#x00A0;</span><span 
-class="ectt-0900">&#x00A0;</span><span 
-class="ectt-0900">&#x00A0;</span><span 
-class="ectt-0900">&#x00A0;</span><span 
-class="ectt-0900">&#x00A0;</span><span 
-class="ectt-0900">&#x00A0;</span><span 
-class="ectt-0900">&#x00A0;</span><span 
-class="ectt-0900">&#x00A0;</span><span 
-class="ectt-0900">&#x00A0;</span><span 
-class="ectt-0900">&#x00A0;</span><span 
-class="ectt-0900">&#x00A0;</span><span 
-class="ectt-0900">&#x00A0;</span><span 
-class="ectt-0900">&#x00A0;</span><span 
-class="ectt-0900">&#x00A0;</span><span 
-class="ectt-0900">&#x00A0;</span><span 
-class="ectt-0900">&#x00A0;</span><span 
-class="ectt-0900">&#x00A0;</span><span 
-class="ectt-0900">&#x00A0;</span><span 
-class="ectt-0900">,</span><span 
-class="ectt-0900">llr</span><span 
-class="ectt-0900">(</span><span 
-class="ectt-0900">e</span><span 
-class="ectt-0900">),</span><span 
-class="ectt-0900">lmr</span><span 
-class="ectt-0900">(</span><span 
-class="ectt-0900">e</span><span 
-class="ectt-0900">),</span><span 
-class="ectt-0900">lrr</span><span 
-class="ectt-0900">(</span><span 
-class="ectt-0900">e</span><span 
-class="ectt-0900">),</span><span 
-class="ectt-0900">e</span><span 
-class="ectt-0900">)</span><span 
-class="ectt-0900">&#x00A0;</span><br /><span class="label"><a 
- id="x9-61022r16"></a></span><span 
-class="ectt-0900">&#x00A0;</span><span 
-class="ectt-0900">&#x00A0;</span><span 
-class="ectt-0900">&#x00A0;</span><span 
-class="ectt-0900">&#x00A0;</span><span 
-class="ectt-0900">&#x00A0;</span><span 
-class="ectt-0900">&#x00A0;</span><span 
-class="ectt-0900">&#x00A0;</span><span 
-class="ectt-0900">&#x00A0;</span><span 
-class="ectt-0900">&#x00A0;</span><span 
-class="ectt-0900">endif</span><span 
-class="ectt-0900">&#x00A0;</span><br /><span class="label"><a 
- id="x9-61023r17"></a></span><span 
-class="ectt-0900">&#x00A0;</span><br /><span class="label"><a 
- id="x9-61024r18"></a></span><span 
-class="ectt-0900">&#x00A0;</span><span 
-class="ectt-0900">&#x00A0;</span><span 
-class="ectt-0900">&#x00A0;</span><span 
-class="ectt-0900">&#x00A0;</span><span 
-class="ectt-0900">&#x00A0;</span><span 
-class="ectt-0900">&#x00A0;</span><span 
-class="ectt-0900">if</span><span 
-class="ectt-0900">&#x00A0;</span><span 
-class="ectt-0900">(</span><span 
-class="ectt-0900">param</span><span 
-class="ectt-0900">(44).</span><span 
-class="ectt-0900">eq</span><span 
-class="ectt-0900">.1)</span><span 
-class="ectt-0900">&#x00A0;</span><span 
-class="ectt-0900">then</span><span 
-class="ectt-0900">&#x00A0;</span><br /><span class="label"><a 
- id="x9-61025r19"></a></span><span 
-class="ectt-0900">c</span><span 
-class="ectt-0900">&#x00A0;</span><span 
-class="ectt-0900">&#x00A0;</span><span 
-class="ectt-0900">&#x00A0;</span><span 
-class="ectt-0900">&#x00A0;</span><span 
-class="ectt-0900">&#x00A0;</span><span 
-class="ectt-0900">&#x00A0;</span><span 
-class="ectt-0900">&#x00A0;</span><span 
-class="ectt-0900">&#x00A0;</span><span 
-class="ectt-0900">&#x00A0;</span><span 
-class="ectt-0900">&#x00A0;</span><span 
-class="ectt-0900">&#x00A0;</span><span 
-class="ectt-0900">&#x00A0;</span><span 
-class="ectt-0900">&#x00A0;</span><span 
-class="ectt-0900">&#x00A0;</span><span 
-class="ectt-0900">&#x00A0;</span><span 
-class="ectt-0900">&#x00A0;</span><span 
-class="ectt-0900">&#x00A0;</span><span 
-class="ectt-0900">&#x00A0;</span><span 
-class="ectt-0900">&#x00A0;</span><span 
-class="ectt-0900">&#x00A0;</span><span 
-class="ectt-0900">&#x00A0;</span><span 
-class="ectt-0900">&#x00A0;</span><span 
-class="ectt-0900">&#x00A0;</span><span 
-class="ectt-0900">&#x00A0;</span><span 
-class="ectt-0900">&#x00A0;</span><span 
-class="ectt-0900">&#x00A0;</span><span 
-class="ectt-0900">&#x00A0;</span><span 
-class="ectt-0900">&#x00A0;</span><span 
-class="ectt-0900">&#x00A0;</span><span 
-class="ectt-0900">&#x00A0;</span><span 
-class="ectt-0900">&#x00A0;</span><span 
-class="ectt-0900">&#x00A0;</span><span 
-class="ectt-0900">&#x00A0;</span><span 
-class="ectt-0900">&#x00A0;</span><span 
-class="ectt-0900">&#x00A0;</span><span 
-class="ectt-0900">&#x00A0;</span><span 
-class="ectt-0900">__</span><span 
-class="ectt-0900">&#x00A0;</span><span 
-class="ectt-0900">__</span><span 
-class="ectt-0900">&#x00A0;</span><span 
-class="ectt-0900">__</span><span 
-class="ectt-0900">&#x00A0;</span><br /><span class="label"><a 
- id="x9-61026r20"></a></span><span 
-class="ectt-0900">c</span><span 
-class="ectt-0900">&#x00A0;</span><span 
-class="ectt-0900">&#x00A0;</span><span 
-class="ectt-0900">&#x00A0;</span><span 
-class="ectt-0900">&#x00A0;</span><span 
-class="ectt-0900">&#x00A0;</span><span 
-class="ectt-0900">&#x00A0;</span><span 
-class="ectt-0900">&#x00A0;</span><span 
-class="ectt-0900">&#x00A0;</span><span 
-class="ectt-0900">Now</span><span 
-class="ectt-0900">,</span><span 
-class="ectt-0900">&#x00A0;</span><span 
-class="ectt-0900">for</span><span 
-class="ectt-0900">&#x00A0;</span><span 
-class="ectt-0900">each</span><span 
-class="ectt-0900">&#x00A0;</span><span 
-class="ectt-0900">element</span><span 
-class="ectt-0900">,</span><span 
-class="ectt-0900">&#x00A0;</span><span 
-class="ectt-0900">compute</span><span 
-class="ectt-0900">&#x00A0;</span><span 
-class="ectt-0900">lr</span><span 
-class="ectt-0900">,</span><span 
-class="ectt-0900">ls</span><span 
-class="ectt-0900">,</span><span 
-class="ectt-0900">lt</span><span 
-class="ectt-0900">&#x00A0;</span><span 
-class="ectt-0900">between</span><span 
-class="ectt-0900">&#x00A0;</span><span 
-class="ectt-0900">specified</span><span 
-class="ectt-0900">&#x00A0;</span><span 
-class="ectt-0900">planes</span><span 
-class="ectt-0900">&#x00A0;</span><br /><span class="label"><a 
- id="x9-61027r21"></a></span><span 
-class="ectt-0900">c</span><span 
-class="ectt-0900">&#x00A0;</span><br /><span class="label"><a 
- id="x9-61028r22"></a></span><span 
-class="ectt-0900">&#x00A0;</span><span 
-class="ectt-0900">&#x00A0;</span><span 
-class="ectt-0900">&#x00A0;</span><span 
-class="ectt-0900">&#x00A0;</span><span 
-class="ectt-0900">&#x00A0;</span><span 
-class="ectt-0900">&#x00A0;</span><span 
-class="ectt-0900">&#x00A0;</span><span 
-class="ectt-0900">&#x00A0;</span><span 
-class="ectt-0900">&#x00A0;</span><span 
-class="ectt-0900">n1</span><span 
-class="ectt-0900">&#x00A0;</span><span 
-class="ectt-0900">=</span><span 
-class="ectt-0900">&#x00A0;</span><span 
-class="ectt-0900">nx2</span><span 
-class="ectt-0900">&#x00A0;</span><br /><span class="label"><a 
- id="x9-61029r23"></a></span><span 
-class="ectt-0900">&#x00A0;</span><span 
-class="ectt-0900">&#x00A0;</span><span 
-class="ectt-0900">&#x00A0;</span><span 
-class="ectt-0900">&#x00A0;</span><span 
-class="ectt-0900">&#x00A0;</span><span 
-class="ectt-0900">&#x00A0;</span><span 
-class="ectt-0900">&#x00A0;</span><span 
-class="ectt-0900">&#x00A0;</span><span 
-class="ectt-0900">&#x00A0;</span><span 
-class="ectt-0900">n2</span><span 
-class="ectt-0900">&#x00A0;</span><span 
-class="ectt-0900">=</span><span 
-class="ectt-0900">&#x00A0;</span><span 
-class="ectt-0900">nx2</span><span 
-class="ectt-0900">+1</span><span 
-class="ectt-0900">&#x00A0;</span><br /><span class="label"><a 
- id="x9-61030r24"></a></span><span 
-class="ectt-0900">&#x00A0;</span><span 
-class="ectt-0900">&#x00A0;</span><span 
-class="ectt-0900">&#x00A0;</span><span 
-class="ectt-0900">&#x00A0;</span><span 
-class="ectt-0900">&#x00A0;</span><span 
-class="ectt-0900">&#x00A0;</span><span 
-class="ectt-0900">&#x00A0;</span><span 
-class="ectt-0900">&#x00A0;</span><span 
-class="ectt-0900">&#x00A0;</span><span 
-class="ectt-0900">nz0</span><span 
-class="ectt-0900">&#x00A0;</span><span 
-class="ectt-0900">=</span><span 
-class="ectt-0900">&#x00A0;</span><span 
-class="ectt-0900">1</span><span 
-class="ectt-0900">&#x00A0;</span><br /><span class="label"><a 
- id="x9-61031r25"></a></span><span 
-class="ectt-0900">&#x00A0;</span><span 
-class="ectt-0900">&#x00A0;</span><span 
-class="ectt-0900">&#x00A0;</span><span 
-class="ectt-0900">&#x00A0;</span><span 
-class="ectt-0900">&#x00A0;</span><span 
-class="ectt-0900">&#x00A0;</span><span 
-class="ectt-0900">&#x00A0;</span><span 
-class="ectt-0900">&#x00A0;</span><span 
-class="ectt-0900">&#x00A0;</span><span 
-class="ectt-0900">nzn</span><span 
-class="ectt-0900">&#x00A0;</span><span 
-class="ectt-0900">=</span><span 
-class="ectt-0900">&#x00A0;</span><span 
-class="ectt-0900">1</span><span 
-class="ectt-0900">&#x00A0;</span><br /><span class="label"><a 
- id="x9-61032r26"></a></span><span 
-class="ectt-0900">&#x00A0;</span><span 
-class="ectt-0900">&#x00A0;</span><span 
-class="ectt-0900">&#x00A0;</span><span 
-class="ectt-0900">&#x00A0;</span><span 
-class="ectt-0900">&#x00A0;</span><span 
-class="ectt-0900">&#x00A0;</span><span 
-class="ectt-0900">&#x00A0;</span><span 
-class="ectt-0900">&#x00A0;</span><span 
-class="ectt-0900">&#x00A0;</span><span 
-class="ectt-0900">if</span><span 
-class="ectt-0900">&#x00A0;</span><span 
-class="ectt-0900">(</span><span 
-class="ectt-0900">if3d</span><span 
-class="ectt-0900">)</span><span 
-class="ectt-0900">&#x00A0;</span><span 
-class="ectt-0900">then</span><span 
-class="ectt-0900">&#x00A0;</span><br /><span class="label"><a 
- id="x9-61033r27"></a></span><span 
-class="ectt-0900">&#x00A0;</span><span 
-class="ectt-0900">&#x00A0;</span><span 
-class="ectt-0900">&#x00A0;</span><span 
-class="ectt-0900">&#x00A0;</span><span 
-class="ectt-0900">&#x00A0;</span><span 
-class="ectt-0900">&#x00A0;</span><span 
-class="ectt-0900">&#x00A0;</span><span 
-class="ectt-0900">&#x00A0;</span><span 
-class="ectt-0900">&#x00A0;</span><span 
-class="ectt-0900">&#x00A0;</span><span 
-class="ectt-0900">&#x00A0;</span><span 
-class="ectt-0900">&#x00A0;</span><span 
-class="ectt-0900">nz0</span><span 
-class="ectt-0900">=</span><span 
-class="ectt-0900">&#x00A0;</span><span 
-class="ectt-0900">0</span><span 
-class="ectt-0900">&#x00A0;</span><br /><span class="label"><a 
- id="x9-61034r28"></a></span><span 
-class="ectt-0900">&#x00A0;</span><span 
-class="ectt-0900">&#x00A0;</span><span 
-class="ectt-0900">&#x00A0;</span><span 
-class="ectt-0900">&#x00A0;</span><span 
-class="ectt-0900">&#x00A0;</span><span 
-class="ectt-0900">&#x00A0;</span><span 
-class="ectt-0900">&#x00A0;</span><span 
-class="ectt-0900">&#x00A0;</span><span 
-class="ectt-0900">&#x00A0;</span><span 
-class="ectt-0900">&#x00A0;</span><span 
-class="ectt-0900">&#x00A0;</span><span 
-class="ectt-0900">&#x00A0;</span><span 
-class="ectt-0900">nzn</span><span 
-class="ectt-0900">=</span><span 
-class="ectt-0900">n2</span><span 
-class="ectt-0900">&#x00A0;</span><br /><span class="label"><a 
- id="x9-61035r29"></a></span><span 
-class="ectt-0900">&#x00A0;</span><span 
-class="ectt-0900">&#x00A0;</span><span 
-class="ectt-0900">&#x00A0;</span><span 
-class="ectt-0900">&#x00A0;</span><span 
-class="ectt-0900">&#x00A0;</span><span 
-class="ectt-0900">&#x00A0;</span><span 
-class="ectt-0900">&#x00A0;</span><span 
-class="ectt-0900">&#x00A0;</span><span 
-class="ectt-0900">&#x00A0;</span><span 
-class="ectt-0900">endif</span><span 
-class="ectt-0900">&#x00A0;</span><br /><span class="label"><a 
- id="x9-61036r30"></a></span><span 
-class="ectt-0900">&#x00A0;</span><span 
-class="ectt-0900">&#x00A0;</span><span 
-class="ectt-0900">&#x00A0;</span><span 
-class="ectt-0900">&#x00A0;</span><span 
-class="ectt-0900">&#x00A0;</span><span 
-class="ectt-0900">&#x00A0;</span><span 
-class="ectt-0900">&#x00A0;</span><span 
-class="ectt-0900">&#x00A0;</span><span 
-class="ectt-0900">&#x00A0;</span><span 
-class="ectt-0900">eps</span><span 
-class="ectt-0900">&#x00A0;</span><span 
-class="ectt-0900">=</span><span 
-class="ectt-0900">&#x00A0;</span><span 
-class="ectt-0900">1.</span><span 
-class="ectt-0900">e</span><span 
-class="ectt-0900">-7</span><span 
-class="ectt-0900">&#x00A0;</span><br /><span class="label"><a 
- id="x9-61037r31"></a></span><span 
-class="ectt-0900">&#x00A0;</span><span 
-class="ectt-0900">&#x00A0;</span><span 
-class="ectt-0900">&#x00A0;</span><span 
-class="ectt-0900">&#x00A0;</span><span 
-class="ectt-0900">&#x00A0;</span><span 
-class="ectt-0900">&#x00A0;</span><span 
-class="ectt-0900">&#x00A0;</span><span 
-class="ectt-0900">&#x00A0;</span><span 
-class="ectt-0900">&#x00A0;</span><span 
-class="ectt-0900">if</span><span 
-class="ectt-0900">&#x00A0;</span><span 
-class="ectt-0900">(</span><span 
-class="ectt-0900">wdsize</span><span 
-class="ectt-0900">.</span><span 
-class="ectt-0900">eq</span><span 
-class="ectt-0900">.8)</span><span 
-class="ectt-0900">&#x00A0;</span><span 
-class="ectt-0900">&#x00A0;</span><span 
-class="ectt-0900">eps</span><span 
-class="ectt-0900">&#x00A0;</span><span 
-class="ectt-0900">=</span><span 
-class="ectt-0900">&#x00A0;</span><span 
-class="ectt-0900">1.</span><span 
-class="ectt-0900">e</span><span 
-class="ectt-0900">-14</span><span 
-class="ectt-0900">&#x00A0;</span><br /><span class="label"><a 
- id="x9-61038r32"></a></span><span 
-class="ectt-0900">c</span><span 
-class="ectt-0900">&#x00A0;</span><br /><span class="label"><a 
- id="x9-61039r33"></a></span><span 
-class="ectt-0900">c</span><span 
-class="ectt-0900">&#x00A0;</span><span 
-class="ectt-0900">&#x00A0;</span><span 
-class="ectt-0900">&#x00A0;</span><span 
-class="ectt-0900">&#x00A0;</span><span 
-class="ectt-0900">&#x00A0;</span><span 
-class="ectt-0900">&#x00A0;</span><span 
-class="ectt-0900">&#x00A0;</span><span 
-class="ectt-0900">&#x00A0;</span><span 
-class="ectt-0900">Find</span><span 
-class="ectt-0900">&#x00A0;</span><span 
-class="ectt-0900">mean</span><span 
-class="ectt-0900">&#x00A0;</span><span 
-class="ectt-0900">spacing</span><span 
-class="ectt-0900">&#x00A0;</span><span 
-class="ectt-0900">between</span><span 
-class="ectt-0900">&#x00A0;</span><span 
-class="ectt-0900">"</span><span 
-class="ectt-0900">left</span><span 
-class="ectt-0900">-</span><span 
-class="ectt-0900">most</span><span 
-class="ectt-0900">"</span><span 
-class="ectt-0900">&#x00A0;</span><span 
-class="ectt-0900">planes</span><span 
-class="ectt-0900">&#x00A0;</span><br /><span class="label"><a 
- id="x9-61040r34"></a></span><span 
-class="ectt-0900">&#x00A0;</span><span 
-class="ectt-0900">&#x00A0;</span><span 
-class="ectt-0900">&#x00A0;</span><span 
-class="ectt-0900">&#x00A0;</span><span 
-class="ectt-0900">&#x00A0;</span><span 
-class="ectt-0900">&#x00A0;</span><span 
-class="ectt-0900">&#x00A0;</span><span 
-class="ectt-0900">&#x00A0;</span><span 
-class="ectt-0900">&#x00A0;</span><span 
-class="ectt-0900">call</span><span 
-class="ectt-0900">&#x00A0;</span><span 
-class="ectt-0900">plane_space2</span><span 
-class="ectt-0900">(</span><span 
-class="ectt-0900">llr</span><span 
-class="ectt-0900">,</span><span 
-class="ectt-0900">lls</span><span 
-class="ectt-0900">,</span><span 
-class="ectt-0900">llt</span><span 
-class="ectt-0900">,</span><span 
-class="ectt-0900">&#x00A0;</span><span 
-class="ectt-0900">0,</span><span 
-class="ectt-0900">wxm2</span><span 
-class="ectt-0900">,</span><span 
-class="ectt-0900">x</span><span 
-class="ectt-0900">,</span><span 
-class="ectt-0900">y</span><span 
-class="ectt-0900">,</span><span 
-class="ectt-0900">z</span><span 
-class="ectt-0900">,</span><span 
-class="ectt-0900">n1</span><span 
-class="ectt-0900">,</span><span 
-class="ectt-0900">n2</span><span 
-class="ectt-0900">,</span><span 
-class="ectt-0900">nz0</span><span 
-class="ectt-0900">,</span><span 
-class="ectt-0900">nzn</span><span 
-class="ectt-0900">)</span><span 
-class="ectt-0900">&#x00A0;</span><br /><span class="label"><a 
- id="x9-61041r35"></a></span><span 
-class="ectt-0900">c</span><span 
-class="ectt-0900">&#x00A0;</span><br /><span class="label"><a 
- id="x9-61042r36"></a></span><span 
-class="ectt-0900">c</span><span 
-class="ectt-0900">&#x00A0;</span><span 
-class="ectt-0900">&#x00A0;</span><span 
-class="ectt-0900">&#x00A0;</span><span 
-class="ectt-0900">&#x00A0;</span><span 
-class="ectt-0900">&#x00A0;</span><span 
-class="ectt-0900">&#x00A0;</span><span 
-class="ectt-0900">&#x00A0;</span><span 
-class="ectt-0900">&#x00A0;</span><span 
-class="ectt-0900">Find</span><span 
-class="ectt-0900">&#x00A0;</span><span 
-class="ectt-0900">mean</span><span 
-class="ectt-0900">&#x00A0;</span><span 
-class="ectt-0900">spacing</span><span 
-class="ectt-0900">&#x00A0;</span><span 
-class="ectt-0900">between</span><span 
-class="ectt-0900">&#x00A0;</span><span 
-class="ectt-0900">"</span><span 
-class="ectt-0900">middle</span><span 
-class="ectt-0900">"</span><span 
-class="ectt-0900">&#x00A0;</span><span 
-class="ectt-0900">planes</span><span 
-class="ectt-0900">&#x00A0;</span><br /><span class="label"><a 
- id="x9-61043r37"></a></span><span 
-class="ectt-0900">&#x00A0;</span><span 
-class="ectt-0900">&#x00A0;</span><span 
-class="ectt-0900">&#x00A0;</span><span 
-class="ectt-0900">&#x00A0;</span><span 
-class="ectt-0900">&#x00A0;</span><span 
-class="ectt-0900">&#x00A0;</span><span 
-class="ectt-0900">&#x00A0;</span><span 
-class="ectt-0900">&#x00A0;</span><span 
-class="ectt-0900">&#x00A0;</span><span 
-class="ectt-0900">call</span><span 
-class="ectt-0900">&#x00A0;</span><span 
-class="ectt-0900">plane_space</span><span 
-class="ectt-0900">&#x00A0;</span><span 
-class="ectt-0900">(</span><span 
-class="ectt-0900">lmr</span><span 
-class="ectt-0900">,</span><span 
-class="ectt-0900">lms</span><span 
-class="ectt-0900">,</span><span 
-class="ectt-0900">lmt</span><span 
-class="ectt-0900">,</span><span 
-class="ectt-0900">&#x00A0;</span><span 
-class="ectt-0900">1,</span><span 
-class="ectt-0900">n1</span><span 
-class="ectt-0900">,</span><span 
-class="ectt-0900">wxm2</span><span 
-class="ectt-0900">,</span><span 
-class="ectt-0900">x</span><span 
-class="ectt-0900">,</span><span 
-class="ectt-0900">y</span><span 
-class="ectt-0900">,</span><span 
-class="ectt-0900">z</span><span 
-class="ectt-0900">,</span><span 
-class="ectt-0900">n1</span><span 
-class="ectt-0900">,</span><span 
-class="ectt-0900">n2</span><span 
-class="ectt-0900">,</span><span 
-class="ectt-0900">nz0</span><span 
-class="ectt-0900">,</span><span 
-class="ectt-0900">nzn</span><span 
-class="ectt-0900">)</span><span 
-class="ectt-0900">&#x00A0;</span><br /><span class="label"><a 
- id="x9-61044r38"></a></span><span 
-class="ectt-0900">c</span><span 
-class="ectt-0900">&#x00A0;</span><br /><span class="label"><a 
- id="x9-61045r39"></a></span><span 
-class="ectt-0900">c</span><span 
-class="ectt-0900">&#x00A0;</span><span 
-class="ectt-0900">&#x00A0;</span><span 
-class="ectt-0900">&#x00A0;</span><span 
-class="ectt-0900">&#x00A0;</span><span 
-class="ectt-0900">&#x00A0;</span><span 
-class="ectt-0900">&#x00A0;</span><span 
-class="ectt-0900">&#x00A0;</span><span 
-class="ectt-0900">&#x00A0;</span><span 
-class="ectt-0900">Find</span><span 
-class="ectt-0900">&#x00A0;</span><span 
-class="ectt-0900">mean</span><span 
-class="ectt-0900">&#x00A0;</span><span 
-class="ectt-0900">spacing</span><span 
-class="ectt-0900">&#x00A0;</span><span 
-class="ectt-0900">between</span><span 
-class="ectt-0900">&#x00A0;</span><span 
-class="ectt-0900">"</span><span 
-class="ectt-0900">right</span><span 
-class="ectt-0900">-</span><span 
-class="ectt-0900">most</span><span 
-class="ectt-0900">"</span><span 
-class="ectt-0900">&#x00A0;</span><span 
-class="ectt-0900">planes</span><span 
-class="ectt-0900">&#x00A0;</span><br /><span class="label"><a 
- id="x9-61046r40"></a></span><span 
-class="ectt-0900">&#x00A0;</span><span 
-class="ectt-0900">&#x00A0;</span><span 
-class="ectt-0900">&#x00A0;</span><span 
-class="ectt-0900">&#x00A0;</span><span 
-class="ectt-0900">&#x00A0;</span><span 
-class="ectt-0900">&#x00A0;</span><span 
-class="ectt-0900">&#x00A0;</span><span 
-class="ectt-0900">&#x00A0;</span><span 
-class="ectt-0900">&#x00A0;</span><span 
-class="ectt-0900">call</span><span 
-class="ectt-0900">&#x00A0;</span><span 
-class="ectt-0900">plane_space2</span><span 
-class="ectt-0900">(</span><span 
-class="ectt-0900">lrr</span><span 
-class="ectt-0900">,</span><span 
-class="ectt-0900">lrs</span><span 
-class="ectt-0900">,</span><span 
-class="ectt-0900">lrt</span><span 
-class="ectt-0900">,</span><span 
-class="ectt-0900">n2</span><span 
-class="ectt-0900">,</span><span 
-class="ectt-0900">wxm2</span><span 
-class="ectt-0900">,</span><span 
-class="ectt-0900">x</span><span 
-class="ectt-0900">,</span><span 
-class="ectt-0900">y</span><span 
-class="ectt-0900">,</span><span 
-class="ectt-0900">z</span><span 
-class="ectt-0900">,</span><span 
-class="ectt-0900">n1</span><span 
-class="ectt-0900">,</span><span 
-class="ectt-0900">n2</span><span 
-class="ectt-0900">,</span><span 
-class="ectt-0900">nz0</span><span 
-class="ectt-0900">,</span><span 
-class="ectt-0900">nzn</span><span 
-class="ectt-0900">)</span><span 
-class="ectt-0900">&#x00A0;</span><br /><span class="label"><a 
- id="x9-61047r41"></a></span><span 
-class="ectt-0900">c</span><span 
-class="ectt-0900">&#x00A0;</span><br /><span class="label"><a 
- id="x9-61048r42"></a></span><span 
-class="ectt-0900">&#x00A0;</span><span 
-class="ectt-0900">&#x00A0;</span><span 
-class="ectt-0900">&#x00A0;</span><span 
-class="ectt-0900">&#x00A0;</span><span 
-class="ectt-0900">&#x00A0;</span><span 
-class="ectt-0900">&#x00A0;</span><span 
-class="ectt-0900">else</span><span 
-class="ectt-0900">&#x00A0;</span><br /><span class="label"><a 
- id="x9-61049r43"></a></span><span 
-class="ectt-0900">&#x00A0;</span><span 
-class="ectt-0900">&#x00A0;</span><span 
-class="ectt-0900">&#x00A0;</span><span 
-class="ectt-0900">&#x00A0;</span><span 
-class="ectt-0900">&#x00A0;</span><span 
-class="ectt-0900">&#x00A0;</span><span 
-class="ectt-0900">&#x00A0;</span><span 
-class="ectt-0900">&#x00A0;</span><span 
-class="ectt-0900">&#x00A0;</span><span 
-class="ectt-0900">call</span><span 
-class="ectt-0900">&#x00A0;</span><span 
-class="ectt-0900">load_semhat_weighted</span><span 
-class="ectt-0900">&#x00A0;</span><span 
-class="ectt-0900">&#x00A0;</span><span 
-class="ectt-0900">&#x00A0;</span><span 
-class="ectt-0900">&#x00A0;</span><span 
-class="ectt-0900">!</span><span 
-class="ectt-0900">&#x00A0;</span><span 
-class="ectt-0900">&#x00A0;</span><span 
-class="ectt-0900">&#x00A0;</span><span 
-class="ectt-0900">Fills</span><span 
-class="ectt-0900">&#x00A0;</span><span 
-class="ectt-0900">the</span><span 
-class="ectt-0900">&#x00A0;</span><span 
-class="ectt-0900">SEMHAT</span><span 
-class="ectt-0900">&#x00A0;</span><span 
-class="ectt-0900">arrays</span><span 
-class="ectt-0900">&#x00A0;</span><br /><span class="label"><a 
- id="x9-61050r44"></a></span><span 
-class="ectt-0900">&#x00A0;</span><span 
-class="ectt-0900">&#x00A0;</span><span 
-class="ectt-0900">&#x00A0;</span><span 
-class="ectt-0900">&#x00A0;</span><span 
-class="ectt-0900">&#x00A0;</span><span 
-class="ectt-0900">&#x00A0;</span><span 
-class="ectt-0900">endif</span>
-     
-     </div>
-     <!--l. 169-->
-     <div class="lstlisting" id="listing-12"><span class="label"><a 
- id="x9-61051r1"></a></span><span 
-class="ectt-0900">c</span><span 
-class="ectt-0900">&#x00A0;</span><span 
-class="ectt-0900">&#x00A0;</span><span 
-class="ectt-0900">&#x00A0;</span><span 
-class="ectt-0900">navier6</span><span 
-class="ectt-0900">.</span><span 
-class="ectt-0900">f</span><span 
-class="ectt-0900">:</span><span 
-class="ectt-0900">&#x00A0;</span><br /><span class="label"><a 
- id="x9-61052r2"></a></span><span 
-class="ectt-0900">&#x00A0;</span><span 
-class="ectt-0900">&#x00A0;</span><span 
-class="ectt-0900">&#x00A0;</span><span 
-class="ectt-0900">&#x00A0;</span><span 
-class="ectt-0900">&#x00A0;</span><span 
-class="ectt-0900">&#x00A0;</span><span 
-class="ectt-0900">&#x00A0;</span><span 
-class="ectt-0900">&#x00A0;</span><span 
-class="ectt-0900">&#x00A0;</span><span 
-class="ectt-0900">&#x00A0;</span><span 
-class="ectt-0900">&#x00A0;</span><span 
-class="ectt-0900">&#x00A0;</span><span 
-class="ectt-0900">if</span><span 
-class="ectt-0900">&#x00A0;</span><span 
-class="ectt-0900">(</span><span 
-class="ectt-0900">param</span><span 
-class="ectt-0900">(44).</span><span 
-class="ectt-0900">eq</span><span 
-class="ectt-0900">.1)</span><span 
-class="ectt-0900">&#x00A0;</span><span 
-class="ectt-0900">then</span><span 
-class="ectt-0900">&#x00A0;</span><span 
-class="ectt-0900">!</span><span 
-class="ectt-0900">&#x00A0;</span><span 
-class="ectt-0900">&#x00A0;</span><span 
-class="ectt-0900">Set</span><span 
-class="ectt-0900">&#x00A0;</span><span 
-class="ectt-0900">up</span><span 
-class="ectt-0900">&#x00A0;</span><span 
-class="ectt-0900">local</span><span 
-class="ectt-0900">&#x00A0;</span><span 
-class="ectt-0900">overlapping</span><span 
-class="ectt-0900">&#x00A0;</span><span 
-class="ectt-0900">solves</span><span 
-class="ectt-0900">&#x00A0;</span><br /><span class="label"><a 
- id="x9-61053r3"></a></span><span 
-class="ectt-0900">&#x00A0;</span><span 
-class="ectt-0900">&#x00A0;</span><span 
-class="ectt-0900">&#x00A0;</span><span 
-class="ectt-0900">&#x00A0;</span><span 
-class="ectt-0900">&#x00A0;</span><span 
-class="ectt-0900">&#x00A0;</span><span 
-class="ectt-0900">&#x00A0;</span><span 
-class="ectt-0900">&#x00A0;</span><span 
-class="ectt-0900">&#x00A0;</span><span 
-class="ectt-0900">&#x00A0;</span><span 
-class="ectt-0900">&#x00A0;</span><span 
-class="ectt-0900">&#x00A0;</span><span 
-class="ectt-0900">&#x00A0;</span><span 
-class="ectt-0900">&#x00A0;</span><span 
-class="ectt-0900">&#x00A0;</span><span 
-class="ectt-0900">call</span><span 
-class="ectt-0900">&#x00A0;</span><span 
-class="ectt-0900">set_fem_data_l2</span><span 
-class="ectt-0900">(</span><span 
-class="ectt-0900">nel_proc</span><span 
-class="ectt-0900">,</span><span 
-class="ectt-0900">ndom</span><span 
-class="ectt-0900">,</span><span 
-class="ectt-0900">n_o</span><span 
-class="ectt-0900">,</span><span 
-class="ectt-0900">x</span><span 
-class="ectt-0900">,</span><span 
-class="ectt-0900">y</span><span 
-class="ectt-0900">,</span><span 
-class="ectt-0900">z</span><span 
-class="ectt-0900">,</span><span 
-class="ectt-0900">tri</span><span 
-class="ectt-0900">)</span><span 
-class="ectt-0900">&#x00A0;</span><br /><span class="label"><a 
- id="x9-61054r4"></a></span><span 
-class="ectt-0900">&#x00A0;</span><span 
-class="ectt-0900">&#x00A0;</span><span 
-class="ectt-0900">&#x00A0;</span><span 
-class="ectt-0900">&#x00A0;</span><span 
-class="ectt-0900">&#x00A0;</span><span 
-class="ectt-0900">&#x00A0;</span><span 
-class="ectt-0900">&#x00A0;</span><span 
-class="ectt-0900">&#x00A0;</span><span 
-class="ectt-0900">&#x00A0;</span><span 
-class="ectt-0900">&#x00A0;</span><span 
-class="ectt-0900">&#x00A0;</span><span 
-class="ectt-0900">&#x00A0;</span><span 
-class="ectt-0900">else</span><span 
-class="ectt-0900">&#x00A0;</span><br /><span class="label"><a 
- id="x9-61055r5"></a></span><span 
-class="ectt-0900">&#x00A0;</span><span 
-class="ectt-0900">&#x00A0;</span><span 
-class="ectt-0900">&#x00A0;</span><span 
-class="ectt-0900">&#x00A0;</span><span 
-class="ectt-0900">&#x00A0;</span><span 
-class="ectt-0900">&#x00A0;</span><span 
-class="ectt-0900">&#x00A0;</span><span 
-class="ectt-0900">&#x00A0;</span><span 
-class="ectt-0900">&#x00A0;</span><span 
-class="ectt-0900">&#x00A0;</span><span 
-class="ectt-0900">&#x00A0;</span><span 
-class="ectt-0900">&#x00A0;</span><span 
-class="ectt-0900">&#x00A0;</span><span 
-class="ectt-0900">&#x00A0;</span><span 
-class="ectt-0900">&#x00A0;</span><span 
-class="ectt-0900">call</span><span 
-class="ectt-0900">&#x00A0;</span><span 
-class="ectt-0900">swap_lengths</span><span 
-class="ectt-0900">&#x00A0;</span><br /><span class="label"><a 
- id="x9-61056r6"></a></span><span 
-class="ectt-0900">&#x00A0;</span><span 
-class="ectt-0900">&#x00A0;</span><span 
-class="ectt-0900">&#x00A0;</span><span 
-class="ectt-0900">&#x00A0;</span><span 
-class="ectt-0900">&#x00A0;</span><span 
-class="ectt-0900">&#x00A0;</span><span 
-class="ectt-0900">&#x00A0;</span><span 
-class="ectt-0900">&#x00A0;</span><span 
-class="ectt-0900">&#x00A0;</span><span 
-class="ectt-0900">&#x00A0;</span><span 
-class="ectt-0900">&#x00A0;</span><span 
-class="ectt-0900">&#x00A0;</span><span 
-class="ectt-0900">endif</span>
-     
-     </div>
+class="description">0=E-based additive Schwarz for PnPn-2; 1=A-based.
      </dd><dt class="description">
 <span 
 class="ecbx-1095">P045</span>  </dt><dd 
 class="description">Free-surface stability control (defaults to 1.0)<br 
 class="newline" />subs1.f: FACTOR = PARAM(45)
-                                                                                         
-                                                                                         
      </dd><dt class="description">
 <span 
 class="ecbx-1095">P046</span>  </dt><dd 
 class="description">if <img 
-src="index268x.png" alt="&#x003E; 0  "  class="math" >, do not set Initial Condition (no call to subroutine SETICS).<br 
+src="index288x.png" alt="&#x003E; 0  "  class="math" >, do not set Initial Condition (no call to subroutine SETICS).<br 
 class="newline" />drive2.f: irst = param(46)<br 
 class="newline" />ic.f: irst = param(46) ! for lee&#8217;s restart (rarely used)<br 
 class="newline" />subs1.f: irst = param(46)
@@ -1484,9 +332,11 @@ class="description"><span id="textcolor20">NOT IN USE!</span>
 <span 
 class="ecbx-1095">P049</span>  </dt><dd 
 class="description">if <img 
-src="index269x.png" alt="&#x003C; 0  "  class="math" >, mixing length factor <span id="textcolor21">NOT IN USE!</span>.<br 
+src="index289x.png" alt="&#x003C; 0  "  class="math" >, mixing length factor <span id="textcolor21">NOT IN USE!</span>.<br 
 class="newline" />drive2.f:c IF (PARAM(49) .LE. 0.0) PARAM(49) = TLFAC<br 
 class="newline" />turb.f: TLFAC = PARAM(49)
+                                                                                         
+                                                                                         
      </dd><dt class="description">
 <span 
 class="ecbx-1095">P050</span>  </dt><dd 
@@ -1499,7 +349,7 @@ class="description"><span id="textcolor23">NOT IN USE!</span>
 <span 
 class="ecbx-1095">P052 HISTEP</span> </dt><dd 
 class="description">if <img 
-src="index270x.png" alt="&#x003E; 1  "  class="math" >, history points dump frequency (in number of steps).<br 
+src="index290x.png" alt="&#x003E; 1  "  class="math" >, history points dump frequency (in number of steps).<br 
 class="newline" />prepost.f: if (param(52).ge.1) iohis=param(52)
      </dd><dt class="description">
 <span 
@@ -1509,17 +359,17 @@ class="description"><span id="textcolor24">NOT IN USE!</span>
 <span 
 class="ecbx-1095">P054</span>  </dt><dd 
 class="description">direction of fixed mass flowrate (1: <img 
-src="index271x.png" alt="x  "  class="math" >-, 2: <img 
-src="index272x.png" alt="y  "  class="math" >-, 3: <img 
-src="index273x.png" alt="z  "  class="math" >-direction). If 0: <img 
-src="index274x.png" alt="x  "  class="math" >-direction.<br 
+src="index291x.png" alt="x  "  class="math" >-, 2: <img 
+src="index292x.png" alt="y  "  class="math" >-, 3: <img 
+src="index293x.png" alt="z  "  class="math" >-direction). If 0: <img 
+src="index294x.png" alt="x  "  class="math" >-direction.<br 
 class="newline" />drive2.f: if (param(54).ne.0) icvflow = abs(param(54))<br 
 class="newline" />drive2.f: if (param(54).lt.0) iavflow = 1 ! mean velocity
      </dd><dt class="description">
 <span 
 class="ecbx-1095">P055</span>  </dt><dd 
 class="description">volumetric flow rate for periodic case; if p54<img 
-src="index275x.png" alt="&#x003C;  0  "  class="math" >, then p55:=mean velocity.<br 
+src="index295x.png" alt="&#x003C;  0  "  class="math" >, then p55:=mean velocity.<br 
 class="newline" />drive2.f: flowrate = param(55)
      </dd><dt class="description">
 <span 
@@ -1533,20 +383,17 @@ class="description"><span id="textcolor26">NOT IN USE!</span>
 <span 
 class="ecbx-1095">P058</span>  </dt><dd 
 class="description"><span id="textcolor27">NOT IN USE!</span>
-                                                                                         
-                                                                                         
      </dd><dt class="description">
 <span 
 class="ecbx-1095">P059</span>  </dt><dd 
 class="description">if <img 
-src="index276x.png" alt="&frasl;= 0  "  class="math" >, deformed elements (only relevant for FDM). !=0 <img 
-src="index277x.png" alt="&rarr; "  class="math" > full Jac. eval. for each
-     el.
+src="index296x.png" alt="&frasl;= 0  "  class="math" >, deformed elements (only relevant for FDM). !=0 <img 
+src="index297x.png" alt="&rarr; "  class="math" > full Jac. eval. for each el.
      </dd><dt class="description">
 <span 
 class="ecbx-1095">P060</span>  </dt><dd 
 class="description">if <img 
-src="index278x.png" alt="&frasl;= 0  "  class="math" >, initialize velocity to 1e-10 (for steady Stokes problem).
+src="index298x.png" alt="&frasl;= 0  "  class="math" >, initialize velocity to 1e-10 (for steady Stokes problem).
      </dd><dt class="description">
 <span 
 class="ecbx-1095">P061</span>  </dt><dd 
@@ -1555,7 +402,7 @@ class="description"><span id="textcolor28">NOT IN USE!</span>
 <span 
 class="ecbx-1095">P062</span>  </dt><dd 
 class="description">if <img 
-src="index279x.png" alt="&#x003E; 0  "  class="math" >, swap bytes for output.
+src="index299x.png" alt="&#x003E; 0  "  class="math" >, swap bytes for output.
      </dd><dt class="description">
 <span 
 class="ecbx-1095">P063 WDSIZO</span> </dt><dd 
@@ -1565,26 +412,28 @@ class="newline" />prepost.f: if (param(63).gt.0) wdsizo = 8 ! 64-bit .fld file
 <span 
 class="ecbx-1095">P064</span>  </dt><dd 
 class="description">if <img 
-src="index280x.png" alt="= 1  "  class="math" >, restart perturbation solution<br 
+src="index300x.png" alt="= 1  "  class="math" >, restart perturbation solution<br 
 class="newline" />pertsupport.f: if(param(64).ne.1) then !fresh start, param(64) is restart flag
+                                                                                         
+                                                                                         
      </dd><dt class="description">
 <span 
 class="ecbx-1095">P065</span>  </dt><dd 
 class="description">number of IO nodes (if <img 
-src="index281x.png" alt="&#x003C; 0  "  class="math" > write in separate subdirectories).
+src="index301x.png" alt="&#x003C; 0  "  class="math" > write in separate subdirectories).
      </dd><dt class="description">
 <span 
 class="ecbx-1095">P066</span>  </dt><dd 
-class="description">Output format: (only postx uses .rea value; other nondefault should be set in usrdat) (if <img 
-src="index282x.png" alt="&ge; 0  "  class="math" >
-     binary else ASCII).<br 
+class="description">Output format: (only postx uses .rea value; other nondefault should be set in usrdat) (if
+     <img 
+src="index302x.png" alt="&ge;  0  "  class="math" > binary else ASCII).<br 
 class="newline" />connect2.f: param(66) = 6 ! binary is default<br 
 class="newline" />connect2.f: param(66) = 0 ! ASCII
      </dd><dt class="description">
 <span 
 class="ecbx-1095">P067</span>  </dt><dd 
 class="description">read format (if <img 
-src="index283x.png" alt="&ge;  0  "  class="math" > binary else ASCII).
+src="index303x.png" alt="&ge;  0  "  class="math" > binary else ASCII).
      </dd><dt class="description">
 <span 
 class="ecbx-1095">P068</span>  </dt><dd 
@@ -1609,13 +458,11 @@ class="description"><span id="textcolor32">NOT IN USE!</span>
 <span 
 class="ecbx-1095">P073</span>  </dt><dd 
 class="description"><span id="textcolor33">NOT IN USE!</span>
-                                                                                         
-                                                                                         
      </dd><dt class="description">
 <span 
 class="ecbx-1095">P074</span>  </dt><dd 
 class="description">if <img 
-src="index284x.png" alt="&#x003E; 0  "  class="math" > print Helmholtz solver iterations.<br 
+src="index304x.png" alt="&#x003E; 0  "  class="math" > print Helmholtz solver iterations.<br 
 class="newline" />hmholtz.f: if (nid.eq.0.and.ifprint.and.param(74).ne.0) ifprinthmh=.true.
      </dd><dt class="description">
 <span 
@@ -1641,6 +488,8 @@ class="description"><span id="textcolor38">NOT IN USE!</span>
 <span 
 class="ecbx-1095">P080</span>  </dt><dd 
 class="description"><span id="textcolor39">NOT IN USE!</span>
+                                                                                         
+                                                                                         
      </dd><dt class="description">
 <span 
 class="ecbx-1095">P081</span>  </dt><dd 
@@ -1657,583 +506,21 @@ class="description"><span id="textcolor42">NOT IN USE!</span>
 <span 
 class="ecbx-1095">P084</span>  </dt><dd 
 class="description">if <img 
-src="index285x.png" alt="&#x003C; 0  "  class="math" >, force initial time step to this value. <!--l. 233-->
-     <div class="lstlisting" id="listing-13"><span class="label"><a 
- id="x9-61057r1"></a></span><span 
-class="ectt-0900">c</span><span 
-class="ectt-0900">&#x00A0;</span><span 
-class="ectt-0900">&#x00A0;</span><span 
-class="ectt-0900">subs1</span><span 
-class="ectt-0900">.</span><span 
-class="ectt-0900">f</span><span 
-class="ectt-0900">:</span><span 
-class="ectt-0900">&#x00A0;</span><br /><span class="label"><a 
- id="x9-61058r2"></a></span><span 
-class="ectt-0900">&#x00A0;</span><span 
-class="ectt-0900">&#x00A0;</span><span 
-class="ectt-0900">&#x00A0;</span><span 
-class="ectt-0900">&#x00A0;</span><span 
-class="ectt-0900">&#x00A0;</span><span 
-class="ectt-0900">&#x00A0;</span><span 
-class="ectt-0900">if</span><span 
-class="ectt-0900">&#x00A0;</span><span 
-class="ectt-0900">(</span><span 
-class="ectt-0900">param</span><span 
-class="ectt-0900">(12).</span><span 
-class="ectt-0900">lt</span><span 
-class="ectt-0900">.0.</span><span 
-class="ectt-0900">or</span><span 
-class="ectt-0900">.</span><span 
-class="ectt-0900">iffxdt</span><span 
-class="ectt-0900">)</span><span 
-class="ectt-0900">&#x00A0;</span><span 
-class="ectt-0900">then</span><span 
-class="ectt-0900">&#x00A0;</span><br /><span class="label"><a 
- id="x9-61059r3"></a></span><span 
-class="ectt-0900">&#x00A0;</span><span 
-class="ectt-0900">&#x00A0;</span><span 
-class="ectt-0900">&#x00A0;</span><span 
-class="ectt-0900">&#x00A0;</span><span 
-class="ectt-0900">&#x00A0;</span><span 
-class="ectt-0900">&#x00A0;</span><span 
-class="ectt-0900">&#x00A0;</span><span 
-class="ectt-0900">&#x00A0;</span><span 
-class="ectt-0900">&#x00A0;</span><span 
-class="ectt-0900">iffxdt</span><span 
-class="ectt-0900">&#x00A0;</span><span 
-class="ectt-0900">&#x00A0;</span><span 
-class="ectt-0900">&#x00A0;</span><span 
-class="ectt-0900">&#x00A0;</span><span 
-class="ectt-0900">=</span><span 
-class="ectt-0900">&#x00A0;</span><span 
-class="ectt-0900">.</span><span 
-class="ectt-0900">true</span><span 
-class="ectt-0900">.</span><span 
-class="ectt-0900">&#x00A0;</span><br /><span class="label"><a 
- id="x9-61060r4"></a></span><span 
-class="ectt-0900">&#x00A0;</span><span 
-class="ectt-0900">&#x00A0;</span><span 
-class="ectt-0900">&#x00A0;</span><span 
-class="ectt-0900">&#x00A0;</span><span 
-class="ectt-0900">&#x00A0;</span><span 
-class="ectt-0900">&#x00A0;</span><span 
-class="ectt-0900">&#x00A0;</span><span 
-class="ectt-0900">&#x00A0;</span><span 
-class="ectt-0900">&#x00A0;</span><span 
-class="ectt-0900">param</span><span 
-class="ectt-0900">(12)</span><span 
-class="ectt-0900">&#x00A0;</span><span 
-class="ectt-0900">=</span><span 
-class="ectt-0900">&#x00A0;</span><span 
-class="ectt-0900">abs</span><span 
-class="ectt-0900">(</span><span 
-class="ectt-0900">param</span><span 
-class="ectt-0900">(12))</span><span 
-class="ectt-0900">&#x00A0;</span><br /><span class="label"><a 
- id="x9-61061r5"></a></span><span 
-class="ectt-0900">&#x00A0;</span><span 
-class="ectt-0900">&#x00A0;</span><span 
-class="ectt-0900">&#x00A0;</span><span 
-class="ectt-0900">&#x00A0;</span><span 
-class="ectt-0900">&#x00A0;</span><span 
-class="ectt-0900">&#x00A0;</span><span 
-class="ectt-0900">&#x00A0;</span><span 
-class="ectt-0900">&#x00A0;</span><span 
-class="ectt-0900">&#x00A0;</span><span 
-class="ectt-0900">dt</span><span 
-class="ectt-0900">&#x00A0;</span><span 
-class="ectt-0900">&#x00A0;</span><span 
-class="ectt-0900">&#x00A0;</span><span 
-class="ectt-0900">&#x00A0;</span><span 
-class="ectt-0900">&#x00A0;</span><span 
-class="ectt-0900">&#x00A0;</span><span 
-class="ectt-0900">&#x00A0;</span><span 
-class="ectt-0900">&#x00A0;</span><span 
-class="ectt-0900">=</span><span 
-class="ectt-0900">&#x00A0;</span><span 
-class="ectt-0900">param</span><span 
-class="ectt-0900">(12)</span><span 
-class="ectt-0900">&#x00A0;</span><br /><span class="label"><a 
- id="x9-61062r6"></a></span><span 
-class="ectt-0900">&#x00A0;</span><span 
-class="ectt-0900">&#x00A0;</span><span 
-class="ectt-0900">&#x00A0;</span><span 
-class="ectt-0900">&#x00A0;</span><span 
-class="ectt-0900">&#x00A0;</span><span 
-class="ectt-0900">&#x00A0;</span><span 
-class="ectt-0900">&#x00A0;</span><span 
-class="ectt-0900">&#x00A0;</span><span 
-class="ectt-0900">&#x00A0;</span><span 
-class="ectt-0900">dtopf</span><span 
-class="ectt-0900">&#x00A0;</span><span 
-class="ectt-0900">&#x00A0;</span><span 
-class="ectt-0900">&#x00A0;</span><span 
-class="ectt-0900">&#x00A0;</span><span 
-class="ectt-0900">&#x00A0;</span><span 
-class="ectt-0900">=</span><span 
-class="ectt-0900">&#x00A0;</span><span 
-class="ectt-0900">dt</span><span 
-class="ectt-0900">&#x00A0;</span><br /><span class="label"><a 
- id="x9-61063r7"></a></span><span 
-class="ectt-0900">&#x00A0;</span><span 
-class="ectt-0900">&#x00A0;</span><span 
-class="ectt-0900">&#x00A0;</span><span 
-class="ectt-0900">&#x00A0;</span><span 
-class="ectt-0900">&#x00A0;</span><span 
-class="ectt-0900">&#x00A0;</span><span 
-class="ectt-0900">&#x00A0;</span><span 
-class="ectt-0900">&#x00A0;</span><span 
-class="ectt-0900">&#x00A0;</span><span 
-class="ectt-0900">call</span><span 
-class="ectt-0900">&#x00A0;</span><span 
-class="ectt-0900">compute_cfl</span><span 
-class="ectt-0900">(</span><span 
-class="ectt-0900">umax</span><span 
-class="ectt-0900">,</span><span 
-class="ectt-0900">vx</span><span 
-class="ectt-0900">,</span><span 
-class="ectt-0900">vy</span><span 
-class="ectt-0900">,</span><span 
-class="ectt-0900">vz</span><span 
-class="ectt-0900">,1.0)</span><span 
-class="ectt-0900">&#x00A0;</span><br /><span class="label"><a 
- id="x9-61064r8"></a></span><span 
-class="ectt-0900">&#x00A0;</span><span 
-class="ectt-0900">&#x00A0;</span><span 
-class="ectt-0900">&#x00A0;</span><span 
-class="ectt-0900">&#x00A0;</span><span 
-class="ectt-0900">&#x00A0;</span><span 
-class="ectt-0900">&#x00A0;</span><span 
-class="ectt-0900">&#x00A0;</span><span 
-class="ectt-0900">&#x00A0;</span><span 
-class="ectt-0900">&#x00A0;</span><span 
-class="ectt-0900">goto</span><span 
-class="ectt-0900">&#x00A0;</span><span 
-class="ectt-0900">200</span><span 
-class="ectt-0900">&#x00A0;</span><br /><span class="label"><a 
- id="x9-61065r9"></a></span><span 
-class="ectt-0900">&#x00A0;</span><span 
-class="ectt-0900">&#x00A0;</span><span 
-class="ectt-0900">&#x00A0;</span><span 
-class="ectt-0900">&#x00A0;</span><span 
-class="ectt-0900">&#x00A0;</span><span 
-class="ectt-0900">&#x00A0;</span><span 
-class="ectt-0900">else</span><span 
-class="ectt-0900">&#x00A0;</span><span 
-class="ectt-0900">IF</span><span 
-class="ectt-0900">&#x00A0;</span><span 
-class="ectt-0900">(</span><span 
-class="ectt-0900">PARAM</span><span 
-class="ectt-0900">(84).</span><span 
-class="ectt-0900">NE</span><span 
-class="ectt-0900">.0.0)</span><span 
-class="ectt-0900">&#x00A0;</span><span 
-class="ectt-0900">THEN</span><span 
-class="ectt-0900">&#x00A0;</span><br /><span class="label"><a 
- id="x9-61066r10"></a></span><span 
-class="ectt-0900">&#x00A0;</span><span 
-class="ectt-0900">&#x00A0;</span><span 
-class="ectt-0900">&#x00A0;</span><span 
-class="ectt-0900">&#x00A0;</span><span 
-class="ectt-0900">&#x00A0;</span><span 
-class="ectt-0900">&#x00A0;</span><span 
-class="ectt-0900">&#x00A0;</span><span 
-class="ectt-0900">&#x00A0;</span><span 
-class="ectt-0900">&#x00A0;</span><span 
-class="ectt-0900">if</span><span 
-class="ectt-0900">&#x00A0;</span><span 
-class="ectt-0900">(</span><span 
-class="ectt-0900">dtold</span><span 
-class="ectt-0900">.</span><span 
-class="ectt-0900">eq</span><span 
-class="ectt-0900">.0.0)</span><span 
-class="ectt-0900">&#x00A0;</span><span 
-class="ectt-0900">then</span><span 
-class="ectt-0900">&#x00A0;</span><br /><span class="label"><a 
- id="x9-61067r11"></a></span><span 
-class="ectt-0900">&#x00A0;</span><span 
-class="ectt-0900">&#x00A0;</span><span 
-class="ectt-0900">&#x00A0;</span><span 
-class="ectt-0900">&#x00A0;</span><span 
-class="ectt-0900">&#x00A0;</span><span 
-class="ectt-0900">&#x00A0;</span><span 
-class="ectt-0900">&#x00A0;</span><span 
-class="ectt-0900">&#x00A0;</span><span 
-class="ectt-0900">&#x00A0;</span><span 
-class="ectt-0900">&#x00A0;</span><span 
-class="ectt-0900">&#x00A0;</span><span 
-class="ectt-0900">&#x00A0;</span><span 
-class="ectt-0900">dt</span><span 
-class="ectt-0900">&#x00A0;</span><span 
-class="ectt-0900">&#x00A0;</span><span 
-class="ectt-0900">&#x00A0;</span><span 
-class="ectt-0900">=</span><span 
-class="ectt-0900">param</span><span 
-class="ectt-0900">(84)</span><span 
-class="ectt-0900">&#x00A0;</span><br /><span class="label"><a 
- id="x9-61068r12"></a></span><span 
-class="ectt-0900">&#x00A0;</span><span 
-class="ectt-0900">&#x00A0;</span><span 
-class="ectt-0900">&#x00A0;</span><span 
-class="ectt-0900">&#x00A0;</span><span 
-class="ectt-0900">&#x00A0;</span><span 
-class="ectt-0900">&#x00A0;</span><span 
-class="ectt-0900">&#x00A0;</span><span 
-class="ectt-0900">&#x00A0;</span><span 
-class="ectt-0900">&#x00A0;</span><span 
-class="ectt-0900">&#x00A0;</span><span 
-class="ectt-0900">&#x00A0;</span><span 
-class="ectt-0900">&#x00A0;</span><span 
-class="ectt-0900">dtold</span><span 
-class="ectt-0900">=</span><span 
-class="ectt-0900">param</span><span 
-class="ectt-0900">(84)</span><span 
-class="ectt-0900">&#x00A0;</span><br /><span class="label"><a 
- id="x9-61069r13"></a></span><span 
-class="ectt-0900">&#x00A0;</span><span 
-class="ectt-0900">&#x00A0;</span><span 
-class="ectt-0900">&#x00A0;</span><span 
-class="ectt-0900">&#x00A0;</span><span 
-class="ectt-0900">&#x00A0;</span><span 
-class="ectt-0900">&#x00A0;</span><span 
-class="ectt-0900">&#x00A0;</span><span 
-class="ectt-0900">&#x00A0;</span><span 
-class="ectt-0900">&#x00A0;</span><span 
-class="ectt-0900">&#x00A0;</span><span 
-class="ectt-0900">&#x00A0;</span><span 
-class="ectt-0900">&#x00A0;</span><span 
-class="ectt-0900">dtopf</span><span 
-class="ectt-0900">=</span><span 
-class="ectt-0900">param</span><span 
-class="ectt-0900">(84)</span><span 
-class="ectt-0900">&#x00A0;</span><br /><span class="label"><a 
- id="x9-61070r14"></a></span><span 
-class="ectt-0900">&#x00A0;</span><span 
-class="ectt-0900">&#x00A0;</span><span 
-class="ectt-0900">&#x00A0;</span><span 
-class="ectt-0900">&#x00A0;</span><span 
-class="ectt-0900">&#x00A0;</span><span 
-class="ectt-0900">&#x00A0;</span><span 
-class="ectt-0900">&#x00A0;</span><span 
-class="ectt-0900">&#x00A0;</span><span 
-class="ectt-0900">&#x00A0;</span><span 
-class="ectt-0900">&#x00A0;</span><span 
-class="ectt-0900">&#x00A0;</span><span 
-class="ectt-0900">&#x00A0;</span><span 
-class="ectt-0900">return</span><span 
-class="ectt-0900">&#x00A0;</span><br /><span class="label"><a 
- id="x9-61071r15"></a></span><span 
-class="ectt-0900">&#x00A0;</span><span 
-class="ectt-0900">&#x00A0;</span><span 
-class="ectt-0900">&#x00A0;</span><span 
-class="ectt-0900">&#x00A0;</span><span 
-class="ectt-0900">&#x00A0;</span><span 
-class="ectt-0900">&#x00A0;</span><span 
-class="ectt-0900">&#x00A0;</span><span 
-class="ectt-0900">&#x00A0;</span><span 
-class="ectt-0900">&#x00A0;</span><span 
-class="ectt-0900">else</span><span 
-class="ectt-0900">&#x00A0;</span><br /><span class="label"><a 
- id="x9-61072r16"></a></span><span 
-class="ectt-0900">&#x00A0;</span><span 
-class="ectt-0900">&#x00A0;</span><span 
-class="ectt-0900">&#x00A0;</span><span 
-class="ectt-0900">&#x00A0;</span><span 
-class="ectt-0900">&#x00A0;</span><span 
-class="ectt-0900">&#x00A0;</span><span 
-class="ectt-0900">&#x00A0;</span><span 
-class="ectt-0900">&#x00A0;</span><span 
-class="ectt-0900">&#x00A0;</span><span 
-class="ectt-0900">&#x00A0;</span><span 
-class="ectt-0900">&#x00A0;</span><span 
-class="ectt-0900">&#x00A0;</span><span 
-class="ectt-0900">dtold</span><span 
-class="ectt-0900">=</span><span 
-class="ectt-0900">dt</span><span 
-class="ectt-0900">&#x00A0;</span><br /><span class="label"><a 
- id="x9-61073r17"></a></span><span 
-class="ectt-0900">&#x00A0;</span><span 
-class="ectt-0900">&#x00A0;</span><span 
-class="ectt-0900">&#x00A0;</span><span 
-class="ectt-0900">&#x00A0;</span><span 
-class="ectt-0900">&#x00A0;</span><span 
-class="ectt-0900">&#x00A0;</span><span 
-class="ectt-0900">&#x00A0;</span><span 
-class="ectt-0900">&#x00A0;</span><span 
-class="ectt-0900">&#x00A0;</span><span 
-class="ectt-0900">&#x00A0;</span><span 
-class="ectt-0900">&#x00A0;</span><span 
-class="ectt-0900">&#x00A0;</span><span 
-class="ectt-0900">dtopf</span><span 
-class="ectt-0900">=</span><span 
-class="ectt-0900">dt</span><span 
-class="ectt-0900">&#x00A0;</span><br /><span class="label"><a 
- id="x9-61074r18"></a></span><span 
-class="ectt-0900">&#x00A0;</span><span 
-class="ectt-0900">&#x00A0;</span><span 
-class="ectt-0900">&#x00A0;</span><span 
-class="ectt-0900">&#x00A0;</span><span 
-class="ectt-0900">&#x00A0;</span><span 
-class="ectt-0900">&#x00A0;</span><span 
-class="ectt-0900">&#x00A0;</span><span 
-class="ectt-0900">&#x00A0;</span><span 
-class="ectt-0900">&#x00A0;</span><span 
-class="ectt-0900">&#x00A0;</span><span 
-class="ectt-0900">&#x00A0;</span><span 
-class="ectt-0900">&#x00A0;</span><span 
-class="ectt-0900">dt</span><span 
-class="ectt-0900">=</span><span 
-class="ectt-0900">dtopf</span><span 
-class="ectt-0900">*</span><span 
-class="ectt-0900">param</span><span 
-class="ectt-0900">(85)</span><span 
-class="ectt-0900">&#x00A0;</span><br /><span class="label"><a 
- id="x9-61075r19"></a></span><span 
-class="ectt-0900">&#x00A0;</span><span 
-class="ectt-0900">&#x00A0;</span><span 
-class="ectt-0900">&#x00A0;</span><span 
-class="ectt-0900">&#x00A0;</span><span 
-class="ectt-0900">&#x00A0;</span><span 
-class="ectt-0900">&#x00A0;</span><span 
-class="ectt-0900">&#x00A0;</span><span 
-class="ectt-0900">&#x00A0;</span><span 
-class="ectt-0900">&#x00A0;</span><span 
-class="ectt-0900">&#x00A0;</span><span 
-class="ectt-0900">&#x00A0;</span><span 
-class="ectt-0900">&#x00A0;</span><span 
-class="ectt-0900">dt</span><span 
-class="ectt-0900">=</span><span 
-class="ectt-0900">min</span><span 
-class="ectt-0900">(</span><span 
-class="ectt-0900">dt</span><span 
-class="ectt-0900">,</span><span 
-class="ectt-0900">param</span><span 
-class="ectt-0900">(12))</span><span 
-class="ectt-0900">&#x00A0;</span><br /><span class="label"><a 
- id="x9-61076r20"></a></span><span 
-class="ectt-0900">&#x00A0;</span><span 
-class="ectt-0900">&#x00A0;</span><span 
-class="ectt-0900">&#x00A0;</span><span 
-class="ectt-0900">&#x00A0;</span><span 
-class="ectt-0900">&#x00A0;</span><span 
-class="ectt-0900">&#x00A0;</span><span 
-class="ectt-0900">&#x00A0;</span><span 
-class="ectt-0900">&#x00A0;</span><span 
-class="ectt-0900">&#x00A0;</span><span 
-class="ectt-0900">endif</span><span 
-class="ectt-0900">&#x00A0;</span><br /><span class="label"><a 
- id="x9-61077r21"></a></span><span 
-class="ectt-0900">&#x00A0;</span><span 
-class="ectt-0900">&#x00A0;</span><span 
-class="ectt-0900">&#x00A0;</span><span 
-class="ectt-0900">&#x00A0;</span><span 
-class="ectt-0900">&#x00A0;</span><span 
-class="ectt-0900">&#x00A0;</span><span 
-class="ectt-0900">endif</span>
-     
-     </div>
+src="index305x.png" alt="&#x003C; 0  "  class="math" >, force initial time step to this value.
      </dd><dt class="description">
 <span 
 class="ecbx-1095">P085</span>  </dt><dd 
 class="description">set <img 
-src="index286x.png" alt="dt  "  class="math" > in <span 
+src="index306x.png" alt="dt  "  class="math" > in <span 
 class="ecti-1095">setdt</span>.<br 
 class="newline" />subs1.f: dt=dtopf*param(85)
      </dd><dt class="description">
 <span 
 class="ecbx-1095">P086</span>  </dt><dd 
 class="description"><span id="textcolor43">RESERVED !</span> if <img 
-src="index287x.png" alt="&frasl;=  0  "  class="math" >, use skew-symmetric form, else convective form.<br 
+src="index307x.png" alt="&frasl;=  0  "  class="math" >, use skew-symmetric form, else convective form.<br 
 class="newline" />drive2.f: PARAM(86) = 0 ! No skew-symm. convection for now<br 
-class="newline" />navier1.f: if (param(86).ne.0.0) then ! skew-symmetric form <!--l. 261-->
-     <div class="lstlisting" id="listing-14"><span class="label"><a 
- id="x9-61078r1"></a></span><span 
-class="ectt-0900">c</span><span 
-class="ectt-0900">&#x00A0;</span><span 
-class="ectt-0900">&#x00A0;</span><span 
-class="ectt-0900">&#x00A0;</span><span 
-class="ectt-0900">navier1</span><span 
-class="ectt-0900">.</span><span 
-class="ectt-0900">f</span><span 
-class="ectt-0900">:</span><span 
-class="ectt-0900">&#x00A0;</span><br /><span class="label"><a 
- id="x9-61079r2"></a></span><span 
-class="ectt-0900">&#x00A0;</span><span 
-class="ectt-0900">&#x00A0;</span><span 
-class="ectt-0900">&#x00A0;</span><span 
-class="ectt-0900">&#x00A0;</span><span 
-class="ectt-0900">&#x00A0;</span><span 
-class="ectt-0900">&#x00A0;</span><span 
-class="ectt-0900">IF</span><span 
-class="ectt-0900">&#x00A0;</span><span 
-class="ectt-0900">(</span><span 
-class="ectt-0900">PARAM</span><span 
-class="ectt-0900">(86).</span><span 
-class="ectt-0900">EQ</span><span 
-class="ectt-0900">.0.0)</span><span 
-class="ectt-0900">&#x00A0;</span><span 
-class="ectt-0900">THEN</span><span 
-class="ectt-0900">&#x00A0;</span><br /><span class="label"><a 
- id="x9-61080r3"></a></span><span 
-class="ectt-0900">C</span><span 
-class="ectt-0900">&#x00A0;</span><span 
-class="ectt-0900">&#x00A0;</span><span 
-class="ectt-0900">&#x00A0;</span><span 
-class="ectt-0900">&#x00A0;</span><span 
-class="ectt-0900">&#x00A0;</span><span 
-class="ectt-0900">&#x00A0;</span><span 
-class="ectt-0900">&#x00A0;</span><span 
-class="ectt-0900">&#x00A0;</span><span 
-class="ectt-0900">Always</span><span 
-class="ectt-0900">&#x00A0;</span><span 
-class="ectt-0900">use</span><span 
-class="ectt-0900">&#x00A0;</span><span 
-class="ectt-0900">the</span><span 
-class="ectt-0900">&#x00A0;</span><span 
-class="ectt-0900">convective</span><span 
-class="ectt-0900">&#x00A0;</span><span 
-class="ectt-0900">form</span><span 
-class="ectt-0900">&#x00A0;</span><span 
-class="ectt-0900">!!!</span><span 
-class="ectt-0900">&#x00A0;</span><span 
-class="ectt-0900">(</span><span 
-class="ectt-0900">ER</span><span 
-class="ectt-0900">)</span><span 
-class="ectt-0900">&#x00A0;</span><br /><span class="label"><a 
- id="x9-61081r4"></a></span><span 
-class="ectt-0900">&#x00A0;</span><span 
-class="ectt-0900">&#x00A0;</span><span 
-class="ectt-0900">&#x00A0;</span><span 
-class="ectt-0900">&#x00A0;</span><span 
-class="ectt-0900">&#x00A0;</span><span 
-class="ectt-0900">&#x00A0;</span><span 
-class="ectt-0900">&#x00A0;</span><span 
-class="ectt-0900">&#x00A0;</span><span 
-class="ectt-0900">&#x00A0;</span><span 
-class="ectt-0900">CALL</span><span 
-class="ectt-0900">&#x00A0;</span><span 
-class="ectt-0900">CONV1</span><span 
-class="ectt-0900">&#x00A0;</span><span 
-class="ectt-0900">(</span><span 
-class="ectt-0900">CONV</span><span 
-class="ectt-0900">,</span><span 
-class="ectt-0900">FI</span><span 
-class="ectt-0900">)</span><span 
-class="ectt-0900">&#x00A0;</span><br /><span class="label"><a 
- id="x9-61082r5"></a></span><span 
-class="ectt-0900">&#x00A0;</span><span 
-class="ectt-0900">&#x00A0;</span><span 
-class="ectt-0900">&#x00A0;</span><span 
-class="ectt-0900">&#x00A0;</span><span 
-class="ectt-0900">&#x00A0;</span><span 
-class="ectt-0900">&#x00A0;</span><span 
-class="ectt-0900">ELSE</span><span 
-class="ectt-0900">&#x00A0;</span><br /><span class="label"><a 
- id="x9-61083r6"></a></span><span 
-class="ectt-0900">C</span><span 
-class="ectt-0900">&#x00A0;</span><span 
-class="ectt-0900">&#x00A0;</span><span 
-class="ectt-0900">&#x00A0;</span><span 
-class="ectt-0900">&#x00A0;</span><span 
-class="ectt-0900">&#x00A0;</span><span 
-class="ectt-0900">&#x00A0;</span><span 
-class="ectt-0900">&#x00A0;</span><span 
-class="ectt-0900">&#x00A0;</span><span 
-class="ectt-0900">Use</span><span 
-class="ectt-0900">&#x00A0;</span><span 
-class="ectt-0900">skew</span><span 
-class="ectt-0900">-</span><span 
-class="ectt-0900">symmetric</span><span 
-class="ectt-0900">&#x00A0;</span><span 
-class="ectt-0900">form</span><span 
-class="ectt-0900">&#x00A0;</span><br /><span class="label"><a 
- id="x9-61084r7"></a></span><span 
-class="ectt-0900">C</span>
-     
-     </div>
-     <!--l. 270-->
-                                                                                         
-                                                                                         
-     <div class="lstlisting" id="listing-15"><span class="label"><a 
- id="x9-61085r1"></a></span><span 
-class="ectt-0900">c</span><span 
-class="ectt-0900">&#x00A0;</span><span 
-class="ectt-0900">&#x00A0;</span><span 
-class="ectt-0900">&#x00A0;</span><span 
-class="ectt-0900">navier1</span><span 
-class="ectt-0900">.</span><span 
-class="ectt-0900">f</span><span 
-class="ectt-0900">:</span><span 
-class="ectt-0900">&#x00A0;</span><br /><span class="label"><a 
- id="x9-61086r2"></a></span><span 
-class="ectt-0900">&#x00A0;</span><span 
-class="ectt-0900">&#x00A0;</span><span 
-class="ectt-0900">&#x00A0;</span><span 
-class="ectt-0900">&#x00A0;</span><span 
-class="ectt-0900">&#x00A0;</span><span 
-class="ectt-0900">&#x00A0;</span><span 
-class="ectt-0900">if</span><span 
-class="ectt-0900">&#x00A0;</span><span 
-class="ectt-0900">(</span><span 
-class="ectt-0900">param</span><span 
-class="ectt-0900">(86).</span><span 
-class="ectt-0900">ne</span><span 
-class="ectt-0900">.0.0)</span><span 
-class="ectt-0900">&#x00A0;</span><span 
-class="ectt-0900">then</span><span 
-class="ectt-0900">&#x00A0;</span><span 
-class="ectt-0900">&#x00A0;</span><span 
-class="ectt-0900">!</span><span 
-class="ectt-0900">&#x00A0;</span><span 
-class="ectt-0900">skew</span><span 
-class="ectt-0900">-</span><span 
-class="ectt-0900">symmetric</span><span 
-class="ectt-0900">&#x00A0;</span><span 
-class="ectt-0900">form</span><span 
-class="ectt-0900">&#x00A0;</span><br /><span class="label"><a 
- id="x9-61087r3"></a></span><span 
-class="ectt-0900">&#x00A0;</span><span 
-class="ectt-0900">&#x00A0;</span><span 
-class="ectt-0900">&#x00A0;</span><span 
-class="ectt-0900">&#x00A0;</span><span 
-class="ectt-0900">&#x00A0;</span><span 
-class="ectt-0900">&#x00A0;</span><span 
-class="ectt-0900">&#x00A0;</span><span 
-class="ectt-0900">&#x00A0;</span><span 
-class="ectt-0900">&#x00A0;</span><span 
-class="ectt-0900">call</span><span 
-class="ectt-0900">&#x00A0;</span><span 
-class="ectt-0900">convopo</span><span 
-class="ectt-0900">(</span><span 
-class="ectt-0900">conv</span><span 
-class="ectt-0900">,</span><span 
-class="ectt-0900">fi</span><span 
-class="ectt-0900">)</span><span 
-class="ectt-0900">&#x00A0;</span><br /><span class="label"><a 
- id="x9-61088r4"></a></span><span 
-class="ectt-0900">&#x00A0;</span><span 
-class="ectt-0900">&#x00A0;</span><span 
-class="ectt-0900">&#x00A0;</span><span 
-class="ectt-0900">&#x00A0;</span><span 
-class="ectt-0900">&#x00A0;</span><span 
-class="ectt-0900">&#x00A0;</span><span 
-class="ectt-0900">&#x00A0;</span><span 
-class="ectt-0900">&#x00A0;</span><span 
-class="ectt-0900">&#x00A0;</span><span 
-class="ectt-0900">goto</span><span 
-class="ectt-0900">&#x00A0;</span><span 
-class="ectt-0900">100</span><span 
-class="ectt-0900">&#x00A0;</span><br /><span class="label"><a 
- id="x9-61089r5"></a></span><span 
-class="ectt-0900">&#x00A0;</span><span 
-class="ectt-0900">&#x00A0;</span><span 
-class="ectt-0900">&#x00A0;</span><span 
-class="ectt-0900">&#x00A0;</span><span 
-class="ectt-0900">&#x00A0;</span><span 
-class="ectt-0900">&#x00A0;</span><span 
-class="ectt-0900">endif</span>
-     
-     </div>
+class="newline" />navier1.f: if (param(86).ne.0.0) then ! skew-symmetric form
      </dd><dt class="description">
 <span 
 class="ecbx-1095">P087</span>  </dt><dd 
@@ -2267,16 +554,18 @@ class="newline" />(adjust MXPREF in SIZEu accordingly)
 <span 
 class="ecbx-1095">P094</span>  </dt><dd 
 class="description">if <img 
-src="index288x.png" alt="&#x003E; 0  "  class="math" >, start projecting velocity and passive scalars after P094 steps
+src="index308x.png" alt="&#x003E; 0  "  class="math" >, start projecting velocity and passive scalars after P094 steps
      </dd><dt class="description">
 <span 
 class="ecbx-1095">P095</span>  </dt><dd 
 class="description">if <img 
-src="index289x.png" alt="&#x003E; 0  "  class="math" >, start projecting pressure after P095 steps
+src="index309x.png" alt="&#x003E; 0  "  class="math" >, start projecting pressure after P095 steps
      </dd><dt class="description">
 <span 
 class="ecbx-1095">P096</span>  </dt><dd 
 class="description"><span id="textcolor50">NOT IN USE!</span>
+                                                                                         
+                                                                                         
      </dd><dt class="description">
 <span 
 class="ecbx-1095">P097</span>  </dt><dd 
@@ -2289,18 +578,16 @@ class="description"><span id="textcolor52">NOT IN USE!</span>
 <span 
 class="ecbx-1095">P099</span>  </dt><dd 
 class="description">dealiasing:
-     <!--l. 291--><p class="noindent" >&#x00A0;      <img 
-src="index290x.png" alt="&#x003C;  0  "  class="math" >: disable
-     <!--l. 292--><p class="noindent" >&#x00A0;      3: old dealiasing
-     <!--l. 293--><p class="noindent" >&#x00A0;      4: new dealiasing
+     <!--l. 192--><p class="noindent" >&#x00A0;      <img 
+src="index310x.png" alt="&#x003C;  0  "  class="math" >: disable
+     <!--l. 193--><p class="noindent" >&#x00A0;      3: old dealiasing
+     <!--l. 194--><p class="noindent" >&#x00A0;      4: new dealiasing
      </dd><dt class="description">
 <span 
 class="ecbx-1095">P100</span>  </dt><dd 
 class="description"><span id="textcolor53">RESERVED !</span> pressure preconditioner when using CG solver (0: Jacobi, <img 
-src="index291x.png" alt="&#x003E; 0  "  class="math" >: two-level Schwarz)
-     <span id="textcolor54">or wiseversa?</span>
-                                                                                         
-                                                                                         
+src="index311x.png" alt="&#x003E; 0  "  class="math" >: two-level
+     Schwarz) <span id="textcolor54">or wiseversa?</span>
      </dd><dt class="description">
 <span 
 class="ecbx-1095">P101</span>  </dt><dd 
@@ -2314,17 +601,16 @@ class="description"><span id="textcolor55">NOT IN USE!</span>
 <span 
 class="ecbx-1095">P103</span>  </dt><dd 
 class="description">filter weight for last mode (<img 
-src="index292x.png" alt="&#x003C;  0  "  class="math" >: disabled)
+src="index312x.png" alt="&#x003C;  0  "  class="math" >: disabled)
      </dd><dt class="description">
 <span 
 class="ecbx-1095">P107</span>  </dt><dd 
 class="description">if <img 
-src="index293x.png" alt="&frasl;= 0  "  class="math" >, add it to h2 in sethlm
+src="index313x.png" alt="&frasl;= 0  "  class="math" >, add it to h2 in sethlm
      </dd><dt class="description">
 <span 
 class="ecbx-1095">P116 NELX</span> </dt><dd 
-class="description">number of elements in x for Fast Tensor Product FTP solver (0: do not use
-     FTP).<br 
+class="description">number of elements in x for Fast Tensor Product FTP solver (0: do not use FTP).<br 
 class="newline" />NOTE: box geometries, constant properties only!
      </dd><dt class="description">
 <span 
@@ -2334,20 +620,20 @@ class="description">number of elements in y for FTP
 <span 
 class="ecbx-1095">P118 NELZ</span> </dt><dd 
 class="description">number of elements in z for FTP</dd></dl>
-<!--l. 308--><p class="noindent" >
+<!--l. 209--><p class="noindent" >
    <h4 class="subsectionHead"><span class="titlemark">7.1.3   </span> <a 
- id="x9-620007.1.3"></a>Available Logical Switches</h4>
-<!--l. 309--><p class="noindent" >This part of .rea file starts with such a line:
+ id="x9-720007.1.3"></a>Available Logical Switches</h4>
+<!--l. 210--><p class="noindent" >This part of .rea file starts with such a line:
                                                                                          
                                                                                          
-   <div class="verbatim" id="verbatim-42">
+   <div class="verbatim" id="verbatim-46">
 n&#x00A0;&#x00A0;&#x00A0;LOGICAL&#x00A0;SWITCHES&#x00A0;FOLLOW
 </div>
-<!--l. 312--><p class="nopar" > where <img 
-src="index294x.png" alt="n  "  class="math" > is the number of logical switches which is set in the following lines.
+<!--l. 213--><p class="nopar" > where <img 
+src="index314x.png" alt="n  "  class="math" > is the number of logical switches which is set in the following lines.
    <h4 class="subsectionHead"><span class="titlemark">7.1.4   </span> <a 
- id="x9-630007.1.4"></a>Logical switches</h4>
-<!--l. 315--><p class="noindent" >Note that by default all logical switches are set to false.
+ id="x9-730007.1.4"></a>Logical switches</h4>
+<!--l. 216--><p class="noindent" >Note that by default all logical switches are set to false.
      <dl class="description"><dt class="description">
 <span 
 class="ecbx-1095">IFFLOW</span> </dt><dd 
@@ -2400,13 +686,13 @@ class="description">use mpi barriers to provide better timing information.
 <span 
 class="ecbx-1095">IFUSERVP</span> </dt><dd 
 class="description">user-defined properties (e.g., <img 
-src="index295x.png" alt="&mu;  "  class="math" >, <img 
-src="index296x.png" alt="&rho;  "  class="math" >) varying with space and time.</dd></dl>
+src="index315x.png" alt="&mu;  "  class="math" >, <img 
+src="index316x.png" alt="&rho;  "  class="math" >) varying with space and time.</dd></dl>
                                                                                          
                                                                                          
 <!--l. 150--><p class="noindent" >
    <h3 class="sectionHead"><span class="titlemark">7.2   </span> <a 
- id="x9-640007.2"></a>Appendix B. Extensive list of parameters SIZE file</h3>
+ id="x9-740007.2"></a>Appendix B. Extensive list of parameters SIZE file</h3>
      <dl class="description"><dt class="description">
 <span 
 class="ecbx-1095">ldim</span> </dt><dd 
@@ -2415,50 +701,50 @@ class="description">: number of spatial dimensions (2 or 3).
 <span 
 class="ecbx-1095">lx1, ly1, lz1</span> </dt><dd 
 class="description">: number of (GLL) points in the <img 
-src="index297x.png" alt="x  "  class="math" >, <img 
-src="index298x.png" alt="y  "  class="math" > and <img 
-src="index299x.png" alt="z  "  class="math" > directions, respectively, within
+src="index317x.png" alt="x  "  class="math" >, <img 
+src="index318x.png" alt="y  "  class="math" > and <img 
+src="index319x.png" alt="z  "  class="math" > directions, respectively, within
      each element of mesh1 (velocity) which is equal to the (polynomial order<img 
-src="index300x.png" alt="+  "  class="math" >1) by definition.
+src="index320x.png" alt="+  "  class="math" >1) by definition.
      <img 
-src="index301x.png" alt="ly1  "  class="math" > is usually the same as <img 
-src="index302x.png" alt="lx1  "  class="math" > and for 2D cases <img 
-src="index303x.png" alt="lz1 = 1  "  class="math" >. <br 
+src="index321x.png" alt="ly1  "  class="math" > is usually the same as <img 
+src="index322x.png" alt="lx1  "  class="math" > and for 2D cases <img 
+src="index323x.png" alt="lz1 = 1  "  class="math" >. <br 
 class="newline" /><span class="footnote-mark"><a 
 href="#fn1x8" id="fn1x8-bk"><sup class="textsuperscript">1</sup></a></span><a 
- id="x9-64001f1"></a>
+ id="x9-74001f1"></a>
      <span class="footnote-mark"><a 
 href="#fn2x8" id="fn2x8-bk"><sup class="textsuperscript">2</sup></a></span><a 
- id="x9-64002f2"></a>
+ id="x9-74002f2"></a>
      </dd><dt class="description">
 <span 
 class="ecbx-1095">lx2, ly2, lz2</span> </dt><dd 
 class="description">: number of (GLL) points in the <img 
-src="index306x.png" alt="x  "  class="math" >, <img 
-src="index307x.png" alt="y  "  class="math" > and <img 
-src="index308x.png" alt="z  "  class="math" > directions, respectively, within each
+src="index326x.png" alt="x  "  class="math" >, <img 
+src="index327x.png" alt="y  "  class="math" > and <img 
+src="index328x.png" alt="z  "  class="math" > directions, respectively, within each
      element of mesh2 (pressure). Use <img 
-src="index309x.png" alt="lx2 = lx1  "  class="math" > for PN/PN formulation or <img 
-src="index310x.png" alt="lx2 = lx1&minus; 2  "  class="math" > for
+src="index329x.png" alt="lx2 = lx1  "  class="math" > for PN/PN formulation or <img 
+src="index330x.png" alt="lx2 = lx1&minus; 2  "  class="math" > for
      PN/PN-2 formulation.
      </dd><dt class="description">
 <span 
 class="ecbx-1095">lx3, ly3, lz3</span> </dt><dd 
 class="description">: number of (GLL) points in the <img 
-src="index311x.png" alt="x  "  class="math" >, <img 
-src="index312x.png" alt="y  "  class="math" > and <img 
-src="index313x.png" alt="z  "  class="math" > directions, respectively, within
+src="index331x.png" alt="x  "  class="math" >, <img 
+src="index332x.png" alt="y  "  class="math" > and <img 
+src="index333x.png" alt="z  "  class="math" > directions, respectively, within
      each element of mesh3.<br 
 class="newline" /><span class="footnote-mark"><a 
 href="#fn3x8" id="fn3x8-bk"><sup class="textsuperscript">3</sup></a></span><a 
- id="x9-64003f3"></a>
+ id="x9-74003f3"></a>
      </dd><dt class="description">
 <span 
 class="ecbx-1095">lxd, lyd, lzd</span> </dt><dd 
 class="description">:  number  of  points  for  over  integration  (dealiasing),  use  three  half  rule  e.g.  for
      <img 
-src="index314x.png" alt="lx1 = 8  "  class="math" > use <img 
-src="index315x.png" alt="lxd = 12  "  class="math" >.<br 
+src="index334x.png" alt="lx1 = 8  "  class="math" > use <img 
+src="index335x.png" alt="lxd = 12  "  class="math" >.<br 
 class="newline" />
      </dd><dt class="description">
 <span 
@@ -2484,12 +770,12 @@ class="newline" />
 <span 
 class="ecbx-1095">lelt</span> </dt><dd 
 class="description">: maximum number of local elements for T-mesh (per rank, <img 
-src="index316x.png" alt="lelt &ge; lelg &#x2215;np+ 1  "  class="math" >).
+src="index336x.png" alt="lelt &ge; lelg &#x2215;np+ 1  "  class="math" >).
      </dd><dt class="description">
 <span 
 class="ecbx-1095">lelv</span> </dt><dd 
 class="description">: maximum number of local elements for V-mesh (<img 
-src="index317x.png" alt="lelv = lelt  "  class="math" >).
+src="index337x.png" alt="lelv = lelt  "  class="math" >).
                                                                                          
                                                                                          
      </dd><dt class="description">
@@ -2500,17 +786,17 @@ class="description">: Number of elements of the perturbation field, number of pe
 <span 
 class="ecbx-1095">lpx1, lpy1, lpz1</span> </dt><dd 
 class="description">: Number of point in <img 
-src="index318x.png" alt="x  "  class="math" >,<img 
-src="index319x.png" alt="y  "  class="math" >,<img 
-src="index320x.png" alt="z  "  class="math" > direction of perturbation field within each
+src="index338x.png" alt="x  "  class="math" >,<img 
+src="index339x.png" alt="y  "  class="math" >,<img 
+src="index340x.png" alt="z  "  class="math" > direction of perturbation field within each
      element of mesh1
      </dd><dt class="description">
 <span 
 class="ecbx-1095">lpx2, lpy2, lpz2</span> </dt><dd 
 class="description">: Number of point in <img 
-src="index321x.png" alt="x  "  class="math" >,<img 
-src="index322x.png" alt="y  "  class="math" >,<img 
-src="index323x.png" alt="z  "  class="math" > direction of perturbation field within each
+src="index341x.png" alt="x  "  class="math" >,<img 
+src="index342x.png" alt="y  "  class="math" >,<img 
+src="index343x.png" alt="z  "  class="math" > direction of perturbation field within each
      element of mesh2
      </dd><dt class="description">
 <span 
@@ -2520,23 +806,23 @@ class="description">: Total Number of elements of the B-field (MHD)
 <span 
 class="ecbx-1095">lbx1, lby1, lbz1</span> </dt><dd 
 class="description">: Number of point in <img 
-src="index324x.png" alt="x  "  class="math" >,<img 
-src="index325x.png" alt="y  "  class="math" >,<img 
-src="index326x.png" alt="z  "  class="math" > direction of B-field within each element of
+src="index344x.png" alt="x  "  class="math" >,<img 
+src="index345x.png" alt="y  "  class="math" >,<img 
+src="index346x.png" alt="z  "  class="math" > direction of B-field within each element of
      mesh1
      </dd><dt class="description">
 <span 
 class="ecbx-1095">lbx2, lby2, lbz2</span> </dt><dd 
 class="description">: Number of point in <img 
-src="index327x.png" alt="x  "  class="math" >,<img 
-src="index328x.png" alt="y  "  class="math" >,<img 
-src="index329x.png" alt="z  "  class="math" > direction of B-field within each element of
+src="index347x.png" alt="x  "  class="math" >,<img 
+src="index348x.png" alt="y  "  class="math" >,<img 
+src="index349x.png" alt="z  "  class="math" > direction of B-field within each element of
      mesh2
      </dd><dt class="description">
 <span 
 class="ecbx-1095">lx1m, ly1m, lz1m</span> </dt><dd 
 class="description">: when the mesh is a moving type <img 
-src="index330x.png" alt="lx1m  = lx1  "  class="math" >, otherwise it is set to 1.
+src="index350x.png" alt="lx1m  = lx1  "  class="math" >, otherwise it is set to 1.
      </dd><dt class="description">
 <span 
 class="ecbx-1095">lxz</span> </dt><dd 
@@ -2559,7 +845,7 @@ class="description">: maximum number of members in an object.
 <span 
 class="ecbx-1095">lhis</span> </dt><dd 
 class="description">: maximum number of history points a single rank will read in (NP*LHIS <img 
-src="index331x.png" alt="&#x003C;  "  class="math" > number of points
+src="index351x.png" alt="&#x003C;  "  class="math" > number of points
      in hpts.in).
      </dd><dt class="description">
 <span 
@@ -2605,13 +891,13 @@ class="description">: <span id="textcolor61">NOT IN USE!</span>
 <span 
 class="ecbx-1095">maxmor</span> </dt><dd 
 class="description">: <img 
-src="index332x.png" alt="= lelt  "  class="math" >
+src="index352x.png" alt="= lelt  "  class="math" >
      </dd><dt class="description">
 <span 
 class="ecbx-1095">lzl</span> </dt><dd 
 class="description">: for 2D cases <img 
-src="index333x.png" alt="lzl = 1  "  class="math" > and for 3D cases <img 
-src="index334x.png" alt="lzl = 3  "  class="math" > (computed automatically).</dd></dl>
+src="index353x.png" alt="lzl = 1  "  class="math" > and for 3D cases <img 
+src="index354x.png" alt="lzl = 3  "  class="math" > (computed automatically).</dd></dl>
 <!--l. 47--><p class="noindent" >The following parameters are deprecated and were subsequently removed in newer versions.
      <dl class="description"><dt class="description">
 <span 
@@ -2642,11 +928,11 @@ class="description">: LMAXP = LX1*LY1*LZ1*LELV</dd></dl>
    <div class="footnotes"><!--l. 6--><p class="noindent" ><span class="footnote-mark"><a 
 href="#fn1x8-bk" id="fn1x8"><sup class="textsuperscript">1</sup></a></span><span 
 class="ecrm-0900">is</span> <img 
-src="index304x.png" alt="lx1&frasl;= ly1  "  class="math" > <span 
+src="index324x.png" alt="lx1&frasl;= ly1  "  class="math" > <span 
 class="ecrm-0900">supported?</span>
 <!--l. 7--><p class="noindent" ><span class="footnote-mark"><a 
 href="#fn2x8-bk" id="fn2x8"><sup class="textsuperscript">2</sup></a></span><img 
-src="index305x.png" alt="lx1  "  class="math" > <span 
+src="index325x.png" alt="lx1  "  class="math" > <span 
 class="ecrm-0900">recomeneded odd for better performance</span>
 <!--l. 10--><p class="noindent" ><span class="footnote-mark"><a 
 href="#fn3x8-bk" id="fn3x8"><sup class="textsuperscript">3</sup></a></span><span 

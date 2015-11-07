@@ -7,7 +7,7 @@
 <meta name="originator" content="TeX4ht (http://www.cse.ohio-state.edu/~gurari/TeX4ht/)"> 
 <!-- html,index=1,2,fn-in --> 
 <meta name="src" content="index.tex"> 
-<meta name="date" content="2015-11-06 15:54:00"> 
+<meta name="date" content="2015-11-06 21:44:00"> 
 <link rel="stylesheet" type="text/css" href="index.css"> 
 </head><body 
 >
@@ -133,7 +133,7 @@ src="index20x.png" alt="----
                                                                                          
                                                                                          
 <!--l. 23--><p class="indent" >   </div><hr class="endfigure">
-   <h5 class="likesubsubsectionHead"><a 
+   <h5 class="subsubsectionHead"><a 
  id="x3-60001.1"></a>Incompressible Navier&#8211;Stokes equations</h5>
 <!--l. 27--><p class="noindent" >The governing equations of flow motion in dimensional form are <div class="eqnarray">
    <center class="math-display" >
@@ -202,7 +202,7 @@ src="index35x.png" alt="F r  "  class="math" > and the Froude number, defined as
 src="index36x.png" alt="      U2
 F r = gL-  "  class="math" >.
 <!--l. 75--><p class="noindent" >
-   <h5 class="likesubsubsectionHead"><a 
+   <h5 class="subsubsectionHead"><a 
  id="x3-80001.1"></a>Energy equation</h5>
 <!--l. 76--><p class="noindent" >In addition to the fluid flow, Nek5000 computes automatically the energy equation <div class="eqnarray">
    <center class="math-display" >
@@ -214,7 +214,7 @@ src="index37x.png" alt="&rho;cp(&part;tT + u &sdot;&nabla;T ) = &nabla; &sdot;(k
                                                                                          
                                                                                          
 <!--l. 82--><p class="noindent" >
-   <h5 class="likesubsubsectionHead"><a 
+   <h5 class="subsubsectionHead"><a 
  id="x3-90001.1"></a>Non-dimensional energy/passive scalar equation</h5>
 <!--l. 83--><p class="noindent" >A similar non-dimensionalization as for the flow equations using the non-dimensional variables <img 
 src="index38x.png" alt="x &lowast; = xL-  "  class="math" >,
@@ -268,7 +268,7 @@ src="index51x.png" alt="z  "  class="math" > axes. Other capabilities
 of Nek5000 are the linearized Navier-Stokes for flow stability, magnetohydrodynamic flows
 etc.
 <!--l. 123--><p class="noindent" >
-   <h5 class="likesubsubsectionHead"><a 
+   <h5 class="subsubsectionHead"><a 
  id="x3-110001.1"></a>Unsteady Stokes </h5>
 <!--l. 124--><p class="noindent" >In the case of flows dominated by viscous effects Nek5000 can solve the reduced Stokes equations
 <div class="eqnarray">
@@ -288,7 +288,7 @@ src="index54x.png" alt="&nabla; &sdot;u = 0,in &Omega;f (Continuity )           
 viscosity is variable or not. The non-dimensional form of these equations can be obtained using the viscous
 scaling of the pressure.
 <!--l. 135--><p class="noindent" >
-   <h5 class="likesubsubsectionHead"><a 
+   <h5 class="subsubsectionHead"><a 
  id="x3-120001.1"></a>Steady Stokes </h5>
 <!--l. 136--><p class="noindent" >If there is no time-dependence, then Nek5000 can further reduce to <div class="eqnarray">
                                                                                          
@@ -307,8 +307,8 @@ src="index57x.png" alt="&nabla; &sdot;u = 0,in &Omega;f (Continuity )           
  id="x3-12002r1.10"></a></center>
 </div>
 <!--l. 145--><p class="noindent" >
-   <h4 class="likesubsectionHead"><a 
- id="x3-130001.1"></a>Linearized Equations</h4>
+   <h4 class="subsectionHead"><span class="titlemark">1.1.1   </span> <a 
+ id="x3-130001.1.1"></a>Linearized Equations</h4>
 <!--l. 146--><p class="noindent" >In addition to the basic evolution equations described above, Nek5000 provides support for the evolution of
 small perturbations about a base state by solving the <span 
 class="ecti-1095">linearized equations</span>
@@ -331,16 +331,16 @@ natural convection. Calculations such as these can be used to estimate Lyapunov 
                                                                                          
 flows, etc.
 <!--l. 162--><p class="noindent" >
-   <h4 class="likesubsectionHead"><a 
- id="x3-140001.1"></a>Steady conduction</h4>
+   <h4 class="subsectionHead"><span class="titlemark">1.1.2   </span> <a 
+ id="x3-140001.1.2"></a>Steady conduction</h4>
 <!--l. 163--><p class="noindent" >The energy Eq.&#x00A0;<a 
 href="#x3-8001r1.4">1.4<!--tex4ht:ref: eq:energy --></a> in which the advection term <img 
 src="index61x.png" alt="u&sdot; &nabla;T  "  class="math" > and the transient term <img 
 src="index62x.png" alt="&part;tT  "  class="math" > are zero. In
 essence this represents a Poisson equation.
 <!--l. 167--><p class="noindent" >
-   <h4 class="likesubsectionHead"><a 
- id="x3-150001.1"></a>Low-Mach Navier-Stokes</h4>
+   <h4 class="subsectionHead"><span class="titlemark">1.1.3   </span> <a 
+ id="x3-150001.1.3"></a>Low-Mach Navier-Stokes</h4>
 <!--l. 168--><p class="noindent" >The compressible Navier-Stokes differ mathematically from the incompressible ones mainly in the
 divergence constraint <img 
 src="index63x.png" alt="&nabla; &sdot;u &frasl;= 0  "  class="math" >. In this case the system of equations is not closed and an additional
@@ -371,13 +371,13 @@ src="index68x.png" alt="&rho; = f (p,T )  "  class="math" > into the continuity 
 obtaining a so-called thermal divergence (the term <img 
 src="index69x.png" alt="&nabla; &sdot;u  "  class="math" > is given as a function of the temperature). A
 more detailed description on how these equations connect is given in section <a 
-href="#x3-150001.1">1.1<!--tex4ht:ref: sec:lowma --></a> as well as in the
+href="#x3-150001.1.3">1.1.3<!--tex4ht:ref: sec:lowma --></a> as well as in the
 developer&#8217;s manual.
                                                                                          
                                                                                          
 <!--l. 182--><p class="noindent" >
-   <h4 class="likesubsectionHead"><a 
- id="x3-160001.1"></a>Incompressible MHD equations</h4>
+   <h4 class="subsectionHead"><span class="titlemark">1.1.4   </span> <a 
+ id="x3-160001.1.4"></a>Incompressible MHD equations</h4>
 <!--l. 183--><p class="noindent" >Magnetohydrodynamics is based on the idea that magnetic fields can induce currents in a moving
 conductive fluid, which in turn creates forces on the fluid and changing the magnetic field itself.
 The set of equations which describe MHD are a combination of the Navier-Stokes equations
