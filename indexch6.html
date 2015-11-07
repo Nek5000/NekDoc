@@ -1,27 +1,27 @@
 <!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN"  
   "http://www.w3.org/TR/html4/loose.dtd">  
 <html > 
-<head><title>6 Mathematical routines of interest</title> 
+<head><title>6 Routines of interest</title> 
 <meta http-equiv="Content-Type" content="text/html; charset=iso-8859-1"> 
 <meta name="generator" content="TeX4ht (http://www.cse.ohio-state.edu/~gurari/TeX4ht/)"> 
 <meta name="originator" content="TeX4ht (http://www.cse.ohio-state.edu/~gurari/TeX4ht/)"> 
 <!-- html,index=1,2,fn-in --> 
 <meta name="src" content="index.tex"> 
-<meta name="date" content="2015-11-06 22:02:00"> 
+<meta name="date" content="2015-11-06 22:30:00"> 
 <link rel="stylesheet" type="text/css" href="index.css"> 
 </head><body 
 >
-   <!--l. 133--><div class="crosslinks"><p class="noindent">[<a 
+   <!--l. 135--><div class="crosslinks"><p class="noindent">[<a 
 href="indexch7.html" >next</a>] [<a 
 href="indexch5.html" >prev</a>] [<a 
 href="indexch5.html#tailindexch5.html" >prev-tail</a>] [<a 
 href="#tailindexch6.html">tail</a>] [<a 
 href="index.html#indexch6.html" >up</a>] </p></div>
    <h2 class="chapterHead"><span class="titlemark">Chapter&#x00A0;6</span><br /><a 
- id="x8-600006"></a>Mathematical routines of interest</h2>
+ id="x8-610006"></a>Routines of interest</h2>
 <!--l. 1--><p class="noindent" >The most common routines needed in nek500 are
-   <h4 class="subsectionHead"><span class="titlemark">6.0.1   </span> <a 
- id="x8-610006.0.1"></a>Naming conventions</h4>
+   <h3 class="sectionHead"><span class="titlemark">6.1   </span> <a 
+ id="x8-620006.1"></a>Naming conventions</h3>
      <ul class="itemize1">
      <li class="itemize"><span 
 class="ectt-1095">subroutine f(a,b,c) </span>a- returned variable b,c -input data
@@ -41,8 +41,8 @@ class="ectt-1095">col2[] </span>&#8212;
      <li class="itemize"><span 
 class="ectt-1095">col3[] </span>&#8211;</li></ul>
 <!--l. 14--><p class="noindent" >
-   <h4 class="subsectionHead"><span class="titlemark">6.0.2   </span> <a 
- id="x8-620006.0.2"></a>Subroutines</h4>
+   <h3 class="sectionHead"><span class="titlemark">6.2   </span> <a 
+ id="x8-630006.2"></a>Subroutines</h3>
 <!--l. 15--><p class="noindent" ><span 
 class="ectt-1095">subroutine rescale_x(x,x0,x1)</span>
 <!--l. 17--><p class="indent" >   Rescales the array x to be in the range (x0,x1). This is usually called from usrdat2 in the .usr
@@ -66,10 +66,10 @@ class="ectt-1095">subroutine torque_calc(scale,x0,ifdout,iftout)</span>
 <!--l. 37--><p class="indent" >   Computes torque about the point x0. Here scale is a user supplied multiplier so that the results may be
 scaled to any convenient non-dimensionalization. Both the drag and the torque can be printed to the
 screen by switching the appropriate ifdout(drag) or iftout(torque) logical.
+                                                                                         
+                                                                                         
 <!--l. 39--><p class="indent" >   <span 
 class="ectt-1095">subroutine set_obj</span>
-                                                                                         
-                                                                                         
 <!--l. 41--><p class="indent" >   Defines objects for surface integrals by changing the value of hcode for future calculations. Typically
 called once within userchk (for istep = 0) and used for calculating torque. (see above)
 <!--l. 43--><p class="indent" >   <span 
@@ -115,8 +115,8 @@ class="ectt-1095">subroutine col2(a,b,n)</span>
 <!--l. 83--><p class="indent" >   <span 
 class="ectt-1095">subroutine col3(a,b,c,n)</span>
 <!--l. 85--><p class="indent" >   For n entries, calculates a=b*c.
-   <h4 class="subsectionHead"><span class="titlemark">6.0.3   </span> <a 
- id="x8-630006.0.3"></a>Functions</h4>
+   <h3 class="sectionHead"><span class="titlemark">6.3   </span> <a 
+ id="x8-640006.3"></a>Functions</h3>
 <!--l. 88--><p class="noindent" ><span 
 class="ectt-1095">function glmax(a,n) function glamax(a,n) function iglmax(a,n) </span>Calculates the (absolute) max of a
 vector that is size n. Prefix i implies integer type. <span 
@@ -135,8 +135,8 @@ x, where the prefix, i specifies type integer, and i8 specifies type integer*8.
                                                                                          
                                                                                          
 <!--l. 111--><p class="noindent" >
-   <h4 class="subsectionHead"><span class="titlemark">6.0.4   </span> <a 
- id="x8-640006.0.4"></a>An example of specifying surface normals in the .usr file</h4>
+   <h3 class="sectionHead"><span class="titlemark">6.4   </span> <a 
+ id="x8-650006.4"></a>An example of specifying surface normals in the .usr file</h3>
                                                                                          
                                                                                          
    <div class="verbatim" id="verbatim-41">
@@ -228,8 +228,8 @@ unstable)!
                                                                                          
                                                                                          
 <!--l. 195--><p class="noindent" >
-   <h4 class="subsectionHead"><span class="titlemark">6.0.5   </span> <a 
- id="x8-650006.0.5"></a>Spectral Interpolation Tool</h4>
+   <h3 class="sectionHead"><span class="titlemark">6.5   </span> <a 
+ id="x8-660006.5"></a>Spectral Interpolation Tool</h3>
 <!--l. 197--><p class="noindent" ><span 
 class="ectt-1095">Check intpts(). </span>Monitor Points
 <!--l. 200--><p class="indent" >   Multiple monitor points can be defined in the file hpts.in to examine the field data at every
@@ -254,8 +254,8 @@ class="ectt-1095">lhis </span>in
 class="ectt-1095">&#8217;call hpts()&#8217; </span>to <span 
 class="ectt-1095">userchk()</span></li></ul>
 <!--l. 215--><p class="noindent" >
-   <h4 class="subsectionHead"><span class="titlemark">6.0.6   </span> <a 
- id="x8-660006.0.6"></a>Grid to Grid Interpolation</h4>
+   <h3 class="sectionHead"><span class="titlemark">6.6   </span> <a 
+ id="x8-670006.6"></a>Grid to Grid Interpolation</h3>
 <!--l. 217--><p class="noindent" >To interpolate an existing field file (e.g. base.fld) onto a new mesh do the following:
      <ul class="itemize1">
      <li class="itemize">set lpart in SIZE to a large value (e.g. 100&#8217;000 or larger) depending on your memory footprint
@@ -277,8 +277,8 @@ class="ectt-1095">userchk()</span></li></ul>
 </div>
      <!--l. 229--><p class="nopar" ></li></ul>
 <!--l. 233--><p class="noindent" >
-   <h4 class="subsectionHead"><span class="titlemark">6.0.7   </span> <a 
- id="x8-670006.0.7"></a>Lagrangian Particle Tracking</h4>
+   <h3 class="sectionHead"><span class="titlemark">6.7   </span> <a 
+ id="x8-680006.7"></a>Lagrangian Particle Tracking</h3>
 <!--l. 235--><p class="noindent" >The interpolation tool can be used for Lagrangian particle tracking (the particles are the interpolation
 points).
 <!--l. 237--><p class="indent" >   Workflow: Set initial particle positions (e.g. reading a file particle.pos0) x_part &#x003C;- x_pos0
@@ -379,12 +379,12 @@ points).
 <!--l. 325--><p class="nopar" >
                                                                                          
                                                                                          
-   <!--l. 147--><div class="crosslinks"><p class="noindent">[<a 
+   <!--l. 149--><div class="crosslinks"><p class="noindent">[<a 
 href="indexch7.html" >next</a>] [<a 
 href="indexch5.html" >prev</a>] [<a 
 href="indexch5.html#tailindexch5.html" >prev-tail</a>] [<a 
 href="indexch6.html" >front</a>] [<a 
 href="index.html#indexch6.html" >up</a>] </p></div>
-<!--l. 147--><p class="indent" >   <a 
+<!--l. 149--><p class="indent" >   <a 
  id="tailindexch6.html"></a>   
 </body></html> 

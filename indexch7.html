@@ -7,22 +7,22 @@
 <meta name="originator" content="TeX4ht (http://www.cse.ohio-state.edu/~gurari/TeX4ht/)"> 
 <!-- html,index=1,2,fn-in --> 
 <meta name="src" content="index.tex"> 
-<meta name="date" content="2015-11-06 22:02:00"> 
+<meta name="date" content="2015-11-06 22:30:00"> 
 <link rel="stylesheet" type="text/css" href="index.css"> 
 </head><body 
 >
-   <!--l. 147--><div class="crosslinks"><p class="noindent">[<a 
+   <!--l. 149--><div class="crosslinks"><p class="noindent">[<a 
 href="indexch6.html" >prev</a>] [<a 
 href="indexch6.html#tailindexch6.html" >prev-tail</a>] [<a 
 href="#tailindexch7.html">tail</a>] [<a 
 href="index.html#indexch7.html" >up</a>] </p></div>
    <h2 class="chapterHead"><span class="titlemark">Chapter&#x00A0;7</span><br /><a 
- id="x9-680007"></a>Appendix</h2>
+ id="x9-690007"></a>Appendix</h2>
    <h3 class="sectionHead"><span class="titlemark">7.1   </span> <a 
- id="x9-690007.1"></a>Appendix A. Extensive list of parameters .rea file</h3>
+ id="x9-700007.1"></a>Appendix A. Extensive list of parameters .rea file</h3>
 <!--l. 1--><p class="noindent" >
    <h4 class="subsectionHead"><span class="titlemark">7.1.1   </span> <a 
- id="x9-700007.1.1"></a>Parameters</h4>
+ id="x9-710007.1.1"></a>Parameters</h4>
 <!--l. 2--><p class="noindent" >This section tells nek5000
      <ul class="itemize1">
      <li class="itemize">If the input file reflects a 2D or 3D job (it should match the <span 
@@ -35,7 +35,7 @@ class="ecti-1095">ldim </span>parameter in the SIZE file).
      <li class="itemize">The solution algorithm within nek5000 to use.
      </li>
      <li class="itemize">The timestep size or Courant number to use, or whether to run variable DT (<img 
-src="index270x.png" alt="dt  "  class="math" >), etc.</li></ul>
+src="index305x.png" alt="dt  "  class="math" >), etc.</li></ul>
 <!--l. 10--><p class="noindent" >A .rea file starts with the following three parameters:
      <dl class="description"><dt class="description">
 <span 
@@ -56,7 +56,7 @@ read by the program.<br
 class="newline" />
 <!--l. 19--><p class="noindent" >
    <h4 class="subsectionHead"><span class="titlemark">7.1.2   </span> <a 
- id="x9-710007.1.2"></a>Available Parameters</h4>
+ id="x9-720007.1.2"></a>Available Parameters</h4>
                                                                                          
                                                                                          
      <dl class="description"><dt class="description">
@@ -69,13 +69,13 @@ class="ecbx-1095">P030</span>).
 <span 
 class="ecbx-1095">P002 VISCOS</span> </dt><dd 
 class="description">kinematic viscosity (if <img 
-src="index271x.png" alt="&#x003C; 0 &rarr; Re  "  class="math" >, otherwise <img 
-src="index272x.png" alt="1&#x2215;Re  "  class="math" >).
+src="index306x.png" alt="&#x003C; 0 &#x2192; Re  "  class="math" >, otherwise <img 
+src="index307x.png" alt="1&#x2215;Re  "  class="math" >).
      </dd><dt class="description">
 <span 
 class="ecbx-1095">P003 BETAG</span> </dt><dd 
 class="description">if <img 
-src="index273x.png" alt="&#x003E; 0  "  class="math" >, natural convection is turned on (Boussinesq approximation). <span id="textcolor1">NOT IN
+src="index308x.png" alt="&#x003E; 0  "  class="math" >, natural convection is turned on (Boussinesq approximation). <span id="textcolor1">NOT IN
      USE !</span>
      </dd><dt class="description">
 <span 
@@ -98,7 +98,7 @@ class="description">navier5.f: param(7) = param(1) ! rhoCP = rho <span id="textc
 <span 
 class="ecbx-1095">P008 CONDUCT</span> </dt><dd 
 class="description">conductivity for the case of constant properties (if <img 
-src="index274x.png" alt="&#x003C;  0  "  class="math" >, it defines the Peclet
+src="index309x.png" alt="&#x003C;  0  "  class="math" >, it defines the Peclet
      number, see parameter P030). <br 
 class="newline" />connect2.f: if(param(8) .lt.0.0) param(8) = -1.0/param(8)<br 
 class="newline" />navier5.f: param(8) = param(2) ! conduct = dyn. visc
@@ -111,7 +111,7 @@ class="newline" />connect2.f: CPFLD(2,3)=PARAM(9)
 <span 
 class="ecbx-1095">P010 FINTIME</span> </dt><dd 
 class="description">if <img 
-src="index275x.png" alt="&#x003E; 0  "  class="math" >, specifies simulation end time. Otherwise, use NSTEP (P011).<br 
+src="index310x.png" alt="&#x003E; 0  "  class="math" >, specifies simulation end time. Otherwise, use NSTEP (P011).<br 
 class="newline" />drive2.f: FINTIM = PARAM(10)
      </dd><dt class="description">
 <span 
@@ -123,9 +123,9 @@ class="newline" />drive2.f: NSTEPS = PARAM(11)
 <span 
 class="ecbx-1095">P012 DT</span> </dt><dd 
 class="description">upper bound on time step <img 
-src="index276x.png" alt="dt  "  class="math" > (if <img 
-src="index277x.png" alt="&#x003C;  0  "  class="math" >, then <img 
-src="index278x.png" alt="dt = |P 012| "  class="math" > constant)<br 
+src="index311x.png" alt="dt  "  class="math" > (if <img 
+src="index312x.png" alt="&#x003C;  0  "  class="math" >, then <img 
+src="index313x.png" alt="dt = |P 012| "  class="math" > constant)<br 
 class="newline" />connect2.f: param(12) = 1.0<br 
 class="newline" />drive2.f: DT = abs(PARAM(12))
      </dd><dt class="description">
@@ -139,7 +139,7 @@ class="newline" />drive2.f: IOCOMM = PARAM(13)
 <span 
 class="ecbx-1095">P014 IOTIME</span> </dt><dd 
 class="description">if <img 
-src="index279x.png" alt="&#x003E; 0  "  class="math" >, time interval to dump the fld file. Otherwise, use IOSTEP (P015).<br 
+src="index314x.png" alt="&#x003E; 0  "  class="math" >, time interval to dump the fld file. Otherwise, use IOSTEP (P015).<br 
 class="newline" />drive2.f: TIMEIO = PARAM(14)
      </dd><dt class="description">
 <span 
@@ -223,8 +223,8 @@ class="newline" />
 <span 
 class="ecbx-1095">P029 MHD_VISCOS</span> </dt><dd 
 class="description">if <img 
-src="index280x.png" alt="&#x003E; 0 &rarr; "  class="math" > magnetic viscosity, if <img 
-src="index281x.png" alt="&#x003C; 0 &rarr; "  class="math" > magnetic Reynolds number.<br 
+src="index315x.png" alt="&#x003E; 0 &#x2192; "  class="math" > magnetic viscosity, if <img 
+src="index316x.png" alt="&#x003C; 0 &#x2192; "  class="math" > magnetic Reynolds number.<br 
 class="newline" />connect2.f: if(param(29).lt.0.0) param(29) = -1.0/param(29)<br 
 class="newline" />connect2.f: if (param(29).ne.0.) ifmhd = .true.<br 
 class="newline" />connect2.f: cpfld(ifldmhd,1) = param(29) ! magnetic viscosity
@@ -239,7 +239,7 @@ class="description">if
 <span 
 class="ecbx-1095">P031 NPERT</span> </dt><dd 
 class="description">if <img 
-src="index282x.png" alt="&frasl;=  0  "  class="math" >, number of perturbation modes in linearized N-S.<br 
+src="index317x.png" alt="&#x2044;=  0  "  class="math" >, number of perturbation modes in linearized N-S.<br 
 class="newline" />connect2.f: if (param(31).ne.0.) ifpert = .true.<br 
 class="newline" />connect2.f: if (param(31).lt.0.) ifbase = .false. ! don&#8217;t time adv base flow<br 
 class="newline" />connect2.f: npert = abs(param(31))
@@ -247,7 +247,7 @@ class="newline" />connect2.f: npert = abs(param(31))
 <span 
 class="ecbx-1095">P032 NBCRE2</span> </dt><dd 
 class="description">if <img 
-src="index283x.png" alt="&#x003E; 0  "  class="math" >, number of BCs in .re2 file, 0: all.<br 
+src="index318x.png" alt="&#x003E; 0  "  class="math" >, number of BCs in .re2 file, 0: all.<br 
 class="newline" />connect2.f: if (param(32).gt.0) nfldt = ibc + param(32)-1
      </dd><dt class="description">
 <span 
@@ -287,15 +287,15 @@ class="description"><span id="textcolor18">NOT IN USE!</span>
 <span 
 class="ecbx-1095">P041</span>  </dt><dd 
 class="description">1 <img 
-src="index284x.png" alt="&rarr; "  class="math" > multiplicative SEMG<br 
+src="index319x.png" alt="&#x2192; "  class="math" > multiplicative SEMG<br 
 class="newline" />hsmg.f:c if (param(41).eq.1) ifhybrid = .true. <img 
-src="index285x.png" alt="&larr; "  class="math" ><span id="textcolor19">NOT IN USE!</span>
+src="index320x.png" alt="&#x2190; "  class="math" ><span id="textcolor19">NOT IN USE!</span>
      </dd><dt class="description">
 <span 
 class="ecbx-1095">P042</span>  </dt><dd 
 class="description">linear solver for the pressure equation, 0 <img 
-src="index286x.png" alt="&rarr; "  class="math" > GMRES or 1 <img 
-src="index287x.png" alt="&rarr; "  class="math" > PCG
+src="index321x.png" alt="&#x2192; "  class="math" > GMRES or 1 <img 
+src="index322x.png" alt="&#x2192; "  class="math" > PCG
      </dd><dt class="description">
 <span 
 class="ecbx-1095">P043</span>  </dt><dd 
@@ -315,7 +315,7 @@ class="newline" />subs1.f: FACTOR = PARAM(45)
 <span 
 class="ecbx-1095">P046</span>  </dt><dd 
 class="description">if <img 
-src="index288x.png" alt="&#x003E; 0  "  class="math" >, do not set Initial Condition (no call to subroutine SETICS).<br 
+src="index323x.png" alt="&#x003E; 0  "  class="math" >, do not set Initial Condition (no call to subroutine SETICS).<br 
 class="newline" />drive2.f: irst = param(46)<br 
 class="newline" />ic.f: irst = param(46) ! for lee&#8217;s restart (rarely used)<br 
 class="newline" />subs1.f: irst = param(46)
@@ -332,7 +332,7 @@ class="description"><span id="textcolor20">NOT IN USE!</span>
 <span 
 class="ecbx-1095">P049</span>  </dt><dd 
 class="description">if <img 
-src="index289x.png" alt="&#x003C; 0  "  class="math" >, mixing length factor <span id="textcolor21">NOT IN USE!</span>.<br 
+src="index324x.png" alt="&#x003C; 0  "  class="math" >, mixing length factor <span id="textcolor21">NOT IN USE!</span>.<br 
 class="newline" />drive2.f:c IF (PARAM(49) .LE. 0.0) PARAM(49) = TLFAC<br 
 class="newline" />turb.f: TLFAC = PARAM(49)
                                                                                          
@@ -349,7 +349,7 @@ class="description"><span id="textcolor23">NOT IN USE!</span>
 <span 
 class="ecbx-1095">P052 HISTEP</span> </dt><dd 
 class="description">if <img 
-src="index290x.png" alt="&#x003E; 1  "  class="math" >, history points dump frequency (in number of steps).<br 
+src="index325x.png" alt="&#x003E; 1  "  class="math" >, history points dump frequency (in number of steps).<br 
 class="newline" />prepost.f: if (param(52).ge.1) iohis=param(52)
      </dd><dt class="description">
 <span 
@@ -359,17 +359,17 @@ class="description"><span id="textcolor24">NOT IN USE!</span>
 <span 
 class="ecbx-1095">P054</span>  </dt><dd 
 class="description">direction of fixed mass flowrate (1: <img 
-src="index291x.png" alt="x  "  class="math" >-, 2: <img 
-src="index292x.png" alt="y  "  class="math" >-, 3: <img 
-src="index293x.png" alt="z  "  class="math" >-direction). If 0: <img 
-src="index294x.png" alt="x  "  class="math" >-direction.<br 
+src="index326x.png" alt="x  "  class="math" >-, 2: <img 
+src="index327x.png" alt="y  "  class="math" >-, 3: <img 
+src="index328x.png" alt="z  "  class="math" >-direction). If 0: <img 
+src="index329x.png" alt="x  "  class="math" >-direction.<br 
 class="newline" />drive2.f: if (param(54).ne.0) icvflow = abs(param(54))<br 
 class="newline" />drive2.f: if (param(54).lt.0) iavflow = 1 ! mean velocity
      </dd><dt class="description">
 <span 
 class="ecbx-1095">P055</span>  </dt><dd 
 class="description">volumetric flow rate for periodic case; if p54<img 
-src="index295x.png" alt="&#x003C;  0  "  class="math" >, then p55:=mean velocity.<br 
+src="index330x.png" alt="&#x003C;  0  "  class="math" >, then p55:=mean velocity.<br 
 class="newline" />drive2.f: flowrate = param(55)
      </dd><dt class="description">
 <span 
@@ -387,13 +387,13 @@ class="description"><span id="textcolor27">NOT IN USE!</span>
 <span 
 class="ecbx-1095">P059</span>  </dt><dd 
 class="description">if <img 
-src="index296x.png" alt="&frasl;= 0  "  class="math" >, deformed elements (only relevant for FDM). !=0 <img 
-src="index297x.png" alt="&rarr; "  class="math" > full Jac. eval. for each el.
+src="index331x.png" alt="&#x2044;= 0  "  class="math" >, deformed elements (only relevant for FDM). !=0 <img 
+src="index332x.png" alt="&#x2192; "  class="math" > full Jac. eval. for each el.
      </dd><dt class="description">
 <span 
 class="ecbx-1095">P060</span>  </dt><dd 
 class="description">if <img 
-src="index298x.png" alt="&frasl;= 0  "  class="math" >, initialize velocity to 1e-10 (for steady Stokes problem).
+src="index333x.png" alt="&#x2044;= 0  "  class="math" >, initialize velocity to 1e-10 (for steady Stokes problem).
      </dd><dt class="description">
 <span 
 class="ecbx-1095">P061</span>  </dt><dd 
@@ -402,7 +402,7 @@ class="description"><span id="textcolor28">NOT IN USE!</span>
 <span 
 class="ecbx-1095">P062</span>  </dt><dd 
 class="description">if <img 
-src="index299x.png" alt="&#x003E; 0  "  class="math" >, swap bytes for output.
+src="index334x.png" alt="&#x003E; 0  "  class="math" >, swap bytes for output.
      </dd><dt class="description">
 <span 
 class="ecbx-1095">P063 WDSIZO</span> </dt><dd 
@@ -412,7 +412,7 @@ class="newline" />prepost.f: if (param(63).gt.0) wdsizo = 8 ! 64-bit .fld file
 <span 
 class="ecbx-1095">P064</span>  </dt><dd 
 class="description">if <img 
-src="index300x.png" alt="= 1  "  class="math" >, restart perturbation solution<br 
+src="index335x.png" alt="= 1  "  class="math" >, restart perturbation solution<br 
 class="newline" />pertsupport.f: if(param(64).ne.1) then !fresh start, param(64) is restart flag
                                                                                          
                                                                                          
@@ -420,20 +420,20 @@ class="newline" />pertsupport.f: if(param(64).ne.1) then !fresh start, param(64)
 <span 
 class="ecbx-1095">P065</span>  </dt><dd 
 class="description">number of IO nodes (if <img 
-src="index301x.png" alt="&#x003C; 0  "  class="math" > write in separate subdirectories).
+src="index336x.png" alt="&#x003C; 0  "  class="math" > write in separate subdirectories).
      </dd><dt class="description">
 <span 
 class="ecbx-1095">P066</span>  </dt><dd 
 class="description">Output format: (only postx uses .rea value; other nondefault should be set in usrdat) (if
      <img 
-src="index302x.png" alt="&ge;  0  "  class="math" > binary else ASCII).<br 
+src="index337x.png" alt="&#x2265;  0  "  class="math" > binary else ASCII).<br 
 class="newline" />connect2.f: param(66) = 6 ! binary is default<br 
 class="newline" />connect2.f: param(66) = 0 ! ASCII
      </dd><dt class="description">
 <span 
 class="ecbx-1095">P067</span>  </dt><dd 
 class="description">read format (if <img 
-src="index303x.png" alt="&ge;  0  "  class="math" > binary else ASCII).
+src="index338x.png" alt="&#x2265;  0  "  class="math" > binary else ASCII).
      </dd><dt class="description">
 <span 
 class="ecbx-1095">P068</span>  </dt><dd 
@@ -462,7 +462,7 @@ class="description"><span id="textcolor33">NOT IN USE!</span>
 <span 
 class="ecbx-1095">P074</span>  </dt><dd 
 class="description">if <img 
-src="index304x.png" alt="&#x003E; 0  "  class="math" > print Helmholtz solver iterations.<br 
+src="index339x.png" alt="&#x003E; 0  "  class="math" > print Helmholtz solver iterations.<br 
 class="newline" />hmholtz.f: if (nid.eq.0.and.ifprint.and.param(74).ne.0) ifprinthmh=.true.
      </dd><dt class="description">
 <span 
@@ -506,19 +506,19 @@ class="description"><span id="textcolor42">NOT IN USE!</span>
 <span 
 class="ecbx-1095">P084</span>  </dt><dd 
 class="description">if <img 
-src="index305x.png" alt="&#x003C; 0  "  class="math" >, force initial time step to this value.
+src="index340x.png" alt="&#x003C; 0  "  class="math" >, force initial time step to this value.
      </dd><dt class="description">
 <span 
 class="ecbx-1095">P085</span>  </dt><dd 
 class="description">set <img 
-src="index306x.png" alt="dt  "  class="math" > in <span 
+src="index341x.png" alt="dt  "  class="math" > in <span 
 class="ecti-1095">setdt</span>.<br 
 class="newline" />subs1.f: dt=dtopf*param(85)
      </dd><dt class="description">
 <span 
 class="ecbx-1095">P086</span>  </dt><dd 
 class="description"><span id="textcolor43">RESERVED !</span> if <img 
-src="index307x.png" alt="&frasl;=  0  "  class="math" >, use skew-symmetric form, else convective form.<br 
+src="index342x.png" alt="&#x2044;=  0  "  class="math" >, use skew-symmetric form, else convective form.<br 
 class="newline" />drive2.f: PARAM(86) = 0 ! No skew-symm. convection for now<br 
 class="newline" />navier1.f: if (param(86).ne.0.0) then ! skew-symmetric form
      </dd><dt class="description">
@@ -554,12 +554,12 @@ class="newline" />(adjust MXPREF in SIZEu accordingly)
 <span 
 class="ecbx-1095">P094</span>  </dt><dd 
 class="description">if <img 
-src="index308x.png" alt="&#x003E; 0  "  class="math" >, start projecting velocity and passive scalars after P094 steps
+src="index343x.png" alt="&#x003E; 0  "  class="math" >, start projecting velocity and passive scalars after P094 steps
      </dd><dt class="description">
 <span 
 class="ecbx-1095">P095</span>  </dt><dd 
 class="description">if <img 
-src="index309x.png" alt="&#x003E; 0  "  class="math" >, start projecting pressure after P095 steps
+src="index344x.png" alt="&#x003E; 0  "  class="math" >, start projecting pressure after P095 steps
      </dd><dt class="description">
 <span 
 class="ecbx-1095">P096</span>  </dt><dd 
@@ -579,14 +579,14 @@ class="description"><span id="textcolor52">NOT IN USE!</span>
 class="ecbx-1095">P099</span>  </dt><dd 
 class="description">dealiasing:
      <!--l. 192--><p class="noindent" >&#x00A0;      <img 
-src="index310x.png" alt="&#x003C;  0  "  class="math" >: disable
+src="index345x.png" alt="&#x003C;  0  "  class="math" >: disable
      <!--l. 193--><p class="noindent" >&#x00A0;      3: old dealiasing
      <!--l. 194--><p class="noindent" >&#x00A0;      4: new dealiasing
      </dd><dt class="description">
 <span 
 class="ecbx-1095">P100</span>  </dt><dd 
 class="description"><span id="textcolor53">RESERVED !</span> pressure preconditioner when using CG solver (0: Jacobi, <img 
-src="index311x.png" alt="&#x003E; 0  "  class="math" >: two-level
+src="index346x.png" alt="&#x003E; 0  "  class="math" >: two-level
      Schwarz) <span id="textcolor54">or wiseversa?</span>
      </dd><dt class="description">
 <span 
@@ -601,12 +601,12 @@ class="description"><span id="textcolor55">NOT IN USE!</span>
 <span 
 class="ecbx-1095">P103</span>  </dt><dd 
 class="description">filter weight for last mode (<img 
-src="index312x.png" alt="&#x003C;  0  "  class="math" >: disabled)
+src="index347x.png" alt="&#x003C;  0  "  class="math" >: disabled)
      </dd><dt class="description">
 <span 
 class="ecbx-1095">P107</span>  </dt><dd 
 class="description">if <img 
-src="index313x.png" alt="&frasl;= 0  "  class="math" >, add it to h2 in sethlm
+src="index348x.png" alt="&#x2044;= 0  "  class="math" >, add it to h2 in sethlm
      </dd><dt class="description">
 <span 
 class="ecbx-1095">P116 NELX</span> </dt><dd 
@@ -622,7 +622,7 @@ class="ecbx-1095">P118 NELZ</span> </dt><dd
 class="description">number of elements in z for FTP</dd></dl>
 <!--l. 209--><p class="noindent" >
    <h4 class="subsectionHead"><span class="titlemark">7.1.3   </span> <a 
- id="x9-720007.1.3"></a>Available Logical Switches</h4>
+ id="x9-730007.1.3"></a>Available Logical Switches</h4>
 <!--l. 210--><p class="noindent" >This part of .rea file starts with such a line:
                                                                                          
                                                                                          
@@ -630,9 +630,9 @@ class="description">number of elements in z for FTP</dd></dl>
 n&#x00A0;&#x00A0;&#x00A0;LOGICAL&#x00A0;SWITCHES&#x00A0;FOLLOW
 </div>
 <!--l. 213--><p class="nopar" > where <img 
-src="index314x.png" alt="n  "  class="math" > is the number of logical switches which is set in the following lines.
+src="index349x.png" alt="n  "  class="math" > is the number of logical switches which is set in the following lines.
    <h4 class="subsectionHead"><span class="titlemark">7.1.4   </span> <a 
- id="x9-730007.1.4"></a>Logical switches</h4>
+ id="x9-740007.1.4"></a>Logical switches</h4>
 <!--l. 216--><p class="noindent" >Note that by default all logical switches are set to false.
      <dl class="description"><dt class="description">
 <span 
@@ -686,13 +686,13 @@ class="description">use mpi barriers to provide better timing information.
 <span 
 class="ecbx-1095">IFUSERVP</span> </dt><dd 
 class="description">user-defined properties (e.g., <img 
-src="index315x.png" alt="&mu;  "  class="math" >, <img 
-src="index316x.png" alt="&rho;  "  class="math" >) varying with space and time.</dd></dl>
+src="index350x.png" alt="&#x03BC;  "  class="math" >, <img 
+src="index351x.png" alt="&#x03C1;  "  class="math" >) varying with space and time.</dd></dl>
                                                                                          
                                                                                          
-<!--l. 150--><p class="noindent" >
+<!--l. 152--><p class="noindent" >
    <h3 class="sectionHead"><span class="titlemark">7.2   </span> <a 
- id="x9-740007.2"></a>Appendix B. Extensive list of parameters SIZE file</h3>
+ id="x9-750007.2"></a>Appendix B. Extensive list of parameters SIZE file</h3>
      <dl class="description"><dt class="description">
 <span 
 class="ecbx-1095">ldim</span> </dt><dd 
@@ -701,50 +701,50 @@ class="description">: number of spatial dimensions (2 or 3).
 <span 
 class="ecbx-1095">lx1, ly1, lz1</span> </dt><dd 
 class="description">: number of (GLL) points in the <img 
-src="index317x.png" alt="x  "  class="math" >, <img 
-src="index318x.png" alt="y  "  class="math" > and <img 
-src="index319x.png" alt="z  "  class="math" > directions, respectively, within
+src="index352x.png" alt="x  "  class="math" >, <img 
+src="index353x.png" alt="y  "  class="math" > and <img 
+src="index354x.png" alt="z  "  class="math" > directions, respectively, within
      each element of mesh1 (velocity) which is equal to the (polynomial order<img 
-src="index320x.png" alt="+  "  class="math" >1) by definition.
+src="index355x.png" alt="+  "  class="math" >1) by definition.
      <img 
-src="index321x.png" alt="ly1  "  class="math" > is usually the same as <img 
-src="index322x.png" alt="lx1  "  class="math" > and for 2D cases <img 
-src="index323x.png" alt="lz1 = 1  "  class="math" >. <br 
+src="index356x.png" alt="ly1  "  class="math" > is usually the same as <img 
+src="index357x.png" alt="lx1  "  class="math" > and for 2D cases <img 
+src="index358x.png" alt="lz1 = 1  "  class="math" >. <br 
 class="newline" /><span class="footnote-mark"><a 
 href="#fn1x8" id="fn1x8-bk"><sup class="textsuperscript">1</sup></a></span><a 
- id="x9-74001f1"></a>
+ id="x9-75001f1"></a>
      <span class="footnote-mark"><a 
 href="#fn2x8" id="fn2x8-bk"><sup class="textsuperscript">2</sup></a></span><a 
- id="x9-74002f2"></a>
+ id="x9-75002f2"></a>
      </dd><dt class="description">
 <span 
 class="ecbx-1095">lx2, ly2, lz2</span> </dt><dd 
 class="description">: number of (GLL) points in the <img 
-src="index326x.png" alt="x  "  class="math" >, <img 
-src="index327x.png" alt="y  "  class="math" > and <img 
-src="index328x.png" alt="z  "  class="math" > directions, respectively, within each
+src="index361x.png" alt="x  "  class="math" >, <img 
+src="index362x.png" alt="y  "  class="math" > and <img 
+src="index363x.png" alt="z  "  class="math" > directions, respectively, within each
      element of mesh2 (pressure). Use <img 
-src="index329x.png" alt="lx2 = lx1  "  class="math" > for PN/PN formulation or <img 
-src="index330x.png" alt="lx2 = lx1&minus; 2  "  class="math" > for
+src="index364x.png" alt="lx2 = lx1  "  class="math" > for PN/PN formulation or <img 
+src="index365x.png" alt="lx2 = lx1- 2  "  class="math" > for
      PN/PN-2 formulation.
      </dd><dt class="description">
 <span 
 class="ecbx-1095">lx3, ly3, lz3</span> </dt><dd 
 class="description">: number of (GLL) points in the <img 
-src="index331x.png" alt="x  "  class="math" >, <img 
-src="index332x.png" alt="y  "  class="math" > and <img 
-src="index333x.png" alt="z  "  class="math" > directions, respectively, within
+src="index366x.png" alt="x  "  class="math" >, <img 
+src="index367x.png" alt="y  "  class="math" > and <img 
+src="index368x.png" alt="z  "  class="math" > directions, respectively, within
      each element of mesh3.<br 
 class="newline" /><span class="footnote-mark"><a 
 href="#fn3x8" id="fn3x8-bk"><sup class="textsuperscript">3</sup></a></span><a 
- id="x9-74003f3"></a>
+ id="x9-75003f3"></a>
      </dd><dt class="description">
 <span 
 class="ecbx-1095">lxd, lyd, lzd</span> </dt><dd 
 class="description">:  number  of  points  for  over  integration  (dealiasing),  use  three  half  rule  e.g.  for
      <img 
-src="index334x.png" alt="lx1 = 8  "  class="math" > use <img 
-src="index335x.png" alt="lxd = 12  "  class="math" >.<br 
+src="index369x.png" alt="lx1 = 8  "  class="math" > use <img 
+src="index370x.png" alt="lxd = 12  "  class="math" >.<br 
 class="newline" />
      </dd><dt class="description">
 <span 
@@ -770,12 +770,12 @@ class="newline" />
 <span 
 class="ecbx-1095">lelt</span> </dt><dd 
 class="description">: maximum number of local elements for T-mesh (per rank, <img 
-src="index336x.png" alt="lelt &ge; lelg &#x2215;np+ 1  "  class="math" >).
+src="index371x.png" alt="lelt &#x2265; lelg &#x2215;np+ 1  "  class="math" >).
      </dd><dt class="description">
 <span 
 class="ecbx-1095">lelv</span> </dt><dd 
 class="description">: maximum number of local elements for V-mesh (<img 
-src="index337x.png" alt="lelv = lelt  "  class="math" >).
+src="index372x.png" alt="lelv = lelt  "  class="math" >).
                                                                                          
                                                                                          
      </dd><dt class="description">
@@ -786,17 +786,17 @@ class="description">: Number of elements of the perturbation field, number of pe
 <span 
 class="ecbx-1095">lpx1, lpy1, lpz1</span> </dt><dd 
 class="description">: Number of point in <img 
-src="index338x.png" alt="x  "  class="math" >,<img 
-src="index339x.png" alt="y  "  class="math" >,<img 
-src="index340x.png" alt="z  "  class="math" > direction of perturbation field within each
+src="index373x.png" alt="x  "  class="math" >,<img 
+src="index374x.png" alt="y  "  class="math" >,<img 
+src="index375x.png" alt="z  "  class="math" > direction of perturbation field within each
      element of mesh1
      </dd><dt class="description">
 <span 
 class="ecbx-1095">lpx2, lpy2, lpz2</span> </dt><dd 
 class="description">: Number of point in <img 
-src="index341x.png" alt="x  "  class="math" >,<img 
-src="index342x.png" alt="y  "  class="math" >,<img 
-src="index343x.png" alt="z  "  class="math" > direction of perturbation field within each
+src="index376x.png" alt="x  "  class="math" >,<img 
+src="index377x.png" alt="y  "  class="math" >,<img 
+src="index378x.png" alt="z  "  class="math" > direction of perturbation field within each
      element of mesh2
      </dd><dt class="description">
 <span 
@@ -806,23 +806,23 @@ class="description">: Total Number of elements of the B-field (MHD)
 <span 
 class="ecbx-1095">lbx1, lby1, lbz1</span> </dt><dd 
 class="description">: Number of point in <img 
-src="index344x.png" alt="x  "  class="math" >,<img 
-src="index345x.png" alt="y  "  class="math" >,<img 
-src="index346x.png" alt="z  "  class="math" > direction of B-field within each element of
+src="index379x.png" alt="x  "  class="math" >,<img 
+src="index380x.png" alt="y  "  class="math" >,<img 
+src="index381x.png" alt="z  "  class="math" > direction of B-field within each element of
      mesh1
      </dd><dt class="description">
 <span 
 class="ecbx-1095">lbx2, lby2, lbz2</span> </dt><dd 
 class="description">: Number of point in <img 
-src="index347x.png" alt="x  "  class="math" >,<img 
-src="index348x.png" alt="y  "  class="math" >,<img 
-src="index349x.png" alt="z  "  class="math" > direction of B-field within each element of
+src="index382x.png" alt="x  "  class="math" >,<img 
+src="index383x.png" alt="y  "  class="math" >,<img 
+src="index384x.png" alt="z  "  class="math" > direction of B-field within each element of
      mesh2
      </dd><dt class="description">
 <span 
 class="ecbx-1095">lx1m, ly1m, lz1m</span> </dt><dd 
 class="description">: when the mesh is a moving type <img 
-src="index350x.png" alt="lx1m  = lx1  "  class="math" >, otherwise it is set to 1.
+src="index385x.png" alt="lx1m  = lx1  "  class="math" >, otherwise it is set to 1.
      </dd><dt class="description">
 <span 
 class="ecbx-1095">lxz</span> </dt><dd 
@@ -845,7 +845,7 @@ class="description">: maximum number of members in an object.
 <span 
 class="ecbx-1095">lhis</span> </dt><dd 
 class="description">: maximum number of history points a single rank will read in (NP*LHIS <img 
-src="index351x.png" alt="&#x003C;  "  class="math" > number of points
+src="index386x.png" alt="&#x003C;  "  class="math" > number of points
      in hpts.in).
      </dd><dt class="description">
 <span 
@@ -891,13 +891,13 @@ class="description">: <span id="textcolor61">NOT IN USE!</span>
 <span 
 class="ecbx-1095">maxmor</span> </dt><dd 
 class="description">: <img 
-src="index352x.png" alt="= lelt  "  class="math" >
+src="index387x.png" alt="= lelt  "  class="math" >
      </dd><dt class="description">
 <span 
 class="ecbx-1095">lzl</span> </dt><dd 
 class="description">: for 2D cases <img 
-src="index353x.png" alt="lzl = 1  "  class="math" > and for 3D cases <img 
-src="index354x.png" alt="lzl = 3  "  class="math" > (computed automatically).</dd></dl>
+src="index388x.png" alt="lzl = 1  "  class="math" > and for 3D cases <img 
+src="index389x.png" alt="lzl = 3  "  class="math" > (computed automatically).</dd></dl>
 <!--l. 47--><p class="noindent" >The following parameters are deprecated and were subsequently removed in newer versions.
      <dl class="description"><dt class="description">
 <span 
@@ -928,20 +928,20 @@ class="description">: LMAXP = LX1*LY1*LZ1*LELV</dd></dl>
    <div class="footnotes"><!--l. 6--><p class="noindent" ><span class="footnote-mark"><a 
 href="#fn1x8-bk" id="fn1x8"><sup class="textsuperscript">1</sup></a></span><span 
 class="ecrm-0900">is</span> <img 
-src="index324x.png" alt="lx1&frasl;= ly1  "  class="math" > <span 
+src="index359x.png" alt="lx1&#x2044;= ly1  "  class="math" > <span 
 class="ecrm-0900">supported?</span>
 <!--l. 7--><p class="noindent" ><span class="footnote-mark"><a 
 href="#fn2x8-bk" id="fn2x8"><sup class="textsuperscript">2</sup></a></span><img 
-src="index325x.png" alt="lx1  "  class="math" > <span 
+src="index360x.png" alt="lx1  "  class="math" > <span 
 class="ecrm-0900">recomeneded odd for better performance</span>
 <!--l. 10--><p class="noindent" ><span class="footnote-mark"><a 
 href="#fn3x8-bk" id="fn3x8"><sup class="textsuperscript">3</sup></a></span><span 
 class="ecrm-0900">mesh3 is rarely used</span>                                                                                                                        </div>
-<!--l. 163--><div class="crosslinks"><p class="noindent">[<a 
+<!--l. 165--><div class="crosslinks"><p class="noindent">[<a 
 href="indexch6.html" >prev</a>] [<a 
 href="indexch6.html#tailindexch6.html" >prev-tail</a>] [<a 
 href="indexch7.html" >front</a>] [<a 
 href="index.html#indexch7.html" >up</a>] </p></div>
-<!--l. 163--><p class="indent" >   <a 
+<!--l. 165--><p class="indent" >   <a 
  id="tailindexch7.html"></a>   
 </body></html> 
