@@ -7,7 +7,7 @@
 <meta name="originator" content="TeX4ht (http://www.cse.ohio-state.edu/~gurari/TeX4ht/)"> 
 <!-- html,index=1,2,fn-in --> 
 <meta name="src" content="index.tex"> 
-<meta name="date" content="2015-11-06 22:30:00"> 
+<meta name="date" content="2015-11-06 23:46:00"> 
 <link rel="stylesheet" type="text/css" href="index.css"> 
 </head><body 
 >
@@ -245,19 +245,19 @@ interest.
 <!--l. 159--><p class="indent" >   For example, suppose you want the above pipe geometry to have a sinusoidal wall. Let <img 
 src="index198x.png" alt="x := (x,y)  "  class="math" >
 denote the old geometry, and <img 
-src="index199x.png" alt="x &#x2032; := (x&#x2032;,y&#x2032;)  "  class="math" > denote the new geometry. For a domain with <img 
-src="index200x.png" alt="y &#x2208; [0,0.5]  "  class="math" >,
+src="index199x.png" alt="x &prime; := (x&prime;,y&prime;)  "  class="math" > denote the new geometry. For a domain with <img 
+src="index200x.png" alt="y &isin; [0,0.5]  "  class="math" >,
 the following function will map the straight pipe geometry to a wavy wall with amplitude <img 
 src="index201x.png" alt="A  "  class="math" >, wavelength
 <img 
-src="index202x.png" alt="&#x03BB;  "  class="math" >: <div class="eqnarray">
+src="index202x.png" alt="&lambda;  "  class="math" >: <div class="eqnarray">
    <center class="math-display" >
 <img 
-src="index203x.png" alt="y &#x2032;(x,y) = y + yA sin(2&#x03C0;x&#x2215;&#x03BB;).
+src="index203x.png" alt="y &prime;(x,y) = y + yA sin(2&pi;x&#x2215;&lambda;).
 " class="math-display" ></center>
 </div>Note that, as <img 
-src="index204x.png" alt="y -&#x2192; 0  "  class="math" >, the perturbation, <img 
-src="index205x.png" alt="yA sin(2 &#x03C0;x&#x2215;&#x03BB;)  "  class="math" >, goes to zero. So, near the axis, the mesh
+src="index204x.png" alt="y &minus;&rarr; 0  "  class="math" >, the perturbation, <img 
+src="index205x.png" alt="yA sin(2 &pi;x&#x2215;&lambda;)  "  class="math" >, goes to zero. So, near the axis, the mesh
 recovers its original form.
 <!--l. 171--><p class="indent" >   In nek5000, you would specify this through usrdat2 as follows
                                                                                          
@@ -444,36 +444,36 @@ line
 code.
 <!--l. 1--><p class="indent" >   The domain in which the fluid flow/heat transfer problem is solved consists of two distinct subdomains.
 The first subdomain is that part of the region occupied by fluid, denoted <img 
-src="index209x.png" alt="&#x03A9;f  "  class="math" >, while the
+src="index209x.png" alt="&Omega;f  "  class="math" >, while the
 second subdomain is that part of the region occupied by a solid, denoted <img 
-src="index210x.png" alt="&#x03A9;s  "  class="math" >. These two
+src="index210x.png" alt="&Omega;s  "  class="math" >. These two
 subdomains are depicted in Fig.&#x00A0;<a 
 href="indexch1.html#x3-40011">1.1<!--tex4ht:ref: fig:domains --></a>. The entire domain is denoted as <img 
-src="index211x.png" alt="D = &#x03A9;  &#x222A; &#x03A9;
+src="index211x.png" alt="D = &Omega;  &cup; &Omega;
       f    s  "  class="math" >. The
 fluid problem is solved in the domain <img 
-src="index212x.png" alt="&#x03A9;f  "  class="math" >, while the temperature in the energy equation is
+src="index212x.png" alt="&Omega;f  "  class="math" >, while the temperature in the energy equation is
 solved in the entire domain; the passive scalars can be solved in either the fluid or the entire
 domain.
 <!--l. 12--><p class="indent" >   We denote the entire boundary of <img 
-src="index213x.png" alt="&#x03A9;f  "  class="math" > as <img 
-src="index214x.png" alt="&#x2202;&#x03A9;f  "  class="math" >, that part of the boundary of <img 
-src="index215x.png" alt="&#x03A9;f  "  class="math" > which
+src="index213x.png" alt="&Omega;f  "  class="math" > as <img 
+src="index214x.png" alt="&part;&Omega;f  "  class="math" >, that part of the boundary of <img 
+src="index215x.png" alt="&Omega;f  "  class="math" > which
 is not shared by <img 
-src="index216x.png" alt="&#x03A9;s  "  class="math" > as <img 
+src="index216x.png" alt="&Omega;s  "  class="math" > as <img 
 src="index217x.png" alt="----
-&#x2202; &#x03A9;f  "  class="math" >, and that part of the boundary of <img 
-src="index218x.png" alt="&#x03A9;f  "  class="math" > which is shared by
+&part; &Omega;f  "  class="math" >, and that part of the boundary of <img 
+src="index218x.png" alt="&Omega;f  "  class="math" > which is shared by
 <img 
-src="index219x.png" alt="&#x03A9;s  "  class="math" >. In addition, <img 
+src="index219x.png" alt="&Omega;s  "  class="math" >. In addition, <img 
 src="index220x.png" alt="     ----
-&#x2202; &#x03A9;s,&#x2202;&#x03A9;s  "  class="math" > are analogously defined. These distinct portions of the domain
+&part; &Omega;s,&part;&Omega;s  "  class="math" > are analogously defined. These distinct portions of the domain
 boundary are illustrated in Fig.<a 
 href="indexch1.html#x3-40011">1.1<!--tex4ht:ref: fig:domains --></a>. The restrictions on the domain for Nek5000 are itemized
 below.
      <ul class="itemize1">
      <li class="itemize">The domain <img 
-src="index221x.png" alt="&#x03A9; = &#x03A9;  &#x222A; &#x03A9;
+src="index221x.png" alt="&Omega; = &Omega;  &cup; &Omega;
       f    s  "  class="math" > must correspond either to a planar (Cartesian) two-dimensional
      geometry, or to the cross-section of an axisymmetric region specified by revolution of the
      cross-section about a specified axis, or by a (Cartesian) three-dimensional geometry.
@@ -481,9 +481,9 @@ src="index221x.png" alt="&#x03A9; = &#x03A9;  &#x222A; &#x03A9;
                                                                                          
      </li>
      <li class="itemize">For two-dimensional and axisymmetric geometries, the boundaries of both subdomains, <img 
-src="index222x.png" alt="&#x2202;&#x03A9;f  "  class="math" >
+src="index222x.png" alt="&part;&Omega;f  "  class="math" >
      and <img 
-src="index223x.png" alt="&#x2202; &#x03A9;s  "  class="math" >, must be representable as (or at least approximated by) the union of straight line
+src="index223x.png" alt="&part; &Omega;s  "  class="math" >, must be representable as (or at least approximated by) the union of straight line
      segments, splines, or circular arcs.
      </li>
      <li class="itemize">Nek5000 can interpret a two-dimensional image as either a planar Cartesian geometry, or
@@ -569,7 +569,7 @@ class="ectt-1095">userbc </span>subroutine in the .usr file.
 <!--l. 29--><p class="noindent" >Two types of boundary conditions are applicable to the fluid velocity : essential (Dirichlet) boundary
 condition in which the velocity is specified; natural (Neumann) boundary condition in which the traction is
 specified. For segments that constitute the boundary <img 
-src="index227x.png" alt="&#x2202;&#x03A9;f  "  class="math" >, see Fig.&#x00A0;<a 
+src="index227x.png" alt="&part;&Omega;f  "  class="math" >, see Fig.&#x00A0;<a 
 href="indexch1.html#x3-40011">1.1<!--tex4ht:ref: fig:domains --></a>, one of these two types of
 boundary conditions must be assigned to each component of the fluid velocity. The fluid boundary
 condition can be <span 
@@ -577,11 +577,11 @@ class="ecti-1095">all Dirichlet </span>if all velocity components of <img
 src="index228x.png" alt="u  "  class="math" > are specified; or it can be <span 
 class="ecti-1095">all Neumann </span>if all
 traction components <img 
-src="index229x.png" alt="t = [- pI + &#x03BC;(&#x2207;u + (&#x2207;u )T)]&#x22C5;n  "  class="math" >, where <img 
+src="index229x.png" alt="t = [&minus; pI + &mu;(&nabla;u + (&nabla;u )T)]&sdot;n  "  class="math" >, where <img 
 src="index230x.png" alt="I  "  class="math" > is the identity tensor, <img 
 src="index231x.png" alt="n  "  class="math" > is the unit
 normal and <img 
-src="index232x.png" alt="&#x03BC;  "  class="math" > is the dynamic viscosity, are specified; or it can be <span 
+src="index232x.png" alt="&mu;  "  class="math" > is the dynamic viscosity, are specified; or it can be <span 
 class="ecti-1095">mixed Dirichlet/Neumann </span>if Dirichlet
 and Neumann conditions are selected for different velocity components. Examples for all Dirichlet, all
 Neumann and mixed Dirichhlet/Neumann boundaries are wall, free-surface and symmetry, respectively. If
@@ -741,7 +741,7 @@ class="equation"><tr><td><a
  id="x6-48001r1"></a>
      <center class="math-display" >
      <img 
-src="index233x.png" alt="[- pI+  &#x03BD;(&#x2207;u )]&#x22C5; n = 0
+src="index233x.png" alt="[&minus; pI+  &nu;(&nabla;u )]&sdot; n = 0
      " class="math-display" ></center></td><td class="equation-label">(4.1)</td></tr></table>
      <!--l. 104--><p class="nopar" >
      </li>
@@ -751,7 +751,7 @@ class="equation"><tr><td><a
  id="x6-48002r2"></a>
      <center class="math-display" >
      <img 
-src="index234x.png" alt="[- pI+ &#x03BD;(&#x2207;u  + &#x2207;uT )]&#x22C5;n = 0
+src="index234x.png" alt="[&minus; pI+ &nu;(&nabla;u  + &nabla;uT )]&sdot;n = 0
      " class="math-display" ></center></td><td class="equation-label">(4.2)</td></tr></table>
      <!--l. 108--><p class="nopar" >
      </li>
@@ -760,9 +760,9 @@ src="index234x.png" alt="[- pI+ &#x03BD;(&#x2207;u  + &#x2207;uT )]&#x22C5;n = 0
                                                                                          
      <center class="math-display" >
      <img 
-src="index235x.png" alt="      u&#x22C5;n   =  0 ,                               (4.3)
+src="index235x.png" alt="      u&sdot;n   =  0 ,                               (4.3)
 
-(&#x2207;u &#x22C5;t)&#x22C5;n   =  0                                 (4.4)
+(&nabla;u &sdot;t)&sdot;n   =  0                                 (4.4)
      " class="math-display" ></center>
      </div>where <img 
 src="index236x.png" alt="n  "  class="math" > is the normal vector and <img 
@@ -788,15 +788,15 @@ Dirichlet/Neumann) boundary condition in which the normal velocity and the tange
 to zero.
 <!--l. 144--><p class="indent" >   For free-surface boundary segments, the inhomogeneous traction boundary conditions involve both the
 surface tension coefficient <img 
-src="index241x.png" alt="&#x03C3;  "  class="math" > and the mean curvature of the free surface.
+src="index241x.png" alt="&sigma;  "  class="math" > and the mean curvature of the free surface.
    <h5 class="subsubsectionHead"><a 
  id="x6-490004.4.2"></a>Passive scalars and Temperature</h5>
 <!--l. 150--><p class="noindent" >The three types of boundary conditions applicable to the temperature are: essential (Dirichlet) boundary
 condition in which the temperature is specified; natural (Neumann) boundary condition in which the heat
 flux is specified; and mixed (Robin) boundary condition in which the heat flux is dependent on the
 temperature on the boundary. For segments that constitute the boundary <img 
-src="index242x.png" alt="   &#x2032;     &#x2032;
-&#x2202;&#x03A9; f &#x222A; &#x2202; &#x03A9;s  "  class="math" > (refer
+src="index242x.png" alt="   &prime;     &prime;
+&part;&Omega; f &cup; &part; &Omega;s  "  class="math" > (refer
 to Fig. 2.1), one of the above three types of boundary conditions must be assigned to the
 temperature.
 <!--l. 162--><p class="indent" >   The two types of Robin boundary condition for temperature are : convection boundary conditions
@@ -804,14 +804,14 @@ for which the heat flux into the domain depends on the heat transfer coefficient
 src="index243x.png" alt="hc  "  class="math" > and
 the difference between the environmental temperature <img 
 src="index244x.png" alt="T
-  &#x221E; "  class="math" > and the surface temperature;
+  &infin; "  class="math" > and the surface temperature;
 and radiation boundary conditions for which the heat flux into the domain depends on the
 Stefan-Boltzmann constant/view-factor product <img 
 src="index245x.png" alt="hrad  "  class="math" > and the difference between the fourth power
                                                                                          
                                                                                          
 of the environmental temperature <img 
-src="index246x.png" alt="T&#x221E; "  class="math" > and the fourth power of the surface temperature.
+src="index246x.png" alt="T&infin; "  class="math" > and the fourth power of the surface temperature.
 <div class="table">
                                                                                          
                                                                                          
@@ -921,7 +921,7 @@ class="equation"><tr><td><a
  id="x6-50001r5"></a>
      <center class="math-display" >
      <img 
-src="index247x.png" alt="k (&#x2207;T  )&#x22C5;n = 0
+src="index247x.png" alt="k (&nabla;T  )&sdot;n = 0
      " class="math-display" ></center></td><td class="equation-label">(4.5)</td></tr></table>
      <!--l. 202--><p class="nopar" >
      </li>
@@ -931,7 +931,7 @@ class="equation"><tr><td><a
  id="x6-50002r6"></a>
      <center class="math-display" >
      <img 
-src="index248x.png" alt="k (&#x2207;T  )&#x22C5;n = 0
+src="index248x.png" alt="k (&nabla;T  )&sdot;n = 0
      " class="math-display" ></center></td><td class="equation-label">(4.6)</td></tr></table>
      <!--l. 206--><p class="nopar" >
      where <img 
@@ -953,7 +953,7 @@ class="equation"><tr><td><a
  id="x6-50003r7"></a>
      <center class="math-display" >
      <img 
-src="index253x.png" alt="k(&#x2207;T ) &#x22C5;n = h(T - T&#x221E; )
+src="index253x.png" alt="k(&nabla;T ) &sdot;n = h(T &minus; T&infin; )
      " class="math-display" ></center></td><td class="equation-label">(4.7)</td></tr></table>
      <!--l. 214--><p class="nopar" >
      </li>
@@ -963,7 +963,7 @@ class="equation"><tr><td><a
  id="x6-50004r8"></a>
      <center class="math-display" >
      <img 
-src="index254x.png" alt="k(&#x2207;T  )&#x22C5;n = f
+src="index254x.png" alt="k(&nabla;T  )&sdot;n = f
      " class="math-display" ></center></td><td class="equation-label">(4.8)</td></tr></table>
      <!--l. 218--><p class="nopar" >
      </li></ul>
@@ -978,8 +978,8 @@ field.
  id="x6-510004.4.3"></a>Internal Boundary Conditions</h4>
 <!--l. 4--><p class="noindent" >In the spatial discretization, the entire computational domain is subdivided into macro-elements, the
 boundary segments shared by any two of these macro-elements in <img 
-src="index255x.png" alt="&#x03A9;f  "  class="math" > and <img 
-src="index256x.png" alt="&#x03A9;s  "  class="math" > are denoted as internal
+src="index255x.png" alt="&Omega;f  "  class="math" > and <img 
+src="index256x.png" alt="&Omega;s  "  class="math" > are denoted as internal
 boundaries. For fluid flow analysis with a single-fluid system or heat transfer analysis without
 change-of-phase, internal boundary conditions are irrelevant as the corresponding field variables on these
 segments are part of the solution. However, for a multi-fluid system and for heat transfer analysis with
@@ -995,12 +995,12 @@ of the solution, and that all solid-liquid interfaces are specified as special i
 melting fronts. If the fluid flow problem is considered, i.e., the energy equation is solved in conjunction
 with the momentum and continuity equations, then only the common boundary between the fluid and the
 solid (i.e., all or portion of <img 
-src="index257x.png" alt="&#x2202;&#x03A9;-&#x2032;
+src="index257x.png" alt="&part;&Omega;-&prime;
    f  "  class="math" > in Fig.&#x00A0;<a 
 href="indexch1.html#x3-40011">1.1<!--tex4ht:ref: fig:domains --></a>) can be defined as the melting front. In this case,
 segments on <img 
-src="index258x.png" alt=" --&#x2032;
-&#x2202;&#x03A9; f  "  class="math" > that belong to the dynamic melting/freezing interface need to be specified by
+src="index258x.png" alt=" --&prime;
+&part;&Omega; f  "  class="math" > that belong to the dynamic melting/freezing interface need to be specified by
 the user. Nek5000 always assumes that the density of the two phases are the same (i.e., no
 Stefan flow); therefore at the melting front, the boundary condition for the fluid velocity is the
 same as that for a stationary wall, that is, all velocity components are zero. If no fluid flow is
@@ -1010,7 +1010,7 @@ Dirichlet condition; that is, the entire segment maintains a constant temperatur
 user-specified melting temperature <img 
 src="index259x.png" alt="Tmelt  "  class="math" > throughout the solution. In addition, the volumetric
 latent heat of fusion <img 
-src="index260x.png" alt="&#x03C1;L  "  class="math" > for the two phases, which is also assumed to be constant, should be
+src="index260x.png" alt="&rho;L  "  class="math" > for the two phases, which is also assumed to be constant, should be
 specified.
    <h4 class="subsectionHead"><span class="titlemark">4.4.4   </span> <a 
  id="x6-520004.4.4"></a>Initial Conditions</h4>
@@ -1049,7 +1049,7 @@ they may be provided by some mesh generator. Let us assume the vertices are here
 as
    <center class="math-display" >
 <img 
-src="index264x.png" alt="V1 = (- 1,0), V2 = (0,1), V3 = (- 1,2), V4 = (- 1,1), V5 = (0,2), V6 = (0,0), V7 = (1,1), V8 = (1,0)
+src="index264x.png" alt="V1 = (&minus; 1,0), V2 = (0,1), V3 = (&minus; 1,2), V4 = (&minus; 1,1), V5 = (0,2), V6 = (0,0), V7 = (1,1), V8 = (1,0)
 " class="math-display" ></center>
 <!--l. 2--><p class="nopar" > The geometry is already stored in the .rea file by the point coordinates, and not vertex numbers
 <!--tex4ht:inline--><div class="tabular"> <table id="TBL-11" class="tabular" 
@@ -1163,7 +1163,7 @@ class="equation"><tr><td><a
 <img 
 src="index283x.png" alt="         {
 L(G )  =   i = j    deg(Vi)
-     ij     i &#x2044;= j    - 1 if there is and edge (i,j) and 0 otherwise
+     ij     i &frasl;= j    &minus; 1 if there is and edge (i,j) and 0 otherwise
 " class="math-display" ></center></td><td class="equation-label">(4.9)</td></tr></table>
 <!--l. 33--><p class="nopar" >
    <table 
@@ -1172,15 +1172,15 @@ class="equation"><tr><td><a
    <center class="math-display" >
 <img 
 src="index284x.png" alt="       (------1---2----3---4----5---6----7----8)-
-       | 1|   2   0    0  - 1   0   - 1  0    0|
-       || 2|   0   4    0  - 1  - 1  - 1 - 1   0||
+       | 1|   2   0    0  &minus; 1   0   &minus; 1  0    0|
+       || 2|   0   4    0  &minus; 1  &minus; 1  &minus; 1 &minus; 1   0||
        ||                                       ||
-       || 3|   0   0    2  - 1  - 1  0    0    0||
-L(G) = | 4|  - 1 - 1  - 1  3    0   0    0    0|
-       || 5|   0  - 1  - 1  0    2   0    0    0||
-       || 6|  - 1 - 1   0   0    0   3    0   - 1||
-       || 7|   0  - 1   0   0    0   0    2   - 1||
-       ( 8|   0   0    0   0    0   - 1 - 1   2)
+       || 3|   0   0    2  &minus; 1  &minus; 1  0    0    0||
+L(G) = | 4|  &minus; 1 &minus; 1  &minus; 1  3    0   0    0    0|
+       || 5|   0  &minus; 1  &minus; 1  0    2   0    0    0||
+       || 6|  &minus; 1 &minus; 1   0   0    0   3    0   &minus; 1||
+       || 7|   0  &minus; 1   0   0    0   0    2   &minus; 1||
+       ( 8|   0   0    0   0    0   &minus; 1 &minus; 1   2)
 " class="math-display" ></center></td><td class="equation-label">(4.10)</td></tr></table>
 <!--l. 48--><p class="nopar" >
 <!--l. 50--><p class="indent" >   Properties of <img 
@@ -1192,17 +1192,17 @@ src="index286x.png" alt="L (G)  "  class="math" > symmetric
                                                                                          
      </li>
      <li class="itemize">the unit vector <img 
-src="index287x.png" alt="e = [1,...1] &#x2208; N (L(G ))  "  class="math" > is in the nullspace of the Laplacian matrix
+src="index287x.png" alt="e = [1,...1] &isin; N (L(G ))  "  class="math" > is in the nullspace of the Laplacian matrix
      </li>
      <li class="itemize"><img 
-src="index288x.png" alt="&#x2200; &#x03BB; &#x2208; &#x03C3; (L (G) &#x003E; 0  "  class="math" >, i.e. all the eigenvalues of <img 
+src="index288x.png" alt="&forall; &lambda; &isin; &sigma; (L (G) &#x003E; 0  "  class="math" >, i.e. all the eigenvalues of <img 
 src="index289x.png" alt="L (G )  "  class="math" > are positive except <img 
-src="index290x.png" alt="&#x03BB;0   "  class="math" > corresponding
+src="index290x.png" alt="&lambda;0   "  class="math" > corresponding
      to the unit vector
      </li>
      <li class="itemize"><img 
-src="index291x.png" alt="&#x03BB;2 &#x2044;= 0  "  class="math" > if the graph is connected, <img 
-src="index292x.png" alt="&#x03BB;2(L (G))  "  class="math" > is also called the algebraic connectivity of the
+src="index291x.png" alt="&lambda;2 &frasl;= 0  "  class="math" > if the graph is connected, <img 
+src="index292x.png" alt="&lambda;2(L (G))  "  class="math" > is also called the algebraic connectivity of the
      graph</li></ul>
 <!--l. 58--><p class="indent" >   The main ides of the spectral bisection algorithm is
                                                                                          
@@ -1216,14 +1216,14 @@ compute&#x00A0;\(v_2\)&#x00A0;eigenvector&#x00A0;corresponding&#x00A0;to&#x00A0;
 <!--l. 64--><p class="nopar" >
 <!--l. 66--><p class="indent" >   The eigenvectors and eigenvalues are computed using Lanczos&#8217;s algorithm. These steps are repeated
 recursively on each of the two branches of the graph <img 
-src="index293x.png" alt="N - ,N+   "  class="math" >. This is possible since according to Fiedler&#8217;s
+src="index293x.png" alt="N &minus; ,N+   "  class="math" >. This is possible since according to Fiedler&#8217;s
 theorems the graph <img 
-src="index294x.png" alt="N- "  class="math" > is connected, <img 
+src="index294x.png" alt="N&minus; "  class="math" > is connected, <img 
 src="index295x.png" alt="N+   "  class="math" > connected only if no <img 
 src="index296x.png" alt="v2(i) = 0  "  class="math" >, and for each subgraph
 <img 
 src="index297x.png" alt="G1   "  class="math" > the algebraic connectivities satisfy <img 
-src="index298x.png" alt="&#x03BB;2(L (G1)) &#x2264; &#x03BB;2 (L (G))  "  class="math" >.
+src="index298x.png" alt="&lambda;2(L (G1)) &le; &lambda;2 (L (G))  "  class="math" >.
 <!--l. 71--><p class="indent" >   To run the genmap code be sure that the Nek tools are up-to-date and compiled. At command line
 type: genmap NOTE-If the executables for the tools were not placed in the bin directory(default), include
 the path to the genmap executable. We give here the output for the .rea file in the Kovasznay

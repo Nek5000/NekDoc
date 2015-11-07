@@ -7,11 +7,12 @@
 <meta name="originator" content="TeX4ht (http://www.cse.ohio-state.edu/~gurari/TeX4ht/)"> 
 <!-- html,index=1,2,fn-in --> 
 <meta name="src" content="index.tex"> 
-<meta name="date" content="2015-11-06 22:30:00"> 
+<meta name="date" content="2015-11-06 23:46:00"> 
 <link rel="stylesheet" type="text/css" href="index.css"> 
 </head><body 
 >
    <!--l. 149--><div class="crosslinks"><p class="noindent">[<a 
+href="indexli2.html" >next</a>] [<a 
 href="indexch6.html" >prev</a>] [<a 
 href="indexch6.html#tailindexch6.html" >prev-tail</a>] [<a 
 href="#tailindexch7.html">tail</a>] [<a 
@@ -69,7 +70,7 @@ class="ecbx-1095">P030</span>).
 <span 
 class="ecbx-1095">P002 VISCOS</span> </dt><dd 
 class="description">kinematic viscosity (if <img 
-src="index306x.png" alt="&#x003C; 0 &#x2192; Re  "  class="math" >, otherwise <img 
+src="index306x.png" alt="&#x003C; 0 &rarr; Re  "  class="math" >, otherwise <img 
 src="index307x.png" alt="1&#x2215;Re  "  class="math" >).
      </dd><dt class="description">
 <span 
@@ -223,8 +224,8 @@ class="newline" />
 <span 
 class="ecbx-1095">P029 MHD_VISCOS</span> </dt><dd 
 class="description">if <img 
-src="index315x.png" alt="&#x003E; 0 &#x2192; "  class="math" > magnetic viscosity, if <img 
-src="index316x.png" alt="&#x003C; 0 &#x2192; "  class="math" > magnetic Reynolds number.<br 
+src="index315x.png" alt="&#x003E; 0 &rarr; "  class="math" > magnetic viscosity, if <img 
+src="index316x.png" alt="&#x003C; 0 &rarr; "  class="math" > magnetic Reynolds number.<br 
 class="newline" />connect2.f: if(param(29).lt.0.0) param(29) = -1.0/param(29)<br 
 class="newline" />connect2.f: if (param(29).ne.0.) ifmhd = .true.<br 
 class="newline" />connect2.f: cpfld(ifldmhd,1) = param(29) ! magnetic viscosity
@@ -239,7 +240,7 @@ class="description">if
 <span 
 class="ecbx-1095">P031 NPERT</span> </dt><dd 
 class="description">if <img 
-src="index317x.png" alt="&#x2044;=  0  "  class="math" >, number of perturbation modes in linearized N-S.<br 
+src="index317x.png" alt="&frasl;=  0  "  class="math" >, number of perturbation modes in linearized N-S.<br 
 class="newline" />connect2.f: if (param(31).ne.0.) ifpert = .true.<br 
 class="newline" />connect2.f: if (param(31).lt.0.) ifbase = .false. ! don&#8217;t time adv base flow<br 
 class="newline" />connect2.f: npert = abs(param(31))
@@ -287,15 +288,15 @@ class="description"><span id="textcolor18">NOT IN USE!</span>
 <span 
 class="ecbx-1095">P041</span>  </dt><dd 
 class="description">1 <img 
-src="index319x.png" alt="&#x2192; "  class="math" > multiplicative SEMG<br 
+src="index319x.png" alt="&rarr; "  class="math" > multiplicative SEMG<br 
 class="newline" />hsmg.f:c if (param(41).eq.1) ifhybrid = .true. <img 
-src="index320x.png" alt="&#x2190; "  class="math" ><span id="textcolor19">NOT IN USE!</span>
+src="index320x.png" alt="&larr; "  class="math" ><span id="textcolor19">NOT IN USE!</span>
      </dd><dt class="description">
 <span 
 class="ecbx-1095">P042</span>  </dt><dd 
 class="description">linear solver for the pressure equation, 0 <img 
-src="index321x.png" alt="&#x2192; "  class="math" > GMRES or 1 <img 
-src="index322x.png" alt="&#x2192; "  class="math" > PCG
+src="index321x.png" alt="&rarr; "  class="math" > GMRES or 1 <img 
+src="index322x.png" alt="&rarr; "  class="math" > PCG
      </dd><dt class="description">
 <span 
 class="ecbx-1095">P043</span>  </dt><dd 
@@ -387,13 +388,13 @@ class="description"><span id="textcolor27">NOT IN USE!</span>
 <span 
 class="ecbx-1095">P059</span>  </dt><dd 
 class="description">if <img 
-src="index331x.png" alt="&#x2044;= 0  "  class="math" >, deformed elements (only relevant for FDM). !=0 <img 
-src="index332x.png" alt="&#x2192; "  class="math" > full Jac. eval. for each el.
+src="index331x.png" alt="&frasl;= 0  "  class="math" >, deformed elements (only relevant for FDM). !=0 <img 
+src="index332x.png" alt="&rarr; "  class="math" > full Jac. eval. for each el.
      </dd><dt class="description">
 <span 
 class="ecbx-1095">P060</span>  </dt><dd 
 class="description">if <img 
-src="index333x.png" alt="&#x2044;= 0  "  class="math" >, initialize velocity to 1e-10 (for steady Stokes problem).
+src="index333x.png" alt="&frasl;= 0  "  class="math" >, initialize velocity to 1e-10 (for steady Stokes problem).
      </dd><dt class="description">
 <span 
 class="ecbx-1095">P061</span>  </dt><dd 
@@ -426,14 +427,14 @@ src="index336x.png" alt="&#x003C; 0  "  class="math" > write in separate subdire
 class="ecbx-1095">P066</span>  </dt><dd 
 class="description">Output format: (only postx uses .rea value; other nondefault should be set in usrdat) (if
      <img 
-src="index337x.png" alt="&#x2265;  0  "  class="math" > binary else ASCII).<br 
+src="index337x.png" alt="&ge;  0  "  class="math" > binary else ASCII).<br 
 class="newline" />connect2.f: param(66) = 6 ! binary is default<br 
 class="newline" />connect2.f: param(66) = 0 ! ASCII
      </dd><dt class="description">
 <span 
 class="ecbx-1095">P067</span>  </dt><dd 
 class="description">read format (if <img 
-src="index338x.png" alt="&#x2265;  0  "  class="math" > binary else ASCII).
+src="index338x.png" alt="&ge;  0  "  class="math" > binary else ASCII).
      </dd><dt class="description">
 <span 
 class="ecbx-1095">P068</span>  </dt><dd 
@@ -518,7 +519,7 @@ class="newline" />subs1.f: dt=dtopf*param(85)
 <span 
 class="ecbx-1095">P086</span>  </dt><dd 
 class="description"><span id="textcolor43">RESERVED !</span> if <img 
-src="index342x.png" alt="&#x2044;=  0  "  class="math" >, use skew-symmetric form, else convective form.<br 
+src="index342x.png" alt="&frasl;=  0  "  class="math" >, use skew-symmetric form, else convective form.<br 
 class="newline" />drive2.f: PARAM(86) = 0 ! No skew-symm. convection for now<br 
 class="newline" />navier1.f: if (param(86).ne.0.0) then ! skew-symmetric form
      </dd><dt class="description">
@@ -606,7 +607,7 @@ src="index347x.png" alt="&#x003C;  0  "  class="math" >: disabled)
 <span 
 class="ecbx-1095">P107</span>  </dt><dd 
 class="description">if <img 
-src="index348x.png" alt="&#x2044;= 0  "  class="math" >, add it to h2 in sethlm
+src="index348x.png" alt="&frasl;= 0  "  class="math" >, add it to h2 in sethlm
      </dd><dt class="description">
 <span 
 class="ecbx-1095">P116 NELX</span> </dt><dd 
@@ -686,8 +687,8 @@ class="description">use mpi barriers to provide better timing information.
 <span 
 class="ecbx-1095">IFUSERVP</span> </dt><dd 
 class="description">user-defined properties (e.g., <img 
-src="index350x.png" alt="&#x03BC;  "  class="math" >, <img 
-src="index351x.png" alt="&#x03C1;  "  class="math" >) varying with space and time.</dd></dl>
+src="index350x.png" alt="&mu;  "  class="math" >, <img 
+src="index351x.png" alt="&rho;  "  class="math" >) varying with space and time.</dd></dl>
                                                                                          
                                                                                          
 <!--l. 152--><p class="noindent" >
@@ -725,7 +726,7 @@ src="index362x.png" alt="y  "  class="math" > and <img
 src="index363x.png" alt="z  "  class="math" > directions, respectively, within each
      element of mesh2 (pressure). Use <img 
 src="index364x.png" alt="lx2 = lx1  "  class="math" > for PN/PN formulation or <img 
-src="index365x.png" alt="lx2 = lx1- 2  "  class="math" > for
+src="index365x.png" alt="lx2 = lx1&minus; 2  "  class="math" > for
      PN/PN-2 formulation.
      </dd><dt class="description">
 <span 
@@ -770,7 +771,7 @@ class="newline" />
 <span 
 class="ecbx-1095">lelt</span> </dt><dd 
 class="description">: maximum number of local elements for T-mesh (per rank, <img 
-src="index371x.png" alt="lelt &#x2265; lelg &#x2215;np+ 1  "  class="math" >).
+src="index371x.png" alt="lelt &ge; lelg &#x2215;np+ 1  "  class="math" >).
      </dd><dt class="description">
 <span 
 class="ecbx-1095">lelv</span> </dt><dd 
@@ -928,7 +929,7 @@ class="description">: LMAXP = LX1*LY1*LZ1*LELV</dd></dl>
    <div class="footnotes"><!--l. 6--><p class="noindent" ><span class="footnote-mark"><a 
 href="#fn1x8-bk" id="fn1x8"><sup class="textsuperscript">1</sup></a></span><span 
 class="ecrm-0900">is</span> <img 
-src="index359x.png" alt="lx1&#x2044;= ly1  "  class="math" > <span 
+src="index359x.png" alt="lx1&frasl;= ly1  "  class="math" > <span 
 class="ecrm-0900">supported?</span>
 <!--l. 7--><p class="noindent" ><span class="footnote-mark"><a 
 href="#fn2x8-bk" id="fn2x8"><sup class="textsuperscript">2</sup></a></span><img 
@@ -937,11 +938,12 @@ class="ecrm-0900">recomeneded odd for better performance</span>
 <!--l. 10--><p class="noindent" ><span class="footnote-mark"><a 
 href="#fn3x8-bk" id="fn3x8"><sup class="textsuperscript">3</sup></a></span><span 
 class="ecrm-0900">mesh3 is rarely used</span>                                                                                                                        </div>
-<!--l. 165--><div class="crosslinks"><p class="noindent">[<a 
+<!--l. 1--><div class="crosslinks"><p class="noindent">[<a 
+href="indexli2.html" >next</a>] [<a 
 href="indexch6.html" >prev</a>] [<a 
 href="indexch6.html#tailindexch6.html" >prev-tail</a>] [<a 
 href="indexch7.html" >front</a>] [<a 
 href="index.html#indexch7.html" >up</a>] </p></div>
-<!--l. 165--><p class="indent" >   <a 
+<!--l. 1--><p class="indent" >   <a 
  id="tailindexch7.html"></a>   
 </body></html> 

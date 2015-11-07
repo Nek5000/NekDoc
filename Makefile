@@ -8,6 +8,8 @@ all: Nek_users
 html: $(TEX_FILES)
 	cp Nek_users.tex index.tex
 	htlatex index.tex "html,index=1,2,fn-in"
+	bibtex index
+	htlatex index.tex "html,index=1,2,fn-in"
 
 Nek_users: Nek_users.pdf
 
