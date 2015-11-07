@@ -13,6 +13,8 @@ Nek_users: Nek_users.pdf
 
 Nek_users.pdf: $(TEX_FILES)
 	pdflatex -shell-escape -draftmode Nek_users.tex
+	bibtex Nek_users
+	pdflatex -shell-escape -draftmode Nek_users.tex
 	pdflatex -shell-escape Nek_users.tex
 	
 clean:
