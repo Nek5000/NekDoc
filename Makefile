@@ -3,7 +3,7 @@ TEX_FILES  =  $(wildcard *.tex)
 all: Nek_users
 
 html: $(TEX_FILES)
-	htlatex Nek_users.tex
+	htlatex Nek_users.tex "html,index=1,2,fn-in"
 
 Nek_users: Nek_users.pdf
 
