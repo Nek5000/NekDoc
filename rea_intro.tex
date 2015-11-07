@@ -19,7 +19,9 @@ The {\tt .rea} file consists of several sections:
 \item{\bf logicals} These determine whether one is computing a steady or unsteady
   solution, whether advection is turned on, etc.
 \end{description}
-\begin{comment}
+
+Next we have the logical switches as follow. a detailed explanation to be found in Sec:\ref{sec:switches}
+\begin{verbatim}
            13  LOGICAL SWITCHES FOLLOW
   T     IFFLOW
   T     IFHEAT
@@ -34,7 +36,7 @@ The {\tt .rea} file consists of several sections:
   F     IFKEPS
   F     IFMVBD
   F     IFCHAR
-\end{comment}
+\end{verbatim}
 \subsubsection*{Mesh and boundary condition info} 
 \begin{description}
 \item{\bf geometry} The geometry is specified in an arcane format specifying

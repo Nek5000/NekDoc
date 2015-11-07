@@ -111,69 +111,8 @@ hsmg.f:c     if (param(41).eq.1) ifhybrid = .true. \(\leftarrow\) {\textcolor{re
 \item [P043  ] 0: additive multilevel scheme - 1: original two level scheme.\\
 navier6.f:      if (lx1.eq.2) param(43)=1.\\   
 navier6.f:            if (param(43).eq.0) call hsmg\_setup         
-\begin{lstlisting}
-c  gmres.f:  
-  if(param(43).eq.1) then
-    call uzprec(z(1,j),w,h1,h2,intype,wp)
-  else                                  !       -1
-    call hsmg_solve(z(1,j),w)          ! z  = M   w
-  endif   
-\end{lstlisting} 
 \item [P044  ] 0=E-based additive Schwarz for PnPn-2; 1=A-based.
-\begin{lstlisting}
-c  fast3d.f:
-         if (param(44).eq.1) then
-           call get_fast_bc(lbr,rbr,lbs,rbs,lbt,rbt,e,2,ierr)
-         else
-           call get_fast_bc(lbr,rbr,lbs,rbs,lbt,rbt,e,3,ierr)
-         endif
-c
-c        Set up matrices for each element.
-c
-         if (param(44).eq.1) then
-           call set_up_fast_1D_fem( sr(1,e),lr,nr ,lbr,rbr
-     \(                      ,llr(e),lmr(e),lrr(e),zgm2(1,1),nx2,e)
-         else
-           call set_up_fast_1D_sem( sr(1,e),lr,nr ,lbr,rbr
-     \)                      ,llr(e),lmr(e),lrr(e),e)
-         endif
 
-      if (param(44).eq.1) then
-c                                    __ __ __
-c        Now, for each element, compute lr,ls,lt between specified planes
-c
-         n1 = nx2
-         n2 = nx2+1
-         nz0 = 1
-         nzn = 1
-         if (if3d) then
-            nz0= 0
-            nzn=n2
-         endif
-         eps = 1.e-7
-         if (wdsize.eq.8)  eps = 1.e-14
-c
-c        Find mean spacing between "left-most" planes
-         call plane_space2(llr,lls,llt, 0,wxm2,x,y,z,n1,n2,nz0,nzn)
-c
-c        Find mean spacing between "middle" planes
-         call plane_space (lmr,lms,lmt, 1,n1,wxm2,x,y,z,n1,n2,nz0,nzn)
-c
-c        Find mean spacing between "right-most" planes
-         call plane_space2(lrr,lrs,lrt,n2,wxm2,x,y,z,n1,n2,nz0,nzn)
-c
-      else
-         call load_semhat_weighted    !   Fills the SEMHAT arrays
-      endif
-\end{lstlisting} 
-\begin{lstlisting}
-c   navier6.f:  
-            if (param(44).eq.1) then !  Set up local overlapping solves 
-               call set_fem_data_l2(nel_proc,ndom,n_o,x,y,z,tri)
-            else
-               call swap_lengths
-            endif
-\end{lstlisting} 
 \item [P045  ] Free-surface stability control (defaults to 1.0)\\
 subs1.f:      FACTOR = PARAM(45)
 \item [P046  ] if \(>0\), do not set Initial Condition (no call to subroutine SETICS).\\
@@ -230,50 +169,12 @@ hmholtz.f:         if (nid.eq.0.and.ifprint.and.param(74).ne.0) ifprinthmh=.true
 \item [P082  ] coarse-grid dimension (2: linear). {\textcolor{red}{ NOT IN USE!}}
 \item [P083  ] {\textcolor{red}{ NOT IN USE!}}
 \item [P084  ] if \(<0\), force initial time step to this value.
-\begin{lstlisting}
-c  subs1.f: 
-      if (param(12).lt.0.or.iffxdt) then
-         iffxdt    = .true.
-         param(12) = abs(param(12))
-         dt        = param(12)
-         dtopf     = dt 
-         call compute_cfl(umax,vx,vy,vz,1.0)
-         goto 200
-      else IF (PARAM(84).NE.0.0) THEN
-         if (dtold.eq.0.0) then
-            dt   =param(84)
-            dtold=param(84)
-            dtopf=param(84)
-            return
-         else
-            dtold=dt
-            dtopf=dt
-            dt=dtopf*param(85)
-            dt=min(dt,param(12))
-         endif
-      endif
-\end{lstlisting}
+
 \item [P085  ] set \(dt\) in \textit{setdt}.\\
 subs1.f:            dt=dtopf*param(85)
 \item [P086  ] {\textcolor{red}{RESERVED !}} if \(\neq0\), use skew-symmetric form, else convective form.\\
 drive2.f:      PARAM(86) = 0 ! No skew-symm. convection for now\\
 navier1.f:      if (param(86).ne.0.0) then  ! skew-symmetric form
-\begin{lstlisting}
-c   navier1.f:
-      IF (PARAM(86).EQ.0.0) THEN
-C        Always use the convective form !!! (ER)
-         CALL CONV1 (CONV,FI)
-      ELSE
-C        Use skew-symmetric form
-C
-\end{lstlisting}
-\begin{lstlisting}
-c   navier1.f:
-      if (param(86).ne.0.0) then  ! skew-symmetric form
-         call convopo(conv,fi)
-         goto 100
-      endif
-\end{lstlisting}
 \item [P087  ] {\textcolor{red}{ NOT IN USE!}}
 \item [P088  ] {\textcolor{red}{ NOT IN USE!}}
 \item [P089  ] {\textcolor{red}{RESERVED !}}
@@ -311,7 +212,7 @@ This part of .rea file starts with such a line:
 n   LOGICAL SWITCHES FOLLOW 
 \end{verbatim}
 where \(n\) is the number of logical switches which is set in the following lines.
-\subsection{Logical switches}
+\subsection{Logical switches}\label{sec:switches}
 Note that by default all logical switches are set to false.
 \begin{description}
  \item[IFFLOW] solve for fluid (velocity, pressure).

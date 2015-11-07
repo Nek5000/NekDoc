@@ -1,4 +1,114 @@
-\subsection*{An example of specifying surface normals in the .usr file}
+The most common routines needed in nek500 are
+\subsection{Naming conventions}
+\begin{itemize}
+\item  {\tt{subroutine f(a,b,c)}}
+a- returned variable
+b,c -input data
+\item {\tt{op}[]} represent operations on operators
+\item {\tt{c}[]}  operations on constants
+\item {\tt{gl}[]} global operations
+\item {\tt{col2}[]} ---
+\item {\tt{col3}[]} --
+\end{itemize}
+
+\subsection{Subroutines}
+{\tt subroutine rescale\_x(x,x0,x1)}
+
+    Rescales the array x to be in the range (x0,x1). This is usually called from usrdat2 in the .usr file 
+    
+{\tt subroutine normvc(h1,semi,l2,linf,x1,x2,x3)}
+
+    Computes the error norms of a vector field variable(x1,x2,x3) defined on mesh 1, the velocity mesh. The error norms are normalized with respect to the volume, with the exception on the infinity norm, linf. 
+    
+{\tt subroutine comp\_vort3(vort,work1,work2,u,v,w)}
+
+    Computes the vorticity (vort) of the velocity field, (u,v,w) 
+    
+{\tt subroutine lambda2(l2)}
+
+    Generates the Lambda-2 vortex criterion proposed by Jeong and Hussain (1995) 
+    
+{\tt subroutine planar\_average\_z(ua,u,w1,w2)}
+
+    Computes the r-s planar average of the quantity u. 
+    
+{\tt subroutine torque\_calc(scale,x0,ifdout,iftout)}
+
+    Computes torque about the point x0. Here scale is a user supplied multiplier so that the results may be scaled to any convenient non-dimensionalization. Both the drag and the torque can be printed to the screen by switching the appropriate ifdout(drag) or iftout(torque) logical. 
+    
+{\tt subroutine set\_obj}
+
+    Defines objects for surface integrals by changing the value of hcode for future calculations. Typically called once within userchk (for istep = 0) and used for calculating torque. (see above) 
+    
+{\tt subroutine avg1(avg,f, alpha,beta,n,name,ifverbose)}
+
+{\tt subroutine avg2(avg,f, alpha,beta,n,name,ifverbose)}
+
+{\tt subroutine avg3(avg,f,g, alpha,beta,n,name,ifverbose)}
+
+    These three subroutines calculate the (weighted) average of f. Depending on the value of the logical, ifverbose, the results will be printed to standard output along with name. In avg2, the f component is squared. In avg3, vector g also contributes to the average calculation. 
+    
+{\tt subroutine outpost(x,vy,vz,pr,tz,' ')}
+
+    Dumps the current data of x,vy,vz,pr,tz to an {\tt .fld} or {\tt .f0????} file for post processing. 
+    
+{\tt subroutine platform\_timer(ivrb)}
+
+    Runs the battery of timing tests for matrix-matrix products,contention-free processor-to-processor ping-pong tests, and {\tt mpi\_all\_reduce} times. Allows one to check the performance of the communication routines used on specific platforms. 
+    
+{\tt subroutine quickmv}
+
+    Moves the mesh to allow user affine motion. 
+    
+{\tt subroutine runtimeavg(ay,y,j,istep1,ipostep,s5)}
+
+    Computes,stores, and (for ipostep!0) prints runtime averages of j-quantity y (along w/ y itself unless ipostep<0) with j + 'rtavg\_' + (unique) s5 every ipostep for istep>=istep1. s5 is a string to append to rtavg\_ for storage file naming. 
+    
+{\tt subroutine lagrng(uo,y,yvec,uvec,work,n,m)}
+
+    Compute Lagrangian interpolant for uo 
+    
+{\tt subroutine opcopy(a1,a2,a3,b1,b2,b3)}
+
+    Copies b1 to a1, b2 to a2, and b3 to a3, when ndim = 3, 
+    
+{\tt subroutine cadd(a,const,n)}
+
+    Adds const to vector a of size n. 
+    
+{\tt subroutine col2(a,b,n)}
+
+    For n entries, calculates a=a*b. 
+    
+{\tt subroutine col3(a,b,c,n)}
+
+    For n entries, calculates a=b*c. 
+\subsection{Functions}
+
+{\tt function glmax(a,n)}
+{\tt function glamax(a,n)}
+{\tt function iglmax(a,n)}
+    Calculates the (absolute) max of a vector that is size n. Prefix i implies integer type. 
+{\tt function i8glmax(a,n)}
+    Calculates the max of an integer*8 vector that is size n. 
+{\tt function glmin(a,n)}
+{\tt function glamin(a,n)}
+{\tt function iglmin(a,n)}
+    Calculates the (absolute) min of a vector that is size n. Prefix i implies integer type. 
+
+
+{\tt function glsc2(a,b,n)}
+{\tt function glsc3(a,b,mult,n)}
+{\tt function glsc23(z,y,z,n)}
+    Performs the inner product in double precision. glsc3 uses a multiplier, mult and glsc23 performs x*x*y*z. 
+
+
+{\tt function glsum(x,n)}
+{\tt function iglsum(x,n)}
+{\tt function i8glsum(x,n)}
+    Computes the global sum of x, where the prefix, i specifies type integer, and i8 specifies type integer*8. 
+
+\subsection{An example of specifying surface normals in the .usr file}
 \begin{verbatim}
 
 c-----------------------------------------------------------------------
@@ -35,9 +145,12 @@ c-----------------------------------------------------------------------
       return
       end
 \end{verbatim}  
-This example will load a list of field files (filenames are read from a file) into the solver using the load\_ fld() function. After the data is loaded, the user is free to compute other postprocessing quantities. At the end the results are dumped onto a regular (uniform) mesh by a subsequent call to prepost().
+
+This example will load a list of field files (filenames are read from a file) into the solver using the {\tt load\_fld()} function. After the data is loaded, the user is free to compute other postprocessing quantities. At the end the results are dumped onto a regular (uniform) mesh by a subsequent call to prepost().
 
 Note: The regular grid data (field files) cannot be used as a restart file (uniform->GLL interpolation is unstable)!
+
+\begin{verbatim}
 
 
      SUBROUTINE USERCHK
@@ -77,56 +190,60 @@ Note: The regular grid data (field files) cannot be used as a restart file (unif
      ! we're done
      call exitt
 
-Spectral Interpolation Tool
+\end{verbatim}
 
-Check intpts().
+\subsection{Spectral Interpolation Tool}
+
+{\tt Check intpts().}
 Monitor Points
 
 Multiple monitor points can be defined in the file hpts.in to examine the field data at every timestep.
 
-    setup an ASCII file called 'hpts.in' e.g: 
-
+\begin{itemize}
+\item setup an ASCII file called 'hpts.in' e.g: 
+\begin{verbatim}
 3 !number of monitoring points
 1.1 -1.2 1.0
 . . .
 x y z
+\end{verbatim}
 
-    depending on the number number of monitoring points you may need to increase lhis in SIZE
-    add 'call hpts()' to userchk() 
+\item depending on the number number of monitoring points you may need to increase {\tt lhis} in SIZE.
+\item    add {\tt 'call hpts()'} to {\tt userchk()} 
+\end{itemize}
 
-Grid to Grid Interpolation
+\subsection{Grid to Grid Interpolation}
 
 To interpolate an existing field file (e.g. base.fld) onto a new mesh do the following:
+\begin{itemize}
+\item set lpart in SIZE to a large value (e.g. 100'000 or larger) depending on your memory footprint
+\item    compile Nek with MPIIO support
+\item    set NSTEPS=0 in the .rea file (post-processing mode)
+\item    run nek using the new geometry (e.g. new\_geom.f0000)
+\item    run nek using the old geometry and add this code snipplet to userchk() 
+\begin{verbatim}
+ character*132  newfld, oldfld, newgfld
+ data newfld, oldfld, newgfld /'new0.f0001','base.fld','new\_geom.f0000'/
+ call g2gi(newfld, oldfld, newgfld) ! grid2grid interpolation
+ call exitt()
+\end{verbatim}
+\end{itemize}
+    
 
-    set lpart in SIZE to a large value (e.g. 100'000 or larger) depending on your memory footprint
-    compile Nek with MPIIO support
-    set NSTEPS=0 in the .rea file (post-processing mode)
-    run nek using the new geometry (e.g. new\_ geom.f0000)
-    run nek using the old geometry and add this code snipplet to userchk() 
-
-      character*132  newfld, oldfld, newgfld
-      data newfld, oldfld, newgfld /'new0.f0001','base.fld','new\_ geom.f0000'/
-c
-      call g2gi(newfld, oldfld, newgfld) ! grid2grid interpolation
-      call exitt()
-
-Lagrangian Particle Tracking
+\subsection{Lagrangian Particle Tracking}
 
 The interpolation tool can be used for Lagrangian particle tracking (the particles are the interpolation points).
 
-Workflow:
-
-    set initial particle positions (e.g. reading a file particle.pos0) x\_ part <- x\_ pos0 
+Workflow: Set initial particle positions (e.g. reading a file particle.pos0) x\_part <- x\_pos0 
 
 LOOP
-
-    compute field quantities
-    interpolate field quantities for all particles using intpts()
-    dump/store particle data
-    advect particles using particle\_ advect() 
-
+\begin{itemize}
+ \item    compute field quantities
+\item    interpolate field quantities for all particles using intpts()
+\item    dump/store particle data
+\item    advect particles using particle\_advect()
+\end{itemize}
 END LOOP
-
 \begin{verbatim}
     subroutine particle\_ advect(rtl,mr,npart,dt\_ p)
 c     
@@ -190,7 +307,7 @@ c
         do k=1,ndim
            vv = rtl(1+2*ndim+k,i)
            rtl(1+k,i) =  rtl(1+k,i) +
-    \&                    dt_p*(
+    \&                    dt\_p*(
     \&                    + c0*vv
     \&                    + c1*vell(k,1,i)
     \&                    + c2*vell(k,2,i)
