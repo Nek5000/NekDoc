@@ -98,7 +98,7 @@ The routine {\tt usrdat2} is called after the GLL points were distributed and al
       end
 \end{lstlisting}
 
-The routine {\tt userf} is called once for each point and provides the force term in Eq.\ref{eq:momentum}. Not that according to the dimensionalization in Eq.\ref{eq:momentum} the force term \(\vect f\) is in fact multiplied by the density \(\rho\).
+The routine {\tt userf} is called once for each point and provides the force term in Eq.\ref{eq:ns_momentum}. Not that according to the dimensionalization in Eq.\ref{eq:ns_momentum} the force term \(\vect f\) is in fact multiplied by the density \(\rho\).
 \begin{lstlisting}
       subroutine userf  (ix,iy,iz,eg)
       include 'SIZE'
