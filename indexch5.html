@@ -7,7 +7,7 @@
 <meta name="originator" content="TeX4ht (http://www.cse.ohio-state.edu/~gurari/TeX4ht/)"> 
 <!-- html,index=1,2,fn-in --> 
 <meta name="src" content="index.tex"> 
-<meta name="date" content="2015-11-06 23:46:00"> 
+<meta name="date" content="2015-11-06 23:54:00"> 
 <link rel="stylesheet" type="text/css" href="index.css"> 
 </head><body 
 >
@@ -18,9 +18,9 @@ href="indexch4.html#tailindexch4.html" >prev-tail</a>] [<a
 href="#tailindexch5.html">tail</a>] [<a 
 href="index.html#indexch5.html" >up</a>] </p></div>
    <h2 class="chapterHead"><span class="titlemark">Chapter&#x00A0;5</span><br /><a 
- id="x7-540005"></a>Performing large scale simulations in Nek5000</h2>
+ id="x7-530005"></a>Performing large scale simulations in Nek5000</h2>
    <h3 class="sectionHead"><span class="titlemark">5.1   </span> <a 
- id="x7-550005.1"></a>Large scale simulations</h3>
+ id="x7-540005.1"></a>Large scale simulations</h3>
 <!--l. 1--><p class="noindent" >The largest simulations performed so far with Nek5000 are in the range of <img 
 src="index300x.png" alt="5&#x00D7; 106   "  class="math" >. Performance aspects
 to keep in mind
@@ -62,7 +62,7 @@ have to be created as specified by the user.
 <!--l. 23--><p class="indent" >   For large scale simulations the AMG solver is a better, faster choice for solving the Poisson problem
 (the default solver is XXT).
 <!--l. 25--><p class="indent" >   <span class="likesubparagraphHead"><a 
- id="x7-560005.1"></a><span 
+ id="x7-550005.1"></a><span 
 class="ecbx-1095">AMG solver</span></span> The code should be compiled once with the settings <span 
 class="ectt-1095">AMG=true</span>, <span 
 class="ectt-1095">AMG_ DUMP=true</span>. In the
@@ -112,7 +112,7 @@ class="ectt-1095">trunk/tools/amg_ matlab</span>. Specifically, the first tolera
 will increase the time the matlab code stage takes, but the result will be a faster convergence in the
 pressure solves of the AMG run stage.
 <!--l. 64--><p class="indent" >   <span class="likesubparagraphHead"><a 
- id="x7-570005.1"></a><span 
+ id="x7-560005.1"></a><span 
 class="ecbx-1095">Size related issues</span></span>
                                                                                          
                                                                                          
@@ -126,20 +126,20 @@ class="ectt-1095">echo -1 &#x003E;</span>
 <span 
 class="ectt-1095">ioinfo</span>.
 <!--l. 72--><p class="indent" >   <span class="likesubparagraphHead"><a 
- id="x7-580005.1"></a><span 
+ id="x7-570005.1"></a><span 
 class="ecbx-1095">MAKENEK</span></span> The shell script makenek is designed to assist the compilation process of NEK5000. The
 script will create a makefile based on the user settings section in makenek. The GNU gmake utility is used
 to build NEK5000. Available configurations options: <div class="table">
                                                                                          
                                                                                          
 <!--l. 75--><p class="indent" >   <a 
- id="x7-580011"></a><hr class="float"><div class="float" 
+ id="x7-570011"></a><hr class="float"><div class="float" 
 >
                                                                                          
                                                                                          
  <div class="caption" 
 ><span class="id">Table&#x00A0;5.1: </span><span  
-class="content">Compiler options</span></div><!--tex4ht:label?: x7-580011 -->
+class="content">Compiler options</span></div><!--tex4ht:label?: x7-570011 -->
 <div class="center" 
 >
 <!--l. 79--><p class="noindent" >
@@ -296,7 +296,7 @@ class="td01">                     </td></tr></table></div>
    </div><hr class="endfloat" />
    </div>
 <!--l. 106--><p class="indent" >   <span class="likesubparagraphHead"><a 
- id="x7-590005.1"></a><span 
+ id="x7-580005.1"></a><span 
 class="ecbx-1095">Binary geometry</span></span> Reatore2 Jump to: navigation, search
    The NEK5000 tool, reatore2 allows users to split an ASCII .rea file to an ASCII .rea and a binary .re2
 file. The .re2 file contains the mesh and boundary condition data that is normally written in ASCII in the
@@ -312,7 +312,7 @@ the reatore2 executable
 <!--l. 125--><p class="indent" >   -Enter the name for your new files
 <!--l. 130--><p class="noindent" >
    <h3 class="sectionHead"><span class="titlemark">5.2   </span> <a 
- id="x7-600005.2"></a>Parallelism in Nek5000</h3>
+ id="x7-590005.2"></a>Parallelism in Nek5000</h3>
 <!--l. 4--><p class="noindent" >The parallelism of Nek5000 is accomplished via domain decomposition methods and a suitable
 gather-scatter code. All this is implemented in such way that the user does not have to be concerned with
 the parallelism and only focus on the actual solvers while keepin in mind a few simple rules and routines
@@ -334,7 +334,7 @@ following certain rules.
 <!--l. 19--><p class="indent" >   There are two types of array sizes, starting with lx1, lelv, etc. which give an upper bound of the arrays.
 And nx1, nelv, etc. which give the actual number of elements/grid points per processors. For the example
 in Fig.&#x00A0;<a 
-href="#x7-600011">5.1<!--tex4ht:ref: fig:procsplit --></a> we have
+href="#x7-590011">5.1<!--tex4ht:ref: fig:procsplit --></a> we have
                                                                                          
                                                                                          
      <ul class="itemize1">
@@ -348,7 +348,7 @@ class="ectt-1095">nelt=3 </span>(nelv = no elements in fluid domain, usually = n
                                                                                          
                                                                                          
 <a 
- id="x7-600011"></a>
+ id="x7-590011"></a>
                                                                                          
                                                                                          
 <!--l. 27--><p class="noindent" ><img 
@@ -357,7 +357,7 @@ name="index301x.png" src="Figs/serial_parallel.eps"
 -->
 <br /> <div class="caption" 
 ><span class="id">Figure&#x00A0;5.1: </span><span  
-class="content">A simple SEM row of elements and a potential splitting</span></div><!--tex4ht:label?: x7-600011 -->
+class="content">A simple SEM row of elements and a potential splitting</span></div><!--tex4ht:label?: x7-590011 -->
                                                                                          
                                                                                          
 <!--l. 30--><p class="indent" >   </div><hr class="endfigure">
