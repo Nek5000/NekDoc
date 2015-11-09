@@ -6,17 +6,17 @@
 <meta name="generator" content="TeX4ht (http://www.cse.ohio-state.edu/~gurari/TeX4ht/)"> 
 <meta name="originator" content="TeX4ht (http://www.cse.ohio-state.edu/~gurari/TeX4ht/)"> 
 <!-- html,index=1,2,fn-in --> 
-<meta name="src" content="index.tex"> 
-<meta name="date" content="2015-11-06 23:54:00"> 
-<link rel="stylesheet" type="text/css" href="index.css"> 
+<meta name="src" content="Nek_users.tex"> 
+<meta name="date" content="2015-11-09 10:18:00"> 
+<link rel="stylesheet" type="text/css" href="Nek_users.css"> 
 </head><body 
 >
    <!--l. 109--><div class="crosslinks"><p class="noindent">[<a 
-href="indexch5.html" >next</a>] [<a 
-href="indexch3.html" >prev</a>] [<a 
-href="indexch3.html#tailindexch3.html" >prev-tail</a>] [<a 
-href="#tailindexch4.html">tail</a>] [<a 
-href="index.html#indexch4.html" >up</a>] </p></div>
+href="Nek_usersch5.html" >next</a>] [<a 
+href="Nek_usersch3.html" >prev</a>] [<a 
+href="Nek_usersch3.html#tailNek_usersch3.html" >prev-tail</a>] [<a 
+href="#tailNek_usersch4.html">tail</a>] [<a 
+href="Nek_users.html#Nek_usersch4.html" >up</a>] </p></div>
    <h2 class="chapterHead"><span class="titlemark">Chapter&#x00A0;4</span><br /><a 
  id="x6-340004"></a>Geometry</h2>
 <!--l. 111--><p class="noindent" >Note that in case of any changes in the SIZE file, a recompilation is necessary.<br 
@@ -27,11 +27,11 @@ class="newline" />
    <h4 class="subsectionHead"><span class="titlemark">4.1.1   </span> <a 
  id="x6-360004.1.1"></a>Uniformly Distributed Mesh</h4>
 <!--l. 3--><p class="noindent" >Suppose you wish to simulate flow through an axisymmetric pipe, of radius <img 
-src="index169x.png" alt="R = 0.5  "  class="math" > and length <img 
-src="index170x.png" alt="L = 4  "  class="math" >.
+src="Nek_users169x.png" alt="R = 0.5  "  class="math" > and length <img 
+src="Nek_users170x.png" alt="L = 4  "  class="math" >.
 You estimate that you will need 3 elements in radial (<img 
-src="index171x.png" alt="y  "  class="math" >) direction, and 5 in the <img 
-src="index172x.png" alt="x  "  class="math" > direction, as
+src="Nek_users171x.png" alt="y  "  class="math" >) direction, and 5 in the <img 
+src="Nek_users172x.png" alt="x  "  class="math" > direction, as
 depicted in Fig. <a 
 href="#x6-360011">4.1<!--tex4ht:ref: fig:mesh_axi1 --></a>. This would be specified by the following input file (called <span 
 class="ecti-1095">pipe.box</span>) to
@@ -64,8 +64,8 @@ axisymmetric.rea
                                                                                          
                                                                                          
 <!--l. 29--><p class="noindent" ><img 
-src="index173x.png" alt="PIC" class="graphics" width="375.80544pt" height="62.31487pt" ><!--tex4ht:graphics  
-name="index173x.png" src="Figs/mesh_axi1.eps"  
+src="Nek_users173x.png" alt="PIC" class="graphics" width="375.80544pt" height="62.31487pt" ><!--tex4ht:graphics  
+name="Nek_users173x.png" src="Figs/mesh_axi1.eps"  
 -->
 <br /> <div class="caption" 
 ><span class="id">Figure&#x00A0;4.1: </span><span  
@@ -89,25 +89,25 @@ class="content">Axisymmteric pipe mesh</span></div><!--tex4ht:label?: x6-360011 
      &#8220;B&#8221;) are &#8220;C&#8221; and &#8220;M&#8221;, more on those later.
      </li>
      <li class="itemize">The first line after &#8220;Box&#8221; specifies the number of elements in the <img 
-src="index174x.png" alt="x  "  class="math" > and <img 
-src="index175x.png" alt="y  "  class="math" > directions. The
+src="Nek_users174x.png" alt="x  "  class="math" > and <img 
+src="Nek_users175x.png" alt="y  "  class="math" > directions. The
      fact that these values are negative indicates that you want genbox to automatically generate
      the element distribution along each axis, rather than providing it by hand. (More on this
      below.)
      </li>
      <li class="itemize">The next line specifies the distribution of the 5 elements in the <img 
-src="index176x.png" alt="x  "  class="math" > direction. The mesh
+src="Nek_users176x.png" alt="x  "  class="math" > direction. The mesh
      starts at <img 
-src="index177x.png" alt="x = 0  "  class="math" > and ends at <img 
-src="index178x.png" alt="x = 4.0  "  class="math" >. The <span 
+src="Nek_users177x.png" alt="x = 0  "  class="math" > and ends at <img 
+src="Nek_users178x.png" alt="x = 4.0  "  class="math" >. The <span 
 class="ecti-1095">ratio </span>indicates the relative size of each element,
      progressing from left to right. Here,
      </li>
      <li class="itemize">The next line specifies the distribution of the 3 elements in the <img 
-src="index179x.png" alt="y  "  class="math" > direction, starting at
+src="Nek_users179x.png" alt="y  "  class="math" > direction, starting at
      <img 
-src="index180x.png" alt="y = 0  "  class="math" > and going to <img 
-src="index181x.png" alt="y = 0.5  "  class="math" >. Again, <span 
+src="Nek_users180x.png" alt="y = 0  "  class="math" > and going to <img 
+src="Nek_users181x.png" alt="y = 0.5  "  class="math" >. Again, <span 
 class="ecti-1095">ratio</span>=1.0 indicates that the elements will be of uniform
      height.
      </li>
@@ -115,36 +115,36 @@ class="ecti-1095">ratio</span>=1.0 indicates that the elements will be of unifor
           <ul class="itemize2">
           <li class="itemize">Lower-case  <span 
 class="ecti-1095">v  </span>indicates  that  the  left  (<img 
-src="index182x.png" alt="x  "  class="math" >)  boundary  is  to  be  a  velocity  boundary
+src="Nek_users182x.png" alt="x  "  class="math" >)  boundary  is  to  be  a  velocity  boundary
           condition, with a user-specified distribution determined by routine <span 
 class="ecti-1095">userbc </span>in the .usr file.
           (Upper-case <img 
-src="index183x.png" alt="V  "  class="math" > would indicate that the velocity is constant, with values specified in
+src="Nek_users183x.png" alt="V  "  class="math" > would indicate that the velocity is constant, with values specified in
           the .rea file.)
           </li>
           <li class="itemize"><span 
 class="ecti-1095">O </span>indicates that the right (<img 
-src="index184x.png" alt="x  "  class="math" >) boundary is an outflow boundary &#8211; the flow leaves the
+src="Nek_users184x.png" alt="x  "  class="math" >) boundary is an outflow boundary &#8211; the flow leaves the
           domain at the left and the default exit pressure is <img 
-src="index185x.png" alt="p = 0  "  class="math" >.
+src="Nek_users185x.png" alt="p = 0  "  class="math" >.
                                                                                          
                                                                                          
           </li>
           <li class="itemize"><span 
 class="ecti-1095">A </span>indicates that the lower (<img 
-src="index186x.png" alt="y  "  class="math" >) boundary is the axis&#8212;this condition is mandatory for
+src="Nek_users186x.png" alt="y  "  class="math" >) boundary is the axis&#8212;this condition is mandatory for
           the axisymmetric case, given the fact that the lower domain boundary is at <img 
-src="index187x.png" alt="y = 0  "  class="math" >,
+src="Nek_users187x.png" alt="y = 0  "  class="math" >,
           which corresponds to <img 
-src="index188x.png" alt="r = 0  "  class="math" >.
+src="Nek_users188x.png" alt="r = 0  "  class="math" >.
           </li>
           <li class="itemize"><span 
 class="ecti-1095">W </span>indicates that the upper (<img 
-src="index189x.png" alt="y  "  class="math" >) boundary is a wall. This would be equivalent to a <span 
+src="Nek_users189x.png" alt="y  "  class="math" >) boundary is a wall. This would be equivalent to a <span 
 class="ecti-1095">v </span>or
           <span 
 class="ecti-1095">V </span>boundary condition, with <img 
-src="index190x.png" alt="u = 0  "  class="math" >.</li></ul>
+src="Nek_users190x.png" alt="u = 0  "  class="math" >.</li></ul>
      </li></ul>
    <h4 class="subsectionHead"><span class="titlemark">4.1.2   </span> <a 
  id="x6-370004.1.2"></a>Graded Mesh</h4>
@@ -157,8 +157,8 @@ src="index190x.png" alt="u = 0  "  class="math" >.</li></ul>
                                                                                          
                                                                                          
 <!--l. 91--><p class="noindent" ><img 
-src="index191x.png" alt="PIC" class="graphics" width="375.80544pt" height="62.31487pt" ><!--tex4ht:graphics  
-name="index191x.png" src="Figs/mesh_axi2.eps"  
+src="Nek_users191x.png" alt="PIC" class="graphics" width="375.80544pt" height="62.31487pt" ><!--tex4ht:graphics  
+name="Nek_users191x.png" src="Figs/mesh_axi2.eps"  
 -->
 <br /> <div class="caption" 
 ><span class="id">Figure&#x00A0;4.2: </span><span  
@@ -169,7 +169,7 @@ class="content">Axisymmteric pipe mesh, graded</span></div><!--tex4ht:label?: x6
 <!--l. 96--><p class="indent" >   Suppose you wish to have the mesh be graded, that you have increased resolution near the wall. In this
 case you change <span 
 class="ecti-1095">ratio </span>in the <img 
-src="index192x.png" alt="y  "  class="math" >-specification of the element distribution. For example, changing the 3 lines
+src="Nek_users192x.png" alt="y  "  class="math" >-specification of the element distribution. For example, changing the 3 lines
 in the above genbox input file from
                                                                                          
                                                                                          
@@ -201,8 +201,8 @@ href="#x6-370012">4.2<!--tex4ht:ref: fig:mesh_axi2 --></a>.
                                                                                          
                                                                                          
 <!--l. 124--><p class="noindent" ><img 
-src="index193x.png" alt="PIC" class="graphics" width="281.85587pt" height="46.73566pt" ><!--tex4ht:graphics  
-name="index193x.png" src="Figs/mesh_axi3.eps"  
+src="Nek_users193x.png" alt="PIC" class="graphics" width="281.85587pt" height="46.73566pt" ><!--tex4ht:graphics  
+name="Nek_users193x.png" src="Figs/mesh_axi3.eps"  
 -->
 <br /> <div class="caption" 
 ><span class="id">Figure&#x00A0;4.3: </span><span  
@@ -222,14 +222,14 @@ contain:
 </div>
 <!--l. 139--><p class="nopar" >
 <!--l. 141--><p class="noindent" >Here, the positive number of elements for the <img 
-src="index194x.png" alt="y  "  class="math" > direction indicates that genbox is expecting
+src="Nek_users194x.png" alt="y  "  class="math" > direction indicates that genbox is expecting
 <span 
 class="ectt-1095">Nely+1 </span>values of <img 
-src="index195x.png" alt="y  "  class="math" > positions on the <img 
-src="index196x.png" alt="y  "  class="math" >-element distribution line. This is the genbox default,
+src="Nek_users195x.png" alt="y  "  class="math" > positions on the <img 
+src="Nek_users196x.png" alt="y  "  class="math" >-element distribution line. This is the genbox default,
 which explains why it corresponds to <span 
 class="ectt-1095">Nely</span> <img 
-src="index197x.png" alt="&#x003E;  "  class="math" > 0. The corresponding mesh is shown in Fig.
+src="Nek_users197x.png" alt="&#x003E;  "  class="math" > 0. The corresponding mesh is shown in Fig.
 <a 
 href="#x6-380013">4.3<!--tex4ht:ref: fig:mesh_axi3 --></a>.
    <h4 class="subsectionHead"><span class="titlemark">4.1.4   </span> <a 
@@ -240,21 +240,21 @@ routine usrdat2 is called by nek5000 immediately after the geometry, as specifie
 file, is established. Thus, one can use the existing geometry to map to a new geometry of
 interest.
 <!--l. 159--><p class="indent" >   For example, suppose you want the above pipe geometry to have a sinusoidal wall. Let <img 
-src="index198x.png" alt="x := (x,y)  "  class="math" >
+src="Nek_users198x.png" alt="x := (x,y)  "  class="math" >
 denote the old geometry, and <img 
-src="index199x.png" alt="x &prime; := (x&prime;,y&prime;)  "  class="math" > denote the new geometry. For a domain with <img 
-src="index200x.png" alt="y &isin; [0,0.5]  "  class="math" >,
+src="Nek_users199x.png" alt="x &prime; := (x&prime;,y&prime;)  "  class="math" > denote the new geometry. For a domain with <img 
+src="Nek_users200x.png" alt="y &isin; [0,0.5]  "  class="math" >,
 the following function will map the straight pipe geometry to a wavy wall with amplitude <img 
-src="index201x.png" alt="A  "  class="math" >, wavelength
+src="Nek_users201x.png" alt="A  "  class="math" >, wavelength
 <img 
-src="index202x.png" alt="&lambda;  "  class="math" >: <div class="eqnarray">
+src="Nek_users202x.png" alt="&lambda;  "  class="math" >: <div class="eqnarray">
    <center class="math-display" >
 <img 
-src="index203x.png" alt="y &prime;(x,y) = y + yA sin(2&pi;x&#x2215;&lambda;).
+src="Nek_users203x.png" alt="y &prime;(x,y) = y + yA sin(2&pi;x&#x2215;&lambda;).
 " class="math-display" ></center>
 </div>Note that, as <img 
-src="index204x.png" alt="y &minus;&rarr; 0  "  class="math" >, the perturbation, <img 
-src="index205x.png" alt="yA sin(2 &pi;x&#x2215;&lambda;)  "  class="math" >, goes to zero. So, near the axis, the mesh
+src="Nek_users204x.png" alt="y &minus;&rarr; 0  "  class="math" >, the perturbation, <img 
+src="Nek_users205x.png" alt="yA sin(2 &pi;x&#x2215;&lambda;)  "  class="math" >, goes to zero. So, near the axis, the mesh
 recovers its original form.
 <!--l. 171--><p class="indent" >   In nek5000, you would specify this through usrdat2 as follows
                                                                                          
@@ -323,8 +323,8 @@ href="#x6-390024">4.4<!--tex4ht:ref: fig:wavypipe --></a>. <hr class="figure"><d
                                                                                          
                                                                                          
 <!--l. 235--><p class="noindent" ><img 
-src="index206x.png" alt="PIC" class="graphics" width="375.80544pt" height="62.31487pt" ><!--tex4ht:graphics  
-name="index206x.png" src="Figs/wavypipe.eps"  
+src="Nek_users206x.png" alt="PIC" class="graphics" width="375.80544pt" height="62.31487pt" ><!--tex4ht:graphics  
+name="Nek_users206x.png" src="Figs/wavypipe.eps"  
 -->
 <br /> <div class="caption" 
 ><span class="id">Figure&#x00A0;4.4: </span><span  
@@ -345,14 +345,14 @@ class="content">Axisymmteric pipe mesh</span></div><!--tex4ht:label?: x6-390024 
 <a 
  id="x6-40001r1"></a>
 <!--l. 243--><p class="noindent" ><img 
-src="index207x.png" alt="PIC" class="graphics" width="140.92793pt" height="140.92737pt" ><!--tex4ht:graphics  
-name="index207x.png" src="Figs/cylbox_2d.eps"  
+src="Nek_users207x.png" alt="PIC" class="graphics" width="140.92793pt" height="140.92737pt" ><!--tex4ht:graphics  
+name="Nek_users207x.png" src="Figs/cylbox_2d.eps"  
 -->
 <span 
 class="ecrm-0900">(a) Annuli mesh</span>                          <a 
  id="x6-40002r2"></a><img 
-src="index208x.png" alt="PIC" class="graphics" width="140.92793pt" height="140.92737pt" ><!--tex4ht:graphics  
-name="index208x.png" src="Figs/cylbox_2d.eps"  
+src="Nek_users208x.png" alt="PIC" class="graphics" width="140.92793pt" height="140.92737pt" ><!--tex4ht:graphics  
+name="Nek_users208x.png" src="Figs/cylbox_2d.eps"  
 -->
                                       <span 
 class="ecrm-0900">(b) Annuli mesh</span>
@@ -441,36 +441,36 @@ line
 code.
 <!--l. 1--><p class="indent" >   The domain in which the fluid flow/heat transfer problem is solved consists of two distinct subdomains.
 The first subdomain is that part of the region occupied by fluid, denoted <img 
-src="index209x.png" alt="&Omega;f  "  class="math" >, while the
+src="Nek_users209x.png" alt="&Omega;f  "  class="math" >, while the
 second subdomain is that part of the region occupied by a solid, denoted <img 
-src="index210x.png" alt="&Omega;s  "  class="math" >. These two
+src="Nek_users210x.png" alt="&Omega;s  "  class="math" >. These two
 subdomains are depicted in Fig.&#x00A0;<a 
-href="indexch1.html#x3-40011">1.1<!--tex4ht:ref: fig:domains --></a>. The entire domain is denoted as <img 
-src="index211x.png" alt="D = &Omega;  &cup; &Omega;
+href="Nek_usersch1.html#x3-40011">1.1<!--tex4ht:ref: fig:domains --></a>. The entire domain is denoted as <img 
+src="Nek_users211x.png" alt="D = &Omega;  &cup; &Omega;
       f    s  "  class="math" >. The
 fluid problem is solved in the domain <img 
-src="index212x.png" alt="&Omega;f  "  class="math" >, while the temperature in the energy equation is
+src="Nek_users212x.png" alt="&Omega;f  "  class="math" >, while the temperature in the energy equation is
 solved in the entire domain; the passive scalars can be solved in either the fluid or the entire
 domain.
 <!--l. 12--><p class="indent" >   We denote the entire boundary of <img 
-src="index213x.png" alt="&Omega;f  "  class="math" > as <img 
-src="index214x.png" alt="&part;&Omega;f  "  class="math" >, that part of the boundary of <img 
-src="index215x.png" alt="&Omega;f  "  class="math" > which
+src="Nek_users213x.png" alt="&Omega;f  "  class="math" > as <img 
+src="Nek_users214x.png" alt="&part;&Omega;f  "  class="math" >, that part of the boundary of <img 
+src="Nek_users215x.png" alt="&Omega;f  "  class="math" > which
 is not shared by <img 
-src="index216x.png" alt="&Omega;s  "  class="math" > as <img 
-src="index217x.png" alt="----
+src="Nek_users216x.png" alt="&Omega;s  "  class="math" > as <img 
+src="Nek_users217x.png" alt="----
 &part; &Omega;f  "  class="math" >, and that part of the boundary of <img 
-src="index218x.png" alt="&Omega;f  "  class="math" > which is shared by
+src="Nek_users218x.png" alt="&Omega;f  "  class="math" > which is shared by
 <img 
-src="index219x.png" alt="&Omega;s  "  class="math" >. In addition, <img 
-src="index220x.png" alt="     ----
+src="Nek_users219x.png" alt="&Omega;s  "  class="math" >. In addition, <img 
+src="Nek_users220x.png" alt="     ----
 &part; &Omega;s,&part;&Omega;s  "  class="math" > are analogously defined. These distinct portions of the domain
 boundary are illustrated in Fig.<a 
-href="indexch1.html#x3-40011">1.1<!--tex4ht:ref: fig:domains --></a>. The restrictions on the domain for Nek5000 are itemized
+href="Nek_usersch1.html#x3-40011">1.1<!--tex4ht:ref: fig:domains --></a>. The restrictions on the domain for Nek5000 are itemized
 below.
      <ul class="itemize1">
      <li class="itemize">The domain <img 
-src="index221x.png" alt="&Omega; = &Omega;  &cup; &Omega;
+src="Nek_users221x.png" alt="&Omega; = &Omega;  &cup; &Omega;
       f    s  "  class="math" > must correspond either to a planar (Cartesian) two-dimensional
      geometry, or to the cross-section of an axisymmetric region specified by revolution of the
      cross-section about a specified axis, or by a (Cartesian) three-dimensional geometry.
@@ -478,9 +478,9 @@ src="index221x.png" alt="&Omega; = &Omega;  &cup; &Omega;
                                                                                          
      </li>
      <li class="itemize">For two-dimensional and axisymmetric geometries, the boundaries of both subdomains, <img 
-src="index222x.png" alt="&part;&Omega;f  "  class="math" >
+src="Nek_users222x.png" alt="&part;&Omega;f  "  class="math" >
      and <img 
-src="index223x.png" alt="&part; &Omega;s  "  class="math" >, must be representable as (or at least approximated by) the union of straight line
+src="Nek_users223x.png" alt="&part; &Omega;s  "  class="math" >, must be representable as (or at least approximated by) the union of straight line
      segments, splines, or circular arcs.
      </li>
      <li class="itemize">Nek5000 can interpret a two-dimensional image as either a planar Cartesian geometry, or
@@ -488,10 +488,10 @@ src="index223x.png" alt="&part; &Omega;s  "  class="math" >, must be representab
      y-direction is the radial direction, that is, the axis of revolution is at y=0. Although an
      axisymmetric  geometry  is,  in  fact,  three-dimensional,  Nek5000  can  assume  that  the  field
      variables are also axisymmetric ( that is, do not depend on azimuth, but only <img 
-src="index224x.png" alt="y  "  class="math" >, that is,
+src="Nek_users224x.png" alt="y  "  class="math" >, that is,
      radius, <img 
-src="index225x.png" alt="x  "  class="math" >, and <img 
-src="index226x.png" alt="t  "  class="math" > ), thus reducing the relevant equations to "two-dimensional" form.</li></ul>
+src="Nek_users225x.png" alt="x  "  class="math" >, and <img 
+src="Nek_users226x.png" alt="t  "  class="math" > ), thus reducing the relevant equations to "two-dimensional" form.</li></ul>
 <!--l. 43--><p class="indent" >   Fully general three-dimensional meshes generated by other softwares packages can be input to
 PRENEK as import meshes.
    <h3 class="sectionHead"><span class="titlemark">4.3   </span> <a 
@@ -566,19 +566,19 @@ class="ectt-1095">userbc </span>subroutine in the .usr file.
 <!--l. 29--><p class="noindent" >Two types of boundary conditions are applicable to the fluid velocity : essential (Dirichlet) boundary
 condition in which the velocity is specified; natural (Neumann) boundary condition in which the traction is
 specified. For segments that constitute the boundary <img 
-src="index227x.png" alt="&part;&Omega;f  "  class="math" >, see Fig.&#x00A0;<a 
-href="indexch1.html#x3-40011">1.1<!--tex4ht:ref: fig:domains --></a>, one of these two types of
+src="Nek_users227x.png" alt="&part;&Omega;f  "  class="math" >, see Fig.&#x00A0;<a 
+href="Nek_usersch1.html#x3-40011">1.1<!--tex4ht:ref: fig:domains --></a>, one of these two types of
 boundary conditions must be assigned to each component of the fluid velocity. The fluid boundary
 condition can be <span 
 class="ecti-1095">all Dirichlet </span>if all velocity components of <img 
-src="index228x.png" alt="u  "  class="math" > are specified; or it can be <span 
+src="Nek_users228x.png" alt="u  "  class="math" > are specified; or it can be <span 
 class="ecti-1095">all Neumann </span>if all
 traction components <img 
-src="index229x.png" alt="t = [&minus; pI + &mu;(&nabla;u + (&nabla;u )T)]&sdot;n  "  class="math" >, where <img 
-src="index230x.png" alt="I  "  class="math" > is the identity tensor, <img 
-src="index231x.png" alt="n  "  class="math" > is the unit
+src="Nek_users229x.png" alt="t = [&minus; pI + &mu;(&nabla;u + (&nabla;u )T)]&sdot;n  "  class="math" >, where <img 
+src="Nek_users230x.png" alt="I  "  class="math" > is the identity tensor, <img 
+src="Nek_users231x.png" alt="n  "  class="math" > is the unit
 normal and <img 
-src="index232x.png" alt="&mu;  "  class="math" > is the dynamic viscosity, are specified; or it can be <span 
+src="Nek_users232x.png" alt="&mu;  "  class="math" > is the dynamic viscosity, are specified; or it can be <span 
 class="ecti-1095">mixed Dirichlet/Neumann </span>if Dirichlet
 and Neumann conditions are selected for different velocity components. Examples for all Dirichlet, all
 Neumann and mixed Dirichhlet/Neumann boundaries are wall, free-surface and symmetry, respectively. If
@@ -590,7 +590,7 @@ addition, mixed Dirichlet/Neumann boundaries must be aligned with one of the Car
 axes.
 <!--l. 56--><p class="indent" >   For flow geometry which consists of a periodic repetition of a particular geometric unit, the periodic
 boundary conditions can be imposed, as illustrated in Fig.&#x00A0;<a 
-href="indexch1.html#x3-40011">1.1<!--tex4ht:ref: fig:domains --></a>.
+href="Nek_usersch1.html#x3-40011">1.1<!--tex4ht:ref: fig:domains --></a>.
    <div class="table">
                                                                                          
                                                                                          
@@ -738,7 +738,7 @@ class="equation"><tr><td><a
  id="x6-47001r1"></a>
      <center class="math-display" >
      <img 
-src="index233x.png" alt="[&minus; pI+  &nu;(&nabla;u )]&sdot; n = 0
+src="Nek_users233x.png" alt="[&minus; pI+  &nu;(&nabla;u )]&sdot; n = 0
      " class="math-display" ></center></td><td class="equation-label">(4.1)</td></tr></table>
      <!--l. 104--><p class="nopar" >
      </li>
@@ -748,7 +748,7 @@ class="equation"><tr><td><a
  id="x6-47002r2"></a>
      <center class="math-display" >
      <img 
-src="index234x.png" alt="[&minus; pI+ &nu;(&nabla;u  + &nabla;uT )]&sdot;n = 0
+src="Nek_users234x.png" alt="[&minus; pI+ &nu;(&nabla;u  + &nabla;uT )]&sdot;n = 0
      " class="math-display" ></center></td><td class="equation-label">(4.2)</td></tr></table>
      <!--l. 108--><p class="nopar" >
      </li>
@@ -757,23 +757,23 @@ src="index234x.png" alt="[&minus; pI+ &nu;(&nabla;u  + &nabla;uT )]&sdot;n = 0
                                                                                          
      <center class="math-display" >
      <img 
-src="index235x.png" alt="      u&sdot;n   =  0 ,                               (4.3)
+src="Nek_users235x.png" alt="      u&sdot;n   =  0 ,                               (4.3)
 
 (&nabla;u &sdot;t)&sdot;n   =  0                                 (4.4)
      " class="math-display" ></center>
      </div>where <img 
-src="index236x.png" alt="n  "  class="math" > is the normal vector and <img 
-src="index237x.png" alt="t  "  class="math" > the tangent vector. If the normal and tangent vector are not
+src="Nek_users236x.png" alt="n  "  class="math" > is the normal vector and <img 
+src="Nek_users237x.png" alt="t  "  class="math" > the tangent vector. If the normal and tangent vector are not
      aligned with the mesh the stress formulation has to be used.
      </li>
      <li class="itemize">the periodic boundary condition ("P") needs to be prescribed in the .rea file since it
      already assigns the last point to first via <img 
-src="index238x.png" alt="u(x ) = u(x + L )  "  class="math" >, where <img 
-src="index239x.png" alt="L  "  class="math" > is the periodic
+src="Nek_users238x.png" alt="u(x ) = u(x + L )  "  class="math" >, where <img 
+src="Nek_users239x.png" alt="L  "  class="math" > is the periodic
      length.
      </li>
      <li class="itemize">the wall boundary condition ("W") corresponds to <img 
-src="index240x.png" alt="u = 0  "  class="math" >.</li></ul>
+src="Nek_users240x.png" alt="u = 0  "  class="math" >.</li></ul>
 <!--l. 128--><p class="indent" >   For a fully-developed flow in such a configuration, one can effect great computational efficiencies by
 considering the problem in a single geometric unit (here taken to be of length L), and requiring
 periodicity of the field variables. Nek5000 requires that the pairs of sides (or faces, in the case
@@ -785,30 +785,30 @@ Dirichlet/Neumann) boundary condition in which the normal velocity and the tange
 to zero.
 <!--l. 144--><p class="indent" >   For free-surface boundary segments, the inhomogeneous traction boundary conditions involve both the
 surface tension coefficient <img 
-src="index241x.png" alt="&sigma;  "  class="math" > and the mean curvature of the free surface.
+src="Nek_users241x.png" alt="&sigma;  "  class="math" > and the mean curvature of the free surface.
    <h5 class="subsubsectionHead"><a 
  id="x6-480004.4.2"></a>Passive scalars and Temperature</h5>
 <!--l. 150--><p class="noindent" >The three types of boundary conditions applicable to the temperature are: essential (Dirichlet) boundary
 condition in which the temperature is specified; natural (Neumann) boundary condition in which the heat
 flux is specified; and mixed (Robin) boundary condition in which the heat flux is dependent on the
 temperature on the boundary. For segments that constitute the boundary <img 
-src="index242x.png" alt="   &prime;     &prime;
+src="Nek_users242x.png" alt="   &prime;     &prime;
 &part;&Omega; f &cup; &part; &Omega;s  "  class="math" > (refer
 to Fig. 2.1), one of the above three types of boundary conditions must be assigned to the
 temperature.
 <!--l. 162--><p class="indent" >   The two types of Robin boundary condition for temperature are : convection boundary conditions
 for which the heat flux into the domain depends on the heat transfer coefficient <img 
-src="index243x.png" alt="hc  "  class="math" > and
+src="Nek_users243x.png" alt="hc  "  class="math" > and
 the difference between the environmental temperature <img 
-src="index244x.png" alt="T
+src="Nek_users244x.png" alt="T
   &infin; "  class="math" > and the surface temperature;
 and radiation boundary conditions for which the heat flux into the domain depends on the
 Stefan-Boltzmann constant/view-factor product <img 
-src="index245x.png" alt="hrad  "  class="math" > and the difference between the fourth power
+src="Nek_users245x.png" alt="hrad  "  class="math" > and the difference between the fourth power
                                                                                          
                                                                                          
 of the environmental temperature <img 
-src="index246x.png" alt="T&infin; "  class="math" > and the fourth power of the surface temperature.
+src="Nek_users246x.png" alt="T&infin; "  class="math" > and the fourth power of the surface temperature.
 <div class="table">
                                                                                          
                                                                                          
@@ -918,7 +918,7 @@ class="equation"><tr><td><a
  id="x6-49001r5"></a>
      <center class="math-display" >
      <img 
-src="index247x.png" alt="k (&nabla;T  )&sdot;n = 0
+src="Nek_users247x.png" alt="k (&nabla;T  )&sdot;n = 0
      " class="math-display" ></center></td><td class="equation-label">(4.5)</td></tr></table>
      <!--l. 202--><p class="nopar" >
      </li>
@@ -928,18 +928,18 @@ class="equation"><tr><td><a
  id="x6-49002r6"></a>
      <center class="math-display" >
      <img 
-src="index248x.png" alt="k (&nabla;T  )&sdot;n = 0
+src="Nek_users248x.png" alt="k (&nabla;T  )&sdot;n = 0
      " class="math-display" ></center></td><td class="equation-label">(4.6)</td></tr></table>
      <!--l. 206--><p class="nopar" >
      where <img 
-src="index249x.png" alt="n  "  class="math" > is the normal vector and <img 
-src="index250x.png" alt="t  "  class="math" > the tangent vector. If the normal and tangent vector are not
+src="Nek_users249x.png" alt="n  "  class="math" > is the normal vector and <img 
+src="Nek_users250x.png" alt="t  "  class="math" > the tangent vector. If the normal and tangent vector are not
      aligned with the mesh the stress formulation has to be used.
      </li>
      <li class="itemize">the periodic boundary condition ("P") needs to be prescribed in the .rea file since it
      already assigns the last point to first via <img 
-src="index251x.png" alt="u(x ) = u(x + L )  "  class="math" >, where <img 
-src="index252x.png" alt="L  "  class="math" > is the periodic
+src="Nek_users251x.png" alt="u(x ) = u(x + L )  "  class="math" >, where <img 
+src="Nek_users252x.png" alt="L  "  class="math" > is the periodic
      length.
                                                                                          
                                                                                          
@@ -950,7 +950,7 @@ class="equation"><tr><td><a
  id="x6-49003r7"></a>
      <center class="math-display" >
      <img 
-src="index253x.png" alt="k(&nabla;T ) &sdot;n = h(T &minus; T&infin; )
+src="Nek_users253x.png" alt="k(&nabla;T ) &sdot;n = h(T &minus; T&infin; )
      " class="math-display" ></center></td><td class="equation-label">(4.7)</td></tr></table>
      <!--l. 214--><p class="nopar" >
      </li>
@@ -960,7 +960,7 @@ class="equation"><tr><td><a
  id="x6-49004r8"></a>
      <center class="math-display" >
      <img 
-src="index254x.png" alt="k(&nabla;T  )&sdot;n = f
+src="Nek_users254x.png" alt="k(&nabla;T  )&sdot;n = f
      " class="math-display" ></center></td><td class="equation-label">(4.8)</td></tr></table>
      <!--l. 218--><p class="nopar" >
      </li></ul>
@@ -975,8 +975,8 @@ field.
  id="x6-500004.4.3"></a>Internal Boundary Conditions</h4>
 <!--l. 4--><p class="noindent" >In the spatial discretization, the entire computational domain is subdivided into macro-elements, the
 boundary segments shared by any two of these macro-elements in <img 
-src="index255x.png" alt="&Omega;f  "  class="math" > and <img 
-src="index256x.png" alt="&Omega;s  "  class="math" > are denoted as internal
+src="Nek_users255x.png" alt="&Omega;f  "  class="math" > and <img 
+src="Nek_users256x.png" alt="&Omega;s  "  class="math" > are denoted as internal
 boundaries. For fluid flow analysis with a single-fluid system or heat transfer analysis without
 change-of-phase, internal boundary conditions are irrelevant as the corresponding field variables on these
 segments are part of the solution. However, for a multi-fluid system and for heat transfer analysis with
@@ -992,11 +992,11 @@ of the solution, and that all solid-liquid interfaces are specified as special i
 melting fronts. If the fluid flow problem is considered, i.e., the energy equation is solved in conjunction
 with the momentum and continuity equations, then only the common boundary between the fluid and the
 solid (i.e., all or portion of <img 
-src="index257x.png" alt="&part;&Omega;-&prime;
+src="Nek_users257x.png" alt="&part;&Omega;-&prime;
    f  "  class="math" > in Fig.&#x00A0;<a 
-href="indexch1.html#x3-40011">1.1<!--tex4ht:ref: fig:domains --></a>) can be defined as the melting front. In this case,
+href="Nek_usersch1.html#x3-40011">1.1<!--tex4ht:ref: fig:domains --></a>) can be defined as the melting front. In this case,
 segments on <img 
-src="index258x.png" alt=" --&prime;
+src="Nek_users258x.png" alt=" --&prime;
 &part;&Omega; f  "  class="math" > that belong to the dynamic melting/freezing interface need to be specified by
 the user. Nek5000 always assumes that the density of the two phases are the same (i.e., no
 Stefan flow); therefore at the melting front, the boundary condition for the fluid velocity is the
@@ -1005,9 +1005,9 @@ considered, i.e., only the energy equation is solved, then any internal boundary
 melting front. The temperature boundary condition at the melting front corresponds to a
 Dirichlet condition; that is, the entire segment maintains a constant temperature equal to the
 user-specified melting temperature <img 
-src="index259x.png" alt="Tmelt  "  class="math" > throughout the solution. In addition, the volumetric
+src="Nek_users259x.png" alt="Tmelt  "  class="math" > throughout the solution. In addition, the volumetric
 latent heat of fusion <img 
-src="index260x.png" alt="&rho;L  "  class="math" > for the two phases, which is also assumed to be constant, should be
+src="Nek_users260x.png" alt="&rho;L  "  class="math" > for the two phases, which is also assumed to be constant, should be
 specified.
    <h4 class="subsectionHead"><span class="titlemark">4.4.4   </span> <a 
  id="x6-510004.4.4"></a>Initial Conditions</h4>
@@ -1018,9 +1018,9 @@ conditions for the velocity, temperature and passive scalars:
      </li>
      <li class="itemize">Fortran function: This option allows the user to specify the initial condition as a fortran
      function, e.g., as a function of <img 
-src="index261x.png" alt="x  "  class="math" >, <img 
-src="index262x.png" alt="y  "  class="math" > and <img 
-src="index263x.png" alt="z  "  class="math" >.
+src="Nek_users261x.png" alt="x  "  class="math" >, <img 
+src="Nek_users262x.png" alt="y  "  class="math" > and <img 
+src="Nek_users263x.png" alt="z  "  class="math" >.
      </li>
      <li class="itemize">Presolv: For a temperature problem the presolv option gives the steady conduction solution
      as initial condition for the temperature. For a fluid problem this option <span 
@@ -1046,7 +1046,7 @@ they may be provided by some mesh generator. Let us assume the vertices are here
 as
    <center class="math-display" >
 <img 
-src="index264x.png" alt="V1 = (&minus; 1,0), V2 = (0,1), V3 = (&minus; 1,2), V4 = (&minus; 1,1), V5 = (0,2), V6 = (0,0), V7 = (1,1), V8 = (1,0)
+src="Nek_users264x.png" alt="V1 = (&minus; 1,0), V2 = (0,1), V3 = (&minus; 1,2), V4 = (&minus; 1,1), V5 = (0,2), V6 = (0,0), V7 = (1,1), V8 = (1,0)
 " class="math-display" ></center>
 <!--l. 2--><p class="nopar" > The geometry is already stored in the .rea file by the point coordinates, and not vertex numbers
 <!--tex4ht:inline--><div class="tabular"> <table id="TBL-11" class="tabular" 
@@ -1058,14 +1058,14 @@ id="TBL-11-3"><col
 id="TBL-11-4"></colgroup><tr  
  style="vertical-align:baseline;" id="TBL-11-1-"><td  style="white-space:nowrap; text-align:center;" id="TBL-11-1-1"  
 class="td11"> <img 
-src="index265x.png" alt="Element  1 = [V1 V6 V2 V4]  "  class="math" >  </td><td  style="white-space:nowrap; text-align:center;" id="TBL-11-1-2"  
+src="Nek_users265x.png" alt="Element  1 = [V1 V6 V2 V4]  "  class="math" >  </td><td  style="white-space:nowrap; text-align:center;" id="TBL-11-1-2"  
 class="td11">    </td><td  style="white-space:nowrap; text-align:center;" id="TBL-11-1-3"  
 class="td11">    </td><td  style="white-space:nowrap; text-align:center;" id="TBL-11-1-4"  
 class="td11">    </td>
 </tr><tr  
  style="vertical-align:baseline;" id="TBL-11-2-"><td  style="white-space:nowrap; text-align:center;" id="TBL-11-2-1"  
 class="td11">        <img 
-src="index266x.png" alt="x     =
+src="Nek_users266x.png" alt="x     =
  1,...,4  "  class="math" > -1.            </td><td  style="white-space:nowrap; text-align:center;" id="TBL-11-2-2"  
 class="td11"> 0.  </td><td  style="white-space:nowrap; text-align:center;" id="TBL-11-2-3"  
 class="td11"> 0.  </td><td  style="white-space:nowrap; text-align:center;" id="TBL-11-2-4"  
@@ -1073,49 +1073,49 @@ class="td11"> -1.  </td>
 </tr><tr  
  style="vertical-align:baseline;" id="TBL-11-3-"><td  style="white-space:nowrap; text-align:center;" id="TBL-11-3-1"  
 class="td11">        <img 
-src="index267x.png" alt="y1,...,4 =  "  class="math" > 0.             </td><td  style="white-space:nowrap; text-align:center;" id="TBL-11-3-2"  
+src="Nek_users267x.png" alt="y1,...,4 =  "  class="math" > 0.             </td><td  style="white-space:nowrap; text-align:center;" id="TBL-11-3-2"  
 class="td11"> 0.  </td><td  style="white-space:nowrap; text-align:center;" id="TBL-11-3-3"  
 class="td11"> 1.  </td><td  style="white-space:nowrap; text-align:center;" id="TBL-11-3-4"  
 class="td11"> 1.  </td>
 </tr><tr  
  style="vertical-align:baseline;" id="TBL-11-4-"><td  style="white-space:nowrap; text-align:center;" id="TBL-11-4-1"  
 class="td11"> <img 
-src="index268x.png" alt="Element  2 = [V8 V7 V2 V6]  "  class="math" >  </td><td  style="white-space:nowrap; text-align:center;" id="TBL-11-4-2"  
+src="Nek_users268x.png" alt="Element  2 = [V8 V7 V2 V6]  "  class="math" >  </td><td  style="white-space:nowrap; text-align:center;" id="TBL-11-4-2"  
 class="td11">    </td><td  style="white-space:nowrap; text-align:center;" id="TBL-11-4-3"  
 class="td11">    </td><td  style="white-space:nowrap; text-align:center;" id="TBL-11-4-4"  
 class="td11">    </td>
 </tr><tr  
  style="vertical-align:baseline;" id="TBL-11-5-"><td  style="white-space:nowrap; text-align:center;" id="TBL-11-5-1"  
 class="td11">        <img 
-src="index269x.png" alt="x1,...,4 =  "  class="math" > 1.             </td><td  style="white-space:nowrap; text-align:center;" id="TBL-11-5-2"  
+src="Nek_users269x.png" alt="x1,...,4 =  "  class="math" > 1.             </td><td  style="white-space:nowrap; text-align:center;" id="TBL-11-5-2"  
 class="td11"> 1.  </td><td  style="white-space:nowrap; text-align:center;" id="TBL-11-5-3"  
 class="td11"> 0.  </td><td  style="white-space:nowrap; text-align:center;" id="TBL-11-5-4"  
 class="td11"> 0.  </td>
 </tr><tr  
  style="vertical-align:baseline;" id="TBL-11-6-"><td  style="white-space:nowrap; text-align:center;" id="TBL-11-6-1"  
 class="td11">        <img 
-src="index270x.png" alt="y1,...,4 =  "  class="math" > 0.             </td><td  style="white-space:nowrap; text-align:center;" id="TBL-11-6-2"  
+src="Nek_users270x.png" alt="y1,...,4 =  "  class="math" > 0.             </td><td  style="white-space:nowrap; text-align:center;" id="TBL-11-6-2"  
 class="td11"> 1.  </td><td  style="white-space:nowrap; text-align:center;" id="TBL-11-6-3"  
 class="td11"> 1.  </td><td  style="white-space:nowrap; text-align:center;" id="TBL-11-6-4"  
 class="td11"> 0.  </td>
 </tr><tr  
  style="vertical-align:baseline;" id="TBL-11-7-"><td  style="white-space:nowrap; text-align:center;" id="TBL-11-7-1"  
 class="td11"> <img 
-src="index271x.png" alt="Element  3 = [V5 V3 V4 V2]  "  class="math" >  </td><td  style="white-space:nowrap; text-align:center;" id="TBL-11-7-2"  
+src="Nek_users271x.png" alt="Element  3 = [V5 V3 V4 V2]  "  class="math" >  </td><td  style="white-space:nowrap; text-align:center;" id="TBL-11-7-2"  
 class="td11">    </td><td  style="white-space:nowrap; text-align:center;" id="TBL-11-7-3"  
 class="td11">    </td><td  style="white-space:nowrap; text-align:center;" id="TBL-11-7-4"  
 class="td11">    </td>
 </tr><tr  
  style="vertical-align:baseline;" id="TBL-11-8-"><td  style="white-space:nowrap; text-align:center;" id="TBL-11-8-1"  
 class="td11">        <img 
-src="index272x.png" alt="x1,...,4 =  "  class="math" > 0.             </td><td  style="white-space:nowrap; text-align:center;" id="TBL-11-8-2"  
+src="Nek_users272x.png" alt="x1,...,4 =  "  class="math" > 0.             </td><td  style="white-space:nowrap; text-align:center;" id="TBL-11-8-2"  
 class="td11"> -1.  </td><td  style="white-space:nowrap; text-align:center;" id="TBL-11-8-3"  
 class="td11"> -1.  </td><td  style="white-space:nowrap; text-align:center;" id="TBL-11-8-4"  
 class="td11"> 0.  </td>
 </tr><tr  
  style="vertical-align:baseline;" id="TBL-11-9-"><td  style="white-space:nowrap; text-align:center;" id="TBL-11-9-1"  
 class="td11">        <img 
-src="index273x.png" alt="y1,...,4 =  "  class="math" > 2 .            </td><td  style="white-space:nowrap; text-align:center;" id="TBL-11-9-2"  
+src="Nek_users273x.png" alt="y1,...,4 =  "  class="math" > 2 .            </td><td  style="white-space:nowrap; text-align:center;" id="TBL-11-9-2"  
 class="td11"> 2.  </td><td  style="white-space:nowrap; text-align:center;" id="TBL-11-9-3"  
 class="td11"> 1.  </td><td  style="white-space:nowrap; text-align:center;" id="TBL-11-9-4"  
 class="td11"> 1.  </td>
@@ -1131,8 +1131,8 @@ class="td11">                           </td></tr></table></div>
                                                                                          
                                                                                          
 <!--l. 21--><p class="noindent" ><img 
-src="index274x.png" alt="PIC" class="graphics" width="115.43124pt" height="121.45375pt" ><!--tex4ht:graphics  
-name="index274x.png" src="Figs/genmap_sketch.eps"  
+src="Nek_users274x.png" alt="PIC" class="graphics" width="115.43124pt" height="121.45375pt" ><!--tex4ht:graphics  
+name="Nek_users274x.png" src="Figs/genmap_sketch.eps"  
 -->
 <br /> <div class="caption" 
 ><span class="id">Figure&#x00A0;4.6: </span><span  
@@ -1142,23 +1142,23 @@ class="content">Two-dimensional mesh</span></div><!--tex4ht:label?: x6-520016 --
 <!--l. 24--><p class="indent" >   </div><hr class="endfigure">
 <!--l. 26--><p class="indent" >   Let us a regard the mesh in Fig.&#x00A0;<a 
 href="#x6-520016">4.6<!--tex4ht:ref: fig:genmap --></a> as a graph of <img 
-src="index275x.png" alt="N  "  class="math" > vertices and <img 
-src="index276x.png" alt="M  "  class="math" > edges, <img 
-src="index277x.png" alt="G (VN ,EM )  "  class="math" >. We
+src="Nek_users275x.png" alt="N  "  class="math" > vertices and <img 
+src="Nek_users276x.png" alt="M  "  class="math" > edges, <img 
+src="Nek_users277x.png" alt="G (VN ,EM )  "  class="math" >. We
 define the Laplacian matrix associated to a graph <img 
-src="index278x.png" alt="G  "  class="math" > as <img 
-src="index279x.png" alt="L(G )  "  class="math" >. We define as the degree of a node <img 
-src="index280x.png" alt="Vi  "  class="math" >
+src="Nek_users278x.png" alt="G  "  class="math" > as <img 
+src="Nek_users279x.png" alt="L(G )  "  class="math" >. We define as the degree of a node <img 
+src="Nek_users280x.png" alt="Vi  "  class="math" >
 the number of incident edges, e.g. in Fig.&#x00A0;<a 
 href="#x6-520016">4.6<!--tex4ht:ref: fig:genmap --></a> <img 
-src="index281x.png" alt="deg(V2) = 4  "  class="math" > and <img 
-src="index282x.png" alt="deg (V6) = 3  "  class="math" >.
+src="Nek_users281x.png" alt="deg(V2) = 4  "  class="math" > and <img 
+src="Nek_users282x.png" alt="deg (V6) = 3  "  class="math" >.
    <table 
 class="equation"><tr><td><a 
  id="x6-52002r9"></a>
    <center class="math-display" >
 <img 
-src="index283x.png" alt="         {
+src="Nek_users283x.png" alt="         {
 L(G )  =   i = j    deg(Vi)
      ij     i &frasl;= j    &minus; 1 if there is and edge (i,j) and 0 otherwise
 " class="math-display" ></center></td><td class="equation-label">(4.9)</td></tr></table>
@@ -1168,7 +1168,7 @@ class="equation"><tr><td><a
  id="x6-52003r10"></a>
    <center class="math-display" >
 <img 
-src="index284x.png" alt="       (------1---2----3---4----5---6----7----8)-
+src="Nek_users284x.png" alt="       (------1---2----3---4----5---6----7----8)-
        | 1|   2   0    0  &minus; 1   0   &minus; 1  0    0|
        || 2|   0   4    0  &minus; 1  &minus; 1  &minus; 1 &minus; 1   0||
        ||                                       ||
@@ -1181,25 +1181,25 @@ L(G) = | 4|  &minus; 1 &minus; 1  &minus; 1  3    0   0    0    0|
 " class="math-display" ></center></td><td class="equation-label">(4.10)</td></tr></table>
 <!--l. 48--><p class="nopar" >
 <!--l. 50--><p class="indent" >   Properties of <img 
-src="index285x.png" alt="L(G )  "  class="math" >
+src="Nek_users285x.png" alt="L(G )  "  class="math" >
      <ul class="itemize1">
      <li class="itemize"><img 
-src="index286x.png" alt="L (G)  "  class="math" > symmetric
+src="Nek_users286x.png" alt="L (G)  "  class="math" > symmetric
                                                                                          
                                                                                          
      </li>
      <li class="itemize">the unit vector <img 
-src="index287x.png" alt="e = [1,...1] &isin; N (L(G ))  "  class="math" > is in the nullspace of the Laplacian matrix
+src="Nek_users287x.png" alt="e = [1,...1] &isin; N (L(G ))  "  class="math" > is in the nullspace of the Laplacian matrix
      </li>
      <li class="itemize"><img 
-src="index288x.png" alt="&forall; &lambda; &isin; &sigma; (L (G) &#x003E; 0  "  class="math" >, i.e. all the eigenvalues of <img 
-src="index289x.png" alt="L (G )  "  class="math" > are positive except <img 
-src="index290x.png" alt="&lambda;0   "  class="math" > corresponding
+src="Nek_users288x.png" alt="&forall; &lambda; &isin; &sigma; (L (G) &#x003E; 0  "  class="math" >, i.e. all the eigenvalues of <img 
+src="Nek_users289x.png" alt="L (G )  "  class="math" > are positive except <img 
+src="Nek_users290x.png" alt="&lambda;0   "  class="math" > corresponding
      to the unit vector
      </li>
      <li class="itemize"><img 
-src="index291x.png" alt="&lambda;2 &frasl;= 0  "  class="math" > if the graph is connected, <img 
-src="index292x.png" alt="&lambda;2(L (G))  "  class="math" > is also called the algebraic connectivity of the
+src="Nek_users291x.png" alt="&lambda;2 &frasl;= 0  "  class="math" > if the graph is connected, <img 
+src="Nek_users292x.png" alt="&lambda;2(L (G))  "  class="math" > is also called the algebraic connectivity of the
      graph</li></ul>
 <!--l. 58--><p class="indent" >   The main ides of the spectral bisection algorithm is
                                                                                          
@@ -1213,14 +1213,14 @@ compute&#x00A0;\(v_2\)&#x00A0;eigenvector&#x00A0;corresponding&#x00A0;to&#x00A0;
 <!--l. 64--><p class="nopar" >
 <!--l. 66--><p class="indent" >   The eigenvectors and eigenvalues are computed using Lanczos&#8217;s algorithm. These steps are repeated
 recursively on each of the two branches of the graph <img 
-src="index293x.png" alt="N &minus; ,N+   "  class="math" >. This is possible since according to Fiedler&#8217;s
+src="Nek_users293x.png" alt="N &minus; ,N+   "  class="math" >. This is possible since according to Fiedler&#8217;s
 theorems the graph <img 
-src="index294x.png" alt="N&minus; "  class="math" > is connected, <img 
-src="index295x.png" alt="N+   "  class="math" > connected only if no <img 
-src="index296x.png" alt="v2(i) = 0  "  class="math" >, and for each subgraph
+src="Nek_users294x.png" alt="N&minus; "  class="math" > is connected, <img 
+src="Nek_users295x.png" alt="N+   "  class="math" > connected only if no <img 
+src="Nek_users296x.png" alt="v2(i) = 0  "  class="math" >, and for each subgraph
 <img 
-src="index297x.png" alt="G1   "  class="math" > the algebraic connectivities satisfy <img 
-src="index298x.png" alt="&lambda;2(L (G1)) &le; &lambda;2 (L (G))  "  class="math" >.
+src="Nek_users297x.png" alt="G1   "  class="math" > the algebraic connectivities satisfy <img 
+src="Nek_users298x.png" alt="&lambda;2(L (G1)) &le; &lambda;2 (L (G))  "  class="math" >.
 <!--l. 71--><p class="indent" >   To run the genmap code be sure that the Nek tools are up-to-date and compiled. At command line
 type: genmap NOTE-If the executables for the tools were not placed in the bin directory(default), include
 the path to the genmap executable. We give here the output for the .rea file in the Kovasznay
@@ -1288,7 +1288,7 @@ class="ectt-1095">depth </span>floor(log2(nel))
      </li>
      <li class="itemize"><span 
 class="ectt-1095">d2</span> <img 
-src="index299x.png" alt="2depth  "  class="math" >
+src="Nek_users299x.png" alt="2depth  "  class="math" >
      </li>
      <li class="itemize"><span 
 class="ectt-1095">npts </span>number of corner points (<span 
@@ -1320,11 +1320,11 @@ wants.
 href="#fn1x5-bk" id="fn1x5"><sup class="textsuperscript">1</sup></a></span><span 
 class="ecrm-0900">This manual is old may soon be deprecated</span>                                                                                    </div>
 <!--l. 127--><div class="crosslinks"><p class="noindent">[<a 
-href="indexch5.html" >next</a>] [<a 
-href="indexch3.html" >prev</a>] [<a 
-href="indexch3.html#tailindexch3.html" >prev-tail</a>] [<a 
-href="indexch4.html" >front</a>] [<a 
-href="index.html#indexch4.html" >up</a>] </p></div>
+href="Nek_usersch5.html" >next</a>] [<a 
+href="Nek_usersch3.html" >prev</a>] [<a 
+href="Nek_usersch3.html#tailNek_usersch3.html" >prev-tail</a>] [<a 
+href="Nek_usersch4.html" >front</a>] [<a 
+href="Nek_users.html#Nek_usersch4.html" >up</a>] </p></div>
 <!--l. 127--><p class="indent" >   <a 
- id="tailindexch4.html"></a>   
+ id="tailNek_usersch4.html"></a>   
 </body></html> 

@@ -6,17 +6,17 @@
 <meta name="generator" content="TeX4ht (http://www.cse.ohio-state.edu/~gurari/TeX4ht/)"> 
 <meta name="originator" content="TeX4ht (http://www.cse.ohio-state.edu/~gurari/TeX4ht/)"> 
 <!-- html,index=1,2,fn-in --> 
-<meta name="src" content="index.tex"> 
-<meta name="date" content="2015-11-06 23:54:00"> 
-<link rel="stylesheet" type="text/css" href="index.css"> 
+<meta name="src" content="Nek_users.tex"> 
+<meta name="date" content="2015-11-09 10:18:00"> 
+<link rel="stylesheet" type="text/css" href="Nek_users.css"> 
 </head><body 
 >
    <!--l. 149--><div class="crosslinks"><p class="noindent">[<a 
-href="indexli2.html" >next</a>] [<a 
-href="indexch6.html" >prev</a>] [<a 
-href="indexch6.html#tailindexch6.html" >prev-tail</a>] [<a 
-href="#tailindexch7.html">tail</a>] [<a 
-href="index.html#indexch7.html" >up</a>] </p></div>
+href="Nek_usersli2.html" >next</a>] [<a 
+href="Nek_usersch6.html" >prev</a>] [<a 
+href="Nek_usersch6.html#tailNek_usersch6.html" >prev-tail</a>] [<a 
+href="#tailNek_usersch7.html">tail</a>] [<a 
+href="Nek_users.html#Nek_usersch7.html" >up</a>] </p></div>
    <h2 class="chapterHead"><span class="titlemark">Chapter&#x00A0;7</span><br /><a 
  id="x9-680007"></a>Appendix</h2>
    <h3 class="sectionHead"><span class="titlemark">7.1   </span> <a 
@@ -36,7 +36,7 @@ class="ecti-1095">ldim </span>parameter in the SIZE file).
      <li class="itemize">The solution algorithm within nek5000 to use.
      </li>
      <li class="itemize">The timestep size or Courant number to use, or whether to run variable DT (<img 
-src="index305x.png" alt="dt  "  class="math" >), etc.</li></ul>
+src="Nek_users305x.png" alt="dt  "  class="math" >), etc.</li></ul>
 <!--l. 10--><p class="noindent" >A .rea file starts with the following three parameters:
      <dl class="description"><dt class="description">
 <span 
@@ -70,13 +70,13 @@ class="ecbx-1095">P030</span>).
 <span 
 class="ecbx-1095">P002 VISCOS</span> </dt><dd 
 class="description">kinematic viscosity (if <img 
-src="index306x.png" alt="&#x003C; 0 &rarr; Re  "  class="math" >, otherwise <img 
-src="index307x.png" alt="1&#x2215;Re  "  class="math" >).
+src="Nek_users306x.png" alt="&#x003C; 0 &rarr; Re  "  class="math" >, otherwise <img 
+src="Nek_users307x.png" alt="1&#x2215;Re  "  class="math" >).
      </dd><dt class="description">
 <span 
 class="ecbx-1095">P003 BETAG</span> </dt><dd 
 class="description">if <img 
-src="index308x.png" alt="&#x003E; 0  "  class="math" >, natural convection is turned on (Boussinesq approximation). <span id="textcolor1">NOT IN
+src="Nek_users308x.png" alt="&#x003E; 0  "  class="math" >, natural convection is turned on (Boussinesq approximation). <span id="textcolor1">NOT IN
      USE !</span>
      </dd><dt class="description">
 <span 
@@ -99,7 +99,7 @@ class="description">navier5.f: param(7) = param(1) ! rhoCP = rho <span id="textc
 <span 
 class="ecbx-1095">P008 CONDUCT</span> </dt><dd 
 class="description">conductivity for the case of constant properties (if <img 
-src="index309x.png" alt="&#x003C;  0  "  class="math" >, it defines the Peclet
+src="Nek_users309x.png" alt="&#x003C;  0  "  class="math" >, it defines the Peclet
      number, see parameter P030). <br 
 class="newline" />connect2.f: if(param(8) .lt.0.0) param(8) = -1.0/param(8)<br 
 class="newline" />navier5.f: param(8) = param(2) ! conduct = dyn. visc
@@ -112,7 +112,7 @@ class="newline" />connect2.f: CPFLD(2,3)=PARAM(9)
 <span 
 class="ecbx-1095">P010 FINTIME</span> </dt><dd 
 class="description">if <img 
-src="index310x.png" alt="&#x003E; 0  "  class="math" >, specifies simulation end time. Otherwise, use NSTEP (P011).<br 
+src="Nek_users310x.png" alt="&#x003E; 0  "  class="math" >, specifies simulation end time. Otherwise, use NSTEP (P011).<br 
 class="newline" />drive2.f: FINTIM = PARAM(10)
      </dd><dt class="description">
 <span 
@@ -124,9 +124,9 @@ class="newline" />drive2.f: NSTEPS = PARAM(11)
 <span 
 class="ecbx-1095">P012 DT</span> </dt><dd 
 class="description">upper bound on time step <img 
-src="index311x.png" alt="dt  "  class="math" > (if <img 
-src="index312x.png" alt="&#x003C;  0  "  class="math" >, then <img 
-src="index313x.png" alt="dt = |P 012| "  class="math" > constant)<br 
+src="Nek_users311x.png" alt="dt  "  class="math" > (if <img 
+src="Nek_users312x.png" alt="&#x003C;  0  "  class="math" >, then <img 
+src="Nek_users313x.png" alt="dt = |P 012| "  class="math" > constant)<br 
 class="newline" />connect2.f: param(12) = 1.0<br 
 class="newline" />drive2.f: DT = abs(PARAM(12))
      </dd><dt class="description">
@@ -140,7 +140,7 @@ class="newline" />drive2.f: IOCOMM = PARAM(13)
 <span 
 class="ecbx-1095">P014 IOTIME</span> </dt><dd 
 class="description">if <img 
-src="index314x.png" alt="&#x003E; 0  "  class="math" >, time interval to dump the fld file. Otherwise, use IOSTEP (P015).<br 
+src="Nek_users314x.png" alt="&#x003E; 0  "  class="math" >, time interval to dump the fld file. Otherwise, use IOSTEP (P015).<br 
 class="newline" />drive2.f: TIMEIO = PARAM(14)
      </dd><dt class="description">
 <span 
@@ -224,8 +224,8 @@ class="newline" />
 <span 
 class="ecbx-1095">P029 MHD_VISCOS</span> </dt><dd 
 class="description">if <img 
-src="index315x.png" alt="&#x003E; 0 &rarr; "  class="math" > magnetic viscosity, if <img 
-src="index316x.png" alt="&#x003C; 0 &rarr; "  class="math" > magnetic Reynolds number.<br 
+src="Nek_users315x.png" alt="&#x003E; 0 &rarr; "  class="math" > magnetic viscosity, if <img 
+src="Nek_users316x.png" alt="&#x003C; 0 &rarr; "  class="math" > magnetic Reynolds number.<br 
 class="newline" />connect2.f: if(param(29).lt.0.0) param(29) = -1.0/param(29)<br 
 class="newline" />connect2.f: if (param(29).ne.0.) ifmhd = .true.<br 
 class="newline" />connect2.f: cpfld(ifldmhd,1) = param(29) ! magnetic viscosity
@@ -240,7 +240,7 @@ class="description">if
 <span 
 class="ecbx-1095">P031 NPERT</span> </dt><dd 
 class="description">if <img 
-src="index317x.png" alt="&frasl;=  0  "  class="math" >, number of perturbation modes in linearized N-S.<br 
+src="Nek_users317x.png" alt="&frasl;=  0  "  class="math" >, number of perturbation modes in linearized N-S.<br 
 class="newline" />connect2.f: if (param(31).ne.0.) ifpert = .true.<br 
 class="newline" />connect2.f: if (param(31).lt.0.) ifbase = .false. ! don&#8217;t time adv base flow<br 
 class="newline" />connect2.f: npert = abs(param(31))
@@ -248,7 +248,7 @@ class="newline" />connect2.f: npert = abs(param(31))
 <span 
 class="ecbx-1095">P032 NBCRE2</span> </dt><dd 
 class="description">if <img 
-src="index318x.png" alt="&#x003E; 0  "  class="math" >, number of BCs in .re2 file, 0: all.<br 
+src="Nek_users318x.png" alt="&#x003E; 0  "  class="math" >, number of BCs in .re2 file, 0: all.<br 
 class="newline" />connect2.f: if (param(32).gt.0) nfldt = ibc + param(32)-1
      </dd><dt class="description">
 <span 
@@ -288,15 +288,15 @@ class="description"><span id="textcolor18">NOT IN USE!</span>
 <span 
 class="ecbx-1095">P041</span>  </dt><dd 
 class="description">1 <img 
-src="index319x.png" alt="&rarr; "  class="math" > multiplicative SEMG<br 
+src="Nek_users319x.png" alt="&rarr; "  class="math" > multiplicative SEMG<br 
 class="newline" />hsmg.f:c if (param(41).eq.1) ifhybrid = .true. <img 
-src="index320x.png" alt="&larr; "  class="math" ><span id="textcolor19">NOT IN USE!</span>
+src="Nek_users320x.png" alt="&larr; "  class="math" ><span id="textcolor19">NOT IN USE!</span>
      </dd><dt class="description">
 <span 
 class="ecbx-1095">P042</span>  </dt><dd 
 class="description">linear solver for the pressure equation, 0 <img 
-src="index321x.png" alt="&rarr; "  class="math" > GMRES or 1 <img 
-src="index322x.png" alt="&rarr; "  class="math" > PCG
+src="Nek_users321x.png" alt="&rarr; "  class="math" > GMRES or 1 <img 
+src="Nek_users322x.png" alt="&rarr; "  class="math" > PCG
      </dd><dt class="description">
 <span 
 class="ecbx-1095">P043</span>  </dt><dd 
@@ -316,7 +316,7 @@ class="newline" />subs1.f: FACTOR = PARAM(45)
 <span 
 class="ecbx-1095">P046</span>  </dt><dd 
 class="description">if <img 
-src="index323x.png" alt="&#x003E; 0  "  class="math" >, do not set Initial Condition (no call to subroutine SETICS).<br 
+src="Nek_users323x.png" alt="&#x003E; 0  "  class="math" >, do not set Initial Condition (no call to subroutine SETICS).<br 
 class="newline" />drive2.f: irst = param(46)<br 
 class="newline" />ic.f: irst = param(46) ! for lee&#8217;s restart (rarely used)<br 
 class="newline" />subs1.f: irst = param(46)
@@ -333,7 +333,7 @@ class="description"><span id="textcolor20">NOT IN USE!</span>
 <span 
 class="ecbx-1095">P049</span>  </dt><dd 
 class="description">if <img 
-src="index324x.png" alt="&#x003C; 0  "  class="math" >, mixing length factor <span id="textcolor21">NOT IN USE!</span>.<br 
+src="Nek_users324x.png" alt="&#x003C; 0  "  class="math" >, mixing length factor <span id="textcolor21">NOT IN USE!</span>.<br 
 class="newline" />drive2.f:c IF (PARAM(49) .LE. 0.0) PARAM(49) = TLFAC<br 
 class="newline" />turb.f: TLFAC = PARAM(49)
                                                                                          
@@ -350,7 +350,7 @@ class="description"><span id="textcolor23">NOT IN USE!</span>
 <span 
 class="ecbx-1095">P052 HISTEP</span> </dt><dd 
 class="description">if <img 
-src="index325x.png" alt="&#x003E; 1  "  class="math" >, history points dump frequency (in number of steps).<br 
+src="Nek_users325x.png" alt="&#x003E; 1  "  class="math" >, history points dump frequency (in number of steps).<br 
 class="newline" />prepost.f: if (param(52).ge.1) iohis=param(52)
      </dd><dt class="description">
 <span 
@@ -360,17 +360,17 @@ class="description"><span id="textcolor24">NOT IN USE!</span>
 <span 
 class="ecbx-1095">P054</span>  </dt><dd 
 class="description">direction of fixed mass flowrate (1: <img 
-src="index326x.png" alt="x  "  class="math" >-, 2: <img 
-src="index327x.png" alt="y  "  class="math" >-, 3: <img 
-src="index328x.png" alt="z  "  class="math" >-direction). If 0: <img 
-src="index329x.png" alt="x  "  class="math" >-direction.<br 
+src="Nek_users326x.png" alt="x  "  class="math" >-, 2: <img 
+src="Nek_users327x.png" alt="y  "  class="math" >-, 3: <img 
+src="Nek_users328x.png" alt="z  "  class="math" >-direction). If 0: <img 
+src="Nek_users329x.png" alt="x  "  class="math" >-direction.<br 
 class="newline" />drive2.f: if (param(54).ne.0) icvflow = abs(param(54))<br 
 class="newline" />drive2.f: if (param(54).lt.0) iavflow = 1 ! mean velocity
      </dd><dt class="description">
 <span 
 class="ecbx-1095">P055</span>  </dt><dd 
 class="description">volumetric flow rate for periodic case; if p54<img 
-src="index330x.png" alt="&#x003C;  0  "  class="math" >, then p55:=mean velocity.<br 
+src="Nek_users330x.png" alt="&#x003C;  0  "  class="math" >, then p55:=mean velocity.<br 
 class="newline" />drive2.f: flowrate = param(55)
      </dd><dt class="description">
 <span 
@@ -388,13 +388,13 @@ class="description"><span id="textcolor27">NOT IN USE!</span>
 <span 
 class="ecbx-1095">P059</span>  </dt><dd 
 class="description">if <img 
-src="index331x.png" alt="&frasl;= 0  "  class="math" >, deformed elements (only relevant for FDM). !=0 <img 
-src="index332x.png" alt="&rarr; "  class="math" > full Jac. eval. for each el.
+src="Nek_users331x.png" alt="&frasl;= 0  "  class="math" >, deformed elements (only relevant for FDM). !=0 <img 
+src="Nek_users332x.png" alt="&rarr; "  class="math" > full Jac. eval. for each el.
      </dd><dt class="description">
 <span 
 class="ecbx-1095">P060</span>  </dt><dd 
 class="description">if <img 
-src="index333x.png" alt="&frasl;= 0  "  class="math" >, initialize velocity to 1e-10 (for steady Stokes problem).
+src="Nek_users333x.png" alt="&frasl;= 0  "  class="math" >, initialize velocity to 1e-10 (for steady Stokes problem).
      </dd><dt class="description">
 <span 
 class="ecbx-1095">P061</span>  </dt><dd 
@@ -403,7 +403,7 @@ class="description"><span id="textcolor28">NOT IN USE!</span>
 <span 
 class="ecbx-1095">P062</span>  </dt><dd 
 class="description">if <img 
-src="index334x.png" alt="&#x003E; 0  "  class="math" >, swap bytes for output.
+src="Nek_users334x.png" alt="&#x003E; 0  "  class="math" >, swap bytes for output.
      </dd><dt class="description">
 <span 
 class="ecbx-1095">P063 WDSIZO</span> </dt><dd 
@@ -413,7 +413,7 @@ class="newline" />prepost.f: if (param(63).gt.0) wdsizo = 8 ! 64-bit .fld file
 <span 
 class="ecbx-1095">P064</span>  </dt><dd 
 class="description">if <img 
-src="index335x.png" alt="= 1  "  class="math" >, restart perturbation solution<br 
+src="Nek_users335x.png" alt="= 1  "  class="math" >, restart perturbation solution<br 
 class="newline" />pertsupport.f: if(param(64).ne.1) then !fresh start, param(64) is restart flag
                                                                                          
                                                                                          
@@ -421,20 +421,20 @@ class="newline" />pertsupport.f: if(param(64).ne.1) then !fresh start, param(64)
 <span 
 class="ecbx-1095">P065</span>  </dt><dd 
 class="description">number of IO nodes (if <img 
-src="index336x.png" alt="&#x003C; 0  "  class="math" > write in separate subdirectories).
+src="Nek_users336x.png" alt="&#x003C; 0  "  class="math" > write in separate subdirectories).
      </dd><dt class="description">
 <span 
 class="ecbx-1095">P066</span>  </dt><dd 
 class="description">Output format: (only postx uses .rea value; other nondefault should be set in usrdat) (if
      <img 
-src="index337x.png" alt="&ge;  0  "  class="math" > binary else ASCII).<br 
+src="Nek_users337x.png" alt="&ge;  0  "  class="math" > binary else ASCII).<br 
 class="newline" />connect2.f: param(66) = 6 ! binary is default<br 
 class="newline" />connect2.f: param(66) = 0 ! ASCII
      </dd><dt class="description">
 <span 
 class="ecbx-1095">P067</span>  </dt><dd 
 class="description">read format (if <img 
-src="index338x.png" alt="&ge;  0  "  class="math" > binary else ASCII).
+src="Nek_users338x.png" alt="&ge;  0  "  class="math" > binary else ASCII).
      </dd><dt class="description">
 <span 
 class="ecbx-1095">P068</span>  </dt><dd 
@@ -463,7 +463,7 @@ class="description"><span id="textcolor33">NOT IN USE!</span>
 <span 
 class="ecbx-1095">P074</span>  </dt><dd 
 class="description">if <img 
-src="index339x.png" alt="&#x003E; 0  "  class="math" > print Helmholtz solver iterations.<br 
+src="Nek_users339x.png" alt="&#x003E; 0  "  class="math" > print Helmholtz solver iterations.<br 
 class="newline" />hmholtz.f: if (nid.eq.0.and.ifprint.and.param(74).ne.0) ifprinthmh=.true.
      </dd><dt class="description">
 <span 
@@ -507,19 +507,19 @@ class="description"><span id="textcolor42">NOT IN USE!</span>
 <span 
 class="ecbx-1095">P084</span>  </dt><dd 
 class="description">if <img 
-src="index340x.png" alt="&#x003C; 0  "  class="math" >, force initial time step to this value.
+src="Nek_users340x.png" alt="&#x003C; 0  "  class="math" >, force initial time step to this value.
      </dd><dt class="description">
 <span 
 class="ecbx-1095">P085</span>  </dt><dd 
 class="description">set <img 
-src="index341x.png" alt="dt  "  class="math" > in <span 
+src="Nek_users341x.png" alt="dt  "  class="math" > in <span 
 class="ecti-1095">setdt</span>.<br 
 class="newline" />subs1.f: dt=dtopf*param(85)
      </dd><dt class="description">
 <span 
 class="ecbx-1095">P086</span>  </dt><dd 
 class="description"><span id="textcolor43">RESERVED !</span> if <img 
-src="index342x.png" alt="&frasl;=  0  "  class="math" >, use skew-symmetric form, else convective form.<br 
+src="Nek_users342x.png" alt="&frasl;=  0  "  class="math" >, use skew-symmetric form, else convective form.<br 
 class="newline" />drive2.f: PARAM(86) = 0 ! No skew-symm. convection for now<br 
 class="newline" />navier1.f: if (param(86).ne.0.0) then ! skew-symmetric form
      </dd><dt class="description">
@@ -555,12 +555,12 @@ class="newline" />(adjust MXPREF in SIZEu accordingly)
 <span 
 class="ecbx-1095">P094</span>  </dt><dd 
 class="description">if <img 
-src="index343x.png" alt="&#x003E; 0  "  class="math" >, start projecting velocity and passive scalars after P094 steps
+src="Nek_users343x.png" alt="&#x003E; 0  "  class="math" >, start projecting velocity and passive scalars after P094 steps
      </dd><dt class="description">
 <span 
 class="ecbx-1095">P095</span>  </dt><dd 
 class="description">if <img 
-src="index344x.png" alt="&#x003E; 0  "  class="math" >, start projecting pressure after P095 steps
+src="Nek_users344x.png" alt="&#x003E; 0  "  class="math" >, start projecting pressure after P095 steps
      </dd><dt class="description">
 <span 
 class="ecbx-1095">P096</span>  </dt><dd 
@@ -580,14 +580,14 @@ class="description"><span id="textcolor52">NOT IN USE!</span>
 class="ecbx-1095">P099</span>  </dt><dd 
 class="description">dealiasing:
      <!--l. 192--><p class="noindent" >&#x00A0;      <img 
-src="index345x.png" alt="&#x003C;  0  "  class="math" >: disable
+src="Nek_users345x.png" alt="&#x003C;  0  "  class="math" >: disable
      <!--l. 193--><p class="noindent" >&#x00A0;      3: old dealiasing
      <!--l. 194--><p class="noindent" >&#x00A0;      4: new dealiasing
      </dd><dt class="description">
 <span 
 class="ecbx-1095">P100</span>  </dt><dd 
 class="description"><span id="textcolor53">RESERVED !</span> pressure preconditioner when using CG solver (0: Jacobi, <img 
-src="index346x.png" alt="&#x003E; 0  "  class="math" >: two-level
+src="Nek_users346x.png" alt="&#x003E; 0  "  class="math" >: two-level
      Schwarz) <span id="textcolor54">or wiseversa?</span>
      </dd><dt class="description">
 <span 
@@ -602,12 +602,12 @@ class="description"><span id="textcolor55">NOT IN USE!</span>
 <span 
 class="ecbx-1095">P103</span>  </dt><dd 
 class="description">filter weight for last mode (<img 
-src="index347x.png" alt="&#x003C;  0  "  class="math" >: disabled)
+src="Nek_users347x.png" alt="&#x003C;  0  "  class="math" >: disabled)
      </dd><dt class="description">
 <span 
 class="ecbx-1095">P107</span>  </dt><dd 
 class="description">if <img 
-src="index348x.png" alt="&frasl;= 0  "  class="math" >, add it to h2 in sethlm
+src="Nek_users348x.png" alt="&frasl;= 0  "  class="math" >, add it to h2 in sethlm
      </dd><dt class="description">
 <span 
 class="ecbx-1095">P116 NELX</span> </dt><dd 
@@ -631,7 +631,7 @@ class="description">number of elements in z for FTP</dd></dl>
 n&#x00A0;&#x00A0;&#x00A0;LOGICAL&#x00A0;SWITCHES&#x00A0;FOLLOW
 </div>
 <!--l. 213--><p class="nopar" > where <img 
-src="index349x.png" alt="n  "  class="math" > is the number of logical switches which is set in the following lines.
+src="Nek_users349x.png" alt="n  "  class="math" > is the number of logical switches which is set in the following lines.
    <h4 class="subsectionHead"><span class="titlemark">7.1.4   </span> <a 
  id="x9-730007.1.4"></a>Logical switches</h4>
 <!--l. 216--><p class="noindent" >Note that by default all logical switches are set to false.
@@ -687,8 +687,8 @@ class="description">use mpi barriers to provide better timing information.
 <span 
 class="ecbx-1095">IFUSERVP</span> </dt><dd 
 class="description">user-defined properties (e.g., <img 
-src="index350x.png" alt="&mu;  "  class="math" >, <img 
-src="index351x.png" alt="&rho;  "  class="math" >) varying with space and time.</dd></dl>
+src="Nek_users350x.png" alt="&mu;  "  class="math" >, <img 
+src="Nek_users351x.png" alt="&rho;  "  class="math" >) varying with space and time.</dd></dl>
                                                                                          
                                                                                          
 <!--l. 152--><p class="noindent" >
@@ -702,15 +702,15 @@ class="description">: number of spatial dimensions (2 or 3).
 <span 
 class="ecbx-1095">lx1, ly1, lz1</span> </dt><dd 
 class="description">: number of (GLL) points in the <img 
-src="index352x.png" alt="x  "  class="math" >, <img 
-src="index353x.png" alt="y  "  class="math" > and <img 
-src="index354x.png" alt="z  "  class="math" > directions, respectively, within
+src="Nek_users352x.png" alt="x  "  class="math" >, <img 
+src="Nek_users353x.png" alt="y  "  class="math" > and <img 
+src="Nek_users354x.png" alt="z  "  class="math" > directions, respectively, within
      each element of mesh1 (velocity) which is equal to the (polynomial order<img 
-src="index355x.png" alt="+  "  class="math" >1) by definition.
+src="Nek_users355x.png" alt="+  "  class="math" >1) by definition.
      <img 
-src="index356x.png" alt="ly1  "  class="math" > is usually the same as <img 
-src="index357x.png" alt="lx1  "  class="math" > and for 2D cases <img 
-src="index358x.png" alt="lz1 = 1  "  class="math" >. <br 
+src="Nek_users356x.png" alt="ly1  "  class="math" > is usually the same as <img 
+src="Nek_users357x.png" alt="lx1  "  class="math" > and for 2D cases <img 
+src="Nek_users358x.png" alt="lz1 = 1  "  class="math" >. <br 
 class="newline" /><span class="footnote-mark"><a 
 href="#fn1x8" id="fn1x8-bk"><sup class="textsuperscript">1</sup></a></span><a 
  id="x9-74001f1"></a>
@@ -721,20 +721,20 @@ href="#fn2x8" id="fn2x8-bk"><sup class="textsuperscript">2</sup></a></span><a
 <span 
 class="ecbx-1095">lx2, ly2, lz2</span> </dt><dd 
 class="description">: number of (GLL) points in the <img 
-src="index361x.png" alt="x  "  class="math" >, <img 
-src="index362x.png" alt="y  "  class="math" > and <img 
-src="index363x.png" alt="z  "  class="math" > directions, respectively, within each
+src="Nek_users361x.png" alt="x  "  class="math" >, <img 
+src="Nek_users362x.png" alt="y  "  class="math" > and <img 
+src="Nek_users363x.png" alt="z  "  class="math" > directions, respectively, within each
      element of mesh2 (pressure). Use <img 
-src="index364x.png" alt="lx2 = lx1  "  class="math" > for PN/PN formulation or <img 
-src="index365x.png" alt="lx2 = lx1&minus; 2  "  class="math" > for
+src="Nek_users364x.png" alt="lx2 = lx1  "  class="math" > for PN/PN formulation or <img 
+src="Nek_users365x.png" alt="lx2 = lx1&minus; 2  "  class="math" > for
      PN/PN-2 formulation.
      </dd><dt class="description">
 <span 
 class="ecbx-1095">lx3, ly3, lz3</span> </dt><dd 
 class="description">: number of (GLL) points in the <img 
-src="index366x.png" alt="x  "  class="math" >, <img 
-src="index367x.png" alt="y  "  class="math" > and <img 
-src="index368x.png" alt="z  "  class="math" > directions, respectively, within
+src="Nek_users366x.png" alt="x  "  class="math" >, <img 
+src="Nek_users367x.png" alt="y  "  class="math" > and <img 
+src="Nek_users368x.png" alt="z  "  class="math" > directions, respectively, within
      each element of mesh3.<br 
 class="newline" /><span class="footnote-mark"><a 
 href="#fn3x8" id="fn3x8-bk"><sup class="textsuperscript">3</sup></a></span><a 
@@ -744,8 +744,8 @@ href="#fn3x8" id="fn3x8-bk"><sup class="textsuperscript">3</sup></a></span><a
 class="ecbx-1095">lxd, lyd, lzd</span> </dt><dd 
 class="description">:  number  of  points  for  over  integration  (dealiasing),  use  three  half  rule  e.g.  for
      <img 
-src="index369x.png" alt="lx1 = 8  "  class="math" > use <img 
-src="index370x.png" alt="lxd = 12  "  class="math" >.<br 
+src="Nek_users369x.png" alt="lx1 = 8  "  class="math" > use <img 
+src="Nek_users370x.png" alt="lxd = 12  "  class="math" >.<br 
 class="newline" />
      </dd><dt class="description">
 <span 
@@ -771,12 +771,12 @@ class="newline" />
 <span 
 class="ecbx-1095">lelt</span> </dt><dd 
 class="description">: maximum number of local elements for T-mesh (per rank, <img 
-src="index371x.png" alt="lelt &ge; lelg &#x2215;np+ 1  "  class="math" >).
+src="Nek_users371x.png" alt="lelt &ge; lelg &#x2215;np+ 1  "  class="math" >).
      </dd><dt class="description">
 <span 
 class="ecbx-1095">lelv</span> </dt><dd 
 class="description">: maximum number of local elements for V-mesh (<img 
-src="index372x.png" alt="lelv = lelt  "  class="math" >).
+src="Nek_users372x.png" alt="lelv = lelt  "  class="math" >).
                                                                                          
                                                                                          
      </dd><dt class="description">
@@ -787,17 +787,17 @@ class="description">: Number of elements of the perturbation field, number of pe
 <span 
 class="ecbx-1095">lpx1, lpy1, lpz1</span> </dt><dd 
 class="description">: Number of point in <img 
-src="index373x.png" alt="x  "  class="math" >,<img 
-src="index374x.png" alt="y  "  class="math" >,<img 
-src="index375x.png" alt="z  "  class="math" > direction of perturbation field within each
+src="Nek_users373x.png" alt="x  "  class="math" >,<img 
+src="Nek_users374x.png" alt="y  "  class="math" >,<img 
+src="Nek_users375x.png" alt="z  "  class="math" > direction of perturbation field within each
      element of mesh1
      </dd><dt class="description">
 <span 
 class="ecbx-1095">lpx2, lpy2, lpz2</span> </dt><dd 
 class="description">: Number of point in <img 
-src="index376x.png" alt="x  "  class="math" >,<img 
-src="index377x.png" alt="y  "  class="math" >,<img 
-src="index378x.png" alt="z  "  class="math" > direction of perturbation field within each
+src="Nek_users376x.png" alt="x  "  class="math" >,<img 
+src="Nek_users377x.png" alt="y  "  class="math" >,<img 
+src="Nek_users378x.png" alt="z  "  class="math" > direction of perturbation field within each
      element of mesh2
      </dd><dt class="description">
 <span 
@@ -807,23 +807,23 @@ class="description">: Total Number of elements of the B-field (MHD)
 <span 
 class="ecbx-1095">lbx1, lby1, lbz1</span> </dt><dd 
 class="description">: Number of point in <img 
-src="index379x.png" alt="x  "  class="math" >,<img 
-src="index380x.png" alt="y  "  class="math" >,<img 
-src="index381x.png" alt="z  "  class="math" > direction of B-field within each element of
+src="Nek_users379x.png" alt="x  "  class="math" >,<img 
+src="Nek_users380x.png" alt="y  "  class="math" >,<img 
+src="Nek_users381x.png" alt="z  "  class="math" > direction of B-field within each element of
      mesh1
      </dd><dt class="description">
 <span 
 class="ecbx-1095">lbx2, lby2, lbz2</span> </dt><dd 
 class="description">: Number of point in <img 
-src="index382x.png" alt="x  "  class="math" >,<img 
-src="index383x.png" alt="y  "  class="math" >,<img 
-src="index384x.png" alt="z  "  class="math" > direction of B-field within each element of
+src="Nek_users382x.png" alt="x  "  class="math" >,<img 
+src="Nek_users383x.png" alt="y  "  class="math" >,<img 
+src="Nek_users384x.png" alt="z  "  class="math" > direction of B-field within each element of
      mesh2
      </dd><dt class="description">
 <span 
 class="ecbx-1095">lx1m, ly1m, lz1m</span> </dt><dd 
 class="description">: when the mesh is a moving type <img 
-src="index385x.png" alt="lx1m  = lx1  "  class="math" >, otherwise it is set to 1.
+src="Nek_users385x.png" alt="lx1m  = lx1  "  class="math" >, otherwise it is set to 1.
      </dd><dt class="description">
 <span 
 class="ecbx-1095">lxz</span> </dt><dd 
@@ -846,7 +846,7 @@ class="description">: maximum number of members in an object.
 <span 
 class="ecbx-1095">lhis</span> </dt><dd 
 class="description">: maximum number of history points a single rank will read in (NP*LHIS <img 
-src="index386x.png" alt="&#x003C;  "  class="math" > number of points
+src="Nek_users386x.png" alt="&#x003C;  "  class="math" > number of points
      in hpts.in).
      </dd><dt class="description">
 <span 
@@ -892,13 +892,13 @@ class="description">: <span id="textcolor61">NOT IN USE!</span>
 <span 
 class="ecbx-1095">maxmor</span> </dt><dd 
 class="description">: <img 
-src="index387x.png" alt="= lelt  "  class="math" >
+src="Nek_users387x.png" alt="= lelt  "  class="math" >
      </dd><dt class="description">
 <span 
 class="ecbx-1095">lzl</span> </dt><dd 
 class="description">: for 2D cases <img 
-src="index388x.png" alt="lzl = 1  "  class="math" > and for 3D cases <img 
-src="index389x.png" alt="lzl = 3  "  class="math" > (computed automatically).</dd></dl>
+src="Nek_users388x.png" alt="lzl = 1  "  class="math" > and for 3D cases <img 
+src="Nek_users389x.png" alt="lzl = 3  "  class="math" > (computed automatically).</dd></dl>
 <!--l. 47--><p class="noindent" >The following parameters are deprecated and were subsequently removed in newer versions.
      <dl class="description"><dt class="description">
 <span 
@@ -929,21 +929,21 @@ class="description">: LMAXP = LX1*LY1*LZ1*LELV</dd></dl>
    <div class="footnotes"><!--l. 6--><p class="noindent" ><span class="footnote-mark"><a 
 href="#fn1x8-bk" id="fn1x8"><sup class="textsuperscript">1</sup></a></span><span 
 class="ecrm-0900">is</span> <img 
-src="index359x.png" alt="lx1&frasl;= ly1  "  class="math" > <span 
+src="Nek_users359x.png" alt="lx1&frasl;= ly1  "  class="math" > <span 
 class="ecrm-0900">supported?</span>
 <!--l. 7--><p class="noindent" ><span class="footnote-mark"><a 
 href="#fn2x8-bk" id="fn2x8"><sup class="textsuperscript">2</sup></a></span><img 
-src="index360x.png" alt="lx1  "  class="math" > <span 
+src="Nek_users360x.png" alt="lx1  "  class="math" > <span 
 class="ecrm-0900">recomeneded odd for better performance</span>
 <!--l. 10--><p class="noindent" ><span class="footnote-mark"><a 
 href="#fn3x8-bk" id="fn3x8"><sup class="textsuperscript">3</sup></a></span><span 
 class="ecrm-0900">mesh3 is rarely used</span>                                                                                                                        </div>
 <!--l. 1--><div class="crosslinks"><p class="noindent">[<a 
-href="indexli2.html" >next</a>] [<a 
-href="indexch6.html" >prev</a>] [<a 
-href="indexch6.html#tailindexch6.html" >prev-tail</a>] [<a 
-href="indexch7.html" >front</a>] [<a 
-href="index.html#indexch7.html" >up</a>] </p></div>
+href="Nek_usersli2.html" >next</a>] [<a 
+href="Nek_usersch6.html" >prev</a>] [<a 
+href="Nek_usersch6.html#tailNek_usersch6.html" >prev-tail</a>] [<a 
+href="Nek_usersch7.html" >front</a>] [<a 
+href="Nek_users.html#Nek_usersch7.html" >up</a>] </p></div>
 <!--l. 1--><p class="indent" >   <a 
- id="tailindexch7.html"></a>   
+ id="tailNek_usersch7.html"></a>   
 </body></html> 
