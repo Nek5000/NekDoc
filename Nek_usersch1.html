@@ -6,17 +6,17 @@
 <meta name="generator" content="TeX4ht (http://www.cse.ohio-state.edu/~gurari/TeX4ht/)"> 
 <meta name="originator" content="TeX4ht (http://www.cse.ohio-state.edu/~gurari/TeX4ht/)"> 
 <!-- html,index=1,2,fn-in --> 
-<meta name="src" content="index.tex"> 
-<meta name="date" content="2015-11-06 23:54:00"> 
-<link rel="stylesheet" type="text/css" href="index.css"> 
+<meta name="src" content="Nek_users.tex"> 
+<meta name="date" content="2015-11-09 10:18:00"> 
+<link rel="stylesheet" type="text/css" href="Nek_users.css"> 
 </head><body 
 >
    <!--l. 53--><div class="crosslinks"><p class="noindent">[<a 
-href="indexch2.html" >next</a>] [<a 
-href="indexli1.html" >prev</a>] [<a 
-href="indexli1.html#tailindexli1.html" >prev-tail</a>] [<a 
-href="#tailindexch1.html">tail</a>] [<a 
-href="index.html#indexch1.html" >up</a>] </p></div>
+href="Nek_usersch2.html" >next</a>] [<a 
+href="Nek_usersli1.html" >prev</a>] [<a 
+href="Nek_usersli1.html#tailNek_usersli1.html" >prev-tail</a>] [<a 
+href="#tailNek_usersch1.html">tail</a>] [<a 
+href="Nek_users.html#Nek_usersch1.html" >up</a>] </p></div>
    <h2 class="chapterHead"><span class="titlemark">Chapter&#x00A0;1</span><br /><a 
  id="x3-30001"></a>Introduction</h2>
 <!--l. 55--><p class="noindent" >Nek5000 is designed to simulate laminar, transitional, and turbulent incompressible or low Mach-number
@@ -32,29 +32,29 @@ elements).
    <h4 class="likesubsectionHead"><a 
  id="x3-40001"></a>Computational approach</h4>
 <!--l. 68--><p class="noindent" >The spatial discretization is based on the spectral element method (SEM) [<a 
-href="indexli2.html#Xpat84">1</a>], which is a high-order
+href="Nek_usersli2.html#Xpat84">1</a>], which is a high-order
 weighted residual technique similar to the finite element method. In the SEM, the solution and data are
 represented in terms of <img 
-src="index0x.png" alt="N  "  class="math" >th-order tensor-product polynomials within each of <img 
-src="index1x.png" alt="E  "  class="math" > deformable hexahedral
+src="Nek_users0x.png" alt="N  "  class="math" >th-order tensor-product polynomials within each of <img 
+src="Nek_users1x.png" alt="E  "  class="math" > deformable hexahedral
 (brick) elements. Typical discretizations involve <img 
-src="index2x.png" alt="E  "  class="math" >=100&#8211;10,000 elements of order <img 
-src="index3x.png" alt="N  "  class="math" >=8&#8211;16
+src="Nek_users2x.png" alt="E  "  class="math" >=100&#8211;10,000 elements of order <img 
+src="Nek_users3x.png" alt="N  "  class="math" >=8&#8211;16
 (corresponding to 512&#8211;4096 points per element). Vectorization and cache efficiency derive from the local
 lexicographical ordering within each macro-element and from the fact that the action of discrete
 operators, which nominally have <img 
-src="index4x.png" alt="      6
+src="Nek_users4x.png" alt="      6
 O(EN  )  "  class="math" > nonzeros, can be evaluated in only <img 
-src="index5x.png" alt="      4
+src="Nek_users5x.png" alt="      4
 O (EN  )  "  class="math" >
 work and <img 
-src="index6x.png" alt="      3
+src="Nek_users6x.png" alt="      3
 O (EN  )  "  class="math" > storage through the use of tensor-product-sum factorization [<a 
-href="indexli2.html#Xsao80">2</a>]. The
+href="Nek_usersli2.html#Xsao80">2</a>]. The
 SEM exhibits very little numerical dispersion and dissipation, which can be important, for
 example, in stability calculations, for long time integrations, and for high Reynolds number
 flows. We refer to [<a 
-href="indexli2.html#Xdfm02">3</a>] for more details. The code Nek5000 is based on the following design
+href="Nek_usersli2.html#Xdfm02">3</a>] for more details. The code Nek5000 is based on the following design
 principles
      <ul class="itemize1">
      <li class="itemize">accessible both to beginners and experts alike
@@ -71,7 +71,7 @@ principles
      <li class="itemize">fast matrix free operator evaluation with minimal storage
      </li>
      <li class="itemize">matrix  operations  are  implemented  in  assembler  code  <img 
-src="index7x.png" alt="M  &#x00D7; M  "  class="math" >  routines  to  speed  up
+src="Nek_users7x.png" alt="M  &#x00D7; M  "  class="math" >  routines  to  speed  up
      computations
                                                                                          
                                                                                          
@@ -92,15 +92,15 @@ src="index7x.png" alt="M  &#x00D7; M  "  class="math" >  routines  to  speed  up
 Navier-Stokes equations with forced or natural convection heat transfer in both stationary (fixed) or
 time-dependent geometry. It also solves the compressible Navier-Stokes in the Low Mach regime, the
 magnetohydrodynamic equation (MHD). The solution variables are the fluid velocity <img 
-src="index8x.png" alt="u = (ux,uy,uz)  "  class="math" >,
+src="Nek_users8x.png" alt="u = (ux,uy,uz)  "  class="math" >,
 the pressure <img 
-src="index9x.png" alt="p  "  class="math" >, the temperature <img 
-src="index10x.png" alt="T  "  class="math" >. All of the above field variables are functions of space <img 
-src="index11x.png" alt="x = (x,y,z)  "  class="math" >
+src="Nek_users9x.png" alt="p  "  class="math" >, the temperature <img 
+src="Nek_users10x.png" alt="T  "  class="math" >. All of the above field variables are functions of space <img 
+src="Nek_users11x.png" alt="x = (x,y,z)  "  class="math" >
 and time <img 
-src="index12x.png" alt="t  "  class="math" > in domains <img 
-src="index13x.png" alt="&Omega;f  "  class="math" > and/or <img 
-src="index14x.png" alt="&Omega;s  "  class="math" > defined in Fig. <a 
+src="Nek_users12x.png" alt="t  "  class="math" > in domains <img 
+src="Nek_users13x.png" alt="&Omega;f  "  class="math" > and/or <img 
+src="Nek_users14x.png" alt="&Omega;s  "  class="math" > defined in Fig. <a 
 href="#x3-40011">1.1<!--tex4ht:ref: fig:domains --></a>. Additionally Nek5000 can handle conjugate
 heat transfer problems.
 <!--l. 16--><p class="indent" >   <hr class="figure"><div class="figure" 
@@ -112,20 +112,20 @@ heat transfer problems.
                                                                                          
                                                                                          
 <!--l. 19--><p class="noindent" ><img 
-src="index15x.png" alt="PIC" class="graphics" width="375.80544pt" height="214.31047pt" ><!--tex4ht:graphics  
-name="index15x.png" src="Figs/walls.eps"  
+src="Nek_users15x.png" alt="PIC" class="graphics" width="375.80544pt" height="214.31047pt" ><!--tex4ht:graphics  
+name="Nek_users15x.png" src="Figs/walls.eps"  
 -->
 <br /> <div class="caption" 
 ><span class="id">Figure&#x00A0;1.1: </span><span  
 class="content">Computational domain showing respective fluid and solid subdomains, <img 
-src="index16x.png" alt="&Omega;f  "  class="math" > and <img 
-src="index17x.png" alt="&Omega;s  "  class="math" >.
+src="Nek_users16x.png" alt="&Omega;f  "  class="math" > and <img 
+src="Nek_users17x.png" alt="&Omega;s  "  class="math" >.
 The shared boundaries are denoted <img 
-src="index18x.png" alt="&part;&Omega;f = &part;&Omega;s  "  class="math" > and the solid boundary which is not shared by
+src="Nek_users18x.png" alt="&part;&Omega;f = &part;&Omega;s  "  class="math" > and the solid boundary which is not shared by
 fluid is <img 
-src="index19x.png" alt="----
+src="Nek_users19x.png" alt="----
 &part;&Omega;s  "  class="math" >, while the fluid boundary not shared by solid <img 
-src="index20x.png" alt="----
+src="Nek_users20x.png" alt="----
 &part;&Omega;f  "  class="math" >.</span></div><!--tex4ht:label?: x3-40011 -->
                                                                                          
                                                                                          
@@ -135,29 +135,29 @@ src="index20x.png" alt="----
 <!--l. 27--><p class="noindent" >The governing equations of flow motion in dimensional form are <div class="eqnarray">
    <center class="math-display" >
 <img 
-src="index21x.png" alt="&rho;(&part;tu+ u &sdot;&nabla;u ) = &minus; &nabla;p + &nabla; &sdot;&tau; + &rho;f,in &Omega;f,   (Momentum  )               (1.1)
+src="Nek_users21x.png" alt="&rho;(&part;tu+ u &sdot;&nabla;u ) = &minus; &nabla;p + &nabla; &sdot;&tau; + &rho;f,in &Omega;f,   (Momentum  )               (1.1)
 " class="math-display" ><a 
  id="x3-5001r1.1"></a></center>
 </div>where <img 
-src="index22x.png" alt="&tau; = &mu;[&nabla;u  + &nabla;uT ]  "  class="math" >. <div class="eqnarray">
+src="Nek_users22x.png" alt="&tau; = &mu;[&nabla;u  + &nabla;uT ]  "  class="math" >. <div class="eqnarray">
    <center class="math-display" >
 <img 
-src="index23x.png" alt="&nabla; &sdot;u = 0,in &Omega;f ,  (Continuity)                            (1.2)
+src="Nek_users23x.png" alt="&nabla; &sdot;u = 0,in &Omega;f ,  (Continuity)                            (1.2)
 " class="math-display" ><a 
  id="x3-5002r1.2"></a></center>
 </div>
 <!--l. 36--><p class="indent" >   If the fluid viscosity is constant in the entire domain the viscous stress tensor can be contracted
 <img 
-src="index24x.png" alt="&nabla; &sdot;&tau; = &mu; &Delta;u  "  class="math" >, therefore one may solve the Navier&#8211;Stokes equations in either the stress formulation, or no
+src="Nek_users24x.png" alt="&nabla; &sdot;&tau; = &mu; &Delta;u  "  class="math" >, therefore one may solve the Navier&#8211;Stokes equations in either the stress formulation, or no
 stress
      <ul class="itemize1">
      <li class="itemize">Variable viscosity requires the full stress tensor <img 
-src="index25x.png" alt="                     T
+src="Nek_users25x.png" alt="                     T
 &nabla; &sdot;&tau; = &nabla; &sdot;&mu; [&nabla;u  + &nabla;u  ]  "  class="math" >, and we shall refer
      to this as the stress formulation
      </li>
      <li class="itemize">Constant viscosity leads to a simpler stress tensor <img 
-src="index26x.png" alt="&nabla;  &sdot;&tau; = &mu;&Delta;u  "  class="math" >, which we refer to as the
+src="Nek_users26x.png" alt="&nabla;  &sdot;&tau; = &mu;&Delta;u  "  class="math" >, which we refer to as the
      &#8217;no stress&#8217; formulation</li></ul>
                                                                                          
                                                                                          
@@ -165,17 +165,17 @@ src="index26x.png" alt="&nabla;  &sdot;&tau; = &mu;&Delta;u  "  class="math" >, 
    <h3 class="sectionHead"><span class="titlemark">1.2   </span> <a 
  id="x3-60001.2"></a>Non-dimensional Navier-Stokes</h3>
 <!--l. 44--><p class="noindent" >Let us introduce the following non-dimensional variables <img 
-src="index27x.png" alt="x&lowast;  = xL-  "  class="math" >, <img 
-src="index28x.png" alt="u&lowast; =  uU-  "  class="math" >, <img 
-src="index29x.png" alt="t&lowast; =  -t--
+src="Nek_users27x.png" alt="x&lowast;  = xL-  "  class="math" >, <img 
+src="Nek_users28x.png" alt="u&lowast; =  uU-  "  class="math" >, <img 
+src="Nek_users29x.png" alt="t&lowast; =  -t--
       L&#x2215;U  "  class="math" >. For the
 pressure scale we have two options
      <ul class="itemize1">
      <li class="itemize">convective effects are dominant i.e. high velocity flows <img 
-src="index30x.png" alt="p&lowast; = &rho;pU2   "  class="math" >
+src="Nek_users30x.png" alt="p&lowast; = &rho;pU2   "  class="math" >
      </li>
      <li class="itemize">viscous effects are dominant i.e. creeping flows (Stokes flow) <img 
-src="index31x.png" alt="p&lowast; = p&mu;LU-  "  class="math" ></li></ul>
+src="Nek_users31x.png" alt="p&lowast; = p&mu;LU-  "  class="math" ></li></ul>
 <!--l. 52--><p class="noindent" >For highly convective flows we choose the first scaling of the pressure and obtain the non-dimensional
 Navier-Stokes:
    <table 
@@ -183,16 +183,16 @@ class="equation"><tr><td><a
  id="x3-6001r3"></a>
    <center class="math-display" >
 <img 
-src="index32x.png" alt="&part;u &lowast;    &lowast;    &lowast;        &lowast;   1      &lowast;   1  f
+src="Nek_users32x.png" alt="&part;u &lowast;    &lowast;    &lowast;        &lowast;   1      &lowast;   1  f
 &part;t&lowast;-+ u  &sdot;&nabla;u   = &minus; &nabla;p  +  Re&nabla;  &sdot;&tau; + F-rg-.
 " class="math-display" ></center></td><td class="equation-label">(1.3)</td></tr></table>
 <!--l. 55--><p class="nopar" >
 where <img 
-src="index33x.png" alt="&tau;&lowast; = [&nabla;u &lowast; + &nabla;u &lowast;T]  "  class="math" >. The two non-dimensional numbers here are the Reynolds number <img 
-src="index34x.png" alt="Re = U&nu;L-  "  class="math" >
+src="Nek_users33x.png" alt="&tau;&lowast; = [&nabla;u &lowast; + &nabla;u &lowast;T]  "  class="math" >. The two non-dimensional numbers here are the Reynolds number <img 
+src="Nek_users34x.png" alt="Re = U&nu;L-  "  class="math" >
 <img 
-src="index35x.png" alt="F r  "  class="math" > and the Froude number, defined as <img 
-src="index36x.png" alt="F r = U2-
+src="Nek_users35x.png" alt="F r  "  class="math" > and the Froude number, defined as <img 
+src="Nek_users36x.png" alt="F r = U2-
       gL  "  class="math" >.
 <!--l. 75--><p class="noindent" >
    <h3 class="sectionHead"><span class="titlemark">1.3   </span> <a 
@@ -200,7 +200,7 @@ src="index36x.png" alt="F r = U2-
 <!--l. 76--><p class="noindent" >In addition to the fluid flow, Nek5000 computes automatically the energy equation <div class="eqnarray">
    <center class="math-display" >
 <img 
-src="index37x.png" alt="&rho;cp(&part;tT + u &sdot;&nabla;T ) = &nabla; &sdot;(k&nabla;T ) + qvol,in &Omega;f &cup; &Omega;s (Energy)                (1.4)
+src="Nek_users37x.png" alt="&rho;cp(&part;tT + u &sdot;&nabla;T ) = &nabla; &sdot;(k&nabla;T ) + qvol,in &Omega;f &cup; &Omega;s (Energy)                (1.4)
 " class="math-display" ><a 
  id="x3-7001r1.4"></a></center>
 </div>
@@ -210,35 +210,35 @@ src="index37x.png" alt="&rho;cp(&part;tT + u &sdot;&nabla;T ) = &nabla; &sdot;(k
    <h3 class="sectionHead"><span class="titlemark">1.4   </span> <a 
  id="x3-80001.4"></a>Non-dimensional energy/passive scalar equation</h3>
 <!--l. 83--><p class="noindent" >A similar non-dimensionalization as for the flow equations using the non-dimensional variables <img 
-src="index38x.png" alt="x &lowast; = xL-  "  class="math" >,
+src="Nek_users38x.png" alt="x &lowast; = xL-  "  class="math" >,
 <img 
-src="index39x.png" alt="u &lowast; = u-
+src="Nek_users39x.png" alt="u &lowast; = u-
       U  "  class="math" >, <img 
-src="index40x.png" alt="t&lowast; = --t-
+src="Nek_users40x.png" alt="t&lowast; = --t-
      L&#x2215;U  "  class="math" >, <img 
-src="index41x.png" alt="T =  T&lowast;&minus;T0
+src="Nek_users41x.png" alt="T =  T&lowast;&minus;T0
       &delta;T  "  class="math" > leads to <div class="eqnarray">
    <center class="math-display" >
 <img 
-src="index42x.png" alt="&part;t&lowast;T &lowast; + u&lowast; &sdot;&nabla;T &lowast; =-1-&nabla; &sdot;&nabla;T &lowast; + qvol,in &Omega;f &cup; &Omega;s (Energy)                (1.5)
+src="Nek_users42x.png" alt="&part;t&lowast;T &lowast; + u&lowast; &sdot;&nabla;T &lowast; =-1-&nabla; &sdot;&nabla;T &lowast; + qvol,in &Omega;f &cup; &Omega;s (Energy)                (1.5)
                    P e
 " class="math-display" ><a 
  id="x3-8001r1.5"></a></center>
 </div>where <img 
-src="index43x.png" alt="P e = LU &#x2215;&alpha;  "  class="math" >, with <img 
-src="index44x.png" alt="&alpha; = k&#x2215;&rho;cp  "  class="math" >.
+src="Nek_users43x.png" alt="P e = LU &#x2215;&alpha;  "  class="math" >, with <img 
+src="Nek_users44x.png" alt="&alpha; = k&#x2215;&rho;cp  "  class="math" >.
 <!--l. 92--><p class="noindent" >
    <h3 class="sectionHead"><span class="titlemark">1.5   </span> <a 
  id="x3-90001.5"></a>Passive scalars</h3>
 <!--l. 94--><p class="noindent" >We can additionally solve a convection-diffusion equation for each passive scalar <img 
-src="index45x.png" alt="&#x03D5;i  "  class="math" >, <img 
-src="index46x.png" alt="i  "  class="math" >=1,2,<img 
-src="index47x.png" alt="...  "  class="math" > in
+src="Nek_users45x.png" alt="&#x03D5;i  "  class="math" >, <img 
+src="Nek_users46x.png" alt="i  "  class="math" >=1,2,<img 
+src="Nek_users47x.png" alt="...  "  class="math" > in
 <img 
-src="index48x.png" alt="&Omega;f &cup; &Omega;s  "  class="math" > <div class="eqnarray">
+src="Nek_users48x.png" alt="&Omega;f &cup; &Omega;s  "  class="math" > <div class="eqnarray">
    <center class="math-display" >
 <img 
-src="index49x.png" alt="(&rho;cp)i(&part;t&#x03D5;i + u &sdot;&nabla; &#x03D5;i) = &nabla; &sdot;(ki&nabla; &#x03D5;i)+ (qvol)i.                    (1.6)
+src="Nek_users49x.png" alt="(&rho;cp)i(&part;t&#x03D5;i + u &sdot;&nabla; &#x03D5;i) = &nabla; &sdot;(ki&nabla; &#x03D5;i)+ (qvol)i.                    (1.6)
 " class="math-display" ><a 
  id="x3-9001r1.6"></a></center>
 </div>
@@ -255,8 +255,8 @@ on any fluid boundary, or if any mixed velocity/traction boundaries, such as sym
                                                                                          
                                                                                          
 outflow/n, are not aligned with either one of the Cartesian <img 
-src="index50x.png" alt="x, y  "  class="math" > or <img 
-src="index51x.png" alt="z  "  class="math" > axes. Other capabilities
+src="Nek_users50x.png" alt="x, y  "  class="math" > or <img 
+src="Nek_users51x.png" alt="z  "  class="math" > axes. Other capabilities
 of Nek5000 are the linearized Navier-Stokes for flow stability, magnetohydrodynamic flows
 etc.
 <!--l. 123--><p class="noindent" >
@@ -266,15 +266,15 @@ etc.
 <div class="eqnarray">
    <center class="math-display" >
 <img 
-src="index52x.png" alt="&rho;(&part;tu ) = &minus; &nabla;p + &nabla; &sdot;&tau; + &rho;f,in &Omega;f (Momentum )                     (1.7)
+src="Nek_users52x.png" alt="&rho;(&part;tu ) = &minus; &nabla;p + &nabla; &sdot;&tau; + &rho;f,in &Omega;f (Momentum )                     (1.7)
 " class="math-display" ><a 
  id="x3-10001r1.7"></a></center>
 </div>where <img 
-src="index53x.png" alt="                     T
+src="Nek_users53x.png" alt="                     T
 &nabla; &sdot;&tau; = &nabla;  &sdot;&mu;[&nabla;u  + &nabla;u  ]  "  class="math" > and <div class="eqnarray">
    <center class="math-display" >
 <img 
-src="index54x.png" alt="&nabla; &sdot;u =  0,in &Omega;f (Continuity)                             (1.8)
+src="Nek_users54x.png" alt="&nabla; &sdot;u =  0,in &Omega;f (Continuity)                             (1.8)
 " class="math-display" ><a 
  id="x3-10002r1.8"></a></center>
 </div>Also here we can distinguish between the stress and non-stress formulation according to whether the
@@ -288,14 +288,14 @@ scaling of the pressure.
                                                                                          
    <center class="math-display" >
 <img 
-src="index55x.png" alt="&minus; &nabla;p + &nabla;  &sdot;&tau; + &rho;f = 0,in &Omega;f (Momentum )                       (1.9)
+src="Nek_users55x.png" alt="&minus; &nabla;p + &nabla;  &sdot;&tau; + &rho;f = 0,in &Omega;f (Momentum )                       (1.9)
 " class="math-display" ><a 
  id="x3-11001r1.9"></a></center>
 </div>where <img 
-src="index56x.png" alt="&nabla; &sdot;&tau; = &nabla;  &sdot;&mu;[&nabla;u  + &nabla;uT ]  "  class="math" > and <div class="eqnarray">
+src="Nek_users56x.png" alt="&nabla; &sdot;&tau; = &nabla;  &sdot;&mu;[&nabla;u  + &nabla;uT ]  "  class="math" > and <div class="eqnarray">
    <center class="math-display" >
 <img 
-src="index57x.png" alt="&nabla; &sdot;u =  0,in &Omega;f (Continuity)                            (1.10)
+src="Nek_users57x.png" alt="&nabla; &sdot;u =  0,in &Omega;f (Continuity)                            (1.10)
 " class="math-display" ><a 
  id="x3-11002r1.10"></a></center>
 </div>
@@ -310,15 +310,15 @@ class="equation"><tr><td><a
  id="x3-12001r11"></a>
    <center class="math-display" >
 <img 
-src="index58x.png" alt="&rho;(&part; u &prime; + u &sdot;&nabla;u &prime; + u &prime;&sdot;&nabla;u ) = &minus; &nabla;p &prime;+ &mu;&nabla;2u &prime;, &nabla; &sdot;u &prime;= 0,
+src="Nek_users58x.png" alt="&rho;(&part; u &prime; + u &sdot;&nabla;u &prime; + u &prime;&sdot;&nabla;u ) = &minus; &nabla;p &prime;+ &mu;&nabla;2u &prime;, &nabla; &sdot;u &prime;= 0,
    t i         i    i            i       i          i
 " class="math-display" ></center></td><td class="equation-label">(1.11)</td></tr></table>
 <!--l. 152--><p class="nopar" >
 for multiple perturbation fields <img 
-src="index59x.png" alt="i = 1,2,...  "  class="math" > subject to different initial conditions and (typically)
+src="Nek_users59x.png" alt="i = 1,2,...  "  class="math" > subject to different initial conditions and (typically)
 homogeneous boundary conditions. These solutions can be evolved concurrently with the base fields
 <img 
-src="index60x.png" alt="(u,p,T )  "  class="math" >. There is also support for computing perturbation solutions to the Boussinesq equations for
+src="Nek_users60x.png" alt="(u,p,T )  "  class="math" >. There is also support for computing perturbation solutions to the Boussinesq equations for
                                                                                          
                                                                                          
 natural convection. Calculations such as these can be used to estimate Lyapunov exponents of chaotic
@@ -328,24 +328,24 @@ flows, etc.
  id="x3-130001.9"></a>Steady conduction</h3>
 <!--l. 163--><p class="noindent" >The energy Eq.&#x00A0;<a 
 href="#x3-7001r1.4">1.4<!--tex4ht:ref: eq:energy --></a> in which the advection term <img 
-src="index61x.png" alt="u &sdot;&nabla;T  "  class="math" > and the transient term <img 
-src="index62x.png" alt="&part;tT  "  class="math" > are zero. In
+src="Nek_users61x.png" alt="u &sdot;&nabla;T  "  class="math" > and the transient term <img 
+src="Nek_users62x.png" alt="&part;tT  "  class="math" > are zero. In
 essence this represents a Poisson equation.
 <!--l. 167--><p class="noindent" >
    <h3 class="sectionHead"><span class="titlemark">1.10   </span> <a 
  id="x3-140001.10"></a>Low-Mach Navier-Stokes</h3>
 <!--l. 168--><p class="noindent" >The compressible Navier-Stokes differ mathematically from the incompressible ones mainly in the
 divergence constraint <img 
-src="index63x.png" alt="&nabla; &sdot;u &frasl;= 0  "  class="math" >. In this case the system of equations is not closed and an additional
+src="Nek_users63x.png" alt="&nabla; &sdot;u &frasl;= 0  "  class="math" >. In this case the system of equations is not closed and an additional
 equation of state (EOS) is required to connect the state variables, e.g. <img 
-src="index64x.png" alt="p = f(&rho;,T )  "  class="math" >. However Nek5000
+src="Nek_users64x.png" alt="p = f(&rho;,T )  "  class="math" >. However Nek5000
 can only solve the Low Mach approximation of the compressible Navier-Stokes. The Low-Mach
 approximation decouples the pressure from the velocity leading to a system of equations which can be
 solved numerically in a similar fashion as the incompressible Navier-Stokes.
 <!--l. 170--><p class="indent" >   The Low Mach equations in non-dimensional form are <div class="eqnarray">
    <center class="math-display" >
 <img 
-src="index65x.png" alt=" (            )
+src="Nek_users65x.png" alt=" (            )
 &rho;  du-+ u &sdot;&nabla;u   = &minus; &nabla;p + &nabla; &sdot;&tau; + &rho;f                     (1.12)
    dt
 d&rho;
@@ -355,15 +355,15 @@ dt-+ u &sdot;&nabla; &rho; = &minus; &rho;&nabla; &sdot; u
    dt
 " class="math-display" ></center>
 </div>where <img 
-src="index66x.png" alt="               T   2
+src="Nek_users66x.png" alt="               T   2
 &tau; = &mu; [&nabla;u  + &nabla;u   &minus; 3&nabla; &sdot;uI]  "  class="math" >.
 <!--l. 179--><p class="indent" >   The implementation of the equation if state for the Low Mach formulation is for the moment
 hard-coded to be the ideal gas equation of state <img 
-src="index67x.png" alt="p = &rho;RT  "  class="math" >. This allows for both variable density and
+src="Nek_users67x.png" alt="p = &rho;RT  "  class="math" >. This allows for both variable density and
 variable viscosity. The system is solved by substituting <img 
-src="index68x.png" alt="&rho; = f (p,T )  "  class="math" > into the continuity equation and
+src="Nek_users68x.png" alt="&rho; = f (p,T )  "  class="math" > into the continuity equation and
 obtaining a so-called thermal divergence (the term <img 
-src="index69x.png" alt="&nabla; &sdot;u  "  class="math" > is given as a function of the temperature). A
+src="Nek_users69x.png" alt="&nabla; &sdot;u  "  class="math" > is given as a function of the temperature). A
 more detailed description on how these equations connect is given in section <a 
 href="#x3-140001.10">1.10<!--tex4ht:ref: sec:lowma --></a> as well as in the
 developer&#8217;s manual.
@@ -379,38 +379,38 @@ of fluid dynamics and Maxwell&#8217;s equations of electromagnetism. These diffe
 have to be solved simultaneously, and Nek5000 has an implementation for the incompressible
 MHD.
 <!--l. 185--><p class="indent" >   Consider a fluid of velocity <img 
-src="index70x.png" alt="u  "  class="math" > subject to a magnetic field <img 
-src="index71x.png" alt="B  "  class="math" > then the incompressible MHD
+src="Nek_users70x.png" alt="u  "  class="math" > subject to a magnetic field <img 
+src="Nek_users71x.png" alt="B  "  class="math" > then the incompressible MHD
 equations are <div class="eqnarray">
    <center class="math-display" >
 <img 
-src="index72x.png" alt="&rho;(&part;tu + u &sdot;&nabla;u )  =  &minus; &nabla;p + &mu; &Delta;u + B &sdot;&nabla;B   ,                  (1.13)
+src="Nek_users72x.png" alt="&rho;(&part;tu + u &sdot;&nabla;u )  =  &minus; &nabla;p + &mu; &Delta;u + B &sdot;&nabla;B   ,                  (1.13)
          &nabla;  &sdot;u  =  0                                        (1.14)
   &part;B  + u&sdot; &nabla;B   =  &minus; &nabla;q + &eta;&Delta;B  + B  &sdot;&nabla;u ,
    t
          &nabla; &sdot;B   =  0
 " class="math-display" ></center>
 </div>where <img 
-src="index73x.png" alt="&rho;  "  class="math" > is the density <img 
-src="index74x.png" alt="&mu;  "  class="math" > the viscosity, <img 
-src="index75x.png" alt="&eta;  "  class="math" > resistivity, and pressure <img 
-src="index76x.png" alt="p  "  class="math" >.
+src="Nek_users73x.png" alt="&rho;  "  class="math" > is the density <img 
+src="Nek_users74x.png" alt="&mu;  "  class="math" > the viscosity, <img 
+src="Nek_users75x.png" alt="&eta;  "  class="math" > resistivity, and pressure <img 
+src="Nek_users76x.png" alt="p  "  class="math" >.
 <!--l. 195--><p class="indent" >   The total magnetic field can be split into two parts: <img 
-src="index77x.png" alt="B =  B0 + b  "  class="math" > (mean + fluctuations). The above
+src="Nek_users77x.png" alt="B =  B0 + b  "  class="math" > (mean + fluctuations). The above
 equations become in terms of Elsässer variables (<img 
-src="index78x.png" alt="z± = u ± b  "  class="math" >) <div class="eqnarray">
+src="Nek_users78x.png" alt="z± = u ± b  "  class="math" >) <div class="eqnarray">
    <center class="math-display" >
 <img 
-src="index79x.png" alt="   ±                (     )
+src="Nek_users79x.png" alt="   ±                (     )
 &part;z-- &#x2213; (B0 &sdot;&nabla;) z± +  z&#x2213; &sdot; &nabla; z± = &minus; &nabla;p + &nu;+&nabla;2z ± + &nu;&minus; &nabla;2z &#x2213;            (1.15)
  &part;t
 " class="math-display" ></center>
 </div>where <img 
-src="index80x.png" alt="&nu;± = &nu; ± &eta;  "  class="math" >.
+src="Nek_users80x.png" alt="&nu;± = &nu; ± &eta;  "  class="math" >.
 <!--l. 202--><p class="indent" >   The important non-dimensional parameters for MHD are <img 
-src="index81x.png" alt="Re = U L &#x2215;&nu;  "  class="math" > and the magnetic Re
+src="Nek_users81x.png" alt="Re = U L &#x2215;&nu;  "  class="math" > and the magnetic Re
 <img 
-src="index82x.png" alt="ReM  = U L&#x2215; &eta;  "  class="math" >.
+src="Nek_users82x.png" alt="ReM  = U L&#x2215; &eta;  "  class="math" >.
                                                                                          
                                                                                          
 <!--l. 2--><p class="noindent" >
@@ -419,58 +419,58 @@ src="index82x.png" alt="ReM  = U L&#x2215; &eta;  "  class="math" >.
 <!--l. 4--><p class="noindent" >We consider unsteady incompressible flow in a domain with moving boundaries: <div class="eqnarray">
    <center class="math-display" >
 <img 
-src="index83x.png" alt="  &part;u              1
+src="Nek_users83x.png" alt="  &part;u              1
   ---  =  &minus; &nabla;p +  --&nabla;  &sdot;(&nabla;  + &nabla;T )u+ N L,                    (1.16)
    &part;t             Re
 &nabla;  &sdot;u  =  0                                                 (1.17)
 " class="math-display" ><a 
  id="x3-16001r1.16"></a></center>
 </div>Here, <img 
-src="index84x.png" alt="N L  "  class="math" > represents the quadratic nonlinearities from the convective term.
+src="Nek_users84x.png" alt="N L  "  class="math" > represents the quadratic nonlinearities from the convective term.
 <!--l. 11--><p class="indent" >   Our free-surface hydrodynamic formulation is based upon the arbitrary Lagrangian-Eulerian (ALE)
 formulation described in [<a 
-href="indexli2.html#Xho89">4</a>]. Here, the domain <img 
-src="index85x.png" alt="&Omega;(t)  "  class="math" > is also an unknown. As with the velocity, the
+href="Nek_usersli2.html#Xho89">4</a>]. Here, the domain <img 
+src="Nek_users85x.png" alt="&Omega;(t)  "  class="math" > is also an unknown. As with the velocity, the
 geometry <img 
-src="index86x.png" alt="x  "  class="math" > is represented by high-order polynomials. For viscous free-surface flows, the rapid
+src="Nek_users86x.png" alt="x  "  class="math" > is represented by high-order polynomials. For viscous free-surface flows, the rapid
 convergence of the high-order surface approximation to the physically smooth solution minimizes
 surface-tension-induced stresses arising from non-physical cusps at the element interfaces, where only <img 
-src="index87x.png" alt="  0
+src="Nek_users87x.png" alt="  0
 C   "  class="math" >
 continuity is enforced. The geometric deformation is specified by a mesh velocity <img 
-src="index88x.png" alt="w  := x&#x02D9;  "  class="math" > that is
+src="Nek_users88x.png" alt="w  := x&#x02D9;  "  class="math" > that is
 essentially arbitrary, provided that <img 
-src="index89x.png" alt="w  "  class="math" > satisfies the kinematic condition <img 
-src="index90x.png" alt="w  &sdot; &#x02C6;n|&Gamma; = u&sdot;n&#x02C6;|&Gamma;   "  class="math" >, where <img 
-src="index91x.png" alt="&#x02C6;n  "  class="math" > is
+src="Nek_users89x.png" alt="w  "  class="math" > satisfies the kinematic condition <img 
+src="Nek_users90x.png" alt="w  &sdot; &#x02C6;n|&Gamma; = u&sdot;n&#x02C6;|&Gamma;   "  class="math" >, where <img 
+src="Nek_users91x.png" alt="&#x02C6;n  "  class="math" > is
 the unit normal at the free surface <img 
-src="index92x.png" alt="&Gamma; (x,y,t)  "  class="math" >. The ALE formulation provides a very accurate
+src="Nek_users92x.png" alt="&Gamma; (x,y,t)  "  class="math" >. The ALE formulation provides a very accurate
 description of the free surface and is appropriate in situations where wave-breaking does not
 occur.
 <!--l. 27--><p class="indent" >   To highlight the key aspects of the ALE formulation, we introduce the weighted residual formulation of
 (<a 
 href="#x3-16001r1.16">1.16<!--tex4ht:ref: eq:mhd1 --></a>): <span 
 class="ecti-1095">Find</span> <img 
-src="index93x.png" alt="         N     N
+src="Nek_users93x.png" alt="         N     N
 (u,p) &isin; X  &#x00D7; Y  "  class="math" > <span 
 class="ecti-1095">such that: </span><div class="eqnarray">
    <center class="math-display" >
 <img 
-src="index94x.png" alt="d-(v,u) = (&nabla; &sdot;v,p) &minus; -2-(&nabla;v, S )+ (v,N L )+ c(v,w, u),    (&nabla; &sdot;u,q) = 0,      (1.18)
+src="Nek_users94x.png" alt="d-(v,u) = (&nabla; &sdot;v,p) &minus; -2-(&nabla;v, S )+ (v,N L )+ c(v,w, u),    (&nabla; &sdot;u,q) = 0,      (1.18)
 dt                   Re
 " class="math-display" ><a 
  id="x3-16002r1.18"></a></center>
 </div>for all test functions <img 
-src="index95x.png" alt="(v,q) &isin; XN  &#x00D7; YN  "  class="math" >. Here <img 
-src="index96x.png" alt="(XN ,Y N )  "  class="math" > are the compatible velocity-pressure
+src="Nek_users95x.png" alt="(v,q) &isin; XN  &#x00D7; YN  "  class="math" >. Here <img 
+src="Nek_users96x.png" alt="(XN ,Y N )  "  class="math" > are the compatible velocity-pressure
 approximation spaces introduced in [<a 
-href="indexli2.html#Xmapa89">5</a>], <img 
-src="index97x.png" alt="(.,.)  "  class="math" > denotes the inner-product <img 
-src="index98x.png" alt="(f,g) := &int;   f &sdot;gdV
+href="Nek_usersli2.html#Xmapa89">5</a>], <img 
+src="Nek_users97x.png" alt="(.,.)  "  class="math" > denotes the inner-product <img 
+src="Nek_users98x.png" alt="(f,g) := &int;   f &sdot;gdV
          &Omega;(t)  "  class="math" >, and <img 
-src="index99x.png" alt="S  "  class="math" >
+src="Nek_users99x.png" alt="S  "  class="math" >
 is the stress tensor <img 
-src="index100x.png" alt="      1 &part;ui   &part;uj
+src="Nek_users100x.png" alt="      1 &part;ui   &part;uj
 Sij := 2(&part;xj + &part;xi)  "  class="math" >. For simplicity, we have neglected the surface tension term. A
 new term in (<a 
 href="#x3-16002r1.18">1.18<!--tex4ht:ref: eq:wrt1 --></a>) is the trilinear form involving the mesh velocity <div class="eqnarray">
@@ -478,7 +478,7 @@ href="#x3-16002r1.18">1.18<!--tex4ht:ref: eq:wrt1 --></a>) is the trilinear form
                                                                                          
    <center class="math-display" >
 <img 
-src="index101x.png" alt="             &int;    3   3
+src="Nek_users101x.png" alt="             &int;    3   3
 c(v,w, u) :=      &sum;   &sum;  v &part;wjuidV,                         (1.19)
               &Omega;(t)        i &part;xj
                  i=1 j=1
@@ -486,48 +486,48 @@ c(v,w, u) :=      &sum;   &sum;  v &part;wjuidV,                         (1.19)
  id="x3-16003r1.19"></a></center>
 </div>which derives from the Reynolds transport theorem when the time derivative is moved outside the bilinear
 form <img 
-src="index102x.png" alt="(v,ut)  "  class="math" >. The advantage of (<a 
+src="Nek_users102x.png" alt="(v,ut)  "  class="math" >. The advantage of (<a 
 href="#x3-16002r1.18">1.18<!--tex4ht:ref: eq:wrt1 --></a>) is that it greatly simplifies the time differencing and avoids
 grid-to-grid interpolation as the domain evolves in time. With the time derivative outside of the integral,
 each bilinear or trilinear form involves functions at a specific time, <img 
-src="index103x.png" alt="tn&minus;q  "  class="math" >, integrated over <img 
-src="index104x.png" alt="&Omega; (tn&minus; q)  "  class="math" >. For
+src="Nek_users103x.png" alt="tn&minus;q  "  class="math" >, integrated over <img 
+src="Nek_users104x.png" alt="&Omega; (tn&minus; q)  "  class="math" >. For
 example, with a second-order backward-difference/extrapolation scheme, the discrete form of (<a 
 href="#x3-16002r1.18">1.18<!--tex4ht:ref: eq:wrt1 --></a>) is
 <div class="eqnarray">
    <center class="math-display" >
 <img 
-src="index105x.png" alt="--1- [3 (vn, un)n &minus; 4 (vn &minus;1,un&minus;1)n&minus;1 + (vn &minus;2,un&minus;2)n&minus;2] = Ln(u )+ 2^N Ln&minus; 1 &minus; ^N Ln&minus; 2. (1.20)
+src="Nek_users105x.png" alt="--1- [3 (vn, un)n &minus; 4 (vn &minus;1,un&minus;1)n&minus;1 + (vn &minus;2,un&minus;2)n&minus;2] = Ln(u )+ 2^N Ln&minus; 1 &minus; ^N Ln&minus; 2. (1.20)
 2 &Delta;t
 " class="math-display" ><a 
  id="x3-16004r1.20"></a></center>
 </div>Here, <img 
-src="index106x.png" alt="Ln(u)  "  class="math" > accounts for all <span 
+src="Nek_users106x.png" alt="Ln(u)  "  class="math" > accounts for all <span 
 class="ecti-1095">linear </span>terms in (<a 
 href="#x3-16002r1.18">1.18<!--tex4ht:ref: eq:wrt1 --></a>), including the pressure and divergence-free constraint,
 which are evaluated implicitly (i.e., at time level <img 
-src="index107x.png" alt="tn  "  class="math" >, on <img 
-src="index108x.png" alt="&Omega; (tn)  "  class="math" >), and <img 
-src="index109x.png" alt="^N Ln&minus; q  "  class="math" > accounts for all
+src="Nek_users107x.png" alt="tn  "  class="math" >, on <img 
+src="Nek_users108x.png" alt="&Omega; (tn)  "  class="math" >), and <img 
+src="Nek_users109x.png" alt="^N Ln&minus; q  "  class="math" > accounts for all
 <span 
 class="ecti-1095">nonlinear </span>terms, including the mesh motion term (<a 
 href="#x3-16003r1.19">1.19<!--tex4ht:ref: eq:trilin --></a>), at time-level <img 
-src="index110x.png" alt=" n&minus;q
+src="Nek_users110x.png" alt=" n&minus;q
 t  "  class="math" >. The superscript on the
 inner-products <img 
-src="index111x.png" alt="    n&minus;q
+src="Nek_users111x.png" alt="    n&minus;q
 (.,.)  "  class="math" > indicates integration over <img 
-src="index112x.png" alt="   n&minus; q
+src="Nek_users112x.png" alt="   n&minus; q
 &Omega; (t  )  "  class="math" >. The overall time advancement is as follows.
 The mesh position <img 
-src="index113x.png" alt="xn &isin; &Omega;(tn)  "  class="math" > is computed explicitly using <img 
-src="index114x.png" alt="wn &minus;1   "  class="math" > and <img 
-src="index115x.png" alt="wn &minus;2   "  class="math" >; the new mass,
+src="Nek_users113x.png" alt="xn &isin; &Omega;(tn)  "  class="math" > is computed explicitly using <img 
+src="Nek_users114x.png" alt="wn &minus;1   "  class="math" > and <img 
+src="Nek_users115x.png" alt="wn &minus;2   "  class="math" >; the new mass,
 stiffness, and gradient operators involving integrals and derivatives on <img 
-src="index116x.png" alt="&Omega;(tn)  "  class="math" > are computed; the
+src="Nek_users116x.png" alt="&Omega;(tn)  "  class="math" > are computed; the
 extrapolated right-hand-side terms are evaluated; and the implicit linear system is solved for
 <img 
-src="index117x.png" alt="un  "  class="math" >. Note that it is only the <span 
+src="Nek_users117x.png" alt="un  "  class="math" >. Note that it is only the <span 
 class="ecti-1095">operators </span>that are updated, not the <span 
 class="ecti-1095">matrices</span>. Matrices are never
 formed in Nek5000 and because of this, the overhead for the moving domain formulation is very
@@ -535,11 +535,11 @@ low.
                                                                                          
                                                                                          
    <!--l. 90--><div class="crosslinks"><p class="noindent">[<a 
-href="indexch2.html" >next</a>] [<a 
-href="indexli1.html" >prev</a>] [<a 
-href="indexli1.html#tailindexli1.html" >prev-tail</a>] [<a 
-href="indexch1.html" >front</a>] [<a 
-href="index.html#indexch1.html" >up</a>] </p></div>
+href="Nek_usersch2.html" >next</a>] [<a 
+href="Nek_usersli1.html" >prev</a>] [<a 
+href="Nek_usersli1.html#tailNek_usersli1.html" >prev-tail</a>] [<a 
+href="Nek_usersch1.html" >front</a>] [<a 
+href="Nek_users.html#Nek_usersch1.html" >up</a>] </p></div>
 <!--l. 90--><p class="indent" >   <a 
- id="tailindexch1.html"></a>   
+ id="tailNek_usersch1.html"></a>   
 </body></html> 

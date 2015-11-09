@@ -6,23 +6,23 @@
 <meta name="generator" content="TeX4ht (http://www.cse.ohio-state.edu/~gurari/TeX4ht/)"> 
 <meta name="originator" content="TeX4ht (http://www.cse.ohio-state.edu/~gurari/TeX4ht/)"> 
 <!-- html,index=1,2,fn-in --> 
-<meta name="src" content="index.tex"> 
-<meta name="date" content="2015-11-06 23:54:00"> 
-<link rel="stylesheet" type="text/css" href="index.css"> 
+<meta name="src" content="Nek_users.tex"> 
+<meta name="date" content="2015-11-09 10:18:00"> 
+<link rel="stylesheet" type="text/css" href="Nek_users.css"> 
 </head><body 
 >
    <!--l. 127--><div class="crosslinks"><p class="noindent">[<a 
-href="indexch6.html" >next</a>] [<a 
-href="indexch4.html" >prev</a>] [<a 
-href="indexch4.html#tailindexch4.html" >prev-tail</a>] [<a 
-href="#tailindexch5.html">tail</a>] [<a 
-href="index.html#indexch5.html" >up</a>] </p></div>
+href="Nek_usersch6.html" >next</a>] [<a 
+href="Nek_usersch4.html" >prev</a>] [<a 
+href="Nek_usersch4.html#tailNek_usersch4.html" >prev-tail</a>] [<a 
+href="#tailNek_usersch5.html">tail</a>] [<a 
+href="Nek_users.html#Nek_usersch5.html" >up</a>] </p></div>
    <h2 class="chapterHead"><span class="titlemark">Chapter&#x00A0;5</span><br /><a 
  id="x7-530005"></a>Performing large scale simulations in Nek5000</h2>
    <h3 class="sectionHead"><span class="titlemark">5.1   </span> <a 
  id="x7-540005.1"></a>Large scale simulations</h3>
 <!--l. 1--><p class="noindent" >The largest simulations performed so far with Nek5000 are in the range of <img 
-src="index300x.png" alt="5&#x00D7; 106   "  class="math" >. Performance aspects
+src="Nek_users300x.png" alt="5&#x00D7; 106   "  class="math" >. Performance aspects
 to keep in mind
      <ul class="itemize1">
      <li class="itemize">design your SEM-mesh for a polynomial order N=7 or N=9 (lx1 in SIZE)
@@ -352,8 +352,8 @@ class="ectt-1095">nelt=3 </span>(nelv = no elements in fluid domain, usually = n
                                                                                          
                                                                                          
 <!--l. 27--><p class="noindent" ><img 
-src="index301x.png" alt="PIC" class="graphics" width="249.43187pt" height="133.49875pt" ><!--tex4ht:graphics  
-name="index301x.png" src="Figs/serial_parallel.eps"  
+src="Nek_users301x.png" alt="PIC" class="graphics" width="249.43187pt" height="133.49875pt" ><!--tex4ht:graphics  
+name="Nek_users301x.png" src="Figs/serial_parallel.eps"  
 -->
 <br /> <div class="caption" 
 ><span class="id">Figure&#x00A0;5.1: </span><span  
@@ -395,9 +395,9 @@ class="ectt-1095">real u(lx1,ly1,lz1,lelt) </span>indicates that <span
 class="ectt-1095">u </span>is a
 collection of elements, <span 
 class="ectt-1095">e=1,</span><img 
-src="index302x.png" alt="...   "  class="math" ><span 
+src="Nek_users302x.png" alt="...   "  class="math" ><span 
 class="ectt-1095">,Nelt =&#x003C; lelt</span>, each of size <img 
-src="index303x.png" alt="(N + 1)d,d = 2or3  "  class="math" >.
+src="Nek_users303x.png" alt="(N + 1)d,d = 2or3  "  class="math" >.
 <!--l. 49--><p class="indent" >   <span 
 class="ecbx-1095">Example: Summation</span>
 <!--l. 51--><p class="indent" >   Serial version <span 
@@ -414,7 +414,7 @@ class="newline" /><span
 class="ectt-1095">s=s+u(ix,iy,iz,e) </span><br 
 class="newline" /><span 
 class="ectt-1095">enddo,</span><img 
-src="index304x.png" alt="...   "  class="math" ><span 
+src="Nek_users304x.png" alt="...   "  class="math" ><span 
 class="ectt-1095">,enddo</span>
 <!--l. 61--><p class="indent" >   Second approach, serial version (works in parallel in Nek) <span 
 class="ectt-1095">n=nx1*ny1*nz1*nelv </span><br 
@@ -435,11 +435,11 @@ class="ectt-1095">s=glmax(u,n)</span>.
                                                                                          
                                                                                          
    <!--l. 135--><div class="crosslinks"><p class="noindent">[<a 
-href="indexch6.html" >next</a>] [<a 
-href="indexch4.html" >prev</a>] [<a 
-href="indexch4.html#tailindexch4.html" >prev-tail</a>] [<a 
-href="indexch5.html" >front</a>] [<a 
-href="index.html#indexch5.html" >up</a>] </p></div>
+href="Nek_usersch6.html" >next</a>] [<a 
+href="Nek_usersch4.html" >prev</a>] [<a 
+href="Nek_usersch4.html#tailNek_usersch4.html" >prev-tail</a>] [<a 
+href="Nek_usersch5.html" >front</a>] [<a 
+href="Nek_users.html#Nek_usersch5.html" >up</a>] </p></div>
 <!--l. 135--><p class="indent" >   <a 
- id="tailindexch5.html"></a>   
+ id="tailNek_usersch5.html"></a>   
 </body></html> 
