@@ -6,8 +6,8 @@ The file is composed of:
 \begin{itemize}
   \item the {\it header} in ASCII format,
   \item mesh data, including the geometry, saved unrolled as scalar vector
-    fields,
-  \item and meta data ({\color{red} What is this exactly?}).
+    fields
+%  \item and meta data ({\color{red} What is this exactly?}).
 \end{itemize}
 
 We will go through each of these categories and give a description of its
@@ -32,7 +32,7 @@ representation of the number $6.54321$ either in little or big endian.
   6   &11 & \code{nelgt} & {\color{red} No idea}\\
   7   &21 & \code{time}  & time stamp \\
   8   &10 & \code{iostep} & time step\\
-  9   &7  & \code{fid0}   & {\color{red} field id ?}\\
+  9   &7  & \code{fid0}   & {\color{red} field id}\\
   10  &7  & \code{nfileoo} & {\color{red} number of files}\\
   11  &4  & \code{rdcode}  & Fields written \\
 \end{tabular}
@@ -79,5 +79,5 @@ for iel in range(nelo):
         zfield[iel,:]=zup
 \end{lstlisting}
 
-\subsection{Meta Data}
-{\color{red} No clue about the metadata}
+%\subsection{Meta Data}
+%{\color{red} No clue about the metadata}
