@@ -2,36 +2,36 @@ Genbox is a tool for generating a number of tensor-product boxes, i.e., a set
 of \(nelx \times nely \times nelz\) elements, where the locations of the vertices of the
 elements are given as one-dimensional arrays of length \(nelx+1\), \(nely+1\), and
 \(nelz+1\), respectively.  After running genbox, an output mesh file (.rea) is
-created according to specifications in the input .box file.
+created according to specifications in the input~.box file.
 
-\subsubsection{Running genbox}
+\subsection{Running genbox}
 
-Before running genbox, ensure that the Nek5000 tools in \texttt{Nek5000/tools}
+Before running genbox, ensure that the Nek5000 tools in {\tt Nek5000/tools}
 are compiled and up-to-date.  Also ensure that the Nek5000 tools have been
-added to your executable path (i.e., the \texttt{\$PATH} variable).  See
+added to your executable path (i.e., the {\tt \$PATH} variable).  See
 section~\ref{ch:quick_start}) for information on compiling the Nek5000 tools.
 
-To run genbox, type \texttt{genbox} on the command line.  You will be prompted
-for the filename of the input .box file with the following message:
+To run genbox, type {\tt genbox} on the command line.  You will be prompted
+for the filename of the input~.box file with the following message:
 
 \begin{verbatim}
 Enter the full name of the .box file, including the .box extension
 \end{verbatim}
 
-See Section~\ref{sec:box_file} for a description of the .box file format.  A
+See Section~\ref{sec:box_file} for a description of the~.box file format.  A
 successful genbox run will create a box.rea file (and a box.re2 file if
 requested).  From here, you may use genmap to create a box.map file (see
 Section~\ref{sec:genmap} for instructions on using genmap).  At any point in
 this process, the box.xxx files may be moved and renamed using the script mvn
-in \texttt{Nek5000/bin/mvn}.  
+in {\tt Nek5000/bin/mvn}.  
 
-\subsection{The .box file format}\label{sec:box_file}
+\subsection{The~.box file format}\label{sec:box_file}
 
-Genmap uses .box files to specify geometries.  The box file includes a header
+Genmap uses~.box files to describe geometries.  The box file includes a header
 that is formatted the same for all geometries; a description that is formatted
 for specific geometries; and a footer that is formatted the same for all
-geometries.  In the .box file, all lines beginning with the hash symbol
-(\texttt{\#}) are comments and will be ignored.  \textbf{Genbox can only read
+geometries.  In the~.box file, all lines beginning with the hash symbol
+({\tt \#}) are comments and will be ignored.  {\em Genbox can only read
 in 132 characters per line, so any line that exceeds this limit MUST be split
 into 2 lines.}
 
@@ -39,53 +39,49 @@ into 2 lines.}
 
 \begin{description}
 
-  \item[Line 1] supplies the name of an existing .rea file that has the
-    appropriate run parameters.  While the parameters can be modified later, it
-    is important that the dimension of the .rea file matches the dimension
-    desired for the new files.
+  \item[Line 1:] The name of an existing~.rea file that has the appropriate run
+    parameters.  While the parameters can be modified later, it is important
+    that the dimension of the~.rea file matches the dimension desired for the
+    new files.
 
-  \item[Line 2] indicates the spatial dimension. If less than zero, genbox will
-    create an ASCII .rea containing the runtime parameters and a binary .re2
+  \item[Line 2:] Indicates the spatial dimension. If less than zero, genbox will
+    create an ASCII~.rea containing the runtime parameters and a binary~.re2
     file containing the mesh and boundary data.
 
-  \item[Line 3] specifies the number of fields for this simulation, $nfld$
-    (corresponding to velocity, heat transfer, etc.). Note that $nfld$ must
+  \item[Line 3:] The number of fields for this simulation, \(nfld\)
+    (corresponding to velocity, heat transfer, etc.). Note that \(nfld\) must
     never be set to zero!
 
     \begin{itemize}
 
-      \item If $nfld<0$: genbox will create files that solve for only heat +
-        $nfld-1$ passive scalars and \textbf{not} for fluid. 
+      \item If \(nfld<0\): genbox will create files that solve for only heat +
+        \(nfld-1\) passive scalars and not for fluid. 
 
-      \item If $nfld>0$: genbox will solve for fluid, heat, and then $nfld-2$
-        passive scalars.   
+      \item If \(nfld>0\): genbox will solve for fluid, heat, and then
+        \(nfld-2\) passive scalars.   
     
-      \item If you intend to run MHD, $nfld$ should be a decimal number of the
-        format \texttt{X.1} where the integer part \texttt{X} is the number of
-        fields and the decimal part \texttt{.1} instructs genbox to look for
+      \item If you intend to run MHD, \(nfld\) should be a decimal number of the
+        format {\tt X.1} where the integer part {\tt X} is the number of
+        fields and the decimal part {\tt .1} instructs genbox to look for
         the magnetic field properties.
 
     \end{itemize}
 
-  \item[Line 4] indicates that a new box is starting and that the following
-    lines will describe that box.  All .box files have boundary conditions
-    defined at the end, so after defining the geometry-specific fields found in
-    the appropriate section, go to the final, "for all geometries" section to
-    see how to finish the .box file correctly.
-
+  \item[Line 4:] Indicates that a new box is starting and that the following
+    lines will describe that box.  
     \begin{itemize}
 
       \item For normal, box geometries, this can be any string that doesn't
-        start with a "c", "C", "m", "M", "y", or "Y"
+        start with a "c", "C", "m", "M", "y", or "Y".
 
       \item For annulus geometries with circular-only edges (and the option
-        less than 360 degree), this line must start with a "c" or a "C"
+        less than 360 degree), this line must start with a "c" or a "C".
 
       \item For annulus geometries with varying boundary shapes, this line must
-        start with a "y" or a "Y"
+        start with a "y" or a "Y".
 
       \item For geometries with varying segments of x,y,(z) distributions, this
-        line must start with a "m" or "M"
+        line must start with a "m" or "M".
 
     \end{itemize}
 
@@ -95,8 +91,8 @@ into 2 lines.}
 
 \begin{description}
 
-  \item[Line 5] specifies the number of elements in the $x$ and $y$ (and for
-    3D, $z$) directions.  
+  \item[Line 5:] The number of elements in the \(x\), \(y\) (and for 3D, \(z\))
+    directions.  
     
     \begin{itemize}
 
@@ -109,19 +105,20 @@ into 2 lines.}
     \end{itemize}
     
 
-  \item[Lines 6, 7, (8 in 3D)] The lines following $nelx$, $nely$, $nelz$
-    specify the distribution of elements in each spatial direction Since there
-    is a limit of 132 characters per line, it may be necessary to wrap these
-    points across various lines.
+  \item[Lines 6, 7, (8 in 3D):] The distribution of elements in each
+    spatial direction. Since there is a limit of 132 characters per line, it
+    may be necessary to wrap these points across various lines.
 
     \begin{itemize}
 
       \item If the number of elements was less than zero, the user only
-        supplies the start point $x0$, the ending point $xnelx$ and the ratio,
-        or relative size, of each element progressing from left to right.  
+        supplies the start point \(x_0\), the ending point \(x_{nelx}\) and the
+        ratio, or relative size, of each element progressing from left to
+        right.  
 
       \item If the number of elements was greater than zero, each $nelx$ point
-        in that direction, i.e., $x0, x1, \ldots, xnelx$ must be specified.
+        in that direction, i.e., \(x_0, x_1, \ldots, x_{nelx}\) must be
+        specified.
 
     \end{itemize}
 
@@ -131,11 +128,12 @@ into 2 lines.}
 
 \begin{description} 
   
-  \item[Line 5] Specifies the $x$, $y$, (and for 3D, $z$) center of the
-    geometry. Note that this is an annulus geometry, so the $x$ starting point
-    cannot equal the center.
+  \item[Line 5:] The \(x\), \(y\), (and for 3D, \(z\)) center of the geometry.
+    Note that this is an annulus geometry, so the \(x\) starting point cannot
+    equal the center.
 
-  \item[Line 6] The number of elements in each direction $nelx$, $nely$, $nelz$
+  \item[Line 6:] The number of elements in each direction \(nelx\), \(nely\),
+    \(nelz\).
 
     \begin{itemize}
 
@@ -147,8 +145,8 @@ into 2 lines.}
 
     \end{itemize}
 
-  \item [Lines 7, 8, (9 in 3D)] The element distribution of each dimension.  The
-    $y$ dimension is given in degrees. For example, '0 360 1' would be a full
+  \item [Lines 7, 8, (9 in 3D):] The element distribution of each dimension.  The
+    \(y\) dimension is given in degrees. For example, '0 360 1' would be a full
     circle with uniform distribution, and '90 180 1' would be a quarter-circle
     starting at the 90 degree point.
 
@@ -156,12 +154,12 @@ into 2 lines.}
 
 \subsubsection{Description for annulus geometries}
 
-Genbox is currently setup for ascii output only for this option.
+Note: For these geometries, genbox is currently setup for ASCII output only.
 
 \begin{description}
 
-  \item[Line 5] Specifies the number of elements in each direction, $nelx$,
-    $nely$, (and for 3D, $nelz$).
+  \item[Line 5:] Specifies the number of elements in each direction, \(nelx\),
+    \(nely\), (and for 3D, \(nelz\)).
 
     \begin{itemize}
 
@@ -173,33 +171,33 @@ Genbox is currently setup for ascii output only for this option.
 
     \end{itemize}
 
-  \item[Line 6] Coodinates of the center of the annulus, $(x0, y0)$. Since this
-    is annulus geometry, x0,y0,z0 must not be the center.
+  \item[Line 6:] Coodinates of the center of the annulus, \((x0, y0)\). Since this
+    is annulus geometry, \((x0,y0,z0)\) must not be the center.
 
-  \item[Line 7] String that specifies the cylinder type for each x-level of the
-    annulus.  There must be $nelx+1$ characters in this string.  The available
+  \item[Line 7:] String that specifies the cylinder type for each x-level of the
+    annulus.  There must be \(nelx+1\) characters in this string.  The available
     characters are:
 
     \begin{description}
-      \item[``c''] curve boundary geometry
-      \item[``o''] octagon
-      \item[``b''] box (Cartesian)
+      \item[``c'':] curve boundary geometry
+      \item[``o'':] octagon
+      \item[``b'':] box (Cartesian)
     \end{description}
 
     When mixing curve (c) sides and box (b) sides, the elements on each level
     must not overflow into the next.  This will produce an error in genbox.  To
-    fix this, the $nelx$ points (or ratio) must be adjusted.  Furthermore,
-    box-like sides work best with an even number of $nely$ elements.
+    fix this, the \(nelx\) points (or ratio) must be adjusted.  Furthermore,
+    box-like sides work best with an even number of \(nely\) elements.
 
-  \item[Lines 8, 9, (10 in 3D)] The coordinates of the elements.
+  \item[Lines 8, 9, (10 in 3D):] The coordinates of the elements.
 
     \begin{itemize}
 
       \item If the user gave a negative dimension, they only need to provide
-        $r0$, $r1$, $ratio$ (start, end, ratio) for this dimension
+        \(r0\), \(r1\), \(ratio\) (start, end, ratio) for this dimension.
 
       \item If the user gave a positive dimension, they will need to provide
-        each point in this direction, i.e, $r0, r0+1, \ldots, r1$ totaling the
+        each point in this direction, i.e, \(r0, r0+1, \ldots, r1\) totaling the
         number of elements + 1.
 
     \end{itemize}
@@ -209,43 +207,44 @@ Genbox is currently setup for ascii output only for this option.
 \subsubsection{Description for Multiple Segmented Geometries}
 
 This feature allows users to enter a complex sequence of segments for each of
-the $(x,y,z)$ directions. Each segment set is defined in $(x,y,z)$ sections.
-Lines 5-8 describe the $x$-dimension, lines 9-12 the $y$-dimension,
-and lines 13-16 the $z$-direction.
+the \((x,y,z)\) directions. Each segment set is defined in \((x,y,z)\) sections.
+Lines 5-8 describe the \(x\)-dimension, lines 9-12 the \(y\)-dimension,
+and lines 13-16 the \(z\)-direction.
 
 \begin{description}
 
-  \item[Line 5] The number of segments, $nsegs$, in the $x$-direction
+  \item[Line 5:] The number of segments, \(nsegs\), in the \(x\)-direction.
 
-  \item[Line 6] The number of elements in each segment. There should be $nsegs$
-    numbers, $(nelx\_1, nelx\_2, \ldots)$
+  \item[Line 6:] The number of elements in each segment. There should be \(nsegs\)
+    numbers, \\
+    \((nelx_1, nelx_2, \ldots, nelx_{nsegs})\).
 
-  \item[Line 7] The start (and end) coordinates for each segment in this
-    direction.  There should be $nsegs+1$ numbers, $(x_0, x_1, \ldots,
-    x_{nsegs})$
+  \item[Line 7:] The start (and end) coordinates for each segment in this
+    direction.  There should be \(nsegs+1\) numbers, \((x_0, x_1, \ldots,
+    x_{nsegs})\).
 
-  \item[Line 8] The distribution of each segment. Uniform spacing corresponds
+  \item[Line 8:] The distribution of each segment. Uniform spacing corresponds
     to 1; otherwise a geometric sequence is generated.  In conclusion, a
-    segment between $x_{i-1}$ and $x_i$ is filled with $nelx_i$ elements
+    segment between \(x_{i-1}\) and \(x_i\) is filled with \(nelx_i\) elements
     determined by the geometric ratio given for that segment.
 
-  \item[Lines 9-12] Description of segments for $y$-dimension.  Follows the
+  \item[Lines 9-12:] Description of segments for \(y\)-dimension.  Follows the
     same format as lines 5-8.
 
-  \item[Lines 13-16 (in 3D)] Description of segments for $z$-dimension.
+  \item[Lines 13-16 (in 3D):] Description of segments for \(z\)-dimension.
     Follows the same format as lines 5-8.
 
 \end{description}
 
 \subsubsection{Footer for all geometries}
 
-The last lines of the .box file describe the boundary conditions.  There is one
+The last lines of the~.box file describe the boundary conditions.  There is one
 line of boundary conditions for each fld field indicated (including MHD).  The
 order of the boundary conditions are: west, east, south, north, bottom, top.
 Genbox expects each boundary condition to be 3 characters followed by a comma,
 so it is important maintain the proper spacing.  See Section~\ref{sec:boundary}
-for available options \textbf{Note: there should be no blank lines at the end
-  of the .box file.  Extra whitespace will cause genbox to search for another
+for available options {\em Note: there should be no blank lines at the end
+  of the~.box file.  Extra whitespace will cause genbox to search for another
 new tensor box data.}
 
 
@@ -253,14 +252,14 @@ new tensor box data.}
 
 % END WIP
 
-\subsection{Example .box files}
+\subsection{Example~.box files}
 
 \subsubsection{Uniformly distributed mesh}
 
 Suppose you wish to simulate flow through an axisymmetric pipe, of radius
 \(R=0.5\) and length \(L=4\).  You estimate that you will need 3 elements in
-radial (\(y\)) direction, and 5 in the \(x\) direction, as depicted in Fig.
-\ref{fig:mesh_axi1}.  This would be specified by the following input file
+radial (\(y\)) direction, and 5 in the \(x\) direction, as depicted in
+Fig.~\ref{fig:mesh_axi1}.  This would be specified by the following input file
 (called {\em pipe.box}) to genbox:
 
 \begin{verbatim}
@@ -401,7 +400,7 @@ that genbox is expecting {\tt Nely+1} values of \(y\) positions on the
 explains why it corresponds to {\tt Nely} \(>\) 0.  The corresponding mesh
 is shown in Fig. \ref{fig:mesh_axi3}.
 
-\subsubsection{ Annulus Geometry }
+\subsubsection{Annulus Geometry}
 \begin{verbatim}base.rea
 2                         spatial dimension
 2                         number of fields
@@ -415,7 +414,7 @@ SYM,SYM,   ,               V bc's ~! NB:  3 characters each~!
 f  ,f  ,   ,               T bc's ~!      You must have 2 spaces!!
 \end{verbatim}
 
-\subsubsection{ MHD}
+\subsubsection{MHD}
 \begin{verbatim}base.rea
 3                          spatial dimensions: <0 for .re2
 2.1                        number of fields       ~: v,T + B
@@ -429,7 +428,7 @@ P  ,P  ,P  ,P  ,P  ,P      (cbx0,  cbx1,  cby0,  cby1,  cbz0,  cbz1)  Temperatur
 P  ,P  ,P  ,P  ,P  ,P      (cbx0,  cbx1,  cby0,  cby1,  cbz0,  cbz1)  Magnetic Field
 \end{verbatim}
 
-\subsubsection{ Cicular, 1/4 , no velocity, Passive scalars}
+\subsubsection{Cicular, 1/4 , no velocity, Passive scalars}
 \begin{verbatim}base.rea
 2                          spatial dimensions: <0 for .re2
 -3                         number of fields       ~: (NO VELOCITY) heat + 2 passive scalars
@@ -448,9 +447,9 @@ P  ,P  ,   ,   ,           PS2
 
 For complex shapes, it is often convenient to modify the mesh
 direction in the simulation code, Nek5000.  This can be done
-through the usrdat2 routine provided in the .usr file.
+through the usrdat2 routine provided in the~.usr file.
 The routine usrdat2 is called by nek5000 immediately after
-the geometry, as specified by the .rea file, is established.
+the geometry, as specified by the~.rea file, is established.
 Thus, one can use the existing geometry to map to a new geometry
 of interest.
 
