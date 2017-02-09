@@ -8,5 +8,6 @@ Geometry
 
     genbox
     extrude_mirror
-    boundaryc_intial_cond
+    moving
+    bound_init
     genmap

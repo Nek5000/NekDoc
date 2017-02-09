@@ -9,5 +9,4 @@ User Files
     user_intro
     size_intro
     rea_intro
-    physical_parameters
     data_layout

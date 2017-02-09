@@ -6,10 +6,10 @@ Routines of Interest
 .. toctree::
     :maxdepth: 2
 
-    naming_conventions
+    naming
     subroutines
     functions
     example_usr
     spectral_interp
     grid_interp
-    lagrangian_tracking
+    tracking

@@ -9,4 +9,5 @@ Quick Start
     git_repo
     svn_repo
     worked_example
-    view_2d_example
+    view_example
+    mod_example

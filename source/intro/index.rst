@@ -8,7 +8,7 @@ Introduction
     
     incompress_ns
     nondim_ns
-    energy
+    energy_eq
     nondim_eps
     passive_scalars
     unsteady_stokes
