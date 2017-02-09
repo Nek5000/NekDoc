@@ -10,6 +10,14 @@ Welcome to Nek5000's documentation!
    :maxdepth: 2
    :caption: Contents:
 
+   intro/index
+   quickstart/index
+   user_files/index
+   geometry/index
+   large_scale/index
+   routines/index
+   appendix/index
+
 
 
 Indices and tables
