@@ -6,6 +6,7 @@ Introduction
 .. toctree::
     :maxdepth: 2
     
+    compute_approach
     incompress_ns
     nondim_ns
     energy_eq
