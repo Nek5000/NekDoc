@@ -18,3 +18,15 @@ help:
 # "make mode" option.  $(O) is meant as a shortcut for $(SPHINXOPTS).
 %: Makefile
 	@$(SPHINXBUILD) -M $@ "$(SOURCEDIR)" "$(BUILDDIR)" $(SPHINXOPTS) $(O)
+
+gh-pages:
+	git checkout gh-pages
+	rm -rf build _sources _static
+	git checkout rst source/ Makefile
+	git reset HEAD
+	make html
+	mv -fv build/html/* ./
+	rm -rf source/ Makefile build/
+	touch .nojekyll
+	git add -A
+	git commit -m "Generated gh-pages for `git log master -1 --pretty=short --abbrev-commit`" && git push origin gh-pages
