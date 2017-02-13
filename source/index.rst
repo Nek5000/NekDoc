@@ -13,14 +13,14 @@ by Hank Childs and colleagues at LLNL/LBNL.  VisIt is mandatory for large proble
 .. toctree::
    :maxdepth: 2
 
-   intro/intro
-   quickstart/quickstart
-   user_files/user_files
-   geometry/geometry
-   large_scale/large_scale
-   routines/routines
-   appendix/appendix
-   bib/bibliography
+   intro
+   quickstart
+   user_files
+   geometry
+   large_scale
+   routines
+   appendix
+   bibliography
 
 
 Indices and tables
