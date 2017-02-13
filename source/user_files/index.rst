@@ -1,5 +1,3 @@
-.. _user_files:
-
 User Files
 ==========
 

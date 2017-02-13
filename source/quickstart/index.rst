@@ -1,5 +1,3 @@
-.. _quickstart:
-
 Quick Start
 ===========
 
