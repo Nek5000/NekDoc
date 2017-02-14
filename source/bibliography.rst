@@ -6,6 +6,12 @@ Bibliography
 .. [Denville2002] Deville, M.O. and P.F. Fischer and E.H. Mund. *High-order methods for
     incompressible fluid flow.* Cambridge University Press, 2002.
 
+.. [Ho1989] Ho, L.W.  A Legendre spectral element method for simulation of incompressible unsteady
+    viscous free-surface flows. Ph.D. thesis, Massachusetts Institute of Technology, 1989.
+
+.. [Maday1989] Maday, Y. and A.T. Patera. Spectral element methods for the Navier-Stokes equations.
+    In *State-of-the-Art Surveys in Computational Mechanics*, pages 71–143. ASME, New York, 1989.
+
 .. [Orszag1980]  Orszag, S.A. "Spectral methods for problems in complex geometry." *J. Comput.
     Phys.* **37**:70--92, 1980.
 
