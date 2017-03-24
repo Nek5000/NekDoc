@@ -9,7 +9,7 @@ cd
 mkdir eddy
 cd eddy
 cp $HOME/NekExamples/eddy/* .
-cp $HOME/Nek5000/core/makenek .
+cp $HOME/Nek5000/bin/makenek .
 \end{verbatim}
 or the equivalent commands for the SVN repository:
 \begin{verbatim}
@@ -39,10 +39,10 @@ changes to makenek, the eddy problem can be compiled as follows
 
 
 {\bf Compiling nek.}
-{\tt makenek eddy\_uv} 
+{\tt makenek eddy\_uv}
 
 \noindent
-If all works properly, upon comilation the executable {\tt nek5000} will be generated using {\tt eddy\_uv.usr} to provide
+If all works properly, upon compilation the executable {\tt nek5000} will be generated using {\tt eddy\_uv.usr} to provide
 user-supplied initial conditions and analysis.  Note that if you encountered
 a problem during a prior attempt to build the code you should type
 
@@ -98,8 +98,8 @@ If the run has completed, the above {\tt grep} command should yield lines like
  1000  1.000000E-01  7.842019E-05  1.818632E+00  1.818628E+00  3.000000E-01  Y err
 \end{verbatim}
 \normalsize
-which gives for the $x$- and $y$-velocity components the 
-step number, the physical time, the maxiumum error, the maximum exact
+which gives for the $x$- and $y$-velocity components the
+step number, the physical time, the maximum error, the maximum exact
 and computed values and the mean (bulk) values.
 
 A common command to check on the progress of a simulation is
@@ -137,14 +137,14 @@ With the cursor focus in this window (move the cursor to the window and
 left click), hit {\tt return} on the keyboard accept the default session name and click {\sc plot} with the left mouse button.  This should bring up
 a color plot of the pressure distribution for the first output file
 from the simulation (here, {\tt eddy\_uv.fld01}), which contains the
-geometry, velocity, and pressure.  
+geometry, velocity, and pressure.
 
-Alternatively one can use the script \textit{visnek}, to be found in {\tt /scripts}. It is sufficent to run 
+Alternatively one can use the script \textit{visnek}, to be found in {\tt /scripts}. It is sufficient to run
 
 \noindent
 {\tt visnek eddy\_uv}\textit{ (or the name of your session)}
 
-to obatain a file named {\tt eddy\_uv.nek5000} which can be recognized in VisIt \footnote{https://wci.llnl.gov/simulation/computer-codes/visit/}
+to obtain a file named {\tt eddy\_uv.nek5000} which can be recognized in VisIt \footnote{https://wci.llnl.gov/simulation/computer-codes/visit/}
 
 
 \begin{comment}
@@ -235,4 +235,4 @@ case.
 Note that one normally would not use a restart file for the {\em eddy}
 problem, which is really designed as a convergence study.  The purpose here, however, was two-fold, namely,
 to illustrate a change of order and its impact on the error, and to
-demonstrate the frequently-used restart procedure. However for a higher order timestepping scheme an accurate restart would require a number of field files of the same size (+1) as the order of the multistep scheme
+demonstrate the frequently-used restart procedure. However for a higher order timestepping scheme an accurate restart would require a number of field files of the same size (+1) as the order of the multistep scheme.
