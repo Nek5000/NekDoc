@@ -86,7 +86,7 @@ details.
 %\section{Nek5000 code layout}
 %\input{code_layout}
 
-\chapter{Quick start}
+\chapter{Quick start}\label{ch:quick_start}
 \input{down_build}
 \input{example}
 
@@ -105,19 +105,17 @@ details.
 
 \chapter{Geometry}\label{sec:geom}
 
-\section{Setting up the geometry}
+\section{Generating a Mesh with Genbox}\label{sec:genbox}
 %\subsection{Rectangular geometries}
-\input{genbox}\label{sec:genbox}
+\input{genbox}
 %\input{mesh101}
 %\section{Curvilinear geometry}
-\section{Extrusion/Mirroring}
-\input{n2to3}
-\input{geom_general}
-\section{Boundary and initial conditions}
+\section{Boundary and Initial Conditions}
 \input{boundaryc}
 \input{internal_bc}
 \input{intial_cond}
-\section{Mesh Partioning for Parallel Computing}
+
+\section{Mesh Partioning for Parallel Computing with Genmap}\label{sec:genmap}
 \input{genmap}
 
 \chapter{Performing large scale simulations  in Nek5000}
