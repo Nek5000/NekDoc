@@ -2,7 +2,7 @@
 Note that in case of any changes in the SIZE file, a recompilation is necessary.\\
 \subsection{Uniformly Distributed Mesh}
 
-Suppose you wish to simulate flow through an axisymmetric pipe,
+Suppose you wish to simulate flow through an axisymmetric pipe
 of radius \(R=0.5\) and length \(L=4\).  You estimate that you will
 need 3 elements in radial (\(y\)) direction, and 5 in the \(x\) direction,
 as depicted in Fig. \ref{fig:mesh_axi1}.
@@ -29,7 +29,7 @@ v  ,O  ,A  ,W  ,   ,          BC's:  (cbx0, cbx1, cby0, cby1, cbz0, cbz1)
 \begin{figure}
 \centering
 \includegraphics[width=0.8\textwidth]{Figs/mesh_axi1}
-\caption{Axisymmteric pipe mesh}
+\caption{Axisymmetric pipe mesh}
 \label{fig:mesh_axi1}
 \end{figure}
 \noindent
@@ -59,10 +59,10 @@ along each axis, rather than providing it by hand.  (More on this below.)
 \item
 The next line specifies the distribution of the 5 elements in the \(x\) direction.
 The mesh starts at \(x=0\) and ends at \(x=4.0\).  The {\em ratio} indicates the
-relative size of each element, progressing from left to right.  Here, 
+relative size of each element, progressing from left to right.
 \item
 The next line specifies the distribution of the 3 elements in the \(y\) direction,
-starting at \(y=0\) and going to \(y=0.5\).  Again, 
+starting at \(y=0\) and going to \(y=0.5\).  Again,
 {\em ratio}=1.0 indicates that the elements will be of uniform height.
 \item
 The last line specifies boundary conditions on each of the 4 sides of the
@@ -91,7 +91,7 @@ equivalent to a {\em v} or {\em V} boundary condition, with \(\bu=0\).
 \begin{figure}
 \centering
 \includegraphics[width=0.8\textwidth]{Figs/mesh_axi2}
-\caption{Axisymmteric pipe mesh, graded}
+\caption{Axisymmetric pipe mesh, graded}
 \label{fig:mesh_axi2}
 \end{figure}
 
@@ -124,7 +124,7 @@ yields the mesh shown in Fig. \ref{fig:mesh_axi2}.
 \begin{figure}
 \centering
 \includegraphics[width=0.6\textwidth]{Figs/mesh_axi3}
-\caption{Axisymmteric pipe mesh, user specified}
+\caption{Axisymmetric pipe mesh, user specified}
 \label{fig:mesh_axi3}
 \end{figure}
 
@@ -235,7 +235,7 @@ The result of above changes is shown in Fig. \ref{fig:wavypipe}.
 \begin{figure}
 \centering
 \includegraphics[width=0.8\textwidth]{Figs/wavypipe}
-\caption{Axisymmteric pipe mesh}
+\caption{Axisymmetric pipe mesh}
 \label{fig:wavypipe}
 \end{figure}
 
