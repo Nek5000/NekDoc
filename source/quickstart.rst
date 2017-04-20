@@ -127,7 +127,7 @@ _________________
 .. highlight:: bash
 
 The *nek5_svn/trunk/tools* directory contains programs for pre- and post-processing tasks, such as
-generating meshes from geometry descriptions.  The following mands will build the tools in
+generating meshes from geometry descriptions.  The following commands will build the tools in
 *$HOME/bin*::
 
   cd $HOME/nek5_svn/trunk/tools 
@@ -156,107 +156,124 @@ In the following examples, we will assume that the tools and scripts have been a
 A Worked Example
 ----------------
 
-As a first example, we consider the eddy problem pres
-.
-To get started, execute the following commands for the Git repositories:
+.. highlight:: bash
 
-.. \begin{verbatim}
-.. cd
-.. mkdir eddy
-.. cd eddy
-.. cp $HOME/NekExamples/eddy/* .
-.. cp $HOME/Nek5000/core/makenek .
-.. \end{verbatim}
-.. or the equivalent commands for the SVN repository:
-.. \begin{verbatim}
-.. cd
-.. mkdir eddy
-.. cd eddy
-.. cp $HOME/nek5_svn/examples/eddy/* .
-.. cp $HOME/nek5_svn/trunk/nek/makenek .
-.. \end{verbatim}
-.. 
-.. {\bf Modify {\tt makenek}.}
-.. 
-.. If you do not have {\tt mpi} installed on your system, edit {\tt makenek},
-.. uncomment the {\tt IFMPI="false"} flag, and change the Fortran and C
-.. compilers according to what is available on your machine.  (Most any
-.. Fortran compiler save g77 or g95 will work.)
-.. 
-.. Nek5000 is written in F77 which has implicit typesetting as default. This means in practice that if the user defines a new variable in the user file and forgets to define its type explicitly then variable beginning with a character from I to N, its type is {\tt INTEGER}. Otherwise, it is {\tt REAL}. 
-.. 
-.. This common type of mistake for a beginner can be avoided using a warning flag {\tt -Wimplicit}. This flag warns whenever a variable, array, or function is implicitly declared. Has an effect similar to using the IMPLICIT NONE statement in every program unit. 
-.. 
-.. Another useful flag may {\tt -mcmodel} which allows for arrays of size larger than 2GB. This option tells the compiler to use a specific memory model to generate code and store data. It can affect code size and performance. If your program has global and static data with a total size smaller than 2GB, {\tt -mcmodel=small} is sufficient. Global and static data larger than 2GB requires {\tt -mcmodel=medium} or {\tt -mcmodel=large}.
-.. 
-.. 
-.. If you have {\tt mpi} installed on your system or have made the prescribed
-.. changes to makenek, the eddy problem can be compiled as follows
-.. 
-.. 
-.. {\bf Compiling nek.}
-.. {\tt makenek eddy\_uv} 
-.. 
-.. \noindent
-.. If all works properly, upon comilation the executable {\tt nek5000} will be generated using {\tt eddy\_uv.usr} to provide
-.. user-supplied initial conditions and analysis.  Note that if you encountered
-.. a problem during a prior attempt to build the code you should type
-.. 
-.. {\tt makenek clean;}  
-.. 
-.. {\tt makenek eddy\_uv} 
-.. 
-.. \noindent
-.. Once compilation is successful, start the simulation by typing
-..  
-.. 
-.. {\bf Running a case:}
-.. {\tt nekb eddy\_uv } 
-.. 
-.. which runs the executable in the background ({\tt nekb}, as opposed to {\tt
-.. nek}, which will run in the foreground).  
-.. If you are running on a multi-processor machine that supports MPI, you
-.. can also run this case via
-.. 
-.. {\bf A parallel run:}
-.. {\tt nekbmpi eddy\_uv 4}
-.. 
-.. \noindent
-.. which would run on 4 processors.    If you are running on a system
-.. that supports queuing for batch jobs (e.g., pbs), then the following
-.. would be a typical job submission command
-.. 
-.. %% \marginlabel{\bf Running with pbs:}
-.. {\tt nekpbs eddy\_uv 4}
-.. 
-.. In most cases, however, the details of the nekpbs script would need
-.. to be modified to accommodate an individual's user account, the 
-.. desired runtime and perhaps the particular queue.   Note that the
-.. scripts {\tt nek, nekb, nekmpi, nekbmpi,} etc. perform some essential
-.. file manipulations prior to executing {\tt nek5000}, so it is important
-.. to use them rather than invoking {\tt nek5000} directly.
-.. 
-.. 
-.. To check the error for this case, type
-.. \begin{verbatim}
-.. grep -i err eddy_uv.log | tail
-.. \end{verbatim}
-.. or equivalently
-.. \begin{verbatim}
-.. grep -i err logfile | tail
-.. \end{verbatim}
-.. where, because of the {\tt nekb} script, {\tt logfile} is 
-.. linked to the {\tt .log} file of the given simulation. 
-.. If the run has completed, the above {\tt grep} command should yield lines like
-.. \scriptsize
-.. \begin{verbatim}
-..  1000  1.000000E-01  6.759103E-05  2.764445E+00  2.764444E+00  1.000000E+00  X err
-..  1000  1.000000E-01  7.842019E-05  1.818632E+00  1.818628E+00  3.000000E-01  Y err
-.. \end{verbatim}
-.. \normalsize
-.. which gives for the $x$- and $y$-velocity components the 
-.. step number, the physical time, the maxiumum error, the maximum exact
-.. and computed values and the mean (bulk) values.
+As a first example, we consider the eddy problem presented by Walsh
+[Walsh1992]_.  To get started, execute the following commands for the Git
+repositories::
+
+  cd
+  mkdir eddy
+  cd eddy
+  cp $HOME/NekExamples/eddy/* .
+  cp $HOME/Nek5000/core/makenek .
+
+or the equivalent commands for the SVN repository::
+
+  cd
+  mkdir eddy
+  cd eddy
+  cp $HOME/nek5_svn/examples/eddy/* .
+  cp $HOME/nek5_svn/trunk/nek/makenek .
+
+_________________
+Modifying makenek
+_________________
+
+If you do not have MPI installed on your system, edit ``makenek``, uncomment the ``IFMPI="false"``
+flag, and change the Fortran and C compilers according to what is available on your machine.  (Most
+any Fortran compiler save g77 or g95 will work.)
+
+Nek5000 is written in F77 which has implicit typesetting as default. This means in practice that if
+the user defines a new variable in the user file and forgets to define its type explicitly then
+variable beginning with a character from I to N, its type is ``INTEGER``. Otherwise, it is ``REAL``. 
+
+This common type of mistake for a beginner can be avoided using a warning flag ``-Wimplicit``. This
+flag warns whenever a variable, array, or function is implicitly declared. Has an effect similar to
+using the ``IMPLICIT NONE`` statement in every program unit. 
+
+Another useful flag may ``-mcmodel`` which allows for arrays of size larger than 2GB. This option
+tells the compiler to use a specific memory model to generate code and store data. It can affect
+code size and performance. If your program has global and static data with a total size smaller than
+2GB, ``-mcmodel=small`` is sufficient. Global and static data larger than 2GB requires
+``-mcmodel=medium`` or ``-mcmodel=large``.
+
+_____________
+Compiling Nek
+_____________
+
+.. highlight:: bash
+
+If you have MPI installed on your system or have made the prescribed changes to makenek, the eddy
+problem can be compiled as follows::
+
+  makenek eddy_uv
+
+If all works properly, upon comilation the executable ``nek5000`` will be generated using
+``eddy_uv.usr`` to provide user-supplied initial conditions and analysis.  Note that if you
+encountered a problem during a prior attempt to build the code you should type::
+
+  makenek clean
+  makenek eddy_uv
+
+________________________
+Running a case in serial
+________________________
+
+.. highlight:: bash
+
+Once compilation is successful, start the simulation by typing::
+
+  nekb eddy_uv
+
+which runs the executable in the background (``nekb``, as opposed to ``nek``, which will run in the
+foreground).  
+
+__________________________
+Running a case in parallel
+__________________________
+
+.. highlight:: bash
+
+If you are running on a multi-processor machine that supports MPI, you can also run this case via::
+
+  nekbmpi eddy_uv 4
+
+which would run on 4 processors.    If you are running on a system that supports queuing for batch
+jobs (e.g., pbs), then the following would be a typical job submission command::
+
+  nekpbs eddy_uv 4
+
+In most cases, however, the details of the ``nekpbs`` script would need to be modified to accommodate an
+individual's user account, the desired runtime and perhaps the particular queue.   Note that the
+scripts ``nek``, ``nekb``, ``nekmpi``, ``nekbmpi``, etc. perform some essential file manipulations prior to
+executing ``nek5000``, so it is important to use them rather than invoking ``nek5000`` directly.
+
+_______________________
+Checking console output
+_______________________
+
+.. highlight:: bash
+
+To check the error for this case, type::
+
+  grep -i err eddy_uv.log | tail
+
+or equivalently::
+
+  grep -i err logfile | tail
+
+where, because of the ``nekb`` script, ``logfile`` is linked to the ``.log`` file of the given
+simulation.  If the run has completed, the above {\tt grep} command should yield lines like
+
+.. code-block:: none
+
+  1000  1.000000E-01  6.759103E-05  2.764445E+00  2.764444E+00  1.000000E+00  X err
+  1000  1.000000E-01  7.842019E-05  1.818632E+00  1.818628E+00  3.000000E-01  Y err
+
+which gives for the :math:`x`- and :math:`y`-velocity components the step number, the physical time,
+the maxiumum error, the maximum exact and computed values and the mean (bulk) values.
+
 .. 
 .. A common command to check on the progress of a simulation is
 .. \begin{verbatim}
