@@ -274,60 +274,54 @@ simulation.  If the run has completed, the above {\tt grep} command should yield
 which gives for the :math:`x`- and :math:`y`-velocity components the step number, the physical time,
 the maxiumum error, the maximum exact and computed values and the mean (bulk) values.
 
-.. 
-.. A common command to check on the progress of a simulation is
-.. \begin{verbatim}
-.. grep tep logfile | tail
-.. \end{verbatim}
-.. which typically produces lines such as
-.. \scriptsize
-.. \begin{verbatim}
-.. Step    996, t= 9.9600000E-02, DT= 1.0000000E-04, C=  0.015 4.6555E+01 3.7611E-02
-.. \end{verbatim}
-.. \normalsize
-.. indicating, respectively, the step number, the physical time, the
-.. timestep size, the Courant (or CFL) number, the cumulative wall clock time (in seconds)
-.. and the wall-clock time for the most recent step.   Generally, one would 
-.. adjust $\dt$ to have a CFL of $\sim$0.5.  
-.. 
-.. 
-.. %See Section \ref{sec:timestepping} for a comprehensive discussion of timestep selection.
+ 
+A common command to check on the progress of a simulation is::
 
-____________________________
+  grep tep logfile | tail
+
+which typically produces lines such as::
+
+  Step    996, t= 9.9600000E-02, DT= 1.0000000E-04, C=  0.015 4.6555E+01 3.7611E-02
+
+indicating, respectively, the step number, the physical time, the
+timestep size, the Courant (or CFL) number, the cumulative wall clock time (in seconds)
+and the wall-clock time for the most recent step.   Generally, one would 
+adjust :math:`\Delta t` to have a CFL of :math:`\sim0.5`.
+  
+.. 
+.. 
+.. See Section \ref{sec:timestepping} for a comprehensive discussion of timestep selection.
+
+----------------------------
 Viewing the First 2D Example
-____________________________
-
-___________________________
-Modifying the First Example
-___________________________
+----------------------------
 
 .. \section{A Worked Example}
 .. 
-.. \section{Viewing the First 2D Example}
-.. 
-.. The preferred mode for data visualization and analysis with Nek5000 is
-.. to use VisIt.  For a quick
-.. peek at the data, however, we list a few commands for the native Nek5000 
-.. postprocessor.   Assuming that the {\tt maketools} script has been executed
-.. and that {\tt /bin} is in the execution path, then typing 
-.. 
-.. \noindent
-.. {\tt postx} 
-.. 
-.. \noindent
-.. in the working directory should open a new window with a sidebar menu.
-.. With the cursor focus in this window (move the cursor to the window and
-.. left click), hit {\tt return} on the keyboard accept the default session name and click {\sc plot} with the left mouse button.  This should bring up
-.. a color plot of the pressure distribution for the first output file
-.. from the simulation (here, {\tt eddy\_uv.fld01}), which contains the
-.. geometry, velocity, and pressure.  
-.. 
-.. Alternatively one can use the script \textit{visnek}, to be found in {\tt /scripts}. It is sufficent to run 
-.. 
-.. \noindent
-.. {\tt visnek eddy\_uv}\textit{ (or the name of your session)}
-.. 
-.. to obatain a file named {\tt eddy\_uv.nek5000} which can be recognized in VisIt \footnote{https://wci.llnl.gov/simulation/computer-codes/visit/}
+
+.. highlight:: bash
+
+The preferred mode for data visualization and analysis with Nek5000 is
+to use VisIt.  For a quick
+peek at the data, however, we list a few commands for the native Nek5000 
+postprocessor.   Assuming that the ``maketools`` script has been executed
+and that ``/bin`` is in the execution path, then typing:: 
+
+  postx 
+
+in the working directory should open a new window with a sidebar menu.
+With the cursor focus in this window (move the cursor to the window and
+left click), hit ``return`` on the keyboard accept the default session name and click **plot** with the left mouse button.  This should bring up
+a color plot of the pressure distribution for the first output file
+from the simulation (here, ``eddy_uv.fld01``), which contains the
+geometry, velocity, and pressure.  
+
+Alternatively one can use the script *visnek*, to be found in ``/scripts``. It is sufficent to run:: 
+
+  visnek eddy_uv
+
+*(or the name of your session)* to obatain a file named ``eddy_uv.nek5000`` which can be recognized in `VisIt. <https://wci.llnl.gov/simulation/computer-codes/visit/>`_
+
 .. 
 .. 
 .. \begin{comment}
@@ -342,12 +336,13 @@ ___________________________
 .. \end{tabular}
 .. \end{comment}
 .. 
-.. {\bf Plotting the error:}
-.. For this case, the error has been written to {\tt
-.. eddy\_uv.fld11} by making a call to {\tt outpost()} in the {\tt userchk()}
-.. routine in {\tt eddy\_uv.usr}.  The error in the velocity components
-.. is stored in the velocity-field locations and can be viewed with 
-.. postx, or VisIt as before.
+**Plotting the error:**
+For this case, the error has been written to 
+``eddy_uv.fld11`` by making a call to ``outpost()`` in the ``userchk()``
+routine in ``eddy_uv.usr``.  The error in the velocity components
+is stored in the velocity-field locations and can be viewed with 
+postx, or VisIt as before.
+
 .. 
 .. \begin{comment}
 .. through the following sequence: 
@@ -363,59 +358,69 @@ ___________________________
 .. 
 .. \subsection{Modifying the First Example}
 .. 
-.. A common step in the Nek5000 workflow is to rerun with a higher
-.. polynomial order.   Typically, one runs a relatively low-order case
-.. (e.g., {\tt lx1}=5) for one or two flow-through times and then uses
-.. the result as an initial condition for a higher-order run
-.. (e.g., {\tt lx1}=8).  We illustrate the procedure with the 
-.. {\tt eddy\_uv} example.
+
+___________________________
+Modifying the First Example
+___________________________
+
+.. highlight:: bash
+
+A common step in the Nek5000 workflow is to rerun with a higher
+polynomial order.   Typically, one runs a relatively low-order case
+(e.g., ``lx1`` =5) for one or two flow-through times and then uses
+the result as an initial condition for a higher-order run
+(e.g., ``lx1`` =8).  We illustrate the procedure with the 
+``eddy_uv`` example.
 .. 
-.. Assuming that the contents of {\tt nek5\_svn/trunk/tools/scripts}
-.. are in the execution path, begin by typing
-.. \begin{verbatim}
-.. cp eddy_uv eddy_new
-.. \end{verbatim}
-.. which will copy the requisite {\tt eddy\_uv} case files
-.. to {\tt eddy\_new}.  
-.. Next, edit {\tt SIZE} and change the two lines defining
-.. {\tt lx1} and {\tt lxd} from
-.. \begin{verbatim}
-..       parameter (lx1=8,ly1=lx1,lz1=1,lelt=300,lelv=lelt)
-..       parameter (lxd=12,lyd=lxd,lzd=1)
-.. \end{verbatim}
-.. to
-.. \begin{verbatim}
-..       parameter (lx1=12,ly1=lx1,lz1=1,lelt=300,lelv=lelt)
-..       parameter (lxd=18,lyd=lxd,lzd=1)
-.. \end{verbatim}
-.. Then recompile the source by typing
-.. \begin{verbatim}
-.. makenek eddy_new
-.. \end{verbatim}
-.. 
-.. Next, edit {\tt eddy\_new.rea} and change the line 
-.. \begin{verbatim}
-..             0 PRESOLVE/RESTART OPTIONS  *****
-.. \end{verbatim}
-.. (found roughly 33 lines from the bottom of the file) to
-.. \begin{verbatim}
-..             1 PRESOLVE/RESTART OPTIONS  *****
-.. eddy_uv.fld12
-.. \end{verbatim}
-.. which tells nek5000 to use the contents of {\tt eddy\_uv.fld12}
-.. as the initial condition for {\tt eddy\_new}.
-.. The simulation is started in the usual way:
-.. \begin{verbatim}
-.. nekb eddy_new
-.. \end{verbatim}
-.. after which the command
-.. \begin{verbatim}
-.. grep err logfile | tail
-.. \end{verbatim}
-.. will show a much smaller error ($\sim 10^{-9}$) than the {\tt lx1=8}
-.. case. 
-.. 
-.. Note that one normally would not use a restart file for the {\em eddy}
-.. problem, which is really designed as a convergence study.  The purpose here, however, was two-fold, namely,
-.. to illustrate a change of order and its impact on the error, and to
-.. demonstrate the frequently-used restart procedure. However for a higher order timestepping scheme an accurate restart would require a number of field files of the same size (+1) as the order of the multistep scheme
+Assuming that the contents of ``nek5\_svn/trunk/tools/scripts``
+are in the execution path, begin by typing::
+
+  cp eddy_uv eddy_new
+
+which will copy the requisite ``eddy_uv`` case files
+to ``eddy_new``.  
+Next, edit ``SIZE`` and change the two lines defining
+``lx1`` and ``lxd`` from::
+
+       parameter (lx1=8,ly1=lx1,lz1=1,lelt=300,lelv=lelt)
+       parameter (lxd=12,lyd=lxd,lzd=1)
+
+to::
+
+       parameter (lx1=12,ly1=lx1,lz1=1,lelt=300,lelv=lelt)
+       parameter (lxd=18,lyd=lxd,lzd=1)
+
+Then recompile the source by typing::
+  
+  makenek eddy_new
+
+Next, edit ``eddy_new.rea`` and change the line
+
+.. code-block:: none
+ 
+             0 PRESOLVE/RESTART OPTIONS  *****
+
+(found roughly 33 lines from the bottom of the file) to
+
+.. code-block:: none
+
+             1 PRESOLVE/RESTART OPTIONS  *****
+  eddy_uv.fld12
+
+which tells nek5000 to use the contents of ``eddy_uv.fld12``
+as the initial condition for ``eddy_new``.
+The simulation is started in the usual way::
+
+  nekb eddy_new
+
+after which the command::
+
+  grep err logfile | tail
+
+will show a much smaller error (:math:`\sim 10^{-9}`) than the ``lx1=8``
+case. 
+
+Note that one normally would not use a restart file for the *eddy*
+problem, which is really designed as a convergence study.  The purpose here, however, was two-fold, namely,
+to illustrate a change of order and its impact on the error, and to
+demonstrate the frequently-used restart procedure. However for a higher order timestepping scheme an accurate restart would require a number of field files of the same size (+1) as the order of the multistep scheme
