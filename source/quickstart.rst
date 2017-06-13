@@ -336,6 +336,7 @@ Alternatively one can use the script *visnek*, to be found in ``/scripts``. It i
 .. \end{tabular}
 .. \end{comment}
 .. 
+
 **Plotting the error:**
 For this case, the error has been written to 
 ``eddy_uv.fld11`` by making a call to ``outpost()`` in the ``userchk()``
