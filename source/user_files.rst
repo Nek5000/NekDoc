@@ -28,6 +28,8 @@ SESSION.NAME file is a file that contains the name of the simulation and the ful
 supporting files. For example, to run the eddy example from the repository, the SESSION.NAME file
 would look like:
 
+.. code-block:: none
+
   eddy_uv
   /home/user_name/Nek5000/short_tests/eddy/ 
 
@@ -234,7 +236,9 @@ alternatively the variable properties can be set in the USERVP routine.
 
 To run NEK5000, each simulation must have a SESSION.NAME file. This file is read in by the code and gives the path to the relevant files describing the structure and parameters of the simulation. The SESSION.NAME file is a file that contains the name of the simulation and the full path to supporting files. For example, to run the eddy example from the repository, the SESSION.NAME file would look like::
 
-  eddy_uv\\
+.. code-block:: none
+
+  eddy_uv
   /homes/user\_ name/nek5\_ svn/examples/eddy/
 
 
@@ -258,8 +262,6 @@ The total size of the problem is ``lx1*ly1*lz1*lelt``.
 ...................
 Memory Requirements
 ...................
-
-.. highlight:: bash
 
 Per-processor memory requirements for  Nek5000 scale
 roughly as 400 8-byte words per allocated gridpoint.  The number
@@ -348,6 +350,8 @@ Next we have the logical switches as follow, a detailed explanation to be found 
 Mesh and boundary condition info
 ................................
 
+.. highlight:: none
+
 **geometry**
     The geometry is specified in an arcane format specifying
     the :math:`xyz` locations of each of the eight points for each element,
@@ -374,43 +378,238 @@ Mesh and boundary condition info
     first, followed by all solid elements if present. In this case there are (34) 
     solid elements.
 
-    The data following the header is formatted as shown in Table :numref:`tab:element`. This provides all the coordinates of an element for top and bottom faces. The numbering of the vertices is shown in Fig. :numref:`fig:elorder`. The header for each element as in Table. :numref:`tab:element`, i.e. ``[1A] GROUP`` is reminiscent of older Nek5000 format and does not impact the mesh generation at this stage. (We are inquiring whether other groups still use it.)
+    The data following the header is formatted as shown in :numref:`tab:element`. This provides all the coordinates of an element for top and bottom faces. The numbering of the vertices is shown in Fig. :numref:`fig:elorder`. The header for each element as in :numref:`tab:element`, i.e. ``[1A] GROUP`` is reminiscent of older Nek5000 format and does not impact the mesh generation at this stage. (We are inquiring whether other groups still use it.)
 
-    .. _tab:element:
+      .. _tab:element:
 
-    .. table:: Geometry description in .rea file
+      .. table:: Geometry description in .rea file
+        
+         +-------------------------------------------------------------------------------------+
+         | ``ELEMENT 1 [ 1A] GROUP 0``                                                         |
+         +=====================================================================================+
+         | ``Face {1,2,3,4}``                                                                  |
+         +-------------------------+--------------+--------------+--------------+--------------+
+         | :math:`x_{1,\ldots,4}=` | 0.000000E+00 | 0.171820E+00 | 0.146403E+00 | 0.000000E+00 |
+         +-------------------------+--------------+--------------+--------------+--------------+
+         | :math:`y_{1,\ldots,4}=` | 0.190000E+00 | 0.168202E+00 | 0.343640E+00 | 0.380000E+00 |
+         +-------------------------+--------------+--------------+--------------+--------------+
+         | :math:`z_{1,\ldots,4}=` | 0.000000E+00 | 0.000000E+00 | 0.000000E+00 | 0.000000E+00 |
+         +-------------------------+--------------+--------------+--------------+--------------+
+         | ``Face {5,6,7,8}``                                                                  |
+         +-------------------------+--------------+--------------+--------------+--------------+
+         | :math:`x_{5,\ldots,8}=` | 0.000000E+00 | 0.171820E+00 | 0.146403E+00 | 0.000000E+00 |
+         +-------------------------+--------------+--------------+--------------+--------------+
+         | :math:`y_{5,\ldots,8}=` | 0.190000E+00 | 0.168202E+00 | 0.343640E+00 | 0.380000E+00 |
+         +-------------------------+--------------+--------------+--------------+--------------+
+         | :math:`z_{5,\ldots,8}=` | 0.250000E+00 | 0.250000E+00 | 0.250000E+00 | 0.250000E+00 |
+         +-------------------------+--------------+--------------+--------------+--------------+
 
-       +-------------------------------------------------------------------------------------+
-       | ``ELEMENT 1 [ 1A] GROUP 0``                                                         |
-       +=====================================================================================+
-       | ``Face {1,2,3,4}``                                                                  |
-       +-------------------------+--------------+--------------+--------------+--------------+
-       | :math:`x_{1,\ldots,4}=` | 0.000000E+00 | 0.171820E+00 | 0.146403E+00 | 0.000000E+00 |
-       +-------------------------+--------------+--------------+--------------+--------------+
-       | :math:`y_{1,\ldots,4}=` | 0.190000E+00 | 0.168202E+00 | 0.343640E+00 | 0.380000E+00 |
-       +-------------------------+--------------+--------------+--------------+--------------+
-       | :math:`z_{1,\ldots,4}=` | 0.000000E+00 | 0.000000E+00 | 0.000000E+00 | 0.000000E+00 |
-       +-------------------------+--------------+--------------+--------------+--------------+
-       | ``Face {5,6,7,8}``                                                                  |
-       +-------------------------+--------------+--------------+--------------+--------------+
-       | :math:`x_{5,\ldots,8}=` | 0.000000E+00 | 0.171820E+00 | 0.146403E+00 | 0.000000E+00 |
-       +-------------------------+--------------+--------------+--------------+--------------+
-       | :math:`y_{5,\ldots,8}=` | 0.190000E+00 | 0.168202E+00 | 0.343640E+00 | 0.380000E+00 |
-       +-------------------------+--------------+--------------+--------------+--------------+
-       | :math:`z_{5,\ldots,8}=` | 0.250000E+00 | 0.250000E+00 | 0.250000E+00 | 0.250000E+00 |
-       +-------------------------+--------------+--------------+--------------+--------------+
+    (NECESSARY TEXT FOR SOME REASON?)
 
-(NECESSARY TEXT FOR SOME REASON?)
+      .. _fig:elorder:
 
-    .. _fig:elorder:
+      .. figure:: figs/3dcube_1.png
+          :align: center
+          :figclass: align-center
+          :alt: rea-geometry
 
-    .. figure:: figs/3dcube_1.png
-        :align: center
-        :figclass: align-center
-        :alt: rea-geometry
+          Geometry description in .rea file (sketch of one element ordering - Preprocessor 
+          corner notation) 
 
-        Geometry description in .rea file (sketch of one element ordering - Preprocessor 
-        corner notation) 
+    (MORE NECESSARY TEXT FOR SOME REASON?)
+
+      .. _fig:edges:
+
+      .. figure:: figs/3dcube.png
+          :align: center
+          :figclass: align-center
+          :alt: edge-numbering
+
+          Edge numbering in .rea file, the edge number is in between parenthesis. The other
+          numbers represent vertices.
+
+..    (EVEN MORE NECESSARY TEXT FOR SOME REASON?)
+
+**curvature**
+    This section describes the curvature of the elements. It is expressed as deformation of the linear elements.
+    Therefore, if no elements are curved (if only linear elements are present) the section remains empty.
+
+    The section header may look like this::
+
+      640 Curved sides follow IEDGE,IEL,CURVE(I),I=1,5, CCURVE
+
+    Curvature information is provided by edge and element. Therefore up to 12 curvature entries can be present for each element.
+    Only non-trivial curvature data needs to be provided, i.e., edges that correspond to linear elements, since they have no curvature, will have no entry.
+    The formatting for the curvature data is provided in :numref:`tab:midside`.
+
+      .. _tab:midside:
+
+      .. table:: Curvature information specification
+
+         +-----------+---------+--------------+--------------+--------------+--------------+--------------+------------+
+         | ``IEDGE`` | ``IEL`` | ``CURVE(1)`` | ``CURVE(2)`` | ``CURVE(3)`` | ``CURVE(4)`` | ``CURVE(5)`` | ``CCURVE`` |
+         +===========+=========+==============+==============+==============+==============+==============+============+
+         | 9         | 2       | 0.125713     | -0.992067    | 0.00000      | 0.00000      | 0.00000      | m          |
+         +-----------+---------+--------------+--------------+--------------+--------------+--------------+------------+
+         | 10        | 38      | 0.125713     | -0.992067    | 3.00000      | 0.00000      | 0.00000      | m          |
+         +-----------+---------+--------------+--------------+--------------+--------------+--------------+------------+
+         | 1         | 40      | 1.00000      | 0.000000     | 0.00000      | 0.00000      | 0.00000      | C          |
+         +-----------+---------+--------------+--------------+--------------+--------------+--------------+------------+
+
+    There are several types of possible curvature information represented by ``CCURVE``. This include:
+
+    - 'C' stands for circle and is given by the radius of the circle,  in ``CURVE(1)``, all other compoentns of the ``CURVE`` array are not used but need to be present.
+    - 's' stands for sphere and is given by the radius and the center of the sphere, thus filling the first 4 components of the ``CURVE`` array. The fifth component needs to be present but is not utilized.
+    - 'm' is given by the coordinates of the midside-node, thus using the first 3 components of the ``CURVE`` array, and leads to a second order reconstruction of the face.  The fourth and fifth components need to be present but are not utilized.
+
+    Both 'C' and 's' types allow for a surface of as high order as the polynomial used in the spectral method, since they have an underlying analytical description, any circle arc can be fully determined by the radius and end points. However for the 'm' curved element descriptor the surface can be reconstructed only up to second order. This can be later updated to match the high-order polynomial after the GLL points have been distributed across the boundaries. This is the only general mean to describe curvature currrently in Nek5000 and corresponds to a HEX20 representation.
+
+    For better understanding let us focus on what the data in :numref:`tab:midside` signifies. Edge 9 of element 2 has a edge  midpoint at (0.125713, -0.992067, 0.00000)  and so on. For edge numbering the reader is advised to check Fig. :numref:`fig:edges`, which illustrates the relationship between vertex numbering and edge numbering.
+
+    To maninpulate the geometry in Nek5000 at runtime, it is possible to use  usrdat2. In this subroutine the user can deform the geometry to match the intended surface, followed by a call to the subroutine 'fixgeom' which can realign the point distribution in the interior of the element.
+
+    We also note, that, unlike the geometry data, each curvature entry (as shown in :numref:`tab:midside`) is formatted and the format is **dependent on the total number of elements**. Three cases exist as shown in the code below:
+
+      .. code-block:: fortranfixed
+
+                       if (nelgt.lt.1000) then
+                          write(10,'(i3,i3,5g14.6,1x,a1)') i,eg,
+       $                  (vcurve(k,i,kb),k=1,5),cc
+                       elseif (nelgt.lt.1000000) then
+                          write(10,'(i2,i6,5g14.6,1x,a1)') i,eg,
+       $                  (vcurve(k,i,kb),k=1,5),cc
+                       else
+                          write(10,'(i2,i12,5g14.6,1x,a1)') i,eg,
+       $                  (vcurve(k,i,kb),k=1,5),cc
+
+    The fortran format is as follows:
+
+    - For a total number of elements below 1,000 the format is ``(i3,i3,5g14.6,1x,a1)``.
+    - For a total number of elements 1,000 - 999,999 the format is ``(i2,i6,5g14.6,1x,a1)``.
+    - For a total number of elements above 999,999 the format is ``(i2,i12,5g14.6,1x,a1)``.
+
+      .. _fig:ex1:
+
+      .. figure:: figs/base1.png
+          :align: center
+          :figclass: align-center
+          :alt: edge-numbering
+
+          Example mesh - without curvature. Square dots represent example vertices.
+
+    (EVEN MORE NECESSARY TEXT FOR SOME REASON?)
+
+      .. _fig:ex2:
+
+      .. figure:: figs/modified1.png
+          :align: center
+          :figclass: align-center
+          :alt: edge-numbering
+
+          Example mesh - with curvature. Circular dots represent example midsize points.
+
+    To further illustrate the usage of curvature data, let us examine an example of .rea file with and wiuthout curvature information and the corresponding mesh representation. :numref:`fig:ex1` represents a 12 element box mesh (2x2x3, with periodic conditions in z) without curvature, while :numref:`fig:ex2` presents the same mesh with a sinusoidal deformation in direction y. Only two edges per element are curved.
+
+    The input for the mesh without curvature is:
+
+    .. include:: mesh_example.txt
+        :literal:
+
+    The input for the mesh with curvature is:
+
+    .. include:: mesh_curv_example.txt
+        :literal:
+
+    Note that element and boundary condition information are identical between the two cases.
+
+**boundary conditions**
+    Boundary conditions (BCs) are specified for each field in sequence: velocity, temperature and passive scalars. The section header for each field will be as follows (example for the velocity)::
+
+      ***** FLUID   BOUNDARY CONDITIONS *****
+
+    and the data is stored as illustarted in :numref:`tab:bcs`. For each field boundary conditions are listed for each face of each element.
+
+    Boundary conditions are given in order per each element, see :numref:`tab:bcs` column ``IEL``, and faces listed in ascending order 1-6 in column ``IFACE``. Note that the header in :numref:`tab:bcs` does not appear in the actual ``.rea``.
+
+    The ordering for faces each element is shown in :numref:`fig:forder`. A total equivalent to :math:`6N_{field}` boundary conditions are listed for each field, where :math:`N_{field}` is the number of elements for the specific field. :math:`N_{field}` is equal to the total number of fluid elements for the velocity and equal to the total number of elements (including solid elements) for temperature. For the passive scalars it will depend on the specific choice, but typically scalars are solved on the temeprature mesh (solid+fluid).
+
+      .. _fig:forder:
+
+      .. figure:: figs/3dcube_2.png
+          :align: center
+          :figclass: align-center
+          :alt: edge-numbering
+
+          Face ordering for each element.
+
+    Each BC letter condition is formed by three characters. Common BCs include:
+
+    - ``E`` - internal boundary condition. No additional information needs to be provided.
+    - ``SYM`` - symmetry boundary condition. No additional information needs to be provided.
+    - ``P`` - periodic boundary conditions,  which indicates that an element face is connected to another element to establish a periodic BC. The connecting element and face need be  to specified in ``CONN-IEL`` and ``CONN-IFACE``.
+    - ``v`` - imposed velocity boundary conditions (inlet). The value is specified in the user subroutines. No additional information needs to be provided in the .rea file.
+    - ``W`` - wall boundary condition (no-slip) for the velocity. No additional information needs to be provided.
+    - ``O`` - outlet boundary condition (velocity). No additional information needs to be provided.
+    - ``t`` - imposed temperature  boundary conditions (inlet). The value is specified in the user subroutines. No additional information needs to be provided in the .rea file.
+    - ``f`` - imposed heat flux  boundary conditions (temperature). The value is specified in the user subroutines. No additional information needs to be provided in the .rea file.
+    - ``I`` - adiabatic boundary conditions (temeperature). No additional information needs to be provided.
+
+    Many of the BCs support either a constant specification or a user defined specification which may be an arbitrary function.   For example, a constant Dirichlet BC for velocity is specified by ``V``, while a user defined BC is specified by ``v``.   This upper/lower-case distinction is  used for all cases.   There are about 70 different types of boundary conditions in all, including free-surface, moving boundary, heat flux, convective cooling, etc. The above cases are just the most used types.
+
+      .. _tab:bcs:
+
+      .. table:: Formatting of boundary conditions input.
+
+         +---------+---------+-----------+--------------+----------------+---------+---------+---------+
+         | ``CBC`` | ``IEL`` | ``IFACE`` | ``CONN-IEL`` | ``CONN-IFACE`` |         |         |         |
+         +=========+=========+===========+==============+================+=========+=========+=========+
+         | E       | 1       | 1         | 4.00000      | 3.00000        | 0.00000 | 0.00000 | 0.00000 |
+         +---------+---------+-----------+--------------+----------------+---------+---------+---------+
+         | ``..``  | ``..``  | ``..``    | ``..``       | ``..``         | ``..``  | ``..``  | ``..``  |
+         +---------+---------+-----------+--------------+----------------+---------+---------+---------+
+         | W       | 5       | 3         | 0.00000      | 0.00000        | 0.00000 | 0.00000 | 0.00000 |
+         +---------+---------+-----------+--------------+----------------+---------+---------+---------+
+         | ``..``  | ``..``  | ``..``    | ``..``       | ``..``         | ``..``  | ``..``  | ``..``  |
+         +---------+---------+-----------+--------------+----------------+---------+---------+---------+
+         | P       | 23      | 5         | 149.000      | 6.00000        | 0.00000 | 0.00000 | 0.00000 |
+         +---------+---------+-----------+--------------+----------------+---------+---------+---------+
+
+    As in the case of the curvature entries, the boundary conditions entries are formatted and **the format is dependent on the total number of elements**.
+    The code below shows an example of writing statement for boundary conditions:
+
+      .. code-block:: fortranfixed
+
+                        if (nlg.lt.1000) then
+                           write(10,'(a1,a3,2i3,5g14.6)')
+           $               chtemp,s3,eg,i,(vbc(ii,i,kb),ii=1,5)
+                        elseif (nlg.lt.100000) then
+                           write(10,'(a1,a3,i5,i1,5g14.6)')
+           $               chtemp,s3,eg,i,(vbc(ii,i,kb),ii=1,5)
+                        elseif (nlg.lt.1000000) then
+                           write(10,'(a1,a3,i6,5g14.6)')
+           $               chtemp,s3,eg,(vbc(ii,i,kb),ii=1,5)
+                        else
+                           write(10,'(a1,a3,i12,5g18.11)')
+           $               chtemp,s3,eg,(vbc(ii,i,kb),ii=1,5)
+                        endif
+
+    The fortran format is as follows:
+
+    - For a total number of elements below 1,000 the format is ``(a1,a3,2i3,5g14.6)``.
+    - For a total number of elements 1,000 - 99,999 the format is ``(a1,a3,i5,i1,5g14.6)``.
+    - For a total number of elements 100,000 - 999,999 the format is ``(a1,a3,i6,5g14.6)``.
+    - For a total number of elements above 999,999 the format is ``(a1,a3,i12,5g18.11)``.
+
+    We note that:
+
+    - The first item in the format for each of the four cases is a string containing a space.
+    - The second item in the format for each of the four cases is a string specifying the boundary condition type.
+    - In cases where the total number of elements is bigger than 99,999, the ``IFACE`` item is omitted. Given that Nek5000 already knows the ordering of the actual faces within each element in column ``IFACE`` is in fact not needed.
+    - The number of significant digits increases in the fourth case. This is needed for periodic boundary conditions.
+
+...........
+Output info
+...........
 
 -----------
 Data Layout
