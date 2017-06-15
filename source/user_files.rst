@@ -110,8 +110,8 @@ three units.
   do iel=1,nelt  !  Force flux BCs
   do f=1,2*ndim
      if (cbc(f,iel,1).eq.'W  ') cbc(f,iel,2) = 'f  ' ! flux BC for temperature
-  enddo
-  enddo
+  end do
+  end do
 
   return
   end
@@ -234,7 +234,7 @@ alternatively the variable properties can be set in the USERVP routine.
 
 **What is a SESSION file?**
 
-To run NEK5000, each simulation must have a SESSION.NAME file. This file is read in by the code and gives the path to the relevant files describing the structure and parameters of the simulation. The SESSION.NAME file is a file that contains the name of the simulation and the full path to supporting files. For example, to run the eddy example from the repository, the SESSION.NAME file would look like::
+To run NEK5000, each simulation must have a SESSION.NAME file. This file is read in by the code and gives the path to the relevant files describing the structure and parameters of the simulation. The SESSION.NAME file is a file that contains the name of the simulation and the full path to supporting files. For example, to run the eddy example from the repository, the SESSION.NAME file would look like
 
 .. code-block:: none
 
@@ -475,7 +475,7 @@ Mesh and boundary condition info
                        if (nelgt.lt.1000) then
                           write(10,'(i3,i3,5g14.6,1x,a1)') i,eg,
        $                  (vcurve(k,i,kb),k=1,5),cc
-                       elseif (nelgt.lt.1000000) then
+                       else if (nelgt.lt.1000000) then
                           write(10,'(i2,i6,5g14.6,1x,a1)') i,eg,
        $                  (vcurve(k,i,kb),k=1,5),cc
                        else
@@ -582,16 +582,16 @@ Mesh and boundary condition info
                         if (nlg.lt.1000) then
                            write(10,'(a1,a3,2i3,5g14.6)')
            $               chtemp,s3,eg,i,(vbc(ii,i,kb),ii=1,5)
-                        elseif (nlg.lt.100000) then
+                        else if (nlg.lt.100000) then
                            write(10,'(a1,a3,i5,i1,5g14.6)')
            $               chtemp,s3,eg,i,(vbc(ii,i,kb),ii=1,5)
-                        elseif (nlg.lt.1000000) then
+                        else if (nlg.lt.1000000) then
                            write(10,'(a1,a3,i6,5g14.6)')
            $               chtemp,s3,eg,(vbc(ii,i,kb),ii=1,5)
                         else
                            write(10,'(a1,a3,i12,5g18.11)')
            $               chtemp,s3,eg,(vbc(ii,i,kb),ii=1,5)
-                        endif
+                        end if
 
     The fortran format is as follows:
 
@@ -611,7 +611,197 @@ Mesh and boundary condition info
 Output info
 ...........
 
+**restart conditions**
+    Here, one can specify a file to use as an initial condition.
+    The initial condition need not be of the same polynomial order
+    as the current simulation.   One can also specify that, for example,
+    the velocity is to come from one file and the temperature from another.
+    The initial time is taken from the last specified restart file, but
+    this can be overridden.
+
+**history points**
+    The following section defines history points in the ``.rea`` file, see example ``vortex/r1854a.rea``, or ``shear4/shear4.rea``::
+
+       0 PACKETS OF DATA FOLLOW
+       ***** HISTORY AND INTEGRAL DATA *****
+           56 POINTS. H code, I,J,H,IEL
+       UVWP    H     31     31   1   6
+       UVWP    H     31     31   31  6
+       UVWP    H     31     31   31  54
+        "      "      "      "    "   "
+
+    The ``"56 POINTS"`` line needs to be followed by 56 lines of the type shown. However, in each of the following lines, which have the ``UVWP`` etc., location is CRUCIAL, it
+    must be layed out exactly as indicated above (these lines contain character strings, they use formatted reads), it is therefore advisable to refer to the examples ``vortex, shear4``.  If you want to pick points close to the center of element 1 and are running with ``lx1=10``, say, you might choose ``UVWP H 5 5 5 1``. (the indicated point would really be at the middle of the element only if ``lx1=9``)
+
+    The UVWP tells the code to write the 3 velocity components and pressure to the .sch file at
+    each timestep (or, more precisely, whenever ``mod(istep,iohis)=0``, where ``iohis=param(52))``.
+    Note that if you have more than one history point then they are written sequentially at each
+    timestep. Thus 10 steps in the first example with ``param(52)=2`` would write ``(10/2)*56 = 280``
+    lines to the .sch file, with 4 entries per line. The "H" indicates that the entry corresponds to a requested history point. A note of caution: if the ``ijk`` values (5 5 5 in the preceding example line) exceed ``lx1,ly1,lz1`` of your SIZE file, then they are truncated to that value. For example, if ``lx1=10`` for the data at the top (31 31 31) then the code will use ``ijk`` of (10 10 10), plus the given element number, in identifying the history point. It is often useful to set ``ijk`` to large values (i.e., > ``lx1``) because the endpoints of the spectral element mesh are invariant when ``lx1`` is changed.
+
+**output specifications**
+    Outputs are discussed in a separate section of the manual, available online.
+
+It is important to note that Nek5000 currently supports two input file
+formats, ASCII and binary.   The ``.rea`` file format
+described above is ASCII.  For the binary format, all sections
+of the ``.rea`` file having storage requirements that scale with
+number of elements (i.e., geometry, curvature, and boundary
+conditions) are moved to a second, ``.re2``, file and
+written in binary.   The remaining sections continue to
+reside in the ``.rea`` file.   The distinction between
+the ASCII and binary formats is indicated in the ``.rea``
+file by having a negative number of elements.
+There are converters, ``reatore2`` and ``re2torea``, in the Nek5000
+tools directory to change between formats.   The binary file
+format is the default and important for ``I/O`` performance when the
+number of elements is large ( :math:`>100000`, say).
+
+..........
+Parameters
+..........
+
+- :math:`\rho`, the density, is taken to be time-independent and
+  constant; however, in a multi-fluid system
+  different fluids can have different value of constant density.
+- :math:`\mu`, the dynamic viscosity can vary arbitrarily in
+  time and space; it can also be a function of temperature
+  (if the energy equation is included) and strain rate
+  invariants (if the stress formulation is selected).
+- :math:`\sigma`, the surface-tension coefficient can vary
+  arbitrarily in
+  time and space; it can also be a function of temperature
+  and passive scalars.
+- :math:`\overline{\beta}`, the effective thermal expansion
+  coefficient, is
+  assumed time-independent and constant.
+- :math:`{\bf f}(t)`, the body force per unit mass term can
+  vary with time, space, temperature and passive scalars.
+- :math:`\rho c_{p}`, the volumetric specific heat, can vary
+  arbitrarily with time, space and temperature.
+- :math:`\rho L`, the volumetric latent heat of fusion at a front,
+  is taken to be time-independent and constant; however,
+  different constants can be assigned to different fronts.
+- :math:`k`, the thermal conductivity, can vary with time,
+  space and temperature.
+- :math:`q_{vol}`, the volumetric heat generation, can vary with
+  time, space and temperature.
+- :math:`h_{c}`, the convection heat transfer coefficient, can vary
+  with time, space and temperature.
+- :math:`h_{rad}`, the Stefan-Boltzmann constant/view-factor product,
+  can vary with time, space and temperature.
+- :math:`T_{\infty}`, the environmental temperature, can vary
+  with time and space.
+- :math:`T_{melt}`, the melting temperature at a front, is taken
+  with time and space; however, different melting temperature
+  can be assigned to different fronts.
+
+In the solution of the governing equations together with
+the boundary and initial conditions, Nek5000 treats the
+above parameters as pure numerical values; their
+physical significance depends on the user's choice of units.
+The system of units used is arbitrary (MKS, English, CGS,
+etc.). However, the system chosen must be used consistently
+throughout. For instance, if the equations and geometry
+have been non-dimensionalized, the :math:`\mu / \rho` in the fluid
+momentum equation is in fact
+the inverse Reynolds number, whereas if the equations are
+dimensional, :math:`\mu / \rho` represents the kinematic viscosity with
+dimensions of :math:`length^{2}/time`.
+
 -----------
 Data Layout
 -----------
 
+Nek5000 was designed with two principal performance criteria in mind,
+namely, *single-node* performance and *parallel* performance.
+
+A key precept in obtaining good single node performance was to use,
+wherever possible, unit-stride memory addressing, which is realized by
+using contiguously declared arrays and then accessing the data in
+the correct order.   Data locality is thus central to good serial
+performance.   To ensure that this performance is not compromised
+in parallel, the parallel message-passing data model is used, in which
+each processor has its own local (private) address space.  Parallel
+data, therefore, is laid out just as in the serial case, save that there
+are multiple copies of the arrays---one per processor, each containing
+different data.  Unlike the shared memory model, this distributed memory
+model makes data locality transparent and thus simplifies the task of
+analyzing and optimizing parallel performance.
+
+Some fundamentals of Nek5000's internal data layout are given below.
+
+1. Data is laid out as  :math:`u_{ijk}^e = u(i,j,k,e)`
+
+   .. |br| raw:: html
+
+      <br />
+
+   ``i=1,...,nx1``   (``nx1 = lx1``) |br|
+   ``j=1,...,ny1``   (``ny1 = lx1``) |br|
+   ``k=1,...,nz1``   (``nz1 = lx1`` or 1, according to ndim=3 or 2)
+
+   ``e=1,...,nelv``, where ``nelv`` :math:`\leq` ``lelv``, and ``lelv`` is the upper
+   bound on number of elements, *per processor*.
+2. Fortran data is stored in column major order (opposite of C).
+3. All data arrays are thus contiguous, even when :math:`{\tt nelv} < {\tt lelv}`.
+4. Data accesses are thus primarily unit-stride (see chap.8 of DFM
+   for importance of this point), and in particular, all data on
+   a given processor can be accessed as, e.g.,
+
+      .. code-block:: fortran
+
+         do i=1,nx1*ny1*nz1*nelv
+            u(i,1,1,1) = vx(i,1,1,1)
+         end do
+
+   which is equivalent but superior (WHY?) to:
+
+      .. code-block:: fortran
+
+         do e=1,nelv
+         do k=1,nz1
+         do j=1,ny1
+         do i=1,nx1
+            u(i,j,k,e) = vx(i,j,k,e)
+         end do
+         end do
+         end do
+         end do
+
+   which is equivalent but vastly superior (WHY?) to:
+
+      .. code-block:: fortran
+
+         do i=1,nx1
+         do j=1,ny1
+         do k=1,nz1
+         do e=1,nelv
+            u(i,j,k,e) = vx(i,j,k,e)
+         end do
+         end do
+         end do
+         end do
+5. All data arrays are stored according to the SPMD programming
+   model, in which address spaces that are local to each processor
+   are private --- not accessible to other processors except through
+   interprocessor data-transfer (i.e., message passing).  Thus
+
+      .. code-block:: fortran
+
+         do i=1,nx1*ny1*nz1*nelv
+            u(i,1,1,1) = vx(i,1,1,1)
+         end do
+
+   means different things on different processors and ``nelv`` may
+   differ from one processor to the next.
+6. For the most part, low-level loops such as above are expressed in
+   higher level routines only through subroutine calls, e.g.,:
+
+      .. code-block:: fortran
+
+         call copy(u,vx,n)
+
+   where ``n:=nx1*ny1*nz1*nelv``.   Notable exceptions are in places where
+   performance is critical, e.g., in the middle of certain iterative
+   solvers. 
