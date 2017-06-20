@@ -31,7 +31,7 @@ download the source code as a `.zip archive
 <https://github.com/Nek5000/Nek5000/archive/master.zip>`_ or a `.tar.gz archive
 <https://github.com/Nek5000/Nek5000/archive/master.tar.gz>`_.  You can also download a working copy
 of the repository itself.  The following commands will clone the repository in a directory named
-*$HOME/Nek5000* (where *$HOME* denotes your home directory)::
+``$HOME/Nek5000`` (where ``$HOME`` denotes your home directory)::
 
   cd ~
   git clone https://github.com/Nek5000/Nek5000.git -b master
@@ -71,32 +71,32 @@ _________________
 
 .. highlight:: bash
 
-The *Nek5000/tools* directory contains programs for pre- and post-processing tasks, such as
+The ``Nek5000/tools`` directory contains programs for pre- and post-processing tasks, such as
 generating meshes from geometry descriptions.  The following commands will build the tools in
-*Nek5000/bin*::
+``Nek5000/bin``::
 
   cd Nek5000/tools
   ./maketools all
 
-By default, the *maketools* script will use gfortran and gcc as the Fortran and C compilers; you
-can specify a different set of compilers by editing *maketools*.  You can also build the tools
-in another directory of your choice by providing a second argument to *maketools*; for example::
+By default, the ``maketools`` script will use gfortran and gcc as the Fortran and C compilers; you
+can specify a different set of compilers by editing ``maketools``.  You can also build the tools
+in another directory of your choice by providing a second argument to ``maketools``; for example::
 
   cd Nek5000/tools
   ./maketools all ~/my-tools-bin/
 
-Besides the compiled tools, there are several convenience scripts in *Nek5000/bin* that allow you
+Besides the compiled tools, there are several convenience scripts in ``Nek5000/bin`` that allow you
 to easily set up and execute runs of Nek5000.  These scripts are executable as-is and do not need
 to be compiled. 
 
-We recommend that you add *Nek5000/bin* to the *$PATH* variable in your shell's environment.  This
+We recommend that you add ``Nek5000/bin`` to the ``$PATH`` variable in your shell's environment.  This
 will allow you execute the tools and scripts without typing the full path to the executables.  For
-example, In the bash shell, if you have cloned Nek5000 in *$HOME/Nek5000* and compiled tools
-in *$HOME/Nek5000/bin*, you can edit your executable path with::
+example, In the bash shell, if you have cloned Nek5000 in ``$HOME/Nek5000`` and compiled tools
+in ``$HOME/Nek5000/bin``, you can edit your executable path with::
 
   export PATH="$HOME/Nek5000/bin:$PATH"
 
-In the following examples, we will assume that the tools and scripts have been added to *$PATH*.
+In the following examples, we will assume that the tools and scripts have been added to ``$PATH``.
 
 .. _quickstart_svn:
 
@@ -117,7 +117,7 @@ The SVN repository can be downloaded with the following commands::
   cd ~
   svn co https://svn.mcs.anl.gov/repos/nek5 nek5_svn
 
-This will create a directoy named *nek5_svn* in your home directory.  The example problems are
+This will create a directoy named ``nek5_svn`` in your home directory.  The example problems are
 included in the same SVN repo and do not need to be downloaded separately.
 
 _________________
@@ -126,29 +126,29 @@ _________________
 
 .. highlight:: bash
 
-The *nek5_svn/trunk/tools* directory contains programs for pre- and post-processing tasks, such as
+The ``nek5_svn/trunk/tools`` directory contains programs for pre- and post-processing tasks, such as
 generating meshes from geometry descriptions.  The following commands will build the tools in
-*$HOME/bin*::
+``$HOME/bin``::
 
   cd $HOME/nek5_svn/trunk/tools 
   ./maketools all
 
-By default, the *maketools* script will use gfortran and gcc as the
+By default, the ``maketools`` script will use gfortran and gcc as the
 Fortran and C compilers; you can specify a different set of compilers by
-editing *maketools*.  
+editing ``maketools``.  
 
-Besides the compiled tools, there are several convenience scripts in *nek5_svn/trunk/tools/scripts*
+Besides the compiled tools, there are several convenience scripts in ``nek5_svn/trunk/tools/scripts``
 that allow you to easily set up and execute runs of Nek5000.  These scripts are executable as-is
 and do not need to be compiled. 
 
-We recommend that you append the paths to the tools and scripts to the *$PATH* variable in your
+We recommend that you append the paths to the tools and scripts to the ``$PATH`` variable in your
 shell's environment.  This will allow you execute the tools and scripts without typing the full
 path to the executables.  In the bash shell, you can edit your executable path with::
 
   export PATH="$HOME/bin:$HOME/nek5_svn/trunk/tools/scripts:$PATH"
 
 In the following examples, we will assume that the tools and scripts have been added to your
-*$PATH*.
+``$PATH``.
 
 .. _quickstart_worked_ex:
 
@@ -264,7 +264,7 @@ or equivalently::
   grep -i err logfile | tail
 
 where, because of the ``nekb`` script, ``logfile`` is linked to the ``.log`` file of the given
-simulation.  If the run has completed, the above {\tt grep} command should yield lines like
+simulation.  If the run has completed, the above ``grep`` command should yield lines like
 
 .. code-block:: none
 
@@ -373,7 +373,7 @@ the result as an initial condition for a higher-order run
 (e.g., ``lx1`` =8).  We illustrate the procedure with the 
 ``eddy_uv`` example.
 .. 
-Assuming that the contents of ``nek5\_svn/trunk/tools/scripts``
+Assuming that the contents of ``nek5_svn/trunk/tools/scripts``
 are in the execution path, begin by typing::
 
   cp eddy_uv eddy_new
@@ -408,7 +408,7 @@ Next, edit ``eddy_new.rea`` and change the line
              1 PRESOLVE/RESTART OPTIONS  *****
   eddy_uv.fld12
 
-which tells nek5000 to use the contents of ``eddy_uv.fld12``
+which tells Nek5000 to use the contents of ``eddy_uv.fld12``
 as the initial condition for ``eddy_new``.
 The simulation is started in the usual way::
 

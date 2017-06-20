@@ -4,15 +4,15 @@
 User Files
 ==========
 
-Each simulation is defined by three files: the .rea file, the .usr file, and the SIZE file.  In
-addition, there is a derived .map file that is generated from the .rea file by running *genmap*,
+Each simulation is defined by three files: the .rea file, the ``.usr`` file, and the SIZE file.  In
+addition, there is a derived ``.map`` file that is generated from the ``.rea`` file by running ``genmap``,
 which will determine how the elements will be split across processors in the case of a parallel
 run.  SIZE controls (at compile time) the polynomial degree used in the simulation, as well as the
 space dimension :math:`d=2` or :math:`3`.
 
 The SESSION.NAME file provides the name and path of the .rea file and the path to it.  It does not
-however need to correspond to a .usr file of an identical name. This allows for different test
-cases (.usr files) that use the same geometry and boundary conditions (.rea files).
+however need to correspond to a ``.usr`` file of an identical name. This allows for different test
+cases (``.usr`` files) that use the same geometry and boundary conditions (``.rea`` files).
 
 This chapter provides an introduction to the basic files required to set up a Nek5000 simulation.
 
@@ -22,7 +22,7 @@ This chapter provides an introduction to the basic files required to set up a Ne
 SESSION File
 ------------
 
-To run NEK5000, each simulation must have a SESSION.NAME file. This file is read in by the code and
+To run Nek5000, each simulation must have a SESSION.NAME file. This file is read in by the code and
 gives the path to the relevant files describing the structure and parameters of the simulation. The
 SESSION.NAME file is a file that contains the name of the simulation and the full path to
 supporting files. For example, to run the eddy example from the repository, the SESSION.NAME file
@@ -45,12 +45,12 @@ Contents of .usr File
 
 
 The most important interface to Nek5000 is the set of Fortran subroutines that are contained in the
-*.usr* file.  This file allows direct access to all runtime variables.  Here, the user may
+``.usr`` file.  This file allows direct access to all runtime variables.  Here, the user may
 specify spatially varying properties (e.g., viscosity), volumetric heating sources, body forces,
 and so forth.  One can also specify arbitrary initial and boundary conditions through the routines
 ``useric`` and ``userbc``.  The routine ``userchk`` allows the user to interrogate the
-solution at the end of each timestep for diagnostic purposes.   The *.usr* files provided in
-the *Nek5000/short_tests/* directory illustrate several of the more common analysis tools.  For
+solution at the end of each timestep for diagnostic purposes.   The ``.usr`` files provided in
+the ``Nek5000/short_tests/`` directory illustrate several of the more common analysis tools.  For
 instance, there are utilities for computing the time average of :math:`u`, :math:`u^2`, etc. so that one
 can analyze mean and rms distributions with the postprocessor.  There are routines for computing
 the vorticity or the scalar :math:`\lambda_2` for vortex identification, and so forth.
@@ -230,16 +230,16 @@ Nek5000 can solve the dimensional or non-dimensional equations by setting the fo
 | ``p8`` = :math:`k`        | ``p8`` = :math:`1/Pe` :math:`(-Pe)` |
 +---------------------------+-------------------------------------+
 
-alternatively the variable properties can be set in the USERVP routine.
+alternatively the variable properties can be set in the ``uservp`` routine.
 
 **What is a SESSION file?**
 
-To run NEK5000, each simulation must have a SESSION.NAME file. This file is read in by the code and gives the path to the relevant files describing the structure and parameters of the simulation. The SESSION.NAME file is a file that contains the name of the simulation and the full path to supporting files. For example, to run the eddy example from the repository, the SESSION.NAME file would look like
+To run Nek5000, each simulation must have a SESSION.NAME file. This file is read in by the code and gives the path to the relevant files describing the structure and parameters of the simulation. The SESSION.NAME file is a file that contains the name of the simulation and the full path to supporting files. For example, to run the eddy example from the repository, the SESSION.NAME file would look like
 
 .. code-block:: none
 
   eddy_uv
-  /homes/user\_ name/nek5\_ svn/examples/eddy/
+  /homes/user_name/nek5_svn/examples/eddy/
 
 
 ------------------------
@@ -255,7 +255,7 @@ The primary parameters of interest in SIZE are:
 * **lx1** controls the polynomial order of the approximation, :math:`N = {\tt lx1-1}`.
 * **lxd** controls the polynomial order of the integration forconvective terms.  Generally, :math:`{\tt lxd=3 * lx1/2}`.  On some platforms, however,it is important for memory access performance that ``lx1`` and ``lxd`` be even.
 * **lx2** = ``lx1`` or ``lx1-2``.  This determines the formulation for the Navier-Stokes  solver (i.e., the choice between the :math:`\mathbb{P}_N - \mathbb{P}_N` or :math:`\mathbb{P}_N - \mathbb{P}_{N-2}` methods) and the approximation order for the pressure, ``lx2-1``.
-* **lelt** determines the *maximum* number of elements *per processor}*
+* **lelt** determines the *maximum* number of elements *per processor*
 
 The total size of the problem is ``lx1*ly1*lz1*lelt``.
 
@@ -308,7 +308,7 @@ Parameters and logical switches
     etc.   There are also a number of free parameters that the user can
     use as handles to be passed into the user defined routines in the .usr file.
 **passive scalar data** 
-    This information can be specified also in the ``.uservp`` routine in the .usr 
+    This information can be specified also in the ``uservp`` routine in the ``.usr``
     file. If specified in the .rea file then the coefficients for the conductivity 
     term are listed in ascending order for passive scalars ranging ``1..9`` 
     followed by the values for the :math:`\rho c_p` coefficients.
@@ -374,16 +374,10 @@ Mesh and boundary condition info
     dimension is the the problem (here three dimensional), and how many elements 
     are in the fluid mesh (192).
 
-    Following the header, all elements are listed. The fluid elements are listed 
-    first, followed by all solid elements if present. In this case there are (34) 
-    solid elements.
-
-    The data following the header is formatted as shown in :numref:`tab:element`. This provides all the coordinates of an element for top and bottom faces. The numbering of the vertices is shown in Fig. :numref:`fig:elorder`. The header for each element as in :numref:`tab:element`, i.e. ``[1A] GROUP`` is reminiscent of older Nek5000 format and does not impact the mesh generation at this stage. (We are inquiring whether other groups still use it.)
-
       .. _tab:element:
 
-      .. table:: Geometry description in .rea file
-        
+      .. table:: Geometry description in ``.rea`` file
+
          +-------------------------------------------------------------------------------------+
          | ``ELEMENT 1 [ 1A] GROUP 0``                                                         |
          +=====================================================================================+
@@ -404,7 +398,11 @@ Mesh and boundary condition info
          | :math:`z_{5,\ldots,8}=` | 0.250000E+00 | 0.250000E+00 | 0.250000E+00 | 0.250000E+00 |
          +-------------------------+--------------+--------------+--------------+--------------+
 
-    (NECESSARY TEXT FOR SOME REASON?)
+    Following the header, all elements are listed. The fluid elements are listed 
+    first, followed by all solid elements if present. In this case there are (34) 
+    solid elements.
+
+    The data following the header is formatted as shown in :numref:`tab:element`. This provides all the coordinates of an element for top and bottom faces. The numbering of the vertices is shown in Fig. :numref:`fig:elorder`. The header for each element as in :numref:`tab:element`, i.e. ``[1A] GROUP`` is reminiscent of older Nek5000 format and does not impact the mesh generation at this stage. (We are inquiring whether other groups still use it.)
 
       .. _fig:elorder:
 
@@ -413,22 +411,9 @@ Mesh and boundary condition info
           :figclass: align-center
           :alt: rea-geometry
 
-          Geometry description in .rea file (sketch of one element ordering - Preprocessor 
+          Geometry description in ``.rea`` file (sketch of one element ordering - Preprocessor 
           corner notation) 
 
-    (MORE NECESSARY TEXT FOR SOME REASON?)
-
-      .. _fig:edges:
-
-      .. figure:: figs/3dcube.png
-          :align: center
-          :figclass: align-center
-          :alt: edge-numbering
-
-          Edge numbering in .rea file, the edge number is in between parenthesis. The other
-          numbers represent vertices.
-
-..    (EVEN MORE NECESSARY TEXT FOR SOME REASON?)
 
 **curvature**
     This section describes the curvature of the elements. It is expressed as deformation of the linear elements.
@@ -464,9 +449,28 @@ Mesh and boundary condition info
 
     Both 'C' and 's' types allow for a surface of as high order as the polynomial used in the spectral method, since they have an underlying analytical description, any circle arc can be fully determined by the radius and end points. However for the 'm' curved element descriptor the surface can be reconstructed only up to second order. This can be later updated to match the high-order polynomial after the GLL points have been distributed across the boundaries. This is the only general mean to describe curvature currrently in Nek5000 and corresponds to a HEX20 representation.
 
+      .. _fig:edges:
+
+      .. figure:: figs/3dcube.png
+          :align: center
+          :figclass: align-center
+          :alt: edge-numbering
+
+          Edge numbering in ``.rea`` file, the edge number is in between parenthesis. The other
+          numbers represent vertices.
+
     For better understanding let us focus on what the data in :numref:`tab:midside` signifies. Edge 9 of element 2 has a edge  midpoint at (0.125713, -0.992067, 0.00000)  and so on. For edge numbering the reader is advised to check Fig. :numref:`fig:edges`, which illustrates the relationship between vertex numbering and edge numbering.
 
-    To maninpulate the geometry in Nek5000 at runtime, it is possible to use  usrdat2. In this subroutine the user can deform the geometry to match the intended surface, followed by a call to the subroutine 'fixgeom' which can realign the point distribution in the interior of the element.
+    To maninpulate the geometry in Nek5000 at runtime, it is possible to use  ``usrdat2``. In this subroutine the user can deform the geometry to match the intended surface, followed by a call to the subroutine ``fixgeom`` which can realign the point distribution in the interior of the element.
+
+      .. _fig:ex1:
+
+      .. figure:: figs/base1.png
+          :align: center
+          :figclass: align-center
+          :alt: edge-numbering
+
+          Example mesh - without curvature. Square dots represent example vertices.
 
     We also note, that, unlike the geometry data, each curvature entry (as shown in :numref:`tab:midside`) is formatted and the format is **dependent on the total number of elements**. Three cases exist as shown in the code below:
 
@@ -488,27 +492,16 @@ Mesh and boundary condition info
     - For a total number of elements 1,000 - 999,999 the format is ``(i2,i6,5g14.6,1x,a1)``.
     - For a total number of elements above 999,999 the format is ``(i2,i12,5g14.6,1x,a1)``.
 
-      .. _fig:ex1:
+    .. _fig:ex2:
 
-      .. figure:: figs/base1.png
-          :align: center
-          :figclass: align-center
-          :alt: edge-numbering
+    .. figure:: figs/modified1.png
+        :align: center
+        :figclass: align-center
+        :alt: edge-numbering
 
-          Example mesh - without curvature. Square dots represent example vertices.
+        Example mesh - with curvature. Circular dots represent example midsize points.
 
-    (EVEN MORE NECESSARY TEXT FOR SOME REASON?)
-
-      .. _fig:ex2:
-
-      .. figure:: figs/modified1.png
-          :align: center
-          :figclass: align-center
-          :alt: edge-numbering
-
-          Example mesh - with curvature. Circular dots represent example midsize points.
-
-    To further illustrate the usage of curvature data, let us examine an example of .rea file with and wiuthout curvature information and the corresponding mesh representation. :numref:`fig:ex1` represents a 12 element box mesh (2x2x3, with periodic conditions in z) without curvature, while :numref:`fig:ex2` presents the same mesh with a sinusoidal deformation in direction y. Only two edges per element are curved.
+    To further illustrate the usage of curvature data, let us examine an example of ``.rea`` file with and wiuthout curvature information and the corresponding mesh representation. :numref:`fig:ex1` represents a 12 element box mesh (2x2x3, with periodic conditions in :math:`z`) without curvature, while :numref:`fig:ex2` presents the same mesh with a sinusoidal deformation in direction :math:`y`. Only two edges per element are curved.
 
     The input for the mesh without curvature is:
 
@@ -547,7 +540,7 @@ Mesh and boundary condition info
     - ``E`` - internal boundary condition. No additional information needs to be provided.
     - ``SYM`` - symmetry boundary condition. No additional information needs to be provided.
     - ``P`` - periodic boundary conditions,  which indicates that an element face is connected to another element to establish a periodic BC. The connecting element and face need be  to specified in ``CONN-IEL`` and ``CONN-IFACE``.
-    - ``v`` - imposed velocity boundary conditions (inlet). The value is specified in the user subroutines. No additional information needs to be provided in the .rea file.
+    - ``v`` - imposed velocity boundary conditions (inlet). The value is specified in the user subroutines. No additional information needs to be provided in the ``.rea`` file.
     - ``W`` - wall boundary condition (no-slip) for the velocity. No additional information needs to be provided.
     - ``O`` - outlet boundary condition (velocity). No additional information needs to be provided.
     - ``t`` - imposed temperature  boundary conditions (inlet). The value is specified in the user subroutines. No additional information needs to be provided in the .rea file.
@@ -633,11 +626,11 @@ Output info
     The ``"56 POINTS"`` line needs to be followed by 56 lines of the type shown. However, in each of the following lines, which have the ``UVWP`` etc., location is CRUCIAL, it
     must be layed out exactly as indicated above (these lines contain character strings, they use formatted reads), it is therefore advisable to refer to the examples ``vortex, shear4``.  If you want to pick points close to the center of element 1 and are running with ``lx1=10``, say, you might choose ``UVWP H 5 5 5 1``. (the indicated point would really be at the middle of the element only if ``lx1=9``)
 
-    The UVWP tells the code to write the 3 velocity components and pressure to the .sch file at
+    The ``UVWP`` tells the code to write the 3 velocity components and pressure to the ``.sch`` file at
     each timestep (or, more precisely, whenever ``mod(istep,iohis)=0``, where ``iohis=param(52))``.
     Note that if you have more than one history point then they are written sequentially at each
     timestep. Thus 10 steps in the first example with ``param(52)=2`` would write ``(10/2)*56 = 280``
-    lines to the .sch file, with 4 entries per line. The "H" indicates that the entry corresponds to a requested history point. A note of caution: if the ``ijk`` values (5 5 5 in the preceding example line) exceed ``lx1,ly1,lz1`` of your SIZE file, then they are truncated to that value. For example, if ``lx1=10`` for the data at the top (31 31 31) then the code will use ``ijk`` of (10 10 10), plus the given element number, in identifying the history point. It is often useful to set ``ijk`` to large values (i.e., > ``lx1``) because the endpoints of the spectral element mesh are invariant when ``lx1`` is changed.
+    lines to the ``.sch`` file, with 4 entries per line. The "H" indicates that the entry corresponds to a requested history point. A note of caution: if the ``ijk`` values (5 5 5 in the preceding example line) exceed ``lx1,ly1,lz1`` of your SIZE file, then they are truncated to that value. For example, if ``lx1=10`` for the data at the top (31 31 31) then the code will use ``ijk`` of (10 10 10), plus the given element number, in identifying the history point. It is often useful to set ``ijk`` to large values (i.e., > ``lx1``) because the endpoints of the spectral element mesh are invariant when ``lx1`` is changed.
 
 **output specifications**
     Outputs are discussed in a separate section of the manual, available online.

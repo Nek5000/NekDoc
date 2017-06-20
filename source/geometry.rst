@@ -16,8 +16,8 @@ Suppose you wish to simulate flow through an axisymmetric pipe,
 of radius :math:`R=0.5` and length :math:`L=4`.  You estimate that you will
 need 3 elements in radial :math:`(y)` direction, and 5 in the :math:`x` direction,
 as depicted in :numref:`fig:mesh_axi1`.
-This would be specified by the following input file (called *pipe.box*)
-to genbox:
+This would be specified by the following input file (called ``pipe.box``)
+to ``genbox``:
 
 .. code-block:: none
 
@@ -46,26 +46,26 @@ to genbox:
 
     Axisymmetric pipe mesh.
 
-- The first line of this file supplies the name of an existing 2D .rea file that has the appropriate run parameters (viscosity, timestep size, etc.). These parameters can be modified later, but it is important that axisymmetric.rea be a 2D file, and not a 3D file.
+- The first line of this file supplies the name of an existing 2D ``.rea`` file that has the appropriate run parameters (viscosity, timestep size, etc.). These parameters can be modified later, but it is important that ``axisymmetric.rea`` be a 2D file, and not a 3D file.
 - The second line indicates the number of fields for this simulation, in this case, just 1, corresponding to the velocity field (i.e., no heat transfer).
-- The next set of lines just shows how one can place comments into a genbox input file.
+- The next set of lines just shows how one can place comments into a ``genbox`` input file.
 - The line that starts with "Box" indicates that a new box is starting, and that the following lines describe a typical box input.  Other possible key characters (the first character of Box, "B") are "C" and "M", more on those later.
 - The first line after "Box" specifies the number of elements in the
   :math:`x` and :math:`y` directions.   The fact that these values are negative indicates
-  that you want genbox to automatically generate the element distribution
+  that you want ``genbox`` to automatically generate the element distribution
   along each axis, rather than providing it by hand.  (More on this below.)
 - The next line specifies the distribution of the 5 elements in the :math:`x` direction.
-  The mesh starts at :math:`x=0` and ends at :math:`x=4.0`.  The *ratio* indicates the
+  The mesh starts at :math:`x=0` and ends at :math:`x=4.0`.  The ``ratio`` indicates the
   relative size of each element, progressing from left to right.
 - The next line specifies the distribution of the 3 elements in the :math:`y` direction,
   starting at :math:`y=0` and going to :math:`y=0.5`.  Again,
-  *ratio* =1.0 indicates that the elements will be of uniform height.
+  ``ratio`` =1.0 indicates that the elements will be of uniform height.
 - The last line specifies boundary conditions on each of the 4 sides of the
   box:
 
   - Lower-case *v* indicates that the left :math:`(x)` boundary is to be a velocity
     boundary condition, with a user-specified distribution determined by
-    routine *userbc* in the .usr file.  (Upper-case :math:`V` would indicate that
+    routine ``userbc`` in the ``.usr`` file.  (Upper-case :math:`V` would indicate that
     the velocity is constant, with values specified in the .rea file.)
   - *O* indicates that the right :math:`(x)` boundary is an outflow boundary -- the
     flow leaves the domain at the left and the default exit pressure is :math:`p=0`.
@@ -90,9 +90,9 @@ Graded Mesh
 
 Suppose you wish to have the mesh be graded,
 that you have increased resolution near the wall.
-In this case you change *ratio* in the :math:`y`-specification
+In this case you change ``ratio`` in the :math:`y`-specification
 of the element distribution.  For example, changing the 3 lines
-in the above genbox input file from
+in the above ``genbox`` input file from
 
 .. code-block:: none
 
@@ -126,7 +126,7 @@ User-Specified Distribution
 You can also specify your own, precise, distribution of element
 locations.   For example, another graded mesh similar to the
 one of the preceding example could be built by changing the
-genbox input file to contain:
+``genbox`` input file to contain:
 
 .. code-block:: none
 
@@ -135,8 +135,8 @@ genbox input file to contain:
    0.000    0.250    0.375    0.450    0.500           y0  y1 ... y4
 
 Here, the positive number of elements for the :math:`y` direction indicates
-that genbox is expecting ``Nely+1`` values of :math:`y` positions on the
-:math:`y`-element distribution line.   This is the genbox default, which
+that ``genbox`` is expecting ``Nely+1`` values of :math:`y` positions on the
+:math:`y`-element distribution line.   This is the ``genbox`` default, which
 explains why it corresponds to ``Nely`` :math:`>` 0.  The corresponding mesh
 is shown in :numref:`fig:mesh_axi3`.
 
@@ -146,9 +146,9 @@ Mesh Modification in Nek5000
 
 For complex shapes, it is often convenient to modify the mesh
 direction in the simulation code, Nek5000.  This can be done
-through the usrdat2 routine provided in the .usr file.
-The routine usrdat2 is called by nek5000 immediately after
-the geometry, as specified by the .rea file, is established.
+through the ``usrdat2`` routine provided in the ``.usr`` file.
+The routine ``usrdat2`` is called by Nek5000 immediately after
+the geometry, as specified by the ``.rea`` file, is established.
 Thus, one can use the existing geometry to map to a new geometry
 of interest.
 
@@ -166,7 +166,7 @@ Note that, as :math:`y \longrightarrow 0`, the perturbation,
 :math:`yA \sin( 2 \pi x / \lambda )`, goes to zero.  So, near the axis,
 the mesh recovers its original form.
 
-In nek5000, you would specify this through usrdat2 as follows
+In Nek5000, you would specify this through ``usrdat2`` as follows
 
 .. code-block:: fortran
 
@@ -191,13 +191,13 @@ In nek5000, you would specify this through usrdat2 as follows
    return
    end
 
-Note that, since nek5000 is modifying the mesh, postx will not
+Note that, since Nek5000 is modifying the mesh, ``postx`` will not
 recognize the current mesh unless you tell it to, because postx
-looks to the .rea file for the mesh geometry.  The only way for
-nek5000 to communicate the new mesh to postx is via the .fld
+looks to the ``.rea`` file for the mesh geometry.  The only way for
+Nek5000 to communicate the new mesh to ``postx`` is via the ``.fld``
 file, so you must request that the geometry be dumped to the
-.fld file.   This is done by modifying the OUTPUT SPECIFICATIONS,
-which are found near the bottom of the .rea file.  Specifically,
+``.fld`` file.   This is done by modifying the OUTPUT SPECIFICATIONS,
+which are found near the bottom of the ``.rea`` file.  Specifically,
 change
 
 .. code-block:: none
@@ -257,15 +257,15 @@ Cylindrical/Cartesian-transition Annuli
 
     Cylinder mesh
 
-An updated version of genb6, known as genb7, is currently under development
+An updated version of ``genb6``, known as ``genb7``, is currently under development
 and designed to simply/automate the construction of cylindrical annuli,
 including *basic* transition-to-Cartesian elements.   More sophisticated
 transition treatments may be generated using the GLOBAL REFINE options in
-prenek or through an upgrade of genb7, as demand warrants.
-Example 2D and 3D input files are provided in the nek5000/doc files
-*box7.2d* and *box7.3d*.
+``prenek`` or through an upgrade of ``genb7``, as demand warrants.
+Example 2D and 3D input files are provided in the ``nek5000/doc`` files
+``box7.2d`` and ``box7.3d``.
 :numref:`fig:cylbox_2d` shows a 2D example generated using
-the *box7.2d* input file, which reads:
+the ``box7.2d`` input file, which reads:
 
 .. code-block:: none
 
@@ -287,9 +287,9 @@ the *box7.2d* input file, which reads:
    v  ,W  ,E  ,E  ,    bc's (3 characters + comma)
     
 An example of a mesh is shown in :numref:`fig:cylbox_2d`.   The mesh has been quad-refined
-once with oct-refine option of prenek. The 3D counterpart to this
+once with oct-refine option of ``prenek``. The 3D counterpart to this
 mesh could joined to a hemisphere/Cartesian transition built with
-the spherical mesh option in prenek.
+the spherical mesh option in ``prenek``.
 
 -----------------------
 Extrusion and Mirroring
@@ -299,12 +299,12 @@ Extrusion and Mirroring
 Building Extruded Meshes with n2to3
 ...................................
 
-In nek5000/tools, there is a code n2to3.f that can be compiled with your
+In ``nek5000/tools``, there is a code ``n2to3.f`` that can be compiled with your
 local fortran compiler (preferably not g77).
 By running this code, you can extend two dimensional domains to
 three dimensional ones with a user-specified number of levels in the
-z-direction.  Such a mesh can then be modified using the mesh modification
-approach. Assuming you have a valid two-dimensional mesh, n2to3 is straightforward
+:math:`z-direction`.  Such a mesh can then be modified using the mesh modification
+approach. Assuming you have a valid two-dimensional mesh, ``n2to3`` is straightforward
 to run.  Below is a typical session, upon typing ``n2to3`` the user is prompted at the command line
 
 .. code-block:: none
@@ -354,7 +354,7 @@ These distinct portions of the
 domain boundary are illustrated in :numref:`fig-walls`.
 The restrictions on the domain for Nek5000 are itemized below.
 
-- The domain :math:\Omega=\Omega_f \cup \Omega_s` must correspond either to a
+- The domain :math:`\Omega=\Omega_f \cup \Omega_s` must correspond either to a
   planar (Cartesian) two-dimensional geometry, or to the
   cross-section of an axisymmetric region specified by
   revolution of the cross-section about a specified axis, or
@@ -367,7 +367,7 @@ The restrictions on the domain for Nek5000 are itemized below.
 - Nek5000 can interpret a two-dimensional image as either
   a planar Cartesian geometry, or
   the cross-section of an axisymmetric body. In the case of
-  the latter, it is assumed that the y-direction is the radial
+  the latter, it is assumed that the :math:`y`-direction is the radial
   direction, that is, the axis of revolution is at :math:`y=0`.
   Although an axisymmetric geometry is, in fact,
   three-dimensional, Nek5000 can assume that the field variables
@@ -376,7 +376,7 @@ The restrictions on the domain for Nek5000 are itemized below.
   relevant equations to "two-dimensional" form.
 
 Fully general three-dimensional meshes generated by other softwares
-packages can be input to PRENEK as import meshes.
+packages can be input to ``prenek`` as import meshes.
 
 ---------------
 Moving Geometry
@@ -405,7 +405,7 @@ the fluid and/or thermal boundary conditions specified
 on the boundary.
 However, under special circumstances the user may want
 to override the defaults set by Nek5000, this is
-described in the PRENEK manual in Section 5.7. (This manual is old may soon be deprecated.)
+described in the ``prenek`` manual in Section 5.7. (This manual is old may soon be deprecated.)
 If the zero tangential mesh velocity is imposed, then the mesh
 is fixed in space; if the zero traction condition is imposed,
 then the mesh can slide along the tangential directions on
@@ -448,14 +448,14 @@ given in the previous section are now described.
 The boundary conditions can be imposed in various ways:
 
 - when the mesh is generated with ``genbox``, as will be explained in Section~\ref{sec:genbox}
-- when the .rea file is read in PRENEK or directly in the .rea file
-- directly in the .rea file
+- when the ``.rea`` file is read in ``prenek`` or directly in the ``.rea`` file
+- directly in the ``.rea`` file
 - in the subroutine ``userbc``
 
-The general convention for boundary conditions in the .rea file is
+The general convention for boundary conditions in the ``.rea`` file is
 
 - upper case letters correspond to Primitive boundary conditions, as given in :numref:`tab:primitiveBCf`, :numref:`tab:primitiveBCt`
-- lower case letters correspond to user defined boundary conditions, see :numref:`tab:userBCf` :numref:`tab:userBCt`
+- lower case letters correspond to user defined boundary conditions, see :numref:`tab:userBCf`, :numref:`tab:userBCt`
 
 Since there are no supporting tools that will correctly populate the .rea file with the appropriate values, temperature, velocity, and flux boundary conditions are typically lower case and values must be specified in the ``userbc`` subroutine in the .usr file.
 
@@ -559,13 +559,13 @@ The open(outflow) boundary condition ("O") arises as a natural boundary conditio
      (\nabla {\bf u} \cdot {\bf t})\cdot {\bf n}&=&0
 
   where :math:`{\bf n}` is the normal vector and :math:`{\bf t}` the tangent vector. If the normal and tangent vector are not aligned with the mesh the stress formulation has to be used.
-- the periodic boundary condition ("P") needs to be prescribed in the .rea file since it already assigns the last point to first via :math:`{\bf u}({\bf x})={\bf u}({\bf x} + L)`, where :math:`L` is the periodic length.
+- the periodic boundary condition ("P") needs to be prescribed in the ``.rea`` file since it already assigns the last point to first via :math:`{\bf u}({\bf x})={\bf u}({\bf x} + L)`, where :math:`L` is the periodic length.
 - the wall boundary condition ("W") corresponds to :math:`{\bf u}=0`.
 
 For a fully-developed flow in such a configuration, one can
 effect great computational efficiencies by considering the
 problem in a single geometric unit (here taken to be of
-length L), and requiring periodicity of the field variables.
+length :math:`L`), and requiring periodicity of the field variables.
 Nek5000 requires that the pairs of sides (or faces, in
 the case of a three-dimensional mesh) identified as periodic
 be identical (i.e., that the geometry be periodic).
@@ -654,7 +654,7 @@ power of the surface temperature.
      k(\nabla T)\cdot {\bf n} =0
 
   where :math:`{\bf n}` is the normal vector and :math:`{\bf t}` the tangent vector. If the normal and tangent vector are not aligned with the mesh the stress formulation has to be used.
-- the periodic boundary condition ("P") needs to be prescribed in the .rea file since it already assigns the last point to first via :math:`{\bf u}({\bf x})={\bf u}({\bf x} + L)`, where :math:`L` is the periodic length.
+- the periodic boundary condition ("P") needs to be prescribed in the ``.rea`` file since it already assigns the last point to first via :math:`{\bf u}({\bf x})={\bf u}({\bf x} + L)`, where :math:`L` is the periodic length.
 - Newton cooling boundary condition ("c")
 
   .. math::
@@ -763,13 +763,13 @@ with various other solution strategies/parameters is given in the appendix.
 Parallel Mesh Partitioning with Genmap
 --------------------------------------
 
-Genmap is spectral graph partitioning tool, similar to e.g. METIS, which partitions the graph associated to the mesh to assure optimal communication time in HPC applications. Let us consider a simple mesh such as the one in :numref:`fig:genmap`. The vertices are distributed in a random fashion, which is the way they may be provided by some mesh generator. Let us assume the vertices are here given as
+``genmap`` is spectral graph partitioning tool, similar to e.g. METIS, which partitions the graph associated to the mesh to assure optimal communication time in HPC applications. Let us consider a simple mesh such as the one in :numref:`fig:genmap`. The vertices are distributed in a random fashion, which is the way they may be provided by some mesh generator. Let us assume the vertices are here given as
 
 .. math::
 
    V_1=(-1,0),\ V_2=(0,1),\ V_3=(-1,2),\ V_4=(-1,1),\ V_5=(0,2),\ V_6=(0,0),\ V_7=(1,1),\ V_8=(1,0)
 
-The geometry is already stored in the .rea file by the point coordinates, and not vertex numbers
+The geometry is already stored in the ``.rea`` file by the point coordinates, and not vertex numbers
 
 .. table::
 
@@ -839,7 +839,7 @@ The main ides of the spectral bisection algorithm is
 
 .. code-block:: none
 
-   compute \(v_2\) eigenvector corresponding to \(\lambda_2(L(G))\)
+   compute \ :math:`v_2` \ eigenvector corresponding to \(\lambda_2(L(G))\)
    for i=1,N
      if v_2(i) < 0 put vertex \(V_i\) in N_{-}
      else put vertex \(V_i\) in N_{-}
@@ -847,10 +847,11 @@ The main ides of the spectral bisection algorithm is
 The eigenvectors and eigenvalues are computed using Lanczos's algorithm.
 These steps are repeated recursively on each of the two branches of the graph :math:`N_{-}, N_{+}`. This is possible since according to Fiedler's theorems the graph :math:`N_{-}` is connected, :math:`N_{+}` connected only if no :math:`v_2(i)=0`,  and for each subgraph :math:`G_1` the algebraic connectivities satisfy :math:`\lambda_2(L(G_1))\leq\lambda_2(L(G))`.
 
-To run the genmap code be sure that the Nek tools are up-to-date and compiled.
-At command line type: genmap
-NOTE-If the executables for the tools were not placed in the bin directory(default),
-include the path to the genmap executable. We give here the output for the .rea file in the Kovasznay example
+To run the ``genmap`` code be sure that the Nek tools are up-to-date and compiled.
+At command line type: ``genmap``.
+ 
+NOTE: If the executables for the tools were not placed in the bin directory(default),
+include the path to the ``genmap`` executable. We give here the output for the ``.rea`` file in the Kovasznay example
 
 .. code-block:: none
 
@@ -875,14 +876,14 @@ include the path to the genmap executable. We give here the output for the .rea 
     done rec_bisect
    writing kov.map
 
-The user is prompted for .rea file name and should enter only the prefix of the .rea file.
+The user is prompted for ``.rea`` file name and should enter only the prefix of the ``.rea`` file.
 The user is prompted for mesh tolerance value. Typically a value of .05 is sufficient. Increasing or decreasing this value should make very little difference in the mesh generation. However, if given an error from genmap, the tolerance may need to be made slightly more generous.
 
-A successful genmap run will produce a .map file with the proper processor decomposition.
+A successful genmap run will produce a ``.map`` file with the proper processor decomposition.
 
 NOTE: For large element counts, it is not uncommon for genmap to be produce a few disconnected sets.
 These sets are typically under 7 elements large and  will not affect optimization of the NEK5000 run.
-If a disconnected set is produced, genmap will output the following warning to stdout:
+If a disconnected set is produced, ``genmap`` will output the following warning to stdout:
 
 .. code-block:: none
 
@@ -891,7 +892,7 @@ If a disconnected set is produced, genmap will output the following warning to s
 Here, ``N0`` is the number of elements disconnected from the set of ``NEL`` elements, ``Nsets`` is the counter of disconnected sets found,
 and ``Nlarge sets`` is the number of sets greater than 64 elements in size.  ``Nlarge sets`` should always be 0.  If not, please contact someone on the developer team so we can be sure to have a more optimal partition of your mesh.
 
-Genmap outputs an ordered set of numbers which are organized as follows
+``genmap`` outputs an ordered set of numbers which are organized as follows
 Line number 1 contains the header ``nel, nactive, depth, d2, npts, nrank, noutflow``
 
 - ``nel``  number of elements
