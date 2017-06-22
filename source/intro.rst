@@ -273,9 +273,9 @@ The Low Mach equations in non-dimensional form are
 
 .. math::
 
-    &&\rho\bigg(\frac{\mathrm d \mathbf u}{\mathrm d t}+ \mathbf u\cdot\nabla\mathbf u\bigg)=-\nabla p+\nabla \cdot\boldsymbol\tau+\rho\mathbf f\ \\ \nonumber
-    &&\frac{\mathrm d \mathbf \rho}{\mathrm d t}+ \mathbf u\cdot\nabla\mathbf \rho=-\rho\nabla \cdot \mathbf u\\ \nonumber
-    &&\rho\bigg(\frac{\mathrm d T}{\mathrm d t}+ \mathbf u\cdot\nabla T\bigg)=-\nabla \cdot k \nabla T\\ \nonumber
+    &\rho\bigg(\frac{\mathrm d \mathbf u}{\mathrm d t}+ \mathbf u\cdot\nabla\mathbf u\bigg)=-\nabla p+\nabla \cdot\boldsymbol\tau+\rho\mathbf f\ \\ \nonumber
+    &\frac{\mathrm d \mathbf \rho}{\mathrm d t}+ \mathbf u\cdot\nabla\mathbf \rho=-\rho\nabla \cdot \mathbf u\\ \nonumber
+    &\rho\bigg(\frac{\mathrm d T}{\mathrm d t}+ \mathbf u\cdot\nabla T\bigg)=-\nabla \cdot k \nabla T\\ \nonumber
 
 where :math:`\boldsymbol\tau=\mu[\nabla \mathbf u+\nabla \mathbf u^{T}-\frac{2}{3}\nabla \cdot
 \mathbf u \mathbf I]`.
@@ -303,10 +303,10 @@ the incompressible MHD equations are
 
 .. math::
 
-    \rho(\partial_{t} \mathbf u + \mathbf u \cdot \nabla \mathbf u) &=& - \nabla p + \mu \Delta \mathbf u + \mathbf B\cdot \nabla \mathbf B \ ,\\ 
-    \nabla \cdot \mathbf u & =& 0\\ \nonumber
-    \partial_{t} \mathbf B + \mathbf u \cdot \nabla \mathbf B &=& - \nabla q + \eta \Delta \mathbf B + \mathbf B\cdot \nabla \mathbf u \ ,\\ 
-    \nabla \cdot \mathbf B & =& 0 \nonumber
+    \rho(\partial_{t} \mathbf u + \mathbf u \cdot \nabla \mathbf u) &= - \nabla p + \mu \Delta \mathbf u + \mathbf B\cdot \nabla \mathbf B \ ,\\ 
+    \nabla \cdot \mathbf u &= 0\\ \nonumber
+    \partial_{t} \mathbf B + \mathbf u \cdot \nabla \mathbf B &= - \nabla q + \eta \Delta \mathbf B + \mathbf B\cdot \nabla \mathbf u \ ,\\ 
+    \nabla \cdot \mathbf B &= 0 \nonumber
 
 where :math:`\rho` is the density :math:`\mu` the viscosity, :math:`\eta` resistivity, and pressure :math:`p`.
 
@@ -332,8 +332,8 @@ We consider unsteady incompressible flow in a domain with moving boundaries:
 .. math::
     :label: mhd1
 
-    \frac{\partial\mathbf u}{\partial t}&=&-\nabla p +\frac{1}{Re}\nabla\cdot(\nabla + \nabla^T)\mathbf u  + NL,\\
-    \nabla \cdot \mathbf u &= &0 
+    \frac{\partial\mathbf u}{\partial t} &= -\nabla p +\frac{1}{Re}\nabla\cdot(\nabla + \nabla^T)\mathbf u  + NL,\\
+    \nabla \cdot \mathbf u &= 0 
 
 Here, :math:`NL` represents the quadratic nonlinearities from the convective term.
 

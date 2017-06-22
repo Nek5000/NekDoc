@@ -157,7 +157,7 @@ Similarly to ``userf`` the routine ``userq`` provides the force term in Eq. :eq:
   return
   end
 
-The boundary conditions are assigned in ``userbc`` for both the fluid, temperature and all other scalars. An extensive list of such possible boundary conditions is available in Section.~\ref{sec:boundary}. 
+The boundary conditions are assigned in ``userbc`` for both the fluid, temperature and all other scalars. An extensive list of such possible boundary conditions is available in :ref:`sec:boundary`. 
 
 .. code-block:: fortran
 
@@ -326,7 +326,7 @@ Parameters and logical switches
     solution, whether advection is turned on, etc.
 
 
-Next we have the logical switches as follow, a detailed explanation to be found in Sec:\ref{sec:switches} 
+Next we have the logical switches as follow, a detailed explanation to be found in :ref:`sec:switches` 
 
 .. code-block:: none
 

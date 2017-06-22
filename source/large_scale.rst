@@ -9,21 +9,21 @@ Large-Scale Simulations
 The largest simulations performed so far with Nek5000 are in the range of :math:`5\times 10^6`.
 Performance aspects to keep in mind
 
-- design your SEM-mesh for a polynomial order N=7 or N=9 (lx1 in SIZE)
-- turn on dealiasing only if needed and try to minimize the polynomial order used for the fine grid (lxd in SIZE)
+- design your SEM-mesh for a polynomial order N=7 or N=9 (``lx1`` in SIZE)
+- turn on dealiasing only if needed and try to minimize the polynomial order used for the fine grid (``lxd`` in SIZE)
 - ensure that you have at least 50 elements per MPI process (the more the better)
 - explore the pressure solver performance using AMG solver (sweet spot depends on number of processors and elements)
-- make sure usrchk() does not contain time consuming operations getting called in the time loop
-- enable tuned MxM implementation for your platform (see makenek options)
-- turn on residual projection scheme (see .rea file parameters)
+- make sure ``usrchk()`` does not contain time consuming operations getting called in the time loop
+- enable tuned MxM implementation for your platform (see ``makenek`` options)
+- turn on residual projection scheme (see ``.rea`` file parameters)
 - tune your pressure/velocity tolerances (e.g. use 5e-5 for pressure and 1e-8 for velocity solver) having in mind your overall accuracy
 - try to maximize the timestep, if needed turn on OIFS scheme with a target Courant number of around 2.0
 - use the parallel I/O (MPI-IO or custom kernel) to write checkpoints to disk
-- understand where you spend most of the time - turn on solver and MPI timings to monitor solver performance (see makenek options)
+- understand where you spend most of the time - turn on solver and MPI timings to monitor solver performance (see ``makenek`` options)
 
-In such context it is recommendable to save the .rea file as a binary re2.
+In such context it is recommendable to save the ``.rea`` file as a binary ``.re2``.
 
-Also for input/output it may be necessary to use MPI I/O. In this case the code has to be compiled with MPI I/O, i.e. the line PPLIST="MPIIO" in the makefile should not be commented. For output we may use iofiles, the parameter 65 in the .rea file specifies the number of directories and separate files that have to be created as specified by the user.
+Also for input/output it may be necessary to use MPI I/O. In this case the code has to be compiled with MPI I/O, i.e. the line ``PPLIST="MPIIO"`` in the ``makefile`` should not be commented. For output we may use ``iofiles``, the parameter 65 in the ``.rea`` file specifies the number of directories and separate files that have to be created as specified by the user.
 
 For large scale simulations the AMG solver is a better, faster choice for solving the Poisson problem (the default solver is XXT).
 
@@ -31,15 +31,15 @@ For large scale simulations the AMG solver is a better, faster choice for solvin
 AMG solver
 ..........
 
-The code should be compiled once with the settings ``AMG=true``, ``AMG_DUMP=true``. In the tools folder of Nek5000 we can find the AMG solver, a Matlab version for the moment which is subject to further integration in the main code. The user should run the script run which will read the AMG dump files and create new ones. The new files are now to be used in the code and with ``AMG_DUMP`` commented out the user should recompile and run his Nek5000 version.
+The code should be compiled once with the settings ``AMG=true``, ``AMG_DUMP=true``. In the ``tools`` folder of Nek5000 we can find the AMG solver, a Matlab version for the moment which is subject to further integration in the main code. The user should run the script run which will read the AMG dump files and create new ones. The new files are now to be used in the code and with ``AMG_DUMP`` commented out the user should recompile and run his Nek5000 version.
 
 The AMG solver is a 3 stage process.
 
-The first step will generate the files needed for the matlab code. Next matlab must run the setup code and generate a set of .dat files. Then nek can run with the ``.dat`` files and use the AMG pressure solver.
+The first step will generate the files needed for the Matlab code. Next Matlab must run the setup code and generate a set of ``.dat`` files. Then nek can run with the ``.dat`` files and use the AMG pressure solver.
 
 AMG dump stage
 
-    Make sure ``IFAMG`` and ``IFAMG_DUMP`` in makenek are uncommented and set to true
+    Make sure ``IFAMG`` and ``IFAMG_DUMP`` in ``makenek`` are uncommented and set to true
 
     Run ``makenek clean`` then ``makenek <casename>``
 
@@ -69,9 +69,9 @@ AMG run stage
 
 Notes on improving AMG results:
 
-    To help speed up the matlab process, try running the 1st stage, the AMG dump stage, with ``lx1=3`` in the SIZE file. Using a lower lx1 number will create a sparser matrix and thus a speedier matlab resolution. lx1 can be increased when ready to run the 2nd stage, the AMG run stage, after the .dat files are produced.
+    To help speed up the Matlab process, try running the 1st stage, the AMG dump stage, with ``lx1=3`` in the SIZE file. Using a lower ``lx1`` number will create a sparser matrix and thus a speedier Matlab resolution. ``lx1`` can be increased when ready to run the 2nd stage, the AMG run stage, after the ``.dat`` files are produced.
 
-    To increase accuracy in the AMG results, try tightening the tolerances in the run script, in ``trunk/tools/amg_matlab``. Specifically, the first tolerance (default set to 0.5). Lowering this (say, to 0.1), will increase the time the matlab code stage takes, but the result will be a faster convergence in the pressure solves of the AMG run stage.
+    To increase accuracy in the AMG results, try tightening the tolerances in the run script, in ``trunk/tools/amg_matlab``. Specifically, the first tolerance (default set to 0.5). Lowering this (say, to 0.1), will increase the time the Matlab code stage takes, but the result will be a faster convergence in the pressure solves of the AMG run stage.
 
 ...................
 Size related issues
@@ -87,7 +87,7 @@ Exiting Nek5000 while a batch job in being executed should be done not using ``"
 MAKENEK
 .......
 
-The shell script makenek is designed to assist the compilation process of NEK5000. The script will create a makefile based on the user settings section in makenek. The GNU gmake utility is used to build NEK5000.
+The shell script ``makenek`` is designed to assist the compilation process of Nek5000. The script will create a ``makefile`` based on the user settings section in ``makenek``. The GNU gmake utility is used to build Nek5000.
 Available configurations options:
 
 .. _tab:bdms:
@@ -115,7 +115,7 @@ Available configurations options:
    +----------------+------------+---------------+------------------------------------------------------------------------------------------+
    | OPT_FLAGS_MAG  | string     | optional      | optimization flags for L4 (highest opt level)                                            |
    +----------------+------------+---------------+------------------------------------------------------------------------------------------+
-   | SOURCE_ROOT    | string     | mandatory     | path of nek5000 source                                                                   |
+   | SOURCE_ROOT    | string     | mandatory     | path of Nek5000 source                                                                   |
    +----------------+------------+---------------+------------------------------------------------------------------------------------------+
    | USR            | string     | optional      | object list of additional files to compile (make intructions (makefile_usr.inc required) |
    +----------------+------------+---------------+------------------------------------------------------------------------------------------+
@@ -137,18 +137,19 @@ Binary geometry
 Reatore2
 Jump to: navigation, search
 
-The NEK5000 tool, reatore2 allows users to split an ASCII .rea file to an ASCII .rea and a binary .re2 file. The .re2 file contains the mesh and boundary condition data that is normally written in ASCII in the .rea file. For large simulations, this information can be substantial, so storing it in binary lowers the memory footprint for the simulation.
+The Nek5000 tool, ``reatore2`` allows users to split an ASCII ``.rea`` file to an ASCII ``.rea`` and a binary ``.re2`` file. The ``.re2`` file contains the mesh and boundary condition data that is normally written in ASCII in the ``.rea`` file. For large simulations, this information can be substantial, so storing it in binary lowers the memory footprint for the simulation.
+
 Running reatore2
 
-Be sure that your nekton tools are up-to-date and compiled.
-At the command prompt type: reatore2
+Be sure that your ``nekton`` tools are up-to-date and compiled.
+At the command prompt type: ``reatore2``
 
-NOTE-If the executables for the tools were not placed in the bin directory(default),
-include the path to the reatore2 executable
+NOTE: If the executables for the tools were not placed in the ``bin`` directory (default),
+include the path to the ``reatore2`` executable
 
-    User is prompted for name of .rea file
+    User is prompted for name of ``.rea`` file
 
-    -Enter the name to the .rea file, excluding the .rea extenstion
+    -Enter the name to the ``.rea`` file, excluding the ``.rea`` extenstion
 
     User is prompted for the new files name
 
@@ -158,7 +159,7 @@ include the path to the reatore2 executable
 Parallelism in Nek5000
 ----------------------
 
-The parallelism of Nek5000 is accomplished via domain decomposition methods and a suitable gather-scatter code. All this is implemented in such way that the user does not have to be concerned with the parallelism and only focus on the actual solvers while keepin in mind a few simple rules and routines that switch from local to global and back.
+The parallelism of Nek5000 is accomplished via domain decomposition methods and a suitable gather-scatter code. All this is implemented in such way that the user does not have to be concerned with the parallelism and only focus on the actual solvers while keeping in mind a few simple rules and routines that switch from local to global and back.
 
 - Locally, the SEM is structured.
 - Globally, the SEM is unstructured.
@@ -168,10 +169,10 @@ The parallelism of Nek5000 is accomplished via domain decomposition methods and 
 
 For the most part, the global element numbering is not relevant since Nek5000 assigns it randomly but following certain rules.
 
-There are two types of array sizes, starting with lx1, lelv, etc. which give an upper bound of the arrays. And nx1, nelv, etc. which give the actual number of elements/grid points per processors. For the example in :numref:`fig:procsplit` we have
+There are two types of array sizes, starting with ``lx1``, ``lelv``, etc. which give an upper bound of the arrays. And ``nx1``, ``nelv``, etc. which give the actual number of elements/grid points per processors. For the example in :numref:`fig:procsplit` we have
 
-- on proc 0, ``nelt=2``  (nelt = no elements in temperature domain)
-- on proc 1, ``nelt=3``  (nelv = no elements in fluid domain, usually = nelt)
+- on proc 0, ``nelt=2``  (``nelt`` = no elements in temperature domain)
+- on proc 1, ``nelt=3``  (``nelv`` = no elements in fluid domain, usually = ``nelt``)
 
 .. _fig:procsplit:
 

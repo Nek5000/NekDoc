@@ -49,7 +49,7 @@ master_doc = 'index'
 # General information about the project.
 project = u'Nek5000'
 copyright = u'2017, Paul Fischer, James Lottes,  Stefan Kerkemeier, Oana Marin, Katherine Heisey, Aleks Obabko, Elia Merzari, Yulia Peet, Ronald Rahaman'
-author = u'Paul Fischer, James Lottes,  Stefan Kerkemeier, Oana Marin, Katherine Heisey, Aleks Obabko, Elia Merzari, Yulia Peet, Ronald Rahaman'
+author = u'Paul Fischer, James Lottes, Stefan Kerkemeier, Oana Marin, Katherine Heisey, Aleks Obabko, Elia Merzari, Yulia Peet, Ronald Rahaman'
 
 # The version info for the project you're documenting, acts as replacement for
 # |version| and |release|, also used in various other places throughout the
@@ -129,7 +129,7 @@ latex_elements = {
 #  author, documentclass [howto, manual, or own class]).
 latex_documents = [
     (master_doc, 'Nek5000.tex', u'Nek5000 Documentation',
-     u'Paul Fischer, James Lottes,  Stefan Kerkemeier, Oana Marin, Katherine Heisey, Aleks Obabko, Elia Merzari, Yulia Peet, Ronald Rahaman', 'manual'),
+     u'Paul Fischer, \\and James Lottes, \\and Stefan Kerkemeier, \\and Oana Marin, \\and Katherine Heisey, \\and Aleks Obabko, \\and Elia Merzari, \\and Yulia Peet, \\and Ronald Rahaman', 'manual'),
 ]
 
 

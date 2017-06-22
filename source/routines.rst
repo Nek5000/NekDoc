@@ -2,15 +2,17 @@
 Routines of Interest
 ====================
 
-The most common routines needed in nek5000 are
+The most common routines needed in Nek5000 are
 
 ------------------
 Naming Conventions
 ------------------
 
-- ``subroutine f(a,b,c)}``
+- ``subroutine f(a,b,c)``
+
   - ``a``- returned variable
   - ``b,c`` -input data
+
 - ``op[]`` represent operations on operators
 - ``c[]``  operations on constants
 - ``gl[]`` global operations
@@ -23,35 +25,35 @@ Subroutines
 -----------
 
 ``subroutine rescale_x(x,x0,x1)``
-    Rescales the array x to be in the range (x0,x1). This is usually called from usrdat2 in the .usr file
+    Rescales the array ``x`` to be in the range ``(x0,x1)``. This is usually called from ``usrdat2`` in the ``.usr`` file
 
 ``subroutine normvc(h1,semi,l2,linf,x1,x2,x3)``
-    Computes the error norms of a vector field variable(x1,x2,x3) defined on mesh 1, the velocity mesh. The error norms are normalized with respect to the volume, with the exception on the infinity norm, linf.
+    Computes the error norms of a vector field variable ``(x1,x2,x3)`` defined on mesh 1, the velocity mesh. The error norms are normalized with respect to the volume, with the exception on the infinity norm, ``linf``.
 
 ``subroutine comp_vort3(vort,work1,work2,u,v,w)``
-    Computes the vorticity (vort) of the velocity field, (u,v,w)
+    Computes the vorticity (``vort``) of the velocity field, ``(u,v,w)``
 
 ``subroutine lambda2(l2)``
     Generates the Lambda-2 vortex criterion proposed by Jeong and Hussain (1995)
 
 ``subroutine planar_average_z(ua,u,w1,w2)``
-    Computes the r-s planar average of the quantity u.
+    Computes the r-s planar average of the quantity ``u``.
 
 ``subroutine torque_calc(scale,x0,ifdout,iftout)``
-    Computes torque about the point x0. Here scale is a user supplied multiplier so that the results may be scaled to any convenient non-dimensionalization. Both the drag and the torque can be printed to the screen by switching the appropriate ifdout(drag) or iftout(torque) logical.
+    Computes torque about the point ``x0``. Here scale is a user supplied multiplier so that the results may be scaled to any convenient non-dimensionalization. Both the drag and the torque can be printed to the screen by switching the appropriate ``ifdout(drag)`` or ``iftout(torque)`` logical.
 
 ``subroutine set_obj``
-    Defines objects for surface integrals by changing the value of hcode for future calculations. Typically called once within userchk (for istep = 0) and used for calculating torque. (see above)
+    Defines objects for surface integrals by changing the value of ``hcode`` for future calculations. Typically called once within ``userchk`` (for ``istep = 0``) and used for calculating torque. (see above)
 
 ``subroutine avg1(avg,f, alpha,beta,n,name,ifverbose)``
 
 ``subroutine avg2(avg,f, alpha,beta,n,name,ifverbose)``
 
 ``subroutine avg3(avg,f,g, alpha,beta,n,name,ifverbose)``
-    These three subroutines calculate the (weighted) average of f. Depending on the value of the logical, ifverbose, the results will be printed to standard output along with name. In avg2, the f component is squared. In avg3, vector g also contributes to the average calculation.
+    These three subroutines calculate the (weighted) average of ``f``. Depending on the value of the logical, ``ifverbose``, the results will be printed to standard output along with name. In ``avg2``, the ``f`` component is squared. In ``avg3``, vector ``g`` also contributes to the average calculation.
 
 ``subroutine outpost(x,vy,vz,pr,tz,' ')``
-    Dumps the current data of x,vy,vz,pr,tz to an ``.fld`` or ``.f0????`` file for post processing.
+    Dumps the current data of ``x``, ``vy``, ``vz``, ``pr``, ``tz`` to an ``.fld`` or ``.f0????`` file for post processing.
 
 ``subroutine platform_timer(ivrb)``
     Runs the battery of timing tests for matrix-matrix products,contention-free processor-to-processor ping-pong tests, and ``mpi_all_reduce`` times. Allows one to check the performance of the communication routines used on specific platforms.
@@ -60,22 +62,22 @@ Subroutines
     Moves the mesh to allow user affine motion.
 
 ``subroutine runtimeavg(ay,y,j,istep1,ipostep,s5)``
-    Computes,stores, and (for ipostep!0) prints runtime averages of j-quantity y (along w/ y itself unless ipostep<0) with j + '``rtavg_``' + (unique) s5 every ipostep for istep>=istep1. s5 is a string to append to ``rtavg_`` for storage file naming.
+    Computes, stores, and (for ``ipostep!0``) prints runtime averages of ``j``-quantity ``y`` (along w/ ``y`` itself unless ``ipostep<0``) with ``j`` + '``rtavg_``' + (unique) ``s5`` every ``ipostep`` for ``istep>=istep1``. ``s5`` is a string to append to ``rtavg_`` for storage file naming.
 
 ``subroutine lagrng(uo,y,yvec,uvec,work,n,m)``
-    Compute Lagrangian interpolant for uo
+    Compute Lagrangian interpolant for ``uo``
 
 ``subroutine opcopy(a1,a2,a3,b1,b2,b3)``
-    Copies b1 to a1, b2 to a2, and b3 to a3, when ndim = 3,
+    Copies ``b1`` to ``a1``, ``b2`` to ``a2``, and ``b3`` to ``a3``, when ``ndim = 3``,
 
 ``subroutine cadd(a,const,n)``
-    Adds const to vector a of size n.
+    Adds ``const`` to vector ``a`` of size ``n``.
 
 ``subroutine col2(a,b,n)``
-    For n entries, calculates a=a*b.
+    For ``n`` entries, calculates ``a=a*b``.
 
 ``subroutine col3(a,b,c,n)``
-    For n entries, calculates a=b*c.
+    For ``n`` entries, calculates ``a=b*c``.
 
 ---------
 Functions
@@ -86,17 +88,17 @@ Functions
 ``function glamax(a,n)``
 
 ``function iglmax(a,n)``
-    Calculates the (absolute) max of a vector that is size n. Prefix i implies integer type.
+    Calculates the (absolute) max of a vector that is size ``n``. Prefix ``i`` implies integer type.
 
 ``function i8glmax(a,n)``
-    Calculates the max of an integer*8 vector that is size n.
+    Calculates the max of an integer*8 vector that is size ``n``.
 
 ``function glmin(a,n)``
 
 ``function glamin(a,n)``
 
 ``function iglmin(a,n)``
-    Calculates the (absolute) min of a vector that is size n. Prefix i implies integer type.
+    Calculates the (absolute) min of a vector that is size ``n``. Prefix ``i`` implies integer type.
 
 
 ``function glsc2(a,b,n)``
@@ -104,7 +106,7 @@ Functions
 ``function glsc3(a,b,mult,n)``
 
 ``function glsc23(z,y,z,n)``
-    Performs the inner product in double precision. glsc3 uses a multiplier, mult and glsc23 performs x*x*y*z.
+    Performs the inner product in double precision. ``glsc3`` uses a multiplier, ``mult`` and ``glsc23`` performs ``x*x*y*z``.
 
 
 ``function glsum(x,n)``
@@ -112,7 +114,7 @@ Functions
 ``function iglsum(x,n)``
 
 ``function i8glsum(x,n)``
-    Computes the global sum of x, where the prefix, i specifies type integer, and i8 specifies type integer*8.
+    Computes the global sum of ``x``, where the prefix, ``i`` specifies type integer, and ``i8`` specifies type integer*8.
 
 ---------------------------------------------------------
 An Example of Specifying Surface Normals in the .usr File
@@ -153,7 +155,7 @@ An Example of Specifying Surface Normals in the .usr File
    return
    end
 
-This example will load a list of field files (filenames are read from a file) into the solver using the {\tt load\_fld()} function. After the data is loaded, the user is free to compute other postprocessing quantities. At the end the results are dumped onto a regular (uniform) mesh by a subsequent call to prepost().
+This example will load a list of field files (filenames are read from a file) into the solver using the ``load_fld()`` function. After the data is loaded, the user is free to compute other postprocessing quantities. At the end the results are dumped onto a regular (uniform) mesh by a subsequent call to ``prepost()``.
 
 Note: The regular grid data (field files) cannot be used as a restart file (uniform->GLL interpolation is unstable)!
 
@@ -203,9 +205,9 @@ Spectral Interpolation Tool
 ``Check intpts().``
 Monitor Points
 
-Multiple monitor points can be defined in the file hpts.in to examine the field data at every timestep.
+Multiple monitor points can be defined in the file ``hpts.in`` to examine the field data at every timestep.
 
-- setup an ASCII file called 'hpts.in' e.g:
+- setup an ASCII file called ``hpts.in`` e.g:
 
   .. code-block:: none
 
@@ -220,18 +222,18 @@ Multiple monitor points can be defined in the file hpts.in to examine the field 
 Grid-to-Grid Interpolation
 --------------------------
 
-To interpolate an existing field file (e.g. base.fld) onto a new mesh do the following:
+To interpolate an existing field file (e.g. ``base.fld``) onto a new mesh do the following:
 
-- set lpart in SIZE to a large value (e.g. 100'000 or larger) depending on your memory footprint
+- set ``lpart`` in SIZE to a large value (e.g. 100,000 or larger) depending on your memory footprint
 - compile Nek with MPIIO support
-- set NSTEPS=0 in the .rea file (post-processing mode)
-- run nek using the new geometry (e.g. new\_geom.f0000)
-- run nek using the old geometry and add this code snipplet to userchk()
+- set ``NSTEPS=0`` in the ``.rea`` file (post-processing mode)
+- run Nek using the new geometry (e.g. ``new_geom.f0000``)
+- run Nek using the old geometry and add this code snipplet to ``userchk()``
 
   .. code-block:: fortran
 
      character*132  newfld, oldfld, newgfld
-     data newfld, oldfld, newgfld /'new0.f0001','base.fld','new\_geom.f0000'/
+     data newfld, oldfld, newgfld /'new0.f0001','base.fld','new_geom.f0000'/
      call g2gi(newfld, oldfld, newgfld) ! grid2grid interpolation
      call exitt()
 
@@ -241,14 +243,14 @@ Lagrangian Particle Tracking
 
 The interpolation tool can be used for Lagrangian particle tracking (the particles are the interpolation points).
 
-Workflow: Set initial particle positions (e.g. reading a file particle.pos0) x_part <- x_pos0
+Workflow: Set initial particle positions (e.g. reading a file ``particle.pos0``) ``x_part <- x_pos0``
 
 LOOP
 
 - compute field quantities
-- interpolate field quantities for all particles using intpts()
+- interpolate field quantities for all particles using ``intpts()``
 - dump/store particle data
-- advect particles using particle_advect()
+- advect particles using ``particle_advect()``
 
 END LOOP
 

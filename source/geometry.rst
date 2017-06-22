@@ -235,6 +235,8 @@ The result of above changes is shown in :numref:`fig:wavypipe`.
 
     Axisymmetric pipe mesh.
 
+.. _sec:genbox:
+
 .......................................
 Cylindrical/Cartesian-transition Annuli
 .......................................
@@ -438,6 +440,8 @@ macro-element no longer exists.
 Boundary and Initial Conditions
 -------------------------------
 
+.. _sec:boundary:
+
 ...................
 Boundary Conditions
 ...................
@@ -447,7 +451,7 @@ given in the previous section are now described.
 
 The boundary conditions can be imposed in various ways:
 
-- when the mesh is generated with ``genbox``, as will be explained in Section~\ref{sec:genbox}
+- when the mesh is generated with ``genbox``, as will be explained in :ref:`sec:genbox`
 - when the ``.rea`` file is read in ``prenek`` or directly in the ``.rea`` file
 - directly in the ``.rea`` file
 - in the subroutine ``userbc``
@@ -523,6 +527,8 @@ as illustrated in :numref:`fig-walls`.
    | E          | Interior boundary     | Neighbour element ID      | 2                |
    +------------+-----------------------+---------------------------+------------------+
 
+|
+
 .. _tab:userBCf:
 
 .. table:: User defined boundary conditions
@@ -555,8 +561,8 @@ The open(outflow) boundary condition ("O") arises as a natural boundary conditio
 
   .. math::
 
-     {\bf u} \cdot {\bf n}&=&0\ ,\\
-     (\nabla {\bf u} \cdot {\bf t})\cdot {\bf n}&=&0
+     {\bf u} \cdot {\bf n} &= 0\ ,\\
+     (\nabla {\bf u} \cdot {\bf t})\cdot {\bf n} &= 0
 
   where :math:`{\bf n}` is the normal vector and :math:`{\bf t}` the tangent vector. If the normal and tangent vector are not aligned with the mesh the stress formulation has to be used.
 - the periodic boundary condition ("P") needs to be prescribed in the ``.rea`` file since it already assigns the last point to first via :math:`{\bf u}({\bf x})={\bf u}({\bf x} + L)`, where :math:`L` is the periodic length.
@@ -625,6 +631,8 @@ power of the surface temperature.
    +------------+---------------------------------------+------------+------------------+
    | I          | insulated (zero flux) for temperature |            | 0                |
    +------------+---------------------------------------+------------+------------------+
+
+|
 
 .. _tab:userBCt:
 
@@ -835,14 +843,12 @@ Properties of :math:`L(G)`
 - :math:`\lambda_2\neq 0` if the graph is connected, :math:`\lambda_2(L(G))` is also called the algebraic connectivity of the graph
 
 
-The main ides of the spectral bisection algorithm is
-
-.. code-block:: none
-
-   compute \ :math:`v_2` \ eigenvector corresponding to \(\lambda_2(L(G))\)
-   for i=1,N
-     if v_2(i) < 0 put vertex \(V_i\) in N_{-}
-     else put vertex \(V_i\) in N_{-}
+| The main ides of the spectral bisection algorithm is
+|
+|    compute :math:`v_2` eigenvector corresponding to :math:`\lambda_2(L(G)` 
+|    for i=1,N
+|      if :math:`v_2(i) < 0` put vertex :math:`V_i` in :math:`N_{-}`
+|      else put vertex :math:`V_i` in :math:`N_{+}`
 
 The eigenvectors and eigenvalues are computed using Lanczos's algorithm.
 These steps are repeated recursively on each of the two branches of the graph :math:`N_{-}, N_{+}`. This is possible since according to Fiedler's theorems the graph :math:`N_{-}` is connected, :math:`N_{+}` connected only if no :math:`v_2(i)=0`,  and for each subgraph :math:`G_1` the algebraic connectivities satisfy :math:`\lambda_2(L(G_1))\leq\lambda_2(L(G))`.
