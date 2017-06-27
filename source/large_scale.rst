@@ -92,54 +92,36 @@ Available configurations options:
 
 .. _tab:bdms:
 
-.. table:: Compiler options
+.. csv-table:: Compiler options
+   :header: name,values,default,description
+   :widths: 12,7,12,20
 
-   +----------------+------------+---------------+------------------------------------------------------------------------------------------+
-   | name           | values     | default       | description                                                                              |
-   +================+============+===============+==========================================================================================+
-   | PPLIST         | string     |               | list of pre-processor symbols (BG,MOAB,BLAS_MXM, MPIIO)                                  |
-   +----------------+------------+---------------+------------------------------------------------------------------------------------------+
-   | IFMPI          | true,false | true          | use MPI (needed for a multiprocessor computation)                                        |
-   +----------------+------------+---------------+------------------------------------------------------------------------------------------+
-   | IFAMG_DUMP     | true,false | false         | dump AMG pre-processing files                                                            |
-   +----------------+------------+---------------+------------------------------------------------------------------------------------------+
-   | IFAMG          | true,false | false         | use AMG as coarse grid solver for pressure preconditioner else XXT                       |
-   +----------------+------------+---------------+------------------------------------------------------------------------------------------+
-   | F77            | string     | mandatory     | Fortran compiler (e.g. MPI: mpif77)                                                      |
-   +----------------+------------+---------------+------------------------------------------------------------------------------------------+
-   | CC             | string     | mandatory     | C compiler (e.g. MPI: mpicc)                                                             |
-   +----------------+------------+---------------+------------------------------------------------------------------------------------------+
-   | G              | string     | optional      | optional compilation flags                                                               |
-   +----------------+------------+---------------+------------------------------------------------------------------------------------------+
-   | OPT_FLAGS_STD7 | string     | optional      | optimization flags for L1,L2,L3                                                          |
-   +----------------+------------+---------------+------------------------------------------------------------------------------------------+
-   | OPT_FLAGS_MAG  | string     | optional      | optimization flags for L4 (highest opt level)                                            |
-   +----------------+------------+---------------+------------------------------------------------------------------------------------------+
-   | SOURCE_ROOT    | string     | mandatory     | path of Nek5000 source                                                                   |
-   +----------------+------------+---------------+------------------------------------------------------------------------------------------+
-   | USR            | string     | optional      | object list of additional files to compile (make intructions (makefile_usr.inc required) |
-   +----------------+------------+---------------+------------------------------------------------------------------------------------------+
-   | USR_LFLAGS     | string     | optional      | optional linking flags                                                                   |
-   +----------------+------------+---------------+------------------------------------------------------------------------------------------+
-   | MOAB_DIR       | string     | NEK with MOAB | Path to MOAB directories                                                                 |
-   +----------------+------------+---------------+------------------------------------------------------------------------------------------+
-   | IFVISIT        | true,false | false         | Toggles Visit in situ. See Visit_in_situ for details                                     |
-   +----------------+------------+---------------+------------------------------------------------------------------------------------------+
-   | VISIT_INSTALL  | string     | VISIT in situ | Path to VISIT install path. See Visit_in_situ for details.                               |
-   +----------------+------------+---------------+------------------------------------------------------------------------------------------+
-   | VISIT_STOP     | true,false | false         | When running VISIT in situ, simulation stops after step 1 to connect VISIT.              |
-   +----------------+------------+---------------+------------------------------------------------------------------------------------------+
+   PPLIST, string, , "list of pre-processor symbols (BG,MOAB,BLAS_MXM, MPIIO)"                                     
+   IFMPI, "true, false", true, use MPI (needed for a multiprocessor computation)                                           
+   IFAMG_DUMP, "true, false", false, dump AMG pre-processing files                                                               
+   IFAMG, "true, false", false, use AMG as coarse grid solver for pressure preconditioner else XXT                          
+   F77, string, mandatory, Fortran compiler (e.g. MPI: mpif77)                                                         
+   CC, string, mandatory, C compiler (e.g. MPI: mpicc)                                                               
+   G, string, optional, optional compilation flags                                                                  
+   OPT_FLAGS_STD7, string, optional, "optimization flags for L1,L2,L3"                                                             
+   OPT_FLAGS_MAG, string, optional, optimization flags for L4 (highest opt level)                                               
+   SOURCE_ROOT, string, mandatory, path of Nek5000 source                                                                      
+   USR, string, optional, object list of additional files to compile make intructions (``makefile_usr.inc`` required) 
+   USR_LFLAGS, string, optional, optional linking flags                                                                      
+   MOAB_DIR, string, NEK with MOAB, Path to MOAB directories                                                                    
+   IFVISIT, "true, false", false, Toggles Visit in situ. See Visit_in_situ for details                                        
+   VISIT_INSTALL, string, VISIT in situ, Path to VISIT install path. See Visit_in_situ for details.                                 
+   VISIT_STOP, "true, false", false, "When running VISIT in situ, simulation stops after step 1 to connect VISIT."                 
 
 ...............
 Binary geometry
 ...............
 
-Reatore2
-Jump to: navigation, search
+**Reatore2**
 
 The Nek5000 tool, ``reatore2`` allows users to split an ASCII ``.rea`` file to an ASCII ``.rea`` and a binary ``.re2`` file. The ``.re2`` file contains the mesh and boundary condition data that is normally written in ASCII in the ``.rea`` file. For large simulations, this information can be substantial, so storing it in binary lowers the memory footprint for the simulation.
 
-Running reatore2
+**Running reatore2**
 
 Be sure that your ``nekton`` tools are up-to-date and compiled.
 At the command prompt type: ``reatore2``
@@ -194,7 +176,7 @@ Now for global to local we have two common arrays (scaling as ``nelgt``, but onl
 - ``gllel=(1,1,2,3,2)``, assigns a global element to its local correspondent, i.e. global element ``1->1``, ``2->1`` and ``3->2`` etc.
 - ``gllnid=(1,0,1,1,0)``, assigns a global element to its processor, i.e. ``1->1``, ``2->0`` and ``3->1`` etc.
 
-All data contiguously packed (and quad-aligned) ``real  u(lx1,ly1,lz1,lelt)`` indicates that ``u`` is a collection of elements, ``e=1,\(\ldots\),Nelt =< lelt``, each of size :math:`(N+1)d, d=2 or 3`.
+All data contiguously packed (and quad-aligned) ``real  u(lx1,ly1,lz1,lelt)`` indicates that ``u`` is a collection of elements, ``e=1,...,Nelt =< lelt``, each of size :math:`(N+1)d`, :math:`d` = 2 or 3.
 
 **Example: Summation**
 

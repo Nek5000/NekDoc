@@ -306,10 +306,10 @@ Parameters and logical switches
     conductivity, number of steps, timestep size, order of the timestepping,
     frequency of output, iteration tolerances, flow rate, filter strength,
     etc.   There are also a number of free parameters that the user can
-    use as handles to be passed into the user defined routines in the .usr file.
+    use as handles to be passed into the user defined routines in the ``.usr`` file.
 **passive scalar data** 
     This information can be specified also in the ``uservp`` routine in the ``.usr``
-    file. If specified in the .rea file then the coefficients for the conductivity 
+    file. If specified in the ``.rea`` file then the coefficients for the conductivity 
     term are listed in ascending order for passive scalars ranging ``1..9`` 
     followed by the values for the :math:`\rho c_p` coefficients.
 
@@ -357,7 +357,7 @@ Mesh and boundary condition info
     the :math:`xyz` locations of each of the eight points for each element,
     or the :math:`xy` locations of each of the four points for each element in 2D.
     A line of the following type may be encountered at the beginning 
-    of the mesh section of the area file::
+    of the mesh section of the ``.rea`` file::
 
       3.33333       3.33333     -0.833333      -1.16667     XFAC,YFAC,XZERO,YZERO
 
@@ -543,8 +543,8 @@ Mesh and boundary condition info
     - ``v`` - imposed velocity boundary conditions (inlet). The value is specified in the user subroutines. No additional information needs to be provided in the ``.rea`` file.
     - ``W`` - wall boundary condition (no-slip) for the velocity. No additional information needs to be provided.
     - ``O`` - outlet boundary condition (velocity). No additional information needs to be provided.
-    - ``t`` - imposed temperature  boundary conditions (inlet). The value is specified in the user subroutines. No additional information needs to be provided in the .rea file.
-    - ``f`` - imposed heat flux  boundary conditions (temperature). The value is specified in the user subroutines. No additional information needs to be provided in the .rea file.
+    - ``t`` - imposed temperature  boundary conditions (inlet). The value is specified in the user subroutines. No additional information needs to be provided in the ``.rea`` file.
+    - ``f`` - imposed heat flux  boundary conditions (temperature). The value is specified in the user subroutines. No additional information needs to be provided in the ``.rea`` file.
     - ``I`` - adiabatic boundary conditions (temeperature). No additional information needs to be provided.
 
     Many of the BCs support either a constant specification or a user defined specification which may be an arbitrary function.   For example, a constant Dirichlet BC for velocity is specified by ``V``, while a user defined BC is specified by ``v``.   This upper/lower-case distinction is  used for all cases.   There are about 70 different types of boundary conditions in all, including free-surface, moving boundary, heat flux, convective cooling, etc. The above cases are just the most used types.

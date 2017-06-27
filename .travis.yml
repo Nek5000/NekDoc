@@ -9,5 +9,5 @@ script:
   - sed 's/[^0-9]*//g' logfile | tee log2
   - sed '/^\s*$/d' log2 | tee log3
   - NUMBER=$(tail -1 log3)
-  - if (( $NUMBER > 3 )); then exit 1; fi
+  - if (( $NUMBER > 4 )); then exit 1; fi
 

@@ -192,7 +192,7 @@ In Nek5000, you would specify this through ``usrdat2`` as follows
    end
 
 Note that, since Nek5000 is modifying the mesh, ``postx`` will not
-recognize the current mesh unless you tell it to, because postx
+recognize the current mesh unless you tell it to, because ``postx``
 looks to the ``.rea`` file for the mesh geometry.  The only way for
 Nek5000 to communicate the new mesh to ``postx`` is via the ``.fld``
 file, so you must request that the geometry be dumped to the
@@ -305,7 +305,7 @@ In ``nek5000/tools``, there is a code ``n2to3.f`` that can be compiled with your
 local fortran compiler (preferably not g77).
 By running this code, you can extend two dimensional domains to
 three dimensional ones with a user-specified number of levels in the
-:math:`z-direction`.  Such a mesh can then be modified using the mesh modification
+:math:`z`-direction.  Such a mesh can then be modified using the mesh modification
 approach. Assuming you have a valid two-dimensional mesh, ``n2to3`` is straightforward
 to run.  Below is a typical session, upon typing ``n2to3`` the user is prompted at the command line
 
@@ -407,7 +407,7 @@ the fluid and/or thermal boundary conditions specified
 on the boundary.
 However, under special circumstances the user may want
 to override the defaults set by Nek5000, this is
-described in the ``prenek`` manual in Section 5.7. (This manual is old may soon be deprecated.)
+described in the ``prenek`` manual in `Section 5.7 <http://www.mcs.anl.gov/~fischer/Nek5000/nekmanual.pdf>`_. (This manual is old may soon be deprecated.)
 If the zero tangential mesh velocity is imposed, then the mesh
 is fixed in space; if the zero traction condition is imposed,
 then the mesh can slide along the tangential directions on
@@ -461,7 +461,7 @@ The general convention for boundary conditions in the ``.rea`` file is
 - upper case letters correspond to Primitive boundary conditions, as given in :numref:`tab:primitiveBCf`, :numref:`tab:primitiveBCt`
 - lower case letters correspond to user defined boundary conditions, see :numref:`tab:userBCf`, :numref:`tab:userBCt`
 
-Since there are no supporting tools that will correctly populate the .rea file with the appropriate values, temperature, velocity, and flux boundary conditions are typically lower case and values must be specified in the ``userbc`` subroutine in the .usr file.
+Since there are no supporting tools that will correctly populate the ``.rea`` file with the appropriate values, temperature, velocity, and flux boundary conditions are typically lower case and values must be specified in the ``userbc`` subroutine in the ``.usr`` file.
 
 ..............
 Fluid Velocity
@@ -856,7 +856,7 @@ These steps are repeated recursively on each of the two branches of the graph :m
 To run the ``genmap`` code be sure that the Nek tools are up-to-date and compiled.
 At command line type: ``genmap``.
  
-NOTE: If the executables for the tools were not placed in the bin directory(default),
+NOTE: If the executables for the tools were not placed in the ``bin`` directory (default),
 include the path to the ``genmap`` executable. We give here the output for the ``.rea`` file in the Kovasznay example
 
 .. code-block:: none
@@ -885,10 +885,10 @@ include the path to the ``genmap`` executable. We give here the output for the `
 The user is prompted for ``.rea`` file name and should enter only the prefix of the ``.rea`` file.
 The user is prompted for mesh tolerance value. Typically a value of .05 is sufficient. Increasing or decreasing this value should make very little difference in the mesh generation. However, if given an error from genmap, the tolerance may need to be made slightly more generous.
 
-A successful genmap run will produce a ``.map`` file with the proper processor decomposition.
+A successful ``genmap`` run will produce a ``.map`` file with the proper processor decomposition.
 
-NOTE: For large element counts, it is not uncommon for genmap to be produce a few disconnected sets.
-These sets are typically under 7 elements large and  will not affect optimization of the NEK5000 run.
+NOTE: For large element counts, it is not uncommon for ``genmap`` to be produce a few disconnected sets.
+These sets are typically under 7 elements large and  will not affect optimization of the Nek5000 run.
 If a disconnected set is produced, ``genmap`` will output the following warning to stdout:
 
 .. code-block:: none

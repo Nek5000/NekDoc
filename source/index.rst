@@ -22,10 +22,12 @@ by Hank Childs and colleagues at LLNL/LBNL.  VisIt is mandatory for large proble
    appendix
    bibliography
 
+.. .. bibliography:: emmd.bib
 
-Indices and tables
-==================
 
-* :ref:`genindex`
-* :ref:`modindex`
-* :ref:`search`
+.. Indices and tables
+.. ==================
+
+.. * :ref:`genindex`
+.. * :ref:`modindex`
+.. * :ref:`search`

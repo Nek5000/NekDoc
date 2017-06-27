@@ -225,10 +225,10 @@ Grid-to-Grid Interpolation
 To interpolate an existing field file (e.g. ``base.fld``) onto a new mesh do the following:
 
 - set ``lpart`` in SIZE to a large value (e.g. 100,000 or larger) depending on your memory footprint
-- compile Nek with MPIIO support
+- compile Nek with MPI/IO support
 - set ``NSTEPS=0`` in the ``.rea`` file (post-processing mode)
 - run Nek using the new geometry (e.g. ``new_geom.f0000``)
-- run Nek using the old geometry and add this code snipplet to ``userchk()``
+- run Nek using the old geometry and add this code snippet to ``userchk()``
 
   .. code-block:: fortran
 
