@@ -366,91 +366,121 @@ Note that by default all logical switches are set to false.
 List of Parameters in SIZE File
 -------------------------------
 
-**ldim**: number of spatial dimensions (2 or 3). 
+| **ldim**: number of spatial dimensions (2 or 3). 
+| 
+| **lx1**: number of (GLL) points in the :math:`x` -direction within each element of mesh1 (velocity) which is equal to the (polynomial order :math:`+1`) by definition. 
+| 
+| (``lx1`` recomeneded odd for better performance)
+| 
+| **lx2**: number of (GLL) points in the :math:`x` -directions within each element of mesh2 (pressure). Use ``lx2=lx1`` for PN/PN formulation or ``lx2=lx1-2`` for PN/PN-2 formulation.
+| 
+| **lxd**: number of points for over integration (dealiasing), use three half rule e.g. for ``lx1=8`` use ``lxd=12``.
+| 
+| **lelx, lely, lelz**: maximum number of elements per rank for global FDM (Fast Diagonalization Method) solver.
+| 
+| **ldimt**:  maximum number of T-array fields (temperature + additional scalars).
+| 
+| **lpmax**: maximum number of ranks.
+|
+| **lpmin**: minimum number of ranks. 
+|
+| **lelg**: maximum (global) number of elements (it is usually set more than the # of elements existing in the mesh, for making maximum use of memory is can be set to the exact number of mesh elements).
+| 
+| **lelt**: maximum number of local elements for T-mesh (per rank, ``lelt`` :math:`\geq` ``lelg/np +1``).
+| 
+| **lpelt**: Number of elements of the perturbation field, number of perturbation fields
+| 
+| **lbelt**: Total Number of elements of the B-field (MHD)
+| 
+| **lx1m**: when the mesh is a moving type ``lx1m=lx1``, otherwise it is set to 1.
+| 
+| **lorder**: maximum time integration order (2 or 3).
+| 
+| **maxobj**: maximum number of objects. :red:`zero if not using objects?`
+| 
+| **maxmbr**: maximum number of members in an object.
+| 
+| **lhis**: maximum number of history points a single rank will read in (``NP*LHIS`` :math:`<` number of points in ``hpts.in``).
+| 
+| **mxprev**: maximum number of history entries for residual projection (recommended value: 20).
+| 
+| **lgmres**: dimension of Krylov subspace in GMRES (recommended value: 40).
 
-**lx1, ly1, lz1**: number of (GLL) points in the :math:`x`, :math:`y` and :math:`z` directions, respectively, within each element of mesh1 (velocity) which is equal to the (polynomial order :math:`+1`) by definition. ``ly1`` is usually the same as ``lx1`` and for 2D cases ``lz1=1``.
-(is ``lx1`` :math:`\neq` ``ly1`` supported?)
+...........................
+Parameters in SIZE.inc File
+...........................
 
-(``lx1`` recomeneded odd for better performance)
+The following parameters appeared in the SIZE file in previous versions, and are now moved to the internal SIZE.inc file. They are automatically set based on SIZE parameters.
 
-**lx2, ly2, lz2**: number of (GLL) points in the :math:`x`, :math:`y` and :math:`z` directions, respectively, within each element of mesh2 (pressure). Use ``lx2=lx1`` for PN/PN formulation or ``lx2=lx1-2`` for PN/PN-2 formulation.
 
-**lx3, ly3, lz3**: number of (GLL) points in the :math:`x`, :math:`y` and :math:`z` directions, respectively, within each element of mesh3.
-(mesh3 is rarely used)
+| **ly1, lz1**: number of (GLL) points in the :math:`y` and :math:`z`-directions, respectively, within each element of mesh1 (velocity) which is equal to the (polynomial order :math:`+1`) by definition. ``ly1`` is usually the same as ``lx1`` and for 2D cases ``lz1=1``.
+| (is ``lx1`` :math:`\neq` ``ly1`` supported?)
+| 
 
-**lxd, lyd, lzd**: number of points for over integration (dealiasing), use three half rule e.g. for ``lx1=8`` use ``lxd=12``.
-
-**lelx, lely, lelz**: maximum number of elements per rank for global FDM (Fast Diagonalization Method) solver.
-
-**ldimt**:  maximum number of T-array fields (temperature + additional scalars).
-
-**lp**: maximum number of ranks.
-
-**lelg**: maximum (global) number of elements (it is usually set more than the # of elements existing in the mesh, for making maximum use of memory is can be set to the exact number of mesh elements).
-
-**lelt**: maximum number of local elements for T-mesh (per rank, ``lelt`` :math:`\geq` ``lelg/np +1``).
-
-**lelv**: maximum number of local elements for V-mesh (``lelv = lelt``).
-
-**lpelv,lpelt,lpert**: Number of elements of the perturbation field, number of perturbation fields
-
-**lpx1, lpy1, lpz1**: Number of point in :math:`x`, :math:`y`, :math:`z` direction of perturbation field within each element of mesh1
-
-**lbelv, lbelt**: Total Number of elements of the B-field (MHD)
-
-**lbx1, lby1, lbz1**: Number of point in :math:`x`, :math:`y`, :math:`z` direction of B-field within each element of mesh1
-
-**lbx2, lby2, lbz2**: Number of point in :math:`x`, :math:`y`, :math:`z` direction of B-field within each element of mesh2
-
-**lx1m, ly1m, lz1m**: when the mesh is a moving type ``lx1m=lx1``, otherwise it is set to 1.
-
-**lxz**: LXZ = LX1*LZ1
-     ``connect1.f:      common /scruz/  snx(lxz) , sny(lxz) , snz(lxz) ,  efc(lxz)``
-
-**lorder**: maximum time integration order (2 or 3).
-
-**maxobj**: maximum number of objects. :red:`zero if not using objects?`
-
-**maxmbr**: maximum number of members in an object.
-
-**lhis**: maximum number of history points a single rank will read in (``NP*LHIS`` :math:`<` number of points in ``hpts.in``).
-
-**lctmp0**: :red:`NOT IN USE!`
-     ``drive1.f:c      COMMON /CTMP0/ DUMMY0(LCTMP0)``
-
-**lctmp1**:
-     ``drive1.f:c      COMMON /CTMP1/ DUMMY1(LCTMP1)``
-     ``drive2.f:      COMMON /SCRNS/ WORK(LCTMP1)``
-
-**lvec**: :red:`NOT IN USE!`
-
-**mxprev**: maximum number of history entries for residual projection (recommended value: 20).
-
-**lgmres**: dimension of Krylov subspace in GMRES (recommended value: 40).
-
-**lmvec**: :red:`NOT IN USE !`
-
-**lsvec**: :red:`NOT IN USE!`
-
-**lstore**: :red:`NOT IN USE!`
-
-**maxmor**: ``=lelt``
-
-**lzl**: for 2D cases ``lzl=1`` and for 3D cases ``lzl=3`` (computed automatically).
+| **ly2, lz2**: number of (GLL) points in the :math:`y` and :math:`z` directions, respectively, within each element of mesh2 (pressure).
+| 
+| **lx3, ly3, lz3**: number of (GLL) points in the :math:`x`, :math:`y` and :math:`z` directions, respectively, within each element of mesh3. These are set to the same number of (GLL) point on mesh1.
+| (mesh3 is rarely used)
+| 
+| **lyd, lzd**: number of points for over integration (dealiasing). ``lyd = lxd``, and ``lzd = lxd`` for 3D and ``lzd = 1`` for 2D.
+| 
+| **lp**: ``lp = lpmax``
+| 
+| **lelv**: maximum number of local elements for V-mesh (``lelv = lelt``).
+| 
+| **lpelv**: Number of elements of the perturbation field, number of perturbation fields. ``lpelv = lpelt``.
+| 
+| **lpx1, lpy1, lpz1**: Number of point in :math:`x`, :math:`y`, :math:`z` direction of perturbation field within each element of mesh1. ``lpx1 = lx1``, ``lpy1 = lpx1``, and ``lpz1 = lpx1`` for 3D and ``lpz1 = 1`` for 2D.
+| 
+| **lbelv**: Total Number of elements of the B-field (MHD). ``lbelv = lbelt``.
+| 
+| **lbx1, lby1, lbz1**: Number of point in :math:`x`, :math:`y`, :math:`z` direction of B-field within each element of mesh1. ``lbx1 = lx1``, ``lby1 = lbx1``, and ``lbz1 = lbx1`` for 3D and ``lbz1 = 1`` for 2D.
+| 
+| **lbx2, lby2, lbz2**: Number of point in :math:`x`, :math:`y`, :math:`z` direction of B-field within each element of mesh2. ``lbx2 = lx2``, ``lby2 = lbx2``, and ``lbz2 = lbx2`` for 3D and ``lbz2 = 1`` for 2D.
+| 
+| **ly1m, lz1m**: when the mesh is a moving type ``lx1m=lx1``, otherwise it is set to 1. ``ly1m = lx1m``, and ``lz1m = lx1m`` for 3D and ``lz1m = 1`` for 2D.
+| 
+| **lxz**: lxz = lx1*lz1
+|      ``connect1.f:      common /scruz/  snx(lxz) , sny(lxz) , snz(lxz) ,  efc(lxz)``
+| 
+| **lctmp0**: ``lctmp0 = 2*lx1*ly1*lz1*lelt``
+|      ``drive1.f:c      COMMON /CTMP0/ DUMMY0(LCTMP0)``
+| 
+| **lctmp1**: ``lctmp1 = 4*lx1*ly1*lz1*lelt``
+|      ``drive1.f:c      COMMON /CTMP1/ DUMMY1(LCTMP1)``
+|      ``drive2.f:      COMMON /SCRNS/ WORK(LCTMP1)``
+| 
+| **maxmor**: ``=lelt``
+| 
+| **lzl**: for 2D cases ``lzl=1`` and for 3D cases ``lzl=3`` (computed automatically).
+ 
+.....................
+Deprecated Parameters
+.....................
 
 The following parameters are deprecated and were subsequently removed in newer versions.
 
-**LELGEC**: ``LELGEC = 1``
-
-**LXYZ2**: ``LXYZ2 = 1``
-
-**LXZ21**: ``LXZ21 = 1``
-
-**LMAXV**: ``LMAXV = LX1*LY1*LZ1*LELV``
-
-**LMAXT**: ``LMAXT = LX1*LY1*LZ1*LELT``
-
-**LMAXP**: ``LMAXP = LX1*LY1*LZ1*LELV``
+| **lpert**: Number of elements of the perturbation field, number of perturbation fields
+|
+| **lstore**: :red:`NOT IN USE!`
+|
+| **lsvec**: :red:`NOT IN USE!`
+|
+| **lmvec**: :red:`NOT IN USE !`
+|
+| **lvec**: :red:`NOT IN USE!`
+|
+| **lelgec**: ``lelgec = 1``
+|
+| **lxyz2**: ``lxyz2 = 1``
+|
+| **lxz21**: ``lxz21 = 1``
+|
+| **lmaxv**: ``lmaxv = lx1*ly1*lz1*lelv``
+|
+| **lmaxt**: ``lmaxt = lx1*ly1*lz1*lelt``
+|
+| **lmaxp**: ``lmaxp = lx1*ly1*lz1*lelv``
 
 --------------------
 The .fld File Format
