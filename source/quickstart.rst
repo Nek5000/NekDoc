@@ -98,59 +98,6 @@ in ``$HOME/Nek5000/bin``, you can edit your executable path with::
 
 In the following examples, we will assume that the tools and scripts have been added to ``$PATH``.
 
-.. _quickstart_svn:
-
-------------------
-The SVN Repository
-------------------
-
-.. _quickstart_svn_source:
-
-________________________________________
-Downloading the Source Code and Examples
-________________________________________
-
-.. highlight:: bash
-
-The SVN repository can be downloaded with the following commands::
-
-  cd ~
-  svn co https://svn.mcs.anl.gov/repos/nek5 nek5_svn
-
-This will create a directoy named ``nek5_svn`` in your home directory.  The example problems are
-included in the same SVN repo and do not need to be downloaded separately.
-
-_________________
-Tools and Scripts
-_________________
-
-.. highlight:: bash
-
-The ``nek5_svn/trunk/tools`` directory contains programs for pre- and post-processing tasks, such as
-generating meshes from geometry descriptions.  The following commands will build the tools in
-``$HOME/bin``::
-
-  cd $HOME/nek5_svn/trunk/tools 
-  ./maketools all
-
-By default, the ``maketools`` script will use gfortran and gcc as the
-Fortran and C compilers; you can specify a different set of compilers by
-editing ``maketools``.  
-
-Besides the compiled tools, there are several convenience scripts in ``nek5_svn/trunk/tools/scripts``
-that allow you to easily set up and execute runs of Nek5000.  These scripts are executable as-is
-and do not need to be compiled. 
-
-We recommend that you append the paths to the tools and scripts to the ``$PATH`` variable in your
-shell's environment.  This will allow you execute the tools and scripts without typing the full
-path to the executables.  In the bash shell, you can edit your executable path with::
-
-  export PATH="$HOME/bin:$HOME/nek5_svn/trunk/tools/scripts:$PATH"
-
-In the following examples, we will assume that the tools and scripts have been added to your
-``$PATH``.
-
-.. _quickstart_worked_ex:
 
 ----------------
 A Worked Example
@@ -162,25 +109,23 @@ As a first example, we consider the eddy problem presented by Walsh
 [Walsh1992]_.  To get started, execute the following commands for the Git
 repositories::
 
-  cd
-  mkdir eddy
-  cd eddy
-  cp $HOME/NekExamples/eddy/* .
-  cp $HOME/Nek5000/core/makenek .
+  cd $HOME/Nek5000/run
+  cp -r $HOME/Nek5000/short_tests/eddy_par .
+  cd eddy_par
+  cp $HOME/Nek5000/bin/makenek .
 
-or the equivalent commands for the SVN repository::
+Or, to run using the legacy ``.rea`` setup, execute the commands as::
 
-  cd
-  mkdir eddy
+  cd $HOME/Nek5000/run
+  cp -r $HOME/Nek5000/short_tests/eddy .
   cd eddy
-  cp $HOME/nek5_svn/examples/eddy/* .
-  cp $HOME/nek5_svn/trunk/nek/makenek .
+  cp $HOME/Nek5000/bin/makenek .
 
 _________________
 Modifying makenek
 _________________
 
-If you do not have MPI installed on your system, edit ``makenek``, uncomment the ``IFMPI="false"``
+If you do not have MPI installed on your system, edit ``makenek``, uncomment the ``MPI=0``
 flag, and change the Fortran and C compilers according to what is available on your machine.  (Most
 any Fortran compiler save g77 or g95 will work.)
 
@@ -360,9 +305,13 @@ postx, or VisIt as before.
 .. \subsection{Modifying the First Example}
 .. 
 
-___________________________
+---------------------------
 Modifying the First Example
-___________________________
+---------------------------
+
+_______________________
+Using the ``.par`` file
+_______________________
 
 .. highlight:: bash
 
@@ -373,40 +322,33 @@ the result as an initial condition for a higher-order run
 (e.g., ``lx1`` =8).  We illustrate the procedure with the 
 ``eddy_uv`` example.
 .. 
-Assuming that the contents of ``nek5_svn/trunk/tools/scripts``
+Assuming that the contents of ``Nek5000/bin``
 are in the execution path, begin by typing::
 
-  cp eddy_uv eddy_new
+  cpn eddy_uv eddy_new
 
 which will copy the requisite ``eddy_uv`` case files
 to ``eddy_new``.  
 Next, edit ``SIZE`` and change the two lines defining
 ``lx1`` and ``lxd`` from::
 
-       parameter (lx1=8,ly1=lx1,lz1=1,lelt=300,lelv=lelt)
-       parameter (lxd=12,lyd=lxd,lzd=1)
+       parameter (lx1=8)                ! p-order (avoid uneven and values <6)
+       parameter (lxd=12)               ! p-order for over-integration (dealiasing)
 
 to::
 
-       parameter (lx1=12,ly1=lx1,lz1=1,lelt=300,lelv=lelt)
-       parameter (lxd=18,lyd=lxd,lzd=1)
+       parameter (lx1=12)                ! p-order (avoid uneven and values <6)
+       parameter (lxd=18)               ! p-order for over-integration (dealiasing)
 
 Then recompile the source by typing::
-  
+
   makenek eddy_new
 
-Next, edit ``eddy_new.rea`` and change the line
-
-.. code-block:: none
- 
-             0 PRESOLVE/RESTART OPTIONS  *****
-
-(found roughly 33 lines from the bottom of the file) to
+Next, edit ``eddy_new.par`` and add the following line in the ``GENERAL``
 
 .. code-block:: none
 
-             1 PRESOLVE/RESTART OPTIONS  *****
-  eddy_uv.fld12
+     startFrom = eddy_uv.fld12
 
 which tells Nek5000 to use the contents of ``eddy_uv.fld12``
 as the initial condition for ``eddy_new``.
@@ -425,3 +367,89 @@ Note that one normally would not use a restart file for the *eddy*
 problem, which is really designed as a convergence study.  The purpose here, however, was two-fold, namely,
 to illustrate a change of order and its impact on the error, and to
 demonstrate the frequently-used restart procedure. However for a higher order timestepping scheme an accurate restart would require a number of field files of the same size (+1) as the order of the multistep scheme
+
+
+_______________________
+Using the ``.rea`` file
+_______________________
+
+.. highlight:: bash
+
+Modifying the legacy ``.rea`` and ``SIZE`` file formats is done in a similar way to above. In the lgeacy ``SIZE`` file, change::
+
+       parameter (lx1=8,ly1=lx1,lz1=1,lelt=300,lelv=lelt)
+       parameter (lxd=12,lyd=lxd,lzd=1)
+
+to::
+
+       parameter (lx1=12,ly1=lx1,lz1=1,lelt=300,lelv=lelt)
+       parameter (lxd=18,lyd=lxd,lzd=1)
+
+Then recompile the source by typing::
+  
+  makenek eddy_new
+
+
+Next, edit the legacy ``.rea`` format, edit ``eddy_new.rea`` and change the line
+
+.. code-block:: none
+ 
+             0 PRESOLVE/RESTART OPTIONS  *****
+
+(found roughly 33 lines from the bottom of the file) to
+
+.. code-block:: none
+
+             1 PRESOLVE/RESTART OPTIONS  *****
+  eddy_uv.fld12
+
+which tells Nek5000 to use the contents of ``eddy_uv.fld12``
+as the initial condition for ``eddy_new``.
+
+The simulation can now be run in a similar way to the above ``.par`` section.
+
+_________________
+The ``.par`` File
+_________________
+
+In the future of Nek5000, the ``.rea`` file format will be replaced by the new ``.par`` file format. This is because the new format is simpler to read (as can be seen in the *eddy* problem). Here, we introduce the basics of the ``.par`` file as used in this example case.
+
+In the ``short_tests/eddy_par`` directory, there is a file labeled ``eddy_uv.par``, which is broken into four sections: ``GENERAL``, ``PROBLEMTPYE``, ``PRESSURE``, and ``VELOCITY``. Each of these sections contains necessary and optional parameters for Nek5000 to run that the user inputs, similar to the legacy ``.rea`` format. Analogs to each of the parameters can be found in ``eddy_uv.rea``, along with descriptions. As well, detailed analog information can be found in the ``core/readat_new.f`` file (where each numbered parameter is matched with its new name in the ``.par`` file).
+
+.. code-block:: none
+
+    #
+    # nek parameter file
+    #
+    [GENERAL]
+    #startFrom = restart.fld
+    stopAt = numSteps #endTime
+    numSteps = 1000
+
+    dt = -1E-04
+    timeStepper = bdf #char #steady
+    tOrder = 3
+
+    writeControl = timeStep #runTime
+    writeInterval = 100
+
+    dealiasing = yes
+
+    maxCFL = 1
+
+    userParam01 = 1 #u0 transational velocity (formerly param(96))
+    userParam02 = 0.3 #v0 translational velocity (formerly param(97))
+
+    [PROBLEMTYPE]
+    #stressFormulation = yes
+
+    [PRESSURE]
+    preconditioner = schwarz #semg #amg
+    residualTol = 1E-09
+    residualProj = yes
+
+    [VELOCITY]
+    residualTol = 1E-12
+    residualProj = yes
+    density = 1
+    viscosity = -20
