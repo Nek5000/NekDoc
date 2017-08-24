@@ -28,7 +28,8 @@ The latter specifies how many lines of .rea file, starting from the next line, a
 % \end{center}
 \begin{description}
 \item [P001  DENSITY] density for the case of constant properties (for variable density see parameter \textbf{P030}).
-\item [P002  VISCOS]  kinematic viscosity (if \(<0 \rightarrow Re\), otherwise \(1/Re\)).
+\item [P002  VISCOS]  dynamic viscosity (if \(<0 \rightarrow Re\),
+  otherwise \(1/Re\) (when density = 1)).
 \item [P003  BETAG] if \(>0\), natural convection is turned on (Boussinesq approximation). {\textcolor{red}{NOT IN USE !}}
 \item [P004  GTHETA] model parameter for Boussinesq approximation (see parameter P003). {\textcolor{red}{ NOT IN USE!}}
 \item [P005  PGRADX] {\textcolor{red}{ NOT IN USE!}}
