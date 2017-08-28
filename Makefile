@@ -22,10 +22,10 @@ help:
 gh-pages:
 	git checkout gh-pages
 	rm -rf build _sources _static
-	git checkout rst source/ Makefile
+	git checkout rst-git source/ Makefile
 	git reset HEAD
 	make html
-	mv -fv build/html/* ./
+	cp -rf build/html/* ./
 	rm -rf source/ Makefile build/
 	touch .nojekyll
 	git add -A
