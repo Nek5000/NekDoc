@@ -196,15 +196,14 @@ Nek5000 can solve the dimensional or non-dimensional equations by setting the fo
 \end{tabular}
 \end{table}
 
-alternatively the variable properties can be set in the USERVP routine.
+Alternatively the variable properties can be set in the USERVP routine.
 
- 
+
 \textbf{What is a SESSION file?}
 
 To run NEK5000, each simulation must have a SESSION.NAME file. This file is read in by the code and gives the path to the relevant files describing the structure and parameters of the simulation. The SESSION.NAME file is a file that contains the name of the simulation and the full path to supporting files. For example, to run the eddy example from the repository, the SESSION.NAME file would look like:
 
 \begin{verbatim}
 eddy_uv\\
-/homes/user\_ name/nek5\_ svn/examples/eddy/ 
+/homes/user\_ name/nek5\_ svn/examples/eddy/
 \end{verbatim}
-
