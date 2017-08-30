@@ -1,37 +1,32 @@
-TEX_FILES  =  $(wildcard *.tex)
-BUILD_DIR  = build
+# Minimal makefile for Sphinx documentation
+#
 
-all: pdf html
+# You can set these variables from the command line.
+SPHINXOPTS    =
+SPHINXBUILD   = sphinx-build
+SPHINXPROJ    = Nek5000
+SOURCEDIR     = source
+BUILDDIR      = build
 
-gh-pages: pdf html
-	cd $(BUILD_DIR) && \
-		git init && \
-		git checkout -b gh-pages && \
-		git add . && \
-		git remote add origin git@github.com:Nek5000/NekDoc.git && \
-		git commit -m "Updating Project Page" && \
-		git push origin gh-pages --force
+# Put it first so that "make" without argument is like "make help".
+help:
+	@$(SPHINXBUILD) -M help "$(SOURCEDIR)" "$(BUILDDIR)" $(SPHINXOPTS) $(O)
 
-html: $(BUILD_DIR)/Nek_users.html
+.PHONY: help Makefile
 
-$(BUILD_DIR)/Nek_users.html: $(TEX_FILES) | $(BUILD_DIR)
-	htlatex Nek_users.tex "html,index=1,2,fn-in" -cdefault -d$(BUILD_DIR)/
+# Catch-all target: route all unknown targets to Sphinx using the new
+# "make mode" option.  $(O) is meant as a shortcut for $(SPHINXOPTS).
+%: Makefile
+	@$(SPHINXBUILD) -M $@ "$(SOURCEDIR)" "$(BUILDDIR)" $(SPHINXOPTS) $(O)
 
-pdf: $(BUILD_DIR)/Nek_users.pdf
-
-$(BUILD_DIR)/Nek_users.pdf: $(TEX_FILES) | $(BUILD_DIR)
-	pdflatex -shell-escape -draftmode Nek_users.tex
-	bibtex Nek_users
-	pdflatex -shell-escape -draftmode Nek_users.tex
-	pdflatex -shell-escape -output-directory $(BUILD_DIR) Nek_users.tex
-	
-clean:
-	rm -f *~ *.ilg *bak *.idx *.ind *.aux *.toc *.ps *.log *.lof *.loa
-	rm -f *.bbl *.blg *.dvi *.out Nek_users.pdf *.ps  *.los *.lot *.tdo
-	rm -f *.html *.css *.4ct *.4tc *.idv *.lg *.tmp *.xref
-	rm -rf $(BUILD_DIR)
-
-$(BUILD_DIR):
-	mkdir $(BUILD_DIR)
-
-.PHONY: clean 
+gh-pages:
+	git checkout gh-pages
+	rm -rf build _sources _static
+	git checkout rst-git source/ Makefile
+	git reset HEAD
+	make html
+	cp -rf build/html/* ./
+	rm -rf source/ Makefile build/
+	touch .nojekyll
+	git add -A
+	git commit -m "Generated gh-pages for `git log master -1 --pretty=short --abbrev-commit`" && git push origin gh-pages

@@ -1,0 +1,13 @@
+# Build directories for both Tex and Sphinx
+**/build/
+
+# Build artifacts for Tex
+*.aux
+*.bbl
+*.blg
+*.log
+*.out
+*.toc
+
+# Vim swap files
+*.swp
