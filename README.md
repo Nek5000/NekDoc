@@ -1,7 +1,7 @@
 # Nek5000 Documentation
 
 This is the repository of the [Nek5000](http://nek5000.mcs.anl.gov/) documentation 
-written in reStructuredText.
+written in [reStructuredText](http://docutils.sourceforge.net/rst.html).
 
 ## How to build
 
