@@ -1,19 +1,15 @@
 # Nek5000 Documentation
 
 This is the repository of the [Nek5000](http://nek5000.mcs.anl.gov/) documentation 
-written in LaTeX.
+written in reStructuredText.
 
 ## How to build
 
-* 'make' builds the user documentation in both PDF and HTML formats, as
-  described below.  A subdirectory (build) is created for the output.
-
-* 'make pdf' builds the user documentation in PDF format.  The PDF is a single
-  file in the build directory (build/Nek_users.pdf).
-
 * 'make html' builds the user documentation as a set of interlinked HTML 
-  and image files.  The top-level table-of-contents is build/Nek_users.html.
+  and image files.  The top-level webpage is build/html/index.html.
   Supporting HTML and image files are also in the build directory.
+  
+ Note: This requires [SPHINX](http://www.sphinx-doc.org/) 
 
 ## How to contribute
 
