@@ -222,20 +222,13 @@ Multiple monitor points can be defined in the file ``hpts.in`` to examine the fi
 Grid-to-Grid Interpolation
 --------------------------
 
-To interpolate an existing field file (e.g. ``base.fld``) onto a new mesh do the following:
+To restart from an existing field file (e.g. base.fld) onto a new mesh you can call the generic field file
+reader interpolation subroutine in userchk. Note that selection of specific fields to read is not currently
+supported. That means all fields included in base.fld will be overwritten. Usage example:
 
-- set ``lpart`` in SIZE to a large value (e.g. 100,000 or larger) depending on your memory footprint
-- compile Nek with MPI/IO support
-- set ``NSTEPS=0`` in the ``.rea`` file (post-processing mode)
-- run Nek using the new geometry (e.g. ``new_geom.f0000``)
-- run Nek using the old geometry and add this code snippet to ``userchk()``
+   .. code-block:: none
 
-  .. code-block:: fortran
-
-     character*132  newfld, oldfld, newgfld
-     data newfld, oldfld, newgfld /'new0.f0001','base.fld','new_geom.f0000'/
-     call g2gi(newfld, oldfld, newgfld) ! grid2grid interpolation
-     call exitt()
+      if (istep.eq.0) call gfldr('base.fld')
 
 ----------------------------
 Lagrangian Particle Tracking
