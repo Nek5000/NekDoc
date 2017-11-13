@@ -126,13 +126,11 @@ Modifying makenek
 _________________
 
 Makenek allows for several customization options. 
-
 If the source is not installed in the standard directory option::
 
   SOURCE_ROOT="$HOME/Nek5000"  
 
 the user can modify the variable ``SOURCE_ROOT``. 
-
 The Fortran compiler is defined with the variable ``FC``, while the  C compiler is defined with the
  ``CC`` variable. They are set at common choices for most systems but may require to be changed 
 for some specialized architectures (Blue GeneQ architectures). 
@@ -155,7 +153,6 @@ A list a possible options is below:
  CMTNEK        activate DG compressible-flow solver (experimental)
 ============= ====================================================== 
 
-
 In addition to these preprocessor items, the user can add compilation and linking flags. 
 ``FFLAGS`` allows the user to add Fortran compilation flags while ``CCFAGS`` allows the user to 
 add C compilation flags. These will be compiler dependent and the user is encouraged to consult 
@@ -164,7 +161,7 @@ A commonly used flag is ``-mcmodel`` which allows for arrays of size larger than
 tells the compiler to use a specific memory model to generate code and store data. It can affect
 code size and performance. If your program has global and static data with a total size smaller than
 2GB, ``-mcmodel=small`` is sufficient. Global and static data larger than 2GB requires
-``-mcmodel=medium`` or ``-mcmodel=large``.
+``-mcmodel=medium`` or ``-mcmodel=large``. 
 Another useful flag is related to implicit typesetting. Nek5000 relies often on 
 implicit typesetting as default in the example cases. This means in practice that if
 the user defines a new variable in the user file and forgets to define its type explicitly then
@@ -173,12 +170,16 @@ To avoid confusion the user not accustomed to implicit typesetting may use the w
 ``-Wimplicit``. This flag warns whenever a variable, array, or function is implicitly declared. 
 Has an effect similar to using the ``IMPLICIT NONE`` statement in every program unit.
 
+At linking time ``USR_LFLAGS`` can be used to add linking flags, while ``USR``
+can be used to link additional files.
 
+Nek5000 is typically run with MPI. If you do not have MPI installed on your system, uncomment 
+the ``MPI=0`` flag, and change the Fortran and C compilers according to what is available  i
+on your system.  In a similar manner profiling can be turned off by uncommenting ``PROFILING=0``.
 
-Nek5000 is typically run with MPI. If you do not have MPI installed on your system, edit ``makenek``, 
-uncomment the ``MPI=0`` flag, and change the Fortran and C compilers according to what is available 
-on your system.  
-
+Nek5000 has also some experimental features for in-situ visulization. In case you are interested 
+in these features, they can be activated by uncommenting ``VISIT=1`` and follow instructions in 
+makenek.  We reccomend to consult the developers before attempting to use this feature.  
 
 _____________
 Compiling Nek
