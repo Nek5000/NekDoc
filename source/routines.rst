@@ -198,16 +198,16 @@ Note: The regular grid data (field files) cannot be used as a restart file (unif
    ! we're done
    call exitt
 
----------------------------
-Spectral Interpolation Tool
----------------------------
+--------------
+History Points    
+--------------
 
-``Check intpts().``
-Monitor Points
+Assuming a case named ``blah``, a list of monitor points can be defined in file ``blah.his`` to evaluate velocity, 
+temperature, pressure and passive scalars. Results will be appended to this file each time subroutine ``hpts()`` 
+is called. Depending on the numnber of monitoring points you may need to increase parameter ``lhis`` in SIZE.
+Usage example:
 
-Multiple monitor points can be defined in the file ``hpts.in`` to examine the field data at every timestep.
-
-- setup an ASCII file called ``hpts.in`` e.g:
+- setup an ASCII file called ``blah.his``, e.g.:
 
   .. code-block:: none
 
@@ -215,8 +215,8 @@ Multiple monitor points can be defined in the file ``hpts.in`` to examine the fi
      1.1 -1.2 1.0
      . . .
      x y z
-- depending on the number number of monitoring points you may need to increase ``lhis`` in SIZE.
-- add ``'call hpts()'`` to ``userchk()``
+
+- add ``call hpts()`` to ``userchk()``
 
 --------------------------
 Grid-to-Grid Interpolation
