@@ -35,6 +35,324 @@ would look like:
 
 .. _user_files_usr:
 
+
+-----------------------------------
+Parameters File (.par)
+-----------------------------------
+
+The simulation paramaters are defined in the ``.par`` file.
+The keys are grouped in different sections and a specific value is assigned to each key.
+The ``.par`` file follows the structure exemplified below.
+
+.. code-block:: none
+
+   #
+   # nek parameter file
+   #
+
+   [SECTION]
+   key = value
+   key = value
+
+   [SECTION]
+   key = value
+   key = value
+
+The sections are:
+
+* ``GENERAL``
+* ``PROBLEMTYPE``
+* ``MESH``
+* ``VELOCITY``
+* ``PRESSURE``
+* ``TEMPERATURE``
+* ``SCALAR%%``
+* ``CVODE``
+
+When scalars are used, the keys of each scalar are defined under the section ``SCALAR%%`` varying 
+between ``SCALAR01`` and ``SCALAR99``. The descripton of the keys of each section is given in the 
+following tables (all keys/values are case insensitive). The value assigned to each key can be a 
+user input (e.g. a <real> value) or one of the avaliable options listed in the tables below.
+
+
+.. _tab:generalparams:
+
+.. table:: ``GENERAL`` keys in the ``.par`` file
+
+   +-------------------------+---------------+----------------------------------------------+
+   |   Key                   | | Value(s)    | | Description                                |
+   +=========================+===============+==============================================+
+   | ``StartFrom``           | | ``<string>``| | Absolute/relative path of a field file     |
+   |                         |               | | to restart the simulation from             |
+   +-------------------------+---------------+----------------------------------------------+
+   | ``StopAt``              | | ``endTime`` | | Type of total runtime assignment           |
+   |                         | | ``numStep`` |                                              |
+   +-------------------------+---------------+----------------------------------------------+
+   | ``endTime``             | | ``<real>``  | | Total runtime if ``StopAt=endTime``        |
+   +-------------------------+---------------+----------------------------------------------+
+   | ``numStep``             | | ``<real>``  | | Total number of steps if ``StopAt=numStep``|
+   +-------------------------+---------------+----------------------------------------------+
+   | ``VariableDT``          | | ``yes``     | | Enable variable time step (default is no)  |
+   |                         | | ``no``      |                                              |
+   +-------------------------+---------------+----------------------------------------------+
+   | ``DT``                  | | ``<real>``  | | - If ``VariableDT=yes`` denotes upper limit|
+   |                         |               |   of time step                               | 
+   |                         |               | | - If ``VariableDT=no`` denotes time step   |
+   +-------------------------+---------------+----------------------------------------------+
+   | ``WriteControl``        | | ``runTime`` | | Specify whether checkpointing is based on  |
+   |                         | | ``timeStep``| | number of time steps or time intervals     |
+   +-------------------------+---------------+----------------------------------------------+
+   | ``WriteInterval``       | | ``<real>``  | | - If ``WriteControl=timeStep`` denotes the | 
+   |                         |               | |   checkpoint frequency in number of time   | 
+   |                         |               |     steps                                    |
+   |                         |               | | - If ``WriteControl=runTime`` denotes the  |
+   |                         |               | |   checkpoint frequency in runtime          |   
+   +-------------------------+---------------+----------------------------------------------+
+   | ``TargetCFL``           | | ``<real>``  | | If ``VariableDT=yes`` denotes the target   |
+   |                         |               | | CFL number                                 |  
+   +-------------------------+---------------+----------------------------------------------+
+   | ``Filtering``           | | ``explicit``| | Specify filtering method                   | 
+   |                         | | ``hpfrt``   |                                              | 
+   +-------------------------+---------------+----------------------------------------------+
+   | ``filterCutoffRatio``   | | ``<real>``  | | Fraction of unfiltered modes (0 to 1)      |
+   +-------------------------+---------------+----------------------------------------------+
+   | ``filterWeight``        | | ``<real>``  | | Filter weight                              |
+   +-------------------------+---------------+----------------------------------------------+
+   | ``writeDoublePrecision``| | ``yes``     | | Output files in double precision           |
+   |                         | | ``no``      |                                              |
+   +-------------------------+---------------+----------------------------------------------+
+   | ``writeNFiles``         | | ``<real>``  | | Number of output files (default is 1)      |  
+   +-------------------------+---------------+----------------------------------------------+
+   | ``Dealiasing``          | | ``yes``     | | Enable/diasble over-integration            |
+   |                         | | ``no``      |                                              |
+   +-------------------------+---------------+----------------------------------------------+
+   | ``TimeStepper``         | | ``BDF2``    | | Time integration order                     |
+   |                         | | ``BDF3``    |                                              |
+   +-------------------------+---------------+----------------------------------------------+
+   | ``extrapolation``       | | ``standard``| | Extrapolation method                       |
+   |                         | | ``OIFS``    |                                              |
+   +-------------------------+---------------+----------------------------------------------+
+   | ``OptLevel``            | | ``<real>``  | | Optimization level (1-3,default is 1)      |
+   +-------------------------+---------------+----------------------------------------------+
+   | ``LogLevel``            | | ``<real>``  | | Logfile verbosity level (1-2, default is 1)|
+   +-------------------------+---------------+----------------------------------------------+
+   | ``UserParam%%``         | | ``<real>``  | | User parameter (can be accessed through    |
+   |                         |               | | uparam(%) array in ``.usr``                |
+   +-------------------------+---------------+----------------------------------------------+
+
+
+
+.. _tab:probtypeparams:
+
+.. table:: ``PROBLEMTYPE`` keys in the ``.par`` file
+
+   +---------------------------+---------------------+--------------------------------------------------+
+   |   Key                     | | Value(s)          | | Description                                    |
+   +===========================+=====================+==================================================+
+   | ``equation``              | | ``incompNS``      | | Specify equation to solve:                     |
+   |                           | | ``lowMachNS``     | | ``incompNS`` incompressible NS                 |
+   |                           | | ``steadyStokes``  | | ``lowMachNS`` low-Mach NS                      |
+   |                           | | ``incompLinNS``   | | ``steadyStokes`` steady stokes                 |
+   |                           | | ``incompLinAdjNS``| | ``incompLinNS`` incompressible linearized NS   |
+   |                           | | ``incompMHD``     | | ``incompLinAdjNS`` incompressible linearized   |
+   |                           | | ``compNS``        |    adjoint NS                                    |
+   |                           |                     | | ``incompMHD`` incompressible MHD               |
+   |                           |                     | | ``compNS``  compressible NS                    |
+   +---------------------------+---------------------+--------------------------------------------------+
+   | ``Axisymmetry``           | | ``yes``           | | Axisymmetric problem                           |
+   |                           | | ``no``            |   (sets ``IFAXIS=.true.``)                       |
+   +---------------------------+---------------------+--------------------------------------------------+
+   | ``Swirl``                 | | ``yes``           | | Enable axisymmetric azimuthal velocity         |
+   |                           | | ``no``            | | component (sets ``IFAZIV=.true.``, stored      |
+   |                           |                     | | in ``t(,,,,1)``)                               |
+   +---------------------------+---------------------+--------------------------------------------------+
+   | ``CyclicBoundaries``      | | ``yes``           | | Cyclic periodic problem                        | 
+   |                           | | ``no``            |   (sets ``IFCYCLIC=.true.``)                     |
+   +---------------------------+---------------------+--------------------------------------------------+
+   | ``numberOfPerturbations`` | | ``<real>``        | | Number of perturbations if                     |
+   |                           |                     | | ``equation=incompLinNS`` or                    |
+   |                           |                     | | ``equation=incompLinAdjNS``                    |
+   +---------------------------+---------------------+--------------------------------------------------+
+   | ``SolveBaseFlow``         | | ``yes``           | | Solve for base flow if                         |
+   |                           | | ``no``            | | ``equation=incompLinNS`` or                    |
+   |                           |                     | | ``equation=incompLinAdjNS``                    |
+   +---------------------------+---------------------+--------------------------------------------------+
+   | ``VariableProperties``    | | ``yes``           | | Enable variable transport properties           |
+   |                           | | ``no``            |                                                  |
+   +---------------------------+---------------------+--------------------------------------------------+
+   | ``StressFormulation``     | | ``yes``           | | Enable stress formulation                      |
+   |                           | | ``no``            |                                                  |
+   +---------------------------+---------------------+--------------------------------------------------+
+   | ``dp0dt``                 | | ``yes``           | | Enable time-varying thermodynamic pressure     |
+   |                           | | ``no``            |                                                  |
+   +---------------------------+---------------------+--------------------------------------------------+
+
+
+.. _tab:meshparams:
+
+.. table:: ``MESH`` keys in the ``.par`` file
+
+   +-------------------------+-----------------+-------------------------------------------------------+
+   |   Key                   | | Value(s)      | | Description                                         |
+   +=========================+=================+=======================================================+
+   | ``Motion``              | | ``none``      | | Enable mesh motion.                                 |
+   |                         | | ``user``      | | ``user``: user-specified mesh velocity              |
+   |                         | | ``elasticity``| | ``elasticity``: elasticity solver                   |
+   +-------------------------+-----------------+-------------------------------------------------------+
+   | ``Viscosity``           | | ``<real>``    | | Mesh solver diffusivity if ``Motion=elasticity``    |
+   +-------------------------+-----------------+-------------------------------------------------------+
+   | ``residualTol``         | | ``<real>``    | | Mesh solver residual tolerance if                   |
+   |                         |                 |   ``Motion=elasticity``                               |
+   +-------------------------+-----------------+-------------------------------------------------------+
+   | ``residualProj``        | | ``yes``       | | Enable mesh solver residual projection if           |
+   |                         | | ``no``        |   ``Motion=elasticity``                               |
+   +-------------------------+-----------------+-------------------------------------------------------+
+   | ``WriteToFieldFile``    | | ``yes``       | | Write mesh in field file                            |
+   |                         | | ``no``        |                                                       |
+   +-------------------------+-----------------+-------------------------------------------------------+
+   | ``NumberOfBCFields``    | | ``<real>``    | | Number of BC fields in ``.re2`` file                |
+   +-------------------------+-----------------+-------------------------------------------------------+
+   | ``firstBCFieldIndex``   | | ``<real>``    | | Field index of the first BC specified in ``.re2``   |
+   |                         |                 |   file                                                |
+   +-------------------------+-----------------+-------------------------------------------------------+
+
+
+
+
+.. _tab:velocityparams:
+
+.. table:: ``VELOCITY`` keys in the ``.par`` file
+
+   +-------------------------+--------------+------------------------------------------------+
+   |   Key                   | | Value(s)   | | Description                                  |
+   +=========================+==============+================================================+
+   | ``ResidualTol``         | | ``<real>`` | | Residual tolerance                           | 
+   +-------------------------+--------------+------------------------------------------------+
+   | ``ResidualProj``        | | ``yes``    | | Enable residual projection                   |
+   |                         | | ``no``     |                                                |
+   +-------------------------+--------------+------------------------------------------------+
+   | ``WriteToFieldFile``    | | ``yes``    | | Write to field file                          |
+   |                         | | ``no``     |                                                |
+   +-------------------------+--------------+------------------------------------------------+
+   | ``Advection``           | | ``yes``    | | Enable advection                             |
+   |                         | | ``no``     |                                                |
+   +-------------------------+--------------+------------------------------------------------+
+   | ``Viscosity``           | | ``<real>`` | | Positive value denotes dynamic viscosity,    |
+   |                         |              | | negative value denotes Reynolds number       |
+   |                         |              | | (required only if ``VariableProperties=no``  |
+   +-------------------------+--------------+------------------------------------------------+
+   | ``Density``             | | ``<real>`` | | Density                                      |
+   |                         |              | | (required only if ``VariableProperties=no``) |
+   +-------------------------+--------------+------------------------------------------------+
+
+
+
+.. _tab:pressureparams:
+
+.. table:: ``PRESSURE`` keys in the ``.par`` file
+
+   +-------------------------+----------------+----------------------------------------------+
+   |   Key                   | | Value(s)     | | Description                                |
+   +=========================+================+==============================================+
+   | ``Preconditioner``      | | ``semg_amg`` | | Preconditioner                             |
+   |                         | | ``semg_xxt`` |                                              |
+   +-------------------------+----------------+----------------------------------------------+
+   | ``ResidualTol``         | | ``<real>``   | | Residual tolerance                         |
+   +-------------------------+----------------+----------------------------------------------+
+   | ``ResidualProj``        | | ``yes``      | | Enable residual projection                 |
+   |                         | | ``no``       |                                              |
+   +-------------------------+----------------+----------------------------------------------+
+   | ``WriteToFieldFile``    | | ``yes``      | | Write to field file                        |
+   |                         | | ``no``       |                                              |
+   +-------------------------+----------------+----------------------------------------------+
+
+
+
+.. _tab:temperatureparams:
+
+.. table:: ``TEMPERATURE`` keys in the ``.par`` file
+
+   +--------------------------+--------------+----------------------------------------------+
+   |   Key                    | | Value(s)   | | Description                                |
+   +==========================+==============+==============================================+
+   | ``ResidualTol``          | | ``<real>`` | | Residual tolerance                         |
+   +--------------------------+--------------+----------------------------------------------+
+   | ``ResidualProj``         | | ``yes``    | | Enable residual projection                 |
+   |                          | | ``no``     |                                              |
+   +--------------------------+--------------+----------------------------------------------+
+   |``ConjugatedHeatTransfer``| | ``yes``    | | Enable conjugate heat transfer             |
+   |                          | | ``no``     |                                              |
+   +--------------------------+--------------+----------------------------------------------+
+   | ``WriteToFieldFile``     | | ``yes``    | | Write to field file                        |
+   |                          | | ``no``     |                                              |
+   +--------------------------+--------------+----------------------------------------------+
+   | ``Advection``            | | ``yes``    | | Enable advection (default is yes)          |
+   |                          | | ``no``     |                                              |
+   +--------------------------+--------------+----------------------------------------------+
+   | ``Conductivity``         | | ``<real>`` | | Thermal conductivity                       |
+   |                          |              | | (required only if                          |
+   |                          |              |   ``VariableProperties=no``)                 |
+   +--------------------------+--------------+----------------------------------------------+
+   | ``RhoCp``                | | ``<real>`` | | Rho*cp                                     |
+   |                          |              | | (required only if                          |
+   |                          |              |   ``VariableProperties=no``)                 |
+   +--------------------------+--------------+----------------------------------------------+
+
+
+
+.. _tab:scalarparams:
+
+.. table:: ``SCALAR%%`` keys in the ``.par`` file
+
+   +--------------------------+----------------+----------------------------------------------+
+   |   Key                    | | Value(s)     | | Description                                |
+   +==========================+================+==============================================+
+   | ``Solver``               | | ``helm``     | | Specify solver (Helmholtz, CVODE, or none) | 
+   |                          | | ``cvode``    |                                              |  
+   |                          | | ``none``     |                                              |
+   +--------------------------+----------------+----------------------------------------------+
+   | ``Advection``            | | ``yes``      | | Enable advection (default is yes)          |
+   |                          | | ``no``       |                                              |
+   +--------------------------+----------------+----------------------------------------------+
+   | ``ResidualTol``          | | ``<real>``   | | Residual tolerance if ``Solver=helm``      |
+   +--------------------------+----------------+----------------------------------------------+
+   |``ConjugatedHeatTransfer``| | ``yes``      | | Enable conjugate heat transfer             |
+   |                          | | ``no``       |                                              |
+   +--------------------------+----------------+----------------------------------------------+
+   | ``Density``              | | ``<real>``   | | Density (required only if                  |
+   |                          |                |   ``VariableProperties=no``)                 |
+   +--------------------------+----------------+----------------------------------------------+
+   | ``Diffusivity``          | | ``<real>``   | | Diffusivity (required only if              | 
+   |                          |                |   ``VariableProperties=no``)                 |
+   +--------------------------+----------------+----------------------------------------------+
+   | ``WriteToFieldFile``     | | ``yes``      | | Write to field file                        |
+   |                          | | ``no``       |                                              |
+   +--------------------------+----------------+----------------------------------------------+
+   | ``AbsoluteTol``          | | ``<real>>``  | | Absolute tolerance if ``Solver=cvode``     |
+   +--------------------------+----------------+----------------------------------------------+
+
+
+
+.. _tab:cvodeparams:
+
+.. table:: ``CVODE`` keys in the ``.par`` file
+
+   +--------------------------+----------------+----------------------------------------------+
+   |   Key                    | | Value(s)     | | Description                                |
+   +==========================+================+==============================================+
+   | ``RelativeTol``          | | ``<real>``   | | Relative tolerance (applies to all scalars)|
+   +--------------------------+----------------+----------------------------------------------+
+   | ``Stiff``                | | ``yes``      | | If ``Stiff=yes`` use BDF timestepper,      |
+   |                          | | ``no``       | | if ``Stiff=no`` use Adams Moulton,         |
+   |                          |                | | default is no                              |
+   +--------------------------+----------------+----------------------------------------------+
+   | ``PreConditioner``       | | ``yes``      | | Enable user-supplied preconditioner        |
+   |                          | | ``no``       |                                              |
+   +--------------------------+----------------+----------------------------------------------+
+   | ``DtMax``                | | ``<real>``   | | Maximum CVODE timestep allowed             |
+   +--------------------------+----------------+----------------------------------------------+
+
+
 ----------------------
 Case Setup File (.usr)
 ----------------------
