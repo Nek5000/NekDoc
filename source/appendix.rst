@@ -40,7 +40,7 @@ Available Parameters
 
 | **P001  DENSITY** density for the case of constant properties (for variable density see parameter ``P030``).
 |
-| **P002  VISCOS**  kinematic viscosity (if :math:`<0 \rightarrow Re`, otherwise :math:`1/Re`).
+| **P002  VISCOS**  dynamic viscosity (if :math:`<0 \rightarrow Re`, otherwise :math:`1/Re`).
 |
 | **P003  BETAG** if :math:`>0`, natural convection is turned on (Boussinesq approximation). :red:`NOT IN USE!`
 |
