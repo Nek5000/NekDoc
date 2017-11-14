@@ -1,7 +1,7 @@
 # Nek5000 Documentation
 
-This is the repository of the [Nek5000](http://nek5000.mcs.anl.gov/) documentation 
-written in [reStructuredText](http://docutils.sourceforge.net/rst.html).
+This is the repository of the [Nek5000](http://nek5000.mcs.anl.gov/) documentation written using
+the [Sphinx](http://www.sphinx-doc.org/) documentation framework.
 
 ## How to build
 
@@ -9,7 +9,9 @@ written in [reStructuredText](http://docutils.sourceforge.net/rst.html).
   and image files.  The top-level webpage is build/html/index.html.
   Supporting HTML and image files are also in the build directory.
   
- Note: This requires [SPHINX](http://www.sphinx-doc.org/) 
+Note: This requires the [Sphinx](https://pypi.python.org/pypi/Sphinx) and
+[sphinx_rtd_theme](https://pypi.python.org/pypi/sphinx_rtd_theme) Python packages.  Both are
+available from the [Python Package Index](http://www.sphinx-doc.org://pypi.python.org/pypi).  
 
 ## How to contribute
 
