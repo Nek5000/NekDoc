@@ -20,9 +20,9 @@ help:
 	@$(SPHINXBUILD) -M $@ "$(SOURCEDIR)" "$(BUILDDIR)" $(SPHINXOPTS) $(O)
 
 gh-pages:
-	git checkout gh-pages
+	git checkout -t origin/gh-pages
 	rm -rf build _sources _static
-	git checkout rst-git source/ Makefile
+	git checkout master source/ Makefile
 	git reset HEAD
 	make html
 	cp -rf build/html/* ./
