@@ -249,15 +249,44 @@ Problem-Size File (SIZE)
 SIZE file defines the problem size, i.e. spatial points at which the solution is to be evaluated within each element, number of elements per processor etc.
 The SIZE file governs the memory allocation for most of the arrays
 in Nek5000, with the exception of those required by the C utilities.
-The primary parameters of interest in SIZE are:
+The *basic* parameters of interest in SIZE are:
 
 * **ldim** = 2 or 3.  This must be set to 2 for two-dimensional or axisymmetric simulations  (the latter only partially supported) or to 3 for three-dimensional simulations.
 * **lx1** controls the polynomial order of the approximation, :math:`N = {\tt lx1-1}`.
-* **lxd** controls the polynomial order of the integration forconvective terms.  Generally, :math:`{\tt lxd=3 * lx1/2}`.  On some platforms, however,it is important for memory access performance that ``lx1`` and ``lxd`` be even.
-* **lx2** = ``lx1`` or ``lx1-2``.  This determines the formulation for the Navier-Stokes  solver (i.e., the choice between the :math:`\mathbb{P}_N - \mathbb{P}_N` or :math:`\mathbb{P}_N - \mathbb{P}_{N-2}` methods) and the approximation order for the pressure, ``lx2-1``.
-* **lelt** determines the *maximum* number of elements *per processor*
+* **lxd** controls the polynomial order of the (over-)integration/dealising for convective terms.  Generally, :math:`{\tt lxd=3 * lx1/2}`.  On some platforms, however, it is important for efficient memory access performance that ``lx1`` and ``lxd`` are even.
+* **lx2** = ``lx1`` or ``lx1-2`` and is an approximation order for pressure that determines the formulation for the Navier-Stokes  solver (i.e., the choice between the :math:`\mathbb{P}_N - \mathbb{P}_N` or :math:`\mathbb{P}_N - \mathbb{P}_{N-2}` spectral-element methods). 
+* **lelg**, an upper bound on the number of elements in the simulation (it should be not less than a maximum global element number of one's mesh, ``nelgt``).
+* **lpmax**, a maximum number of processors that can be used (used to be  **lp**  in the legacy SIZE).
+* **lpmin**, a minimum number of processors that can be used (see also  **Memory Requirements**).
+* **ldimt**, an upper bound on a number of auxilary fields to solve (temperature + other scalars, minimum is 1).
 
-The total size of the problem is ``lx1*ly1*lz1*lelt``.
+The *optional*
+upper bounds on parameters in SIZE are (minimum being 1 unless otherwise noted):
+
+* **lhis**, a maximum history (i.e. trace) points.
+* **maxobj**, a maximum number of objects.
+* **lpert**, a maximum perturbation modes.
+* **toteq**, a maximum number of conserved scalars in CMT (minimum could be 0).
+* **nsessmax**, a maximum number of (ensemble-average) sessions.
+* **lxo**, a maximum number of points per element for field file output (:math:`{\tt lxo \geq lx1}`).
+* **lelx**, **lely**, **lelz**, a maximum number of element in each direction for global tensor product solver and/or dimentions.
+* **mxprev**, a maximum dimension of projection space (e.g. 20).
+* **lgmres**, a maximum dimension of Krylov space (e.g. 30).
+* **lorder**, a maximum order of temporal discretization (minimum is2 see also characteristic/OIFS method).
+* **lelt** determines the maximum number of elements *per processor* (should be not smaller than nelgt/lpmin, e.g. lelg/lpmin+1).
+* **lx1m**, a polynomial order for mesh solver that should be equal to lx1 in case of ALE and in case of stress-formulation (=1 otherwise).
+* **lbelt** determines the maximum number of elements per processor for MHD solver that should be equalt to lelt (=1 otherwise).
+* **lpelt** determines the maximum number of elements per processor for linear stability solver that should be equalt to lelt (=1 otherwise).
+* **lcvelt** determines the maximum number of elements per processor for CVODE solver that should be equalt to lelt (=1 otherwise).
+* **lfdm** equals to 1 for global tensor product solver (that uses fast diagonalization method) being 0 otherwise.
+
+Note that one also need to include the following line to SIZE file:
+
+.. code-block:: fortran
+
+      include 'SIZE.inc'
+
+that defines the auxilaly parameters and missing optional parameter defaults.
 
 ...................
 Memory Requirements
@@ -267,7 +296,7 @@ Per-processor memory requirements for  Nek5000 scale
 roughly as 400 8-byte words per allocated gridpoint.  The number
 of *allocated* gridpoints per processor is
 :math:`n_{\max}` = ``lx1*ly1*lz1*lelt``.
-(For 3D, ``lz1=ly1=lx1``; for 2D, ``lz1=1``, ``ly1=lx1``.)
+ and ``lz1=ly1=lx1`` for 3D while for 2D, ``lz1=1``, ``ly1=lx1``.
 If required for a particular simulation, more memory may be made
 available by using additional processors.  For example, suppose
 one needed to run a simulation with 6000 elements of order :math:`N=9`.
@@ -277,15 +306,11 @@ To leading order, the total memory requirements would be
 is 400 MB of memory per core available to the user (after accounting
 for OS requirements), then one could run this simulation with
 :math:`{\tt P \geq 19,200 MB / (400 MB/proc) = 48}` processors.
-To do so, it would be necessary to set :math:`{\tt lelt} \geq 6000/48 = 125`.
+To do so, it would be necessary to set :math:`{\tt lpmin = 48}` (or :math:`{\tt lelt} \geq 6000/48 = 125` in legacy SIZE file).
 
-We note two other parameters of interest in the parallel context:
-
-* **lp**, the maximum number of processors that can be used.
-* **lelg**, an upper bound on the number of elements in the simulation.
-
+We note three other basic SIZE parameters of interest in the parallel context: *lelg*, *lpmax*, *lpmin*.
 There is a slight memory penalty associated with these variables, so
-one generally does not want to have them excessively large.  It is
+one generally does not want to have them equal to excessive values.  It is
 common, however, to have lp be as large as anticipated for a given
 case so that the executable can be run without recompiling on
 any admissible number of processors (:math:`P_{mem} \leq P \leq E`,
