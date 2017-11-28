@@ -15,6 +15,7 @@ by Hank Childs and colleagues at LLNL/LBNL.  VisIt is mandatory for large proble
 
    intro
    quickstart
+   quickstart2
    user_files
    geometry
    large_scale
