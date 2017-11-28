@@ -74,9 +74,9 @@ The governing equations of flow motion in dimensional form are
 .. math::
     :label: ns_momentum
 
-    \rho(\partial_{t} \mathbf u +\mathbf u \cdot \nabla \mathbf u) = - \nabla p + \nabla \cdot \tau + \rho {\bf f} \,\, , \text{in } \Omega_f , \quad \text{  (Momentum)  } 
+    \rho\left(\frac{\partial\mathbf u}{\partial t} +\mathbf u \cdot \nabla \mathbf u\right) = - \nabla p + \nabla \cdot \tau + \rho {\bf f} \,\, , \text{in } \Omega_f , \quad \text{  (Momentum)  } 
 
-where :math:`\tau=\mu[\nabla \mathbf u+\nabla \mathbf u^{T}]`.
+where :math:`\tau=\mu[\nabla \mathbf u+\nabla \mathbf u^{T}]` and :math:`\mathbf f` is a user defined acceleration.
 
 .. math::
     :label: ns_cont
@@ -99,7 +99,7 @@ Non-Dimensional Navier-Stokes
 -----------------------------
 
 Let us introduce the following non-dimensional variables :math:`\mathbf x^*\ = \frac{\mathbf x}{L}`,
-:math:`\mathbf u^*\ = \frac{u}{U}`, :math:`t^*\ = \frac{t}{L/U}\,`.  For the pressure scale we have
+:math:`\mathbf u^*\ = \frac{u}{U}`, :math:`t^*\ = \frac{tU}{L}`, and :math:`\mathbf f^* =\frac{\mathbf f L}{U^2}`.  For the pressure scale we have
 two options:
 
 - Convective effects are dominant i.e. high velocity flows :math:`p^* = \frac{p}{\rho U^2}`
@@ -111,12 +111,11 @@ non-dimensional Navier-Stokes:
 .. math::
     :label: NS_nondim
 
-    \frac{\partial \mathbf{u^*}}{\partial t^*} + \mathbf{u^*} \cdot \nabla \mathbf{u^*}\ = -\nabla p^* + \frac{1}{Re} \nabla\cdot \tau^* + \frac{1}{Fr}\frac{\mathbf{f}}{g}.
+    \frac{\partial \mathbf{u^*}}{\partial t^*} + \mathbf{u^*} \cdot \nabla \mathbf{u^*}\ = -\nabla p^* + \frac{1}{Re} \nabla\cdot \tau^* + \mathbf f^*.
 
-where :math:`\tau^*=[\nabla \mathbf u^*+\nabla \mathbf u^{*T}]`.
+where :math:`\tau^*=[\nabla \mathbf u^*+\nabla \mathbf u^{*T}]` and :math:`\mathbf f^*` is the dimensionless user defined forcing function, e.g. gravity.
 
-The two non-dimensional numbers here are the Reynolds number :math:`Re=\frac{\nu}{U L}` :math:`Fr`
-and the Froude number, defined as :math:`Fr = \frac{U^2}{gL}`.
+The non-dimensional number here is the Reynolds number :math:`Re=\frac{\rho U L}{\mu}`.
 
 .. _intro_energy:
 
