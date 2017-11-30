@@ -1,7 +1,7 @@
 .. _user_files:
 
 ==========
-User Files
+Case Files
 ==========
 
 Each simulation is defined by three files: the .rea file, the ``.usr`` file, and the SIZE file.  In
@@ -561,7 +561,7 @@ To run Nek5000, each simulation must have a SESSION.NAME file. This file is read
 
 
 ------------------------
-Problem-Size File (SIZE)
+SIZE File
 ------------------------
 
 SIZE file defines the problem size, i.e. spatial points at which the solution is to be evaluated within each element, number of elements per processor etc.
@@ -1045,99 +1045,4 @@ the inverse Reynolds number, whereas if the equations are
 dimensional, :math:`\mu / \rho` represents the kinematic viscosity with
 dimensions of :math:`length^{2}/time`.
 
------------
-Data Layout
------------
 
-Nek5000 was designed with two principal performance criteria in mind,
-namely, *single-node* performance and *parallel* performance.
-
-A key precept in obtaining good single node performance was to use,
-wherever possible, unit-stride memory addressing, which is realized by
-using contiguously declared arrays and then accessing the data in
-the correct order.   Data locality is thus central to good serial
-performance.   To ensure that this performance is not compromised
-in parallel, the parallel message-passing data model is used, in which
-each processor has its own local (private) address space.  Parallel
-data, therefore, is laid out just as in the serial case, save that there
-are multiple copies of the arrays---one per processor, each containing
-different data.  Unlike the shared memory model, this distributed memory
-model makes data locality transparent and thus simplifies the task of
-analyzing and optimizing parallel performance.
-
-Some fundamentals of Nek5000's internal data layout are given below.
-
-1. Data is laid out as  :math:`u_{ijk}^e = u(i,j,k,e)`
-
-   .. |br| raw:: html
-
-      <br />
-
-   ``i=1,...,nx1``   (``nx1 = lx1``) |br|
-   ``j=1,...,ny1``   (``ny1 = lx1``) |br|
-   ``k=1,...,nz1``   (``nz1 = lx1`` or 1, according to ndim=3 or 2)
-
-   ``e=1,...,nelv``, where ``nelv`` :math:`\leq` ``lelv``, and ``lelv`` is the upper
-   bound on number of elements, *per processor*.
-2. Fortran data is stored in column major order (opposite of C).
-3. All data arrays are thus contiguous, even when :math:`{\tt nelv} < {\tt lelv}`.
-4. Data accesses are thus primarily unit-stride (see chap.8 of DFM
-   for importance of this point), and in particular, all data on
-   a given processor can be accessed as, e.g.,
-
-      .. code-block:: fortran
-
-         do i=1,nx1*ny1*nz1*nelv
-            u(i,1,1,1) = vx(i,1,1,1)
-         end do
-
-   which is equivalent but superior (WHY?) to:
-
-      .. code-block:: fortran
-
-         do e=1,nelv
-         do k=1,nz1
-         do j=1,ny1
-         do i=1,nx1
-            u(i,j,k,e) = vx(i,j,k,e)
-         end do
-         end do
-         end do
-         end do
-
-   which is equivalent but vastly superior (WHY?) to:
-
-      .. code-block:: fortran
-
-         do i=1,nx1
-         do j=1,ny1
-         do k=1,nz1
-         do e=1,nelv
-            u(i,j,k,e) = vx(i,j,k,e)
-         end do
-         end do
-         end do
-         end do
-5. All data arrays are stored according to the SPMD programming
-   model, in which address spaces that are local to each processor
-   are private --- not accessible to other processors except through
-   interprocessor data-transfer (i.e., message passing).  Thus
-
-      .. code-block:: fortran
-
-         do i=1,nx1*ny1*nz1*nelv
-            u(i,1,1,1) = vx(i,1,1,1)
-         end do
-
-   means different things on different processors and ``nelv`` may
-   differ from one processor to the next.
-6. For the most part, low-level loops such as above are expressed in
-   higher level routines only through subroutine calls, e.g.,:
-
-      .. code-block:: fortran
-
-         call copy(u,vx,n)
-
-   where ``n:=nx1*ny1*nz1*nelv``.   Notable exceptions are in places where
-   performance is critical, e.g., in the middle of certain iterative
-   solvers. 

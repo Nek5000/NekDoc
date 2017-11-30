@@ -1,12 +1,10 @@
-========
-Geometry
-========
+==============================
+Mesh Generation and Conversion
+==============================
 
 -----------------------------
 Generating a Mesh with Genbox
 -----------------------------
-
-Note that in case of any changes in the SIZE file, a recompilation is necessary.
 
 ..........................
 Uniformly Distributed Mesh
@@ -434,10 +432,19 @@ unacceptable, that is, a one-to-one mapping between the physical
 coordinates and the isoparametric local coordinates for any
 macro-element no longer exists.
 
+-----------------------
+Mesh Conversion
+-----------------------
+
+...................
+exo2nek
+...................
+
+todo
 
 
 -------------------------------
-Boundary and Initial Conditions
+Boundary Conditions
 -------------------------------
 
 .. _sec:boundary:
@@ -743,189 +750,3 @@ throughout the solution.
 In addition, the volumetric latent heat of fusion :math:`\rho L`
 for the two phases,
 which is also assumed to be constant, should be specified.
-
-..................
-Initial Conditions
-..................
-
-For time-dependent problems Nek5000 allows the user to choose among
-the following types of initial conditions for the
-velocity, temperature and passive scalars:
-
-- Zero initial conditions: default; if nothing is specified.
-- Fortran function: This option allows the user to specify the
-  initial condition as a fortran function,
-  e.g., as a function of :math:`x`, :math:`y` and :math:`z`.
-- Presolv: For a temperature problem the presolv option gives the
-  steady conduction solution as initial condition for the temperature.
-  For a fluid problem this option *can* give the
-  steady Stokes solution as the initial condition for the velocity
-  *provided* that the classical splitting scheme is *not* used.
-- Restart: this option allows the user to read in results from an earlier
-  simulation, and use these as initial conditions.
-
-A tabulated summary of the compatibility of these initial condition options
-with various other solution strategies/parameters is given in the appendix.
-
---------------------------------------
-Parallel Mesh Partitioning with Genmap
---------------------------------------
-
-``genmap`` is spectral graph partitioning tool, similar to e.g. METIS, which partitions the graph associated to the mesh to assure optimal communication time in HPC applications. Let us consider a simple mesh such as the one in :numref:`fig:genmap`. The vertices are distributed in a random fashion, which is the way they may be provided by some mesh generator. Let us assume the vertices are here given as
-
-.. math::
-
-   V_1=(-1,0),\ V_2=(0,1),\ V_3=(-1,2),\ V_4=(-1,1),\ V_5=(0,2),\ V_6=(0,0),\ V_7=(1,1),\ V_8=(1,0)
-
-The geometry is already stored in the ``.rea`` file by the point coordinates, and not vertex numbers
-
-.. table::
-
-   +--------------------------------------------------+-----+-----+-----+
-   | :math:`\texttt{Element } 1=[V_1\ V_6\ V_2\ V_4]` |     |     |     |
-   +--------------------------------------------------+-----+-----+-----+
-   | :math:`x_{1,\ldots,4}= -1.`                      | 0.  | 0.  | -1. |
-   +--------------------------------------------------+-----+-----+-----+
-   | :math:`y_{1,\ldots,4}= 0.`                       | 0.  | 1.  | 1.  |
-   +--------------------------------------------------+-----+-----+-----+
-   | :math:`\texttt{Element } 2=[V_8\ V_7\ V_2\ V_6]` |     |     |     |
-   +--------------------------------------------------+-----+-----+-----+
-   | :math:`x_{1,\ldots,4}= 1.`                       | 1.  | 0.  | 0.  |
-   +--------------------------------------------------+-----+-----+-----+
-   | :math:`y_{1,\ldots,4}= 0.`                       | 1.  | 1.  | 0.  |
-   +--------------------------------------------------+-----+-----+-----+
-   | :math:`\texttt{Element } 3=[V_5\ V_3\ V_4\ V_2]` |     |     |     |
-   +--------------------------------------------------+-----+-----+-----+
-   | :math:`x_{1,\ldots,4}= 0.`                       | -1. | -1. | 0.  |
-   +--------------------------------------------------+-----+-----+-----+
-   | :math:`y_{1,\ldots,4}= 2.`                       | 2.  | 1.  | 1.  |
-   +--------------------------------------------------+-----+-----+-----+
-
-.. _fig:genmap:
-
-.. figure:: figs/genmap_sketch.png
-    :align: center
-    :figclass: align-center
-    :alt: 2d-mesh
-
-    Two-dimensional mesh
-
-Let us a regard the mesh in :numref:`fig:genmap` as a graph of :math:`N` vertices and :math:`M` edges, :math:`G(V_N,E_M)`. We define the Laplacian matrix associated to a graph :math:`G` as :math:`L(G)`. We define as the degree of a node :math:`V_i` the number of incident edges, e.g. in :numref:`fig:genmap` :math:`deg(V_2)=4` and :math:`deg(V_6)=3`.
-
-.. math::
-
-   L(G)_{ij}= \left\{
-   \begin{array}{l l}
-     i=j & \quad \mathrm deg(V_i)\\
-     i\neq j & \quad -1 \text{ if there is and edge (i,j) and } 0 \text{ otherwise}
-   \end{array} \right .
-
-.. math::
-
-   L(G)= \begin{pmatrix}
-     &1 & 2 & 3 & 4 & 5 & 6 & 7 & 8\\
-     \hline
-   1| &2 & 0 & 0 & -1 & 0 & -1 & 0 & 0\\
-   2| &0 & 4 & 0 & -1 & -1 & -1 & -1 & 0\\
-   3| &0 & 0 & 2 & -1 & -1 & 0 & 0 & 0\\
-   4| &-1 & -1 & -1 & 3 & 0 & 0 & 0 & 0\\
-   5| &0 & -1 & -1 & 0 & 2 & 0 & 0 & 0\\
-   6| &-1 & -1 & 0 & 0 & 0 & 3 & 0 & -1\\
-   7| &0 & -1 & 0 & 0 & 0 & 0 & 2 & -1\\
-   8| &0 & 0 & 0 & 0 & 0 & -1 & -1 & 2\\
-   \end{pmatrix}
-
-Properties of :math:`L(G)`
-
-- :math:`L(G)` symmetric
-- the unit vector :math:`e=[1, \ldots 1]\in \mathcal{N}(L(G))` is in the nullspace of the Laplacian matrix
-- :math:`\forall\lambda \in \sigma(L(G)>0`, i.e. all the eigenvalues of :math:`L(G)` are positive except :math:`\lambda_0` corresponding to the unit vector
-- :math:`\lambda_2\neq 0` if the graph is connected, :math:`\lambda_2(L(G))` is also called the algebraic connectivity of the graph
-
-
-| The main ides of the spectral bisection algorithm is
-|
-|    compute :math:`v_2` eigenvector corresponding to :math:`\lambda_2(L(G)` 
-|    for i=1,N
-|      if :math:`v_2(i) < 0` put vertex :math:`V_i` in :math:`N_{-}`
-|      else put vertex :math:`V_i` in :math:`N_{+}`
-
-The eigenvectors and eigenvalues are computed using Lanczos's algorithm.
-These steps are repeated recursively on each of the two branches of the graph :math:`N_{-}, N_{+}`. This is possible since according to Fiedler's theorems the graph :math:`N_{-}` is connected, :math:`N_{+}` connected only if no :math:`v_2(i)=0`,  and for each subgraph :math:`G_1` the algebraic connectivities satisfy :math:`\lambda_2(L(G_1))\leq\lambda_2(L(G))`.
-
-To run the ``genmap`` code be sure that the Nek tools are up-to-date and compiled.
-At command line type: ``genmap``.
- 
-NOTE: If the executables for the tools were not placed in the ``bin`` directory (default),
-include the path to the ``genmap`` executable. We give here the output for the ``.rea`` file in the Kovasznay example
-
-.. code-block:: none
-
-   Input (.rea) file name:
-   kov
-   Input mesh tolerance (default 0.2):
-   NOTE: smaller is better, but generous is more forgiving for bad meshes.
-   0.05
-    reading .rea file data ...
-    start locglob_lexico:           8         960        7680  0.10000000000000001
-    locglob:           1           1        7680
-    .....
-    locglob:           3        1254        7680
-    done locglob_lexico:        1254        1254        7680           8
-    start periodic vtx:         960        1254
-    done periodic vtx
-    start rec_bisect:         960
-    done:    0.1%
-    .....
-    done:   99.4%
-
-    done rec_bisect
-   writing kov.map
-
-The user is prompted for ``.rea`` file name and should enter only the prefix of the ``.rea`` file.
-The user is prompted for mesh tolerance value. Typically a value of .05 is sufficient. Increasing or decreasing this value should make very little difference in the mesh generation. However, if given an error from genmap, the tolerance may need to be made slightly more generous.
-
-A successful ``genmap`` run will produce a ``.map`` file with the proper processor decomposition.
-
-NOTE: For large element counts, it is not uncommon for ``genmap`` to be produce a few disconnected sets.
-These sets are typically under 7 elements large and  will not affect optimization of the Nek5000 run.
-If a disconnected set is produced, ``genmap`` will output the following warning to stdout:
-
-.. code-block:: none
-
-   not connected   N0   NEL  Nsets   Nlarge sets
-
-Here, ``N0`` is the number of elements disconnected from the set of ``NEL`` elements, ``Nsets`` is the counter of disconnected sets found,
-and ``Nlarge sets`` is the number of sets greater than 64 elements in size.  ``Nlarge sets`` should always be 0.  If not, please contact someone on the developer team so we can be sure to have a more optimal partition of your mesh.
-
-``genmap`` outputs an ordered set of numbers which are organized as follows
-Line number 1 contains the header ``nel, nactive, depth, d2, npts, nrank, noutflow``
-
-- ``nel``  number of elements
-- ``nactive`` nrank-noutflow
-- ``depth`` floor(log2(nel))
-- ``d2`` :math:`2^{depth}`
-- ``npts`` number of corner points (``nel*4`` in 2D, ``nel*8`` in 3D)
-- ``nrank`` number of unique corner points
-- ``noutflow`` number of outflows (not used anymore, is zero)
-
-For the Kovasnay flow on an 8 element mesh with periodic boundary conditions we have::
-
-  8         12          3          8         32         12          0
-
-Next we have the data (one line per element, listed in order of global element number)::
-
-  6          12          11           6           5
-
-This means that elemnt one (since we are on the first line) belongs to group 6, and this element is given by vertices in unique ordering.
-The vertices are ordered in symmetric ordering (starting at 1)::
-
-  3 - 4
-  |   |
-  1 - 2
-
-To distribute amongst processors, one just takes as many consecutive
-processors as one wants.
-
-
-

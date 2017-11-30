@@ -22,3 +22,6 @@
 .. [Walsh1992] Walsh, O. "Eddy solutions of the Navier-Stokes equations." *The NSE II-Theory and
     Numerical Methods*, J.G. Heywood, K. Masuda, R. Rautmann, and V.A. Solonikkov, eds., Springer,
     306--309, 1992.
+
+.. [Mellen2000] Mellen, C. P., Fröhlich, J., Rodi, W. "Large-eddy simulation of the flow over periodic hills." *16th
+    IMACS World Congress*, Lausanne, Switzerland. 
