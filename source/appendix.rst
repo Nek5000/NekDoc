@@ -2,6 +2,206 @@
 Appendices
 ==========
 
+-----------------
+Build Options
+-----------------
+
+The shell script ``makenek`` is designed to assist the compilation process of Nek5000. The script will create a ``makefile`` based on the user settings section in ``makenek``. The GNU gmake utility is used to build Nek5000.
+Available configurations options:
+
+.. _tab:bdms:
+
+.. csv-table:: Compiler options
+   :header: name,values,default,description
+   :widths: 12,7,12,20
+
+   PPLIST, string, , "list of pre-processor symbols (CVODE, ...)"                                     
+   MPI, "1, 0", 1, use MPI (needed for a multiprocessor computation)                                           
+
+   FC, string, optional, Fortran compiler (mpif77)                                                         
+   CC, string, optional, C compiler (mpicc)                                                               
+   FCLAGS, string, optional, optional Fortan compilation flags        
+   CCLAGS, string, optional, optional C compilation flags                                                                  
+   SOURCE_ROOT, string, optional, path of Nek5000 source                                                                      
+   USR, string, optional, object list of additional files to compile make intructions (``makefile_usr.inc`` required) 
+   USR_LFLAGS, string, optional, optional linking flags                                                                      
+   PROFILING, "1, 0", 1, enable internal timers for performance statistics                                       
+   VISIT, "1, 0", 0, Toggles Visit in situ. See Visit_in_situ for details                                        
+   VISIT_INSTALL, string, VISIT in situ, Path to VISIT install path. See Visit_in_situ for details.                                 
+   VISIT_STOP, "true, false", false, "When running VISIT in situ, simulation stops after step 1 to connect VISIT."                 
+
+----------------------
+Parallelism in Nek5000
+----------------------
+
+The parallelism of Nek5000 is accomplished via domain decomposition methods and a suitable gather-scatter code. All this is implemented in such way that the user does not have to be concerned with the parallelism and only focus on the actual solvers while keeping in mind a few simple rules and routines that switch from local to global and back.
+
+- Locally, the SEM is structured.
+- Globally, the SEM is unstructured.
+- Vectorization and serial performance derive from the structured aspects of the computation.
+- Parallelism and geometric flexibility derive from the unstructured, element-by-element, operator evaluation.
+- Elements, or groups of elements are distributed across processors, but an element is never subdivided.
+
+For the most part, the global element numbering is not relevant since Nek5000 assigns it randomly but following certain rules.
+
+There are two types of array sizes, starting with ``lx1``, ``lelv``, etc. which give an upper bound of the arrays. And ``nx1``, ``nelv``, etc. which give the actual number of elements/grid points per processors. For the example in :numref:`fig:procsplit` we have
+
+- on proc 0, ``nelt=2``  (``nelt`` = no elements in temperature domain)
+- on proc 1, ``nelt=3``  (``nelv`` = no elements in fluid domain, usually = ``nelt``)
+
+.. _fig:procsplit:
+
+.. figure:: figs/serial_parallel.png
+    :align: center
+    :figclass: align-center
+    :alt: element-splitting
+
+    A simple SEM row of elements and a potential splitting
+
+Arrays ``lglel`` that distinguish which processor has which elements,
+
+- on proc 0, ``nelt=2, lglel=(2,5)``, local element ``1->2`` and ``2->5``
+- on proc 1, ``nelt=3, lglel=(1,3,4)``, local element ``1->1``, ``2->3`` and ``4->3``
+
+
+Now for global to local we have two common arrays (scaling as ``nelgt``, but only two such arrays)
+
+- ``gllel=(1,1,2,3,2)``, assigns a global element to its local correspondent, i.e. global element ``1->1``, ``2->1`` and ``3->2`` etc.
+- ``gllnid=(1,0,1,1,0)``, assigns a global element to its processor, i.e. ``1->1``, ``2->0`` and ``3->1`` etc.
+
+All data contiguously packed (and quad-aligned) ``real  u(lx1,ly1,lz1,lelt)`` indicates that ``u`` is a collection of elements, ``e=1,...,Nelt =< lelt``, each of size :math:`(N+1)d`, :math:`d` = 2 or 3.
+
+**Example: Summation**
+
+Serial version
+
+.. code-block:: fortran
+
+   s = 0
+   do e=1,nelv
+   do iz=1,nz1
+   do iy=1,ny1
+   do ix=1,nx1
+   s=s+u(ix,iy,iz,e)
+   end do,...,end do
+
+Second approach, serial version (works in parallel in Nek)
+
+.. code-block:: fortran
+
+   n=nx1*ny1*nz1*nelv
+   s=0
+   do i=1,n
+   s=s+u(i,1,1,1)
+   end do
+
+Nek Parallel Version
+
+.. code-block:: fortran
+
+   s=glsum(s,n)
+
+If you want a local max ``s=vlmax(u,n)``, or a global max ``s=glmax(u,n)``.
+
+
+-----------
+Data Layout
+-----------
+
+Nek5000 was designed with two principal performance criteria in mind,
+namely, *single-node* performance and *parallel* performance.
+
+A key precept in obtaining good single node performance was to use,
+wherever possible, unit-stride memory addressing, which is realized by
+using contiguously declared arrays and then accessing the data in
+the correct order.   Data locality is thus central to good serial
+performance.   To ensure that this performance is not compromised
+in parallel, the parallel message-passing data model is used, in which
+each processor has its own local (private) address space.  Parallel
+data, therefore, is laid out just as in the serial case, save that there
+are multiple copies of the arrays---one per processor, each containing
+different data.  Unlike the shared memory model, this distributed memory
+model makes data locality transparent and thus simplifies the task of
+analyzing and optimizing parallel performance.
+
+Some fundamentals of Nek5000's internal data layout are given below.
+
+1. Data is laid out as  :math:`u_{ijk}^e = u(i,j,k,e)`
+
+   .. |br| raw:: html
+
+      <br />
+
+   ``i=1,...,nx1``   (``nx1 = lx1``) |br|
+   ``j=1,...,ny1``   (``ny1 = lx1``) |br|
+   ``k=1,...,nz1``   (``nz1 = lx1`` or 1, according to ndim=3 or 2)
+
+   ``e=1,...,nelv``, where ``nelv`` :math:`\leq` ``lelv``, and ``lelv`` is the upper
+   bound on number of elements, *per processor*.
+2. Fortran data is stored in column major order (opposite of C).
+3. All data arrays are thus contiguous, even when :math:`{\tt nelv} < {\tt lelv}`.
+4. Data accesses are thus primarily unit-stride (see chap.8 of DFM
+   for importance of this point), and in particular, all data on
+   a given processor can be accessed as, e.g.,
+
+      .. code-block:: fortran
+
+         do i=1,nx1*ny1*nz1*nelv
+            u(i,1,1,1) = vx(i,1,1,1)
+         end do
+
+   which is equivalent but superior (WHY?) to:
+
+      .. code-block:: fortran
+
+         do e=1,nelv
+         do k=1,nz1
+         do j=1,ny1
+         do i=1,nx1
+            u(i,j,k,e) = vx(i,j,k,e)
+         end do
+         end do
+         end do
+         end do
+
+   which is equivalent but vastly superior (WHY?) to:
+
+      .. code-block:: fortran
+
+         do i=1,nx1
+         do j=1,ny1
+         do k=1,nz1
+         do e=1,nelv
+            u(i,j,k,e) = vx(i,j,k,e)
+         end do
+         end do
+         end do
+         end do
+5. All data arrays are stored according to the SPMD programming
+   model, in which address spaces that are local to each processor
+   are private --- not accessible to other processors except through
+   interprocessor data-transfer (i.e., message passing).  Thus
+
+      .. code-block:: fortran
+
+         do i=1,nx1*ny1*nz1*nelv
+            u(i,1,1,1) = vx(i,1,1,1)
+         end do
+
+   means different things on different processors and ``nelv`` may
+   differ from one processor to the next.
+6. For the most part, low-level loops such as above are expressed in
+   higher level routines only through subroutine calls, e.g.,:
+
+      .. code-block:: fortran
+
+         call copy(u,vx,n)
+
+   where ``n:=nx1*ny1*nz1*nelv``.   Notable exceptions are in places where
+   performance is critical, e.g., in the middle of certain iterative
+   solvers. 
+
+
 -------------------------------
 List of Parameters in .rea File
 -------------------------------
@@ -402,90 +602,13 @@ List of Parameters in SIZE File
 | 
 | **lhis**: maximum number of history points a single rank will read in (``NP*LHIS`` :math:`<` number of points in ``hpts.in``).
 | 
-| **mxprev**: maximum number of history entries for residual projection (recommended value: 20).
+| **mxprev**: maximum number of history entries for residual projection (recommended value: 20-30).
 | 
-| **lgmres**: dimension of Krylov subspace in GMRES (recommended value: 40).
-
-...........................
-Parameters in SIZE.inc File
-...........................
-
-The following parameters appeared in the SIZE file in previous versions, and are now moved to the internal SIZE.inc file. They are automatically set based on SIZE parameters.
-
-
-| **ly1, lz1**: number of (GLL) points in the :math:`y` and :math:`z`-directions, respectively, within each element of mesh1 (velocity) which is equal to the (polynomial order :math:`+1`) by definition. ``ly1`` is usually the same as ``lx1`` and for 2D cases ``lz1=1``.
-| (is ``lx1`` :math:`\neq` ``ly1`` supported?)
-| 
-
-| **ly2, lz2**: number of (GLL) points in the :math:`y` and :math:`z` directions, respectively, within each element of mesh2 (pressure).
-| 
-| **lx3, ly3, lz3**: number of (GLL) points in the :math:`x`, :math:`y` and :math:`z` directions, respectively, within each element of mesh3. These are set to the same number of (GLL) point on mesh1.
-| (mesh3 is rarely used)
-| 
-| **lyd, lzd**: number of points for over integration (dealiasing). ``lyd = lxd``, and ``lzd = lxd`` for 3D and ``lzd = 1`` for 2D.
-| 
-| **lp**: ``lp = lpmax``
-| 
-| **lelv**: maximum number of local elements for V-mesh (``lelv = lelt``).
-| 
-| **lpelv**: Number of elements of the perturbation field, number of perturbation fields. ``lpelv = lpelt``.
-| 
-| **lpx1, lpy1, lpz1**: Number of point in :math:`x`, :math:`y`, :math:`z` direction of perturbation field within each element of mesh1. ``lpx1 = lx1``, ``lpy1 = lpx1``, and ``lpz1 = lpx1`` for 3D and ``lpz1 = 1`` for 2D.
-| 
-| **lbelv**: Total Number of elements of the B-field (MHD). ``lbelv = lbelt``.
-| 
-| **lbx1, lby1, lbz1**: Number of point in :math:`x`, :math:`y`, :math:`z` direction of B-field within each element of mesh1. ``lbx1 = lx1``, ``lby1 = lbx1``, and ``lbz1 = lbx1`` for 3D and ``lbz1 = 1`` for 2D.
-| 
-| **lbx2, lby2, lbz2**: Number of point in :math:`x`, :math:`y`, :math:`z` direction of B-field within each element of mesh2. ``lbx2 = lx2``, ``lby2 = lbx2``, and ``lbz2 = lbx2`` for 3D and ``lbz2 = 1`` for 2D.
-| 
-| **ly1m, lz1m**: when the mesh is a moving type ``lx1m=lx1``, otherwise it is set to 1. ``ly1m = lx1m``, and ``lz1m = lx1m`` for 3D and ``lz1m = 1`` for 2D.
-| 
-| **lxz**: lxz = lx1*lz1
-|      ``connect1.f:      common /scruz/  snx(lxz) , sny(lxz) , snz(lxz) ,  efc(lxz)``
-| 
-| **lctmp0**: ``lctmp0 = 2*lx1*ly1*lz1*lelt``
-|      ``drive1.f:c      COMMON /CTMP0/ DUMMY0(LCTMP0)``
-| 
-| **lctmp1**: ``lctmp1 = 4*lx1*ly1*lz1*lelt``
-|      ``drive1.f:c      COMMON /CTMP1/ DUMMY1(LCTMP1)``
-|      ``drive2.f:      COMMON /SCRNS/ WORK(LCTMP1)``
-| 
-| **maxmor**: ``=lelt``
-| 
-| **lzl**: for 2D cases ``lzl=1`` and for 3D cases ``lzl=3`` (computed automatically).
- 
-.....................
-Deprecated Parameters
-.....................
-
-The following parameters are deprecated and were subsequently removed in newer versions.
-
-| **lpert**: Number of elements of the perturbation field, number of perturbation fields
-|
-| **lstore**: :red:`NOT IN USE!`
-|
-| **lsvec**: :red:`NOT IN USE!`
-|
-| **lmvec**: :red:`NOT IN USE !`
-|
-| **lvec**: :red:`NOT IN USE!`
-|
-| **lelgec**: ``lelgec = 1``
-|
-| **lxyz2**: ``lxyz2 = 1``
-|
-| **lxz21**: ``lxz21 = 1``
-|
-| **lmaxv**: ``lmaxv = lx1*ly1*lz1*lelv``
-|
-| **lmaxt**: ``lmaxt = lx1*ly1*lz1*lelt``
-|
-| **lmaxp**: ``lmaxp = lx1*ly1*lz1*lelv``
-
+| **lgmres**: dimension of Krylov subspace in GMRES (recommended value: 20-40).
 
 
 ------------------------------
-List of Variables in .usr File
+Commonly used Variables
 ------------------------------
 
 ..................
@@ -640,19 +763,21 @@ Arrays associated with the ``avg_all`` subroutine
   | ``iastep``    | --                        | integer | time steps between averaged data output       |
   +---------------+---------------------------+---------+-----------------------------------------------+
 
+.. include:: routines.rst
+
 --------------------
-The .fld File Format
+Field File Format
 --------------------
 
-The ``fld`` file format is used to write and read data both in serial and parallel
-in Nek5000. This section describes the format and should allow third party tool
-developers to implement pre and postprocessing tools.
+The binary ``.f%05d`` file format is used to write and read data both in serial and parallel
+in Nek5000.
 
 The file is composed of:
 
-  - the *header* in ASCII format,
-  - mesh data, including the geometry, saved unrolled as scalar vector
-    fields
+  - header
+  - mesh data
+  - field data
+  - bounding box data
 
 We will go through each of these categories and give a description of its
 composition.
@@ -673,7 +798,7 @@ representation of the number 6.54321 either in little or big endian.
    +-------+---------+-------------+-----------------------------------------------+
    | Entry | Padding |  Name       | Short Description                             |
    +=======+=========+=============+===============================================+
-   | 1     | 2       | ``wdsizo``  | sets the precision to 4 (float) or 8 (double) |
+   | 1     | 2       | ``wdsizo``  | sets the precision to 4 or 8                  |
    +-------+---------+-------------+-----------------------------------------------+
    | 2     | 3       | ``nx``      | number of coordinates in x direction          |
    +-------+---------+-------------+-----------------------------------------------+
@@ -698,7 +823,7 @@ representation of the number 6.54321 either in little or big endian.
 
 Example of a header:::
 
-    #std 4  6  6  1         36         36  0.1000000000000E+03     10000     0      1 XUP                                              úaÑ@
+    #std 4  6  6  1         36         36  0.1000000000000E+03     10000     0      1 XUP                                          
 
 ``wdsize`` sets the precision of the floating point numbers in the file. This
 is either 4 bytes for floats or 8 bytes for double precision.

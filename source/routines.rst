@@ -1,27 +1,5 @@
-====================
-Routines of Interest
-====================
-
-The most common routines needed in Nek5000 are
-
-------------------
-Naming Conventions
-------------------
-
-- ``subroutine f(a,b,c)``
-
-  - ``a``- returned variable
-  - ``b,c`` -input data
-
-- ``op[]`` represent operations on operators
-- ``c[]``  operations on constants
-- ``gl[]`` global operations
-- ``col2[] ---``
-- ``col3[] --``
-
-
 -----------
-Subroutines
+Commonly used Subroutines
 -----------
 
 ``subroutine rescale_x(x,x0,x1)``
@@ -80,7 +58,7 @@ Subroutines
     For ``n`` entries, calculates ``a=b*c``.
 
 ---------
-Functions
+Commonly used Functions
 ---------
 
 ``function glmax(a,n)``
@@ -116,98 +94,17 @@ Functions
 ``function i8glsum(x,n)``
     Computes the global sum of ``x``, where the prefix, ``i`` specifies type integer, and ``i8`` specifies type integer*8.
 
----------------------------------------------------------
-An Example of Specifying Surface Normals in the .usr File
----------------------------------------------------------
-
-.. code-block:: fortran
-
-   subroutine userbc (ix,iy,iz,iside,eg)
-   include 'SIZE'
-   include 'TOTAL'
-   include 'NEKUSE'
-
-   integer e,eg,f
-   real snx,sny,snz   ! surface normals
-
-   f = eface1(iside)
-   e = gllel (eg)
-
-   if (f.eq.1.or.f.eq.2) then      ! "r face"
-      snx = unx(iy,iz,iside,e)                 ! Note:  iy,iz
-      sny = uny(iy,iz,iside,e)
-      snz = unz(iy,iz,iside,e)
-   else if (f.eq.3.or.f.eq.4)  then ! "s face"
-      snx = unx(ix,iz,iside,e)                 !        ix,iz
-      sny = uny(ix,iz,iside,e)
-      snz = unz(ix,iz,iside,e)
-   else if (f.eq.5.or.f.eq.6)  then ! "t face"
-      snx = unx(ix,iy,iside,e)                 !        ix,iy
-      sny = uny(ix,iy,iside,e)
-      snz = unz(ix,iy,iside,e)
-   end if
-
-   ux=0.0
-   uy=0.0
-   uz=0.0
-   temp=0.0
-
-   return
-   end
-
-This example will load a list of field files (filenames are read from a file) into the solver using the ``load_fld()`` function. After the data is loaded, the user is free to compute other postprocessing quantities. At the end the results are dumped onto a regular (uniform) mesh by a subsequent call to ``prepost()``.
-
-Note: The regular grid data (field files) cannot be used as a restart file (uniform->GLL interpolation is unstable)!
-
-.. code-block:: fortran
-
-   subroutine userchk
-   include 'SIZE'
-   include 'TOTAL'
-   include 'RESTART'
-
-   character*80 filename(9999)
-
-   ntot   = nx1*ny1*nz1*nelv
-
-   ifreguo = .true.   ! dump on regular (uniform) grid instead of GLL
-   nrg     = 16       ! dimension of regular grid (nrg**ndim)
-
-   ! read file-list
-   if (nid.eq.0) then
-      open(unit=199,file='file.list',form='formatted',status='old')
-      read(199,*) nfiles
-      read(199,'(A80)') (filename(i),i=1,nfiles)
-      close(199)
-   end if
-   call bcast(nfiles,isize)
-   call bcast(filename,nfiles*80)
-
-   do i = 1,nfiles
-      call load_fld(filename(i))
-
-      ! do something
-      ! note: make sure you save the result into arrays which are
-      !       dumped by prepost() e.g. T(nx1,ny1,nz1,nelt,ldimt)
-      ! ...
-
-      ! dump results into file
-      call prepost(.true.,'his')
-   end do
-
-   ! we're done
-   call exitt
 
 --------------
 History Points    
 --------------
 
-Assuming a case named ``blah``, a list of monitor points can be defined in file ``blah.his`` to evaluate velocity, 
+Assuming a case named ``foo``, a list of monitor points can be defined in file ``foo.his`` to evaluate velocity, 
 temperature, pressure and passive scalars. Results will be appended to this file each time subroutine ``hpts()`` 
 is called. Depending on the numnber of monitoring points you may need to increase parameter ``lhis`` in SIZE.
 Usage example:
 
-- setup an ASCII file called ``blah.his``, e.g.:
+- setup an ASCII file called ``foo.his``, e.g.:
 
   .. code-block:: none
 
@@ -222,111 +119,11 @@ Usage example:
 Grid-to-Grid Interpolation
 --------------------------
 
-To restart from an existing field file (e.g. base.fld) onto a new mesh you can call the generic field file
+To restart from an existing field file onto a new mesh you can call the generic field file
 reader interpolation subroutine in userchk. Note that selection of specific fields to read is not currently
 supported. That means all fields included in base.fld will be overwritten. Usage example:
 
    .. code-block:: none
 
-      if (istep.eq.0) call gfldr('base.fld')
-
-----------------------------
-Lagrangian Particle Tracking
-----------------------------
-
-The interpolation tool can be used for Lagrangian particle tracking (the particles are the interpolation points).
-
-Workflow: Set initial particle positions (e.g. reading a file ``particle.pos0``) ``x_part <- x_pos0``
-
-LOOP
-
-- compute field quantities
-- interpolate field quantities for all particles using ``intpts()``
-- dump/store particle data
-- advect particles using ``particle_advect()``
-
-END LOOP
-
-.. code-block:: fortranfixed
-
-         subroutine particle_advect(rtl,mr,npart,dt_p)
-   c
-   c     Advance particle position in time using 4th-order Adams-Bashford.
-   c     U[x\_ i(t)] for a given x\_ i(t) will be evaluated by spectral interpolation.
-   c     Note: The particle timestep dt_p has be constant!
-   c
-         include 'SIZE'
-         include 'TOTAL'
-
-         real rtl(mr,1)
-
-         real vell(ldim,3,lpart)  ! lagged velocities
-         save vell
-
-         integer icalld
-         save    icalld
-         data    icalld /0/
-
-         if(npart.gt.lpart) then
-           write(6,*) 'ABORT: npart>lpart - increase lpart in SIZE. ',nid
-           call exitt
-         end if
-
-         ! compute AB coefficients (for constant timestep)
-         if (icalld.eq.0) then
-            call rzero(vell,3*ldim*npart) ! k = 1
-            c0 = 1.
-            c1 = 0.
-            c2 = 0.
-            c3 = 0.
-            icalld = 1
-         else if (icalld.eq.1) then        ! k = 2
-            c0 = 1.5
-            c1 = -.5
-            c2 = 0.
-            c3 = 0.
-            icalld = 2
-         else if (icalld.eq.2) then        ! k = 3
-            c0 = 23.
-            c1 = -16.
-            c2 = 5.
-            c0 = c0/12.
-            c1 = c1/12.
-            c2 = c2/12.
-            c3 = 0.
-            icalld = 3
-         else                             ! k = 4
-            c0 = 55.
-            c1 = -59.
-            c2 = 37.
-            c3 = -9.
-            c0 = c0/24.
-            c1 = c1/24.
-            c2 = c2/24.
-            c3 = c3/24.
-         end if
-
-         ! compute new position x[t(n+1)]
-         do i=1,npart
-            do k=1,ndim
-               vv = rtl(1+2*ndim+k,i)
-               rtl(1+k,i) =  rtl(1+k,i) +
-        &                    dt_p*(
-        &                    + c0*vv
-        &                    + c1*vell(k,1,i)
-        &                    + c2*vell(k,2,i)
-        &                    + c3*vell(k,3,i)
-        &                    )
-               ! store velocity history
-               vell(k,3,i) = vell(k,2,i)
-               vell(k,2,i) = vell(k,1,i)
-               vell(k,1,i) = vv
-            end do
-         end do
-
-         return
-         end
-
-
-
+      if (istep.eq.0) call gfldr('foo.f00001')
 

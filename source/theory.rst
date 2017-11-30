@@ -1,8 +1,6 @@
-.. _intro:
-
-============
-Introduction
-============
+==============
+Theory
+==============
 
 .. _intro_comput_approach:
 
@@ -22,25 +20,6 @@ through the use of tensor-product-sum factorization [Orszag1980]_.   The SEM exh
 numerical dispersion and dissipation, which can be important, for example, in stability
 calculations, for long time integrations, and for high Reynolds number flows. We refer to
 [Denville2002]_ for more details.
-
-The code Nek5000 is based on the following design principles:
-
-- Accessible both to beginners and experts alike.
-- Accessible interface via Fortran to include user-defined modules.
-- The code intrinsics can be accessed and modified via the user files for more experienced
-  developers.
-- Minimal use of external libraries to assure fast compile times.
-- Fast matrix free operator evaluation with minimal storage.
-- Matrix operations are implemented in assembler code :math:`M \times M` routines to speed up
-  computations.
-- The parallelism is "under the hood", demanding from the user only care in handling local versus
-  global operations and array sizes.
-- By testing at the beginning of each run which one of the three readily implemented
-  parallel-algorithms behaves optimally, the parallelism of Nek5000 can be automatically tuned to
-  each machine.
-- Direct access to parameters at runtime.
-- Geometry and boundary conditions are exposed to the user via the .rea file.
-- Handling complex geometries that can be imported from external codes .
 
 Nek5000 solves the unsteady incompressible two-dimensional, axisymmetric, or three-dimensional
 Stokes or Navier-Stokes equations with forced or natural convection heat transfer in both
