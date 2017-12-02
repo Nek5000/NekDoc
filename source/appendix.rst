@@ -2,6 +2,419 @@
 Appendices
 ==========
 
+-----------------------------------
+Legacy Geometry and Parameters File (.rea)
+-----------------------------------
+
+The ``.rea`` file consists of several sections. The mesh specifications  with **geometry**, **curvature** and **boundary conditions** are in the second section.
+
+...............................
+Parameters and logical switches
+...............................
+
+**parameters** 
+    These control the runtime parameters such as viscosity,
+    conductivity, number of steps, timestep size, order of the timestepping,
+    frequency of output, iteration tolerances, flow rate, filter strength,
+    etc.   There are also a number of free parameters that the user can
+    use as handles to be passed into the user defined routines in the ``.usr`` file.
+**passive scalar data** 
+    This information can be specified also in the ``uservp`` routine in the ``.usr``
+    file. If specified in the ``.rea`` file then the coefficients for the conductivity 
+    term are listed in ascending order for passive scalars ranging ``1..9`` 
+    followed by the values for the :math:`\rho c_p` coefficients.
+
+    .. code-block:: none
+
+      4  Lines of passive scalar data follows 2 CONDUCT; 2 RHOCP
+         1.00000       1.00000       1.00000       1.00000       1.00000
+         1.00000       1.00000       1.00000       1.00000
+         1.00000       1.00000       1.00000       1.00000       1.00000
+         1.00000       1.00000       1.00000       1.00000
+
+**logicals**  
+    These determine whether one is computing a steady or unsteady
+    solution, whether advection is turned on, etc.
+
+
+Next we have the logical switches as follow, a detailed explanation to be found in :ref:`sec:switches` 
+
+.. code-block:: none
+
+
+           13  LOGICAL SWITCHES FOLLOW
+  T     IFFLOW
+  T     IFHEAT
+  T     IFTRAN
+  T T F F F F F F F F F IFNAV & IFADVC (convection in P.S. fields)
+  F F T T T T T T T T T T IFTMSH (IF mesh for this field is T mesh)
+  F     IFAXIS
+  F     IFSTRS
+  F     IFSPLIT
+  F     IFMGRID
+  F     IFMODEL
+  F     IFKEPS
+  F     IFMVBD
+  F     IFCHAR
+
+................................
+Mesh and boundary condition info
+................................
+
+.. highlight:: none
+
+**geometry**
+    The geometry is specified in an arcane format specifying
+    the :math:`xyz` locations of each of the eight points for each element,
+    or the :math:`xy` locations of each of the four points for each element in 2D.
+    A line of the following type may be encountered at the beginning 
+    of the mesh section of the ``.rea`` file::
+
+      3.33333       3.33333     -0.833333      -1.16667     XFAC,YFAC,XZERO,YZERO
+
+    This part is to be read by Prenek and provides the origin of the system of 
+    coordinates ``XZERO;YZERO`` as well as the size of the cartesian units 
+    ``XFAC;YFAC``. This one line has no impact on the mesh as being read in Nek5000.
+
+    The header of the mesh data may have the following representation::
+
+       **MESH DATA** 6 lines are X,Y,Z;X,Y,Z. Columns corners 1-4;5-8
+            226  3         192           NEL,NDIM,NELV
+
+    The header states first how many elements are available in total (226), what
+    dimension is the the problem (here three dimensional), and how many elements 
+    are in the fluid mesh (192).
+
+      .. _tab:element:
+
+      .. table:: Geometry description in ``.rea`` file
+
+         +-------------------------------------------------------------------------------------+
+         | ``ELEMENT 1 [ 1A] GROUP 0``                                                         |
+         +=====================================================================================+
+         | ``Face {1,2,3,4}``                                                                  |
+         +-------------------------+--------------+--------------+--------------+--------------+
+         | :math:`x_{1,\ldots,4}=` | 0.000000E+00 | 0.171820E+00 | 0.146403E+00 | 0.000000E+00 |
+         +-------------------------+--------------+--------------+--------------+--------------+
+         | :math:`y_{1,\ldots,4}=` | 0.190000E+00 | 0.168202E+00 | 0.343640E+00 | 0.380000E+00 |
+         +-------------------------+--------------+--------------+--------------+--------------+
+         | :math:`z_{1,\ldots,4}=` | 0.000000E+00 | 0.000000E+00 | 0.000000E+00 | 0.000000E+00 |
+         +-------------------------+--------------+--------------+--------------+--------------+
+         | ``Face {5,6,7,8}``                                                                  |
+         +-------------------------+--------------+--------------+--------------+--------------+
+         | :math:`x_{5,\ldots,8}=` | 0.000000E+00 | 0.171820E+00 | 0.146403E+00 | 0.000000E+00 |
+         +-------------------------+--------------+--------------+--------------+--------------+
+         | :math:`y_{5,\ldots,8}=` | 0.190000E+00 | 0.168202E+00 | 0.343640E+00 | 0.380000E+00 |
+         +-------------------------+--------------+--------------+--------------+--------------+
+         | :math:`z_{5,\ldots,8}=` | 0.250000E+00 | 0.250000E+00 | 0.250000E+00 | 0.250000E+00 |
+         +-------------------------+--------------+--------------+--------------+--------------+
+
+    Following the header, all elements are listed. The fluid elements are listed 
+    first, followed by all solid elements if present. In this case there are (34) 
+    solid elements.
+
+    The data following the header is formatted as shown in :numref:`tab:element`. This provides all the coordinates of an element for top and bottom faces. The numbering of the vertices is shown in Fig. :numref:`fig:elorder`. The header for each element as in :numref:`tab:element`, i.e. ``[1A] GROUP`` is reminiscent of older Nek5000 format and does not impact the mesh generation at this stage. (We are inquiring whether other groups still use it.)
+
+      .. _fig:elorder:
+
+      .. figure:: figs/3dcube_1.png
+          :align: center
+          :figclass: align-center
+          :alt: rea-geometry
+
+          Geometry description in ``.rea`` file (sketch of one element ordering - Preprocessor 
+          corner notation) 
+
+
+**curvature**
+    This section describes the curvature of the elements. It is expressed as deformation of the linear elements.
+    Therefore, if no elements are curved (if only linear elements are present) the section remains empty.
+
+    The section header may look like this::
+
+      640 Curved sides follow IEDGE,IEL,CURVE(I),I=1,5, CCURVE
+
+    Curvature information is provided by edge and element. Therefore up to 12 curvature entries can be present for each element.
+    Only non-trivial curvature data needs to be provided, i.e., edges that correspond to linear elements, since they have no curvature, will have no entry.
+    The formatting for the curvature data is provided in :numref:`tab:midside`.
+
+      .. _tab:midside:
+
+      .. table:: Curvature information specification
+
+         +-----------+---------+--------------+--------------+--------------+--------------+--------------+------------+
+         | ``IEDGE`` | ``IEL`` | ``CURVE(1)`` | ``CURVE(2)`` | ``CURVE(3)`` | ``CURVE(4)`` | ``CURVE(5)`` | ``CCURVE`` |
+         +===========+=========+==============+==============+==============+==============+==============+============+
+         | 9         | 2       | 0.125713     | -0.992067    | 0.00000      | 0.00000      | 0.00000      | m          |
+         +-----------+---------+--------------+--------------+--------------+--------------+--------------+------------+
+         | 10        | 38      | 0.125713     | -0.992067    | 3.00000      | 0.00000      | 0.00000      | m          |
+         +-----------+---------+--------------+--------------+--------------+--------------+--------------+------------+
+         | 1         | 40      | 1.00000      | 0.000000     | 0.00000      | 0.00000      | 0.00000      | C          |
+         +-----------+---------+--------------+--------------+--------------+--------------+--------------+------------+
+
+    There are several types of possible curvature information represented by ``CCURVE``. This include:
+
+    - 'C' stands for circle and is given by the radius of the circle,  in ``CURVE(1)``, all other compoentns of the ``CURVE`` array are not used but need to be present.
+    - 's' stands for sphere and is given by the radius and the center of the sphere, thus filling the first 4 components of the ``CURVE`` array. The fifth component needs to be present but is not utilized.
+    - 'm' is given by the coordinates of the midside-node, thus using the first 3 components of the ``CURVE`` array, and leads to a second order reconstruction of the face.  The fourth and fifth components need to be present but are not utilized.
+
+    Both 'C' and 's' types allow for a surface of as high order as the polynomial used in the spectral method, since they have an underlying analytical description, any circle arc can be fully determined by the radius and end points. However for the 'm' curved element descriptor the surface can be reconstructed only up to second order. This can be later updated to match the high-order polynomial after the GLL points have been distributed across the boundaries. This is the only general mean to describe curvature currrently in Nek5000 and corresponds to a HEX20 representation.
+
+      .. _fig:edges:
+
+      .. figure:: figs/3dcube.png
+          :align: center
+          :figclass: align-center
+          :alt: edge-numbering
+
+          Edge numbering in ``.rea`` file, the edge number is in between parenthesis. The other
+          numbers represent vertices.
+
+    For better understanding let us focus on what the data in :numref:`tab:midside` signifies. Edge 9 of element 2 has a edge  midpoint at (0.125713, -0.992067, 0.00000)  and so on. For edge numbering the reader is advised to check Fig. :numref:`fig:edges`, which illustrates the relationship between vertex numbering and edge numbering.
+
+    To maninpulate the geometry in Nek5000 at runtime, it is possible to use  ``usrdat2``. In this subroutine the user can deform the geometry to match the intended surface, followed by a call to the subroutine ``fixgeom`` which can realign the point distribution in the interior of the element.
+
+      .. _fig:ex1:
+
+      .. figure:: figs/base1.png
+          :align: center
+          :figclass: align-center
+          :alt: edge-numbering
+
+          Example mesh - without curvature. Square dots represent example vertices.
+
+    We also note, that, unlike the geometry data, each curvature entry (as shown in :numref:`tab:midside`) is formatted and the format is **dependent on the total number of elements**. Three cases exist as shown in the code below:
+
+      .. code-block:: fortranfixed
+
+                       if (nelgt.lt.1000) then
+                          write(10,'(i3,i3,5g14.6,1x,a1)') i,eg,
+       $                  (vcurve(k,i,kb),k=1,5),cc
+                       else if (nelgt.lt.1000000) then
+                          write(10,'(i2,i6,5g14.6,1x,a1)') i,eg,
+       $                  (vcurve(k,i,kb),k=1,5),cc
+                       else
+                          write(10,'(i2,i12,5g14.6,1x,a1)') i,eg,
+       $                  (vcurve(k,i,kb),k=1,5),cc
+
+    The fortran format is as follows:
+
+    - For a total number of elements below 1,000 the format is ``(i3,i3,5g14.6,1x,a1)``.
+    - For a total number of elements 1,000 - 999,999 the format is ``(i2,i6,5g14.6,1x,a1)``.
+    - For a total number of elements above 999,999 the format is ``(i2,i12,5g14.6,1x,a1)``.
+
+    .. _fig:ex2:
+
+    .. figure:: figs/modified1.png
+        :align: center
+        :figclass: align-center
+        :alt: edge-numbering
+
+        Example mesh - with curvature. Circular dots represent example midsize points.
+
+    To further illustrate the usage of curvature data, let us examine an example of ``.rea`` file with and wiuthout curvature information and the corresponding mesh representation. :numref:`fig:ex1` represents a 12 element box mesh (2x2x3, with periodic conditions in :math:`z`) without curvature, while :numref:`fig:ex2` presents the same mesh with a sinusoidal deformation in direction :math:`y`. Only two edges per element are curved.
+
+    The input for the mesh without curvature is:
+
+    .. include:: mesh_example.txt
+        :literal:
+
+    The input for the mesh with curvature is:
+
+    .. include:: mesh_curv_example.txt
+        :literal:
+
+    Note that element and boundary condition information are identical between the two cases.
+
+**boundary conditions**
+    Boundary conditions (BCs) are specified for each field in sequence: velocity, temperature and passive scalars. The section header for each field will be as follows (example for the velocity)::
+
+      ***** FLUID   BOUNDARY CONDITIONS *****
+
+    and the data is stored as illustarted in :numref:`tab:bcs`. For each field boundary conditions are listed for each face of each element.
+
+    Boundary conditions are given in order per each element, see :numref:`tab:bcs` column ``IEL``, and faces listed in ascending order 1-6 in column ``IFACE``. Note that the header in :numref:`tab:bcs` does not appear in the actual ``.rea``.
+
+    The ordering for faces each element is shown in :numref:`fig:forder`. A total equivalent to :math:`6N_{field}` boundary conditions are listed for each field, where :math:`N_{field}` is the number of elements for the specific field. :math:`N_{field}` is equal to the total number of fluid elements for the velocity and equal to the total number of elements (including solid elements) for temperature. For the passive scalars it will depend on the specific choice, but typically scalars are solved on the temeprature mesh (solid+fluid).
+
+      .. _fig:forder:
+
+      .. figure:: figs/3dcube_2.png
+          :align: center
+          :figclass: align-center
+          :alt: edge-numbering
+
+          Face ordering for each element.
+
+    Each BC letter condition is formed by three characters. Common BCs include:
+
+    - ``E`` - internal boundary condition. No additional information needs to be provided.
+    - ``SYM`` - symmetry boundary condition. No additional information needs to be provided.
+    - ``P`` - periodic boundary conditions,  which indicates that an element face is connected to another element to establish a periodic BC. The connecting element and face need be  to specified in ``CONN-IEL`` and ``CONN-IFACE``.
+    - ``v`` - imposed velocity boundary conditions (inlet). The value is specified in the user subroutines. No additional information needs to be provided in the ``.rea`` file.
+    - ``W`` - wall boundary condition (no-slip) for the velocity. No additional information needs to be provided.
+    - ``O`` - outlet boundary condition (velocity). No additional information needs to be provided.
+    - ``t`` - imposed temperature  boundary conditions (inlet). The value is specified in the user subroutines. No additional information needs to be provided in the ``.rea`` file.
+    - ``f`` - imposed heat flux  boundary conditions (temperature). The value is specified in the user subroutines. No additional information needs to be provided in the ``.rea`` file.
+    - ``I`` - adiabatic boundary conditions (temeperature). No additional information needs to be provided.
+
+    Many of the BCs support either a constant specification or a user defined specification which may be an arbitrary function.   For example, a constant Dirichlet BC for velocity is specified by ``V``, while a user defined BC is specified by ``v``.   This upper/lower-case distinction is  used for all cases.   There are about 70 different types of boundary conditions in all, including free-surface, moving boundary, heat flux, convective cooling, etc. The above cases are just the most used types.
+
+      .. _tab:bcs:
+
+      .. table:: Formatting of boundary conditions input.
+
+         +---------+---------+-----------+--------------+----------------+---------+---------+---------+
+         | ``CBC`` | ``IEL`` | ``IFACE`` | ``CONN-IEL`` | ``CONN-IFACE`` |         |         |         |
+         +=========+=========+===========+==============+================+=========+=========+=========+
+         | E       | 1       | 1         | 4.00000      | 3.00000        | 0.00000 | 0.00000 | 0.00000 |
+         +---------+---------+-----------+--------------+----------------+---------+---------+---------+
+         | ``..``  | ``..``  | ``..``    | ``..``       | ``..``         | ``..``  | ``..``  | ``..``  |
+         +---------+---------+-----------+--------------+----------------+---------+---------+---------+
+         | W       | 5       | 3         | 0.00000      | 0.00000        | 0.00000 | 0.00000 | 0.00000 |
+         +---------+---------+-----------+--------------+----------------+---------+---------+---------+
+         | ``..``  | ``..``  | ``..``    | ``..``       | ``..``         | ``..``  | ``..``  | ``..``  |
+         +---------+---------+-----------+--------------+----------------+---------+---------+---------+
+         | P       | 23      | 5         | 149.000      | 6.00000        | 0.00000 | 0.00000 | 0.00000 |
+         +---------+---------+-----------+--------------+----------------+---------+---------+---------+
+
+    As in the case of the curvature entries, the boundary conditions entries are formatted and **the format is dependent on the total number of elements**.
+    The code below shows an example of writing statement for boundary conditions:
+
+      .. code-block:: fortranfixed
+
+                        if (nlg.lt.1000) then
+                           write(10,'(a1,a3,2i3,5g14.6)')
+           $               chtemp,s3,eg,i,(vbc(ii,i,kb),ii=1,5)
+                        else if (nlg.lt.100000) then
+                           write(10,'(a1,a3,i5,i1,5g14.6)')
+           $               chtemp,s3,eg,i,(vbc(ii,i,kb),ii=1,5)
+                        else if (nlg.lt.1000000) then
+                           write(10,'(a1,a3,i6,5g14.6)')
+           $               chtemp,s3,eg,(vbc(ii,i,kb),ii=1,5)
+                        else
+                           write(10,'(a1,a3,i12,5g18.11)')
+           $               chtemp,s3,eg,(vbc(ii,i,kb),ii=1,5)
+                        end if
+
+    The fortran format is as follows:
+
+    - For a total number of elements below 1,000 the format is ``(a1,a3,2i3,5g14.6)``.
+    - For a total number of elements 1,000 - 99,999 the format is ``(a1,a3,i5,i1,5g14.6)``.
+    - For a total number of elements 100,000 - 999,999 the format is ``(a1,a3,i6,5g14.6)``.
+    - For a total number of elements above 999,999 the format is ``(a1,a3,i12,5g18.11)``.
+
+    We note that:
+
+    - The first item in the format for each of the four cases is a string containing a space.
+    - The second item in the format for each of the four cases is a string specifying the boundary condition type.
+    - In cases where the total number of elements is bigger than 99,999, the ``IFACE`` item is omitted. Given that Nek5000 already knows the ordering of the actual faces within each element in column ``IFACE`` is in fact not needed.
+    - The number of significant digits increases in the fourth case. This is needed for periodic boundary conditions.
+
+...........
+Output info
+...........
+
+**restart conditions**
+    Here, one can specify a file to use as an initial condition.
+    The initial condition need not be of the same polynomial order
+    as the current simulation.   One can also specify that, for example,
+    the velocity is to come from one file and the temperature from another.
+    The initial time is taken from the last specified restart file, but
+    this can be overridden.
+
+**history points**
+    The following section defines history points in the ``.rea`` file, see example ``vortex/r1854a.rea``, or ``shear4/shear4.rea``::
+
+       0 PACKETS OF DATA FOLLOW
+       ***** HISTORY AND INTEGRAL DATA *****
+           56 POINTS. H code, I,J,H,IEL
+       UVWP    H     31     31   1   6
+       UVWP    H     31     31   31  6
+       UVWP    H     31     31   31  54
+        "      "      "      "    "   "
+
+    The ``"56 POINTS"`` line needs to be followed by 56 lines of the type shown. However, in each of the following lines, which have the ``UVWP`` etc., location is CRUCIAL, it
+    must be layed out exactly as indicated above (these lines contain character strings, they use formatted reads), it is therefore advisable to refer to the examples ``vortex, shear4``.  If you want to pick points close to the center of element 1 and are running with ``lx1=10``, say, you might choose ``UVWP H 5 5 5 1``. (the indicated point would really be at the middle of the element only if ``lx1=9``)
+
+    The ``UVWP`` tells the code to write the 3 velocity components and pressure to the ``.sch`` file at
+    each timestep (or, more precisely, whenever ``mod(istep,iohis)=0``, where ``iohis=param(52))``.
+    Note that if you have more than one history point then they are written sequentially at each
+    timestep. Thus 10 steps in the first example with ``param(52)=2`` would write ``(10/2)*56 = 280``
+    lines to the ``.sch`` file, with 4 entries per line. The "H" indicates that the entry corresponds to a requested history point. A note of caution: if the ``ijk`` values (5 5 5 in the preceding example line) exceed ``lx1,ly1,lz1`` of your SIZE file, then they are truncated to that value. For example, if ``lx1=10`` for the data at the top (31 31 31) then the code will use ``ijk`` of (10 10 10), plus the given element number, in identifying the history point. It is often useful to set ``ijk`` to large values (i.e., > ``lx1``) because the endpoints of the spectral element mesh are invariant when ``lx1`` is changed.
+
+**output specifications**
+    Outputs are discussed in a separate section of the manual, available online.
+
+It is important to note that Nek5000 currently supports two input file
+formats, ASCII and binary.   The ``.rea`` file format
+described above is ASCII.  For the binary format, all sections
+of the ``.rea`` file having storage requirements that scale with
+number of elements (i.e., geometry, curvature, and boundary
+conditions) are moved to a second, ``.re2``, file and
+written in binary.   The remaining sections continue to
+reside in the ``.rea`` file.   The distinction between
+the ASCII and binary formats is indicated in the ``.rea``
+file by having a negative number of elements.
+There are converters, ``reatore2`` and ``re2torea``, in the Nek5000
+tools directory to change between formats.   The binary file
+format is the default and important for ``I/O`` performance when the
+number of elements is large ( :math:`>100000`, say).
+
+..........
+Parameters
+..........
+
+- :math:`\rho`, the density, is taken to be time-independent and
+  constant; however, in a multi-fluid system
+  different fluids can have different value of constant density.
+- :math:`\mu`, the dynamic viscosity can vary arbitrarily in
+  time and space; it can also be a function of temperature
+  (if the energy equation is included) and strain rate
+  invariants (if the stress formulation is selected).
+- :math:`\sigma`, the surface-tension coefficient can vary
+  arbitrarily in
+  time and space; it can also be a function of temperature
+  and passive scalars.
+- :math:`\overline{\beta}`, the effective thermal expansion
+  coefficient, is
+  assumed time-independent and constant.
+- :math:`{\bf f}(t)`, the body force per unit mass term can
+  vary with time, space, temperature and passive scalars.
+- :math:`\rho c_{p}`, the volumetric specific heat, can vary
+  arbitrarily with time, space and temperature.
+- :math:`\rho L`, the volumetric latent heat of fusion at a front,
+  is taken to be time-independent and constant; however,
+  different constants can be assigned to different fronts.
+- :math:`k`, the thermal conductivity, can vary with time,
+  space and temperature.
+- :math:`q_{vol}`, the volumetric heat generation, can vary with
+  time, space and temperature.
+- :math:`h_{c}`, the convection heat transfer coefficient, can vary
+  with time, space and temperature.
+- :math:`h_{rad}`, the Stefan-Boltzmann constant/view-factor product,
+  can vary with time, space and temperature.
+- :math:`T_{\infty}`, the environmental temperature, can vary
+  with time and space.
+- :math:`T_{melt}`, the melting temperature at a front, is taken
+  with time and space; however, different melting temperature
+  can be assigned to different fronts.
+
+In the solution of the governing equations together with
+the boundary and initial conditions, Nek5000 treats the
+above parameters as pure numerical values; their
+physical significance depends on the user's choice of units.
+The system of units used is arbitrary (MKS, English, CGS,
+etc.). However, the system chosen must be used consistently
+throughout. For instance, if the equations and geometry
+have been non-dimensionalized, the :math:`\mu / \rho` in the fluid
+momentum equation is in fact
+the inverse Reynolds number, whereas if the equations are
+dimensional, :math:`\mu / \rho` represents the kinematic viscosity with
+dimensions of :math:`length^{2}/time`.
+
+
+
 -----------------
 Build Options
 -----------------

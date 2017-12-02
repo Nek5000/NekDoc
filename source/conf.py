@@ -49,8 +49,8 @@ master_doc = 'index'
 
 # General information about the project.
 project = u'Nek5000'
-copyright = u'2017, Paul Fischer, James Lottes,  Stefan Kerkemeier, Oana Marin, Katherine Heisey, Aleks Obabko, Elia Merzari, Yulia Peet, Ronald Rahaman'
-author = u'Paul Fischer, James Lottes, Stefan Kerkemeier, Oana Marin, Katherine Heisey, Aleks Obabko, Elia Merzari, Yulia Peet, Ronald Rahaman'
+copyright = u'2015-2017, UCHICAGO ARGONNE, LLC'
+author = u''
 
 # The version info for the project you're documenting, acts as replacement for
 # |version| and |release|, also used in various other places throughout the

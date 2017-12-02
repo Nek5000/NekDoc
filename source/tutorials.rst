@@ -61,20 +61,7 @@ This will produce a ``hillp.re2`` containing the mesh and boundary conditions.
 usr File
 ..........................
 
-The usr file implements various subroutines to allow the user to interact with the solver:
-
-.. code-block:: none
-
-     uservp()   variable properties
-     userf()    local acceleration term for fluid
-     userq()    local source term for scalars
-     userbc()   boundary conditions
-     useric()   initial conditions
-     userchk()  general purpose routine for checking errors etc.
-     userqtl()  thermal divergence for lowMach number flows
-     usrdat()   modify element vertices
-     usrdat()   modify mesh coordinates
-     usrdat3()  general purpose routine for initialization
+The usr file implements various subroutines to allow the user to interact with the solver. Details can be found in :ref:`user_files_usr`.
 
 To get started we copy the template to our case directory 
 
@@ -189,8 +176,8 @@ The par (parameter) file for this case is given as
     density = 1
     viscosity = -100
 
-In choosing ``viscosity = -100`` we are actually setting the Reynolds number to be :math:`Re = \frac{ u_b h}{\nu} = 100`. This assumes that
-:math:`u_b \times h = 1` where :math:`u_b` denotes the bulk velocity and :math:`h` the hill height.  
+In choosing ``viscosity = -100`` we are actually setting the Reynolds number. This assumes that
+:math:`\rho \times u_b \times h = 1` where :math:`u_b` denotes the bulk velocity and :math:`h` the hill height.  
 
 We have set the calculation to stop at the physical time of :math:`T=200` (i.e. ``endTime=200``) which is roughly 22 flow-thru time units (based on the bulk velocity :math:`u_b` and length of periodic pitch, :math:`L=9`).  Additional details on the names of keys in the ``.par`` file (i.e. ``stopAt, numSteps, endTime, ...`` etc.) can be found in :doc:`user_files`. 
 
