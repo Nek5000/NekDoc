@@ -16,7 +16,7 @@ Each simulation is defined by six case files:
 .. _user_files_session:
 
 ------------
-SESSION File
+SESSION.NAME
 ------------
 
 To run Nek5000, each simulation must have a SESSION.NAME file. This file is read in by the code and
@@ -33,7 +33,7 @@ would look like:
 .. _user_files_par:
 
 -----------------------------------
-par File
+par
 -----------------------------------
 
 The simulation paramaters are defined in the ``.par`` file.
@@ -60,7 +60,7 @@ The sections are:
 * ``PROBLEMTYPE``
 * ``MESH``
 * ``VELOCITY``
-* ``PRESSURE``
+* ``PRESSURE`` (required for velocity)
 * ``TEMPERATURE`` 
 * ``SCALAR%%`` 
 * ``CVODE``
@@ -69,72 +69,78 @@ When scalars are used, the keys of each scalar are defined under the section ``S
 between ``SCALAR01`` and ``SCALAR99``. The descripton of the keys of each section is given in the 
 following tables (all keys/values are case insensitive). The value assigned to each key can be a 
 user input (e.g. a <real> value) or one of the avaliable options listed in the tables below.
+Values in parentheses denote the default value.
 
 
 .. _tab:generalparams:
 
 .. table:: ``GENERAL`` keys in the ``.par`` file
 
-   +-------------------------+---------------+----------------------------------------------+
-   |   Key                   | | Value(s)    | | Description                                |
-   +=========================+===============+==============================================+
-   | ``startFrom``           | | ``<string>``| | Absolute/relative path of the field file   |
-   |                         |               | | to restart the simulation from             |
-   +-------------------------+---------------+----------------------------------------------+
-   | ``stopAt``              | | ``endTime`` | | Stop mode                                  |
-   |                         | | ``numStep`` |                                              |
-   +-------------------------+---------------+----------------------------------------------+
-   | ``endTime``             | | ``<real>``  | | Final physical time at which we want to    |
-   |                         |               | |  our simulation to stop                    |
-   +-------------------------+---------------+----------------------------------------------+
-   | ``numStep``             | | ``<real>``  | | Number of time steps instead of specifying |
-   |                         |               | |  final physical time                       |
-   +-------------------------+---------------+----------------------------------------------+
-   | ``dt``                  | | ``<real>``  | | Specifies the step size or in case of a    |
-   |                         |               |   a variable time step the maximum step size | 
-   +-------------------------+---------------+----------------------------------------------+
-   | ``variableDT``          | | ``yes``     | | Controls if the step size will be adjusted |
-   |                         | | ``no``      | | to match the targetCFL                     |
-   +-------------------------+---------------+----------------------------------------------+
-   | ``targetCFL``           | | ``<real>``  | | Sets target CFL number                     |
-   +-------------------------+---------------+----------------------------------------------+
-   | ``writeControl``        | | ``runTime`` | | Specifies whether checkpointing is based   |
-   |                         | | ``timeStep``| | on number of time steps or physical time   |
-   +-------------------------+---------------+----------------------------------------------+
-   | ``writeInterval``       | | ``<real>``  | | Checkpoint frequency in time steps or      | 
-   |                         |               | | physical time                              | 
-   +-------------------------+---------------+----------------------------------------------+
-   | ``filtering``           | | ``explicit``| | Specifies the filtering method             | 
-   |                         | | ``hpfrt``   |                                              | 
-   +-------------------------+---------------+----------------------------------------------+
-   | ``filterCutoffRatio``   | | ``<real>``  | | Ratio of modeal modes not affected         |
-   |                         |               | | Use i.e. for stabilization or LES 0.9/0.65 |  
-   +-------------------------+---------------+----------------------------------------------+
-   | ``filterWeight``        | | ``<real>``  | | Sets the filter strength of transfer       |
-   |                         |               | | function of the last mode (explicit) or the|
-   |                         |               | | relaxation parameter in case of hpfrt      |  
-   +-------------------------+---------------+----------------------------------------------+
-   | ``writeDoublePrecision``| | ``yes``     | | Sets the precision of the field files      |
-   |                         | | ``no``      |                                              |
-   +-------------------------+---------------+----------------------------------------------+
-   | ``writeNFiles``         | | ``<real>``  | | Sets the number of output files            |  
-   +-------------------------+---------------+----------------------------------------------+
-   | ``dealiasing``          | | ``yes``     | | Enable/diasble over-integration            |
-   |                         | | ``no``      |                                              |
-   +-------------------------+---------------+----------------------------------------------+
-   | ``timeStepper``         | | ``BDF2``    | | Time integration order                     |
-   |                         | | ``BDF3``    |                                              |
-   +-------------------------+---------------+----------------------------------------------+
-   | ``extrapolation``       | | ``standard``| | Extrapolation method                       |
-   |                         | | ``OIFS``    |                                              |
-   +-------------------------+---------------+----------------------------------------------+
-   | ``optLevel``            | | ``<real>``  | | Optimization level (1-3,default is 1)      |
-   +-------------------------+---------------+----------------------------------------------+
-   | ``logLevel``            | | ``<real>``  | | Logfile verbosity level (1-2, default is 1)|
-   +-------------------------+---------------+----------------------------------------------+
-   | ``userParam%%``         | | ``<real>``  | | User parameter (can be accessed through    |
-   |                         |               | | uparam(%) array in ``.usr``                |
-   +-------------------------+---------------+----------------------------------------------+
+   +-------------------------+-----------------+----------------------------------------------+
+   |   Key                   | | Value(s)      | | Description                                |
+   +=========================+=================+==============================================+
+   | ``startFrom``           | | ``<string>``  | | Absolute/relative path of the field file   |
+   |                         |                 | | to restart the simulation from             |
+   +-------------------------+-----------------+----------------------------------------------+
+   | ``stopAt``              | | ``(numSteps)``| | Stop mode                                  |
+   |                         | | ``runTime``   |                                              |
+   +-------------------------+-----------------+----------------------------------------------+
+   | ``endTime``             | | ``<real>``    | | Final physical time at which we want to    |
+   |                         |                 | | our simulation to stop                     |
+   +-------------------------+-----------------+----------------------------------------------+
+   | ``numSteps``            | | ``<real>``    | | Number of time steps instead of specifying |
+   |                         |                 | | final physical time                        |
+   +-------------------------+-----------------+----------------------------------------------+
+   | ``dt``                  | | ``<real>``    | | Specifies the step size or in case of a    |
+   |                         |                 | | a variable time step the maximum step size | 
+   +-------------------------+-----------------+----------------------------------------------+
+   | ``variableDT``          | | ``(no)``      | | Controls if the step size will be adjusted |
+   |                         | | ``yes``       | | to match the targetCFL                     |
+   +-------------------------+-----------------+----------------------------------------------+
+   | ``targetCFL``           | | ``<real>``    | | Sets stability/target CFL number for       |
+   |                         |                 | | OIFS or variable time steps                |
+   |                         |                 | | (fixed to 0.5 for standard extrapolation   | 
+   +-------------------------+-----------------+----------------------------------------------+
+   | ``writeControl``        | | ``(timeStep)``| | Specifies whether checkpointing is based   |
+   |                         | | ``runTime``   | | on number of time steps or physical time   |
+   +-------------------------+-----------------+----------------------------------------------+
+   | ``writeInterval``       | | ``<real>``    | | Checkpoint frequency in time steps or      | 
+   |                         |                 | | physical time                              | 
+   +-------------------------+-----------------+----------------------------------------------+
+   | ``filtering``           | | ``(none)``    | | Specifies the filtering method             | 
+   |                         | | ``explicit``  |                                              | 
+   |                         | | ``hpfrt``     |                                              | 
+   +-------------------------+-----------------+----------------------------------------------+
+   | ``filterCutoffRatio``   | | ``<real>``    | | Ratio of modeal modes not affected         |
+   |                         |                 | | Use i.e. for stabilization or LES 0.9/0.65 |  
+   +-------------------------+-----------------+----------------------------------------------+
+   | ``filterWeight``        | | ``<real>``    | | Sets the filter strength of transfer       |
+   |                         |                 | | function of the last mode (explicit) or the|
+   |                         |                 | | relaxation parameter in case of hpfrt      |  
+   +-------------------------+-----------------+----------------------------------------------+
+   | ``writeDoublePrecision``| | ``no``        | | Sets the precision of the field files      |
+   |                         | | ``(yes)``     |                                              |
+   +-------------------------+-----------------+----------------------------------------------+
+   | ``writeNFiles``         | | ``(1)``       | | Sets the number of output files            | 
+   |                         |                 | | By default a parallel shared file is used  |
+   +-------------------------+-----------------+----------------------------------------------+
+   | ``dealiasing``          | | ``no``        | | Enable/diasble over-integration            |
+   |                         | | ``(yes)``     |                                              |
+   +-------------------------+-----------------+----------------------------------------------+
+   | ``timeStepper``         | | ``BDF1``      | | Time integration order                     |
+   |                         | | ``(BDF2)``    |                                              |
+   |                         | | ``BDF3``      |                                              |
+   +-------------------------+-----------------+----------------------------------------------+
+   | ``extrapolation``       | | ``(standard)``| | Extrapolation method                       |
+   |                         | | ``OIFS``      |                                              |
+   +-------------------------+-----------------+----------------------------------------------+
+   | ``optLevel``            | | ``(2)``       | | Optimization level                         |
+   +-------------------------+-----------------+----------------------------------------------+
+   | ``logLevel``            | | ``(2)``       | | Verbosity level                            |
+   +-------------------------+-----------------+----------------------------------------------+
+   | ``userParam%%``         | | ``<real>``    | | User parameter (can be accessed through    |
+   |                         |                 | | uparam(%) array in ``.usr``                |
+   +-------------------------+-----------------+----------------------------------------------+
 
 
 
@@ -145,7 +151,7 @@ user input (e.g. a <real> value) or one of the avaliable options listed in the t
    +---------------------------+---------------------+--------------------------------------------------+
    |   Key                     | | Value(s)          | | Description                                    |
    +===========================+=====================+==================================================+
-   | ``equation``              | | ``incompNS``      | | Specifies equation type                        |
+   | ``equation``              | | ``(incompNS)``    | | Specifies equation type                        |
    |                           | | ``lowMachNS``     |                                                  |
    |                           | | ``steadyStokes``  |                                                  |
    |                           | | ``incompLinNS``   |                                                  |
@@ -153,46 +159,45 @@ user input (e.g. a <real> value) or one of the avaliable options listed in the t
    |                           | | ``incompMHD``     |                                                  |
    |                           | | ``compNS``        |                                                  |
    |                           |                     |                                                  |
-   |                           |                     |                                                  |
    +---------------------------+---------------------+--------------------------------------------------+
-   | ``axiSymmetry``           | | ``yes``           | | Axisymmetric problem                           |
-   |                           | | ``no``            |                                                  |
+   | ``axiSymmetry``           | | ``(no)``          | | Axisymmetric problem                           |
+   |                           | | ``yes``           |                                                  |
    +---------------------------+---------------------+--------------------------------------------------+
-   | ``swirl``                 | | ``yes``           | | Enable axisymmetric azimuthal velocity         |
-   |                           | | ``no``            | | component (stored in temperature field         |
+   | ``swirl``                 | | ``(no)``          | | Enable axisymmetric azimuthal velocity         |
+   |                           | | ``yes``           | | component (stored in temperature field         |
    +---------------------------+---------------------+--------------------------------------------------+
-   | ``cyclicBoundaries``      | | ``yes``           | | Sets cyclic periodic boundaries                | 
-   |                           | | ``no``            |                                                  |
+   | ``cyclicBoundaries``      | | ``(no)``          | | Sets cyclic periodic boundaries                | 
+   |                           | | ``yes``           |                                                  |
    +---------------------------+---------------------+--------------------------------------------------+
-   | ``numberOfPerturbations`` | | ``<real>``        | | Number of perturbations for linearized NS      |
+   | ``numberOfPerturbations`` | | ``(1)``           | | Number of perturbations for linearized NS      |
    +---------------------------+---------------------+--------------------------------------------------+
-   | ``solveBaseFlow``         | | ``yes``           | | Solve for base flow in case of linearized NS   |
-   |                           | | ``no``            |                                                  |
+   | ``solveBaseFlow``         | | ``(no)``          | | Solve for base flow in case of linearized NS   |
+   |                           | | ``yes``           |                                                  |
    +---------------------------+---------------------+--------------------------------------------------+
-   | ``variableProperties``    | | ``yes``           | | Enable variable transport properties           |
-   |                           | | ``no``            |                                                  |
+   | ``variableProperties``    | | ``(no)``          | | Enable variable transport properties           |
+   |                           | | ``yes``           |                                                  |
    +---------------------------+---------------------+--------------------------------------------------+
-   | ``stressFormulation``     | | ``yes``           | | Enable stress formulation                      |
-   |                           | | ``no``            |                                                  |
+   | ``stressFormulation``     | | ``(no)``          | | Enable stress formulation                      |
+   |                           | | ``yes``           |                                                  |
    +---------------------------+---------------------+--------------------------------------------------+
-   | ``dp0dt``                 | | ``yes``           | | Enable time-varying thermodynamic pressure     |
-   |                           | | ``no``            |                                                  |
+   | ``dp0dt``                 | | ``(no)``          | | Enable time-varying thermodynamic pressure     |
+   |                           | | ``yes``           |                                                  |
    +---------------------------+---------------------+--------------------------------------------------+
 
 .. _tab:fieldparams:
 
-.. table:: ``COMMON`` keys for all field varaibles in the ``.par`` file
+.. table:: ``COMMON`` keys for all field variables in the ``.par`` file
 
    +-------------------------+-----------------+-------------------------------------------------------+
    |   Key                   | | Value(s)      | | Description                                         |
    +=========================+=================+=======================================================+
    | ``residualTol``         | | ``<real>``    | | Residual tolerance used by solver (not for CVODE)   | 
    +-------------------------+-----------------+-------------------------------------------------------+
-   | ``residualProj``        | | ``yes``       | | Controls the residual projection                    |
-   |                         | | ``no``        |                                                       |
+   | ``residualProj``        | | ``(no)``      | | Controls the residual projection                    |
+   |                         | | ``yes``       |                                                       |
    +-------------------------+-----------------+-------------------------------------------------------+
-   | ``writeToFieldFile``    | | ``yes``       | | Controls if fields will be written on output        |
-   |                         | | ``no``        |                                                       |
+   | ``writeToFieldFile``    | | ``no``        | | Controls if fields will be written on output        |
+   |                         | | ``(yes)``     |                                                       |
    +-------------------------+-----------------+-------------------------------------------------------+
 
 .. _tab:meshparams:
@@ -202,17 +207,17 @@ user input (e.g. a <real> value) or one of the avaliable options listed in the t
    +-------------------------+-----------------+-------------------------------------------------------+
    |   Key                   | | Value(s)      | | Description                                         |
    +=========================+=================+=======================================================+
-   | ``motion``              | | ``none``      | | Mesh motion solver                                  |
+   | ``motion``              | | ``(none)``    | | Mesh motion solver                                  |
    |                         | | ``user``      |                                                       |
    |                         | | ``elasticity``|                                                       |
    +-------------------------+-----------------+-------------------------------------------------------+
-   | ``viscosity``           | | ``<real>``    | | Diffusivity for elasticity solver                   |
+   | ``viscosity``           | | ``(0.4)``     | | Diffusivity for elasticity solver                   |
    +-------------------------+-----------------+-------------------------------------------------------+
-   | ``numberOfBCFields``    | | ``<real>``    | | Number of field variables which have a boundary     |
+   | ``numberOfBCFields``    | | ``(nfields)`` | | Number of field variables which have a boundary     |
    |                         |                 | |  condition in ``.re2`` file                         |
    +-------------------------+-----------------+-------------------------------------------------------+
-   | ``firstBCFieldIndex``   | | ``<real>``    | | Field index of the first BC specified in ``.re2``   |
-   |                         |                 | |  file                                               |
+   | ``firstBCFieldIndex``   | | ``(1 or 2)``  | | Field index of the first BC specified in ``.re2``   |
+   |                         |                 | | file                                                |
    +-------------------------+-----------------+-------------------------------------------------------+
 
 .. _tab:velocityparams:
@@ -232,15 +237,15 @@ user input (e.g. a <real> value) or one of the avaliable options listed in the t
 
 .. table:: ``PRESSURE`` keys in the ``.par`` file
 
-   +-------------------------+----------------+-----------------------------------------------+
-   |   Key                   | | Value(s)     | | Description                                 |
-   +=========================+================+===============================================+
-   | ``preconditioner``      | | ``semg_xxt`` | | Preconditioning method                      |
-   |                         | | ``semg_amg`` | | First time usage of AMG will write three    |
-   |                         |                | | dump files to disc. Subsequently please run |
-   |                         |                | | the amg_hypre tool to create the setup files|
-   |                         |                | | required for the AMG solver initialization  |
-   +-------------------------+----------------+-----------------------------------------------+
+   +-------------------------+------------------+-----------------------------------------------+
+   |   Key                   | | Value(s)       | | Description                                 |
+   +=========================+==================+===============================================+
+   | ``preconditioner``      | | ``(semg_xxt)`` | | Preconditioning method                      |
+   |                         | | ``semg_amg``   | | First time usage of AMG will write three    |
+   |                         |                  | | dump files to disc. Subsequently please run |
+   |                         |                  | | the amg_hypre tool to create the setup files|
+   |                         |                  | | required for the AMG solver initialization  |
+   +-------------------------+------------------+-----------------------------------------------+
 
 .. _tab:fieldparams:
 
@@ -249,12 +254,12 @@ user input (e.g. a <real> value) or one of the avaliable options listed in the t
    +-------------------------+--------------+--------------------------------------------+
    |   Key                   | | Value(s)   | | Description                              |
    +=========================+==============+============================================+
-   | ``solver``              | | ``helm``   | | Scalar solver                            | 
+   | ``solver``              | | ``(helm)`` | | Solver for scalar                        | 
    |                         | | ``cvode``  |                                            |  
    |                         | | ``none``   |                                            |
    +-------------------------+--------------+--------------------------------------------+
-   | ``advection``           | | ``yes``    | | Controls if advection is present         |
-   |                         | | ``no``     |                                            |
+   | ``advection``           | | ``no``     | | Controls if advection is present         |
+   |                         | | ``(yes)``  |                                            |
    +-------------------------+--------------+--------------------------------------------+
    | ``absoluteTol``         | | ``<real>`` | | Absolute tolerance used by CVODE         |
    +-------------------------+--------------+--------------------------------------------+
@@ -266,8 +271,8 @@ user input (e.g. a <real> value) or one of the avaliable options listed in the t
    +--------------------------+--------------+----------------------------------------------+
    |   Key                    | | Value(s)   | | Description                                |
    +==========================+==============+==============================================+
-   |``ConjugatedHeatTransfer``| | ``yes``    | | Controls conjugate heat transfer           |
-   |                          | | ``no``     |                                              |
+   |``ConjugatedHeatTransfer``| | ``(no)``   | | Controls conjugate heat transfer           |
+   |                          | | ``yes``    |                                              |
    +--------------------------+--------------+----------------------------------------------+
    | ``conductivity``         | | ``<real>`` | | Thermal conductivity                       |
    +--------------------------+--------------+----------------------------------------------+
@@ -295,11 +300,11 @@ user input (e.g. a <real> value) or one of the avaliable options listed in the t
    +==========================+================+==============================================+
    | ``relativeTol``          | | ``<real>``   | | Relative tolerance (applies to all scalars)|
    +--------------------------+----------------+----------------------------------------------+
-   | ``stiff``                | | ``yes``      | | Controls if BDF or Adams Moulton is used   |
-   |                          | | ``no``       |                                              |
+   | ``stiff``                | | ``no``       | | Controls if BDF or Adams Moulton is used   |
+   |                          | | ``(yes)``    |                                              |
    +--------------------------+----------------+----------------------------------------------+
-   | ``preconditioner``       | | ``user``     | | Preconditioner method                      |
-   |                          | | ``none``     |                                              |
+   | ``preconditioner``       | | ``(none)``   | | Preconditioner method                      |
+   |                          | | ``user``     |                                              |
    +--------------------------+----------------+----------------------------------------------+
    | ``dtMax``                | | ``<real>``   | | Maximum internal step size                 |
    |                          |                | | Controls splitting error of velocity       |
@@ -309,7 +314,7 @@ user input (e.g. a <real> value) or one of the avaliable options listed in the t
 
 .. _user_files_re2:
 -----------------------------------
-re2 File
+re2
 -----------------------------------
 
 Stores the mesh and boundary condition. 
@@ -319,7 +324,7 @@ TODO: Add more details
 .. _user_files_usr:
 
 ----------------------
-usr File
+usr
 ----------------------
 
 This file implements the the user interface to Nek5000. What follows is a brief description of the available
@@ -408,7 +413,7 @@ This function can be used to initialize case/user specific data.
 
 
 ------------------------
-SIZE File
+SIZE
 ------------------------
 
 SIZE file defines the problem size, i.e. spatial points at which the solution is to be evaluated within each element, number of elements per processor etc.
@@ -454,7 +459,7 @@ Note that one also need to include the following line to SIZE file:
 that defines addional internal parameters.
 
 -----------------------------------
-ma2 File
+ma2
 -----------------------------------
 
 TODO: Add more details
