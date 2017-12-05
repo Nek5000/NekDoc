@@ -23,21 +23,14 @@ New issues or requests are welcome to be reported.
 
 ## How to publish on GitHub Pages
 
-The Makefile target 'make gh-pages' will build and publish the HTML on the
-[NekDoc GitHub Page][gh-page].  
-
 To update the GitHub Page, a contributor must have write permissions to the main [NekDoc][main-repo] repository.  
 The GitHub Page should *not* contain any edits that are newer than the [master branch][master] 
-of the main repository.  Thus it is highly recommended to update the main repository
-(through a merge/pull request, see ['How to contribute'](#how-to-contribute)) 
-before publishing to the GitHub Page.
+of the main repository.  
 
-In summary, contributors who wish to update the GitHub Page should follow this workflow:
+Workflow:
 
-1. Create a fork of the repository
-2. Edit the 'master' branch
-3. Open a pull request
-4. Publish to GitHub pages *after* the pull request has been merged
+1. Checkout the latest master
+2. run `make gh-pages`
 
 [gh-page]:   https://nek5000.github.io/NekDoc/Nek_users.html "Nek5000 user documentation on GitHub Pages"
 [main-repo]: https://github.com/Nek5000/NekDoc "NekDoc repository"
