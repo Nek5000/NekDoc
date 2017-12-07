@@ -126,7 +126,7 @@ Hold your horses, this needs less than 5 min.
   export PATH=$HOME/Nek5000/bin:$PATH
   cd ~/Nek5000/tools; ./maketools genmap
   cd ~/Nek5000/run
-  cp -r ../examples/eddy .
+  cp -r ../short_tests/eddy .
   cd eddy
   genmap                       # run partioner, on input type eddy_uv 
   makenek eddy_uv              # build case, edit script to change settings
