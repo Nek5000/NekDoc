@@ -7,7 +7,11 @@ Quickstart
 --------------------
 Downloading the code
 --------------------
-The Nek5000 source code can be found by downloading `here <https://github.com/Nek5000/Nek5000/releases>`_. Untar the tarball into your home directory and you are all set. If you use our software, please cite the following:
+All release tarballs can be found `here <https://github.com/Nek5000/Nek5000/releases>`_.
+We do **not** recommend using the master branch on `GitHub <https://github.com/Nek5000/Nek5000>`_ 
+in a production environment! 
+ 
+If you use our software, please cite the following:
 
 ::
 
@@ -42,11 +46,11 @@ consistent place for users to place their problem cases::
 
   /examples
 
-reserved for the Nek5000 example problems::
+contains example problems::
 
   /doc
 
-contains the user documentation in HTML and PDF::
+contains the user documentation::
   
   /3rd_party
 
@@ -126,7 +130,7 @@ Hold your horses, this needs less than 5 min.
   export PATH=$HOME/Nek5000/bin:$PATH
   cd ~/Nek5000/tools; ./maketools genmap
   cd ~/Nek5000/run
-  cp -r ../short_tests/eddy .
+  cp -r ../examples/eddy .
   cd eddy
   genmap                       # run partioner, on input type eddy_uv 
   makenek eddy_uv              # build case, edit script to change settings
