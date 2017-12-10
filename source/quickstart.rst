@@ -22,84 +22,84 @@ If you use our software, please cite the following:
 Directory structure
 -------------------
 
-Here’s a brief description of each top-level directory::
+Here’s a brief description of each top-level directory:
 
-  /core
+.. topic:: /core
 
-contains the Nek5000 application sources::
+   contains the Nek5000 application sources.
 
-  /bin
+.. topic:: /bin
 
-contains scripts for running nek5000 and manipulating its output::
+   contains scripts for running nek5000 and manipulating its output.
 
-  /tools
+.. topic:: /tools
 
-contains the sources for the pre- and post-processing tools which are stand-alone::
+   contains the sources for the pre- and post-processing tools which are stand-alone.
 
-  /short-tests
+.. topic:: /short-tests
 
-contains light-weight regression tests for verification::
-  
-  /run
+   contains light-weight regression tests for verification.
+ 
+.. topic:: /run
 
-consistent place for users to place their problem cases::
+   consistent place for users to place their problem cases.
 
-  /examples
+.. topic:: /examples
 
-contains example problems::
+   contains example problems.
 
-  /doc
+.. topic:: /doc
 
-contains the user documentation::
-  
-  /3rd_party
+   contains the user documentation.
+ 
+.. topic:: /3rd_party
 
-its purpose it to provide a consistent place for 3rd party code.
+   its purpose it to provide a consistent place for 3rd party code.
 
 ---------------------
 Case files
 ---------------------
-::
 
-   SIZE
 
-contains some hardwired runtime parameters to dimension static arrays::
+.. topic::  SIZE
 
-   foo.par
+   contains some hardwired runtime parameters to dimension static arrays.
 
-contains runtime parameters::
+.. topic::  foo.par
 
-   foo.re2
+   contains runtime parameters.
 
-contains mesh and boundary data::
+.. topic::  foo.re2
 
-   foo.ma2
+   contains mesh and boundary data.
 
-contains partioning data::
+.. topic::  foo.ma2
 
-   foo.usr
+   contains partioning data.
 
-contains user specific code to initialize solver, set source terms and boundary conditions or to manipulate solver internals::
+.. topic::  foo.usr
 
-   foo.his
+   contains user specific code to initialize solver, set source terms and boundary conditions or to manipulate solver internals.
 
-contains probing points::
+.. topic::  foo.his
+
+   contains probing points.
  
-   foo.f00000
+.. topic::  foo.f00000
 
-contains checkpoint data::
+   contains checkpoint data.
 
-   foo.nek5000
+.. topic::  foo.nek5000
 
-contains metadata for VisIt::
+   contains metadata for VisIt or ParaView.
 
-   foo.rea (legacy)
+.. topic::  foo.rea (legacy)
 
-contains runtime parameters and mesh in ASCII. Replaced by .par and .re2 file::
+   contains runtime parameters and mesh in ASCII. Replaced by .par and .re2 file.
 
-   foo.map (legacy)
+.. topic::  foo.map (legacy)
 
-contains partioning data in ASCII
+   contains partioning data in ASCII.
 
 Note: The old legacy files (.rea & .map) are recommended for debugging purposes only.
 
@@ -135,7 +135,7 @@ Hold your horses, this needs less than 5 min.
   genmap                       # run partioner, on input type eddy_uv 
   makenek eddy_uv              # build case, edit script to change settings
   nekbmpi eddy_uv 2            # run Nek5000 on 2 ranks in the background
-  echo -2 >ioinfo              # stop Nek5000 run and dump checkpoint
+  tail logfile                 # view solver output
   visnek eddy_uv; visit -o eddy_uv.nek5000 # requires a VisIt/Paraview installation
 
 -------------------

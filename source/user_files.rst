@@ -463,24 +463,3 @@ ma2
 -----------------------------------
 
 TODO: Add more details
-
-...................
-Memory Requirements
-...................
-
-The memory footprint of a Nek5000 run depends on many factors such as 
-
-- Local problem size per MPI rank (defined by ``lx1`` and ``lelt``)
-- Total number of elements ``lelg``
-- Number of MPI ranks
-- Size of residual projection space ``mxprev`` 
-- Dimension of Krylov subspace ``lgmres``.   
-- Solvers (XXT, AMG, Helmholz, CVODE, ...)
-- Number of scalars ``ldimt``
-- Allocation policy (static, first touch, etc.) 
-
-An a-priori estimate is hard to find and the output of the GNU SIZE utility does not
-take into account the dynamic memory alloation of MPI, gslib, CVODE, etc. 
-However, the true maximum memory usage is printed whenever Nek5000 exits.
-
-
