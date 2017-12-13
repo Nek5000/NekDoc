@@ -3,7 +3,7 @@ Appendices
 ==========
 
 -----------------------------------
-Legacy Geometry and Parameters File (.rea)
+rea File (legacy)
 -----------------------------------
 
 The ``.rea`` file consists of several sections. The mesh specifications  with **geometry**, **curvature** and **boundary conditions** are in the second section.
@@ -361,59 +361,6 @@ tools directory to change between formats.   The binary file
 format is the default and important for ``I/O`` performance when the
 number of elements is large ( :math:`>100000`, say).
 
-..........
-Parameters
-..........
-
-- :math:`\rho`, the density, is taken to be time-independent and
-  constant; however, in a multi-fluid system
-  different fluids can have different value of constant density.
-- :math:`\mu`, the dynamic viscosity can vary arbitrarily in
-  time and space; it can also be a function of temperature
-  (if the energy equation is included) and strain rate
-  invariants (if the stress formulation is selected).
-- :math:`\sigma`, the surface-tension coefficient can vary
-  arbitrarily in
-  time and space; it can also be a function of temperature
-  and passive scalars.
-- :math:`\overline{\beta}`, the effective thermal expansion
-  coefficient, is
-  assumed time-independent and constant.
-- :math:`{\bf f}(t)`, the body force per unit mass term can
-  vary with time, space, temperature and passive scalars.
-- :math:`\rho c_{p}`, the volumetric specific heat, can vary
-  arbitrarily with time, space and temperature.
-- :math:`\rho L`, the volumetric latent heat of fusion at a front,
-  is taken to be time-independent and constant; however,
-  different constants can be assigned to different fronts.
-- :math:`k`, the thermal conductivity, can vary with time,
-  space and temperature.
-- :math:`q_{vol}`, the volumetric heat generation, can vary with
-  time, space and temperature.
-- :math:`h_{c}`, the convection heat transfer coefficient, can vary
-  with time, space and temperature.
-- :math:`h_{rad}`, the Stefan-Boltzmann constant/view-factor product,
-  can vary with time, space and temperature.
-- :math:`T_{\infty}`, the environmental temperature, can vary
-  with time and space.
-- :math:`T_{melt}`, the melting temperature at a front, is taken
-  with time and space; however, different melting temperature
-  can be assigned to different fronts.
-
-In the solution of the governing equations together with
-the boundary and initial conditions, Nek5000 treats the
-above parameters as pure numerical values; their
-physical significance depends on the user's choice of units.
-The system of units used is arbitrary (MKS, English, CGS,
-etc.). However, the system chosen must be used consistently
-throughout. For instance, if the equations and geometry
-have been non-dimensionalized, the :math:`\mu / \rho` in the fluid
-momentum equation is in fact
-the inverse Reynolds number, whereas if the equations are
-dimensional, :math:`\mu / \rho` represents the kinematic viscosity with
-dimensions of :math:`length^{2}/time`.
-
-
 
 -----------------
 Build Options
@@ -443,206 +390,12 @@ Available configurations options:
    VISIT_INSTALL, string, VISIT in situ, Path to VISIT install path. See Visit_in_situ for details.                                 
    VISIT_STOP, "true, false", false, "When running VISIT in situ, simulation stops after step 1 to connect VISIT."                 
 
-----------------------
-Parallelism in Nek5000
-----------------------
-
-The parallelism of Nek5000 is accomplished via domain decomposition methods and a suitable gather-scatter code. All this is implemented in such way that the user does not have to be concerned with the parallelism and only focus on the actual solvers while keeping in mind a few simple rules and routines that switch from local to global and back.
-
-- Locally, the SEM is structured.
-- Globally, the SEM is unstructured.
-- Vectorization and serial performance derive from the structured aspects of the computation.
-- Parallelism and geometric flexibility derive from the unstructured, element-by-element, operator evaluation.
-- Elements, or groups of elements are distributed across processors, but an element is never subdivided.
-
-For the most part, the global element numbering is not relevant since Nek5000 assigns it randomly but following certain rules.
-
-There are two types of array sizes, starting with ``lx1``, ``lelv``, etc. which give an upper bound of the arrays. And ``nx1``, ``nelv``, etc. which give the actual number of elements/grid points per processors. For the example in :numref:`fig:procsplit` we have
-
-- on proc 0, ``nelt=2``  (``nelt`` = no elements in temperature domain)
-- on proc 1, ``nelt=3``  (``nelv`` = no elements in fluid domain, usually = ``nelt``)
-
-.. _fig:procsplit:
-
-.. figure:: figs/serial_parallel.png
-    :align: center
-    :figclass: align-center
-    :alt: element-splitting
-
-    A simple SEM row of elements and a potential splitting
-
-Arrays ``lglel`` that distinguish which processor has which elements,
-
-- on proc 0, ``nelt=2, lglel=(2,5)``, local element ``1->2`` and ``2->5``
-- on proc 1, ``nelt=3, lglel=(1,3,4)``, local element ``1->1``, ``2->3`` and ``4->3``
-
-
-Now for global to local we have two common arrays (scaling as ``nelgt``, but only two such arrays)
-
-- ``gllel=(1,1,2,3,2)``, assigns a global element to its local correspondent, i.e. global element ``1->1``, ``2->1`` and ``3->2`` etc.
-- ``gllnid=(1,0,1,1,0)``, assigns a global element to its processor, i.e. ``1->1``, ``2->0`` and ``3->1`` etc.
-
-All data contiguously packed (and quad-aligned) ``real  u(lx1,ly1,lz1,lelt)`` indicates that ``u`` is a collection of elements, ``e=1,...,Nelt =< lelt``, each of size :math:`(N+1)d`, :math:`d` = 2 or 3.
-
-**Example: Summation**
-
-Serial version
-
-.. code-block:: fortran
-
-   s = 0
-   do e=1,nelv
-   do iz=1,nz1
-   do iy=1,ny1
-   do ix=1,nx1
-   s=s+u(ix,iy,iz,e)
-   end do,...,end do
-
-Second approach, serial version (works in parallel in Nek)
-
-.. code-block:: fortran
-
-   n=nx1*ny1*nz1*nelv
-   s=0
-   do i=1,n
-   s=s+u(i,1,1,1)
-   end do
-
-Nek Parallel Version
-
-.. code-block:: fortran
-
-   s=glsum(s,n)
-
-If you want a local max ``s=vlmax(u,n)``, or a global max ``s=glmax(u,n)``.
-
-
------------
-Data Layout
------------
-
-Nek5000 was designed with two principal performance criteria in mind,
-namely, *single-node* performance and *parallel* performance.
-
-A key precept in obtaining good single node performance was to use,
-wherever possible, unit-stride memory addressing, which is realized by
-using contiguously declared arrays and then accessing the data in
-the correct order.   Data locality is thus central to good serial
-performance.   To ensure that this performance is not compromised
-in parallel, the parallel message-passing data model is used, in which
-each processor has its own local (private) address space.  Parallel
-data, therefore, is laid out just as in the serial case, save that there
-are multiple copies of the arrays---one per processor, each containing
-different data.  Unlike the shared memory model, this distributed memory
-model makes data locality transparent and thus simplifies the task of
-analyzing and optimizing parallel performance.
-
-Some fundamentals of Nek5000's internal data layout are given below.
-
-1. Data is laid out as  :math:`u_{ijk}^e = u(i,j,k,e)`
-
-   .. |br| raw:: html
-
-      <br />
-
-   ``i=1,...,nx1``   (``nx1 = lx1``) |br|
-   ``j=1,...,ny1``   (``ny1 = lx1``) |br|
-   ``k=1,...,nz1``   (``nz1 = lx1`` or 1, according to ndim=3 or 2)
-
-   ``e=1,...,nelv``, where ``nelv`` :math:`\leq` ``lelv``, and ``lelv`` is the upper
-   bound on number of elements, *per processor*.
-2. Fortran data is stored in column major order (opposite of C).
-3. All data arrays are thus contiguous, even when :math:`{\tt nelv} < {\tt lelv}`.
-4. Data accesses are thus primarily unit-stride (see chap.8 of DFM
-   for importance of this point), and in particular, all data on
-   a given processor can be accessed as, e.g.,
-
-      .. code-block:: fortran
-
-         do i=1,nx1*ny1*nz1*nelv
-            u(i,1,1,1) = vx(i,1,1,1)
-         end do
-
-   which is equivalent but superior (WHY?) to:
-
-      .. code-block:: fortran
-
-         do e=1,nelv
-         do k=1,nz1
-         do j=1,ny1
-         do i=1,nx1
-            u(i,j,k,e) = vx(i,j,k,e)
-         end do
-         end do
-         end do
-         end do
-
-   which is equivalent but vastly superior (WHY?) to:
-
-      .. code-block:: fortran
-
-         do i=1,nx1
-         do j=1,ny1
-         do k=1,nz1
-         do e=1,nelv
-            u(i,j,k,e) = vx(i,j,k,e)
-         end do
-         end do
-         end do
-         end do
-5. All data arrays are stored according to the SPMD programming
-   model, in which address spaces that are local to each processor
-   are private --- not accessible to other processors except through
-   interprocessor data-transfer (i.e., message passing).  Thus
-
-      .. code-block:: fortran
-
-         do i=1,nx1*ny1*nz1*nelv
-            u(i,1,1,1) = vx(i,1,1,1)
-         end do
-
-   means different things on different processors and ``nelv`` may
-   differ from one processor to the next.
-6. For the most part, low-level loops such as above are expressed in
-   higher level routines only through subroutine calls, e.g.,:
-
-      .. code-block:: fortran
-
-         call copy(u,vx,n)
-
-   where ``n:=nx1*ny1*nz1*nelv``.   Notable exceptions are in places where
-   performance is critical, e.g., in the middle of certain iterative
-   solvers. 
-
-
 -------------------------------
-List of Parameters in .rea File
+Internal Input Parameters/Switches
 -------------------------------
-
-..........
-Parameters
-..........
-
-This section tells Nek5000
-
-- If the input file reflects a 2D or 3D job (it should match the ``ldim`` parameter in the SIZE file).
-- The combination of heat transfer, Stokes, Navier-Stokes, steady or unsteady to be run.
-- The relevant physical parameters.
-- The solution algorithm within Nek5000 to use.
-- The timestep size or Courant number to use, or whether to run variable DT (:math:`dt`), etc.
-
-A ``.rea`` file starts with the following three parameters:
-
-**NEKTON VERSION** the version of Nek5000
-
-**DIMENSIONAL RUN** number of spatial dimensions (``NDIM`` =2,3 - has to match the setting in the SIZE file).
-
-**PARAMETERS FOLLOW** the number of parameters which are going to be followed in the ``.rea`` file.(``NPARAM``)
-
-The latter specifies how many lines of ``.rea`` file, starting from the next line, are the parameters and have to be read by the program.
 
 ....................
-Available Parameters
+Parameters
 ....................
 
 .. raw:: html
@@ -931,15 +684,6 @@ Available Parameters
 | 
 | **P118  NELZ** number of elements in :math:`z` for FTP
 
-..........................
-Available Logical Switches
-..........................
-
-This part of ``.rea`` file starts with such a line::
-
-   n   LOGICAL SWITCHES FOLLOW
-
-where ``n`` is the number of logical switches which is set in the following lines.
 
 .. _sec:switches:
 
@@ -974,51 +718,6 @@ Note that by default all logical switches are set to false.
 **IFSYNC** use mpi barriers to provide better timing information.
 
 **IFUSERVP** user-defined properties (e.g., :math:`\mu`, :math:`\rho` varying with space and time.
-
--------------------------------
-List of Parameters in SIZE File
--------------------------------
-
-| **ldim**: number of spatial dimensions (2 or 3). 
-| 
-| **lx1**: number of (GLL) points in the :math:`x` -direction within each element of mesh1 (velocity) which is equal to the (polynomial order :math:`+1`) by definition. 
-| 
-| (``lx1`` recomeneded odd for better performance)
-| 
-| **lx2**: number of (GLL) points in the :math:`x` -directions within each element of mesh2 (pressure). Use ``lx2=lx1`` for PN/PN formulation or ``lx2=lx1-2`` for PN/PN-2 formulation.
-| 
-| **lxd**: number of points for over integration (dealiasing), use three half rule e.g. for ``lx1=8`` use ``lxd=12``.
-| 
-| **lelx, lely, lelz**: maximum number of elements per rank for global FDM (Fast Diagonalization Method) solver.
-| 
-| **ldimt**:  maximum number of T-array fields (temperature + additional scalars).
-| 
-| **lpmax**: maximum number of ranks.
-|
-| **lpmin**: minimum number of ranks. 
-|
-| **lelg**: maximum (global) number of elements (it is usually set more than the # of elements existing in the mesh, for making maximum use of memory is can be set to the exact number of mesh elements).
-| 
-| **lelt**: maximum number of local elements for T-mesh (per rank, ``lelt`` :math:`\geq` ``lelg/np +1``).
-| 
-| **lpelt**: Number of elements of the perturbation field, number of perturbation fields
-| 
-| **lbelt**: Total Number of elements of the B-field (MHD)
-| 
-| **lx1m**: when the mesh is a moving type ``lx1m=lx1``, otherwise it is set to 1.
-| 
-| **lorder**: maximum time integration order (2 or 3).
-| 
-| **maxobj**: maximum number of objects. :red:`zero if not using objects?`
-| 
-| **maxmbr**: maximum number of members in an object.
-| 
-| **lhis**: maximum number of history points a single rank will read in (``NP*LHIS`` :math:`<` number of points in ``hpts.in``).
-| 
-| **mxprev**: maximum number of history entries for residual projection (recommended value: 20-30).
-| 
-| **lgmres**: dimension of Krylov subspace in GMRES (recommended value: 20-40).
-
 
 ------------------------------
 Commonly used Variables
@@ -1179,7 +878,7 @@ Arrays associated with the ``avg_all`` subroutine
 .. include:: routines.rst
 
 --------------------
-Field File Format
+Output (Field File) Format
 --------------------
 
 The binary ``.f%05d`` file format is used to write and read data both in serial and parallel

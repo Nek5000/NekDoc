@@ -57,10 +57,6 @@ Commonly used Subroutines
 ``subroutine col3(a,b,c,n)``
     For ``n`` entries, calculates ``a=b*c``.
 
----------
-Commonly used Functions
----------
-
 ``function glmax(a,n)``
 
 ``function glamax(a,n)``
