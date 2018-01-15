@@ -13,9 +13,9 @@ FAQ
   NEK5000 Version X.Y. Release date. Argonne National Laboratory, Illinois. 
   Available: https://nek5000.mcs.anl.gov.
 
-.. What is the license for Nek5000?
+.. topic:: What is the license for Nek5000?
 
-.. to do
+   Nek5000 is licensed under BSD.  For more information see the ``LICENSE`` file included with the distribution in the root level directory.
 
 .. topic:: Where can I find support or ask questions about Nek5000?
 
