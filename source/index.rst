@@ -10,6 +10,7 @@ Nek5000
    geometry
    perf
    theory
+   faq
    appendix
    bibliography
 
