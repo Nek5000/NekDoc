@@ -66,9 +66,9 @@ FAQ
 
    By default Nek5000 outputs solution files in the binary ``0.f%05d`` format.  These can be read by both VisIt and ParaView in conjunction with a meta-data file.  For more information see `here <https://nek5000.github.io/NekDoc/quickstart.html#visualization>`_.
 
-.. topic:: How do I obtain values of variables at a specific point?
+.. How do I obtain values of variables at a specific point?
 
-   to do
+..   to do
 
 .. topic:: Why is ``userbc`` only getting called for certain element faces?
 
