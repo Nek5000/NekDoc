@@ -390,9 +390,9 @@ Available configurations options:
    VISIT_INSTALL, string, VISIT in situ, Path to VISIT install path. See Visit_in_situ for details.                                 
    VISIT_STOP, "true, false", false, "When running VISIT in situ, simulation stops after step 1 to connect VISIT."                 
 
--------------------------------
+----------------------------------
 Internal Input Parameters/Switches
--------------------------------
+----------------------------------
 
 ....................
 Parameters

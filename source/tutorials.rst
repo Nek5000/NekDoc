@@ -73,9 +73,9 @@ To get started we copy the template to our case directory
 
    cp $HOME/Nek5000/core/zero.usr hillp.usr 
 
-____________________________
+_______________________________
 Modify mesh and apply mass flux
-____________________________
+_______________________________
 
 To drive the flow a mass flux is applied such that  bulk velocity :math:`u_b=1`.
 
@@ -126,9 +126,9 @@ In Nek5000, we can specify this through ``usrdat2`` in the usr file as follows
 
     Modified box mesh graded
 
-____________________________
+_____________________________
 Initial & boundary conditions
-____________________________
+_____________________________
 
 The next step is to specify the initial conditions.
 This can be done in the subroutine ``useric`` as follows:
