@@ -77,3 +77,10 @@ FAQ
 .. topic:: The local coordinate axes of my elements are not aligned with the global coordinate system, is this normal?
 
    Yes, there is no guarantee that the elements are generated with any particular orientation (except if you use genbox).
+
+.. topic:: When trying to recompile after increasing the number of elements I get the error below. Why does this happen and how can I avoid it?
+
+   ``relocation truncated to fit: R_X86_64 against symbol 'foo_' defined in COMMON section in obj/bar.o``
+
+   This happens when the resultant executable requires more memory allocation than available, usually because ``lelt`` is too large.  The best way to avoid this is to increase the minimum number of MPI ranks, ``lpmin`` in ``SIZE``.  Alternatively, you can add ``-mcmodel=medium`` to the ``FFLAGS`` variable in ``makenek``.
+
