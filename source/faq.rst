@@ -36,7 +36,7 @@ FAQ
 
 .. topic:: What turbulence models are available in Nek5000?
 
-    LES with explicit filtering (spectral damping) or high-pass filtering is available. Other turbulence models are availble through user file implementation including: dynamic Smagorinsky (turbChannel example), k-ω, k-ω SST, etc. (contact the developers for more information).
+    LES with explicit filtering (spectral damping) or high-pass filtering is available. Other turbulence models are available through user file implementation including: dynamic Smagorinsky (turbChannel example), k-ω, k-ω SST, etc. (contact the developers for more information).
 
 .. topic:: How do I specify/change the polynomial order?
 
