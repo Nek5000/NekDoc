@@ -84,7 +84,7 @@ Values in parentheses denote the default value.
    |                         |                 | | to restart the simulation from             |
    +-------------------------+-----------------+----------------------------------------------+
    | ``stopAt``              | | ``(numSteps)``| | Stop mode                                  |
-   |                         | | ``runTime``   |                                              |
+   |                         | | ``endTime``   |                                              |
    +-------------------------+-----------------+----------------------------------------------+
    | ``endTime``             | | ``<real>``    | | Final physical time at which we want to    |
    |                         |                 | | our simulation to stop                     |
