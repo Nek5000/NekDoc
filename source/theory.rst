@@ -53,9 +53,9 @@ The governing equations of flow motion in dimensional form are
 .. math::
     :label: ns_momentum
 
-    \rho\left(\frac{\partial\mathbf u}{\partial t} +\mathbf u \cdot \nabla \mathbf u\right) = - \nabla p + \nabla \cdot \tau + \rho {\bf f} \,\, , \text{in } \Omega_f , \quad \text{  (Momentum)  } 
+    \rho\left(\frac{\partial\mathbf u}{\partial t} +\mathbf u \cdot \nabla \mathbf u\right) = - \nabla p + \nabla \cdot \boldsymbol\tau + \rho {\bf f} \,\, , \text{in } \Omega_f , \quad \text{  (Momentum)  } 
 
-where :math:`\tau=\mu[\nabla \mathbf u+\nabla \mathbf u^{T}]` and :math:`\mathbf f` is a user defined acceleration.
+where :math:`\boldsymbol\tau=\mu[\nabla \mathbf u+\nabla \mathbf u^{T}]` and :math:`\mathbf f` is a user defined acceleration.
 
 .. math::
     :label: ns_cont
@@ -63,12 +63,12 @@ where :math:`\tau=\mu[\nabla \mathbf u+\nabla \mathbf u^{T}]` and :math:`\mathbf
     \nabla \cdot \mathbf u =0 \,\, , \text{in } \Omega_f, \quad \text{  (Continuity)  }   
 
 If the fluid viscosity is constant in the entire domain the viscous stress tensor can be contracted
-:math:`\nabla\cdot\tau=\mu\Delta \mathbf u`, therefore one may solve the Navier--Stokes equations
+:math:`\nabla\cdot\boldsymbol\tau=\mu\Delta \mathbf u`, therefore one may solve the Navier--Stokes equations
 in either the stress formulation, or no stress
 
-- Variable viscosity requires the full stress tensor :math:`\nabla \cdot \tau=\nabla \cdot
+- Variable viscosity requires the full stress tensor :math:`\nabla \cdot \boldsymbol\tau=\nabla \cdot
   \mu[\nabla \mathbf u+\nabla \mathbf u^{T}]`, and we shall refer to this as the stress formulation
-- Constant viscosity leads to a simpler stress tensor :math:`\nabla \cdot \tau=\mu\Delta \mathbf u`,
+- Constant viscosity leads to a simpler stress tensor :math:`\nabla \cdot \boldsymbol\tau=\mu\Delta \mathbf u`,
   which we refer to as the 'no stress' formulation
 
 .. _intro_ns_nondim:
@@ -90,9 +90,9 @@ non-dimensional Navier-Stokes:
 .. math::
     :label: NS_nondim
 
-    \frac{\partial \mathbf{u^*}}{\partial t^*} + \mathbf{u^*} \cdot \nabla \mathbf{u^*}\ = -\nabla p^* + \frac{1}{Re} \nabla\cdot \tau^* + \mathbf f^*.
+    \frac{\partial \mathbf{u^*}}{\partial t^*} + \mathbf{u^*} \cdot \nabla \mathbf{u^*}\ = -\nabla p^* + \frac{1}{Re} \nabla\cdot \boldsymbol\tau^* + \mathbf f^*.
 
-where :math:`\tau^*=[\nabla \mathbf u^*+\nabla \mathbf u^{*T}]` and :math:`\mathbf f^*` is the dimensionless user defined forcing function, e.g. gravity.
+where :math:`\boldsymbol\tau^*=[\nabla \mathbf u^*+\nabla \mathbf u^{*T}]` and :math:`\mathbf f^*` is the dimensionless user defined forcing function, e.g. gravity.
 
 The non-dimensional number here is the Reynolds number :math:`Re=\frac{\rho U L}{\mu}`.
 
@@ -107,7 +107,7 @@ In addition to the fluid flow, Nek5000 computes automatically the energy equatio
 .. math::
     :label: energy
 
-    \rho c_{p} ( \partial_{t} T + \mathbf u \cdot \nabla T ) =
+    \rho c_{p} \left( \frac{\partial T}{\partial t} + \mathbf u \cdot \nabla T \right) =
        \nabla \cdot (k \nabla T) + q_{vol}\,\, ,\text{in } \Omega_f\cup \Omega_s  \text{  (Energy)  } 
 
 .. _intro_energy_nondim:
@@ -123,7 +123,7 @@ A similar non-dimensionalization as for the flow equations using the non-dimensi
 .. math::
     :label: energy_nondim
 
-    \partial_{t^*} T^* + \mathbf u^* \cdot \nabla T^* =
+    \frac{\partial T^*}{\partial t^*} + \mathbf u^* \cdot \nabla T^* =
       \frac{1}{Pe} \nabla \cdot \nabla T^* + q_{vol}\,\, ,\text{in } \Omega_f\cup \Omega_s  \text{  (Energy)  } 
 
 where :math:`Pe=LU/\alpha`, with :math:`\alpha=k/\rho c_p`.
@@ -140,7 +140,7 @@ We can additionally solve a convection-diffusion equation for each passive scala
 .. math::
     :label: pass_scal
 
-    (\rho c_{p})_i ( \partial_{t} \phi_{i} + \mathbf u \cdot \nabla \phi_{i} ) =
+    (\rho c_{p})_i \left( \frac{\partial \phi_{i}}{\partial t} + \mathbf u \cdot \nabla \phi_{i} \right) =
     \nabla \cdot (k_i \nabla \phi_{i}) + (q_{vol})_i.
 
 The terminology and restrictions of the temperature equations are retained for the passive scalars,
@@ -168,9 +168,9 @@ In the case of flows dominated by viscous effects Nek5000 can solve the reduced 
 .. math::
     :label: ns_momentum_stokes
 
-    \rho(\partial_{t} \mathbf u ) = - \nabla p + \nabla \cdot \tau + \rho {\bf f} \,\, , \text{in } \Omega_f \text{  (Momentum)  }
+    \rho\left(\frac{\partial \mathbf u}{\partial t} \right) = - \nabla p + \nabla \cdot \boldsymbol\tau + \rho {\bf f} \,\, , \text{in } \Omega_f \text{  (Momentum)  }
 
-where :math:`\nabla \cdot\tau=\nabla\cdot\mu[\nabla \mathbf u+\nabla \mathbf u^{T}]` and
+where :math:`\boldsymbol\tau=\mu[\nabla \mathbf u+\nabla \mathbf u^{T}]` and
 
 .. math::
     :label: ns_cont_stokes
@@ -192,9 +192,9 @@ If there is no time-dependence, then Nek5000 can further reduce to
 .. math::
     :label: ns_momentum_steady_stokes
 
-    - \nabla p + \nabla \cdot \tau + \rho {\bf f}=0 \,\, , \text{in } \Omega_f \text{  (Momentum)  }
+    - \nabla p + \nabla \cdot \boldsymbol\tau + \rho {\bf f}=0 \,\, , \text{in } \Omega_f \text{  (Momentum)  }
 
-where :math:`\nabla \cdot\tau=\nabla\cdot\mu[\nabla \mathbf u+\nabla {\mathbf u}^{T}]` and
+where :math:`\boldsymbol\tau=\mu[\nabla \mathbf u+\nabla {\mathbf u}^{T}]` and
 
 .. math::
     :label: ns_cont_steady_stokes
@@ -213,8 +213,9 @@ evolution of small perturbations about a base state by solving the *linearized e
 .. math::
     :label: pertu
 
-    \rho(\partial_{t} {\mathbf u_i}' + \mathbf u \cdot \nabla {\mathbf u_i}^{'} + \mathbf u_i' \cdot \nabla \mathbf u) =
-    - \nabla p_i' + \mu \nabla^2 \mathbf u_i', \qquad \nabla \cdot \mathbf u_i' = 0,
+    \rho\left(\frac{\partial \mathbf u_i'}{\partial t} + \mathbf u \cdot \nabla {\mathbf u_i}^{'} + \mathbf u_i' \cdot \nabla \mathbf u \right) &=
+    - \nabla p_i' + \mu \nabla^2 \mathbf u_i'\\
+    \nabla \cdot \mathbf u_i' &= 0 \nonumber
 
 for multiple perturbation fields :math:`i=1,2,\dots` subject to different initial
 conditions and (typically) homogeneous boundary conditions.  
@@ -231,7 +232,7 @@ Steady Conduction
 -----------------
 
 The energy equation :eq:`energy` in which the advection term :math:`\mathbf u \cdot \nabla T` and the
-transient term :math:`\partial_{t} T` are zero. In essence this represents a Poisson equation.
+transient term :math:`\partial T/\partial t` are zero. In essence this represents a Poisson equation.
 
 .. _intro_low_mach:
 
@@ -240,29 +241,26 @@ Low-Mach Navier-Stokes
 ----------------------
 
 The compressible Navier-Stokes differ mathematically from the incompressible ones mainly in the
-divergence constraint :math:`\nabla \cdot \mathbf u\neq 0`. In this case the system of equations is
-not closed and an additional equation of state (EOS) is required to connect the state variables,
-e.g. :math:`p=f(\rho,T)`. However Nek5000 can only solve the Low Mach approximation of the
-compressible Navier-Stokes. The Low-Mach approximation decouples the pressure from the velocity
-leading to a system of equations which can be solved numerically in a similar fashion as the
-incompressible Navier-Stokes.
+divergence constraint :math:`\nabla \cdot \mathbf u\neq 0`. 
+In this case the system of equations is not closed and an additional equation of state (EOS) is required to connect the state variables, e.g. :math:`\rho=f(p,T)`. 
+Nek5000 includes the ability to solve the low-Mach approximation of the compressible Navier-Stokes, :math:`\rho\approx f(T)`. 
+The low-Mach approximation decouples the pressure from the velocity leading to a system of equations which can be solved numerically in a similar fashion as the incompressible Navier-Stokes.
 
-The Low Mach equations in non-dimensional form are 
+The low-Mach equations are 
 
 .. math::
+    :label: lowmach
 
-    &\rho\bigg(\frac{\mathrm d \mathbf u}{\mathrm d t}+ \mathbf u\cdot\nabla\mathbf u\bigg)=-\nabla p+\nabla \cdot\boldsymbol\tau+\rho\mathbf f\ \\ \nonumber
-    &\frac{\mathrm d \mathbf \rho}{\mathrm d t}+ \mathbf u\cdot\nabla\mathbf \rho=-\rho\nabla \cdot \mathbf u\\ \nonumber
-    &\rho\bigg(\frac{\mathrm d T}{\mathrm d t}+ \mathbf u\cdot\nabla T\bigg)=-\nabla \cdot k \nabla T\\ \nonumber
+    \rho\left(\frac{\partial \mathbf u}{\partial t}+ \mathbf u\cdot\nabla\mathbf u\right)&=-\nabla p+\nabla \cdot\boldsymbol\tau+\rho\mathbf f\ \\
+    \nabla \cdot \mathbf u &= -\frac{1}{\rho}\frac{\mathrm d \rho}{\mathrm d T}\left(\frac{\partial T}{\partial t}+ \mathbf u\cdot\nabla T\right) \\ 
+    \rho c_p\left(\frac{\partial T}{\partial t}+ \mathbf u\cdot\nabla T\right)&=-\nabla \cdot k \nabla T + q_{vol}
 
 where :math:`\boldsymbol\tau=\mu[\nabla \mathbf u+\nabla \mathbf u^{T}-\frac{2}{3}\nabla \cdot
 \mathbf u \mathbf I]`.
 
-The implementation of the equation if state for the Low Mach formulation is for the moment
-hard-coded to be the ideal gas equation of state :math:`p=\rho R T`. This allows for both variable
-density and variable viscosity. The system is solved by substituting :math:`\rho=f(p,T)` into the
-continuity equation and obtaining a so-called thermal divergence (the term :math:`\nabla \cdot
-\mathbf u` is given as a function of the temperature).
+.. The implementation of the equation of state for the low-Mach formulation is for the moment hard-coded to be the ideal gas equation of state :math:`p=\rho R T`. 
+This allows for both variable density and variable viscosity. 
+The system is solved by substituting :math:`\rho\approx f(T)` into the continuity equation and obtaining a so-called thermal divergence.
 
 .. _intro_mhd:
 
@@ -280,11 +278,12 @@ Consider a fluid of velocity :math:`\mathbf u` subject to a magnetic field :math
 the incompressible MHD equations are
 
 .. math::
+    :label: mhd
 
-    \rho(\partial_{t} \mathbf u + \mathbf u \cdot \nabla \mathbf u) &= - \nabla p + \mu \Delta \mathbf u + \mathbf B\cdot \nabla \mathbf B \ ,\\ 
+    \rho\left(\frac{\partial\mathbf u}{\partial t} + \mathbf u \cdot \nabla \mathbf u\right) &= - \nabla p + \mu \Delta \mathbf u + \mathbf B\cdot \nabla \mathbf B \ ,\\ 
     \nabla \cdot \mathbf u &= 0\\ \nonumber
-    \partial_{t} \mathbf B + \mathbf u \cdot \nabla \mathbf B &= - \nabla q + \eta \Delta \mathbf B + \mathbf B\cdot \nabla \mathbf u \ ,\\ 
-    \nabla \cdot \mathbf B &= 0 \nonumber
+    \frac{\partial \mathbf B}{\partial t} + \mathbf u \cdot \nabla \mathbf B &= - \nabla q + \eta \Delta \mathbf B + \mathbf B\cdot \nabla \mathbf u \ ,\\ 
+    \nabla \cdot \mathbf B &= 0 
 
 where :math:`\rho` is the density :math:`\mu` the viscosity, :math:`\eta` resistivity, and pressure :math:`p`.
 
@@ -310,8 +309,8 @@ We consider unsteady incompressible flow in a domain with moving boundaries:
 .. math::
     :label: mhd1
 
-    \frac{\partial\mathbf u}{\partial t} &= -\nabla p +\frac{1}{Re}\nabla\cdot(\nabla + \nabla^T)\mathbf u  + NL,\\
-    \nabla \cdot \mathbf u &= 0 
+    \frac{\partial\mathbf u}{\partial t} = -\nabla p +\frac{1}{Re}\nabla\cdot(\nabla + \nabla^T)\mathbf u  + NL,\\
+    \nabla \cdot \mathbf u = 0 
 
 Here, :math:`NL` represents the quadratic nonlinearities from the convective term.
 
