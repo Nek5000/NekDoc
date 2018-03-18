@@ -46,11 +46,11 @@ Here’s a brief description of each top-level directory:
 
 .. topic:: /examples
 
-   contains example problems.
+   contains example problems. Note: NOT included in the master branch on the GitHub repo.
 
 .. topic:: /doc
 
-   contains the user documentation.
+   contains the user documentation. Note: NOT included in the master branch on the GitHub repo.
  
 .. topic:: /3rd_party
 
@@ -121,7 +121,9 @@ Let’s walk through some useful batch scripts:
 Running your very first simulation
 ----------------------------------
 
-Hold your horses, this needs less than 5 min.
+Hold your horses, this needs less than 5 min.  
+Begin by downloading the latest release tarball from `here <https://github.com/Nek5000/Nek5000/releases>`_.
+Then follow the instructions below
 
 ::
 
@@ -137,6 +139,8 @@ Hold your horses, this needs less than 5 min.
   nekbmpi eddy_uv 2            # run Nek5000 on 2 ranks in the background
   tail logfile                 # view solver output
   visnek eddy_uv; visit -o eddy_uv.nek5000 # requires a VisIt/Paraview installation
+
+Note that this will not work if you clone the master branch from GitHub, as the ``examples`` folder is NOT included.
 
 -------------------
 Meshing
