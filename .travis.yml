@@ -2,10 +2,11 @@ sudo: required
 
 install:
   - sudo pip install sphinx
+  - sudo pip install sphinx_rtd_theme
 
 script:
   - make clean
-  - make html > logfile
+  - make html | tee logfile
   - sed 's/[^0-9]*//g' logfile | tee log2
   - sed '/^\s*$/d' log2 | tee log3
   - NUMBER=$(tail -1 log3)
