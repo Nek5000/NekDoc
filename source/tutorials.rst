@@ -154,7 +154,7 @@ Control parameters
 
 The par (parameter) file for this case is given as
 
-.. code-block:: fortran
+.. code-block:: ini
 
     #
     # nek parameter file
