@@ -301,7 +301,7 @@ where :math:`\nu_\pm = \nu \pm \eta`.
 The important non-dimensional parameters for MHD are :math:`Re = U L /\nu` and the magnetic Re :math:`Re_M = U L /\eta`.
 
 ----------------------------------
-Adpative Lagrangian-Eulerian (ALE)
+Arbitrary Lagrangian-Eulerian (ALE)
 ----------------------------------
 
 We consider unsteady incompressible flow in a domain with moving boundaries:
