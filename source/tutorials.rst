@@ -59,7 +59,7 @@ resolve the boundary layers. The boundary conditions are periodic in the x-direc
    genbox
 
 On input provide the input file name (e.g. ``hillp.box``).
-The tool will produce a binary mesh and boundary data file ``hillp.re2``. 
+The tool will produce a binary mesh and boundary data file ``box.re2`` which should be renamed to ``hillp.re2``. 
 
 ..........................
 usr File
@@ -94,6 +94,9 @@ In Nek5000, we can specify this through ``usrdat2`` in the usr file as follows
 .. code-block:: fortran
 
    subroutine usrdat2
+
+   ! implicit none
+
    include 'SIZE'
    include 'TOTAL'
 
@@ -136,14 +139,19 @@ This can be done in the subroutine ``useric`` as follows:
 .. code-block:: fortran
 
    subroutine useric(ix,iy,iz,ieg)
+
+   ! implicit none
+
+   integer ix,iy,iz,eg
+
    include 'SIZE'
    include 'TOTAL'
+   include 'NEKUSE'
 
-   iel = gllel(ieg)
-        
-   ux = 1.0 
-   uy = 0.0
-   uz = 0.0
+   ux   = 1.0 
+   uy   = 0.0
+   uz   = 0.0
+   temp = 0.0
 
    return
    end
@@ -152,7 +160,8 @@ This can be done in the subroutine ``useric`` as follows:
 Control parameters
 ..........................
 
-The par (parameter) file for this case is given as
+The control parameters for any case are given in the ``.par`` file.
+For this case, using any text editor, create a new file called ``hillp.par`` and type in the following
 
 .. code-block:: ini
 
@@ -164,6 +173,7 @@ The par (parameter) file for this case is given as
     endTime  = 200
 
     variableDT = yes
+    targetCFL = 0.4
     timeStepper = bdf2
 
     writeControl = runTime
@@ -191,11 +201,12 @@ SIZE file
 ..........................
 
 The static memory layout of Nek5000 requires the user to set some solver parameters through a so called ``SIZE`` file.
-Typically it's a good idea to start from our template:
+Typically it's a good idea to start from our template.
+Copy the ``SIZE.template`` file from the core directory and rename it ``SIZE`` in the working directory:
 
 .. code-block:: none
 
-   cp $HOME/Nek5000/core/SIZE.template .
+   cp $HOME/Nek5000/core/SIZE.template SIZE
 
 Then, adjust the following parameters in the BASIC section  
 
@@ -240,7 +251,7 @@ First we need to run our domain paritioning tool
 
   genmap
 
-On input specify ``hillp`` as your casename and press enter to use the default tolerance. This step will produce ``hillp.map`` which needs to be generated only once. 
+On input specify ``hillp`` as your casename and press enter to use the default tolerance. This step will produce ``hillp.ma2`` which needs to be generated only once. 
 
 Now you are all set, just run
 
