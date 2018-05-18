@@ -588,6 +588,8 @@ Example code for reading the geometry field in python:
 
 TODO: Add more details
 
+.. _case_files_his:
+
 ---
 his
 ---

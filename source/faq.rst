@@ -86,7 +86,8 @@ Problem Setup
 
 **How do I solve for a scalar?**
 
-   Nek5000 supports solving up to 99 additional scalars.  To solve an additional scalar equation, increase ``ldimt`` in the ``SIZE`` file to accomodate the additional scalar and specify the appropriate parameter in the .(:ref:`case_files_par`) file.  
+   Nek5000 supports solving up to 99 additional scalars.  
+   To solve an additional scalar equation, increase ``ldimt`` in the ``SIZE`` file to accomodate the additional scalar and specify the appropriate parameter in the .:ref:`case_files_par` file.  
 
 ---------------------------
 Physical Models
@@ -103,7 +104,7 @@ Pre-Processing
 
 **How can I generate a mesh for use with Nek5000?**
 
-   Please see the section on `Mesh Generation and Conversion <https://nek5000.github.io/NekDoc/geometry.html>`_.
+   Please see the section on :ref:`mesh_gen`.
 
 **What element types are supported?**
 
@@ -119,7 +120,7 @@ Post-Processing
 
 **Where are my solution files and how do I visualize them?**
 
-   By default Nek5000 outputs solution files in the binary ``0.f%05d`` format.  These can be read by both VisIt and ParaView in conjunction with a meta-data file.  For more information see `here <https://nek5000.github.io/NekDoc/quickstart.html#visualization>`_.
+   By default Nek5000 outputs solution files in the binary ``0.f%05d`` format.  These can be read by both VisIt and ParaView in conjunction with a meta-data file.  For more information see :ref:`qstart_vis`.
 
 **I have calculated additional fields from my solution (e.g. vorticity), how do I visualize them?**
 
