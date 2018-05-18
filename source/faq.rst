@@ -87,7 +87,7 @@ Problem Setup
 **How do I solve for a scalar?**
 
    Nek5000 supports solving up to 99 additional scalars.  
-   To solve an additional scalar equation, increase ``ldimt`` in the ``SIZE`` file to accomodate the additional scalar and specify the appropriate parameter in the .:ref:`case_files_par` file.  
+   To solve an additional scalar equation, increase ``ldimt`` in the ``SIZE`` file to accomodate the additional scalar and specify the appropriate parameter in the :ref:`case_files_par` file.  
 
 ---------------------------
 Physical Models
@@ -137,5 +137,5 @@ Post-Processing
 
 **How do I obtain values of variables at a specific point?**
 
-  The simplest way is through the use of history points. See the section on the .:ref:`case_files_his` file.
+  The simplest way is through the use of history points. See the section on the :ref:`case_files_his` file.
 
