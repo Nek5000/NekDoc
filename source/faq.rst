@@ -85,7 +85,7 @@ Problem Setup
 **How do I choose solver tolerances?**
 
   Depends on how accurate you need your simulation to be.  
-  Typical values are :math:`10^-6` for velocity and scalars and :math:`10^-5` for pressure.
+  Typical values are :math:`10^{-6}` for velocity and scalars and :math:`10^{-5}` for pressure.
   Note that solver tolerances do not represent the accuracy of the solution, but rather the accuracy in the update per time step, so these errors will accumulate for long running simulations. 
 
 **What is the difference between Pn/Pn and Pn/Pn-2?**
@@ -136,7 +136,7 @@ Pre-Processing
 
    Conformal curved quadrilateral/hexahedral elements.
 
-**How do I convert a mesh to Nek5000?"**
+**How do I convert a mesh to Nek5000?**
 
    We currently support conversion from the exodus file format with the ``exo2nek`` utility.
 
