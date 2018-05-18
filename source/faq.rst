@@ -167,7 +167,7 @@ Post-Processing
 
 **How do I obtain values of variables at a specific point?**
 
-  The simplest way is through the use of history points. See the section on the :ref:`append_his` file.
+  The simplest way is through the use of history points. See the section on the :ref:`case_files_his` file.
 
 **How do I compute an integral over a boundary patch?**
 
