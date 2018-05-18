@@ -1,10 +1,10 @@
-.. _user_files:
+.. _case_files:
 
 ==========
 Case Files
 ==========
 
-Each simulation is defined by six case files: 
+Each simulation is defined by six *required* case files: 
 
 - SESSION.NAME
 - par
@@ -12,26 +12,31 @@ Each simulation is defined by six case files:
 - usr
 - SIZE
 - map/ma2
-- fld/f%05d
 
-.. _user_files_session:
+Additional *optional* case files may be generated or included:
+
+- fld/f%05d
+- his
+
+.. _case_files_session:
 
 ------------
 SESSION.NAME
 ------------
 
-To run Nek5000, each simulation must have a SESSION.NAME file. This file is read in by the code and
-gives the path to the relevant files describing the structure and parameters of the simulation. The
-SESSION.NAME file is a file that contains the name of the simulation and the full path to
-supporting files. For example, to run the eddy example from the repository, the SESSION.NAME file
-would look like:
+To run Nek5000, each simulation must have a ``SESSION.NAME`` file. 
+This file is read in by the code and gives the path to the relevant files describing the structure and parameters of the simulation. 
+The ``SESSION.NAME`` file is a file that contains the name of the simulation and the full path to supporting files. 
+For example, to run the eddy example from the repository, the ``SESSION.NAME`` file would look like:
 
 .. code-block:: none
 
   eddy_uv
   /home/user_name/Nek5000/short_tests/eddy/ 
 
-.. _user_files_par:
+Note that this file is generated automatically by the ``nek``, ``nekb``, ``nekmpi`` and ``nekbmpi`` scripts at runtime.
+
+.. _case_files_par:
 
 -----------------------------------
 par
@@ -313,7 +318,7 @@ Values in parentheses denote the default value.
    +--------------------------+----------------+----------------------------------------------+
 
 
-.. _user_files_re2:
+.. _case_files_re2:
 
 -----------------------------------
 re2
@@ -323,7 +328,7 @@ Stores the mesh and boundary condition.
 TODO: Add more details
 
 
-.. _user_files_usr:
+.. _case_files_usr:
 
 ----------------------
 usr
@@ -369,10 +374,10 @@ Example:
       ffz = -g ! gravitational acceleration 
  
 ...................
-userf()
+userq()
 ...................
 
-This functions sets the source term for the scalar equation. 
+This functions sets the source term for the energy (temperature) and passive scalar equations.
 
 ...................
 userbc()
@@ -380,6 +385,12 @@ userbc()
 
 This functions sets boundary conditions. Note, this function is only called
 for special boundary condition types and only for points on the boundary surface.   
+
+...................
+useric()
+...................
+
+This functions sets the initial conditions.
 
 ...................
 userchk()
@@ -399,13 +410,14 @@ step.
 usrdat()
 ...................
 
-This function can be used to modify the element vertices.
+This function can be used to modify the element vertices and is called before the spectral element mesh (GLL points) has been laid out.
 
 ...................
 usrdat2()
 ...................
 
-This function can be used to modify the spectral element mesh.
+This function can be used to modify the spectral element mesh.  
+The geometry information (mass matrix, surface normals, etc.) will be rebuilt after this routine is called.
 
 ...................
 usrdat3()
@@ -461,7 +473,7 @@ Note that one also need to include the following line to SIZE file:
 that defines addional internal parameters.
 
 
-.. _user_files_ma2:
+.. _case_files_ma2:
 
 -----------------------------------
 map/ma2
@@ -470,7 +482,7 @@ map/ma2
 TODO: Add more details
 
 
-.. _user_files_fld:
+.. _case_files_fld:
 
 -----------------------------------
 fld/f%05d
@@ -575,3 +587,26 @@ Example code for reading the geometry field in python:
 
 
 TODO: Add more details
+
+.. _case_files_his:
+
+--------------
+History Points    
+--------------
+
+Assuming a case named ``foo``, a list of monitor points can be defined in file ``foo.his`` to evaluate velocity, temperature, pressure and passive scalars. 
+Values for each scalar will be spectrally interpolated to each point and appended to this file each time the subroutine ``hpts()`` is called. 
+Depending on the number of monitoring points you may need to increase parameter ``lhis`` in SIZE.
+Usage example:
+
+- setup an ASCII file called ``foo.his``, e.g.:
+
+  .. code-block:: none
+
+     3 !number of monitoring points
+     1.1 -1.2 1.0
+     . . .
+     x y z
+
+- add ``call hpts()`` to ``userchk()``
+

@@ -26,9 +26,9 @@ General Info
 
    For any questions not answered in this document, you can email the Nek5000 community at large via the `mailing list <https://lists.mcs.anl.gov/mailman/listinfo/nek5000-users>`_.
 
----------
-Compiling
----------
+----------------------------------
+Installing, Compiling, and Running
+----------------------------------
 
 **Which platforms are supported by Nek5000?**
 
@@ -47,9 +47,46 @@ Compiling
    The best way to avoid this is to increase the minimum number of MPI ranks, ``lpmin`` in ``SIZE``.  
    Alternatively, you can add ``-mcmodel=medium`` to the ``FFLAGS`` variable in ``makenek``.
 
+**How do I launch a parallel run?**
+  
+  Assuming your machine has MPI configured correctly and you have pointed your ``makenek`` file to the correct compilers, parallel runs can be launced with the included ``nekmpi`` and ``nekbmpi`` scripts. 
+  If you are running on a cluster, consult your sysadmin to write an appropriate submission script.
+
+.. **My simulation diverges.  What should I do?**
+  accept that we can't always get what we want...
+
+**How do I run the examples?**
+
+  The examples are included by default in the release tarball and the entire suite can be run with the NekTests.py script.  
+  Each example should contain the appropriate files to be run manually as well.
+
+-------------------
+Computational Speed
+-------------------
+
+**How many elements should I have per processor?**
+
+  This is highly dependent on the computer architecture you are using and ranges anywhere from a couple 100 in a workstation environment down to under 10 on a Blue Gene.
+  This will also depend on the polynomial order, with a higher order running more efficiently on more cores.
+  If possible, we recommend running a short scaling test by recording the amount of time required to run a set numer of time steps for various MPI ranks to find your particular strong-scaling limit.
+
+.. **What is "projection" and should I use it?**
+  magic, and yes, yes you should!
+
 ---------------------------
-Problem Formulation/Models
+Problem Setup
 ---------------------------
+
+**Why is it important to non-dimensionalize my case?**
+
+  Nek5000 can be run with dimensions, but the solver tolerances assume the case has been non-dimensionalized properly.
+  Additionally, cases which have been non-dimensionalized tend to be more stable and run faster.
+
+**How do I choose solver tolerances?**
+
+  Depends on how accurate you need your simulation to be.  
+  Typical values are :math:`10^{-6}` for velocity and scalars and :math:`10^{-5}` for pressure.
+  Note that solver tolerances do not represent the accuracy of the solution, but rather the accuracy in the update per time step, so these errors will accumulate for long running simulations. 
 
 **What is the difference between Pn/Pn and Pn/Pn-2?**
 
@@ -66,15 +103,21 @@ Problem Formulation/Models
 
 **How do I specify/change the solver runtime parameters?**
 
-   See ``.par`` or ``.rea`` file.
+   See the section on the :ref:`case_files_par` file.
 
 **Why is ``userbc`` only called for certain element faces?**
 
    ``userbc`` is ONLY called for element boundary conditions specified with a lower-case letter, e.g. 'v', 't', or 'o' but NOT 'W', 'E', or 'O'.  Note that this implies it is not necesarily called on all MPI ranks.
 
+
+---------------------------
+Physical Models
+---------------------------
+
 **How do I solve for a scalar?**
 
-   Nek5000 supports solving up to 99 additional scalars.  To solve an additional scalar equation, increase ``ldimt`` in the ``SIZE`` file to accomodate the additional scalar and specify the appropriate parameter in the ``.par`` file (`for details <https://nek5000.github.io/NekDoc/user_files.html#par>`_).  
+   Nek5000 supports solving up to 99 additional scalars.  
+   To solve an additional scalar equation, increase ``ldimt`` in the ``SIZE`` file to accomodate the additional scalar and specify the appropriate parameter in the :ref:`case_files_par` file.  
 
 **What turbulence models are available in Nek5000?**
 
@@ -82,16 +125,24 @@ Problem Formulation/Models
    Other turbulence models are available through user file implementation including: dynamic Smagorinsky (turbChannel example), k-ω, k-ω SST, etc. (contact the developers for more information).
 
 -------------------
-Pre/Post Processing
+Pre-Processing
 -------------------
 
 **How can I generate a mesh for use with Nek5000?**
 
-   Please see the section on `Mesh Generation and Conversion <https://nek5000.github.io/NekDoc/geometry.html>`_.
+   Please see the section on :ref:`mesh_gen`.
 
 **What element types are supported?**
 
    Conformal curved quadrilateral/hexahedral elements.
+
+**How do I convert a mesh to Nek5000?**
+
+   We currently support conversion from the exodus file format with the ``exo2nek`` utility.
+
+---------------
+Post-Processing
+---------------
 
 **The local coordinate axes of my elements are not aligned with the global coordinate system, is this normal?**
 
@@ -99,7 +150,7 @@ Pre/Post Processing
 
 **Where are my solution files and how do I visualize them?**
 
-   By default Nek5000 outputs solution files in the binary ``0.f%05d`` format.  These can be read by both VisIt and ParaView in conjunction with a meta-data file.  For more information see `here <https://nek5000.github.io/NekDoc/quickstart.html#visualization>`_.
+   By default Nek5000 outputs solution files in the binary ``0.f%05d`` format.  These can be read by both VisIt and ParaView in conjunction with a meta-data file.  For more information see :ref:`qstart_vis`.
 
 **I have calculated additional fields from my solution (e.g. vorticity), how do I visualize them?**
 
@@ -114,7 +165,11 @@ Pre/Post Processing
 
    Then store the calculated field in ``t(1,1,1,1,iscal+1)`` where ``iscal`` is your passive scalar index (in this example 1).
 
-.. How do I obtain values of variables at a specific point?
+**How do I obtain values of variables at a specific point?**
 
-..   to do
+  The simplest way is through the use of history points. See the section on the :ref:`case_files_his` file.
 
+**How do I compute an integral over a boundary patch?**
+
+  The included subroutine ``surface_int`` can be called in a loop over the appropriate element faces.
+  This subroutine is further described in the section on :ref:`append_subroutines`.

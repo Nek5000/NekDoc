@@ -1,4 +1,4 @@
-.. _quickstart:
+.. _qstart:
 
 ==============
 Quickstart
@@ -142,12 +142,16 @@ Then follow the instructions below
 
 Note that this will not work if you clone the master branch from GitHub, as the ``examples`` folder is NOT included.
 
+.. _qstart_meshing:
+
 -------------------
 Meshing
 -------------------
 
 Nek5000 is mainly a solver. However, simple box type meshes can be generated with the ``genbox`` tool. For more complex meshes please consider using ``PRENEK`` and the meshing tools ``nekmerge`` and ``n2to3``. We provide mesh converters like ``exo2nek`` and ``msh2nek`` which are quite handy if you want to use your favorite mesh generator. Also check our 
 `Bazaar <https://github.com/Nek5000/NekBazaar>`_ for 3rd party meshing tools.
+
+.. _qstart_vis:
 
 -------------------
 Visualization
