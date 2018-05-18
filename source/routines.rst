@@ -1,3 +1,5 @@
+.. _append_subroutines:
+
 -------------------------
 Commonly used Subroutines
 -------------------------
@@ -90,34 +92,19 @@ Commonly used Subroutines
 ``function i8glsum(x,n)``
     Computes the global sum of ``x``, where the prefix, ``i`` specifies type integer, and ``i8`` specifies type integer*8.
 
+``subroutine surface_int(dphi,dS,phi,ielem,iside)``
+    Computes the surface integral of scalar array ``phi`` over face ``iside`` of element ``ielem``. 
+    The resulting integral is storted in ``dphi`` and the area in ``dS``.
 
---------------
-History Points    
---------------
-
-Assuming a case named ``foo``, a list of monitor points can be defined in file ``foo.his`` to evaluate velocity, 
-temperature, pressure and passive scalars. Results will be appended to this file each time subroutine ``hpts()`` 
-is called. Depending on the numnber of monitoring points you may need to increase parameter ``lhis`` in SIZE.
-Usage example:
-
-- setup an ASCII file called ``foo.his``, e.g.:
-
-  .. code-block:: none
-
-     3 !number of monitoring points
-     1.1 -1.2 1.0
-     . . .
-     x y z
-
-- add ``call hpts()`` to ``userchk()``
+.. _append_g2g:
 
 --------------------------
 Grid-to-Grid Interpolation
 --------------------------
 
-To restart from an existing field file onto a new mesh you can call the generic field file
-reader interpolation subroutine in userchk. Note that selection of specific fields to read is not currently
-supported. That means all fields included in base.fld will be overwritten. Usage example:
+To restart from an existing field file onto a new mesh you can call the generic field file reader interpolation subroutine in userchk. 
+Note that selection of specific fields to read is not currently supported and the source file must include the coordinates. 
+That means all fields included in ``foo.f00001`` will be overwritten. Usage example:
 
    .. code-block:: none
 

@@ -588,25 +588,25 @@ Example code for reading the geometry field in python:
 
 TODO: Add more details
 
----
-his
----
+.. _case_files_his:
 
-The history file is used to output the solution at any point within the domain at all timesteps.
-It initially consists of a single integer and a list of coordinates. 
-For example:
+--------------
+History Points    
+--------------
 
-.. code-block:: none
+Assuming a case named ``foo``, a list of monitor points can be defined in file ``foo.his`` to evaluate velocity, temperature, pressure and passive scalars. 
+Values for each scalar will be spectrally interpolated to each point and appended to this file each time the subroutine ``hpts()`` is called. 
+Depending on the number of monitoring points you may need to increase parameter ``lhis`` in SIZE.
+Usage example:
 
-  4
-  1.00 0.5 0.0
-  1.25 0.5 0.0
-  1.50 0.5 0.0
-  1.75 0.5 0.0
+- setup an ASCII file called ``foo.his``, e.g.:
 
+  .. code-block:: none
 
-will output the physical time followed by values of each defined scalar at that point.
-The scalar values are spectrally interpolated to the given coordinate and appended to the end of the ``.his`` file with each point on its own line.
-Note that the number of history points must be less or equal to the ``lhis`` parameter in the ``SIZE`` file.
+     3 !number of monitoring points
+     1.1 -1.2 1.0
+     . . .
+     x y z
 
+- add ``call hpts()`` to ``userchk()``
 
