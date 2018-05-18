@@ -6,7 +6,7 @@ Nek5000
 
    quickstart
    tutorials
-   user_files
+   case_files
    geometry
    perf
    theory

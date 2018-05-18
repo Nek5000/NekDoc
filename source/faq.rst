@@ -26,9 +26,9 @@ General Info
 
    For any questions not answered in this document, you can email the Nek5000 community at large via the `mailing list <https://lists.mcs.anl.gov/mailman/listinfo/nek5000-users>`_.
 
----------
-Compiling
----------
+----------------------------------
+Installing, Compiling, and Running
+----------------------------------
 
 **Which platforms are supported by Nek5000?**
 
@@ -47,8 +47,20 @@ Compiling
    The best way to avoid this is to increase the minimum number of MPI ranks, ``lpmin`` in ``SIZE``.  
    Alternatively, you can add ``-mcmodel=medium`` to the ``FFLAGS`` variable in ``makenek``.
 
+-------------------
+Computational Speed
+-------------------
+
+**How many elements should I have per processor?**
+
+  This is highly dependent on the computer architecture you are using and ranges anywhere from a couple 100 in a workstation environment down to under 10 on a Blue Gene.
+  This will also depend on the polynomial order, with a higher order running more efficiently on more cores.
+  If possible, we recommend running a short scaling test by recording the amount of time required to run a set numer of time steps for various MPI ranks to find your particular strong-scaling limit.
+
+.. **What is "projection" and should I use it?**
+
 ---------------------------
-Problem Formulation/Models
+Problem Setup
 ---------------------------
 
 **What is the difference between Pn/Pn and Pn/Pn-2?**
@@ -74,7 +86,11 @@ Problem Formulation/Models
 
 **How do I solve for a scalar?**
 
-   Nek5000 supports solving up to 99 additional scalars.  To solve an additional scalar equation, increase ``ldimt`` in the ``SIZE`` file to accomodate the additional scalar and specify the appropriate parameter in the ``.par`` file (`for details <https://nek5000.github.io/NekDoc/user_files.html#par>`_).  
+   Nek5000 supports solving up to 99 additional scalars.  To solve an additional scalar equation, increase ``ldimt`` in the ``SIZE`` file to accomodate the additional scalar and specify the appropriate parameter in the ``.par`` file (:ref:`case_files_par`).  
+
+---------------------------
+Physical Models
+---------------------------
 
 **What turbulence models are available in Nek5000?**
 
@@ -82,7 +98,7 @@ Problem Formulation/Models
    Other turbulence models are available through user file implementation including: dynamic Smagorinsky (turbChannel example), k-ω, k-ω SST, etc. (contact the developers for more information).
 
 -------------------
-Pre/Post Processing
+Pre-Processing
 -------------------
 
 **How can I generate a mesh for use with Nek5000?**
@@ -92,6 +108,10 @@ Pre/Post Processing
 **What element types are supported?**
 
    Conformal curved quadrilateral/hexahedral elements.
+
+---------------
+Post-Processing
+---------------
 
 **The local coordinate axes of my elements are not aligned with the global coordinate system, is this normal?**
 
@@ -114,7 +134,7 @@ Pre/Post Processing
 
    Then store the calculated field in ``t(1,1,1,1,iscal+1)`` where ``iscal`` is your passive scalar index (in this example 1).
 
-.. How do I obtain values of variables at a specific point?
+**How do I obtain values of variables at a specific point?**
 
-..   to do
+  The simplest way is through the use of history points. See :ref: `case_files_his`
 

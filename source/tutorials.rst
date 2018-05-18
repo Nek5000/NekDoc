@@ -65,7 +65,7 @@ The tool will produce a binary mesh and boundary data file ``box.re2`` which sho
 usr File
 ..........................
 
-The :ref:`user_files_usr` file implements various subroutines to allow the user to interact with the solver.
+The :ref:`case_files_usr` file implements various subroutines to allow the user to interact with the solver.
 
 To get started we copy the template to our case directory 
 
@@ -194,7 +194,7 @@ For this case, using any text editor, create a new file called ``hillp.par`` and
 In choosing ``viscosity = -100`` we are actually setting the Reynolds number. This assumes that
 :math:`\rho \times u_b \times h = 1` where :math:`u_b` denotes the bulk velocity and :math:`h` the hill height.  
 
-We have set the calculation to stop at the physical time of :math:`T=200` (``endTime=200``) which is roughly 22 flow-thru time units (based on the bulk velocity :math:`u_b` and length of periodic pitch, :math:`L=9`).  Additional details on the names of keys in the ``.par`` file can be found :ref:`here <user_files_par>`. 
+We have set the calculation to stop at the physical time of :math:`T=200` (``endTime=200``) which is roughly 22 flow-thru time units (based on the bulk velocity :math:`u_b` and length of periodic pitch, :math:`L=9`).  Additional details on the names of keys in the ``.par`` file can be found :ref:`here <case_files_par>`. 
 
 ..........................
 SIZE file 
@@ -229,7 +229,7 @@ Then, adjust the following parameters in the BASIC section
 
 
 For this tutorial we have set our polynomial order to be :math:`N=7` - this is defined in the ``SIZE`` file above as ``lx1=8`` which indices that there are 8 points in each spatial dimension of every element.
-Additional details on the parameters in the ``SIZE`` file are given in :doc:`user_files`.   
+Additional details on the parameters in the ``SIZE`` file are given in :doc:`case_files`.   
 
 ..........................
 Compilation 
