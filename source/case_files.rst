@@ -588,27 +588,3 @@ Example code for reading the geometry field in python:
 
 TODO: Add more details
 
-.. _case_files_his:
-
----
-his
----
-
-The history file is used to output the solution at any point within the domain at all timesteps.
-It initially consists of a single integer and a list of coordinates. 
-For example:
-
-.. code-block:: none
-
-  4
-  1.00 0.5 0.0
-  1.25 0.5 0.0
-  1.50 0.5 0.0
-  1.75 0.5 0.0
-
-
-will output the physical time followed by values of each defined scalar at that point.
-The scalar values are spectrally interpolated to the given coordinate and appended to the end of the ``.his`` file with each point on its own line.
-Note that the number of history points must be less or equal to the ``lhis`` parameter in the ``SIZE`` file.
-
-
