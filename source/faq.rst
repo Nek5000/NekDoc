@@ -22,22 +22,34 @@ General
    Nek5000 is licensed under BSD.  
    For more information see the ``LICENSE`` file included with the distribution in the root level directory.
 
-**Where can I find support or ask questions about Nek5000?**
+**Where can I get help?**
 
-   For any questions not answered in this document, you can email the Nek5000 community at large via the `mailing list <https://lists.mcs.anl.gov/mailman/listinfo/nek5000-users>`_.
-
+   If you have a question, first check the mailing list `archive <https://lists.mcs.anl.gov/pipermail/nek5000-users/>`_ to see if your question is already answered somewhere. 
+   The mailing list also serves as a primary
+   support channel. Please subscribe `here <https://lists.mcs.anl.gov/mailman/listinfo/nek5000-users>`_.
+   Postings from email addresses that are not on the list are held for moderation 
+   
 ----------------------------------
 Installing, Compiling, and Running
 ----------------------------------
+
+**What version of the code should I use?**
+   
+   We strongly recommend to always use the latest `release <https://github.com/Nek5000/Nek5000/releases>`_  available.
 
 **Which platforms are supported by Nek5000?**
 
    All posix compliant operations system. 
    Compiling and running on Microsoft Windows 10 has been demonstrated using CMake and MinGW, although this is **not** supported.
 
+**Can Nek5000 run on GPUs?**
+
+   Currently there is no support for GPUs. We are actively working on a high-performance GPU version but this is
+   a topic of active research. 
+
 **Which compilers work?**
 
-   Currently GNU, Intel, PGI and IBM compilers are supported.
+   Currently Intel, PGI, IBM and GNU compilers are supported.
 
 **How much memory is required?**
 
@@ -47,8 +59,7 @@ screen whenever Nek5000 exits. What follows is a rough a-priori estimate::
   lx1*ly1*lz1*lelt * 3000byte + lelg * 12byte + MPI
 
 The memory allocated by MPI will depend heavily on the total number of
-ranks and the considered MPI implementation. For large ranks counts (say > 100'000) it's
-easily 50-100MB.
+ranks and the considered MPI implementation. For large rank counts (say > 100'000) it's easily 50-100MB.
 
 Note, the output of GNU`s SIZE utility is inaccurate as it does not
 take into account the dynamic memory alloation of MPI, gslib, CVODE, etc. 
@@ -59,12 +70,17 @@ take into account the dynamic memory alloation of MPI, gslib, CVODE, etc.
 
    This happens when the resultant executable requires more memory allocation than available, usually because ``lelt`` is too large.  
    The best way to avoid this is to increase the minimum number of MPI ranks, ``lpmin`` in ``SIZE``.  
-   Alternatively, you can add ``-mcmodel=medium`` to the ``FFLAGS`` variable in ``makenek``.
+   Alternatively, you can add ``-mcmodel=medium`` to the ``FFLAGS/CFLAGS`` variable in ``makenek``.
+
+**Why does the code use static memory allocation?**
+
+   It is easy to program, produces fast code and is less error prone. The drawback of recompilation is not relevant 
+   as full rebuild takes less than 1 minute. 
 
 **How do I launch a parallel run?**
   
-  Assuming your machine has MPI configured correctly and you have pointed your ``makenek`` file to the correct compilers, parallel runs can be launced with the included ``nekmpi`` and ``nekbmpi`` scripts. 
-  If you are running on a cluster, consult your sysadmin to write an appropriate submission script.
+  Assuming your machine has MPI installed correctly, parallel runs can be launced with the included ``nekmpi`` and ``nekbmpi`` scripts in ``Nek5000/bin``. 
+  If you are running on a machine with a queuing system, consult your sysadmin how to submit a job.
 
 **How do I run the examples?**
 
@@ -86,10 +102,6 @@ Pre-Processing
 **How do I convert a mesh to Nek5000?**
 
    We currently support conversion from the exodus file format with the ``exo2nek`` utility.
-
----------------------------
-Problem Setup
----------------------------
 
 **Why is it important to non-dimensionalize my case?**
 
@@ -128,14 +140,14 @@ Problem Setup
 
    ``userbc`` is ONLY called for element boundary conditions specified with a lower-case letter, e.g. 'v', 't', or 'o' but NOT 'W', 'E', or 'O'.  Note that this implies it is not necesarily called on all MPI ranks.
 
----------------------------
-Physical Models
----------------------------
-
 **How do I solve for a scalar?**
 
    Nek5000 supports solving up to 99 additional scalars.  
    To solve an additional scalar equation, increase ``ldimt`` in the ``SIZE`` file to accomodate the additional scalar and specify the appropriate parameter in the :ref:`case_files_par` file.  
+
+---------------------------
+Physical Models
+---------------------------
 
 **What turbulence models are available in Nek5000?**
 
@@ -145,6 +157,11 @@ Physical Models
 -------------------
 Computational Speed
 -------------------
+
+**Are there any compiler specific flags I should use?**
+
+  Compile with vector instructions like AVX, AVX2 using FFLAGS and CFLAGS 
+  in makenek.   
 
 **How many elements should I have per processes?**
 
@@ -157,19 +174,15 @@ Computational Speed
   This depends, you may want to turn it on e.g. for pressure but noti for velocity. All this is case specific and a simple
   experiment will show if it pays off or not.  
 
-**What can I do to get best performance?**
+**What other things can I do to get best performance?**
 
   - Design your mesh for a polynomial order N=7
-  - Reduce polynomial order used for overintegration (strict 3/2 rule might be overly conservative)
-  - Fine tune the number of elements per MPI rank to get a reasonable parallel efficiency 
+  - Tune your solver tolerances
+  - Increase time step size by switching to 2nd order BDF and OIFS extrapolation (target Courant number 2-5)
   - Use AMG instead of XXT as coarse grid solver
   - Avoid unnecessary time consuming operations in ``usrchk/userbc``
-  - Enable tuned MxM implementation for your platform (see ``makenek`` options)
-  - Compile with vector instructions like AVX, AVX2 using FFLAGS and CFLAGS in makenek
-  - Try to use residual projection
-  - Tune your solver tolerances
-  - Increase time step size (target Courant number 2-4) by switching to 2nd order BDF and OIFS extrapolation
   - Use binary input files e.g. ``.re2`` and ``.ma2`` to minimize solver initialization time
+  - Use a high performance MXM implementation for your platform (see ``makenek`` options)
 
 ---------------------------
 Troubleshooting
@@ -184,23 +197,29 @@ Troubleshooting
   * increase spatial resolution
   * provide a better initial condition
   * check that your boundary conditions are meaningful and correctly implemented 
-  * visualize the solution and look for unexpected anomalies
+  * visualize the solution and look for anomalies
 
 ---------------
 Post-Processing
 ---------------
 
+**What options are available**
+
+   * For data analysis you use Nek5000's internal machinery through the usr file.  
+   * Solution files can be read by VisIt and Paraview. For more information see :ref:`qstart_vis`.
+   * Various user contributions in `NekBazaar <https://github.com/Nek5000/NekBazaar/>`_ 
+
 **The local coordinate axes of my elements are not aligned with the global coordinate system, is this normal?**
 
    Yes, there is no guarantee that the elements are generated with any particular orientation (except if you use genbox).
 
-**Where are my solution files and how do I visualize them?**
+**Where are my solution files?**
 
-   By default Nek5000 outputs solution files in the binary ``0.f%05d`` format.  These can be read by both VisIt and ParaView in conjunction with a meta-data file.  For more information see :ref:`qstart_vis`.
+   By default Nek5000 outputs solution files in binary (filename: ``<casename>.f%05d``) .  
 
 **I have calculated additional fields from my solution (e.g. vorticity), how do I visualize them?**
 
-   Using the ``.par`` file, define an additional scalar and include ``solver = none``, for example:
+   Using the ``.par`` file, define an additional scalar, for example:
 
 .. code-block:: none
 
@@ -214,8 +233,4 @@ Post-Processing
 **How do I obtain values of variables at a specific point?**
 
   The simplest way is through the use of history points. See the section on the :ref:`case_files_his` file.
-
-**How do I compute an integral over a boundary patch?**
-
-  The included subroutine ``surface_int`` can be called in a loop over the appropriate element faces.
-  This subroutine is further described in the section on :ref:`append_subroutines`.
+  You can also use the spectral interpolation tool (see examples for more details).
