@@ -5,7 +5,7 @@ FAQ
 ==============
 
 --------------
-General Info
+General
 --------------
 
 **How can I properly reference Nek5000?**
@@ -39,7 +39,21 @@ Installing, Compiling, and Running
 
    Currently GNU, Intel, PGI and IBM compilers are supported.
 
-**When trying to recompile after increasing the number of elements I get the error below. Why does this happen and how can I avoid it?**
+**How much memory is required?**
+
+The memory footprint of a run depends on many factors and is printed to
+screen whenever Nek5000 exits. What follows is a rough a-priori estimate::
+
+  lx1*ly1*lz1*lelt * 3000byte + lelg * 12byte + MPI
+
+The memory allocated by MPI will depend heavily on the total number of
+ranks and the considered MPI implementation. For large ranks counts (say > 100'000) it's
+easily 50-100MB.
+
+Note, the output of GNU`s SIZE utility is inaccurate as it does not
+take into account the dynamic memory alloation of MPI, gslib, CVODE, etc. 
+
+**Why does the compiler issue relocation errors?**
 
    ``relocation truncated to fit: R_X86_64 against symbol 'foo_' defined in COMMON section in obj/bar.o``
 
@@ -52,77 +66,10 @@ Installing, Compiling, and Running
   Assuming your machine has MPI configured correctly and you have pointed your ``makenek`` file to the correct compilers, parallel runs can be launced with the included ``nekmpi`` and ``nekbmpi`` scripts. 
   If you are running on a cluster, consult your sysadmin to write an appropriate submission script.
 
-.. **My simulation diverges.  What should I do?**
-  accept that we can't always get what we want...
-
 **How do I run the examples?**
 
-  The examples are included by default in the release tarball and the entire suite can be run with the NekTests.py script.  
-  Each example should contain the appropriate files to be run manually as well.
-
--------------------
-Computational Speed
--------------------
-
-**How many elements should I have per processor?**
-
-  This is highly dependent on the computer architecture you are using and ranges anywhere from a couple 100 in a workstation environment down to under 10 on a Blue Gene.
-  This will also depend on the polynomial order, with a higher order running more efficiently on more cores.
-  If possible, we recommend running a short scaling test by recording the amount of time required to run a set numer of time steps for various MPI ranks to find your particular strong-scaling limit.
-
-.. **What is "projection" and should I use it?**
-  magic, and yes, yes you should!
-
----------------------------
-Problem Setup
----------------------------
-
-**Why is it important to non-dimensionalize my case?**
-
-  Nek5000 can be run with dimensions, but the solver tolerances assume the case has been non-dimensionalized properly.
-  Additionally, cases which have been non-dimensionalized tend to be more stable and run faster.
-
-**How do I choose solver tolerances?**
-
-  Depends on how accurate you need your simulation to be.  
-  Typical values are :math:`10^{-6}` for velocity and scalars and :math:`10^{-5}` for pressure.
-  Note that solver tolerances do not represent the accuracy of the solution, but rather the accuracy in the update per time step, so these errors will accumulate for long running simulations. 
-
-**What is the difference between Pn/Pn and Pn/Pn-2?**
-
-   In brief, in the Pn/Pn formulation the pressure equation is solved on the same mesh as the velocity equations (:math:`P_n`), whereas in Pn/Pn-2 it is solved on a GLL mesh of lower order (:math:`P_{n-2}`). 
-   Typically Pn/Pn-2 is more stable and slightly faster, but will yield a discontinuous pressure solution while Pn/Pn is able to better predict the wall shear.
-
-**What polynomial order should I use?**
-
-   This depends what you are after. The sweet spot is typically :math:`N=7` (lx1=8)
-
-**How do I specify/change the polynomial order?**
-
-   Change ``lx1`` in the SIZE file.
-
-**How do I specify/change the solver runtime parameters?**
-
-   See the section on the :ref:`case_files_par` file.
-
-**Why is ``userbc`` only called for certain element faces?**
-
-   ``userbc`` is ONLY called for element boundary conditions specified with a lower-case letter, e.g. 'v', 't', or 'o' but NOT 'W', 'E', or 'O'.  Note that this implies it is not necesarily called on all MPI ranks.
-
-
----------------------------
-Physical Models
----------------------------
-
-**How do I solve for a scalar?**
-
-   Nek5000 supports solving up to 99 additional scalars.  
-   To solve an additional scalar equation, increase ``ldimt`` in the ``SIZE`` file to accomodate the additional scalar and specify the appropriate parameter in the :ref:`case_files_par` file.  
-
-**What turbulence models are available in Nek5000?**
-
-   LES with explicit filtering (spectral damping) or high-pass filtering is available. 
-   Other turbulence models are available through user file implementation including: dynamic Smagorinsky (turbChannel example), k-ω, k-ω SST, etc. (contact the developers for more information).
+  The examples are included by default in the release tarball (see example directory). There is nothing special you need
+  to do as they are ready to run.  
 
 -------------------
 Pre-Processing
@@ -139,6 +86,105 @@ Pre-Processing
 **How do I convert a mesh to Nek5000?**
 
    We currently support conversion from the exodus file format with the ``exo2nek`` utility.
+
+---------------------------
+Problem Setup
+---------------------------
+
+**Why is it important to non-dimensionalize my case?**
+
+  Nek5000 can be run with dimensions, but we STRONGLY recommend that the case has been non-dimensionalized properly.
+  An advantage of the nondimensional form is that physical simulation times, tolerances, etc. tend to
+  obtains the nondimensional form be easy to set based on prior experience with other simulations.
+
+**How do I choose solver tolerances?**
+
+  Depends on how accurate you need your simulation to be.  
+  Typical values (for engineering type of problems) are :math:`10^{-7}` for velocity and scalars.
+  In Pn/Pn-2 the pressure tolerance is equal to error in divergence. This is contrast to Pn/Pn where the divergence
+  error is mainly a function of spatial resolution and a tolerance of :math:`10^{-4}` is typically good enough.   
+  Note the tolerances are related to the residual in the linear solve and do not represent the accuracy of the solution. 
+
+**What formulation Pn/Pn or Pn/Pn-2 should I use?**
+
+   There is no simple answer but we typically recommend to use the Pn/Pn formulation altough not all features are 
+   supported (at least for now). 
+
+**What polynomial order should I use?**
+
+   This depends what you are after. The code supports a large range of polynomial orders e.g. `N=1-32` but the sweet spot
+   is typically :math:`N=7` (lx1=8). Unless you have a very good reason to change it do not deviate from this best partice.
+   Note, do not use :math:`N<5` as this results in a very poor performance. 
+
+**How do I specify/change the polynomial order?**
+
+   Change ``lx1`` in the SIZE file. Note, the polynomial order is :math:`N=lx1-1`. 
+
+**How do I specify/change the solver runtime parameters?**
+
+   See the section on the :ref:`case_files_par` file.
+
+**Why is ``userbc`` only called for certain element faces?**
+
+   ``userbc`` is ONLY called for element boundary conditions specified with a lower-case letter, e.g. 'v', 't', or 'o' but NOT 'W', 'E', or 'O'.  Note that this implies it is not necesarily called on all MPI ranks.
+
+---------------------------
+Physical Models
+---------------------------
+
+**How do I solve for a scalar?**
+
+   Nek5000 supports solving up to 99 additional scalars.  
+   To solve an additional scalar equation, increase ``ldimt`` in the ``SIZE`` file to accomodate the additional scalar and specify the appropriate parameter in the :ref:`case_files_par` file.  
+
+**What turbulence models are available in Nek5000?**
+
+   For LES we provide an explicit filtering approach or a relaxation term model. 
+   RANS turbulence models (k-ω, k-ω SST, etc.) are not an integral part of the code but available through the examples.
+
+-------------------
+Computational Speed
+-------------------
+
+**How many elements should I have per processes?**
+
+  The upper limit is given by the available memory. The lower limit is (technically) 1 but you may want to have more
+  elements (work) to get a reasonable (whatever that means for you) parallel efficiency. 
+  On most machines you need more than 10 elements per MPI rank to get a parallel efficiency of 0.5 (assuming N=7).  
+
+**Should I use residual projection?**
+
+  This depends, you may want to turn it on e.g. for pressure but noti for velocity. All this is case specific and a simple
+  experiment will show if it pays off or not.  
+
+**What can I do to get best performance?**
+
+  - Design your mesh for a polynomial order N=7
+  - Reduce polynomial order used for overintegration (strict 3/2 rule might be overly conservative)
+  - Fine tune the number of elements per MPI rank to get a reasonable parallel efficiency 
+  - Use AMG instead of XXT as coarse grid solver
+  - Avoid unnecessary time consuming operations in ``usrchk/userbc``
+  - Enable tuned MxM implementation for your platform (see ``makenek`` options)
+  - Compile with vector instructions like AVX, AVX2 using FFLAGS and CFLAGS in makenek
+  - Try to use residual projection
+  - Tune your solver tolerances
+  - Increase time step size (target Courant number 2-4) by switching to 2nd order BDF and OIFS extrapolation
+  - Use binary input files e.g. ``.re2`` and ``.ma2`` to minimize solver initialization time
+
+---------------------------
+Troubleshooting
+---------------------------
+
+**My simulation diverges. What should I do?**
+
+  There are many potential root causes but here are some things you can experiment with:
+
+  * lower the time step (in particular during initial transients) 
+  * reduce time integration order (e.g. use 2 instead of 3)
+  * increase spatial resolution
+  * provide a better initial condition
+  * check that your boundary conditions are meaningful and correctly implemented 
+  * visualize the solution and look for unexpected anomalies
 
 ---------------
 Post-Processing

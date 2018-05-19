@@ -8,7 +8,6 @@ Nek5000
    tutorials
    case_files
    geometry
-   perf
    theory
    faq
    appendix
