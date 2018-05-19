@@ -8,6 +8,12 @@ FAQ
 General
 --------------
 
+**Where can I download the code and what version of the code should I use?**
+   
+   We strongly recommend to always use the latest `release <https://github.com/Nek5000/Nek5000/releases>`_  available.
+   We do **not** recommend using the master branch on `GitHub <https://github.com/Nek5000/Nek5000>`_
+   in a production environment!
+
 **How can I properly reference Nek5000?**
 
    If you use our software, please cite the following:
@@ -27,15 +33,30 @@ General
    If you have a question, first check the mailing list `archive <https://lists.mcs.anl.gov/pipermail/nek5000-users/>`_ to see if your question is already answered somewhere. 
    The mailing list also serves as a primary
    support channel. Please subscribe `here <https://lists.mcs.anl.gov/mailman/listinfo/nek5000-users>`_.
-   Postings from email addresses that are not on the list are held for moderation 
+   Postings from email addresses that are not on the list are held for moderation. 
+
+**How can I report a bug?**
+
+Nek5000 is hosted on GitHub and all bugs are reported and tracked through the `Issues <https://github.com/Nek5000/Nek5000/issues>`_ feature on GitHub. 
+However, GitHub Issues should not be used for common troubleshooting purposes. If you are having trouble 
+installing the code or getting your model to run properly, you should first send a message to the User’s Group mailing list. 
+If it turns out your issue really is a bug in the code, an issue will then be created on GitHub. If you want to request that a feature be added to the code,
+you may create an Issue on GitHub.
+
+**How can I contribute to the Nek5000 project?**
+
+Our project is hosted on `GitHub <https://github.com/Nek5000>`_. Here are the most important things you need to know:
+
+- follow the usual “fork-and-pull” Git workflow
+- all development happens on the master branch
+- anything in master is always deployable
+- upcoming releases get their own tags out of master
+
+If you are planning a large contribution, we encourage you to discuss the concept here on GitHub and interact with us frequently to ensure that your effort is well-directed.
    
 ----------------------------------
 Installing, Compiling, and Running
 ----------------------------------
-
-**What version of the code should I use?**
-   
-   We strongly recommend to always use the latest `release <https://github.com/Nek5000/Nek5000/releases>`_  available.
 
 **Which platforms are supported by Nek5000?**
 
@@ -54,10 +75,11 @@ Installing, Compiling, and Running
 **How much memory is required?**
 
 The memory footprint of a run depends on many factors and is printed to
-screen whenever Nek5000 exits. What follows is a rough a-priori estimate::
+screen whenever Nek5000 exits. What follows is a first rough guess::
 
-  lx1*ly1*lz1*lelt * 3000byte + lelg * 12byte + MPI
+  lx1*ly1*lz1*lelt * 3000byte + lelg * 12byte + MPI + optional libraries (e.g. CVODE)
 
+where lelt (the maximum number of local elements) is computed as lelg/lpmin.
 The memory allocated by MPI will depend heavily on the total number of
 ranks and the considered MPI implementation. For large rank counts (say > 100'000) it's easily 50-100MB.
 
@@ -93,13 +115,13 @@ Pre-Processing
 
 **How can I generate a mesh for use with Nek5000?**
 
-   Please see the section on :ref:`mesh_gen`.
+   Please see quickstart section on :ref:`qstart_meshing`.
 
 **What element types are supported?**
 
    Conformal curved quadrilateral/hexahedral elements.
 
-**How do I convert a mesh to Nek5000?**
+**How do I import/convert a mesh to Nek5000?**
 
    We currently support conversion from the exodus file format with the ``exo2nek`` utility.
 
@@ -107,13 +129,13 @@ Pre-Processing
 
   Nek5000 can be run with dimensions, but we STRONGLY recommend that the case has been non-dimensionalized properly.
   An advantage of the nondimensional form is that physical simulation times, tolerances, etc. tend to
-  obtains the nondimensional form be easy to set based on prior experience with other simulations.
+  be easy to set based on prior experience with other simulations.
 
 **How do I choose solver tolerances?**
 
   Depends on how accurate you need your simulation to be.  
   Typical values (for engineering type of problems) are :math:`10^{-7}` for velocity and scalars.
-  In Pn/Pn-2 the pressure tolerance is equal to error in divergence. This is contrast to Pn/Pn where the divergence
+  In Pn/Pn-2 the pressure tolerance is equal to desired error in divergence. This is in contrast to Pn/Pn where the divergence
   error is mainly a function of spatial resolution and a tolerance of :math:`10^{-4}` is typically good enough.   
   Note the tolerances are related to the residual in the linear solve and do not represent the accuracy of the solution. 
 
@@ -124,9 +146,17 @@ Pre-Processing
 
 **What polynomial order should I use?**
 
-   This depends what you are after. The code supports a large range of polynomial orders e.g. `N=1-32` but the sweet spot
-   is typically :math:`N=7` (lx1=8). Unless you have a very good reason to change it do not deviate from this best partice.
-   Note, do not use :math:`N<5` as this results in a very poor performance. 
+  The code supports a large range of polynomial orders e.g. `N=1-32`.
+  You can effectively realize the same number of grid points
+  by using relatively few high-order elements or more low-order elements.
+  For example, a 3D grid with resolution of 64x64x64 could be implemented
+  as a 16x16x16 array of elements of order N=3 or as a
+  8x8x8 array of elements of order N=7.  In Nek5000, the 
+  latter is preferred. The solution will be more accurate and the code
+  is optimized for this range of N.
+
+  The sweet spot is typically :math:`N=7` (lx1=8). Unless you have a very good reason to change it do not deviate 
+  from this best partice. Note, do never use :math:`N<5` as this results in a very poor performance. 
 
 **How do I specify/change the polynomial order?**
 
@@ -143,7 +173,7 @@ Pre-Processing
 **How do I solve for a scalar?**
 
    Nek5000 supports solving up to 99 additional scalars.  
-   To solve an additional scalar equation, increase ``ldimt`` in the ``SIZE`` file to accomodate the additional scalar and specify the appropriate parameter in the :ref:`case_files_par` file.  
+   To solve an additional scalar equation, increase ``ldimt`` in the ``SIZE`` file to accomodate the additional scalar and specify the appropriate parameter in the :ref:`case_files_par` file. See ``shear4`` example for more details. 
 
 ---------------------------
 Physical Models
@@ -152,7 +182,7 @@ Physical Models
 **What turbulence models are available in Nek5000?**
 
    For LES we provide an explicit filtering approach or a relaxation term model. 
-   RANS turbulence models (k-ω, k-ω SST, etc.) are not an integral part of the code but available through the examples.
+   RANS turbulence models (k-ω, k-ω SST, etc.) are not an integral part of the code but available through examples.
 
 -------------------
 Computational Speed
@@ -171,7 +201,7 @@ Computational Speed
 
 **Should I use residual projection?**
 
-  This depends, you may want to turn it on e.g. for pressure but noti for velocity. All this is case specific and a simple
+  This depends, you may want to turn it on e.g. for pressure but not for velocity. All this is case specific and a simple
   experiment will show if it pays off or not.  
 
 **What other things can I do to get best performance?**
@@ -205,8 +235,8 @@ Post-Processing
 
 **What options are available**
 
-   * For data analysis you use Nek5000's internal machinery through the usr file.  
-   * Solution files can be read by VisIt and Paraview. For more information see :ref:`qstart_vis`.
+   * For data analysis you use Nek5000's internal machinery through the usr file
+   * Solution files can be read by VisIt and Paraview (for more information see :ref:`qstart_vis`)
    * Various user contributions in `NekBazaar <https://github.com/Nek5000/NekBazaar/>`_ 
 
 **The local coordinate axes of my elements are not aligned with the global coordinate system, is this normal?**
@@ -215,15 +245,15 @@ Post-Processing
 
 **Where are my solution files?**
 
-   By default Nek5000 outputs solution files in binary (filename: ``<casename>.f%05d``) .  
+   By default Nek5000 outputs solution files in binary ``<casename>.f%05d``.  
 
-**I have calculated additional fields from my solution (e.g. vorticity), how do I visualize them?**
+**I have calculated additional fields from my solution, how do I visualize them?**
 
    Using the ``.par`` file, define an additional scalar, for example:
 
 .. code-block:: none
 
-   [SCALAR01] #vorticity
+   [SCALAR01] # lambda2 vortex criterion
    solver = none
 
 ..

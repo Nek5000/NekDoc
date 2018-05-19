@@ -4,20 +4,6 @@
 Quickstart
 ==============
 
---------------------
-Downloading the code
---------------------
-All release tarballs can be found `here <https://github.com/Nek5000/Nek5000/releases>`_.
-We do **not** recommend using the master branch on `GitHub <https://github.com/Nek5000/Nek5000>`_ 
-in a production environment! 
- 
-If you use our software, please cite the following:
-
-::
-
-  NEK5000 Version X.Y. Release date. Argonne National Laboratory, Illinois. 
-  Available: https://nek5000.mcs.anl.gov.
-
 -------------------
 Directory structure
 -------------------
@@ -160,30 +146,4 @@ Nek5000 output (``.fld`` or ``0.f%05d``) files can be read by `VisIt <https://wc
 `ParaView <https://www.paraview.org/>`_. This requires using ``visnek`` to generate a metadata file.  
 There is also an build-in X-Window based postprocessor called ``POSTNEK`` located in tools.
 
--------------------
-Troubleshooting
--------------------
-If you run into problems compiling, installing, or running Nek5000, first check the User’s Guide. 
-If you are not able to find a solution to your problem there, please send a message 
-to the User’s Group `mailing list <https://lists.mcs.anl.gov/mailman/listinfo/nek5000-users>`_.
 
--------------------
-Reporting Bugs
--------------------
-Nek5000 is hosted on GitHub and all bugs are reported and tracked through the `Issues <https://github.com/Nek5000/Nek5000/issues>`_ feature on GitHub. 
-However, GitHub Issues should not be used for common troubleshooting purposes. If you are having trouble 
-installing the code or getting your model to run properly, you should first send a message to the User’s Group mailing list. 
-If it turns out your issue really is a bug in the code, an issue will then be created on GitHub. If you want to request that a feature be added to the code,
-you may create an Issue on GitHub.
-
--------------------
-Contributing
--------------------
-Our project is hosted on `GitHub <https://github.com/Nek5000>`_. Here are the most important things you need to know:
-
-- follow the usual “fork-and-pull” Git workflow
-- all development happens on the master branch
-- anything in master is always deployable
-- upcoming releases get their own tags out of master
-
-If you are planning a large contribution, we encourage you to discuss the concept here on GitHub and interact with us frequently to ensure that your effort is well-directed.
