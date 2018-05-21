@@ -5,12 +5,11 @@ Nek5000
    :maxdepth: 2
 
    quickstart
+   faq
    tutorials
    case_files
    geometry
-   perf
    theory
-   faq
    appendix
    bibliography
 
