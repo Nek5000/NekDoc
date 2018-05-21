@@ -390,6 +390,40 @@ Available configurations options:
    VISIT_INSTALL, string, VISIT in situ, Path to VISIT install path. See Visit_in_situ for details.                                 
    VISIT_STOP, "true, false", false, "When running VISIT in situ, simulation stops after step 1 to connect VISIT."                 
 
+
+The ``PPLIST`` field can be used to activate several features at compilation time. 
+A list of possible options is below:
+
+.. _tab:PPLIST
+
+.. csv-table:: PPLIST options
+   :header: Symbol, Description
+
+   NOMPIIO, deactivate MPI-IO support
+   BGQ, use Blue Gene Q optimized mxm
+   XSMM, use libxsmm for mxm
+   CVODE, compile with CVODE support for scalars
+   VENDOR_BLAS, use VENDOR BLAS/LAPACK
+   EXTBAR, add underscore to exit call (for BGQ)
+   NEKNEK, activate overlapping mesh solver (experimental)
+   CMTNEK, activate discontinuous-Galerkin compressible-flow solver (experimental)
+
+In addition to these preprocessor items, the user can add compilation and linking flags. 
+``FFLAGS`` allows the user to add Fortran compilation flags while ``CCFAGS`` allows the user to 
+add C compilation flags. 
+These will be compiler dependent and the user is encouraged to consult the manual of the compiler if specific options are needed/desired. 
+A commonly used flag is ``-mcmodel`` which allows for arrays of size larger than 2GB. 
+This option  tells the compiler to use a specific memory model to generate code and store data. 
+It can affect code size and performance. 
+If your program has global and static data with a total size smaller than 2GB, ``-mcmodel=small`` is sufficient. 
+Global and static data larger than 2GB requires ``-mcmodel=medium`` or ``-mcmodel=large``.
+Another useful flag is related to implicit typesetting. 
+.. Nek5000 relies often on implicit typesetting as default in the example cases. 
+.. This means in practice that if the user defines a new variable in the user file and forgets to define its type explicitly then variable beginning with a character from I to N, its type is ``INTEGER``. 
+.. Otherwise, it is ``REAL``.  
+.. To avoid confusion the user not accustomed to implicit typesetting may use the warning flag ``-Wimplicit``. 
+.. This flag warns whenever a variable, array, or function is implicitly declared and has an effect similar to using the ``IMPLICIT NONE`` statement in every program unit.
+
 ----------------------------------
 Internal Input Parameters/Switches
 ----------------------------------
