@@ -74,19 +74,19 @@ Installing, Compiling, and Running
 
 **How much memory is required?**
 
-  The memory footprint of a run depends on many factors and is printed to
-screen whenever Nek5000 exits. What follows is a first rough guess::
+  The memory footprint of a run depends on many factors and is printed to screen whenever Nek5000 exits. 
+  What follows is a first rough guess:
+  
+::
 
   lx1*ly1*lz1*lelt * 3000byte + lelg * 12byte + MPI + optional libraries (e.g. CVODE)
+..
 
-.. 
+  where ``lelt`` (the maximum number of local elements) is computed as ``lelg``/``lpmin``.
+  The memory allocated by MPI will depend heavily on the total number of ranks and the considered MPI implementation. 
+  For large rank counts (say > 100,000) it's easily 50-100MB.
 
-  where lelt (the maximum number of local elements) is computed as lelg/lpmin.
-  The memory allocated by MPI will depend heavily on the total number of
-ranks and the considered MPI implementation. For large rank counts (say > 100,000) it's easily 50-100MB.
-
-  Note, the output of GNU`s SIZE utility is inaccurate as it does not
-take into account the dynamic memory alloation of MPI, gslib, CVODE, etc. 
+  Note, the output of GNU`s SIZE utility is inaccurate as it does not take into account the dynamic memory alloation of MPI, gslib, CVODE, etc. 
 
 **Why does the compiler issue relocation errors?**
 
@@ -147,14 +147,14 @@ Pre-Processing
 
 **What polynomial order should I use?**
 
-  The code supports a large range of polynomial orders e.g. `N=1` - `N=32`.
+  The code supports a large range of polynomial orders, e.g. :math:`N=1` through :math:`N=32`.
   You can effectively realize the same number of grid points
   by using relatively few high-order elements or more low-order elements.
   For example, a 3D grid with resolution of 64x64x64 could be implemented
-  as a 16x16x16 array of elements of order N=3 or as a
-  8x8x8 array of elements of order N=7.  In Nek5000, the 
+  as a 16x16x16 array of elements of order :math:`N=3` or as a
+  8x8x8 array of elements of order :math:`N=7`.  In Nek5000, the 
   latter is preferred. The solution will be more accurate and the code
-  is optimized for this range of N.
+  is optimized for this range of :math:`N`.
 
   The sweet spot is typically :math:`N=7` (``lx1=8``). 
 
@@ -208,7 +208,7 @@ Computational Speed
   Typically projection is used for pressure but not velocity, however
   this is highly case specific and a simple experiment will show if it pays off or not.  
   Projection will speed up the solution to a scalar, but takes time to compute itself.
-  A scalar solve requiring :math: `~40` iterations or greater is a good candidate for use.
+  A scalar solve requiring ~40 iterations or greater is a good candidate for use.
 
 **What other things can I do to get best performance?**
 
@@ -255,7 +255,8 @@ Post-Processing
 
 **I have calculated additional fields from my solution, how do I visualize them?**
 
-   Using the ``.par`` file, define an additional scalar, for example:
+   Using the ``.par`` file, define an additional scalar and include the ``solver=none`` option.
+   For example:
 
 .. code-block:: none
 
@@ -265,6 +266,7 @@ Post-Processing
 ..
 
    Then store the calculated field in ``t(1,1,1,1,iscal+1)`` where ``iscal`` is your passive scalar index (in this example 1).
+   The scalar will then be output by default with the solution files.
 
 **How do I obtain values of variables at a specific point?**
 
