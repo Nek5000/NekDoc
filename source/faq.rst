@@ -125,7 +125,7 @@ Pre-Processing
 
 **How do I import/convert a mesh to Nek5000?**
 
-   We currently support conversion from the exodus file format with the ``exo2nek`` utility.
+   We currently support conversion from the exodusII with the ``exo2nek`` converter. This enables the import from popular mesh generators like ANSYS ICEM and CUBIT.
 
 **Why is it important to non-dimensionalize my case?**
 
