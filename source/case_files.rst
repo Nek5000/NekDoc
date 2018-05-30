@@ -1,22 +1,22 @@
 .. _case_files:
 
 ==========
-Case Files
+Problem Setup
 ==========
 
 Each simulation is defined by six *required* case files: 
 
 - SESSION.NAME
-- par
-- re2
-- usr
-- SIZE
-- map/ma2
+- par       (runtime parameters)
+- re2       (mesh and boundaries)
+- usr       (user defined functions for inital/boundary condition etc.)
+- SIZE      (parameters for static memory allocation)
+- map/ma2   (element processes mapping)
 
 Additional *optional* case files may be generated or included:
 
-- fld/f%05d
-- his
+- f%05d     (solution data)
+- his       (probing point data)
 
 .. _case_files_session:
 
@@ -325,7 +325,175 @@ re2
 -----------------------------------
 
 Stores the mesh and boundary condition. 
-TODO: Add more details
+
+TODO: Update to re2
+
+
+...................
+Header
+...................
+
+    The 80 byte ASCI header of the file has the following representation::
+
+      #v002     200  3     100 hdr 
+
+    The header states first how many elements are available in total (200), what
+    dimension is the the problem (here three dimensional), and how many elements 
+    are in the fluid mesh (100).
+
+...................
+Element data
+...................
+
+      .. _tab:element:
+
+      .. table:: Geometry description in ``.rea`` file
+
+         +-------------------------------------------------------------------------------------+
+         | ``ELEMENT 1 [ 1A] GROUP 0``                                                         |
+         +=====================================================================================+
+         | ``Face {1,2,3,4}``                                                                  |
+         +-------------------------+--------------+--------------+--------------+--------------+
+         | :math:`x_{1,\ldots,4}=` | 0.000000E+00 | 0.171820E+00 | 0.146403E+00 | 0.000000E+00 |
+         +-------------------------+--------------+--------------+--------------+--------------+
+         | :math:`y_{1,\ldots,4}=` | 0.190000E+00 | 0.168202E+00 | 0.343640E+00 | 0.380000E+00 |
+         +-------------------------+--------------+--------------+--------------+--------------+
+         | :math:`z_{1,\ldots,4}=` | 0.000000E+00 | 0.000000E+00 | 0.000000E+00 | 0.000000E+00 |
+         +-------------------------+--------------+--------------+--------------+--------------+
+         | ``Face {5,6,7,8}``                                                                  |
+         +-------------------------+--------------+--------------+--------------+--------------+
+         | :math:`x_{5,\ldots,8}=` | 0.000000E+00 | 0.171820E+00 | 0.146403E+00 | 0.000000E+00 |
+         +-------------------------+--------------+--------------+--------------+--------------+
+         | :math:`y_{5,\ldots,8}=` | 0.190000E+00 | 0.168202E+00 | 0.343640E+00 | 0.380000E+00 |
+         +-------------------------+--------------+--------------+--------------+--------------+
+         | :math:`z_{5,\ldots,8}=` | 0.250000E+00 | 0.250000E+00 | 0.250000E+00 | 0.250000E+00 |
+         +-------------------------+--------------+--------------+--------------+--------------+
+
+    Following the header, all elements are listed. The fluid elements are listed 
+    first, followed by all solid elements if present.  
+
+    The data following the header is formatted as shown in :numref:`tab:element`. This provides all the coordinates of an element for top and bottom faces. The numbering of the vertices is shown in Fig. :numref:`fig:elorder`. The header for each element as in :numref:`tab:element`, i.e. ``[1A] GROUP`` is reminiscent of older Nek5000 format and does not impact the mesh generation at this stage.
+
+      .. _fig:elorder:
+
+      .. figure:: figs/3dcube_1.png
+          :align: center
+          :figclass: align-center
+          :alt: rea-geometry
+
+          Geometry description in ``.rea`` file (sketch of one element ordering - Preprocessor 
+          corner notation) 
+
+...................
+Curved Sides
+...................
+
+    This section describes the curvature of the elements. It is expressed as deformation of the linear elements.
+    Therefore, if no elements are curved (if only linear elements are present) the section remains empty.
+
+    The section header may look like this::
+
+      640 Curved sides follow IEDGE,IEL,CURVE(I),I=1,5, CCURVE
+
+    Curvature information is provided by edge and element. Therefore up to 12 curvature entries can be present for each element.
+    Only non-trivial curvature data needs to be provided, i.e., edges that correspond to linear elements, since they have no curvature, will have no entry.
+    The formatting for the curvature data is provided in :numref:`tab:midside`.
+
+      .. _tab:midside:
+
+      .. table:: Curvature information specification
+
+         +-----------+---------+--------------+--------------+--------------+--------------+--------------+------------+
+         | ``IEDGE`` | ``IEL`` | ``CURVE(1)`` | ``CURVE(2)`` | ``CURVE(3)`` | ``CURVE(4)`` | ``CURVE(5)`` | ``CCURVE`` |
+         +===========+=========+==============+==============+==============+==============+==============+============+
+         | 9         | 2       | 0.125713     | -0.992067    | 0.00000      | 0.00000      | 0.00000      | m          |
+         +-----------+---------+--------------+--------------+--------------+--------------+--------------+------------+
+         | 10        | 38      | 0.125713     | -0.992067    | 3.00000      | 0.00000      | 0.00000      | m          |
+         +-----------+---------+--------------+--------------+--------------+--------------+--------------+------------+
+         | 1         | 40      | 1.00000      | 0.000000     | 0.00000      | 0.00000      | 0.00000      | C          |
+         +-----------+---------+--------------+--------------+--------------+--------------+--------------+------------+
+
+    There are several types of possible curvature information represented by ``CCURVE``. This include:
+
+    - 'C' stands for circle and is given by the radius of the circle,  in ``CURVE(1)``, all other compoentns of the ``CURVE`` array are not used but need to be present.
+    - 's' stands for sphere and is given by the radius and the center of the sphere, thus filling the first 4 components of the ``CURVE`` array. The fifth component needs to be present but is not utilized.
+    - 'm' is given by the coordinates of the midside-node, thus using the first 3 components of the ``CURVE`` array, and leads to a second order reconstruction of the face.  The fourth and fifth components need to be present but are not utilized.
+
+    Both 'C' and 's' types allow for a surface of as high order as the polynomial used in the spectral method, since they have an underlying analytical description, any circle arc can be fully determined by the radius and end points. However for the 'm' curved element descriptor the surface can be reconstructed only up to second order. This can be later updated to match the high-order polynomial after the GLL points have been distributed across the boundaries. This is the only general mean to describe curvature currrently in Nek5000 and corresponds to a HEX20 representation.
+
+      .. _fig:edges:
+
+      .. figure:: figs/3dcube.png
+          :align: center
+          :figclass: align-center
+          :alt: edge-numbering
+
+          Edge numbering in ``.rea`` file, the edge number is in between parenthesis. The other
+          numbers represent vertices.
+
+    .. _fig:ex2:
+
+    .. figure:: figs/modified1.png
+        :align: center
+        :figclass: align-center
+        :alt: edge-numbering
+
+        Example mesh - with curvature. Circular dots represent example midsize points.
+
+...................
+Boundaries
+...................
+
+    Boundaries are specified for each field in sequence: velocity, temperature and passive scalars. The section header for each field will be as follows (example for the velocity)::
+
+      ***** FLUID   BOUNDARY CONDITIONS *****
+
+    and the data is stored as illustarted in :numref:`tab:bcs`. For each field boundary conditions are listed for each face of each element.
+
+    Boundary conditions are given in order per each element, see :numref:`tab:bcs` column ``IEL``, and faces listed in ascending order 1-6 in column ``IFACE``. Note that the header in :numref:`tab:bcs` does not appear in the actual ``.rea``.
+
+    The ordering for faces each element is shown in :numref:`fig:forder`. A total equivalent to :math:`6N_{field}` boundary conditions are listed for each field, where :math:`N_{field}` is the number of elements for the specific field. :math:`N_{field}` is equal to the total number of fluid elements for the velocity and equal to the total number of elements (including solid elements) for temperature. For the passive scalars it will depend on the specific choice, but typically scalars are solved on the temeprature mesh (solid+fluid).
+
+      .. _fig:forder:
+
+      .. figure:: figs/3dcube_2.png
+          :align: center
+          :figclass: align-center
+          :alt: edge-numbering
+
+          Face ordering for each element.
+
+    Each BC letter condition is formed by three characters. Common BCs include:
+
+    - ``E`` - internal boundary condition. No additional information needs to be provided.
+    - ``SYM`` - symmetry boundary condition. No additional information needs to be provided.
+    - ``P`` - periodic boundary conditions,  which indicates that an element face is connected to another element to establish a periodic BC. The connecting element and face need be  to specified in ``CONN-IEL`` and ``CONN-IFACE``.
+    - ``v`` - imposed velocity boundary conditions (inlet). The value is specified in the user subroutines. No additional information needs to be provided in the ``.rea`` file.
+    - ``W`` - wall boundary condition (no-slip) for the velocity. No additional information needs to be provided.
+    - ``O`` - outlet boundary condition (velocity). No additional information needs to be provided.
+    - ``t`` - imposed temperature  boundary conditions (inlet). The value is specified in the user subroutines. No additional information needs to be provided in the ``.rea`` file.
+    - ``f`` - imposed heat flux  boundary conditions (temperature). The value is specified in the user subroutines. No additional information needs to be provided in the ``.rea`` file.
+    - ``I`` - adiabatic boundary conditions (temeperature). No additional information needs to be provided.
+
+    Many of the BCs support either a constant specification or a user defined specification which may be an arbitrary function.   For example, a constant Dirichlet BC for velocity is specified by ``V``, while a user defined BC is specified by ``v``.   This upper/lower-case distinction is  used for all cases.   There are about 70 different types of boundary conditions in all, including free-surface, moving boundary, heat flux, convective cooling, etc. The above cases are just the most used types.
+
+      .. _tab:bcs:
+
+      .. table:: Formatting of boundary conditions input.
+
+         +---------+---------+-----------+--------------+----------------+---------+---------+---------+
+         | ``CBC`` | ``IEL`` | ``IFACE`` | ``CONN-IEL`` | ``CONN-IFACE`` |         |         |         |
+         +=========+=========+===========+==============+================+=========+=========+=========+
+         | E       | 1       | 1         | 4.00000      | 3.00000        | 0.00000 | 0.00000 | 0.00000 |
+         +---------+---------+-----------+--------------+----------------+---------+---------+---------+
+         | ``..``  | ``..``  | ``..``    | ``..``       | ``..``         | ``..``  | ``..``  | ``..``  |
+         +---------+---------+-----------+--------------+----------------+---------+---------+---------+
+         | W       | 5       | 3         | 0.00000      | 0.00000        | 0.00000 | 0.00000 | 0.00000 |
+         +---------+---------+-----------+--------------+----------------+---------+---------+---------+
+         | ``..``  | ``..``  | ``..``    | ``..``       | ``..``         | ``..``  | ``..``  | ``..``  |
+         +---------+---------+-----------+--------------+----------------+---------+---------+---------+
+         | P       | 23      | 5         | 149.000      | 6.00000        | 0.00000 | 0.00000 | 0.00000 |
+         +---------+---------+-----------+--------------+----------------+---------+---------+---------+
 
 
 .. _case_files_usr:
@@ -338,7 +506,7 @@ This file implements the the user interface to Nek5000. What follows is a brief 
 subroutines. 
 
 ...................
-uservp()
+uservp
 ...................
 
 This function can be used  to specify customized or solution dependent material
@@ -357,7 +525,7 @@ Example:
       endif
 
 ...................
-userf()
+userf
 ...................
 
 This functions sets the source term (which will be subsequently be multiplied by 
@@ -374,53 +542,53 @@ Example:
       ffz = -g ! gravitational acceleration 
  
 ...................
-userq()
+userq
 ...................
 
 This functions sets the source term for the energy (temperature) and passive scalar equations.
 
 ...................
-userbc()
+userbc
 ...................
 
 This functions sets boundary conditions. Note, this function is only called
 for special boundary condition types and only for points on the boundary surface.   
 
 ...................
-useric()
+useric
 ...................
 
 This functions sets the initial conditions.
 
 ...................
-userchk()
+userchk
 ...................
 
 This is a general purpose function that gets executed before the time stepper and after every time
 step.
 
 ...................
-userqtl()
+userqtl
 ...................
 
 This function can be used  to specify a cutomzized thermal diveregence for the low Mach solver.
 step.
 
 ...................
-usrdat()
+usrdat
 ...................
 
 This function can be used to modify the element vertices and is called before the spectral element mesh (GLL points) has been laid out.
 
 ...................
-usrdat2()
+usrdat2
 ...................
 
 This function can be used to modify the spectral element mesh.  
 The geometry information (mass matrix, surface normals, etc.) will be rebuilt after this routine is called.
 
 ...................
-usrdat3()
+usrdat3
 ...................
 
 This function can be used to initialize case/user specific data.
@@ -485,7 +653,7 @@ TODO: Add more details
 .. _case_files_fld:
 
 -----------------------------------
-fld/f%05d
+f%05d
 -----------------------------------
 
 TODO: Add fld details
@@ -587,6 +755,309 @@ Example code for reading the geometry field in python:
 
 
 TODO: Add more details
+
+.. _sec:boundary:
+
+-------------------------------
+Boundary Conditions
+-------------------------------
+
+TODO: Update
+
+The boundary conditions can be imposed in various ways:
+
+- when the mesh is generated e.g. with ``genbox``, as will be explained in :ref:`sec:genbox`
+- when the ``.rea`` file is read in ``prenek`` or directly in the ``.rea`` file
+- directly in the ``.rea`` file
+- in the subroutine ``userbc``
+
+The general convention for boundary conditions in the ``.rea`` file is
+
+- upper case letters correspond to Primitive boundary conditions, as given in :numref:`tab:primitiveBCf`, :numref:`tab:primitiveBCt`
+- lower case letters correspond to user defined boundary conditions, see :numref:`tab:userBCf`, :numref:`tab:userBCt`
+
+Since there are no supporting tools that will correctly populate the ``.rea`` file with the appropriate values, temperature, velocity, and flux boundary conditions are typically lower case and values must be specified in the ``userbc`` subroutine in the ``.usr`` file.
+
+..............
+Fluid Velocity
+..............
+
+Two types of boundary conditions are applicable to the
+fluid velocity : essential (Dirichlet) boundary
+condition in which the velocity is specified;
+natural (Neumann) boundary condition in which the traction
+is specified.
+For segments that constitute the boundary :math:`\partial \Omega_f`, see :numref:`fig-walls`,
+one of these two types of boundary conditions must be
+assigned to each component of the fluid velocity.
+The fluid boundary condition can be *all Dirichlet*
+if all velocity components of :math:`{\bf u}` are
+specified; or it can be *all Neumann* if all traction components
+:math:`{\bf t} = [-p {\bf I} + \mu (\nabla {\bf u} +
+(\nabla {\bf u})^{T})] \cdot {\bf n}`, where
+:math:`{\bf I}` is the identity tensor, :math:`{\bf n}` is the unit normal
+and :math:`\mu` is the dynamic viscosity, are specified;
+or it can be *mixed Dirichlet/Neumann*
+if Dirichlet and Neumann conditions are selected for different
+velocity components.
+Examples for all Dirichlet, all Neumann and mixed Dirichhlet/Neumann
+boundaries are wall, free-surface and symmetry, respectively.
+If the nonstress formulation is selected, then traction
+is not defined on the boundary.
+In this case, any Neumann boundary condition imposed must be homogeneous;
+i.e., equal to zero.
+In addition, mixed Dirichlet/Neumann boundaries must be aligned with
+one of the Cartesian axes.
+
+For flow geometry which consists of
+a periodic repetition of a particular geometric unit,
+the periodic boundary conditions can be imposed,
+as illustrated in :numref:`fig-walls`.
+
+.. _tab:primitiveBCf:
+
+.. table:: Primitive boundary conditions
+
+   +------------+-----------------------+---------------------------+------------------+
+   | Identifier | Description           | Parameters                | No of Parameters |
+   +============+=======================+===========================+==================+
+   | P          | periodic              | periodic element and face | 2                |
+   +------------+-----------------------+---------------------------+------------------+
+   | V          | Dirichlet velocity    | u,v,w                     | 3                |
+   +------------+-----------------------+---------------------------+------------------+
+   | O          | outflow               | ``-``                     | 0                |
+   +------------+-----------------------+---------------------------+------------------+
+   | W          | wall (no slip)        | ``-``                     | 0                |
+   +------------+-----------------------+---------------------------+------------------+
+   | F          | flux                  | flux                      | 1                |
+   +------------+-----------------------+---------------------------+------------------+
+   | SYM        | symmetry              | ``-``                     | 0                |
+   +------------+-----------------------+---------------------------+------------------+
+   | A          | axisymmetric boundary | ``-``                     | 0                |
+   +------------+-----------------------+---------------------------+------------------+
+   | MS         | moving boundary       | ``-``                     | 0                |
+   +------------+-----------------------+---------------------------+------------------+
+   | ON         | Outflow, Normal       | ``-``                     | 0                |
+   +------------+-----------------------+---------------------------+------------------+
+   | E          | Interior boundary     | Neighbour element ID      | 2                |
+   +------------+-----------------------+---------------------------+------------------+
+
+|
+
+.. _tab:userBCf:
+
+.. table:: User defined boundary conditions
+
+   +-------------+------------------------------------+
+   | Indentifier | Description                        |
+   +=============+====================================+
+   | v           | user defined Dirichlet velocity    |
+   +-------------+------------------------------------+
+   | t           | user defined Dirichlet temperature |
+   +-------------+------------------------------------+
+   | f           | user defined flux                  |
+   +-------------+------------------------------------+
+
+The open(outflow) boundary condition ("O") arises as a natural boundary condition from the variational formulation of Navier Stokes. We identify two situations
+
+- In the non-stress formulation, open boundary condition ('Do nothing')
+
+  .. math::
+
+     [-p{\bf I} + \nu(\nabla {\bf u})]\cdot {\bf n}=0
+
+- In the stress formulation, free traction boundary condition
+
+  .. math::
+
+     [-p{\bf I} + \nu(\nabla {\bf u}+\nabla {\bf u}^T)]\cdot {\bf n}=0
+
+- the symmetric boundary condition ("SYM") is given as
+
+  .. math::
+
+     {\bf u} \cdot {\bf n} &= 0\ ,\\
+     (\nabla {\bf u} \cdot {\bf t})\cdot {\bf n} &= 0
+
+  where :math:`{\bf n}` is the normal vector and :math:`{\bf t}` the tangent vector. If the normal and tangent vector are not aligned with the mesh the stress formulation has to be used.
+- the periodic boundary condition ("P") needs to be prescribed in the ``.rea`` file since it already assigns the last point to first via :math:`{\bf u}({\bf x})={\bf u}({\bf x} + L)`, where :math:`L` is the periodic length.
+- the wall boundary condition ("W") corresponds to :math:`{\bf u}=0`.
+
+For a fully-developed flow in such a configuration, one can
+effect great computational efficiencies by considering the
+problem in a single geometric unit (here taken to be of
+length :math:`L`), and requiring periodicity of the field variables.
+Nek5000 requires that the pairs of sides (or faces, in
+the case of a three-dimensional mesh) identified as periodic
+be identical (i.e., that the geometry be periodic).
+
+For an axisymmetric flow geometry, the axis boundary
+condition is provided for boundary segments that lie
+entirely on the axis of symmetry.
+This is essentially a symmetry (mixed Dirichlet/Neumann)
+boundary condition
+in which the normal velocity and the tangential traction
+are set to zero.
+
+For free-surface boundary segments, the inhomogeneous
+traction boundary conditions
+involve both the surface tension coefficient :math:`\sigma`
+and the mean curvature of the free surface.
+
+...............................
+Passive scalars and Temperature
+...............................
+
+The three types of boundary conditions applicable to the
+temperature are: essential (Dirichlet) boundary
+condition in which the temperature is specified;
+natural (Neumann) boundary condition in which the heat flux
+is specified; and mixed (Robin) boundary condition
+in which the heat flux is dependent on the temperature
+on the boundary.
+For segments that constitute the boundary
+:math:`\partial \Omega_f' \cup \partial \Omega_s'` (refer to Fig. 2.1),
+one of the above three types of boundary conditions must be
+assigned to the temperature.
+
+The two types of Robin boundary condition for temperature
+are: convection boundary conditions for which the heat
+flux into the domain depends on the heat transfer coefficient
+:math:`h_{c}` and the difference between the environmental temperature
+:math:`T_{\infty}` and the surface temperature; and radiation
+boundary conditions for which the heat flux into the domain
+depends on the Stefan-Boltzmann constant/view-factor
+product :math:`h_{rad}` and the difference between the fourth power
+of the environmental temperature :math:`T_{\infty}` and the fourth
+power of the surface temperature.
+
+.. _tab:primitiveBCt:
+
+.. table:: Primitive boundary conditions (Temperature and Passive scalars)
+
+   +------------+---------------------------------------+------------+------------------+
+   | Identifier | Description                           | Parameters | No of Parameters |
+   +============+=======================================+============+==================+
+   | T          | Dirichlet temperature/scalar          | value      | 1                |
+   +------------+---------------------------------------+------------+------------------+
+   | O          | outflow                               | ``-``      | 0                |
+   +------------+---------------------------------------+------------+------------------+
+   | P          | periodic boundary                     | ``-``      | 0                |
+   +------------+---------------------------------------+------------+------------------+
+   | I          | insulated (zero flux) for temperature |            | 0                |
+   +------------+---------------------------------------+------------+------------------+
+
+|
+
+.. _tab:userBCt:
+
+.. table:: User defined boundary conditions (Temperature and Passive scalars)
+
+   +------------+------------------------------------+
+   | Identifier | Description                        |
+   +============+====================================+
+   | t          | user defined Dirichlet temperature |
+   +------------+------------------------------------+
+   | c          | Newton cooling                     |
+   +------------+------------------------------------+
+   | f          | user defined flux                  |
+   +------------+------------------------------------+
+
+
+- open boundary condition ("O")
+
+  .. math::
+
+     k(\nabla T)\cdot {\bf n} =0
+
+- insulated boundary condition ("I")
+
+  .. math::
+
+     k(\nabla T)\cdot {\bf n} =0
+
+  where :math:`{\bf n}` is the normal vector and :math:`{\bf t}` the tangent vector. If the normal and tangent vector are not aligned with the mesh the stress formulation has to be used.
+- the periodic boundary condition ("P") needs to be prescribed in the ``.rea`` file since it already assigns the last point to first via :math:`{\bf u}({\bf x})={\bf u}({\bf x} + L)`, where :math:`L` is the periodic length.
+- Newton cooling boundary condition ("c")
+
+  .. math::
+
+     k(\nabla T)\cdot {\bf n}=h(T-T_{\infty})
+
+- flux boundary condition ("f")
+
+  .. math::
+
+     k(\nabla T)\cdot {\bf n} =f
+
+...............
+Passive scalars
+...............
+
+The boundary conditions for the passive scalar fields
+are analogous to those used for the temperature field.
+Thus, the temperature boundary condition
+menu will reappear for each passive scalar field so that the
+user can specify an independent set of boundary conditions
+for each passive scalar field.
+
+............................
+Internal Boundary Conditions
+............................
+
+In the spatial discretization, the entire computational
+domain is subdivided into macro-elements, the boundary
+segments shared by any two of these macro-elements
+in :math:`\Omega_f` and :math:`\Omega_s` are denoted as internal boundaries.
+For fluid flow analysis with a single-fluid system or heat
+transfer analysis without change-of-phase, internal
+boundary conditions are irrelevant as the corresponding
+field variables on these segments are part of the
+solution. However, for a multi-fluid system and for
+heat transfer analysis with change-of-phase, special
+conditions are required at particular internal
+boundaries, as described in the following.
+
+For a fluid system composes of multiple immiscible fluids,
+the boundary (and hence the identity) of each fluid must
+be tracked, and a jump in the normal traction exists
+at the fluid-fluid interface if the surface tension
+coefficient is nonzero.
+For this purpose, the interface between any two fluids
+of different identity must be defined as a special type of
+internal boundary, namely, a fluid layer;
+and the associated surface tension coefficient also
+needs to be specified.
+
+In a heat transfer analysis with change-of-phase, Nek5000 assumes
+that both phases exist at the start of the solution, and that
+all solid-liquid interfaces are specified as special internal
+boundaries, namely, the melting fronts.
+If the fluid flow problem is considered, i.e., the energy
+equation is solved in conjunction with the momentum and
+continuity equations, then only
+the common boundary between the fluid and the solid
+(i.e., all or portion of :math:`\partial \overline{\Omega}_f'` in :numref:`fig-walls`)
+can be defined as the melting front.
+In this case, segments on :math:`\partial \overline{\Omega}_f'` that
+belong to the dynamic melting/freezing interface need to be
+specified by the user.
+Nek5000 always assumes that the density of the two phases
+are the same (i.e., no Stefan flow); therefore at the melting
+front, the boundary condition for the fluid velocity is the
+same as that for a stationary wall, that is, all velocity
+components are zero.
+If no fluid flow is considered, i.e., only the energy equation
+is solved, then any internal boundary can be defined as
+a melting front.
+The temperature boundary condition at the melting front
+corresponds to a Dirichlet
+condition; that is, the entire segment maintains a constant temperature
+equal to the user-specified melting temperature :math:`T_{melt}`
+throughout the solution.
+In addition, the volumetric latent heat of fusion :math:`\rho L`
+for the two phases,
+which is also assumed to be constant, should be specified.
 
 .. _case_files_his:
 
