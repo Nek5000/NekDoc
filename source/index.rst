@@ -8,7 +8,6 @@ Nek5000
    faq
    tutorials
    case_files
-   geometry
    theory
    appendix
    bibliography

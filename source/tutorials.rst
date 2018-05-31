@@ -288,4 +288,17 @@ In the viewing window one can visualize the flow-field as depicted in
     :figclass: align-center
     :alt: per_flow
 
-    Steady-State flow field visualized in Visit/Paraview. Vectors represent velocity. Colors represent velocity magnitude. Note, velocity vectors are equal size and not scaled by magnitude.   
+    Steady-State flow field visualized in Visit/Paraview. Vectors represent velocity. Colors represent velocity magnitude. Note, velocity vectors are equal size and not scaled by magnitude.  
+
+-------------------
+Conjugate Heat Transfer
+-------------------
+
+TODO ...
+
+-------------------
+Overlapping Overset Grids
+-------------------
+
+TODO ...
+
