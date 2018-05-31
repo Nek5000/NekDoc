@@ -1,3 +1,5 @@
+.. _perhill:
+
 -------------------
 Periodic Hill
 -------------------
@@ -56,7 +58,7 @@ On input provide the input file name (e.g. ``hillp.box``).
 The tool will produce a binary mesh and boundary data file ``box.re2`` which should be renamed to ``hillp.re2``. 
 
 ..........................
-usr File
+usr file
 ..........................
 
 The :ref:`case_files_usr` file implements various subroutines to allow the user to interact with the solver.
@@ -116,7 +118,7 @@ In Nek5000, we can specify this through ``usrdat2`` in the usr file as follows
 
 .. _fig:hill_mesh:
 
-.. figure:: figs/hill_mesh_v2.png
+.. figure:: hill_mesh_v2.png
     :align: center
     :figclass: align-center
     :alt: per_mesh
