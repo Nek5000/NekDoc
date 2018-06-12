@@ -80,7 +80,7 @@ with :math:`y\in [0,3]` and :math:`x\in [0,9]` the following function will map t
 
 .. math::
 
-    y'(x,y) = C(3-y)(1+\tanh(B(|x-A|-1))) .
+    y'(x,y) = y + C(3-y)(1+\tanh(B(|x-A|-1))) .
 
 where :math:`A=4.5, B=3.5, C=1/6`.
 We have chosen these constants so that the height of the hill (our reference length), :math:`h=1`. 
