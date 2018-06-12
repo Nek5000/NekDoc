@@ -80,11 +80,11 @@ with :math:`y\in [0,3]` and :math:`x\in [0,9]` the following function will map t
 
 .. math::
 
-    y'(x,y) = y + C(3-y)(1+\tanh(B(|x-A|-1))) .
+    y'(x,y) = y + C(3-y)\Big\{1+\tanh\big[B(|x-A|-B)\big]\Big\} .
 
 where :math:`A=4.5, B=3.5, C=1/6`.
 We have chosen these constants so that the height of the hill (our reference length), :math:`h=1`. 
-Note that, as :math:`y \longrightarrow 3`, the perturbation,:math:`C(3-y)(1+\tanh(B(|x-A|-1))`, goes to zero.
+Note that, as :math:`y \longrightarrow 3`, the perturbation, goes to zero.
 So that near :math:`y = 3`, the mesh recovers its original form.
 
 In Nek5000, we can specify this through ``usrdat2`` in the usr file as follows
