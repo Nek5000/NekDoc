@@ -277,7 +277,7 @@ Values in parentheses denote the default value.
    +--------------------------+--------------+----------------------------------------------+
    |   Key                    | | Value(s)   | | Description                                |
    +==========================+==============+==============================================+
-   |``ConjugatedHeatTransfer``| | ``(no)``   | | Controls conjugate heat transfer           |
+   | ``ConjugateHeatTransfer``| | ``(no)``   | | Controls conjugate heat transfer           |
    |                          | | ``yes``    |                                              |
    +--------------------------+--------------+----------------------------------------------+
    | ``conductivity``         | | ``<real>`` | | Thermal conductivity                       |
