@@ -762,61 +762,54 @@ TODO: Add more details
 Boundary Conditions
 -------------------------------
 
-TODO: Update
+The boundary conditions for Nek5000 are stored as part of the mesh, i.e. either part of the ``.rea`` or ``.re2`` file.
+Any mesh generated with either ``prenek`` or ``genbox`` will include the assigned boundary conditions.
+These are available at runtime in the ``cbc(iface,iel,ifld)`` array, indexed by face number, local element number, and field number.
+For meshes converted from exodus format via the ``exo2nek`` script, the sideset numbers will be converted.
+These are available at runtime in the ``bc(5,iface,iel,1)`` array, indexed by face number and local element number.
+All sidesets will need to be translated into appropriate boundary conditions.
+It is recommended to do this in ``usrdat``.
+The available boundary conditions for velocity are listed in :numref:`tab:BCf`, and for temperature and passive scalars in :numref:`tab:BCt`.
 
-The boundary conditions can be imposed in various ways:
 
-- when the mesh is generated e.g. with ``genbox``, as will be explained in :ref:`sec:genbox`
-- when the ``.rea`` file is read in ``prenek`` or directly in the ``.rea`` file
-- directly in the ``.rea`` file
-- in the subroutine ``userbc``
 
-The general convention for boundary conditions in the ``.rea`` file is
+.. TODO: Update
 
-- upper case letters correspond to Primitive boundary conditions, as given in :numref:`tab:primitiveBCf`, :numref:`tab:primitiveBCt`
-- lower case letters correspond to user defined boundary conditions, see :numref:`tab:userBCf`, :numref:`tab:userBCt`
+.. The boundary conditions can be imposed in various ways:
 
-Since there are no supporting tools that will correctly populate the ``.rea`` file with the appropriate values, temperature, velocity, and flux boundary conditions are typically lower case and values must be specified in the ``userbc`` subroutine in the ``.usr`` file.
+.. - when the mesh is generated e.g. with ``genbox``, as will be explained in :ref:`sec:genbox`
+.. - when the ``.rea`` file is read in ``prenek`` or directly in the ``.rea`` file
+.. - directly in the ``.rea`` file
+.. - in the subroutine ``userbc``
+
+.. The general convention for boundary conditions in the ``.rea`` file is
+
+.. - upper case letters correspond to Primitive boundary conditions, as given in :numref:`tab:primitiveBCf`, :numref:`tab:primitiveBCt`
+.. - lower case letters correspond to user defined boundary conditions, see :numref:`tab:userBCf`, :numref:`tab:userBCt`
+
+.. Since there are no supporting tools that will correctly populate the ``.rea`` file with the appropriate values, temperature, velocity, and flux boundary conditions are typically lower case and values must be specified in the ``userbc`` subroutine in the ``.usr`` file.
 
 ..............
 Fluid Velocity
 ..............
 
-Two types of boundary conditions are applicable to the
-fluid velocity : essential (Dirichlet) boundary
-condition in which the velocity is specified;
-natural (Neumann) boundary condition in which the traction
-is specified.
-For segments that constitute the boundary :math:`\partial \Omega_f`, see :numref:`fig-walls`,
-one of these two types of boundary conditions must be
-assigned to each component of the fluid velocity.
-The fluid boundary condition can be *all Dirichlet*
-if all velocity components of :math:`{\bf u}` are
-specified; or it can be *all Neumann* if all traction components
-:math:`{\bf t} = [-p {\bf I} + \mu (\nabla {\bf u} +
-(\nabla {\bf u})^{T})] \cdot {\bf n}`, where
-:math:`{\bf I}` is the identity tensor, :math:`{\bf n}` is the unit normal
-and :math:`\mu` is the dynamic viscosity, are specified;
-or it can be *mixed Dirichlet/Neumann*
-if Dirichlet and Neumann conditions are selected for different
-velocity components.
-Examples for all Dirichlet, all Neumann and mixed Dirichhlet/Neumann
-boundaries are wall, free-surface and symmetry, respectively.
-If the nonstress formulation is selected, then traction
-is not defined on the boundary.
-In this case, any Neumann boundary condition imposed must be homogeneous;
-i.e., equal to zero.
-In addition, mixed Dirichlet/Neumann boundaries must be aligned with
-one of the Cartesian axes.
+Two types of boundary conditions are applicable to the fluid velocity : essential (Dirichlet) boundary condition in which the velocity is specified and natural (Neumann) boundary condition in which the traction is specified.
+For segments that constitute the boundary :math:`\partial \Omega_f`, see :numref:`fig-walls`, one of these two types of boundary conditions must be assigned to each component of the fluid velocity.
+The fluid boundary condition can be *all Dirichlet* if all velocity components of :math:`{\bf u}` are specified; or it can be *all Neumann* if all traction components :math:`{\bf t} = [-p {\bf I} + \mu (\nabla {\bf u} + (\nabla {\bf u})^{T})] \cdot {\bf n}`, where :math:`{\bf I}` is the identity tensor, :math:`{\bf n}` is the unit normal and :math:`\mu` is the dynamic viscosity, are specified; or it can be *mixed Dirichlet/Neumann* if Dirichlet and Neumann conditions are selected for different velocity components.
+Examples for all Dirichlet, all Neumann and mixed Dirichhlet/Neumann boundaries are wall, free-surface and symmetry, respectively. 
+If the nonstress formulation is selected, then traction is not defined on the boundary.
+In this case, any Neumann boundary condition imposed must be homogeneous, i.e. equal to zero.
+.. In addition, mixed Dirichlet/Neumann boundaries must be aligned with
+.. one of the Cartesian axes.
 
 For flow geometry which consists of
 a periodic repetition of a particular geometric unit,
 the periodic boundary conditions can be imposed,
 as illustrated in :numref:`fig-walls`.
 
-.. _tab:primitiveBCf:
+.. _tab:BCf:
 
-.. table:: Primitive boundary conditions
+.. table:: Velocity boundary conditions
 
    +------------+-----------------------+---------------------------+------------------+
    | Identifier | Description           | Parameters                | No of Parameters |
