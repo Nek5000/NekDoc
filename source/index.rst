@@ -10,7 +10,6 @@ Nek5000
    case_files
    theory
    appendix
-   bibliography
 
 .. .. bibliography:: emmd.bib
 
