@@ -771,7 +771,19 @@ All sidesets will need to be translated into appropriate boundary conditions.
 It is recommended to do this in ``usrdat``.
 The available boundary conditions for velocity are listed in :numref:`tab:BCf`, and for temperature and passive scalars in :numref:`tab:BCt`.
 
+.. table:: Velocity boundary conditions
 
+   +------------+-----------------------------------------------+--------------+-------------------+
+   | Identifier | Description                                   | usrbc called | NEKUSE Parameters |
+   +============+===============================================+==============+===================+
+   | A          | axisymmetric boundary                         | No           | None              |
+   +------------+-----------------------------------------------+--------------+-------------------+
+   | E          | interior boundary                             | No           | None              |
+   +------------+-----------------------------------------------+--------------+-------------------+
+   | v          | user prescribed velocity                      | Yes          | ``ux,uy,uz``      |
+   +------------+-----------------------------------------------+--------------+-------------------+
+   | vl         | user prescribed velocity in local coordinates | Yes          | ``ux,uy,uz``      |
+   +------------+-----------------------------------------------+--------------+-------------------+
 
 .. TODO: Update
 
