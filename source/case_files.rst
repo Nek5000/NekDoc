@@ -762,44 +762,54 @@ TODO: Add more details
 Boundary Conditions
 -------------------------------
 
-The boundary conditions for Nek5000 are stored as part of the mesh, i.e. either part of the ``.rea`` or ``.re2`` file.
-Any mesh generated with either ``prenek`` or ``genbox`` will include the assigned boundary conditions.
-These are available at runtime in the ``cbc(iface,iel,ifld)`` array, indexed by face number, local element number, and field number.
-For meshes converted from exodus format via the ``exo2nek`` script, the sideset numbers will be converted.
-These are available at runtime in the ``bc(5,iface,iel,1)`` array, indexed by face number and local element number.
-All sidesets will need to be translated into appropriate boundary conditions.
-It is recommended to do this in ``usrdat``.
-The available boundary conditions for velocity are listed in :numref:`tab:BCf`, and for temperature and passive scalars in :numref:`tab:BCt`.
-
-.. table:: Velocity boundary conditions
-
-   +------------+-----------------------------------------------+--------------+-------------------+
-   | Identifier | Description                                   | usrbc called | NEKUSE Parameters |
-   +============+===============================================+==============+===================+
-   | A          | axisymmetric boundary                         | No           | None              |
-   +------------+-----------------------------------------------+--------------+-------------------+
-   | E          | interior boundary                             | No           | None              |
-   +------------+-----------------------------------------------+--------------+-------------------+
-   | v          | user prescribed velocity                      | Yes          | ``ux,uy,uz``      |
-   +------------+-----------------------------------------------+--------------+-------------------+
-   | vl         | user prescribed velocity in local coordinates | Yes          | ``ux,uy,uz``      |
-   +------------+-----------------------------------------------+--------------+-------------------+
+.. The boundary conditions for Nek5000 are stored as part of the mesh, i.e. either part of the ``.rea`` or ``.re2`` file.
+.. Any mesh generated with either ``prenek`` or ``genbox`` will include the assigned boundary conditions.
+.. These are available at runtime in the ``cbc(iface,iel,ifld)`` array, indexed by face number, local element number, and field number.
+.. For meshes converted from exodus format via the ``exo2nek`` script, the sideset numbers will be converted.
+.. These are available at runtime in the ``bc(5,iface,iel,1)`` array, indexed by face number and local element number.
+.. All sidesets will need to be translated into appropriate boundary conditions.
+.. It is recommended to do this in ``usrdat``.
+.. The available boundary conditions for velocity are listed in :numref:`tab:BCf`, and for temperature and passive scalars in :numref:`tab:BCt`.
+.. 
+.. .. table:: Velocity boundary conditions
+.. 
+..    +------------+-----------------------------------------------+--------------+-------------------+
+..    | Identifier | Description                                   | usrbc called | NEKUSE Parameters |
+..    +============+===============================================+==============+===================+
+..    | A          | axisymmetric boundary                         | No           | None              |
+..    +------------+-----------------------------------------------+--------------+-------------------+
+..    | E          | interior boundary                             | No           | None              |
+..    +------------+-----------------------------------------------+--------------+-------------------+
+..    | v          | user prescribed velocity                      | Yes          | ``ux,uy,uz``      |
+..    +------------+-----------------------------------------------+--------------+-------------------+
+..    | vl         | user prescribed velocity in local coordinates | Yes          | ``un,ut1,ut2``    |
+..    +------------+-----------------------------------------------+--------------+-------------------+
+..    | O          | outlet                                        | No           | None              |
+..    +------------+-----------------------------------------------+--------------+-------------------+
+..    | ON         | outlet, normal                                | No           | None              |
+..    +------------+-----------------------------------------------+--------------+-------------------+
+..    | o          | user prescribed outlet pressure               | Yes          |                   |
+..    +------------+-----------------------------------------------+--------------+-------------------+
+..    | on         | user prescribed outlet pressure, normal       | No           | None              |
+..    +------------+-----------------------------------------------+--------------+-------------------+
+..    | O          | outlet                                        | No           | None              |
+..    +------------+-----------------------------------------------+--------------+-------------------+
 
 .. TODO: Update
 
-.. The boundary conditions can be imposed in various ways:
+The boundary conditions can be imposed in various ways:
 
-.. - when the mesh is generated e.g. with ``genbox``, as will be explained in :ref:`sec:genbox`
-.. - when the ``.rea`` file is read in ``prenek`` or directly in the ``.rea`` file
-.. - directly in the ``.rea`` file
-.. - in the subroutine ``userbc``
+- when the mesh is generated e.g. with ``genbox``, as will be explained in :ref:`sec:genbox`
+- when the ``.rea`` file is read in ``prenek`` or directly in the ``.rea`` file
+- directly in the ``.rea`` file
+- in the subroutine ``userbc``
 
-.. The general convention for boundary conditions in the ``.rea`` file is
+The general convention for boundary conditions in the ``.rea`` file is
 
-.. - upper case letters correspond to Primitive boundary conditions, as given in :numref:`tab:primitiveBCf`, :numref:`tab:primitiveBCt`
-.. - lower case letters correspond to user defined boundary conditions, see :numref:`tab:userBCf`, :numref:`tab:userBCt`
+- upper case letters correspond to Primitive boundary conditions, as given in :numref:`tab:primitiveBCf`, :numref:`tab:primitiveBCt`
+- lower case letters correspond to user defined boundary conditions, see :numref:`tab:userBCf`, :numref:`tab:userBCt`
 
-.. Since there are no supporting tools that will correctly populate the ``.rea`` file with the appropriate values, temperature, velocity, and flux boundary conditions are typically lower case and values must be specified in the ``userbc`` subroutine in the ``.usr`` file.
+Since there are no supporting tools that will correctly populate the ``.rea`` file with the appropriate values, temperature, velocity, and flux boundary conditions are typically lower case and values must be specified in the ``userbc`` subroutine in the ``.usr`` file.
 
 ..............
 Fluid Velocity
@@ -826,23 +836,37 @@ as illustrated in :numref:`fig-walls`.
    +------------+-----------------------+---------------------------+------------------+
    | Identifier | Description           | Parameters                | No of Parameters |
    +============+=======================+===========================+==================+
-   | P          | periodic              | periodic element and face | 2                |
+   | P          | Periodic              | periodic element and face | 2                |
    +------------+-----------------------+---------------------------+------------------+
    | V          | Dirichlet velocity    | u,v,w                     | 3                |
    +------------+-----------------------+---------------------------+------------------+
-   | O          | outflow               | ``-``                     | 0                |
+   | VL         | Dirichlet velocity    | normal and tangent vel    | 3                |
    +------------+-----------------------+---------------------------+------------------+
-   | W          | wall (no slip)        | ``-``                     | 0                |
-   +------------+-----------------------+---------------------------+------------------+
-   | F          | flux                  | flux                      | 1                |
-   +------------+-----------------------+---------------------------+------------------+
-   | SYM        | symmetry              | ``-``                     | 0                |
-   +------------+-----------------------+---------------------------+------------------+
-   | A          | axisymmetric boundary | ``-``                     | 0                |
-   +------------+-----------------------+---------------------------+------------------+
-   | MS         | moving boundary       | ``-``                     | 0                |
+   | O          | Outflow               | ``-``                     | 0                |
    +------------+-----------------------+---------------------------+------------------+
    | ON         | Outflow, Normal       | ``-``                     | 0                |
+   +------------+-----------------------+---------------------------+------------------+
+   | S          |                       | ``-``                     | 0                |
+   +------------+-----------------------+---------------------------+------------------+
+   | SL         |                       | ``-``                     | 0                |
+   +------------+-----------------------+---------------------------+------------------+
+   | SHL        |                       | ``-``                     | 0                |
+   +------------+-----------------------+---------------------------+------------------+
+   | W          | Wall (no slip)        | ``-``                     | 0                |
+   +------------+-----------------------+---------------------------+------------------+
+   | WSL        |                       | ``-``                     | 0                |
+   +------------+-----------------------+---------------------------+------------------+
+   | F          | Flux                  | flux                      | 1                |
+   +------------+-----------------------+---------------------------+------------------+
+   | SYM        | Symmetry              | ``-``                     | 0                |
+   +------------+-----------------------+---------------------------+------------------+
+   | A          | Axisymmetric boundary | ``-``                     | 0                |
+   +------------+-----------------------+---------------------------+------------------+
+   | MM         |                       | ``-``                     | 0                |
+   +------------+-----------------------+---------------------------+------------------+
+   | MS         | Moving boundary       | ``-``                     | 0                |
+   +------------+-----------------------+---------------------------+------------------+
+   | MSI        |                       | ``-``                     | 0                |
    +------------+-----------------------+---------------------------+------------------+
    | E          | Interior boundary     | Neighbour element ID      | 2                |
    +------------+-----------------------+---------------------------+------------------+
