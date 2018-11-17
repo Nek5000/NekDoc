@@ -285,6 +285,8 @@ Values in parentheses denote the default value.
    | ``rhoCp``                | | ``<real>`` | | Product of density and heat capacity       |
    +--------------------------+--------------+----------------------------------------------+
 
+Note: ``[TEMPERATURE] solver = none`` is incompatible with ``[PROBLEMTYPE] equation = lowMachNS`` without defining a custom thermal divergence in the ``usr`` file.
+
 .. _tab:scalarparams:
 
 .. table:: ``SCALAR%%`` keys in the ``.par`` file
