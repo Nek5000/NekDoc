@@ -11,46 +11,22 @@ Boundary Conditions
 .. It is recommended to do this in ``usrdat``.
 .. The available boundary conditions for velocity are listed in :numref:`tab:BCf`, and for temperature and passive scalars in :numref:`tab:BCt`.
 .. 
-.. .. table:: Velocity boundary conditions
-.. 
-..    +------------+-----------------------------------------------+--------------+-------------------+
-..    | Identifier | Description                                   | usrbc called | NEKUSE Parameters |
-..    +============+===============================================+==============+===================+
-..    | A          | axisymmetric boundary                         | No           | None              |
-..    +------------+-----------------------------------------------+--------------+-------------------+
-..    | E          | interior boundary                             | No           | None              |
-..    +------------+-----------------------------------------------+--------------+-------------------+
-..    | v          | user prescribed velocity                      | Yes          | ``ux,uy,uz``      |
-..    +------------+-----------------------------------------------+--------------+-------------------+
-..    | vl         | user prescribed velocity in local coordinates | Yes          | ``un,ut1,ut2``    |
-..    +------------+-----------------------------------------------+--------------+-------------------+
-..    | O          | outlet                                        | No           | None              |
-..    +------------+-----------------------------------------------+--------------+-------------------+
-..    | ON         | outlet, normal                                | No           | None              |
-..    +------------+-----------------------------------------------+--------------+-------------------+
-..    | o          | user prescribed outlet pressure               | Yes          |                   |
-..    +------------+-----------------------------------------------+--------------+-------------------+
-..    | on         | user prescribed outlet pressure, normal       | No           | None              |
-..    +------------+-----------------------------------------------+--------------+-------------------+
-..    | O          | outlet                                        | No           | None              |
-..    +------------+-----------------------------------------------+--------------+-------------------+
-
-.. TODO: Update
 
 The boundary conditions can be imposed in various ways:
 
-- when the mesh is generated e.g. with ``genbox``, as will be explained in :ref:`sec:genbox`
-- when the ``.rea`` file is read in ``prenek`` or directly in the ``.rea`` file
-- directly in the ``.rea`` file
-- in the subroutine ``userbc``
+- when the mesh is generated, e.g. with ``genbox``, as is explained in :ref:`sec:genbox`
+- when an ``.rea`` file is read in ``prenek``
+- translated from side-set numbers in ``usrdat`` when using ``exotonek`` or similar
+
+.. TODO: add exotonek tutorial
 
 The general convention for boundary conditions is
 
-- upper case letters correspond to primitive boundary conditions, as given in :numref:`tab:BCf`, :numref:`tab:BCt`
-- lower case letters correspond to user defined boundary conditions, see :numref:`tab:userBCf`, :numref:`tab:userBCt`
-- lower case letters ending with ``l``, i.e. ``'vl '``, are specified in local coordinates
+- uppercase letters correspond to primitive boundary conditions, as given in :numref:`tab:BCf`, :numref:`tab:BCt`
+- lowercase letters correspond to user defined boundary conditions, see :numref:`tab:uBCf` , :numref:`tab:userBCt`
+- lowercase letters ending with ``l``, i.e. ``'vl '``, are specified in face-local coordinates, i.e. normal, tangent and bitangent directions.
 
-Since there are no supporting tools that will correctly populate the ``.rea`` file with the appropriate values, temperature, velocity, and flux boundary conditions are typically lower case and values must be specified in the ``userbc`` subroutine in the ``.usr`` file.
+Uppercase boundary conditions which require assigned values in the ``.rea`` file are considered legacy and are not recommended for use.
 
 ..............
 Fluid Velocity
@@ -59,81 +35,106 @@ Fluid Velocity
 Two types of boundary conditions are applicable to the fluid velocity : essential (Dirichlet) boundary condition in which the velocity is specified and natural (Neumann) boundary condition in which the traction is specified.
 For segments that constitute the boundary :math:`\partial \Omega_f`, see :numref:`fig-walls`, one of these two types of boundary conditions must be assigned to each component of the fluid velocity.
 The fluid boundary condition can be *all Dirichlet* if all velocity components of :math:`{\bf u}` are specified; or it can be *all Neumann* if all traction components :math:`{\bf t} = [-p {\bf I} + \mu (\nabla {\bf u} + (\nabla {\bf u})^{T})] \cdot {\bf n}`, where :math:`{\bf I}` is the identity tensor, :math:`{\bf n}` is the unit normal and :math:`\mu` is the dynamic viscosity, are specified; or it can be *mixed Dirichlet/Neumann* if Dirichlet and Neumann conditions are selected for different velocity components.
-Examples for all Dirichlet, all Neumann and mixed Dirichhlet/Neumann boundaries are wall, free-surface and symmetry, respectively. 
 If the nonstress formulation is selected, then traction is not defined on the boundary.
 In this case, any Neumann boundary condition imposed must be homogeneous, i.e. equal to zero.
-.. In addition, mixed Dirichlet/Neumann boundaries must be aligned with
-.. one of the Cartesian axes.
-
-For flow geometry which consists of
-a periodic repetition of a particular geometric unit,
-the periodic boundary conditions can be imposed,
-as illustrated in :numref:`fig-walls`.
+.. In addition, mixed Dirichlet/Neumann boundaries must be aligned with one of the Cartesian axes.
+For flow geometry which consists of a periodic repetition of a particular geometric unit, the periodic boundary conditions can be imposed, as illustrated in :numref:`fig-walls` .
+The available primitive boundary conditions for the fluid are given in :numref:`tab:BCf` , with the user-specified boundary conditions in :numref:`tab:uBCf` .
+The legacy boundary conditions are listed in :numref:`tab:LBCf` .
 
 .. _tab:BCf:
 
 .. table:: Primitive boundary conditions for velocity
 
-   +------------+-----------------------+-----------------+-----------------------------------------+
-   | Identifier | Description           | Type            | Note                                    |
-   +============+=======================+=================+=========================================+
-   | P          | Periodic              | --              | Standard periodic boundary condition    |
-   +------------+-----------------------+-----------------+-----------------------------------------+
-   | p          | Periodic              | --              | For periodicity across a single element |
-   +------------+-----------------------+-----------------+-----------------------------------------+
-   | O          | Outflow               | Neumann         | Open boundary condition                 |
-   +------------+-----------------------+-----------------+-----------------------------------------+
-   | ON         | Outflow, Normal       | Mixed           | Zero velocity in non-normal directions  |
-   +------------+-----------------------+-----------------+-----------------------------------------+
-   | W          | Wall                  | Dirichlet       | No slip :math:`{\bf{u} = 0}`            | 
-   +------------+-----------------------+-----------------+-----------------------------------------+
-   | SYM        | Symmetry              | Mixed           |                                         | 
-   +------------+-----------------------+-----------------+-----------------------------------------+
-   | A          | Axisymmetric boundary | --              |                                         | 
-   +------------+-----------------------+-----------------+-----------------------------------------+
-   | E          | Interior boundary     | --              |                                         |
-   +------------+-----------------------+-----------------+-----------------------------------------+
+   +------------+----------------------------+--------------+---------------------------------------------------+
+   | Identifier | Description                | Type         | Note                                              |
+   +============+============================+==============+===================================================+
+   | P          | Periodic                   | --           | Standard periodic boundary condition              |
+   +------------+----------------------------+--------------+---------------------------------------------------+
+   | p          | Periodic                   | --           | For periodicity within a single element           |
+   +------------+----------------------------+--------------+---------------------------------------------------+
+   | O          | Outflow                    | Neumann      | Open boundary condition, zero pressure            |
+   +------------+----------------------------+--------------+---------------------------------------------------+
+   | ON         | Outflow, Normal            | Mixed        | Zero velocity in non-normal directions            |
+   +------------+----------------------------+--------------+---------------------------------------------------+
+   | W          | Wall                       | Dirichlet    | No slip, :math:`{ \bf{u} = 0}`                    | 
+   +------------+----------------------------+--------------+---------------------------------------------------+
+   | SYM        | Symmetry                   | Mixed        |                                                   | 
+   +------------+----------------------------+--------------+---------------------------------------------------+
+   | A          | Axisymmetric boundary      | --           |                                                   |
+   +------------+----------------------------+--------------+---------------------------------------------------+
+   | E          | Interior boundary          | --           |                                                   |
+   +------------+----------------------------+--------------+---------------------------------------------------+
+   
+.. _tab:uBCf:
 
-.. _tab:BCL:
+.. table:: User defined boundary conditions for velocity
+
+   +------------+-----------------------------+--------------+---------------------------------------------------------+
+   | Identifier | Description                 | Type         | Note                                                    |
+   +============+=============================+==============+=========================================================+
+   | v          | Velocity                    | Dirichlet    | Standard velocity boundary condition                    |
+   +------------+-----------------------------+--------------+---------------------------------------------------------+
+   | vl         | Velocity, local             | Dirichlet    | Face-local coordinates (normal, tangnent, bitangent)    |
+   +------------+-----------------------------+--------------+---------------------------------------------------------+
+   | o          | Outflow                     | Neumann      | Open boundary condition, specified pressure             |
+   +------------+-----------------------------+--------------+---------------------------------------------------------+
+   | on         | Outflow, Normal             | Mixed        | Zero velocity in non-normal directions                  |
+   +------------+-----------------------------+--------------+---------------------------------------------------------+
+   | s          | Traction                    | Neumann      | Specified traction in all directions                    |
+   +------------+-----------------------------+--------------+---------------------------------------------------------+
+   | sl         | Traction, local             | Neumann      | Face-local coordinates (normal, tangent, bitangent)     | 
+   +------------+-----------------------------+--------------+---------------------------------------------------------+
+   | sh         | Traction, horizontal        | Mixed        | Specified traction with zero normal velocity            |
+   +------------+-----------------------------+--------------+---------------------------------------------------------+
+   | shl        | Traction, horizontal, local | Mixed        | Zero normal velocity, traction in tangent and bitangent |
+   +------------+-----------------------------+--------------+---------------------------------------------------------+
+   | mm         | Moving mesh                 | --           |                                                         | 
+   +------------+-----------------------------+--------------+---------------------------------------------------------+
+   | ms         | Moving surface              | --           |                                                         |
+   +------------+-----------------------------+--------------+---------------------------------------------------------+
+   | msi        | Moving internal surface     | --           |                                                         |
+   +------------+-----------------------------+--------------+---------------------------------------------------------+   
+   | mv         | Moving boundary             | Dirichlet    |                                                         |
+   +------------+-----------------------------+--------------+---------------------------------------------------------+
+   | mvn        | Moving boundary, normal     | Dirichlet    | Zero velocity in non-normal directions                  |
+   +------------+-----------------------------+--------------+---------------------------------------------------------+ 
+.. | ms         | Moving surface              | --           |                                                         |
+.. +------------+-----------------------------+--------------+---------------------------------------------------------+
+.. | msi        | Moving internal surface     | --           |                                                         |
+.. +------------+-----------------------------+--------------+---------------------------------------------------------+    
+   
+.. _tab:LBCf:
 
 .. table:: Legacy boundary conditions for velocity
 
-   +------------+-----------------------+-----------------+-----------------------------------------+
-   | Identifier | Description           | Type            | Note                                    |
-   +============+=======================+=================+=========================================+
-   | V          | Dirichlet velocity    | u,v,w           |                                         |
-   +------------+-----------------------+-----------------+-----------------------------------------+
-   | VL         | Dirichlet velocity    | normal and tan  |                                         | 
-   +------------+-----------------------+-----------------+-----------------------------------------+
-   | MS         | Moving boundary       | ``-``           |                                         |
-   +------------+-----------------------+-----------------+-----------------------------------------+
-   | MSI        |                       | ``-``           |                                         |
-   +------------+-----------------------+-----------------+-----------------------------------------+
-   | WSL        |                       | ``-``           |                                         |
-   +------------+-----------------------+-----------------+-----------------------------------------+
-   | S          |                       | ``-``           |                                         |
-   +------------+-----------------------+-----------------+-----------------------------------------+
-   | SL         |                       | ``-``           |                                         |
-   +------------+-----------------------+-----------------+-----------------------------------------+
-   | SHL        |                       | ``-``           |                                         |
-   +------------+-----------------------+-----------------+-----------------------------------------+
+   +------------+-------------------------+-----------------+-----------------------------------------+
+   | Identifier | Description             | Type            | Note                                    |
+   +============+=========================+=================+=========================================+
+   | V          | Velocity                | Dirichlet       |                                         |
+   +------------+-------------------------+-----------------+-----------------------------------------+
+   | VL         | Velocity, local         | Dirichlet       |                                         | 
+   +------------+-------------------------+-----------------+-----------------------------------------+
+   | S          | Traction                | Neumann         |                                         |
+   +------------+-------------------------+-----------------+-----------------------------------------+
+   | SL         | Traction, local         | Neumann         |                                         |
+   +------------+-------------------------+-----------------+-----------------------------------------+
+   | MM         | Moving mesh             | Dirichlet       |                                         |
+   +------------+-------------------------+-----------------+-----------------------------------------+
+   | MS         | Moving surface          | Dirichlet       |                                         |
+   +------------+-------------------------+-----------------+-----------------------------------------+
+   | MSI        | Moving interior surface | --              |                                         |
+   +------------+-------------------------+-----------------+-----------------------------------------+
+.. | MF         |                         | --              |                                         |
+.. +------------+-------------------------+-----------------+-----------------------------------------+
+.. | WS         |                         | --              |                                         |
+.. +------------+-------------------------+-----------------+-----------------------------------------+
+.. | WSL        |                         | --              |                                         |
+.. +------------+-------------------------+-----------------+-----------------------------------------+
 
 
-.. _tab:userBCf:
-
-.. table:: User defined boundary conditions
-
-   +-------------+------------------------------------+
-   | Indentifier | Description                        |
-   +=============+====================================+
-   | v           | user defined Dirichlet velocity    |
-   +-------------+------------------------------------+
-   | t           | user defined Dirichlet temperature |
-   +-------------+------------------------------------+
-   | f           | user defined flux                  |
-   +-------------+------------------------------------+
-
-The open(outflow) boundary condition ("O") arises as a natural boundary condition from the variational formulation of Navier Stokes. We identify two situations
+The open(outflow) boundary condition ("O") arises as a natural boundary condition from the variational formulation of Navier Stokes. 
+We identify two situations
 
 - In the non-stress formulation, open boundary condition ('Do nothing')
 
@@ -154,33 +155,21 @@ The open(outflow) boundary condition ("O") arises as a natural boundary conditio
      {\bf u} \cdot {\bf n} &= 0\ ,\\
      (\nabla {\bf u} \cdot {\bf t})\cdot {\bf n} &= 0
 
-  where :math:`{\bf n}` is the normal vector and :math:`{\bf t}` the tangent vector. If the normal and tangent vector are not aligned with the mesh the stress formulation has to be used.
-- the periodic boundary condition ("P") needs to be prescribed in the ``.rea`` file since it already assigns the last point to first via :math:`{\bf u}({\bf x})={\bf u}({\bf x} + L)`, where :math:`L` is the periodic length.
+  where :math:`{\bf n}` is the normal vector and :math:`{\bf t}` the tangent vector. 
+If the normal and tangent vector are not aligned with the mesh the stress formulation has to be used.
+- the periodic boundary condition ("P") needs to be prescribed in the ``.rea`` or ``.re2`` file since it already assigns the last point to first via :math:`{\bf u}({\bf x})={\bf u}({\bf x} + L)`, where :math:`L` is the periodic length.
 - the wall boundary condition ("W") corresponds to :math:`{\bf u}=0`.
 
-For a fully-developed flow in such a configuration, one can
-effect great computational efficiencies by considering the
-problem in a single geometric unit (here taken to be of
-length :math:`L`), and requiring periodicity of the field variables.
-Nek5000 requires that the pairs of sides (or faces, in
-the case of a three-dimensional mesh) identified as periodic
-be identical (i.e., that the geometry be periodic).
+For a fully-developed flow in such a configuration, one can effect great computational efficiencies by considering the problem in a single geometric unit (here taken to be of length :math:`L`), and requiring periodicity of the field variables.
+Nek5000 requires that the pairs of sides (or faces, in the case of a three-dimensional mesh) identified as periodic be identical (i.e., that the geometry be periodic).
 
-For an axisymmetric flow geometry, the axis boundary
-condition is provided for boundary segments that lie
-entirely on the axis of symmetry.
-This is essentially a symmetry (mixed Dirichlet/Neumann)
-boundary condition
-in which the normal velocity and the tangential traction
-are set to zero.
+For an axisymmetric flow geometry, the axis boundary condition is provided for boundary segments that lie entirely on the axis of symmetry.
+This is essentially a symmetry (mixed Dirichlet/Neumann) boundary conditionin which the normal velocity and the tangential traction are set to zero.
 
-For free-surface boundary segments, the inhomogeneous
-traction boundary conditions
-involve both the surface tension coefficient :math:`\sigma`
-and the mean curvature of the free surface.
+For free-surface boundary segments, the inhomogeneous traction boundary conditions involve both the surface tension coefficient :math:`\sigma` and the mean curvature of the free surface.
 
 ...............................
-Passive scalars and Temperature
+Temperature and Passive Scalars
 ...............................
 
 The three types of boundary conditions applicable to the
@@ -205,6 +194,9 @@ depends on the Stefan-Boltzmann constant/view-factor
 product :math:`h_{rad}` and the difference between the fourth power
 of the environmental temperature :math:`T_{\infty}` and the fourth
 power of the surface temperature.
+
+The boundary conditions for the passive scalar fields are analogous to those used for the temperature field.
+Thus, the temperature boundary condition menu will reappear for each passive scalar field so that the user can specify an independent set of boundary conditions for each passive scalar field.
 
 .. _tab:BCt:
 
@@ -265,16 +257,6 @@ power of the surface temperature.
 
      k(\nabla T)\cdot {\bf n} =f
 
-...............
-Passive scalars
-...............
-
-The boundary conditions for the passive scalar fields
-are analogous to those used for the temperature field.
-Thus, the temperature boundary condition
-menu will reappear for each passive scalar field so that the
-user can specify an independent set of boundary conditions
-for each passive scalar field.
 
 ............................
 Internal Boundary Conditions
