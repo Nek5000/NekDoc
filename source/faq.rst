@@ -31,17 +31,16 @@ General
 **Where can I get help?**
 
    If you have a question, first check the mailing list `archive <https://lists.mcs.anl.gov/pipermail/nek5000-users/>`_ to see if your question is already answered somewhere. 
-   The mailing list also serves as a primary
-   support channel. Please subscribe `here <https://lists.mcs.anl.gov/mailman/listinfo/nek5000-users>`_.
+   The mailing list also serves as a primary support channel. 
+   Please subscribe `here <https://lists.mcs.anl.gov/mailman/listinfo/nek5000-users>`_.
    Postings from email addresses that are not on the list are held for moderation. 
 
 **How can I report a bug / feature request?**
 
   Nek5000 is hosted on GitHub and all bugs are reported and tracked through the `Issues <https://github.com/Nek5000/Nek5000/issues>`_ feature on GitHub. 
-  However, GitHub Issues should not be used for common troubleshooting purposes. If you are having trouble 
-  installing the code or getting your model to run properly, you should first send a message to the User’s Group mailing list. 
-  If it turns out your issue really is a bug in the code, an issue will then be created on GitHub. If you want to request that a feature be added to the code,
-  you may create an Issue on GitHub.
+  However, GitHub Issues should not be used for common troubleshooting purposes. 
+  If you are having trouble installing the code or getting your model to run properly, you should first send a message to the User’s Group mailing list. 
+  If it turns out your issue really is a bug in the code, an issue will then be created on GitHub. If you want to request that a feature be added to the code, you may create an Issue on GitHub.
 
 **How can I contribute to the Nek5000 project?**
 
@@ -53,24 +52,7 @@ General
   - upcoming releases get their own tags out of master
   
   If you are planning a large contribution, we encourage you to discuss the concept here on GitHub and interact with us frequently to ensure that your effort is well-directed.
-=======
-   Nek5000 is hosted on GitHub and all bugs are reported and tracked through the `Issues <https://github.com/Nek5000/Nek5000/issues>`_ feature on GitHub. 
-   However, GitHub Issues should not be used for common troubleshooting purposes. If you are having trouble 
-   installing the code or getting your model to run properly, you should first send a message to the User’s Group mailing list. 
-   If it turns out your issue really is a bug in the code, an issue will then be created on GitHub. If you want to request that a feature be added to the code,
-   you may create an Issue on GitHub.
 
-**How can I contribute to the Nek5000 project?**
-
-   Our project is hosted on `GitHub <https://github.com/Nek5000>`_. Here are the most important things you need to know:
-
-   - follow the usual “fork-and-pull” Git workflow
-   - all development happens on the master branch
-   - anything in master is always deployable
-   - upcoming releases get their own tags out of master
-
-   If you are planning a large contribution, we encourage you to discuss the concept here on GitHub and interact with us frequently to ensure that your effort is well-directed.
-   
 ----------------------------------
 Installing, Compiling, and Running
 ----------------------------------
@@ -92,16 +74,18 @@ Installing, Compiling, and Running
 **How much memory is required?**
 
    The memory footprint of a run depends on many factors and is printed to
-   screen whenever Nek5000 exits. What follows is a first rough guess::
+   screen whenever Nek5000 exits. What follows is a first rough guess:
+
+.. code-block:: none
 
    lx1*ly1*lz1*lelt * 3000byte + lelg * 12byte + MPI + optional libraries (e.g. CVODE)
+..
 
-   where lelt (the maximum number of local elements) is computed as lelg/lpmin.
-   The memory allocated by MPI will depend heavily on the total number of
-   ranks and the considered MPI implementation. For large rank counts (say > 100'000) it's easily 50-100MB.
+   where ``lelt`` (the maximum number of local elements) is computed as lelg/lpmin.
+   The memory allocated by MPI will depend heavily on the total number of ranks and the considered MPI implementation. 
+   For large rank counts (say > 100'000) it's easily 50-100MB.
 
-   Note, the output of GNU`s SIZE utility is inaccurate as it does not
-   take into account the dynamic memory alloation of MPI, gslib, CVODE, etc. 
+   Note, the output of GNU`s SIZE utility is inaccurate as it does not take into account the dynamic memory alloation of MPI, gslib, CVODE, etc. 
 
 **Why does the compiler issue relocation errors?**
 
