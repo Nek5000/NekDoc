@@ -260,9 +260,9 @@ once with oct-refine option of ``prenek``. The 3D counterpart to this
 mesh could joined to a hemisphere/Cartesian transition built with
 the spherical mesh option in ``prenek``.
 
------------------------
+----------------------------
 Mesh Extrusion and Mirroring
------------------------
+----------------------------
 
 In ``nek5000/tools``, there is a code ``n2to3.f`` that can be compiled with your
 local fortran compiler (preferably not g77).

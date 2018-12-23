@@ -7,7 +7,7 @@ Nek5000
    quickstart
    faq
    tutorials
-   case_files
+   problem_setup
    theory
    appendix
 
