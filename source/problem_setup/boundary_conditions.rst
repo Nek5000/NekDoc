@@ -231,7 +231,7 @@ Thus, the temperature boundary condition menu will reappear for each passive sca
    +------------+-----------------------------+--------------+---------------------------------------------------------+
    | f          | Flux                        | Neumann      | Standard Neumann boundary condition                     |
    +------------+-----------------------------+--------------+---------------------------------------------------------+
-   | c          | Newton cooling              | --           | Specified heat transfer coefficient                     |
+   | c          | Newton cooling              | Robin        | Specified heat transfer coefficient                     |
    +------------+-----------------------------+--------------+---------------------------------------------------------+
   
 .. _tab:LBCt
@@ -245,9 +245,9 @@ Thus, the temperature boundary condition menu will reappear for each passive sca
    +------------+-------------------------+--------------+-----------------------------------------+
    | F          | Flux                    | Neumann      |                                         |
    +------------+-------------------------+--------------+-----------------------------------------+
-   | C          | Newton cooling          | --           |                                         |
+   | C          | Newton cooling          | Robin        |                                         |
    +------------+-------------------------+--------------+-----------------------------------------+
-   | R          | Radiation heat transfer | --           |                                         |
+   | R          | Radiation heat transfer | Robin        |                                         |
    +------------+-------------------------+--------------+-----------------------------------------+  
    
 - open boundary condition ("O")
