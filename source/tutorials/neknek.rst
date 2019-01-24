@@ -276,7 +276,7 @@ Copy the ``SIZE.template`` file from the core directory and rename it ``SIZE`` i
 
    cp $HOME/Nek5000/core/SIZE.template SIZE
 
-Then, adjust the following parameters in the BASIC section  
+Then, adjust the following parameters
 
 .. code-block:: fortran
 
@@ -293,6 +293,8 @@ Then, adjust the following parameters in the BASIC section
       parameter (lpmax=4)
       parameter (ldimt=1)
 
+      ! OPTIONAL
+      parameter (nsessmax=2)
       ...
 
 
