@@ -376,7 +376,7 @@ Element data
 
       .. _fig:elorder:
 
-      .. figure:: figs/3dcube_1.png
+      .. figure:: ../figs/3dcube_1.png
           :align: center
           :figclass: align-center
           :alt: rea-geometry
@@ -423,7 +423,7 @@ Curved Sides
 
       .. _fig:edges:
 
-      .. figure:: figs/3dcube.png
+      .. figure:: ../figs/3dcube.png
           :align: center
           :figclass: align-center
           :alt: edge-numbering
@@ -433,7 +433,7 @@ Curved Sides
 
     .. _fig:ex2:
 
-    .. figure:: figs/modified1.png
+    .. figure:: ../figs/modified1.png
         :align: center
         :figclass: align-center
         :alt: edge-numbering
@@ -456,7 +456,7 @@ Boundaries
 
       .. _fig:forder:
 
-      .. figure:: figs/3dcube_2.png
+      .. figure:: ../figs/3dcube_2.png
           :align: center
           :figclass: align-center
           :alt: edge-numbering
