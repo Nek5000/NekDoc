@@ -180,25 +180,29 @@ Pre-Processing and Numerics
 
 **Are there any books/papers that describe the numerics of Nek5000?**
 
-There are a number of descriptions of the various numerical methods used in Nek5000 available. Probably the best starting point is the book ``High-Order Methods for Incompressible Fluid Flow`` by Deville et al. (2002). There are also other, perhaps shorter, expositions of the material. Two papers that we found particularly useful 
-(there are of course many more) are:
+  There are a number of descriptions of the various numerical methods used in Nek5000 available.
+  Probably the best starting point is the book *High-Order Methods for Incompressible Fluid Flow* by Deville et al. (2002).
+  There are also other, perhaps shorter, expositions of the material.
+  Two papers that we found particularly useful (there are of course many more) are:
 
-- Fischer. An Overlapping Schwarz Method for Spectral Element Solution 
-of the Incompressible Navier–Stokes Equations. J. Comput. Phys. 133, 
-84–101 (1997)
-- Fischer et al. Simulation of high-Reynolds number vascular flows. 
-Comput. Methods Appl. Mech. Engrg. 196 (2007) 3049–3060
+  - Fischer. An Overlapping Schwarz Method for Spectral Element Solution of the Incompressible Navier–Stokes Equations. *J. Comput. Phys.* 133, 84–101 (1997)
 
-and also the lecture notes by Paul Fischer (given at KTH in 2016): 
-http://www.mcs.anl.gov/~fischer/kth/kth_crs_2016s.pdf
+  - Fischer et al. Simulation of high-Reynolds number vascular flows. *Comput. Methods Appl. Mech. Engrg.* 196 (2007) 3049–3060
+
+  and also the `lecture notes <http://www.mcs.anl.gov/~fischer/kth/kth_crs_2016s.pdf>`_ by Paul Fischer (given at KTH in 2016).
 
 **Why can I see sometimes the imprint of elements in the solution?**
 
-Nek5000 is based on the spectral-element method, which relies on an expansion of the solution in terms of element-local basis functions. These basis functions are the Lagrange interpolants to the Legendre polynomials of a specific order. If using PnPn-2, the velocity is on the Gauss-Lobatto-Legendre mesh (i.e. including the boundary points), and the pressure is on the Gauss-Legendre mesh (without boundary points). These functions are defined within each element, and the continuity between elements is C0, i.e. only the function value is the same. The ansatz functions are 
-polynomials, so you can differentiate them inside each element; however, derivatives are not continuous over element boundaries (even though this difference reduces spectrally fast). Note that for the PnPn-2 method, the pressure is non-continuous.
+  Nek5000 is based on the spectral-element method, which relies on an expansion of the solution in terms of element-local basis functions.
+  These basis functions are the Lagrange interpolants to the Legendre polynomials of a specific order.
+  If using PnPn-2, the velocity is on the Gauss-Lobatto-Legendre mesh (i.e. including the boundary points), and the pressure is on the Gauss-Legendre mesh (without boundary points).
+  These functions are defined within each element, and the continuity between elements is C0, i.e. only the function value is the same.
+  The ansatz functions are polynomials, so you can differentiate them inside each element; however, derivatives are not continuous over element boundaries (even though this difference reduces spectrally fast). 
+  Note that for the PnPn-2 method, the pressure is non-continuous.
 
-This means that when visualising e.g. derivatives, one might see discontinuities, which then appear as imprints of the elements. This is due to the mentioned properties of the discretisation, and as such not a sign of a wrong solution. With increasing resolution (either p or h-type) these jumps will most certainly get smaller.
-
+  This means that when visualising e.g. derivatives, one might see discontinuities, which then appear as imprints of the elements.
+  This is due to the mentioned properties of the discretisation, and as such not a sign of a wrong solution.
+  With increasing resolution (either p or h-type) these jumps will most certainly get smaller.
 
 ---------------------------
 Physical Models
