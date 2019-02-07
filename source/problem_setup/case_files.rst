@@ -37,7 +37,7 @@ Note that this file is generated automatically by the ``nek``, ``nekb``, ``nekmp
 .. _case_files_par:
 
 -----------------------------------
-par
+The Parameter File (.par)
 -----------------------------------
 
 The simulation paramaters are defined in the ``.par`` file.
@@ -321,7 +321,7 @@ Note: ``[TEMPERATURE] solver = none`` is incompatible with ``[PROBLEMTYPE] equat
 .. _case_files_re2:
 
 -----------------------------------
-re2
+The Mesh File (.re2)
 -----------------------------------
 
 Stores the mesh and boundary condition. 
@@ -498,9 +498,9 @@ Boundaries
 
 .. _case_files_usr:
 
-----------------------
-usr
-----------------------
+-----------------------------
+The User Routines File (.usr)
+-----------------------------
 
 This file implements the the user interface to Nek5000. What follows is a brief description of the available
 subroutines. 
@@ -643,9 +643,9 @@ that defines addional internal parameters.
 
 .. _case_files_ma2:
 
------------------------------------
-map/ma2
------------------------------------
+--------------------------------------
+The Mesh Partitioning File (.map/.ma2)
+--------------------------------------
 
 TODO: Add more details
 
