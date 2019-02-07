@@ -98,15 +98,3 @@ Commonly used Subroutines
 
 .. _append_g2g:
 
---------------------------
-Grid-to-Grid Interpolation
---------------------------
-
-To restart from an existing field file onto a new mesh you can call the generic field file reader interpolation subroutine in userchk. 
-Note that selection of specific fields to read is not currently supported and the source file must include the coordinates. 
-That means all fields included in ``foo.f00001`` will be overwritten. Usage example:
-
-   .. code-block:: none
-
-      if (istep.eq.0) call gfldr('foo.f00001')
-

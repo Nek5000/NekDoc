@@ -2,7 +2,7 @@
 Additional Features
 ===================
 
-Nek5000 includes several features which make running and data processing much easier.  
+Nek5000 includes several features which make case setup, running, and data processing much easier.  
 These capabilities are outlined here.
 
 .. _features_his:
@@ -30,35 +30,30 @@ Usage example:
 
 - add ``call hpts()`` to ``userchk()``
 
-------------------
-Solution Transfer
-------------------
+--------------------------
+Grid-to-Grid Interpolation
+--------------------------
 .. _features_gfldr:
 
 Nek includes the capability to transfer a solution from one mesh to an entirely different mesh.
-This is accomplished by spectrally interpolating a result file from a previous case.
-To use this feature, add a call to the ``gfldr`` subroutine in the ``.usr`` file.
+This allows a user to restart from an existing field file with a new mesh. 
+This is accomplished by calling the generic field reader which will spectrally interpolate a result file from a previous case.
+To use this feature, add a call to the ``gfldr`` subroutine in ``userchk`` in the user routines file.
 For example, to interpolate a result from case ``foo``:
 
-.. _code_block: fortran
+.. code-block:: fortran
   
-  if(istep.eq.0) call gfldr("foo0.f00003")
+  if(istep.eq.0) call gfldr("foo0.f00001")
 
-Note that ``foo0.f00003`` must include the coordinates, i.e. it must have been created from a run with ``writeToFieldFile = yes`` in the ``[MESH]`` section of the ``.par`` file.
+Note that ``foo0.f00001`` must include the coordinates, i.e. it must have been created from a run with ``writeToFieldFile = yes`` in the ``[MESH]`` section of the ``.par`` file and that selection of specific fields to read is not currently supported.
+That means all fields included in ``foo.f00001`` will be overwritten.
 
 ---------------
 Averaging
 ---------------
 .. _features_avg:
 
-call ``avg_all`` in userchk
-
-TODO...
-
-------------------
-Extrapolation
-------------------
-.. _features_extrap:
+.. call ``avg_all`` in userchk
 
 TODO...
 
