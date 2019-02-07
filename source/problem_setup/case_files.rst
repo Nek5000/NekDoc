@@ -37,7 +37,7 @@ Note that this file is generated automatically by the ``nek``, ``nekb``, ``nekmp
 .. _case_files_par:
 
 -----------------------------------
-par
+The Parameter File (.par)
 -----------------------------------
 
 The simulation paramaters are defined in the ``.par`` file.
@@ -321,7 +321,7 @@ Note: ``[TEMPERATURE] solver = none`` is incompatible with ``[PROBLEMTYPE] equat
 .. _case_files_re2:
 
 -----------------------------------
-re2
+The Mesh File (.re2)
 -----------------------------------
 
 Stores the mesh and boundary condition. 
@@ -376,7 +376,7 @@ Element data
 
       .. _fig:elorder:
 
-      .. figure:: figs/3dcube_1.png
+      .. figure:: ../figs/3dcube_1.png
           :align: center
           :figclass: align-center
           :alt: rea-geometry
@@ -423,7 +423,7 @@ Curved Sides
 
       .. _fig:edges:
 
-      .. figure:: figs/3dcube.png
+      .. figure:: ../figs/3dcube.png
           :align: center
           :figclass: align-center
           :alt: edge-numbering
@@ -433,7 +433,7 @@ Curved Sides
 
     .. _fig:ex2:
 
-    .. figure:: figs/modified1.png
+    .. figure:: ../figs/modified1.png
         :align: center
         :figclass: align-center
         :alt: edge-numbering
@@ -456,7 +456,7 @@ Boundaries
 
       .. _fig:forder:
 
-      .. figure:: figs/3dcube_2.png
+      .. figure:: ../figs/3dcube_2.png
           :align: center
           :figclass: align-center
           :alt: edge-numbering
@@ -498,9 +498,9 @@ Boundaries
 
 .. _case_files_usr:
 
-----------------------
-usr
-----------------------
+-----------------------------
+The User Routines File (.usr)
+-----------------------------
 
 This file implements the the user interface to Nek5000. What follows is a brief description of the available
 subroutines. 
@@ -643,9 +643,9 @@ that defines addional internal parameters.
 
 .. _case_files_ma2:
 
------------------------------------
-map/ma2
------------------------------------
+--------------------------------------
+The Mesh Partitioning File (.map/.ma2)
+--------------------------------------
 
 TODO: Add more details
 

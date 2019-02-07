@@ -12,5 +12,5 @@ Details of how to setup a case in Nek5000 are outlined in the following sections
 
   problem_setup/case_files
   problem_setup/boundary_conditions
-  problem_setup/his_points
+  problem_setup/features
 
