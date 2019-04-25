@@ -30,10 +30,11 @@ General
 
 **Where can I get help?**
 
-   If you have a question, first check the mailing list `archive <https://lists.mcs.anl.gov/pipermail/nek5000-users/>`_ to see if your question is already answered somewhere. 
-   The mailing list also serves as a primary support channel. 
-   Please subscribe `here <https://lists.mcs.anl.gov/mailman/listinfo/nek5000-users>`_.
-   Postings from email addresses that are not on the list are held for moderation. 
+   If you have a question, first check the google 'group <https://groups.google.com/forum/#!forum/nek5000>' to see if your question is already answered somewhere. 
+   The google group also serves as a primary support channel with the Nek5000 user community. 
+   Please subscribe to the google group by clicking the button "Apply to join group" right above the "Welcome to the new Nek5000 User Group!" sign.
+   
+   The past mailing list `archive <https://lists.mcs.anl.gov/pipermail/nek5000-users/>` can also be checked for potential answers.
 
 **How can I report a bug / feature request?**
 
