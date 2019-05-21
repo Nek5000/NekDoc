@@ -30,11 +30,11 @@ General
 
 **Where can I get help?**
 
-   If you have a question, first check the google 'group <https://groups.google.com/forum/#!forum/nek5000>' to see if your question is already answered somewhere. 
+   If you have a question, first check the `Google group <https://groups.google.com/forum/#!forum/nek5000>`_ to see if your question is already answered somewhere. 
    The google group also serves as a primary support channel with the Nek5000 user community. 
    Please subscribe to the google group by clicking the button "Apply to join group" right above the "Welcome to the new Nek5000 User Group!" sign.
    
-   The past mailing list `archive <https://lists.mcs.anl.gov/pipermail/nek5000-users/>` can also be checked for potential answers.
+   The past `mailing list archive <https://lists.mcs.anl.gov/pipermail/nek5000-users>`_ can also be checked for potential answers.
 
 **How can I report a bug / feature request?**
 
@@ -111,9 +111,9 @@ Installing, Compiling, and Running
   The examples are included by default in the release tarball (see example directory). There is nothing special you need
   to do as they are ready to run.  
 
--------------------
+---------------------------
 Pre-Processing and Numerics
--------------------
+---------------------------
 
 **How can I generate a mesh for use with Nek5000?**
 

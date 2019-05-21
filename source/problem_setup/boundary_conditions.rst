@@ -40,7 +40,6 @@ In this case, any Neumann boundary condition imposed must be homogeneous, i.e. e
 .. In addition, mixed Dirichlet/Neumann boundaries must be aligned with one of the Cartesian axes.
 For flow geometry which consists of a periodic repetition of a particular geometric unit, the periodic boundary conditions can be imposed, as illustrated in :numref:`fig-walls` .
 The available primitive boundary conditions for the fluid are given in :numref:`tab:BCf` , with the user-specified boundary conditions in :numref:`tab:uBCf` .
-The legacy boundary conditions are listed in :numref:`tab:LBCf` .
 
 .. _tab:BCf:
 
