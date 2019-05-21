@@ -1,6 +1,6 @@
-.. ============
-.. Bibliography
-.. ============
+============
+Bibliography
+============
 
 .. .. rubric:: References
 
@@ -19,7 +19,7 @@
 .. [Patera1984] Patera, A.T. "A spectral element method for fluid dynamics : laminar flow in 
     a channel expansion." *J. Comput. Phys.* **54**:468--488, 1984.
 
-.. [Walsh1992] Walsh, O. "Eddy solutions of the Navier-Stokes equations." *The NSE II-Theory and
+.. .. [Walsh1992] Walsh, O. "Eddy solutions of the Navier-Stokes equations." *The NSE II-Theory and
     Numerical Methods*, J.G. Heywood, K. Masuda, R. Rautmann, and V.A. Solonikkov, eds., Springer,
     306--309, 1992.
 

@@ -259,6 +259,7 @@ where :math:`\boldsymbol\tau=\mu[\nabla \mathbf u+\nabla \mathbf u^{T}-\frac{2}{
 \mathbf u \mathbf I]`.
 
 .. The implementation of the equation of state for the low-Mach formulation is for the moment hard-coded to be the ideal gas equation of state :math:`p=\rho R T`. 
+
 This allows for both variable density and variable viscosity. 
 The system is solved by substituting :math:`\rho\approx f(T)` into the continuity equation and obtaining a so-called thermal divergence.
 
@@ -300,9 +301,9 @@ where :math:`\nu_\pm = \nu \pm \eta`.
 
 The important non-dimensional parameters for MHD are :math:`Re = U L /\nu` and the magnetic Re :math:`Re_M = U L /\eta`.
 
-----------------------------------
+-----------------------------------
 Arbitrary Lagrangian-Eulerian (ALE)
-----------------------------------
+-----------------------------------
 
 We consider unsteady incompressible flow in a domain with moving boundaries:
 
