@@ -10,8 +10,8 @@ General
 
 **Where can I download the code and what version of the code should I use?**
    
-   We strongly recommend to always use the latest `release <https://github.com/Nek5000/Nek5000/releases>`_  available.
-   We do **not** recommend using the master branch on `GitHub <https://github.com/Nek5000/Nek5000>`_
+   We strongly recommend to always use the latest `release <https://github.com/Nek5000/Nek5000/releases>`__  available.
+   We do **not** recommend using the master branch on `GitHub <https://github.com/Nek5000/Nek5000>`__
    in a production environment!
 
 **How can I properly reference Nek5000?**
@@ -30,22 +30,22 @@ General
 
 **Where can I get help?**
 
-   If you have a question, first check the `Google group <https://groups.google.com/forum/#!forum/nek5000>`_ to see if your question is already answered somewhere. 
+   If you have a question, first check the `Google group <https://groups.google.com/forum/#!forum/nek5000>`__ to see if your question is already answered somewhere. 
    The google group also serves as a primary support channel with the Nek5000 user community. 
    Please subscribe to the google group by clicking the button "Apply to join group" right above the "Welcome to the new Nek5000 User Group!" sign.
    
-   The past `mailing list archive <https://lists.mcs.anl.gov/pipermail/nek5000-users>`_ can also be checked for potential answers.
+   The past `mailing list archive <https://lists.mcs.anl.gov/pipermail/nek5000-users>`__ can also be checked for potential answers.
 
 **How can I report a bug / feature request?**
 
-  Nek5000 is hosted on GitHub and all bugs are reported and tracked through the `Issues <https://github.com/Nek5000/Nek5000/issues>`_ feature on GitHub. 
+  Nek5000 is hosted on GitHub and all bugs are reported and tracked through the `Issues <https://github.com/Nek5000/Nek5000/issues>`__ feature on GitHub. 
   However, GitHub Issues should not be used for common troubleshooting purposes. 
   If you are having trouble installing the code or getting your model to run properly, you should first send a message to the User’s Group mailing list. 
   If it turns out your issue really is a bug in the code, an issue will then be created on GitHub. If you want to request that a feature be added to the code, you may create an Issue on GitHub.
 
 **How can I contribute to the Nek5000 project?**
 
-  Our project is hosted on `GitHub <https://github.com/Nek5000>`_. Here are the most important things you need to know:
+  Our project is hosted on `GitHub <https://github.com/Nek5000>`__. Here are the most important things you need to know:
   
   - follow the usual “fork-and-pull” Git workflow
   - all development happens on the master branch

@@ -157,7 +157,7 @@ We identify two situations
      (\nabla {\bf u} \cdot {\bf t})\cdot {\bf n} &= 0
 
   where :math:`{\bf n}` is the normal vector and :math:`{\bf t}` the tangent vector. 
-If the normal and tangent vector are not aligned with the mesh the stress formulation has to be used.
+  If the normal and tangent vector are not aligned with the mesh the stress formulation has to be used.
 - the periodic boundary condition ("P") needs to be prescribed in the ``.rea`` or ``.re2`` file since it already assigns the last point to first via :math:`{\bf u}({\bf x})={\bf u}({\bf x} + L)`, where :math:`L` is the periodic length.
 - the wall boundary condition ("W") corresponds to :math:`{\bf u}=0`.
 
@@ -237,22 +237,6 @@ Thus, the temperature boundary condition menu will reappear for each passive sca
    | int        | Interpolated (NEKNEK)       | Dirichlet    | Interpolated from the adjacent overset mesh, see: :ref:`neknek`      |
    +------------+-----------------------------+--------------+----------------------------------------------------------------------+
   
-.. _tab:LBCt
-
-.. .. table:: Legacy boundary conditions for temperature and passive scalars
-.. 
-..    +------------+-------------------------+--------------+-----------------------------------------+
-..    | Identifier | Description             | Type         | Note                                    |
-..    +============+=========================+==============+=========================================+
-..    | T          | Temperature             | Dirichlet    |                                         |
-..    +------------+-------------------------+--------------+-----------------------------------------+
-..    | F          | Flux                    | Neumann      |                                         |
-..    +------------+-------------------------+--------------+-----------------------------------------+
-..    | C          | Newton cooling          | Robin        |                                         |
-..    +------------+-------------------------+--------------+-----------------------------------------+
-..    | R          | Radiation heat transfer | Robin        |                                         |
-..    +------------+-------------------------+--------------+-----------------------------------------+  
-   
 - open boundary condition ("O")
 
   .. math::
