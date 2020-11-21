@@ -37,7 +37,7 @@ Note that this file is generated automatically by the ``nek``, ``nekb``, ``nekmp
 .. _case_files_par:
 
 -----------------------------------
-par
+Parameter File (.par)
 -----------------------------------
 
 The simulation paramaters are defined in the ``.par`` file.
@@ -188,7 +188,7 @@ Values in parentheses denote the default value.
    |                           | | ``yes``           |                                                  |
    +---------------------------+---------------------+--------------------------------------------------+
 
-.. _tab:fieldparams:
+.. _tab:commonparams:
 
 .. table:: ``COMMON`` keys for all field variables in the ``.par`` file
 
@@ -251,7 +251,7 @@ Values in parentheses denote the default value.
    |                         |                  | | required for the AMG solver initialization  |
    +-------------------------+------------------+-----------------------------------------------+
 
-.. _tab:fieldparams:
+.. _tab:tpscommonparams:
 
 .. table:: ``COMMON`` keys for temperature and scalar fields in the ``.par`` file
 
@@ -321,7 +321,7 @@ Note: ``[TEMPERATURE] solver = none`` is incompatible with ``[PROBLEMTYPE] equat
 .. _case_files_re2:
 
 -----------------------------------
-re2
+Mesh File (.re2)
 -----------------------------------
 
 Stores the mesh and boundary condition. 
@@ -376,7 +376,7 @@ Element data
 
       .. _fig:elorder:
 
-      .. figure:: figs/3dcube_1.png
+      .. figure:: ../figs/3dcube_1.png
           :align: center
           :figclass: align-center
           :alt: rea-geometry
@@ -423,7 +423,7 @@ Curved Sides
 
       .. _fig:edges:
 
-      .. figure:: figs/3dcube.png
+      .. figure:: ../figs/3dcube.png
           :align: center
           :figclass: align-center
           :alt: edge-numbering
@@ -433,7 +433,7 @@ Curved Sides
 
     .. _fig:ex2:
 
-    .. figure:: figs/modified1.png
+    .. figure:: ../figs/modified1.png
         :align: center
         :figclass: align-center
         :alt: edge-numbering
@@ -456,7 +456,7 @@ Boundaries
 
       .. _fig:forder:
 
-      .. figure:: figs/3dcube_2.png
+      .. figure:: ../figs/3dcube_2.png
           :align: center
           :figclass: align-center
           :alt: edge-numbering
@@ -498,12 +498,14 @@ Boundaries
 
 .. _case_files_usr:
 
-----------------------
-usr
-----------------------
+-----------------------------
+User Routines File (.usr)
+-----------------------------
 
 This file implements the the user interface to Nek5000. What follows is a brief description of the available
 subroutines. 
+
+.. _case_files_uservp:
 
 ...................
 uservp
@@ -594,6 +596,8 @@ usrdat3
 This function can be used to initialize case/user specific data.
 
 
+.. _case_files_SIZE:
+
 ------------------------
 SIZE
 ------------------------
@@ -643,9 +647,9 @@ that defines addional internal parameters.
 
 .. _case_files_ma2:
 
------------------------------------
-map/ma2
------------------------------------
+--------------------------------------
+Mesh Partitioning File (.map/.ma2)
+--------------------------------------
 
 TODO: Add more details
 
@@ -653,7 +657,7 @@ TODO: Add more details
 .. _case_files_fld:
 
 -----------------------------------
-f%05d
+Restart/Output files (.f%05d)
 -----------------------------------
 
 TODO: Add fld details
@@ -695,31 +699,28 @@ representation of the number 6.54321 either in little or big endian.
    +-------+---------+-------------+-----------------------------------------------+
    | 2     | 3       | ``nz``      | number of coordinates in z direction          |
    +-------+---------+-------------+-----------------------------------------------+
-   | 5     | 11      | ``nelo``    | number of elements                            |
+   | 5     | 11      | ``nelo``    | number of elements in this file               |
    +-------+---------+-------------+-----------------------------------------------+
-   | 6     | 11      | ``nelgt``   | :red:`----`                                   |
+   | 6     | 11      | ``nelgt``   | global number of elements (for multiple files)|
    +-------+---------+-------------+-----------------------------------------------+
-   | 7     | 21      | ``time``    | time stamp                                    |
+   | 7     | 21      | ``time``    | physical time                                 |
    +-------+---------+-------------+-----------------------------------------------+
    | 8     | 10      | ``iostep``  | time step                                     |
    +-------+---------+-------------+-----------------------------------------------+
-   | 9     | 7       | ``fid0``    | :red:`field id`                               |
+   | 9     | 7       | ``fid0``    | field id                                      |
    +-------+---------+-------------+-----------------------------------------------+
-   | 10    | 7       | ``nfileoo`` | :red:`number of files`                        |
+   | 10    | 7       | ``nfileoo`` | number of files                               |
    +-------+---------+-------------+-----------------------------------------------+
    | 11    | 4       | ``rdcode``  | Fields written                                |
    +-------+---------+-------------+-----------------------------------------------+
-
-Example of a header:::
-
-    #std 4  6  6  1         36         36  0.1000000000000E+03     10000     0      1 XUP                                          
 
 ``wdsize`` sets the precision of the floating point numbers in the file. This
 is either 4 bytes for floats or 8 bytes for double precision.
 
 ``nx``, ``ny`` and ``nz`` set the number of coordinates in  :math:`x`, :math:`y` and :math:`z`
-direction for each element (polynomial order), respectively. ``nelo`` sets
-the number of total elements on the mesh.
+direction for each element (polynomial order), respectively. 
+
+``nelo`` sets the number of total elements on the mesh contained in this file.
 
 ``time`` is the simulation time while ``iostep`` is the time step when the file was written.
 
@@ -730,6 +731,13 @@ the number of total elements on the mesh.
   - P: Pressure
   - T: Temperature
   - S: Passive scalar
+
+Example of a header:::
+
+    #std 4  6  6  1         36         36  0.1000000000000E+03     10000     0      1 XUP     
+
+This corresponds to a single precision output file containing coordinates, velocity, and pressure information for 36 elements.
+The case is 2D, represented by ``nz`` = 1.
 
 ....
 Data

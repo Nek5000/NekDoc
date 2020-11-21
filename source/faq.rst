@@ -10,8 +10,8 @@ General
 
 **Where can I download the code and what version of the code should I use?**
    
-   We strongly recommend to always use the latest `release <https://github.com/Nek5000/Nek5000/releases>`_  available.
-   We do **not** recommend using the master branch on `GitHub <https://github.com/Nek5000/Nek5000>`_
+   We strongly recommend to always use the latest `release <https://github.com/Nek5000/Nek5000/releases>`__  available.
+   We do **not** recommend using the master branch on `GitHub <https://github.com/Nek5000/Nek5000>`__
    in a production environment!
 
 **How can I properly reference Nek5000?**
@@ -30,21 +30,22 @@ General
 
 **Where can I get help?**
 
-   If you have a question, first check the mailing list `archive <https://lists.mcs.anl.gov/pipermail/nek5000-users/>`_ to see if your question is already answered somewhere. 
-   The mailing list also serves as a primary support channel. 
-   Please subscribe `here <https://lists.mcs.anl.gov/mailman/listinfo/nek5000-users>`_.
-   Postings from email addresses that are not on the list are held for moderation. 
+   If you have a question, first check the `Google group <https://groups.google.com/forum/#!forum/nek5000>`__ to see if your question is already answered somewhere. 
+   The google group also serves as a primary support channel with the Nek5000 user community. 
+   Please subscribe to the google group by clicking the button "Apply to join group" right above the "Welcome to the new Nek5000 User Group!" sign.
+   
+   The past `mailing list archive <https://lists.mcs.anl.gov/pipermail/nek5000-users>`__ can also be checked for potential answers.
 
 **How can I report a bug / feature request?**
 
-  Nek5000 is hosted on GitHub and all bugs are reported and tracked through the `Issues <https://github.com/Nek5000/Nek5000/issues>`_ feature on GitHub. 
+  Nek5000 is hosted on GitHub and all bugs are reported and tracked through the `Issues <https://github.com/Nek5000/Nek5000/issues>`__ feature on GitHub. 
   However, GitHub Issues should not be used for common troubleshooting purposes. 
   If you are having trouble installing the code or getting your model to run properly, you should first send a message to the User’s Group mailing list. 
   If it turns out your issue really is a bug in the code, an issue will then be created on GitHub. If you want to request that a feature be added to the code, you may create an Issue on GitHub.
 
 **How can I contribute to the Nek5000 project?**
 
-  Our project is hosted on `GitHub <https://github.com/Nek5000>`_. Here are the most important things you need to know:
+  Our project is hosted on `GitHub <https://github.com/Nek5000>`__. Here are the most important things you need to know:
   
   - follow the usual “fork-and-pull” Git workflow
   - all development happens on the master branch
@@ -110,9 +111,9 @@ Installing, Compiling, and Running
   The examples are included by default in the release tarball (see example directory). There is nothing special you need
   to do as they are ready to run.  
 
--------------------
-Pre-Processing
--------------------
+---------------------------
+Pre-Processing and Numerics
+---------------------------
 
 **How can I generate a mesh for use with Nek5000?**
 
@@ -177,6 +178,32 @@ Pre-Processing
 
    Nek5000 supports solving up to 99 additional scalars.  
    To solve an additional scalar equation, increase ``ldimt`` in the ``SIZE`` file to accomodate the additional scalar and specify the appropriate parameter in the :ref:`case_files_par` file. See ``shear4`` example for more details. 
+
+**Are there any books/papers that describe the numerics of Nek5000?**
+
+  There are a number of descriptions of the various numerical methods used in Nek5000 available.
+  Probably the best starting point is the book *High-Order Methods for Incompressible Fluid Flow* by Deville et al. (2002).
+  There are also other, perhaps shorter, expositions of the material.
+  Two papers that we found particularly useful (there are of course many more) are:
+
+  - Fischer. An Overlapping Schwarz Method for Spectral Element Solution of the Incompressible Navier–Stokes Equations. *J. Comput. Phys.* 133, 84–101 (1997)
+
+  - Fischer et al. Simulation of high-Reynolds number vascular flows. *Comput. Methods Appl. Mech. Engrg.* 196 (2007) 3049–3060
+
+  and also the `lecture notes <http://www.mcs.anl.gov/~fischer/kth/kth_crs_2016s.pdf>`_ by Paul Fischer (given at KTH in 2016).
+
+**Why can I see sometimes the imprint of elements in the solution?**
+
+  Nek5000 is based on the spectral-element method, which relies on an expansion of the solution in terms of element-local basis functions.
+  These basis functions are the Lagrange interpolants to the Legendre polynomials of a specific order.
+  If using PnPn-2, the velocity is on the Gauss-Lobatto-Legendre mesh (i.e. including the boundary points), and the pressure is on the Gauss-Legendre mesh (without boundary points).
+  These functions are defined within each element, and the continuity between elements is C0, i.e. only the function value is the same.
+  The ansatz functions are polynomials, so you can differentiate them inside each element; however, derivatives are not continuous over element boundaries (even though this difference reduces spectrally fast). 
+  Note that for the PnPn-2 method, the pressure is non-continuous.
+
+  This means that when visualising e.g. derivatives, one might see discontinuities, which then appear as imprints of the elements.
+  This is due to the mentioned properties of the discretisation, and as such not a sign of a wrong solution.
+  With increasing resolution (either p or h-type) these jumps will most certainly get smaller.
 
 ---------------------------
 Physical Models
@@ -270,5 +297,5 @@ Post-Processing
 **How do I obtain values of variables at a specific point?**
 
 
-  The simplest way is through the use of history points. See the section on the :ref:`case_files_his` file.
+  The simplest way is through the use of history points. See the section on the :ref:`features_his` file.
   You can also use the spectral interpolation tool (see examples for more details).

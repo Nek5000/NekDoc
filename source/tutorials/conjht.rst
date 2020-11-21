@@ -171,7 +171,7 @@ To get started we copy the template to our case directory and then we modify its
 
    cp $HOME/Nek5000/examples/conj_ht/conj_ht.usr cht2d.usr 
 
-Note: in  :ref:`case_files_uservp` subroutine, users can specifiy different variable properties for fluid and solid subdomain.  
+Note: in  :ref:`the uservp subroutine <case_files_uservp>`, users can specifiy different variable properties for fluid and solid subdomain.  
 
 _____________________________
 Initial & boundary conditions
@@ -280,7 +280,8 @@ For this case, using any text editor, create a new file called ``cht2d.par`` and
     conductivity = 3.1623E-04
     residualTol = 1e-06
 
-In this example, we have set the calculation to stop after 8000-time steps (``numSteps=8000``) and print the checkpoint file every 500-time steps (``writeInterval=500``). In choosing ``viscosity=3.1623E-04`` and ``conductivity=3.1623E-04``, actually we are setting the Rayleigh *Ra=10e7* and Prandtl *Pr=1*. More details can be found in (see eqns. (6) to (9) in the following open access reference) Scheel et al. [Scheel2013]_.
+In this example, we have set the calculation to stop after 8000-time steps (``numSteps=8000``) and print the checkpoint file every 500-time steps (``writeInterval=500``).
+In choosing ``viscosity=3.1623E-04`` and ``conductivity=3.1623E-04``, actually we are setting the Rayleigh *Ra=10e7* and Prandtl *Pr=1*. 
 
 ..........................
 SIZE file 
@@ -315,7 +316,7 @@ Then, adjust the following parameters in the BASIC section
 
 
 For this tutorial we have set our polynomial order to be :math:`N=7` - this is defined in the ``SIZE`` file above as ``lx1=8`` which indices that there are 8 points in each spatial dimension of every element.
-Additional details on the parameters in the ``SIZE`` file are given in :doc:`case_files`.  
+Additional details on the parameters in the ``SIZE`` file are given :ref:`here <case_files_SIZE>`.  
 
 ..........................
 Compilation 

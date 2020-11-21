@@ -8,9 +8,8 @@ A complete problem setup in Nek5000 requires a set of case files which are used 
 Details of how to setup a case in Nek5000 are outlined in the following sections:
 
 .. toctree::
-  :maxdepth: 1
+  :glob:
+  :maxdepth: 2
 
-  problem_setup/case_files
-  problem_setup/boundary_conditions
-  problem_setup/his_points
+  problem_setup/*
 

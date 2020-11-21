@@ -299,7 +299,7 @@ Then, adjust the following parameters
 
 
 For this tutorial we have set our polynomial order to be :math:`N=7` - this is defined in the ``SIZE`` file above as ``lx1=8`` which indices that there are 8 points in each spatial dimension of every element.
-Additional details on the parameters in the ``SIZE`` file are given in :doc:`case_files`.   
+Additional details on the parameters in the ``SIZE`` file are given :ref:`here <case_files_SIZE>`.   
 
 ..........................
 Compilation 

@@ -10,6 +10,7 @@ Nek5000
    problem_setup
    theory
    appendix
+   references
 
 .. .. bibliography:: emmd.bib
 
