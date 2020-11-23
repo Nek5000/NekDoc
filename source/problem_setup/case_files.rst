@@ -677,13 +677,13 @@ The file is composed of:
   - Metadata
 
 The **header** provides information about the types, sizes, and layout of the field data.
-The header a fixed size of 132 bytes.  Its data elements are encoded as either ASCII or binary values.
+The header is a fixed size of 132 bytes.  Its data elements are encoded as either ASCII or binary values.
 In the table below, the offsets and widths are measured in bytes. Note that consecutive entries are separated
-by single byte, which is the ASCII space character.  Finally, note that the data entries do not require all 132 bytes.
+by a single byte, which is the ASCII space character.  Finally, note that the data entries do not require all 132 bytes.
 
 Some elements that require additional explanation are:
 
-* ``nz1``:  This is the number of GLL gridpoints in the z-direction. If equal to 1, the field data were
+* ``nz``:  This is the number of GLL gridpoints in the z-direction. If equal to 1, the field data were
   produced for a 2D simulation.  If > 1, the data were produced for a 3D simulation.
 
 * ``rdcode``: Specifies the type and ordering of fields that are present in this file.
@@ -732,7 +732,7 @@ Some elements that require additional explanation are:
    +-------------------+--------+-------+---------+--------------+---------------------------------------------------+
    | ``rdcode``        | 83     | 10    | ASCII   | text         | Specifies which fields contained in this file     |
    +-------------------+--------+-------+---------+--------------+---------------------------------------------------+
-   | ``p0th``          | 94     | 15    | ASCII   | decimal      |                                                   |
+   | ``p0th``          | 94     | 15    | ASCII   | decimal      | Thermodynamic pressure                            |
    +-------------------+--------+-------+---------+--------------+---------------------------------------------------+
    | ``if_press_mesh`` | 110    | 1     | ASCII   | text         | States whether pressure mesh is being used        |
    +-------------------+--------+-------+---------+--------------+---------------------------------------------------+
@@ -741,7 +741,7 @@ Some elements that require additional explanation are:
 
 The **global element IDs, coordinates, and field data** start at offset 136 bytes.  Integer data are always 32-bit.
 The precision of floating-point data is inferred from the value of ``wdsize`` (see above).  The number of
-dimensions (``ndims``) is inferred from ``nz1`` (see above).  The global element IDs are required, but the
+dimensions (``ndims``) is inferred from ``nz`` (see above).  The global element IDs are required, but the
 coordinates and any field data are optional.  Their presence of coordinates and field data are inferred from
 ``rdcode``, as described above.
 
@@ -750,17 +750,17 @@ coordinates and any field data are optional.  Their presence of coordinates and 
   +--------------------+----------+---------------------------------------+
   | Value              | Datatype | Shape                                 |
   +====================+==========+=======================================+
-  | Global element IDs | integer  | ``(nelt, )``                          |
+  | Global element IDs | integer  | ``(nelt)``                            |
   +--------------------+----------+---------------------------------------+
-  | Coordinates        | float    | ``(nelt, ndims, nx1 * ny1 * nz1)``    |
+  | Coordinates        | float    | ``(nelt, ndims, nx * ny * nz)``       |
   +--------------------+----------+---------------------------------------+
-  | Velocity           | float    | ``(nelt, ndims, nx1 * ny1 * nz1)``    |
+  | Velocity           | float    | ``(nelt, ndims, nx * ny * nz)``       |
   +--------------------+----------+---------------------------------------+
-  | Pressure           | float    | ``(nelt, nx1 * ny1 * nz1)``           |
+  | Pressure           | float    | ``(nelt, nx * ny * nz)``              |
   +--------------------+----------+---------------------------------------+
-  | Temperature        | float    | ``(nelt, nx1 * ny1 * nz1)``           |
+  | Temperature        | float    | ``(nelt, nx * ny * nz)``              |
   +--------------------+----------+---------------------------------------+
-  | Passive scalars    | float    | ``(nscalars, nelt, nx1 * ny1 * nz1)`` |
+  | Passive scalars    | float    | ``(nscalars, nelt, nx * ny * nz)``    |
   +--------------------+----------+---------------------------------------+
 
 
