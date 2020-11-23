@@ -514,8 +514,6 @@ subroutines.
 
 .. _case_files_uservp:
 
-.. _case_files_uservp:
-
 ...................
 uservp
 ...................
