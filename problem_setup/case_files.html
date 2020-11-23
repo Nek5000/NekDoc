@@ -130,7 +130,7 @@
 </li>
 <li class="toctree-l1"><a class="reference internal" href="../theory.html">Theory</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../appendix.html">Appendices</a></li>
-<li class="toctree-l1"><a class="reference internal" href="../bibliography.html">Bibliography</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../references.html">References</a></li>
 </ul>
 
             
@@ -1474,12 +1474,12 @@ where # is a numeral. The file format is unique to Nek5000 and is described in t
 </ul>
 </div></blockquote>
 <p>The <strong>header</strong> provides information about the types, sizes, and layout of the field data.
-The header a fixed size of 132 bytes.  Its data elements are encoded as either ASCII or binary values.
+The header is a fixed size of 132 bytes.  Its data elements are encoded as either ASCII or binary values.
 In the table below, the offsets and widths are measured in bytes. Note that consecutive entries are separated
-by single byte, which is the ASCII space character.  Finally, note that the data entries do not require all 132 bytes.</p>
+by a single byte, which is the ASCII space character.  Finally, note that the data entries do not require all 132 bytes.</p>
 <p>Some elements that require additional explanation are:</p>
 <ul class="simple">
-<li><code class="docutils literal"><span class="pre">nz1</span></code>:  This is the number of GLL gridpoints in the z-direction. If equal to 1, the field data were
+<li><code class="docutils literal"><span class="pre">nz</span></code>:  This is the number of GLL gridpoints in the z-direction. If equal to 1, the field data were
 produced for a 2D simulation.  If &gt; 1, the data were produced for a 3D simulation.</li>
 <li><code class="docutils literal"><span class="pre">rdcode</span></code>: Specifies the type and ordering of fields that are present in this file.
 The code can consist of the following.  All fields are optional, but if present, they are expected
@@ -1606,7 +1606,7 @@ byte-swapped by the computer reading the data.</li>
 <td>15</td>
 <td>ASCII</td>
 <td>decimal</td>
-<td>&#160;</td>
+<td>Thermodynamic pressure</td>
 </tr>
 <tr class="row-odd"><td><code class="docutils literal"><span class="pre">if_press_mesh</span></code></td>
 <td>110</td>
@@ -1626,7 +1626,7 @@ byte-swapped by the computer reading the data.</li>
 </table>
 <p>The <strong>global element IDs, coordinates, and field data</strong> start at offset 136 bytes.  Integer data are always 32-bit.
 The precision of floating-point data is inferred from the value of <code class="docutils literal"><span class="pre">wdsize</span></code> (see above).  The number of
-dimensions (<code class="docutils literal"><span class="pre">ndims</span></code>) is inferred from <code class="docutils literal"><span class="pre">nz1</span></code> (see above).  The global element IDs are required, but the
+dimensions (<code class="docutils literal"><span class="pre">ndims</span></code>) is inferred from <code class="docutils literal"><span class="pre">nz</span></code> (see above).  The global element IDs are required, but the
 coordinates and any field data are optional.  Their presence of coordinates and field data are inferred from
 <code class="docutils literal"><span class="pre">rdcode</span></code>, as described above.</p>
 <table border="1" class="docutils">
@@ -1644,27 +1644,27 @@ coordinates and any field data are optional.  Their presence of coordinates and 
 <tbody valign="top">
 <tr class="row-even"><td>Global element IDs</td>
 <td>integer</td>
-<td><code class="docutils literal"><span class="pre">(nelt,</span> <span class="pre">)</span></code></td>
+<td><code class="docutils literal"><span class="pre">(nelt)</span></code></td>
 </tr>
 <tr class="row-odd"><td>Coordinates</td>
 <td>float</td>
-<td><code class="docutils literal"><span class="pre">(nelt,</span> <span class="pre">ndims,</span> <span class="pre">nx1</span> <span class="pre">*</span> <span class="pre">ny1</span> <span class="pre">*</span> <span class="pre">nz1)</span></code></td>
+<td><code class="docutils literal"><span class="pre">(nelt,</span> <span class="pre">ndims,</span> <span class="pre">nx</span> <span class="pre">*</span> <span class="pre">ny</span> <span class="pre">*</span> <span class="pre">nz)</span></code></td>
 </tr>
 <tr class="row-even"><td>Velocity</td>
 <td>float</td>
-<td><code class="docutils literal"><span class="pre">(nelt,</span> <span class="pre">ndims,</span> <span class="pre">nx1</span> <span class="pre">*</span> <span class="pre">ny1</span> <span class="pre">*</span> <span class="pre">nz1)</span></code></td>
+<td><code class="docutils literal"><span class="pre">(nelt,</span> <span class="pre">ndims,</span> <span class="pre">nx</span> <span class="pre">*</span> <span class="pre">ny</span> <span class="pre">*</span> <span class="pre">nz)</span></code></td>
 </tr>
 <tr class="row-odd"><td>Pressure</td>
 <td>float</td>
-<td><code class="docutils literal"><span class="pre">(nelt,</span> <span class="pre">nx1</span> <span class="pre">*</span> <span class="pre">ny1</span> <span class="pre">*</span> <span class="pre">nz1)</span></code></td>
+<td><code class="docutils literal"><span class="pre">(nelt,</span> <span class="pre">nx</span> <span class="pre">*</span> <span class="pre">ny</span> <span class="pre">*</span> <span class="pre">nz)</span></code></td>
 </tr>
 <tr class="row-even"><td>Temperature</td>
 <td>float</td>
-<td><code class="docutils literal"><span class="pre">(nelt,</span> <span class="pre">nx1</span> <span class="pre">*</span> <span class="pre">ny1</span> <span class="pre">*</span> <span class="pre">nz1)</span></code></td>
+<td><code class="docutils literal"><span class="pre">(nelt,</span> <span class="pre">nx</span> <span class="pre">*</span> <span class="pre">ny</span> <span class="pre">*</span> <span class="pre">nz)</span></code></td>
 </tr>
 <tr class="row-odd"><td>Passive scalars</td>
 <td>float</td>
-<td><code class="docutils literal"><span class="pre">(nscalars,</span> <span class="pre">nelt,</span> <span class="pre">nx1</span> <span class="pre">*</span> <span class="pre">ny1</span> <span class="pre">*</span> <span class="pre">nz1)</span></code></td>
+<td><code class="docutils literal"><span class="pre">(nscalars,</span> <span class="pre">nelt,</span> <span class="pre">nx</span> <span class="pre">*</span> <span class="pre">ny</span> <span class="pre">*</span> <span class="pre">nz)</span></code></td>
 </tr>
 </tbody>
 </table>

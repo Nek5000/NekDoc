@@ -112,7 +112,7 @@
 </ul>
 </li>
 <li class="toctree-l1"><a class="reference internal" href="appendix.html">Appendices</a></li>
-<li class="toctree-l1"><a class="reference internal" href="bibliography.html">Bibliography</a></li>
+<li class="toctree-l1"><a class="reference internal" href="references.html">References</a></li>
 </ul>
 
             
@@ -180,7 +180,7 @@
 <h1>Theory<a class="headerlink" href="#theory" title="Permalink to this headline">¶</a></h1>
 <div class="section" id="computational-approach">
 <span id="intro-comput-approach"></span><h2>Computational Approach<a class="headerlink" href="#computational-approach" title="Permalink to this headline">¶</a></h2>
-<p>The spatial discretization is based on the spectral element method (SEM) <a class="reference internal" href="bibliography.html#patera1984" id="id1">[Patera1984]</a>, which is a
+<p>The spatial discretization is based on the spectral element method (SEM) <a class="reference internal" href="references.html#patera1984" id="id1">[Patera1984]</a>, which is a
 high-order weighted residual technique similar to the finite element method.   In the SEM, the
 solution and data are represented in terms of <span class="math">\(N\)</span> th-order tensor-product polynomials within each
 of <span class="math">\(E\)</span> deformable hexahedral (brick) elements. Typical discretizations involve
@@ -188,10 +188,10 @@ of <span class="math">\(E\)</span> deformable hexahedral (brick) elements. Typic
 element).  Vectorization and cache efficiency derive from the local lexicographical ordering within
 each macro-element and from the fact that the action of discrete operators, which nominally have
 <span class="math">\(O(EN^6)\)</span> nonzeros, can be evaluated in only <span class="math">\(O(EN^4)\)</span> work and <span class="math">\(O(EN^3)\)</span> storage
-through the use of tensor-product-sum factorization <a class="reference internal" href="bibliography.html#orszag1980" id="id2">[Orszag1980]</a>.   The SEM exhibits very little
+through the use of tensor-product-sum factorization <a class="reference internal" href="references.html#orszag1980" id="id2">[Orszag1980]</a>.   The SEM exhibits very little
 numerical dispersion and dissipation, which can be important, for example, in stability
 calculations, for long time integrations, and for high Reynolds number flows. We refer to
-<a class="reference internal" href="bibliography.html#denville2002" id="id3">[Denville2002]</a> for more details.</p>
+<a class="reference internal" href="references.html#denville2002" id="id3">[Denville2002]</a> for more details.</p>
 <p>Nek5000 solves the unsteady incompressible two-dimensional, axisymmetric, or three-dimensional
 Stokes or Navier-Stokes equations with forced or natural convection heat transfer in both
 stationary (fixed) or time-dependent geometry. It also solves the compressible Navier-Stokes in the
@@ -370,7 +370,7 @@ the incompressible MHD equations are</p>
 \nabla \cdot \mathbf u = 0\end{split}\]</div>
 <p>Here, <span class="math">\(NL\)</span> represents the quadratic nonlinearities from the convective term.</p>
 <p>Our free-surface hydrodynamic formulation is based upon the arbitrary Lagrangian-Eulerian (ALE)
-formulation described in <a class="reference internal" href="bibliography.html#ho1989" id="id4">[Ho1989]</a>.  Here, the domain <span class="math">\(\Omega(t)\)</span> is also an unknown.  As
+formulation described in <a class="reference internal" href="references.html#ho1989" id="id4">[Ho1989]</a>.  Here, the domain <span class="math">\(\Omega(t)\)</span> is also an unknown.  As
 with the velocity, the geometry <span class="math">\(\mathbf x\)</span> is represented by high-order polynomials.  For
 viscous free-surface flows, the rapid convergence of the high-order surface approximation to the
 physically smooth solution minimizes surface-tension-induced stresses arising from non-physical
@@ -389,7 +389,7 @@ of Eq. <a class="reference internal" href="#equation-mhd1">(14)</a>: <em>Find</e
 \qquad
 (\nabla \cdot \mathbf u,q) = 0,\]</div>
 <p>for all test functions <span class="math">\((\mathbf v,q) \in X^N \times Y^N\)</span>.  Here <span class="math">\((X^N,Y^N)\)</span> are the
-compatible velocity-pressure approximation spaces introduced in <a class="reference internal" href="bibliography.html#maday1989" id="id5">[Maday1989]</a>, <span class="math">\((.,.)\)</span> denotes
+compatible velocity-pressure approximation spaces introduced in <a class="reference internal" href="references.html#maday1989" id="id5">[Maday1989]</a>, <span class="math">\((.,.)\)</span> denotes
 the inner-product <span class="math">\((\mathbf f,\mathbf g) := \int_{\Omega(t)} \mathbf f \cdot \mathbf g \,dV\)</span>,
 and <span class="math">\(\mathbf S\)</span> is the stress tensor <span class="math">\(S_{ij}^{} := \frac{1}{2}( \frac{\partial
 u_i}{\partial x_j} + \frac{\partial u_j}{\partial x_i} )\)</span>.  For simplicity, we have neglected the
