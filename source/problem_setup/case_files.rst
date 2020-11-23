@@ -115,8 +115,15 @@ Values in parentheses denote the default value.
    |                         | | ``explicit``  |                                              |
    |                         | | ``hpfrt``     |                                              |
    +-------------------------+-----------------+----------------------------------------------+
-   | ``filterCutoffRatio``   | | ``<real>``    | | Ratio of modeal modes not affected         |
+   | ``filterModes``         | | ``<int>``     | | Specifies the number of modes filtered as  |
+   |                         |                 | | an alternative to specifying the cutoff    |
+   |                         |                 | | ratio                                      |
+   |                         |                 | | Note: requires the use of at least 2 modes |
+   +-------------------------+-----------------+----------------------------------------------+
+   | ``filterCutoffRatio``   | | ``<real>``    | | Ratio of modes not affected by the filter  |
    |                         |                 | | Use i.e. for stabilization or LES 0.9/0.65 |
+   |                         |                 | | as an alternative to specifying the number |
+   |                         |                 | | of modes explicitly                        |
    +-------------------------+-----------------+----------------------------------------------+
    | ``filterWeight``        | | ``<real>``    | | Sets the filter strength of transfer       |
    |                         |                 | | function of the last mode (explicit) or the|
