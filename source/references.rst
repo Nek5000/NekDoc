@@ -1,5 +1,5 @@
 ============
-Bibliography
+References
 ============
 
 .. .. rubric:: References
