@@ -12,7 +12,7 @@ Nek5000
    appendix
    references
 
-.. .. bibliography:: emmd.bib
+.. .. references:: emmd.bib
 
 
 .. Indices and tables

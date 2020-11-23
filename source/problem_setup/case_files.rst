@@ -4,7 +4,7 @@
 Case Files
 ==========
 
-Each simulation is defined by six *required* case files: 
+Each simulation is defined by six *required* case files:
 
 - SESSION.NAME
 - par       (runtime parameters)
@@ -22,15 +22,15 @@ Additional *optional* case files may be generated or included:
 SESSION.NAME
 ------------
 
-To run Nek5000, each simulation must have a ``SESSION.NAME`` file. 
-This file is read in by the code and gives the path to the relevant files describing the structure and parameters of the simulation. 
-The ``SESSION.NAME`` file is a file that contains the name of the simulation and the full path to supporting files. 
+To run Nek5000, each simulation must have a ``SESSION.NAME`` file.
+This file is read in by the code and gives the path to the relevant files describing the structure and parameters of the simulation.
+The ``SESSION.NAME`` file is a file that contains the name of the simulation and the full path to supporting files.
 For example, to run the eddy example from the repository, the ``SESSION.NAME`` file would look like:
 
 .. code-block:: none
 
   eddy_uv
-  /home/user_name/Nek5000/short_tests/eddy/ 
+  /home/user_name/Nek5000/short_tests/eddy/
 
 Note that this file is generated automatically by the ``nek``, ``nekb``, ``nekmpi`` and ``nekbmpi`` scripts at runtime.
 
@@ -65,13 +65,13 @@ The sections are:
 * ``MESH``
 * ``VELOCITY``
 * ``PRESSURE`` (required for velocity)
-* ``TEMPERATURE`` 
-* ``SCALAR%%`` 
+* ``TEMPERATURE``
+* ``SCALAR%%``
 * ``CVODE``
 
-When scalars are used, the keys of each scalar are defined under the section ``SCALAR%%`` varying 
-between ``SCALAR01`` and ``SCALAR99``. The descripton of the keys of each section is given in the 
-following tables (all keys/values are case insensitive). The value assigned to each key can be a 
+When scalars are used, the keys of each scalar are defined under the section ``SCALAR%%`` varying
+between ``SCALAR01`` and ``SCALAR99``. The descripton of the keys of each section is given in the
+following tables (all keys/values are case insensitive). The value assigned to each key can be a
 user input (e.g. a <real> value) or one of the avaliable options listed in the tables below.
 Values in parentheses denote the default value.
 
@@ -96,36 +96,43 @@ Values in parentheses denote the default value.
    |                         |                 | | final physical time                        |
    +-------------------------+-----------------+----------------------------------------------+
    | ``dt``                  | | ``<real>``    | | Specifies the step size or in case of a    |
-   |                         |                 | | a variable time step the maximum step size | 
+   |                         |                 | | a variable time step the maximum step size |
    +-------------------------+-----------------+----------------------------------------------+
    | ``variableDT``          | | ``(no)``      | | Controls if the step size will be adjusted |
    |                         | | ``yes``       | | to match the targetCFL                     |
    +-------------------------+-----------------+----------------------------------------------+
    | ``targetCFL``           | | ``<real>``    | | Sets stability/target CFL number for       |
    |                         |                 | | OIFS or variable time steps                |
-   |                         |                 | | (fixed to 0.5 for standard extrapolation   | 
+   |                         |                 | | (fixed to 0.5 for standard extrapolation   |
    +-------------------------+-----------------+----------------------------------------------+
    | ``writeControl``        | | ``(timeStep)``| | Specifies whether checkpointing is based   |
    |                         | | ``runTime``   | | on number of time steps or physical time   |
    +-------------------------+-----------------+----------------------------------------------+
-   | ``writeInterval``       | | ``<real>``    | | Checkpoint frequency in time steps or      | 
-   |                         |                 | | physical time                              | 
+   | ``writeInterval``       | | ``<real>``    | | Checkpoint frequency in time steps or      |
+   |                         |                 | | physical time                              |
    +-------------------------+-----------------+----------------------------------------------+
-   | ``filtering``           | | ``(none)``    | | Specifies the filtering method             | 
-   |                         | | ``explicit``  |                                              | 
-   |                         | | ``hpfrt``     |                                              | 
+   | ``filtering``           | | ``(none)``    | | Specifies the filtering method             |
+   |                         | | ``explicit``  |                                              |
+   |                         | | ``hpfrt``     |                                              |
    +-------------------------+-----------------+----------------------------------------------+
-   | ``filterCutoffRatio``   | | ``<real>``    | | Ratio of modeal modes not affected         |
-   |                         |                 | | Use i.e. for stabilization or LES 0.9/0.65 |  
+   | ``filterModes``         | | ``<int>``     | | Specifies the number of modes filtered as  |
+   |                         |                 | | an alternative to specifying the cutoff    |
+   |                         |                 | | ratio                                      |
+   |                         |                 | | Note: requires the use of at least 2 modes |
+   +-------------------------+-----------------+----------------------------------------------+
+   | ``filterCutoffRatio``   | | ``<real>``    | | Ratio of modes not affected by the filter  |
+   |                         |                 | | Use i.e. for stabilization or LES 0.9/0.65 |
+   |                         |                 | | as an alternative to specifying the number |
+   |                         |                 | | of modes explicitly                        |
    +-------------------------+-----------------+----------------------------------------------+
    | ``filterWeight``        | | ``<real>``    | | Sets the filter strength of transfer       |
    |                         |                 | | function of the last mode (explicit) or the|
-   |                         |                 | | relaxation parameter in case of hpfrt      |  
+   |                         |                 | | relaxation parameter in case of hpfrt      |
    +-------------------------+-----------------+----------------------------------------------+
    | ``writeDoublePrecision``| | ``no``        | | Sets the precision of the field files      |
    |                         | | ``(yes)``     |                                              |
    +-------------------------+-----------------+----------------------------------------------+
-   | ``writeNFiles``         | | ``(1)``       | | Sets the number of output files            | 
+   | ``writeNFiles``         | | ``(1)``       | | Sets the number of output files            |
    |                         |                 | | By default a parallel shared file is used  |
    +-------------------------+-----------------+----------------------------------------------+
    | ``dealiasing``          | | ``no``        | | Enable/diasble over-integration            |
@@ -170,7 +177,7 @@ Values in parentheses denote the default value.
    | ``swirl``                 | | ``(no)``          | | Enable axisymmetric azimuthal velocity         |
    |                           | | ``yes``           | | component (stored in temperature field         |
    +---------------------------+---------------------+--------------------------------------------------+
-   | ``cyclicBoundaries``      | | ``(no)``          | | Sets cyclic periodic boundaries                | 
+   | ``cyclicBoundaries``      | | ``(no)``          | | Sets cyclic periodic boundaries                |
    |                           | | ``yes``           |                                                  |
    +---------------------------+---------------------+--------------------------------------------------+
    | ``numberOfPerturbations`` | | ``(1)``           | | Number of perturbations for linearized NS      |
@@ -195,7 +202,7 @@ Values in parentheses denote the default value.
    +-------------------------+-----------------+-------------------------------------------------------+
    |   Key                   | | Value(s)      | | Description                                         |
    +=========================+=================+=======================================================+
-   | ``residualTol``         | | ``<real>``    | | Residual tolerance used by solver (not for CVODE)   | 
+   | ``residualTol``         | | ``<real>``    | | Residual tolerance used by solver (not for CVODE)   |
    +-------------------------+-----------------+-------------------------------------------------------+
    | ``residualProj``        | | ``(no)``      | | Controls the residual projection                    |
    |                         | | ``yes``       |                                                       |
@@ -258,8 +265,8 @@ Values in parentheses denote the default value.
    +-------------------------+--------------+--------------------------------------------+
    |   Key                   | | Value(s)   | | Description                              |
    +=========================+==============+============================================+
-   | ``solver``              | | ``(helm)`` | | Solver for scalar                        | 
-   |                         | | ``cvode``  |                                            |  
+   | ``solver``              | | ``(helm)`` | | Solver for scalar                        |
+   |                         | | ``cvode``  |                                            |
    |                         | | ``none``   |                                            |
    +-------------------------+--------------+--------------------------------------------+
    | ``advection``           | | ``no``     | | Controls if advection is present         |
@@ -294,7 +301,7 @@ Note: ``[TEMPERATURE] solver = none`` is incompatible with ``[PROBLEMTYPE] equat
    +==========================+================+============================================+
    | ``density``              | | ``<real>``   | | Density                                  |
    +--------------------------+----------------+--------------------------------------------+
-   | ``diffusivity``          | | ``<real>``   | | Diffusivity                              | 
+   | ``diffusivity``          | | ``<real>``   | | Diffusivity                              |
    +--------------------------+----------------+--------------------------------------------+
 
 .. _tab:cvodeparams:
@@ -324,7 +331,7 @@ Note: ``[TEMPERATURE] solver = none`` is incompatible with ``[PROBLEMTYPE] equat
 Mesh File (.re2)
 -----------------------------------
 
-Stores the mesh and boundary condition. 
+Stores the mesh and boundary condition.
 
 TODO: Update to re2
 
@@ -335,10 +342,10 @@ Header
 
     The 80 byte ASCI header of the file has the following representation::
 
-      #v002     200  3     100 hdr 
+      #v002     200  3     100 hdr
 
     The header states first how many elements are available in total (200), what
-    dimension is the the problem (here three dimensional), and how many elements 
+    dimension is the the problem (here three dimensional), and how many elements
     are in the fluid mesh (100).
 
 ...................
@@ -369,8 +376,8 @@ Element data
          | :math:`z_{5,\ldots,8}=` | 0.250000E+00 | 0.250000E+00 | 0.250000E+00 | 0.250000E+00 |
          +-------------------------+--------------+--------------+--------------+--------------+
 
-    Following the header, all elements are listed. The fluid elements are listed 
-    first, followed by all solid elements if present.  
+    Following the header, all elements are listed. The fluid elements are listed
+    first, followed by all solid elements if present.
 
     The data following the header is formatted as shown in :numref:`tab:element`. This provides all the coordinates of an element for top and bottom faces. The numbering of the vertices is shown in Fig. :numref:`fig:elorder`. The header for each element as in :numref:`tab:element`, i.e. ``[1A] GROUP`` is reminiscent of older Nek5000 format and does not impact the mesh generation at this stage.
 
@@ -381,8 +388,8 @@ Element data
           :figclass: align-center
           :alt: rea-geometry
 
-          Geometry description in ``.rea`` file (sketch of one element ordering - Preprocessor 
-          corner notation) 
+          Geometry description in ``.rea`` file (sketch of one element ordering - Preprocessor
+          corner notation)
 
 ...................
 Curved Sides
@@ -503,7 +510,9 @@ User Routines File (.usr)
 -----------------------------
 
 This file implements the the user interface to Nek5000. What follows is a brief description of the available
-subroutines. 
+subroutines.
+
+.. _case_files_uservp:
 
 .. _case_files_uservp:
 
@@ -512,7 +521,7 @@ uservp
 ...................
 
 This function can be used  to specify customized or solution dependent material
-properties.  
+properties.
 
 Example:
 
@@ -522,16 +531,16 @@ Example:
          udiff  = a * exp(-b*temp) ! dynamic viscosity
          utrans = 1.0              ! density
       else if (ifield.eq.2) then
-         udiff  = 1.0              ! conductivity 
-         utrans = 1.0              ! rho*cp 
+         udiff  = 1.0              ! conductivity
+         utrans = 1.0              ! rho*cp
       endif
 
 ...................
 userf
 ...................
 
-This functions sets the source term (which will be subsequently be multiplied by 
-the density) for the momentum equation. 
+This functions sets the source term (which will be subsequently be multiplied by
+the density) for the momentum equation.
 
 Example:
 
@@ -539,10 +548,10 @@ Example:
 
       parameter(g = 9.81)
 
-      ffx = 0.0 
+      ffx = 0.0
       ffy = 0.0
-      ffz = -g ! gravitational acceleration 
- 
+      ffz = -g ! gravitational acceleration
+
 ...................
 userq
 ...................
@@ -554,7 +563,7 @@ userbc
 ...................
 
 This functions sets boundary conditions. Note, this function is only called
-for special boundary condition types and only for points on the boundary surface.   
+for special boundary condition types and only for points on the boundary surface.
 
 ...................
 useric
@@ -586,7 +595,7 @@ This function can be used to modify the element vertices and is called before th
 usrdat2
 ...................
 
-This function can be used to modify the spectral element mesh.  
+This function can be used to modify the spectral element mesh.
 The geometry information (mass matrix, surface normals, etc.) will be rebuilt after this routine is called.
 
 ...................
@@ -610,8 +619,8 @@ The *basic* parameters of interest in SIZE are:
 * **ldim** = 2 or 3.  This must be set to 2 for two-dimensional or axisymmetric simulations  (the latter only partially supported) or to 3 for three-dimensional simulations.
 * **lx1** controls the polynomial order of the solution, :math:`N = {\tt lx1-1}`.
 * **lxd** controls the polynomial order of the (over-)integration/dealiasing. Strictly speaking :math:`{\tt lxd=3 * lx1/2}` is required but often smaller values are good enough.
-* **lx2** = ``lx1`` or ``lx1-2`` and is an approximation order for pressure that determines the formulation for the Navier-Stokes  solver (i.e., the choice between the :math:`\mathbb{P}_N - \mathbb{P}_N` or :math:`\mathbb{P}_N - \mathbb{P}_{N-2}` spectral-element methods). 
-* **lelg**, an upper bound on the total number of elements in your mesh. 
+* **lx2** = ``lx1`` or ``lx1-2`` and is an approximation order for pressure that determines the formulation for the Navier-Stokes  solver (i.e., the choice between the :math:`\mathbb{P}_N - \mathbb{P}_N` or :math:`\mathbb{P}_N - \mathbb{P}_{N-2}` spectral-element methods).
+* **lelg**, an upper bound on the total number of elements in your mesh.
 * **lpmax**, a maximum number of processors that can be used
 * **lpmin**, a minimum number of processors that can be used (see also  **Memory Requirements**).
 * **ldimt**, an upper bound on a number of auxilary fields to solve (temperature + other scalars, minimum is 1).
@@ -657,110 +666,104 @@ TODO: Add more details
 .. _case_files_fld:
 
 -----------------------------------
-Restart/Output files (.f%05d)
+Restart/Output files (.f#####)
 -----------------------------------
 
-TODO: Add fld details
-
-The binary ``.f%05d`` file format is used to write and read data both in serial and parallel
-in Nek5000.
+Field files are used to read/write physical fields in both serial and parallel.  They have extension ``.f#####``
+where # is a numeral. The file format is unique to Nek5000 and is described in this section.
 
 The file is composed of:
 
-  - header
-  - mesh data
-  - field data
-  - bounding box data
+  - Header
+  - Global element IDs, coordinates, and field data
+  - Metadata
 
-We will go through each of these categories and give a description of its
-composition.
+The **header** provides information about the types, sizes, and layout of the field data.
+The header a fixed size of 132 bytes.  Its data elements are encoded as either ASCII or binary values.
+In the table below, the offsets and widths are measured in bytes. Note that consecutive entries are separated
+by single byte, which is the ASCII space character.  Finally, note that the data entries do not require all 132 bytes.
 
-......
-Header
-......
+Some elements that require additional explanation are:
 
-The header provides structural information about the stored data that is needed
-to parse it correctly. The header is composed of 11 values in ASCII format. It
-has a fixed size of 132 bytes and starts with the string ``#std``. All
-header entries are padded to the right. After the header with 132 bytes, 4 bytes
-follow that determine the endianess of the binary file.  It is the binary
-representation of the number 6.54321 either in little or big endian.
+* ``nz1``:  This is the number of GLL gridpoints in the z-direction. If equal to 1, the field data were
+  produced for a 2D simulation.  If > 1, the data were produced for a 3D simulation.
+
+* ``rdcode``: Specifies the type and ordering of fields that are present in this file.
+  The code can consist of the following.  All fields are optional, but if present, they are expected
+  to appear in this order.
+
+  - ``X`` : Coordinates
+  - ``U`` : Velocity
+  - ``P`` : Pressure
+  - ``T`` : Temperature
+  - ``S#``: Passive scalar(s).  # is a numeral that specifies the number of different passive scalars.
+
+* ``test value``: When Nek5000 writes the header to file, it writes the specific value 6.54321 as a
+  test value.  When the file is later read -- possibly on a different computer -- the test value is
+  read and compared to the expected value.  If the values match, then the computer that wrote the file
+  and the computer that is now reading the file use the same endianness for floating-point numbers.
+  If not, the computers have different endianness.  In that case, the floating-point data should be
+  byte-swapped by the computer reading the data.
 
 .. table::
 
-   +-------+---------+-------------+-----------------------------------------------+
-   | Entry | Padding |  Name       | Short Description                             |
-   +=======+=========+=============+===============================================+
-   | 1     | 2       | ``wdsizo``  | sets the precision to 4 or 8                  |
-   +-------+---------+-------------+-----------------------------------------------+
-   | 2     | 3       | ``nx``      | number of coordinates in x direction          |
-   +-------+---------+-------------+-----------------------------------------------+
-   | 2     | 3       | ``ny``      | number of coordinates in y direction          |
-   +-------+---------+-------------+-----------------------------------------------+
-   | 2     | 3       | ``nz``      | number of coordinates in z direction          |
-   +-------+---------+-------------+-----------------------------------------------+
-   | 5     | 11      | ``nelo``    | number of elements in this file               |
-   +-------+---------+-------------+-----------------------------------------------+
-   | 6     | 11      | ``nelgt``   | global number of elements (for multiple files)|
-   +-------+---------+-------------+-----------------------------------------------+
-   | 7     | 21      | ``time``    | physical time                                 |
-   +-------+---------+-------------+-----------------------------------------------+
-   | 8     | 10      | ``iostep``  | time step                                     |
-   +-------+---------+-------------+-----------------------------------------------+
-   | 9     | 7       | ``fid0``    | field id                                      |
-   +-------+---------+-------------+-----------------------------------------------+
-   | 10    | 7       | ``nfileoo`` | number of files                               |
-   +-------+---------+-------------+-----------------------------------------------+
-   | 11    | 4       | ``rdcode``  | Fields written                                |
-   +-------+---------+-------------+-----------------------------------------------+
+   +-------------------+--------+-------+---------+--------------+---------------------------------------------------+
+   | Name              | Offset | Width | Encoding| Datatype     | Description                                       |
+   +===================+========+=======+=========+==============+===================================================+
+   | ``tag``           | 0      | 4     | ASCII   | text         | The string ``#std``. Tags the start of the fil    |
+   +-------------------+--------+-------+---------+--------------+---------------------------------------------------+
+   | ``wdsize``        | 5      | 1     | ASCII   | integer      | Floating-point precision of field data (in bytes) |
+   +-------------------+--------+-------+---------+--------------+---------------------------------------------------+
+   | ``nx``            | 7      | 2     | ASCII   | integer      | Number of GLL points per element in x direction   |
+   +-------------------+--------+-------+---------+--------------+---------------------------------------------------+
+   | ``ny``            | 10     | 2     | ASCII   | integer      | Number of GLL points per element in y direction   |
+   +-------------------+--------+-------+---------+--------------+---------------------------------------------------+
+   | ``nz``            | 13     | 2     | ASCII   | integer      | Number of GLL points per element in z direction   |
+   +-------------------+--------+-------+---------+--------------+---------------------------------------------------+
+   | ``nelt``          | 16     | 10    | ASCII   | integer      | Number of elements in this file                   |
+   +-------------------+--------+-------+---------+--------------+---------------------------------------------------+
+   | ``nelgt``         | 27     | 10    | ASCII   | integer      | Number of global elements                         |
+   +-------------------+--------+-------+---------+--------------+---------------------------------------------------+
+   | ``time``          | 38     | 20    | ASCII   | decimal      | Absolute simulation time of this file's state     |
+   +-------------------+--------+-------+---------+--------------+---------------------------------------------------+
+   | ``iostep``        | 59     | 9     | ASCII   | integer      | I/O timestep of this file's state                 |
+   +-------------------+--------+-------+---------+--------------+---------------------------------------------------+
+   | ``fid``           | 69     | 6     | ASCII   | integer      | Index of this file (when using multi-file output) |
+   +-------------------+--------+-------+---------+--------------+---------------------------------------------------+
+   | ``nfileoo``       | 76     | 6     | ASCII   | integer      | Number of files produced at this I/O step         |
+   +-------------------+--------+-------+---------+--------------+---------------------------------------------------+
+   | ``rdcode``        | 83     | 10    | ASCII   | text         | Specifies which fields contained in this file     |
+   +-------------------+--------+-------+---------+--------------+---------------------------------------------------+
+   | ``p0th``          | 94     | 15    | ASCII   | decimal      |                                                   |
+   +-------------------+--------+-------+---------+--------------+---------------------------------------------------+
+   | ``if_press_mesh`` | 110    | 1     | ASCII   | text         | States whether pressure mesh is being used        |
+   +-------------------+--------+-------+---------+--------------+---------------------------------------------------+
+   | ``test_value``    | 112    | 4     | binary  | 32-bit float | The decimal 6.54321.  Used to test endianness.    |
+   +-------------------+--------+-------+---------+--------------+---------------------------------------------------+
 
-``wdsize`` sets the precision of the floating point numbers in the file. This
-is either 4 bytes for floats or 8 bytes for double precision.
+The **global element IDs, coordinates, and field data** start at offset 136 bytes.  Integer data are always 32-bit.
+The precision of floating-point data is inferred from the value of ``wdsize`` (see above).  The number of
+dimensions (``ndims``) is inferred from ``nz1`` (see above).  The global element IDs are required, but the
+coordinates and any field data are optional.  Their presence of coordinates and field data are inferred from
+``rdcode``, as described above.
 
-``nx``, ``ny`` and ``nz`` set the number of coordinates in  :math:`x`, :math:`y` and :math:`z`
-direction for each element (polynomial order), respectively. 
+.. table::
 
-``nelo`` sets the number of total elements on the mesh contained in this file.
-
-``time`` is the simulation time while ``iostep`` is the time step when the file was written.
-
-``rdcode`` determines which fields are contained in the file:
-
-  - X: Geometry
-  - U: Velocity
-  - P: Pressure
-  - T: Temperature
-  - S: Passive scalar
-
-Example of a header:::
-
-    #std 4  6  6  1         36         36  0.1000000000000E+03     10000     0      1 XUP     
-
-This corresponds to a single precision output file containing coordinates, velocity, and pressure information for 36 elements.
-The case is 2D, represented by ``nz`` = 1.
-
-....
-Data
-....
-
-The data field begins after the first 136 bytes of the file. The values are
-stored unrolled for each element and for each direction.
-Example code for reading the geometry field in python:
-
-.. code-block:: python
-
-    for iel in range(nelo):
-        x=ifilebuf.read(nxyzo8*wdsizo)
-        xup=numpy.array(struct.unpack(nxyzo8*c,x),dtype=c)
-        xfield[iel,:]=xup
-        y=ifilebuf.read(nxyzo8*wdsizo)
-        yup=numpy.array(struct.unpack(nxyzo8*c,y),dtype=c)
-        yfield[iel,:]=yup
-        if if3d:
-            z=ifilebuf.read(nxyzo8*wdsizo)
-            zup=numpy.array(struct.unpack(nxyzo8*c,z),dtype=c)
-            zfield[iel,:]=zup
+  +--------------------+----------+---------------------------------------+
+  | Value              | Datatype | Shape                                 |
+  +====================+==========+=======================================+
+  | Global element IDs | integer  | ``(nelt, )``                          |
+  +--------------------+----------+---------------------------------------+
+  | Coordinates        | float    | ``(nelt, ndims, nx1 * ny1 * nz1)``    |
+  +--------------------+----------+---------------------------------------+
+  | Velocity           | float    | ``(nelt, ndims, nx1 * ny1 * nz1)``    |
+  +--------------------+----------+---------------------------------------+
+  | Pressure           | float    | ``(nelt, nx1 * ny1 * nz1)``           |
+  +--------------------+----------+---------------------------------------+
+  | Temperature        | float    | ``(nelt, nx1 * ny1 * nz1)``           |
+  +--------------------+----------+---------------------------------------+
+  | Passive scalars    | float    | ``(nscalars, nelt, nx1 * ny1 * nz1)`` |
+  +--------------------+----------+---------------------------------------+
 
 
-.. TODO: Add more details
-
+TODO: Describe metadata
