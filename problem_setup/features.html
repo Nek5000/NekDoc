@@ -1,0 +1,304 @@
+
+
+<!DOCTYPE html>
+<!--[if IE 8]><html class="no-js lt-ie9" lang="en" > <![endif]-->
+<!--[if gt IE 8]><!--> <html class="no-js" lang="en" > <!--<![endif]-->
+<head>
+  <meta charset="utf-8">
+  
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  
+  <title>Additional Features &mdash; Nek5000 17.0 documentation</title>
+  
+
+  
+  
+  
+  
+
+  
+
+  
+  
+    
+
+  
+
+  
+  
+    <link rel="stylesheet" href="../_static/css/theme.css" type="text/css" />
+  
+
+  
+
+  
+        <link rel="index" title="Index"
+              href="../genindex.html"/>
+        <link rel="search" title="Search" href="../search.html"/>
+    <link rel="top" title="Nek5000 17.0 documentation" href="../index.html"/>
+        <link rel="up" title="Problem Setup" href="../problem_setup.html"/>
+        <link rel="next" title="Theory" href="../theory.html"/>
+        <link rel="prev" title="Case Files" href="case_files.html"/> 
+
+  
+  <script src="../_static/js/modernizr.min.js"></script>
+
+</head>
+
+<body class="wy-body-for-nav" role="document">
+
+   
+  <div class="wy-grid-for-nav">
+
+    
+    <nav data-toggle="wy-nav-shift" class="wy-nav-side">
+      <div class="wy-side-scroll">
+        <div class="wy-side-nav-search">
+          
+
+          
+            <a href="../index.html" class="icon icon-home"> Nek5000
+          
+
+          
+          </a>
+
+          
+            
+            
+              <div class="version">
+                17.0
+              </div>
+            
+          
+
+          
+<div role="search">
+  <form id="rtd-search-form" class="wy-form" action="../search.html" method="get">
+    <input type="text" name="q" placeholder="Search docs" />
+    <input type="hidden" name="check_keywords" value="yes" />
+    <input type="hidden" name="area" value="default" />
+  </form>
+</div>
+
+          
+        </div>
+
+        <div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="main navigation">
+          
+            
+            
+              
+            
+            
+              <ul class="current">
+<li class="toctree-l1"><a class="reference internal" href="../quickstart.html">Quickstart</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../faq.html">FAQ</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../tutorials.html">Tutorials</a></li>
+<li class="toctree-l1 current"><a class="reference internal" href="../problem_setup.html">Problem Setup</a><ul class="current">
+<li class="toctree-l2"><a class="reference internal" href="boundary_conditions.html">Boundary Conditions</a></li>
+<li class="toctree-l2"><a class="reference internal" href="case_files.html">Case Files</a></li>
+<li class="toctree-l2 current"><a class="current reference internal" href="#">Additional Features</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="#history-points">History Points</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#grid-to-grid-interpolation">Grid-to-Grid Interpolation</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#averaging">Averaging</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#filtering">Filtering</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#objects">Objects</a></li>
+</ul>
+</li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="../theory.html">Theory</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../appendix.html">Appendices</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../bibliography.html">Bibliography</a></li>
+</ul>
+
+            
+          
+        </div>
+      </div>
+    </nav>
+
+    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap">
+
+      
+      <nav class="wy-nav-top" role="navigation" aria-label="top navigation">
+        
+          <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
+          <a href="../index.html">Nek5000</a>
+        
+      </nav>
+
+
+      
+      <div class="wy-nav-content">
+        <div class="rst-content">
+          
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<div role="navigation" aria-label="breadcrumbs navigation">
+
+  <ul class="wy-breadcrumbs">
+    
+      <li><a href="../index.html">Docs</a> &raquo;</li>
+        
+          <li><a href="../problem_setup.html">Problem Setup</a> &raquo;</li>
+        
+      <li>Additional Features</li>
+    
+    
+      <li class="wy-breadcrumbs-aside">
+        
+            
+            <a href="../_sources/problem_setup/features.rst.txt" rel="nofollow"> View page source</a>
+          
+        
+      </li>
+    
+  </ul>
+
+  
+  <hr/>
+</div>
+          <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
+           <div itemprop="articleBody">
+            
+  <div class="section" id="additional-features">
+<h1>Additional Features<a class="headerlink" href="#additional-features" title="Permalink to this headline">¶</a></h1>
+<p>Nek5000 includes several features which make case setup, running, and data processing much easier.
+These capabilities are outlined here.</p>
+<div class="section" id="history-points">
+<span id="features-his"></span><h2>History Points<a class="headerlink" href="#history-points" title="Permalink to this headline">¶</a></h2>
+<p>Assuming a case named <code class="docutils literal"><span class="pre">foo</span></code>, a list of monitor points can be defined in the file <code class="docutils literal"><span class="pre">foo.his</span></code> to evaluate velocity, temperature, pressure and passive scalars.
+Values for each scalar will be spectrally interpolated to each point and appended to this file each time the subroutine <code class="docutils literal"><span class="pre">hpts()</span></code> is called.
+The values printed to this file are controlled by the <code class="docutils literal"><span class="pre">writeToFieldFile</span></code> parameters for each quantity in the <code class="docutils literal"><span class="pre">.par</span></code> file.
+Depending on the number of monitoring points, you may need to increase parameter <code class="docutils literal"><span class="pre">lhis</span></code> in SIZE.
+Note that the monitoring points are assumed to be distributed among MPI ranks, so it may be necessary to increase <code class="docutils literal"><span class="pre">lhis</span></code> above the actual number of history points requested.</p>
+<p>Usage example:</p>
+<ul>
+<li><p class="first">setup an ASCII file called <code class="docutils literal"><span class="pre">foo.his</span></code>, e.g.:</p>
+<div class="highlight-none"><div class="highlight"><pre><span></span>3 !number of monitoring points
+1.1 -1.2 1.0
+. . .
+x y z
+</pre></div>
+</div>
+</li>
+<li><p class="first">add <code class="docutils literal"><span class="pre">call</span> <span class="pre">hpts()</span></code> to <code class="docutils literal"><span class="pre">userchk()</span></code></p>
+</li>
+</ul>
+</div>
+<div class="section" id="grid-to-grid-interpolation">
+<h2>Grid-to-Grid Interpolation<a class="headerlink" href="#grid-to-grid-interpolation" title="Permalink to this headline">¶</a></h2>
+<p id="features-gfldr">Nek includes the capability to transfer a solution from one mesh to an entirely different mesh.
+This allows a user to restart from an existing field file with a new mesh.
+This is accomplished by calling the generic field reader which will spectrally interpolate a result file from a previous case.
+To use this feature, add a call to the <code class="docutils literal"><span class="pre">gfldr</span></code> subroutine in <code class="docutils literal"><span class="pre">userchk</span></code> in the user routines file.
+For example, to interpolate a result from case <code class="docutils literal"><span class="pre">foo</span></code>:</p>
+<div class="highlight-fortran"><div class="highlight"><pre><span></span><span class="k">if</span><span class="p">(</span><span class="n">istep</span><span class="p">.</span><span class="n">eq</span><span class="p">.</span><span class="mi">0</span><span class="p">)</span> <span class="k">call </span><span class="n">gfldr</span><span class="p">(</span><span class="s2">&quot;foo0.f00001&quot;</span><span class="p">)</span>
+</pre></div>
+</div>
+<p>Note that <code class="docutils literal"><span class="pre">foo0.f00001</span></code> must include the coordinates, i.e. it must have been created from a run with <code class="docutils literal"><span class="pre">writeToFieldFile</span> <span class="pre">=</span> <span class="pre">yes</span></code> in the <code class="docutils literal"><span class="pre">[MESH]</span></code> section of the <code class="docutils literal"><span class="pre">.par</span></code> file and that selection of specific fields to read is not currently supported.
+That means all fields included in <code class="docutils literal"><span class="pre">foo.f00001</span></code> will be overwritten.</p>
+</div>
+<div class="section" id="averaging">
+<h2>Averaging<a class="headerlink" href="#averaging" title="Permalink to this headline">¶</a></h2>
+<span class="target" id="features-avg"></span><p>TODO…</p>
+</div>
+<div class="section" id="filtering">
+<h2>Filtering<a class="headerlink" href="#filtering" title="Permalink to this headline">¶</a></h2>
+<p id="features-filt">TODO…</p>
+</div>
+<div class="section" id="objects">
+<h2>Objects<a class="headerlink" href="#objects" title="Permalink to this headline">¶</a></h2>
+<p id="features-obj">TODO…</p>
+</div>
+</div>
+
+
+           </div>
+           <div class="articleComments">
+            
+           </div>
+          </div>
+          <footer>
+  
+    <div class="rst-footer-buttons" role="navigation" aria-label="footer navigation">
+      
+        <a href="../theory.html" class="btn btn-neutral float-right" title="Theory" accesskey="n" rel="next">Next <span class="fa fa-arrow-circle-right"></span></a>
+      
+      
+        <a href="case_files.html" class="btn btn-neutral" title="Case Files" accesskey="p" rel="prev"><span class="fa fa-arrow-circle-left"></span> Previous</a>
+      
+    </div>
+  
+
+  <hr/>
+
+  <div role="contentinfo">
+    <p>
+        &copy; Copyright 2015-2017, UCHICAGO ARGONNE, LLC.
+
+    </p>
+  </div>
+  Built with <a href="http://sphinx-doc.org/">Sphinx</a> using a <a href="https://github.com/snide/sphinx_rtd_theme">theme</a> provided by <a href="https://readthedocs.org">Read the Docs</a>. 
+
+</footer>
+
+        </div>
+      </div>
+
+    </section>
+
+  </div>
+  
+
+
+  
+
+    <script type="text/javascript">
+        var DOCUMENTATION_OPTIONS = {
+            URL_ROOT:'../',
+            VERSION:'17.0',
+            COLLAPSE_INDEX:false,
+            FILE_SUFFIX:'.html',
+            HAS_SOURCE:  true,
+            SOURCELINK_SUFFIX: '.txt'
+        };
+    </script>
+      <script type="text/javascript" src="../_static/jquery.js"></script>
+      <script type="text/javascript" src="../_static/underscore.js"></script>
+      <script type="text/javascript" src="../_static/doctools.js"></script>
+      <script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.1/MathJax.js?config=TeX-AMS-MML_HTMLorMML"></script>
+
+  
+
+  
+  
+    <script type="text/javascript" src="../_static/js/theme.js"></script>
+  
+
+  
+  
+  <script type="text/javascript">
+      jQuery(function () {
+          SphinxRtdTheme.StickyNav.enable();
+      });
+  </script>
+   
+
+</body>
+</html>

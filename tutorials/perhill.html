@@ -1,0 +1,488 @@
+
+
+<!DOCTYPE html>
+<!--[if IE 8]><html class="no-js lt-ie9" lang="en" > <![endif]-->
+<!--[if gt IE 8]><!--> <html class="no-js" lang="en" > <!--<![endif]-->
+<head>
+  <meta charset="utf-8">
+  
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  
+  <title>Periodic Hill &mdash; Nek5000 17.0 documentation</title>
+  
+
+  
+  
+  
+  
+
+  
+
+  
+  
+    
+
+  
+
+  
+  
+    <link rel="stylesheet" href="../_static/css/theme.css" type="text/css" />
+  
+
+  
+
+  
+        <link rel="index" title="Index"
+              href="../genindex.html"/>
+        <link rel="search" title="Search" href="../search.html"/>
+    <link rel="top" title="Nek5000 17.0 documentation" href="../index.html"/>
+        <link rel="up" title="Tutorials" href="../tutorials.html"/>
+        <link rel="next" title="Conjugate Heat Transfer" href="conjht.html"/>
+        <link rel="prev" title="Tutorials" href="../tutorials.html"/> 
+
+  
+  <script src="../_static/js/modernizr.min.js"></script>
+
+</head>
+
+<body class="wy-body-for-nav" role="document">
+
+   
+  <div class="wy-grid-for-nav">
+
+    
+    <nav data-toggle="wy-nav-shift" class="wy-nav-side">
+      <div class="wy-side-scroll">
+        <div class="wy-side-nav-search">
+          
+
+          
+            <a href="../index.html" class="icon icon-home"> Nek5000
+          
+
+          
+          </a>
+
+          
+            
+            
+              <div class="version">
+                17.0
+              </div>
+            
+          
+
+          
+<div role="search">
+  <form id="rtd-search-form" class="wy-form" action="../search.html" method="get">
+    <input type="text" name="q" placeholder="Search docs" />
+    <input type="hidden" name="check_keywords" value="yes" />
+    <input type="hidden" name="area" value="default" />
+  </form>
+</div>
+
+          
+        </div>
+
+        <div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="main navigation">
+          
+            
+            
+              
+            
+            
+              <ul class="current">
+<li class="toctree-l1"><a class="reference internal" href="../quickstart.html">Quickstart</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../faq.html">FAQ</a></li>
+<li class="toctree-l1 current"><a class="reference internal" href="../tutorials.html">Tutorials</a><ul class="current">
+<li class="toctree-l2 current"><a class="current reference internal" href="#">Periodic Hill</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="#pre-processing">Pre-processing</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#mesh-generation">Mesh generation</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#usr-file">usr file</a><ul>
+<li class="toctree-l4"><a class="reference internal" href="#modify-mesh-and-apply-mass-flux">Modify mesh and apply mass flux</a></li>
+<li class="toctree-l4"><a class="reference internal" href="#initial-boundary-conditions">Initial &amp; boundary conditions</a></li>
+</ul>
+</li>
+<li class="toctree-l3"><a class="reference internal" href="#control-parameters">Control parameters</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#size-file">SIZE file</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#compilation">Compilation</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#running-the-case">Running the case</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#post-processing-the-results">Post-processing the results</a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="conjht.html">Conjugate Heat Transfer</a></li>
+<li class="toctree-l2"><a class="reference internal" href="neknek.html">Overlapping Overset Grids</a></li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="../problem_setup.html">Problem Setup</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../theory.html">Theory</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../appendix.html">Appendices</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../bibliography.html">Bibliography</a></li>
+</ul>
+
+            
+          
+        </div>
+      </div>
+    </nav>
+
+    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap">
+
+      
+      <nav class="wy-nav-top" role="navigation" aria-label="top navigation">
+        
+          <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
+          <a href="../index.html">Nek5000</a>
+        
+      </nav>
+
+
+      
+      <div class="wy-nav-content">
+        <div class="rst-content">
+          
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<div role="navigation" aria-label="breadcrumbs navigation">
+
+  <ul class="wy-breadcrumbs">
+    
+      <li><a href="../index.html">Docs</a> &raquo;</li>
+        
+          <li><a href="../tutorials.html">Tutorials</a> &raquo;</li>
+        
+      <li>Periodic Hill</li>
+    
+    
+      <li class="wy-breadcrumbs-aside">
+        
+            
+            <a href="../_sources/tutorials/perhill.rst.txt" rel="nofollow"> View page source</a>
+          
+        
+      </li>
+    
+  </ul>
+
+  
+  <hr/>
+</div>
+          <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
+           <div itemprop="articleBody">
+            
+  <div class="section" id="periodic-hill">
+<span id="perhill"></span><h1>Periodic Hill<a class="headerlink" href="#periodic-hill" title="Permalink to this headline">¶</a></h1>
+<p>This tutorial will describe how to run a case from scratch.
+We illustrate this procedure through a relatively simple example involving incompressible laminar flow in a two-dimensional periodic hill domain.  Our implementation is loosely based on the case presented by Mellen et al. <a class="reference internal" href="../bibliography.html#mellen2000" id="id1">[Mellen2000]</a>. A thorough review
+for this case can be found in the <a class="reference external" href="http://qnet-ercoftac.cfms.org.uk/w/index.php/Abstr:2D_Periodic_Hill_Flow">ERCOFTAC</a> knowledge base wiki.</p>
+<div class="section" id="pre-processing">
+<h2>Pre-processing<a class="headerlink" href="#pre-processing" title="Permalink to this headline">¶</a></h2>
+<p>We assume that you have installed Nek5000 in your home directory.
+This tutorial requires that you have the tools <code class="docutils literal"><span class="pre">genbox</span></code> and <code class="docutils literal"><span class="pre">genmap</span></code> compiled.
+Make sure <code class="docutils literal"><span class="pre">$HOME/Nek5000/bin</span></code> is in your search PATH.</p>
+<p>Cases are setup in Nek5000 by editing case files. Users should select an editor of choice with which to do this (e.g vi). A case being simulated involves data for mesh, parameters, etc. As a first step, the user should create a case directory in their run directory.</p>
+<div class="highlight-none"><div class="highlight"><pre><span></span>cd $HOME/Nek5000/run
+mkdir hillp
+cd hillp
+</pre></div>
+</div>
+</div>
+<div class="section" id="mesh-generation">
+<h2>Mesh generation<a class="headerlink" href="#mesh-generation" title="Permalink to this headline">¶</a></h2>
+<p>In this tutorial we use a simple box mesh generated by
+<code class="docutils literal"><span class="pre">genbox</span></code> with the following input file:</p>
+<div class="highlight-none"><div class="highlight"><pre><span></span>-2                     spatial dimension (will create box.re2)
+1                      number of fields
+#
+#    comments: two dimensional periodic hill
+#
+#========================================================
+#
+Box                                       hillp
+-22 8                                     Nelx  Nely
+0.0 9.0 1.                                x0 x1 ratio
+0.0 0.1 0.25 0.5 1.5 2.5 2.75 2.9 3.0     y0 y1 ratio
+P  ,P  ,W  ,W                             BC&#39;s:  (cbx0, cbx1, cby0, cby1)
+</pre></div>
+</div>
+<p>For this mesh we are specifying 22 uniform elements in the stream-wise (x) direction.
+8 non-uniform elements are specified in the span-wise (y) direction in order to resolve the boundary layers.
+The boundary conditions are periodic in the x-direction and no-slip in the y.
+Additional details on generating meshes using <code class="docutils literal"><span class="pre">genbox</span></code> can be found <a class="reference internal" href="../appendix.html#mesh-gen"><span class="std std-ref">here</span></a>. Now we can run genbox with</p>
+<div class="highlight-none"><div class="highlight"><pre><span></span>genbox
+</pre></div>
+</div>
+<p>On input provide the input file name (e.g. <code class="docutils literal"><span class="pre">hillp.box</span></code>).
+The tool will produce a binary mesh and boundary data file <code class="docutils literal"><span class="pre">box.re2</span></code> which should be renamed to <code class="docutils literal"><span class="pre">hillp.re2</span></code>.</p>
+</div>
+<div class="section" id="usr-file">
+<h2>usr file<a class="headerlink" href="#usr-file" title="Permalink to this headline">¶</a></h2>
+<p>The <a class="reference internal" href="../problem_setup/case_files.html#case-files-usr"><span class="std std-ref">user file</span></a> implements various subroutines to allow the user to interact with the solver.</p>
+<p>To get started we copy the template to our case directory</p>
+<div class="highlight-none"><div class="highlight"><pre><span></span>cp $HOME/Nek5000/core/zero.usr hillp.usr
+</pre></div>
+</div>
+<div class="section" id="modify-mesh-and-apply-mass-flux">
+<h3>Modify mesh and apply mass flux<a class="headerlink" href="#modify-mesh-and-apply-mass-flux" title="Permalink to this headline">¶</a></h3>
+<p>To drive the flow a mass flux is applied such that  bulk velocity <span class="math">\(u_b=1\)</span>.</p>
+<p>For a periodic hill, we will need to modify the geometry.  Let <span class="math">\({\bf x} := (x,y)\)</span> denote the old geometry, and <span class="math">\({\bf x}' := (x',y')\)</span> denote the new geometry.  For a domain
+with <span class="math">\(y\in [0,3]\)</span> and <span class="math">\(x\in [0,9]\)</span> the following function will map the straight pipe geometry to a periodic hill:</p>
+<div class="math">
+\[y'(x,y) = y + C(3-y)\Big\{1+\tanh\big[B(|x-A|-B)\big]\Big\} .\]</div>
+<p>where <span class="math">\(A=4.5, B=3.5, C=1/6\)</span>.
+We have chosen these constants so that the height of the hill (our reference length), <span class="math">\(h=1\)</span>.
+Note that, as <span class="math">\(y \longrightarrow 3\)</span>, the perturbation, goes to zero.
+So that near <span class="math">\(y = 3\)</span>, the mesh recovers its original form.</p>
+<p>In Nek5000, we can specify this through <code class="docutils literal"><span class="pre">usrdat2</span></code> in the usr file as follows</p>
+<div class="highlight-fortran"><div class="highlight"><pre><span></span><span class="k">subroutine </span><span class="n">usrdat2</span>
+
+<span class="c">! implicit none</span>
+
+<span class="k">include</span> <span class="s1">&#39;SIZE&#39;</span>
+<span class="k">include</span> <span class="s1">&#39;TOTAL&#39;</span>
+
+<span class="n">ntot</span> <span class="o">=</span> <span class="n">nx1</span><span class="o">*</span><span class="n">ny1</span><span class="o">*</span><span class="n">nz1</span><span class="o">*</span><span class="n">nelt</span>
+
+<span class="n">sa</span>   <span class="o">=</span> <span class="mf">4.5</span>
+<span class="n">sb</span>   <span class="o">=</span> <span class="mf">3.5</span>
+<span class="n">sc</span>   <span class="o">=</span> <span class="mf">1.</span><span class="o">/</span><span class="mi">6</span>
+
+<span class="k">do </span><span class="n">i</span><span class="o">=</span><span class="mi">1</span><span class="p">,</span><span class="n">ntot</span>
+   <span class="n">xx</span>   <span class="o">=</span> <span class="n">xm1</span><span class="p">(</span><span class="n">i</span><span class="p">,</span><span class="mi">1</span><span class="p">,</span><span class="mi">1</span><span class="p">,</span><span class="mi">1</span><span class="p">)</span>
+   <span class="n">argx</span> <span class="o">=</span> <span class="n">sb</span><span class="o">*</span><span class="p">(</span><span class="nb">abs</span><span class="p">(</span><span class="n">xx</span><span class="o">-</span><span class="n">sa</span><span class="p">)</span><span class="o">-</span><span class="n">sb</span><span class="p">)</span>
+   <span class="n">A1</span>   <span class="o">=</span> <span class="n">sc</span> <span class="o">+</span> <span class="n">sc</span><span class="o">*</span><span class="nb">tanh</span><span class="p">(</span><span class="n">argx</span><span class="p">)</span>
+   <span class="n">ym1</span><span class="p">(</span><span class="n">i</span><span class="p">,</span><span class="mi">1</span><span class="p">,</span><span class="mi">1</span><span class="p">,</span><span class="mi">1</span><span class="p">)</span> <span class="o">=</span> <span class="n">ym1</span><span class="p">(</span><span class="n">i</span><span class="p">,</span><span class="mi">1</span><span class="p">,</span><span class="mi">1</span><span class="p">,</span><span class="mi">1</span><span class="p">)</span> <span class="o">+</span> <span class="p">(</span><span class="mi">3</span><span class="o">-</span><span class="n">ym1</span><span class="p">(</span><span class="n">i</span><span class="p">,</span><span class="mi">1</span><span class="p">,</span><span class="mi">1</span><span class="p">,</span><span class="mi">1</span><span class="p">))</span><span class="o">*</span><span class="n">A1</span>
+<span class="n">enddo</span>
+
+<span class="c">! apply mass flux to drive the flow such that Ubar = 1</span>
+<span class="n">param</span><span class="p">(</span><span class="mi">54</span><span class="p">)</span> <span class="o">=</span> <span class="o">-</span><span class="mi">1</span>   <span class="c">! x-direction</span>
+<span class="n">param</span><span class="p">(</span><span class="mi">55</span><span class="p">)</span> <span class="o">=</span> <span class="mi">1</span>    <span class="c">! Ubar</span>
+
+<span class="k">return</span>
+<span class="k">end</span>
+</pre></div>
+</div>
+<div class="align-center figure" id="id2">
+<span id="fig-hill-mesh"></span><img alt="per_mesh" src="../_images/hill_mesh_v2.png" />
+<p class="caption"><span class="caption-number">Fig. 1 </span><span class="caption-text">Modified box mesh graded</span></p>
+</div>
+</div>
+<div class="section" id="initial-boundary-conditions">
+<h3>Initial &amp; boundary conditions<a class="headerlink" href="#initial-boundary-conditions" title="Permalink to this headline">¶</a></h3>
+<p>The next step is to specify the initial conditions.
+This can be done in the subroutine <code class="docutils literal"><span class="pre">useric</span></code> as follows:</p>
+<div class="highlight-fortran"><div class="highlight"><pre><span></span><span class="k">subroutine </span><span class="n">useric</span><span class="p">(</span><span class="n">ix</span><span class="p">,</span><span class="n">iy</span><span class="p">,</span><span class="n">iz</span><span class="p">,</span><span class="n">ieg</span><span class="p">)</span>
+
+<span class="c">! implicit none</span>
+
+<span class="kt">integer </span><span class="n">ix</span><span class="p">,</span><span class="n">iy</span><span class="p">,</span><span class="n">iz</span><span class="p">,</span><span class="n">eg</span>
+
+<span class="k">include</span> <span class="s1">&#39;SIZE&#39;</span>
+<span class="k">include</span> <span class="s1">&#39;TOTAL&#39;</span>
+<span class="k">include</span> <span class="s1">&#39;NEKUSE&#39;</span>
+
+<span class="n">ux</span>   <span class="o">=</span> <span class="mf">1.0</span>
+<span class="n">uy</span>   <span class="o">=</span> <span class="mf">0.0</span>
+<span class="n">uz</span>   <span class="o">=</span> <span class="mf">0.0</span>
+<span class="n">temp</span> <span class="o">=</span> <span class="mf">0.0</span>
+
+<span class="k">return</span>
+<span class="k">end</span>
+</pre></div>
+</div>
+</div>
+</div>
+<div class="section" id="control-parameters">
+<h2>Control parameters<a class="headerlink" href="#control-parameters" title="Permalink to this headline">¶</a></h2>
+<p>The control parameters for any case are given in the <code class="docutils literal"><span class="pre">.par</span></code> file.
+For this case, using any text editor, create a new file called <code class="docutils literal"><span class="pre">hillp.par</span></code> and type in the following</p>
+<div class="highlight-ini"><div class="highlight"><pre><span></span><span class="c1">#</span>
+<span class="c1"># nek parameter file</span>
+<span class="c1">#</span>
+<span class="k">[GENERAL]</span>
+<span class="na">stopAt</span> <span class="o">=</span> <span class="s">endTime</span>
+<span class="na">endTime</span>  <span class="o">=</span> <span class="s">200</span>
+
+<span class="na">variableDT</span> <span class="o">=</span> <span class="s">yes</span>
+<span class="na">targetCFL</span> <span class="o">=</span> <span class="s">0.4</span>
+<span class="na">timeStepper</span> <span class="o">=</span> <span class="s">bdf2</span>
+
+<span class="na">writeControl</span> <span class="o">=</span> <span class="s">runTime</span>
+<span class="na">writeInterval</span> <span class="o">=</span> <span class="s">20</span>
+
+<span class="k">[PROBLEMTYPE]</span>
+<span class="na">equation</span> <span class="o">=</span> <span class="s">incompNS</span>
+
+<span class="k">[PRESSURE]</span>
+<span class="na">residualTol</span> <span class="o">=</span> <span class="s">1e-5</span>
+<span class="na">residualProj</span> <span class="o">=</span> <span class="s">yes</span>
+
+<span class="k">[VELOCITY]</span>
+<span class="na">residualTol</span> <span class="o">=</span> <span class="s">1e-8</span>
+<span class="na">density</span> <span class="o">=</span> <span class="s">1</span>
+<span class="na">viscosity</span> <span class="o">=</span> <span class="s">-100</span>
+</pre></div>
+</div>
+<p>In choosing <code class="docutils literal"><span class="pre">viscosity</span> <span class="pre">=</span> <span class="pre">-100</span></code> we are actually setting the Reynolds number. This assumes that
+<span class="math">\(\rho \times u_b \times h = 1\)</span> where <span class="math">\(u_b\)</span> denotes the bulk velocity and <span class="math">\(h\)</span> the hill height.</p>
+<p>We have set the calculation to stop at the physical time of <span class="math">\(T=200\)</span> (<code class="docutils literal"><span class="pre">endTime=200</span></code>) which is roughly 22 flow-thru time units (based on the bulk velocity <span class="math">\(u_b\)</span> and length of periodic pitch, <span class="math">\(L=9\)</span>).  Additional details on the names of keys in the <code class="docutils literal"><span class="pre">.par</span></code> file can be found <a class="reference internal" href="../problem_setup/case_files.html#case-files-par"><span class="std std-ref">here</span></a>.</p>
+</div>
+<div class="section" id="size-file">
+<h2>SIZE file<a class="headerlink" href="#size-file" title="Permalink to this headline">¶</a></h2>
+<p>The static memory layout of Nek5000 requires the user to set some solver parameters through a so called <code class="docutils literal"><span class="pre">SIZE</span></code> file.
+Typically it’s a good idea to start from our template.
+Copy the <code class="docutils literal"><span class="pre">SIZE.template</span></code> file from the core directory and rename it <code class="docutils literal"><span class="pre">SIZE</span></code> in the working directory:</p>
+<div class="highlight-none"><div class="highlight"><pre><span></span>cp $HOME/Nek5000/core/SIZE.template SIZE
+</pre></div>
+</div>
+<p>Then, adjust the following parameters in the BASIC section</p>
+<div class="highlight-fortran"><div class="highlight"><pre><span></span><span class="p">...</span>
+
+<span class="c">! BASIC</span>
+<span class="k">parameter</span> <span class="p">(</span><span class="n">ldim</span><span class="o">=</span><span class="mi">2</span><span class="p">)</span>
+<span class="k">parameter</span> <span class="p">(</span><span class="n">lx1</span><span class="o">=</span><span class="mi">8</span><span class="p">)</span>
+<span class="k">parameter</span> <span class="p">(</span><span class="n">lxd</span><span class="o">=</span><span class="mi">12</span><span class="p">)</span>
+<span class="k">parameter</span> <span class="p">(</span><span class="n">lx2</span><span class="o">=</span><span class="n">lx1</span><span class="p">)</span>
+
+<span class="k">parameter</span> <span class="p">(</span><span class="n">lelg</span><span class="o">=</span><span class="mi">22</span><span class="o">*</span><span class="mi">8</span><span class="p">)</span>
+<span class="k">parameter</span> <span class="p">(</span><span class="n">lpmin</span><span class="o">=</span><span class="mi">1</span><span class="p">)</span>
+<span class="k">parameter</span> <span class="p">(</span><span class="n">lpmax</span><span class="o">=</span><span class="mi">4</span><span class="p">)</span>
+<span class="k">parameter</span> <span class="p">(</span><span class="n">ldimt</span><span class="o">=</span><span class="mi">1</span><span class="p">)</span>
+
+<span class="p">...</span>
+</pre></div>
+</div>
+<p>For this tutorial we have set our polynomial order to be <span class="math">\(N=7\)</span> - this is defined in the <code class="docutils literal"><span class="pre">SIZE</span></code> file above as <code class="docutils literal"><span class="pre">lx1=8</span></code> which indices that there are 8 points in each spatial dimension of every element.
+Additional details on the parameters in the <code class="docutils literal"><span class="pre">SIZE</span></code> file are given <a class="reference internal" href="../problem_setup/case_files.html#case-files-size"><span class="std std-ref">here</span></a>.</p>
+</div>
+<div class="section" id="compilation">
+<h2>Compilation<a class="headerlink" href="#compilation" title="Permalink to this headline">¶</a></h2>
+<p>With the <code class="docutils literal"><span class="pre">hillp.usr</span></code>, and <code class="docutils literal"><span class="pre">SIZE</span></code> files created, we are now ready to compile:</p>
+<div class="highlight-default"><div class="highlight"><pre><span></span><span class="n">makenek</span> <span class="n">hillp</span>
+</pre></div>
+</div>
+<p>If all works properly, upon compilation the executable <code class="docutils literal"><span class="pre">nek5000</span></code> will be generated.</p>
+</div>
+<div class="section" id="running-the-case">
+<h2>Running the case<a class="headerlink" href="#running-the-case" title="Permalink to this headline">¶</a></h2>
+<p>First we need to run our domain paritioning tool</p>
+<div class="highlight-bash"><div class="highlight"><pre><span></span>genmap
+</pre></div>
+</div>
+<p>On input specify <code class="docutils literal"><span class="pre">hillp</span></code> as your casename and press enter to use the default tolerance. This step will produce <code class="docutils literal"><span class="pre">hillp.ma2</span></code> which needs to be generated only once.</p>
+<p>Now you are all set, just run</p>
+<div class="highlight-bash"><div class="highlight"><pre><span></span>nekbmpi hillp <span class="m">4</span>
+</pre></div>
+</div>
+<p>to launch an MPI jobs on your local machine using 4 ranks. The output will be redirected to <code class="docutils literal"><span class="pre">logfile</span></code>.</p>
+</div>
+<div class="section" id="post-processing-the-results">
+<h2>Post-processing the results<a class="headerlink" href="#post-processing-the-results" title="Permalink to this headline">¶</a></h2>
+<p>Once execution is completed your directory should now contain multiple checkpoint files that look like this:</p>
+<div class="highlight-default"><div class="highlight"><pre><span></span><span class="n">hillp</span><span class="o">.</span><span class="n">f00001</span>
+<span class="n">hillp</span><span class="o">.</span><span class="n">f00002</span>
+<span class="o">...</span>
+</pre></div>
+</div>
+<p>The preferred mode for data visualization and analysis with Nek5000 is
+to use Visit/Paraview. One can use the script <em>visnek</em>, to be found in <code class="docutils literal"><span class="pre">/scripts</span></code>. It is sufficent to run:</p>
+<div class="highlight-default"><div class="highlight"><pre><span></span><span class="n">visnek</span> <span class="n">hillp</span>
+</pre></div>
+</div>
+<p><em>(or the name of your session)</em> to obatain a file named <code class="docutils literal"><span class="pre">hillp.nek5000</span></code> which can be recognized in Visit/Paraview.</p>
+<p>In the viewing window one can visualize the flow-field as depicted in
+<a class="reference internal" href="#fig-hill-flow"><span class="std std-numref">Fig. 2</span></a>.</p>
+<div class="align-center figure" id="id3">
+<span id="fig-hill-flow"></span><img alt="per_flow" src="../_images/hill_flow_v3.png" />
+<p class="caption"><span class="caption-number">Fig. 2 </span><span class="caption-text">Steady-State flow field visualized in Visit/Paraview. Vectors represent velocity. Colors represent velocity magnitude. Note, velocity vectors are equal size and not scaled by magnitude.</span></p>
+</div>
+</div>
+</div>
+
+
+           </div>
+           <div class="articleComments">
+            
+           </div>
+          </div>
+          <footer>
+  
+    <div class="rst-footer-buttons" role="navigation" aria-label="footer navigation">
+      
+        <a href="conjht.html" class="btn btn-neutral float-right" title="Conjugate Heat Transfer" accesskey="n" rel="next">Next <span class="fa fa-arrow-circle-right"></span></a>
+      
+      
+        <a href="../tutorials.html" class="btn btn-neutral" title="Tutorials" accesskey="p" rel="prev"><span class="fa fa-arrow-circle-left"></span> Previous</a>
+      
+    </div>
+  
+
+  <hr/>
+
+  <div role="contentinfo">
+    <p>
+        &copy; Copyright 2015-2017, UCHICAGO ARGONNE, LLC.
+
+    </p>
+  </div>
+  Built with <a href="http://sphinx-doc.org/">Sphinx</a> using a <a href="https://github.com/snide/sphinx_rtd_theme">theme</a> provided by <a href="https://readthedocs.org">Read the Docs</a>. 
+
+</footer>
+
+        </div>
+      </div>
+
+    </section>
+
+  </div>
+  
+
+
+  
+
+    <script type="text/javascript">
+        var DOCUMENTATION_OPTIONS = {
+            URL_ROOT:'../',
+            VERSION:'17.0',
+            COLLAPSE_INDEX:false,
+            FILE_SUFFIX:'.html',
+            HAS_SOURCE:  true,
+            SOURCELINK_SUFFIX: '.txt'
+        };
+    </script>
+      <script type="text/javascript" src="../_static/jquery.js"></script>
+      <script type="text/javascript" src="../_static/underscore.js"></script>
+      <script type="text/javascript" src="../_static/doctools.js"></script>
+      <script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.1/MathJax.js?config=TeX-AMS-MML_HTMLorMML"></script>
+
+  
+
+  
+  
+    <script type="text/javascript" src="../_static/js/theme.js"></script>
+  
+
+  
+  
+  <script type="text/javascript">
+      jQuery(function () {
+          SphinxRtdTheme.StickyNav.enable();
+      });
+  </script>
+   
+
+</body>
+</html>

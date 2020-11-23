@@ -1,0 +1,499 @@
+
+
+<!DOCTYPE html>
+<!--[if IE 8]><html class="no-js lt-ie9" lang="en" > <![endif]-->
+<!--[if gt IE 8]><!--> <html class="no-js" lang="en" > <!--<![endif]-->
+<head>
+  <meta charset="utf-8">
+  
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  
+  <title>FAQ &mdash; Nek5000 17.0 documentation</title>
+  
+
+  
+  
+  
+  
+
+  
+
+  
+  
+    
+
+  
+
+  
+  
+    <link rel="stylesheet" href="_static/css/theme.css" type="text/css" />
+  
+
+  
+
+  
+        <link rel="index" title="Index"
+              href="genindex.html"/>
+        <link rel="search" title="Search" href="search.html"/>
+    <link rel="top" title="Nek5000 17.0 documentation" href="index.html"/>
+        <link rel="next" title="Tutorials" href="tutorials.html"/>
+        <link rel="prev" title="Quickstart" href="quickstart.html"/> 
+
+  
+  <script src="_static/js/modernizr.min.js"></script>
+
+</head>
+
+<body class="wy-body-for-nav" role="document">
+
+   
+  <div class="wy-grid-for-nav">
+
+    
+    <nav data-toggle="wy-nav-shift" class="wy-nav-side">
+      <div class="wy-side-scroll">
+        <div class="wy-side-nav-search">
+          
+
+          
+            <a href="index.html" class="icon icon-home"> Nek5000
+          
+
+          
+          </a>
+
+          
+            
+            
+              <div class="version">
+                17.0
+              </div>
+            
+          
+
+          
+<div role="search">
+  <form id="rtd-search-form" class="wy-form" action="search.html" method="get">
+    <input type="text" name="q" placeholder="Search docs" />
+    <input type="hidden" name="check_keywords" value="yes" />
+    <input type="hidden" name="area" value="default" />
+  </form>
+</div>
+
+          
+        </div>
+
+        <div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="main navigation">
+          
+            
+            
+              
+            
+            
+              <ul class="current">
+<li class="toctree-l1"><a class="reference internal" href="quickstart.html">Quickstart</a></li>
+<li class="toctree-l1 current"><a class="current reference internal" href="#">FAQ</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="#general">General</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#installing-compiling-and-running">Installing, Compiling, and Running</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#pre-processing-and-numerics">Pre-Processing and Numerics</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#physical-models">Physical Models</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#computational-speed">Computational Speed</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#troubleshooting">Troubleshooting</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#post-processing">Post-Processing</a></li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="tutorials.html">Tutorials</a></li>
+<li class="toctree-l1"><a class="reference internal" href="problem_setup.html">Problem Setup</a></li>
+<li class="toctree-l1"><a class="reference internal" href="theory.html">Theory</a></li>
+<li class="toctree-l1"><a class="reference internal" href="appendix.html">Appendices</a></li>
+<li class="toctree-l1"><a class="reference internal" href="bibliography.html">Bibliography</a></li>
+</ul>
+
+            
+          
+        </div>
+      </div>
+    </nav>
+
+    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap">
+
+      
+      <nav class="wy-nav-top" role="navigation" aria-label="top navigation">
+        
+          <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
+          <a href="index.html">Nek5000</a>
+        
+      </nav>
+
+
+      
+      <div class="wy-nav-content">
+        <div class="rst-content">
+          
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<div role="navigation" aria-label="breadcrumbs navigation">
+
+  <ul class="wy-breadcrumbs">
+    
+      <li><a href="index.html">Docs</a> &raquo;</li>
+        
+      <li>FAQ</li>
+    
+    
+      <li class="wy-breadcrumbs-aside">
+        
+            
+            <a href="_sources/faq.rst.txt" rel="nofollow"> View page source</a>
+          
+        
+      </li>
+    
+  </ul>
+
+  
+  <hr/>
+</div>
+          <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
+           <div itemprop="articleBody">
+            
+  <div class="section" id="faq">
+<span id="id1"></span><h1>FAQ<a class="headerlink" href="#faq" title="Permalink to this headline">¶</a></h1>
+<div class="section" id="general">
+<h2>General<a class="headerlink" href="#general" title="Permalink to this headline">¶</a></h2>
+<p><strong>Where can I download the code and what version of the code should I use?</strong></p>
+<blockquote>
+<div>We strongly recommend to always use the latest <a class="reference external" href="https://github.com/Nek5000/Nek5000/releases">release</a>  available.
+We do <strong>not</strong> recommend using the master branch on <a class="reference external" href="https://github.com/Nek5000/Nek5000">GitHub</a>
+in a production environment!</div></blockquote>
+<p><strong>How can I properly reference Nek5000?</strong></p>
+<blockquote>
+<div>If you use our software, please cite the following:</div></blockquote>
+<div class="highlight-default"><div class="highlight"><pre><span></span><span class="n">NEK5000</span> <span class="n">Version</span> <span class="n">X</span><span class="o">.</span><span class="n">Y</span><span class="o">.</span> <span class="n">Release</span> <span class="n">date</span><span class="o">.</span> <span class="n">Argonne</span> <span class="n">National</span> <span class="n">Laboratory</span><span class="p">,</span> <span class="n">Illinois</span><span class="o">.</span>
+<span class="n">Available</span><span class="p">:</span> <span class="n">https</span><span class="p">:</span><span class="o">//</span><span class="n">nek5000</span><span class="o">.</span><span class="n">mcs</span><span class="o">.</span><span class="n">anl</span><span class="o">.</span><span class="n">gov</span><span class="o">.</span>
+</pre></div>
+</div>
+<p><strong>What is the license for Nek5000?</strong></p>
+<blockquote>
+<div>Nek5000 is licensed under BSD.
+For more information see the <code class="docutils literal"><span class="pre">LICENSE</span></code> file included with the distribution in the root level directory.</div></blockquote>
+<p><strong>Where can I get help?</strong></p>
+<blockquote>
+<div><p>If you have a question, first check the <a class="reference external" href="https://groups.google.com/forum/#!forum/nek5000">Google group</a> to see if your question is already answered somewhere.
+The google group also serves as a primary support channel with the Nek5000 user community.
+Please subscribe to the google group by clicking the button “Apply to join group” right above the “Welcome to the new Nek5000 User Group!” sign.</p>
+<p>The past <a class="reference external" href="https://lists.mcs.anl.gov/pipermail/nek5000-users">mailing list archive</a> can also be checked for potential answers.</p>
+</div></blockquote>
+<p><strong>How can I report a bug / feature request?</strong></p>
+<blockquote>
+<div>Nek5000 is hosted on GitHub and all bugs are reported and tracked through the <a class="reference external" href="https://github.com/Nek5000/Nek5000/issues">Issues</a> feature on GitHub.
+However, GitHub Issues should not be used for common troubleshooting purposes.
+If you are having trouble installing the code or getting your model to run properly, you should first send a message to the User’s Group mailing list.
+If it turns out your issue really is a bug in the code, an issue will then be created on GitHub. If you want to request that a feature be added to the code, you may create an Issue on GitHub.</div></blockquote>
+<p><strong>How can I contribute to the Nek5000 project?</strong></p>
+<blockquote>
+<div><p>Our project is hosted on <a class="reference external" href="https://github.com/Nek5000">GitHub</a>. Here are the most important things you need to know:</p>
+<ul class="simple">
+<li>follow the usual “fork-and-pull” Git workflow</li>
+<li>all development happens on the master branch</li>
+<li>anything in master is always deployable</li>
+<li>upcoming releases get their own tags out of master</li>
+</ul>
+<p>If you are planning a large contribution, we encourage you to discuss the concept here on GitHub and interact with us frequently to ensure that your effort is well-directed.</p>
+</div></blockquote>
+</div>
+<div class="section" id="installing-compiling-and-running">
+<h2>Installing, Compiling, and Running<a class="headerlink" href="#installing-compiling-and-running" title="Permalink to this headline">¶</a></h2>
+<p><strong>Which platforms are supported by Nek5000?</strong></p>
+<blockquote>
+<div>All posix compliant operations system.
+Compiling and running on Microsoft Windows 10 has been demonstrated using CMake and MinGW, although this is <strong>not</strong> supported.</div></blockquote>
+<p><strong>Can Nek5000 run on GPUs?</strong></p>
+<blockquote>
+<div>Currently there is no support for GPUs. We are actively working on a high-performance GPU version but this is
+a topic of active research.</div></blockquote>
+<p><strong>Which compilers work?</strong></p>
+<blockquote>
+<div>Currently Intel, PGI, IBM and GNU compilers are supported.</div></blockquote>
+<p><strong>How much memory is required?</strong></p>
+<blockquote>
+<div>The memory footprint of a run depends on many factors and is printed to
+screen whenever Nek5000 exits. What follows is a first rough guess:</div></blockquote>
+<div class="highlight-none"><div class="highlight"><pre><span></span>lx1*ly1*lz1*lelt * 3000byte + lelg * 12byte + MPI + optional libraries (e.g. CVODE)
+</pre></div>
+</div>
+<blockquote>
+<div><p>where <code class="docutils literal"><span class="pre">lelt</span></code> (the maximum number of local elements) is computed as lelg/lpmin.
+The memory allocated by MPI will depend heavily on the total number of ranks and the considered MPI implementation.
+For large rank counts (say &gt; 100‘000) it’s easily 50-100MB.</p>
+<p>Note, the output of GNU`s SIZE utility is inaccurate as it does not take into account the dynamic memory alloation of MPI, gslib, CVODE, etc.</p>
+</div></blockquote>
+<p><strong>Why does the compiler issue relocation errors?</strong></p>
+<blockquote>
+<div><p><code class="docutils literal"><span class="pre">relocation</span> <span class="pre">truncated</span> <span class="pre">to</span> <span class="pre">fit:</span> <span class="pre">R_X86_64</span> <span class="pre">against</span> <span class="pre">symbol</span> <span class="pre">'foo_'</span> <span class="pre">defined</span> <span class="pre">in</span> <span class="pre">COMMON</span> <span class="pre">section</span> <span class="pre">in</span> <span class="pre">obj/bar.o</span></code></p>
+<p>This happens when the resultant executable requires more than 2GB of static data.
+The best way to avoid this is to increase the minimum number of MPI ranks, <code class="docutils literal"><span class="pre">lpmin</span></code> in <code class="docutils literal"><span class="pre">SIZE</span></code>.
+Alternatively, you can add <code class="docutils literal"><span class="pre">-mcmodel=medium</span></code> to the <code class="docutils literal"><span class="pre">FFLAGS/CFLAGS</span></code> variable in <code class="docutils literal"><span class="pre">makenek</span></code>.</p>
+</div></blockquote>
+<p><strong>Why does the code use static memory allocation?</strong></p>
+<blockquote>
+<div>It is easy to program, produces fast code and is less error prone. The drawback of recompilation is not relevant
+as full rebuild takes less than 1 minute.</div></blockquote>
+<p><strong>How do I launch a parallel run?</strong></p>
+<blockquote>
+<div>Assuming your machine has MPI installed correctly, parallel runs can be launced with the included <code class="docutils literal"><span class="pre">nekmpi</span></code> and <code class="docutils literal"><span class="pre">nekbmpi</span></code> scripts in <code class="docutils literal"><span class="pre">Nek5000/bin</span></code>.
+If you are running on a machine with a queuing system, consult your sysadmin how to submit a job.</div></blockquote>
+<p><strong>How do I run the examples?</strong></p>
+<blockquote>
+<div>The examples are included by default in the release tarball (see example directory). There is nothing special you need
+to do as they are ready to run.</div></blockquote>
+</div>
+<div class="section" id="pre-processing-and-numerics">
+<h2>Pre-Processing and Numerics<a class="headerlink" href="#pre-processing-and-numerics" title="Permalink to this headline">¶</a></h2>
+<p><strong>How can I generate a mesh for use with Nek5000?</strong></p>
+<blockquote>
+<div>Please see quickstart section on <a class="reference internal" href="quickstart.html#qstart-meshing"><span class="std std-ref">Meshing</span></a>.</div></blockquote>
+<p><strong>What element types are supported?</strong></p>
+<blockquote>
+<div>Conformal curved quadrilateral/hexahedral elements.</div></blockquote>
+<p><strong>How do I import/convert a mesh to Nek5000?</strong></p>
+<blockquote>
+<div>We currently support conversion from the exodusII with the <code class="docutils literal"><span class="pre">exo2nek</span></code> converter. This enables the import from popular mesh generators like ANSYS ICEM and CUBIT.</div></blockquote>
+<p><strong>Why is it important to non-dimensionalize my case?</strong></p>
+<blockquote>
+<div>Nek5000 can be run with dimensions, but we STRONGLY recommend that the case has been non-dimensionalized properly.
+An advantage of the nondimensional form is that physical simulation times, tolerances, etc. tend to
+be easy to set based on prior experience with other simulations.</div></blockquote>
+<p><strong>How do I choose solver tolerances?</strong></p>
+<blockquote>
+<div>Depends on how accurate you need your simulation to be.
+Typical values (for engineering type of problems) are <span class="math">\(10^{-7}\)</span> for velocity and scalars.
+In Pn/Pn-2 the pressure tolerance is equal to desired error in divergence. This is in contrast to Pn/Pn where the divergence
+error is mainly a function of spatial resolution and a tolerance of <span class="math">\(10^{-4}\)</span> is typically good enough.
+Note the tolerances are related to the residual in the linear solve and do not represent the accuracy of the solution.</div></blockquote>
+<p><strong>What formulation Pn/Pn or Pn/Pn-2 should I use?</strong></p>
+<blockquote>
+<div>There is no simple answer but we typically recommend to use the Pn/Pn formulation altough not all features are supported (at least for now).</div></blockquote>
+<p><strong>What polynomial order should I use?</strong></p>
+<blockquote>
+<div><p>The code supports a large range of polynomial orders, e.g. <span class="math">\(N=1\)</span> through <span class="math">\(N=32\)</span>.
+You can effectively realize the same number of grid points
+by using relatively few high-order elements or more low-order elements.
+For example, a 3D grid with resolution of 64x64x64 could be implemented
+as a 16x16x16 array of elements of order <span class="math">\(N=3\)</span> or as a
+8x8x8 array of elements of order <span class="math">\(N=7\)</span>.  In Nek5000, the
+latter is preferred. The solution will be more accurate and the code
+is optimized for this range of <span class="math">\(N\)</span>.</p>
+<p>The sweet spot is typically <span class="math">\(N=7\)</span> (<code class="docutils literal"><span class="pre">lx1=8</span></code>).</p>
+</div></blockquote>
+<p><strong>How do I specify/change the polynomial order?</strong></p>
+<blockquote>
+<div>Change <code class="docutils literal"><span class="pre">lx1</span></code> in the SIZE file. Note, the polynomial order is <span class="math">\(N=lx1-1\)</span>.</div></blockquote>
+<p><strong>How do I specify/change the solver runtime parameters?</strong></p>
+<blockquote>
+<div>See the section on the <a class="reference internal" href="problem_setup/case_files.html#case-files-par"><span class="std std-ref">Parameter File (.par)</span></a> file.</div></blockquote>
+<p><strong>Why is ``userbc`` only called for certain element faces?</strong></p>
+<blockquote>
+<div><code class="docutils literal"><span class="pre">userbc</span></code> is ONLY called for element boundary conditions specified with a lower-case letter, e.g. ‘v’, ‘t’, or ‘o’ but NOT ‘W’, ‘E’, or ‘O’.  Note that this implies it is not necesarily called on all MPI ranks.</div></blockquote>
+<p><strong>How do I solve for a scalar?</strong></p>
+<blockquote>
+<div>Nek5000 supports solving up to 99 additional scalars.
+To solve an additional scalar equation, increase <code class="docutils literal"><span class="pre">ldimt</span></code> in the <code class="docutils literal"><span class="pre">SIZE</span></code> file to accomodate the additional scalar and specify the appropriate parameter in the <a class="reference internal" href="problem_setup/case_files.html#case-files-par"><span class="std std-ref">Parameter File (.par)</span></a> file. See <code class="docutils literal"><span class="pre">shear4</span></code> example for more details.</div></blockquote>
+<p><strong>Are there any books/papers that describe the numerics of Nek5000?</strong></p>
+<blockquote>
+<div><p>There are a number of descriptions of the various numerical methods used in Nek5000 available.
+Probably the best starting point is the book <em>High-Order Methods for Incompressible Fluid Flow</em> by Deville et al. (2002).
+There are also other, perhaps shorter, expositions of the material.
+Two papers that we found particularly useful (there are of course many more) are:</p>
+<ul class="simple">
+<li>Fischer. An Overlapping Schwarz Method for Spectral Element Solution of the Incompressible Navier–Stokes Equations. <em>J. Comput. Phys.</em> 133, 84–101 (1997)</li>
+<li>Fischer et al. Simulation of high-Reynolds number vascular flows. <em>Comput. Methods Appl. Mech. Engrg.</em> 196 (2007) 3049–3060</li>
+</ul>
+<p>and also the <a class="reference external" href="http://www.mcs.anl.gov/~fischer/kth/kth_crs_2016s.pdf">lecture notes</a> by Paul Fischer (given at KTH in 2016).</p>
+</div></blockquote>
+<p><strong>Why can I see sometimes the imprint of elements in the solution?</strong></p>
+<blockquote>
+<div><p>Nek5000 is based on the spectral-element method, which relies on an expansion of the solution in terms of element-local basis functions.
+These basis functions are the Lagrange interpolants to the Legendre polynomials of a specific order.
+If using PnPn-2, the velocity is on the Gauss-Lobatto-Legendre mesh (i.e. including the boundary points), and the pressure is on the Gauss-Legendre mesh (without boundary points).
+These functions are defined within each element, and the continuity between elements is C0, i.e. only the function value is the same.
+The ansatz functions are polynomials, so you can differentiate them inside each element; however, derivatives are not continuous over element boundaries (even though this difference reduces spectrally fast).
+Note that for the PnPn-2 method, the pressure is non-continuous.</p>
+<p>This means that when visualising e.g. derivatives, one might see discontinuities, which then appear as imprints of the elements.
+This is due to the mentioned properties of the discretisation, and as such not a sign of a wrong solution.
+With increasing resolution (either p or h-type) these jumps will most certainly get smaller.</p>
+</div></blockquote>
+</div>
+<div class="section" id="physical-models">
+<h2>Physical Models<a class="headerlink" href="#physical-models" title="Permalink to this headline">¶</a></h2>
+<p><strong>What turbulence models are available in Nek5000?</strong></p>
+<blockquote>
+<div>For LES we provide an explicit filtering approach or a relaxation term model.
+RANS turbulence models (k-ω, k-ω SST, etc.) are not an integral part of the code but available through examples.</div></blockquote>
+</div>
+<div class="section" id="computational-speed">
+<h2>Computational Speed<a class="headerlink" href="#computational-speed" title="Permalink to this headline">¶</a></h2>
+<p><strong>Are there any compiler specific flags I should use?</strong></p>
+<blockquote>
+<div>Compile with vector instructions like AVX, AVX2 using FFLAGS and CFLAGS
+in makenek.</div></blockquote>
+<p><strong>How many elements should I have per process?</strong></p>
+<blockquote>
+<div>The upper limit is given by the available memory. The lower limit is (technically) 1 but you may want to have more
+elements (work) to get a reasonable (whatever that means for you) parallel efficiency.
+On most machines you need more than 10 elements per MPI rank to get a parallel efficiency of 0.5 (assuming N=7).</div></blockquote>
+<p><strong>Should I use residual projection?</strong></p>
+<blockquote>
+<div>Typically projection is used for pressure but not velocity, however
+this is highly case specific and a simple experiment will show if it pays off or not.
+Projection will speed up the solution to a scalar, but takes time to compute itself.
+A scalar solve requiring ~40 iterations or greater is a good candidate for use.</div></blockquote>
+<p><strong>What other things can I do to get best performance?</strong></p>
+<blockquote>
+<div><ul class="simple">
+<li>Design your mesh for a polynomial order N=7</li>
+<li>Tune your solver tolerances</li>
+<li>Increase time step size by switching to 2nd order BDF and OIFS extrapolation (target Courant number 2-5)</li>
+<li>Use AMG instead of XXT as coarse grid solver</li>
+<li>Avoid unnecessary time consuming operations in <code class="docutils literal"><span class="pre">usrchk/userbc</span></code></li>
+<li>Use binary input files e.g. <code class="docutils literal"><span class="pre">.re2</span></code> and <code class="docutils literal"><span class="pre">.ma2</span></code> to minimize solver initialization time</li>
+<li>Use a high performance MXM implementation for your platform (see <code class="docutils literal"><span class="pre">makenek</span></code> options)</li>
+</ul>
+</div></blockquote>
+</div>
+<div class="section" id="troubleshooting">
+<h2>Troubleshooting<a class="headerlink" href="#troubleshooting" title="Permalink to this headline">¶</a></h2>
+<p><strong>My simulation diverges. What should I do?</strong></p>
+<blockquote>
+<div><p>There are many potential root causes but here are some things you can experiment with:</p>
+<ul class="simple">
+<li>lower the time step (in particular during initial transients)</li>
+<li>reduce time integration order (e.g. use 2 instead of 3)</li>
+<li>increase spatial resolution</li>
+<li>provide a better initial condition</li>
+<li>check that your boundary conditions are meaningful and correctly implemented</li>
+<li>visualize the solution and look for anomalies</li>
+</ul>
+</div></blockquote>
+</div>
+<div class="section" id="post-processing">
+<h2>Post-Processing<a class="headerlink" href="#post-processing" title="Permalink to this headline">¶</a></h2>
+<p><strong>What options are available</strong></p>
+<blockquote>
+<div><ul class="simple">
+<li>For data analysis you use Nek5000’s internal machinery through the usr file</li>
+<li>Solution files can be read by VisIt and Paraview (for more information see <a class="reference internal" href="quickstart.html#qstart-vis"><span class="std std-ref">Visualization</span></a>)</li>
+<li>Various user contributions in <a class="reference external" href="https://github.com/Nek5000/NekBazaar/">NekBazaar</a></li>
+</ul>
+</div></blockquote>
+<p><strong>The local coordinate axes of my elements are not aligned with the global coordinate system, is this normal?</strong></p>
+<blockquote>
+<div>Yes, there is no guarantee that the elements are generated with any particular orientation (except if you use genbox).</div></blockquote>
+<p><strong>Where are my solution files?</strong></p>
+<blockquote>
+<div>By default Nek5000 outputs solution files in binary <code class="docutils literal"><span class="pre">&lt;casename&gt;.f%05d</span></code>.</div></blockquote>
+<p><strong>I have calculated additional fields from my solution, how do I visualize them?</strong></p>
+<blockquote>
+<div>Using the <code class="docutils literal"><span class="pre">.par</span></code> file, define an additional scalar and include the <code class="docutils literal"><span class="pre">solver=none</span></code> option.
+For example:</div></blockquote>
+<div class="highlight-none"><div class="highlight"><pre><span></span>[SCALAR01] # lambda2 vortex criterion
+solver = none
+</pre></div>
+</div>
+<blockquote>
+<div>Then store the calculated field in <code class="docutils literal"><span class="pre">t(1,1,1,1,iscal+1)</span></code> where <code class="docutils literal"><span class="pre">iscal</span></code> is your passive scalar index (in this example 1).
+The scalar will then be output by default with the solution files.</div></blockquote>
+<p><strong>How do I obtain values of variables at a specific point?</strong></p>
+<blockquote>
+<div>The simplest way is through the use of history points. See the section on the <a class="reference internal" href="problem_setup/features.html#features-his"><span class="std std-ref">History Points</span></a> file.
+You can also use the spectral interpolation tool (see examples for more details).</div></blockquote>
+</div>
+</div>
+
+
+           </div>
+           <div class="articleComments">
+            
+           </div>
+          </div>
+          <footer>
+  
+    <div class="rst-footer-buttons" role="navigation" aria-label="footer navigation">
+      
+        <a href="tutorials.html" class="btn btn-neutral float-right" title="Tutorials" accesskey="n" rel="next">Next <span class="fa fa-arrow-circle-right"></span></a>
+      
+      
+        <a href="quickstart.html" class="btn btn-neutral" title="Quickstart" accesskey="p" rel="prev"><span class="fa fa-arrow-circle-left"></span> Previous</a>
+      
+    </div>
+  
+
+  <hr/>
+
+  <div role="contentinfo">
+    <p>
+        &copy; Copyright 2015-2017, UCHICAGO ARGONNE, LLC.
+
+    </p>
+  </div>
+  Built with <a href="http://sphinx-doc.org/">Sphinx</a> using a <a href="https://github.com/snide/sphinx_rtd_theme">theme</a> provided by <a href="https://readthedocs.org">Read the Docs</a>. 
+
+</footer>
+
+        </div>
+      </div>
+
+    </section>
+
+  </div>
+  
+
+
+  
+
+    <script type="text/javascript">
+        var DOCUMENTATION_OPTIONS = {
+            URL_ROOT:'./',
+            VERSION:'17.0',
+            COLLAPSE_INDEX:false,
+            FILE_SUFFIX:'.html',
+            HAS_SOURCE:  true,
+            SOURCELINK_SUFFIX: '.txt'
+        };
+    </script>
+      <script type="text/javascript" src="_static/jquery.js"></script>
+      <script type="text/javascript" src="_static/underscore.js"></script>
+      <script type="text/javascript" src="_static/doctools.js"></script>
+      <script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.1/MathJax.js?config=TeX-AMS-MML_HTMLorMML"></script>
+
+  
+
+  
+  
+    <script type="text/javascript" src="_static/js/theme.js"></script>
+  
+
+  
+  
+  <script type="text/javascript">
+      jQuery(function () {
+          SphinxRtdTheme.StickyNav.enable();
+      });
+  </script>
+   
+
+</body>
+</html>

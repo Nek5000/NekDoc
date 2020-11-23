@@ -1,0 +1,644 @@
+
+
+<!DOCTYPE html>
+<!--[if IE 8]><html class="no-js lt-ie9" lang="en" > <![endif]-->
+<!--[if gt IE 8]><!--> <html class="no-js" lang="en" > <!--<![endif]-->
+<head>
+  <meta charset="utf-8">
+  
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  
+  <title>Boundary Conditions &mdash; Nek5000 17.0 documentation</title>
+  
+
+  
+  
+  
+  
+
+  
+
+  
+  
+    
+
+  
+
+  
+  
+    <link rel="stylesheet" href="../_static/css/theme.css" type="text/css" />
+  
+
+  
+
+  
+        <link rel="index" title="Index"
+              href="../genindex.html"/>
+        <link rel="search" title="Search" href="../search.html"/>
+    <link rel="top" title="Nek5000 17.0 documentation" href="../index.html"/>
+        <link rel="up" title="Problem Setup" href="../problem_setup.html"/>
+        <link rel="next" title="Case Files" href="case_files.html"/>
+        <link rel="prev" title="Problem Setup" href="../problem_setup.html"/> 
+
+  
+  <script src="../_static/js/modernizr.min.js"></script>
+
+</head>
+
+<body class="wy-body-for-nav" role="document">
+
+   
+  <div class="wy-grid-for-nav">
+
+    
+    <nav data-toggle="wy-nav-shift" class="wy-nav-side">
+      <div class="wy-side-scroll">
+        <div class="wy-side-nav-search">
+          
+
+          
+            <a href="../index.html" class="icon icon-home"> Nek5000
+          
+
+          
+          </a>
+
+          
+            
+            
+              <div class="version">
+                17.0
+              </div>
+            
+          
+
+          
+<div role="search">
+  <form id="rtd-search-form" class="wy-form" action="../search.html" method="get">
+    <input type="text" name="q" placeholder="Search docs" />
+    <input type="hidden" name="check_keywords" value="yes" />
+    <input type="hidden" name="area" value="default" />
+  </form>
+</div>
+
+          
+        </div>
+
+        <div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="main navigation">
+          
+            
+            
+              
+            
+            
+              <ul class="current">
+<li class="toctree-l1"><a class="reference internal" href="../quickstart.html">Quickstart</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../faq.html">FAQ</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../tutorials.html">Tutorials</a></li>
+<li class="toctree-l1 current"><a class="reference internal" href="../problem_setup.html">Problem Setup</a><ul class="current">
+<li class="toctree-l2 current"><a class="current reference internal" href="#">Boundary Conditions</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="#fluid-velocity">Fluid Velocity</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#temperature-and-passive-scalars">Temperature and Passive Scalars</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#internal-boundary-conditions">Internal Boundary Conditions</a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="case_files.html">Case Files</a></li>
+<li class="toctree-l2"><a class="reference internal" href="features.html">Additional Features</a></li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="../theory.html">Theory</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../appendix.html">Appendices</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../bibliography.html">Bibliography</a></li>
+</ul>
+
+            
+          
+        </div>
+      </div>
+    </nav>
+
+    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap">
+
+      
+      <nav class="wy-nav-top" role="navigation" aria-label="top navigation">
+        
+          <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
+          <a href="../index.html">Nek5000</a>
+        
+      </nav>
+
+
+      
+      <div class="wy-nav-content">
+        <div class="rst-content">
+          
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<div role="navigation" aria-label="breadcrumbs navigation">
+
+  <ul class="wy-breadcrumbs">
+    
+      <li><a href="../index.html">Docs</a> &raquo;</li>
+        
+          <li><a href="../problem_setup.html">Problem Setup</a> &raquo;</li>
+        
+      <li>Boundary Conditions</li>
+    
+    
+      <li class="wy-breadcrumbs-aside">
+        
+            
+            <a href="../_sources/problem_setup/boundary_conditions.rst.txt" rel="nofollow"> View page source</a>
+          
+        
+      </li>
+    
+  </ul>
+
+  
+  <hr/>
+</div>
+          <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
+           <div itemprop="articleBody">
+            
+  <div class="section" id="boundary-conditions">
+<h1>Boundary Conditions<a class="headerlink" href="#boundary-conditions" title="Permalink to this headline">¶</a></h1>
+<p>The boundary conditions can be imposed in various ways:</p>
+<ul class="simple">
+<li>when the mesh is generated, e.g. with <code class="docutils literal"><span class="pre">genbox</span></code>, as is explained in <a class="reference internal" href="../appendix.html#sec-genbox"><span class="std std-ref">Cylindrical/Cartesian-transition Annuli</span></a></li>
+<li>when an <code class="docutils literal"><span class="pre">.rea</span></code> file is read in <code class="docutils literal"><span class="pre">prenek</span></code></li>
+<li>translated from side-set numbers in <code class="docutils literal"><span class="pre">usrdat</span></code> when using <code class="docutils literal"><span class="pre">exotonek</span></code> or similar</li>
+</ul>
+<p>The general convention for boundary conditions is</p>
+<ul class="simple">
+<li>uppercase letters correspond to primitive boundary conditions, as given in <a class="reference internal" href="#tab-bcf"><span class="std std-numref">Table 1</span></a>, <a class="reference internal" href="#tab-bct"><span class="std std-numref">Table 3</span></a></li>
+<li>lowercase letters correspond to user defined boundary conditions, see <a class="reference internal" href="#tab-ubcf"><span class="std std-numref">Table 2</span></a> , <a class="reference internal" href="#tab-userbct"><span class="std std-numref">Table 4</span></a></li>
+<li>lowercase letters ending with <code class="docutils literal"><span class="pre">l</span></code>, i.e. <code class="docutils literal"><span class="pre">'vl</span> <span class="pre">'</span></code>, are specified in face-local coordinates, i.e. normal, tangent and bitangent directions.</li>
+</ul>
+<p>Uppercase boundary conditions which require assigned values in the <code class="docutils literal"><span class="pre">.rea</span></code> file are considered legacy and are not recommended for use.</p>
+<div class="section" id="fluid-velocity">
+<h2>Fluid Velocity<a class="headerlink" href="#fluid-velocity" title="Permalink to this headline">¶</a></h2>
+<p>Two types of boundary conditions are applicable to the fluid velocity : essential (Dirichlet) boundary condition in which the velocity is specified and natural (Neumann) boundary condition in which the traction is specified.
+For segments that constitute the boundary <span class="math">\(\partial \Omega_f\)</span>, see <a class="reference internal" href="../theory.html#fig-walls"><span class="std std-numref">Fig. 11</span></a>, one of these two types of boundary conditions must be assigned to each component of the fluid velocity.
+The fluid boundary condition can be <em>all Dirichlet</em> if all velocity components of <span class="math">\({\bf u}\)</span> are specified; or it can be <em>all Neumann</em> if all traction components <span class="math">\({\bf t} = [-p {\bf I} + \mu (\nabla {\bf u} + (\nabla {\bf u})^{T})] \cdot {\bf n}\)</span>, where <span class="math">\({\bf I}\)</span> is the identity tensor, <span class="math">\({\bf n}\)</span> is the unit normal and <span class="math">\(\mu\)</span> is the dynamic viscosity, are specified; or it can be <em>mixed Dirichlet/Neumann</em> if Dirichlet and Neumann conditions are selected for different velocity components.
+If the nonstress formulation is selected, then traction is not defined on the boundary.
+In this case, any Neumann boundary condition imposed must be homogeneous, i.e. equal to zero.
+.. In addition, mixed Dirichlet/Neumann boundaries must be aligned with one of the Cartesian axes.
+For flow geometry which consists of a periodic repetition of a particular geometric unit, the periodic boundary conditions can be imposed, as illustrated in <a class="reference internal" href="../theory.html#fig-walls"><span class="std std-numref">Fig. 11</span></a> .
+The available primitive boundary conditions for the fluid are given in <a class="reference internal" href="#tab-bcf"><span class="std std-numref">Table 1</span></a> , with the user-specified boundary conditions in <a class="reference internal" href="#tab-ubcf"><span class="std std-numref">Table 2</span></a> .</p>
+<span id="tab-bcf"></span><table border="1" class="docutils" id="id1">
+<caption><span class="caption-number">Table 1 </span><span class="caption-text">Primitive boundary conditions for velocity</span><a class="headerlink" href="#id1" title="Permalink to this table">¶</a></caption>
+<colgroup>
+<col width="11%" />
+<col width="27%" />
+<col width="13%" />
+<col width="49%" />
+</colgroup>
+<thead valign="bottom">
+<tr class="row-odd"><th class="head">Identifier</th>
+<th class="head">Description</th>
+<th class="head">Type</th>
+<th class="head">Note</th>
+</tr>
+</thead>
+<tbody valign="top">
+<tr class="row-even"><td>P</td>
+<td>Periodic</td>
+<td>–</td>
+<td>Standard periodic boundary condition</td>
+</tr>
+<tr class="row-odd"><td>p</td>
+<td>Periodic</td>
+<td>–</td>
+<td>For periodicity within a single element</td>
+</tr>
+<tr class="row-even"><td>O</td>
+<td>Outflow</td>
+<td>Neumann</td>
+<td>Open boundary condition, zero pressure</td>
+</tr>
+<tr class="row-odd"><td>ON</td>
+<td>Outflow, Normal</td>
+<td>Mixed</td>
+<td>Zero velocity in non-normal directions</td>
+</tr>
+<tr class="row-even"><td>W</td>
+<td>Wall</td>
+<td>Dirichlet</td>
+<td>No slip, <span class="math">\({ \bf{u} = 0}\)</span></td>
+</tr>
+<tr class="row-odd"><td>SYM</td>
+<td>Symmetry</td>
+<td>Mixed</td>
+<td>&#160;</td>
+</tr>
+<tr class="row-even"><td>A</td>
+<td>Axisymmetric boundary</td>
+<td>–</td>
+<td>&#160;</td>
+</tr>
+<tr class="row-odd"><td>E</td>
+<td>Interior boundary</td>
+<td>–</td>
+<td>&#160;</td>
+</tr>
+</tbody>
+</table>
+<span id="tab-ubcf"></span><table border="1" class="docutils" id="id2">
+<caption><span class="caption-number">Table 2 </span><span class="caption-text">User defined boundary conditions for velocity</span><a class="headerlink" href="#id2" title="Permalink to this table">¶</a></caption>
+<colgroup>
+<col width="10%" />
+<col width="23%" />
+<col width="11%" />
+<col width="56%" />
+</colgroup>
+<thead valign="bottom">
+<tr class="row-odd"><th class="head">Identifier</th>
+<th class="head">Description</th>
+<th class="head">Type</th>
+<th class="head">Note</th>
+</tr>
+</thead>
+<tbody valign="top">
+<tr class="row-even"><td>v</td>
+<td>Velocity</td>
+<td>Dirichlet</td>
+<td>Standard velocity boundary condition</td>
+</tr>
+<tr class="row-odd"><td>vl</td>
+<td>Velocity, local</td>
+<td>Dirichlet</td>
+<td>Face-local coordinates (normal, tangnent, bitangent)</td>
+</tr>
+<tr class="row-even"><td>o</td>
+<td>Outflow</td>
+<td>Neumann</td>
+<td>Open boundary condition, specified pressure</td>
+</tr>
+<tr class="row-odd"><td>on</td>
+<td>Outflow, Normal</td>
+<td>Mixed</td>
+<td>Zero velocity in non-normal directions</td>
+</tr>
+<tr class="row-even"><td>s</td>
+<td>Traction</td>
+<td>Neumann</td>
+<td>Specified traction in all directions</td>
+</tr>
+<tr class="row-odd"><td>sl</td>
+<td>Traction, local</td>
+<td>Neumann</td>
+<td>Face-local coordinates (normal, tangent, bitangent)</td>
+</tr>
+<tr class="row-even"><td>sh</td>
+<td>Traction, horizontal</td>
+<td>Mixed</td>
+<td>Specified traction with zero normal velocity</td>
+</tr>
+<tr class="row-odd"><td>shl</td>
+<td>Traction, horizontal, local</td>
+<td>Mixed</td>
+<td>Zero normal velocity, traction in tangent and bitangent</td>
+</tr>
+<tr class="row-even"><td>int</td>
+<td>Interpolated (NEKNEK)</td>
+<td>Dirichlet</td>
+<td>Interpolated from the adjacent overset mesh, see: <a class="reference internal" href="../tutorials/neknek.html#neknek"><span class="std std-ref">Overlapping Overset Grids</span></a></td>
+</tr>
+<tr class="row-odd"><td>mm</td>
+<td>Moving mesh</td>
+<td>–</td>
+<td>&#160;</td>
+</tr>
+<tr class="row-even"><td>ms</td>
+<td>Moving surface</td>
+<td>–</td>
+<td>&#160;</td>
+</tr>
+<tr class="row-odd"><td>msi</td>
+<td>Moving internal surface</td>
+<td>–</td>
+<td>&#160;</td>
+</tr>
+<tr class="row-even"><td>mv</td>
+<td>Moving boundary</td>
+<td>Dirichlet</td>
+<td>&#160;</td>
+</tr>
+<tr class="row-odd"><td>mvn</td>
+<td>Moving boundary, normal</td>
+<td>Dirichlet</td>
+<td>Zero velocity in non-normal directions</td>
+</tr>
+</tbody>
+</table>
+<span class="target" id="tab-lbcf"></span><p>The open(outflow) boundary condition (“O”) arises as a natural boundary condition from the variational formulation of Navier Stokes.
+We identify two situations</p>
+<ul>
+<li><p class="first">In the non-stress formulation, open boundary condition (‘Do nothing’)</p>
+<div class="math">
+\[[-p{\bf I} + \nu(\nabla {\bf u})]\cdot {\bf n}=0\]</div>
+</li>
+<li><p class="first">In the stress formulation, free traction boundary condition</p>
+<div class="math">
+\[[-p{\bf I} + \nu(\nabla {\bf u}+\nabla {\bf u}^T)]\cdot {\bf n}=0\]</div>
+</li>
+<li><p class="first">the symmetric boundary condition (“SYM”) is given as</p>
+<div class="math">
+\[\begin{split}{\bf u} \cdot {\bf n} &amp;= 0\ ,\\
+(\nabla {\bf u} \cdot {\bf t})\cdot {\bf n} &amp;= 0\end{split}\]</div>
+<p>where <span class="math">\({\bf n}\)</span> is the normal vector and <span class="math">\({\bf t}\)</span> the tangent vector.
+If the normal and tangent vector are not aligned with the mesh the stress formulation has to be used.</p>
+</li>
+<li><p class="first">the periodic boundary condition (“P”) needs to be prescribed in the <code class="docutils literal"><span class="pre">.rea</span></code> or <code class="docutils literal"><span class="pre">.re2</span></code> file since it already assigns the last point to first via <span class="math">\({\bf u}({\bf x})={\bf u}({\bf x} + L)\)</span>, where <span class="math">\(L\)</span> is the periodic length.</p>
+</li>
+<li><p class="first">the wall boundary condition (“W”) corresponds to <span class="math">\({\bf u}=0\)</span>.</p>
+</li>
+</ul>
+<p>For a fully-developed flow in such a configuration, one can effect great computational efficiencies by considering the problem in a single geometric unit (here taken to be of length <span class="math">\(L\)</span>), and requiring periodicity of the field variables.
+Nek5000 requires that the pairs of sides (or faces, in the case of a three-dimensional mesh) identified as periodic be identical (i.e., that the geometry be periodic).</p>
+<p>For an axisymmetric flow geometry, the axis boundary condition is provided for boundary segments that lie entirely on the axis of symmetry.
+This is essentially a symmetry (mixed Dirichlet/Neumann) boundary conditionin which the normal velocity and the tangential traction are set to zero.</p>
+<p>For free-surface boundary segments, the inhomogeneous traction boundary conditions involve both the surface tension coefficient <span class="math">\(\sigma\)</span> and the mean curvature of the free surface.</p>
+</div>
+<div class="section" id="temperature-and-passive-scalars">
+<h2>Temperature and Passive Scalars<a class="headerlink" href="#temperature-and-passive-scalars" title="Permalink to this headline">¶</a></h2>
+<p>The three types of boundary conditions applicable to the
+temperature are: essential (Dirichlet) boundary
+condition in which the temperature is specified;
+natural (Neumann) boundary condition in which the heat flux
+is specified; and mixed (Robin) boundary condition
+in which the heat flux is dependent on the temperature
+on the boundary.
+For segments that constitute the boundary
+<span class="math">\(\partial \Omega_f' \cup \partial \Omega_s'\)</span> (refer to Fig. 2.1),
+one of the above three types of boundary conditions must be
+assigned to the temperature.</p>
+<p>The two types of Robin boundary condition for temperature
+are: convection boundary conditions for which the heat
+flux into the domain depends on the heat transfer coefficient
+<span class="math">\(h_{c}\)</span> and the difference between the environmental temperature
+<span class="math">\(T_{\infty}\)</span> and the surface temperature; and radiation
+boundary conditions for which the heat flux into the domain
+depends on the Stefan-Boltzmann constant/view-factor
+product <span class="math">\(h_{rad}\)</span> and the difference between the fourth power
+of the environmental temperature <span class="math">\(T_{\infty}\)</span> and the fourth
+power of the surface temperature.</p>
+<p>The boundary conditions for the passive scalar fields are analogous to those used for the temperature field.
+Thus, the temperature boundary condition menu will reappear for each passive scalar field so that the user can specify an independent set of boundary conditions for each passive scalar field.</p>
+<span id="tab-bct"></span><table border="1" class="docutils" id="id3">
+<caption><span class="caption-number">Table 3 </span><span class="caption-text">Primitive boundary conditions (Temperature and Passive scalars)</span><a class="headerlink" href="#id3" title="Permalink to this table">¶</a></caption>
+<colgroup>
+<col width="11%" />
+<col width="27%" />
+<col width="13%" />
+<col width="49%" />
+</colgroup>
+<thead valign="bottom">
+<tr class="row-odd"><th class="head">Identifier</th>
+<th class="head">Description</th>
+<th class="head">Type</th>
+<th class="head">Note</th>
+</tr>
+</thead>
+<tbody valign="top">
+<tr class="row-even"><td>P</td>
+<td>Periodic</td>
+<td>–</td>
+<td>Standard periodic boundary condition</td>
+</tr>
+<tr class="row-odd"><td>p</td>
+<td>Periodic</td>
+<td>–</td>
+<td>For periodicity within a single element</td>
+</tr>
+<tr class="row-even"><td>I</td>
+<td>Insolated</td>
+<td>Neumann</td>
+<td>zero gradient</td>
+</tr>
+<tr class="row-odd"><td>O</td>
+<td>Outflow</td>
+<td>Neumann</td>
+<td>Identical to “I”</td>
+</tr>
+<tr class="row-even"><td>SYM</td>
+<td>Symmetry</td>
+<td>Neumann</td>
+<td>Identical to “I”</td>
+</tr>
+<tr class="row-odd"><td>A</td>
+<td>Axisymmetric boundary</td>
+<td>–</td>
+<td>&#160;</td>
+</tr>
+<tr class="row-even"><td>E</td>
+<td>Interior boundary</td>
+<td>–</td>
+<td>&#160;</td>
+</tr>
+</tbody>
+</table>
+<span id="tab-userbct"></span><table border="1" class="docutils" id="id4">
+<caption><span class="caption-number">Table 4 </span><span class="caption-text">User defined boundary conditions for temperature and passive scalars</span><a class="headerlink" href="#id4" title="Permalink to this table">¶</a></caption>
+<colgroup>
+<col width="10%" />
+<col width="23%" />
+<col width="11%" />
+<col width="56%" />
+</colgroup>
+<thead valign="bottom">
+<tr class="row-odd"><th class="head">Identifier</th>
+<th class="head">Description</th>
+<th class="head">Type</th>
+<th class="head">Note</th>
+</tr>
+</thead>
+<tbody valign="top">
+<tr class="row-even"><td>t</td>
+<td>Temperature</td>
+<td>Dirichlet</td>
+<td>Standard Dirichlet boundary condition</td>
+</tr>
+<tr class="row-odd"><td>f</td>
+<td>Flux</td>
+<td>Neumann</td>
+<td>Standard Neumann boundary condition</td>
+</tr>
+<tr class="row-even"><td>c</td>
+<td>Newton cooling</td>
+<td>Robin</td>
+<td>Specified heat transfer coefficient</td>
+</tr>
+<tr class="row-odd"><td>int</td>
+<td>Interpolated (NEKNEK)</td>
+<td>Dirichlet</td>
+<td>Interpolated from the adjacent overset mesh, see: <a class="reference internal" href="../tutorials/neknek.html#neknek"><span class="std std-ref">Overlapping Overset Grids</span></a></td>
+</tr>
+</tbody>
+</table>
+<ul>
+<li><p class="first">open boundary condition (“O”)</p>
+<div class="math">
+\[k(\nabla T)\cdot {\bf n} =0\]</div>
+</li>
+<li><p class="first">insulated boundary condition (“I”)</p>
+<div class="math">
+\[k(\nabla T)\cdot {\bf n} =0\]</div>
+<p>where <span class="math">\({\bf n}\)</span> is the normal vector and <span class="math">\({\bf t}\)</span> the tangent vector. If the normal and tangent vector are not aligned with the mesh the stress formulation has to be used.</p>
+</li>
+<li><p class="first">the periodic boundary condition (“P”) needs to be prescribed in the <code class="docutils literal"><span class="pre">.rea</span></code> file since it already assigns the last point to first via <span class="math">\({\bf u}({\bf x})={\bf u}({\bf x} + L)\)</span>, where <span class="math">\(L\)</span> is the periodic length.</p>
+</li>
+<li><p class="first">Newton cooling boundary condition (“c”)</p>
+<div class="math">
+\[k(\nabla T)\cdot {\bf n}=h(T-T_{\infty})\]</div>
+</li>
+<li><p class="first">flux boundary condition (“f”)</p>
+<div class="math">
+\[k(\nabla T)\cdot {\bf n} =f\]</div>
+</li>
+</ul>
+</div>
+<div class="section" id="internal-boundary-conditions">
+<h2>Internal Boundary Conditions<a class="headerlink" href="#internal-boundary-conditions" title="Permalink to this headline">¶</a></h2>
+<p>In the spatial discretization, the entire computational
+domain is subdivided into macro-elements, the boundary
+segments shared by any two of these macro-elements
+in <span class="math">\(\Omega_f\)</span> and <span class="math">\(\Omega_s\)</span> are denoted as internal boundaries.
+For fluid flow analysis with a single-fluid system or heat
+transfer analysis without change-of-phase, internal
+boundary conditions are irrelevant as the corresponding
+field variables on these segments are part of the
+solution. However, for a multi-fluid system and for
+heat transfer analysis with change-of-phase, special
+conditions are required at particular internal
+boundaries, as described in the following.</p>
+<p>For a fluid system composes of multiple immiscible fluids,
+the boundary (and hence the identity) of each fluid must
+be tracked, and a jump in the normal traction exists
+at the fluid-fluid interface if the surface tension
+coefficient is nonzero.
+For this purpose, the interface between any two fluids
+of different identity must be defined as a special type of
+internal boundary, namely, a fluid layer;
+and the associated surface tension coefficient also
+needs to be specified.</p>
+<p>In a heat transfer analysis with change-of-phase, Nek5000 assumes
+that both phases exist at the start of the solution, and that
+all solid-liquid interfaces are specified as special internal
+boundaries, namely, the melting fronts.
+If the fluid flow problem is considered, i.e., the energy
+equation is solved in conjunction with the momentum and
+continuity equations, then only
+the common boundary between the fluid and the solid
+(i.e., all or portion of <span class="math">\(\partial \overline{\Omega}_f'\)</span> in <a class="reference internal" href="../theory.html#fig-walls"><span class="std std-numref">Fig. 11</span></a>)
+can be defined as the melting front.
+In this case, segments on <span class="math">\(\partial \overline{\Omega}_f'\)</span> that
+belong to the dynamic melting/freezing interface need to be
+specified by the user.
+Nek5000 always assumes that the density of the two phases
+are the same (i.e., no Stefan flow); therefore at the melting
+front, the boundary condition for the fluid velocity is the
+same as that for a stationary wall, that is, all velocity
+components are zero.
+If no fluid flow is considered, i.e., only the energy equation
+is solved, then any internal boundary can be defined as
+a melting front.
+The temperature boundary condition at the melting front
+corresponds to a Dirichlet
+condition; that is, the entire segment maintains a constant temperature
+equal to the user-specified melting temperature <span class="math">\(T_{melt}\)</span>
+throughout the solution.
+In addition, the volumetric latent heat of fusion <span class="math">\(\rho L\)</span>
+for the two phases,
+which is also assumed to be constant, should be specified.</p>
+</div>
+</div>
+
+
+           </div>
+           <div class="articleComments">
+            
+           </div>
+          </div>
+          <footer>
+  
+    <div class="rst-footer-buttons" role="navigation" aria-label="footer navigation">
+      
+        <a href="case_files.html" class="btn btn-neutral float-right" title="Case Files" accesskey="n" rel="next">Next <span class="fa fa-arrow-circle-right"></span></a>
+      
+      
+        <a href="../problem_setup.html" class="btn btn-neutral" title="Problem Setup" accesskey="p" rel="prev"><span class="fa fa-arrow-circle-left"></span> Previous</a>
+      
+    </div>
+  
+
+  <hr/>
+
+  <div role="contentinfo">
+    <p>
+        &copy; Copyright 2015-2017, UCHICAGO ARGONNE, LLC.
+
+    </p>
+  </div>
+  Built with <a href="http://sphinx-doc.org/">Sphinx</a> using a <a href="https://github.com/snide/sphinx_rtd_theme">theme</a> provided by <a href="https://readthedocs.org">Read the Docs</a>. 
+
+</footer>
+
+        </div>
+      </div>
+
+    </section>
+
+  </div>
+  
+
+
+  
+
+    <script type="text/javascript">
+        var DOCUMENTATION_OPTIONS = {
+            URL_ROOT:'../',
+            VERSION:'17.0',
+            COLLAPSE_INDEX:false,
+            FILE_SUFFIX:'.html',
+            HAS_SOURCE:  true,
+            SOURCELINK_SUFFIX: '.txt'
+        };
+    </script>
+      <script type="text/javascript" src="../_static/jquery.js"></script>
+      <script type="text/javascript" src="../_static/underscore.js"></script>
+      <script type="text/javascript" src="../_static/doctools.js"></script>
+      <script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.1/MathJax.js?config=TeX-AMS-MML_HTMLorMML"></script>
+
+  
+
+  
+  
+    <script type="text/javascript" src="../_static/js/theme.js"></script>
+  
+
+  
+  
+  <script type="text/javascript">
+      jQuery(function () {
+          SphinxRtdTheme.StickyNav.enable();
+      });
+  </script>
+   
+
+</body>
+</html>
