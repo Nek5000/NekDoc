@@ -25,3 +25,6 @@ References
 
 .. [Mellen2000] Mellen, C. P., Fröhlich, J., Rodi, W. "Large-eddy simulation of the flow over periodic hills." *16th
     IMACS World Congress*, Lausanne, Switzerland. 
+
+.. [Foroozani2021] Foroozani, N., Krasnov, D., Schumacher, J., "Turbulent convection for different thermal
+    boundary conditions at the plates", *J. Fluid. Mech.*, **907**, A27:1--22, 2021 
