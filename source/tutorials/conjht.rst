@@ -170,7 +170,7 @@ To get started we copy the template to our case directory and then we modify its
 
    cp $HOME/Nek5000/examples/conj_ht/conj_ht.usr cht2d.usr 
 
-**Note:** in  :ref:`the uservp subroutine <case_files_uservp>`, users can specifiy different variable properties for fluid and solid subdomain. . As an example, thermal diffusivity of Cupper is :math:`\lambda = 1.1 * 10 ^ {-4}` (:math: `m^{2}/s`). Thermal diffusivity ratios of Copper and liquid metal alloy GaInSn (Pr = 0.033) is 10 and thermal diffusivity ratios of Copper and air (Pr = 0.7) is 5.2. (Refrence: Turbulent convection for different thermal boundary conditions at the plates). 
+**Note:** in  :ref:`the uservp subroutine <case_files_uservp>`, users can specifiy different variable properties for fluid and solid subdomain. . As an example, thermal diffusivity of Cupper is :math: `\lambda = 1.1 * 10 ^ {-4}` (:math: ` m^{2}/s`). Thermal diffusivity ratios of Copper and liquid metal alloy GaInSn (Pr = 0.033) is 10 and thermal diffusivity ratios of Copper and air (Pr = 0.7) is 5.2. (Refrence: Turbulent convection for different thermal boundary conditions at the plates). 
 
 .. code-block:: none
 
