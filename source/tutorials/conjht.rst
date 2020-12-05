@@ -402,7 +402,7 @@ In the viewing window, one can visualize the temperature-field as depicted in
 
 .. _fig:cht_rbc:
 
-.. figure:: temp_field.png
+.. figure:: cht_rbc.png
     :align: center
     :figclass: align-center
     :alt: per_flow
