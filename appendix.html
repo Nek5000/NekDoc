@@ -910,7 +910,7 @@ The resulting integral is storted in <code class="docutils literal"><span class=
 <p>Suppose you wish to simulate flow through an axisymmetric pipe,
 of radius <span class="math">\(R=0.5\)</span> and length <span class="math">\(L=4\)</span>.  You estimate that you will
 need 3 elements in radial <span class="math">\((y)\)</span> direction, and 5 in the <span class="math">\(x\)</span> direction,
-as depicted in <a class="reference internal" href="#fig-mesh-axi1"><span class="std std-numref">Fig. 12</span></a>.
+as depicted in <a class="reference internal" href="#fig-mesh-axi1"><span class="std std-numref">Fig. 13</span></a>.
 This would be specified by the following input file (called <code class="docutils literal"><span class="pre">pipe.box</span></code>)
 to <code class="docutils literal"><span class="pre">genbox</span></code>:</p>
 <div class="highlight-none"><div class="highlight"><pre><span></span>axisymmetric.rea
@@ -932,7 +932,7 @@ v  ,O  ,A  ,W  ,   ,          BC&#39;s:  (cbx0, cbx1, cby0, cby1, cbz0, cbz1)
 </div>
 <div class="align-center figure" id="id3">
 <span id="fig-mesh-axi1"></span><img alt="axis-pipe-mesh" src="_images/mesh_axi1.png" />
-<p class="caption"><span class="caption-number">Fig. 12 </span><span class="caption-text">Axisymmetric pipe mesh.</span></p>
+<p class="caption"><span class="caption-number">Fig. 13 </span><span class="caption-text">Axisymmetric pipe mesh.</span></p>
 </div>
 <ul class="simple">
 <li>The first line of this file supplies the name of an existing 2D <code class="docutils literal"><span class="pre">.rea</span></code> file that has the appropriate run parameters (viscosity, timestep size, etc.). These parameters can be modified later, but it is important that <code class="docutils literal"><span class="pre">axisymmetric.rea</span></code> be a 2D file, and not a 3D file.</li>
@@ -970,7 +970,7 @@ equivalent to a <em>v</em> or <em>V</em> boundary condition, with <span class="m
 <h3>Graded Mesh<a class="headerlink" href="#graded-mesh" title="Permalink to this headline">¶</a></h3>
 <div class="align-center figure" id="id4">
 <span id="fig-mesh-axi2"></span><img alt="axis-pipe-mesh-graded" src="_images/mesh_axi2.png" />
-<p class="caption"><span class="caption-number">Fig. 13 </span><span class="caption-text">Axisymmetric pipe mesh, graded</span></p>
+<p class="caption"><span class="caption-number">Fig. 14 </span><span class="caption-text">Axisymmetric pipe mesh, graded</span></p>
 </div>
 <p>Suppose you wish to have the mesh be graded,
 that you have increased resolution near the wall.
@@ -988,13 +988,13 @@ in the above <code class="docutils literal"><span class="pre">genbox</span></cod
 0.0   0.5   0.7               y0  y1   ratio
 </pre></div>
 </div>
-<p>yields the mesh shown in <a class="reference internal" href="#fig-mesh-axi2"><span class="std std-numref">Fig. 13</span></a>.</p>
+<p>yields the mesh shown in <a class="reference internal" href="#fig-mesh-axi2"><span class="std std-numref">Fig. 14</span></a>.</p>
 </div>
 <div class="section" id="user-specified-distribution">
 <h3>User-Specified Distribution<a class="headerlink" href="#user-specified-distribution" title="Permalink to this headline">¶</a></h3>
 <div class="align-center figure" id="id5">
 <span id="fig-mesh-axi3"></span><img alt="axis-pipe-mesh-user" src="_images/mesh_axi3.png" />
-<p class="caption"><span class="caption-number">Fig. 14 </span><span class="caption-text">Axisymmetric pipe mesh, user specified.</span></p>
+<p class="caption"><span class="caption-number">Fig. 15 </span><span class="caption-text">Axisymmetric pipe mesh, user specified.</span></p>
 </div>
 <p>You can also specify your own, precise, distribution of element
 locations.   For example, another graded mesh similar to the
@@ -1009,7 +1009,7 @@ one of the preceding example could be built by changing the
 that <code class="docutils literal"><span class="pre">genbox</span></code> is expecting <code class="docutils literal"><span class="pre">Nely+1</span></code> values of <span class="math">\(y\)</span> positions on the
 <span class="math">\(y\)</span>-element distribution line.   This is the <code class="docutils literal"><span class="pre">genbox</span></code> default, which
 explains why it corresponds to <code class="docutils literal"><span class="pre">Nely</span></code> <span class="math">\(&gt;\)</span> 0.  The corresponding mesh
-is shown in <a class="reference internal" href="#fig-mesh-axi3"><span class="std std-numref">Fig. 14</span></a>.</p>
+is shown in <a class="reference internal" href="#fig-mesh-axi3"><span class="std std-numref">Fig. 15</span></a>.</p>
 </div>
 </div>
 <div class="section" id="mesh-modification">
@@ -1060,27 +1060,27 @@ looks to the <code class="docutils literal"><span class="pre">.rea</span></code>
 Nek5000 to communicate the new mesh to <code class="docutils literal"><span class="pre">postx</span></code> is via the <code class="docutils literal"><span class="pre">.fld</span></code>
 file, so you must request that the geometry be dumped to the
 <code class="docutils literal"><span class="pre">.fld</span></code> file.
-The result of above changes is shown in <a class="reference internal" href="#fig-wavypipe"><span class="std std-numref">Fig. 15</span></a>.</p>
+The result of above changes is shown in <a class="reference internal" href="#fig-wavypipe"><span class="std std-numref">Fig. 16</span></a>.</p>
 <div class="align-center figure" id="id6">
 <span id="fig-wavypipe"></span><img alt="axis-pipe-mesh-wavy" src="_images/wavypipe.png" />
-<p class="caption"><span class="caption-number">Fig. 15 </span><span class="caption-text">Axisymmetric pipe mesh.</span></p>
+<p class="caption"><span class="caption-number">Fig. 16 </span><span class="caption-text">Axisymmetric pipe mesh.</span></p>
 </div>
 <div class="section" id="cylindrical-cartesian-transition-annuli">
 <span id="sec-genbox"></span><h3>Cylindrical/Cartesian-transition Annuli<a class="headerlink" href="#cylindrical-cartesian-transition-annuli" title="Permalink to this headline">¶</a></h3>
 <div class="align-center figure" id="id7">
 <span id="fig-cylbox-2d"></span><img alt="annuli-mesh-1" src="_images/cylbox_2d.png" />
-<p class="caption"><span class="caption-number">Fig. 16 </span><span class="caption-text">Cylinder mesh</span></p>
+<p class="caption"><span class="caption-number">Fig. 17 </span><span class="caption-text">Cylinder mesh</span></p>
 </div>
 <div class="align-center figure" id="id8">
 <span id="fig-cylbox-2da"></span><img alt="annuli-mesh-2" src="_images/cylbox_2da.png" />
-<p class="caption"><span class="caption-number">Fig. 17 </span><span class="caption-text">Cylinder mesh</span></p>
+<p class="caption"><span class="caption-number">Fig. 18 </span><span class="caption-text">Cylinder mesh</span></p>
 </div>
 <p>More sophisticated
 transition treatments may be generated using the GLOBAL REFINE options in
 <code class="docutils literal"><span class="pre">prenek</span></code> or through an upgrade of <code class="docutils literal"><span class="pre">genb7</span></code>, as demand warrants.
 Example 2D and 3D input files are provided in the <code class="docutils literal"><span class="pre">nek5000/doc</span></code> files
 <code class="docutils literal"><span class="pre">box7.2d</span></code> and <code class="docutils literal"><span class="pre">box7.3d</span></code>.
-<a class="reference internal" href="#fig-cylbox-2d"><span class="std std-numref">Fig. 16</span></a> shows a 2D example generated using
+<a class="reference internal" href="#fig-cylbox-2d"><span class="std std-numref">Fig. 17</span></a> shows a 2D example generated using
 the <code class="docutils literal"><span class="pre">box7.2d</span></code> input file, which reads:</p>
 <div class="highlight-none"><div class="highlight"><pre><span></span>x2d.rea
 2                      spatial dimension
@@ -1100,7 +1100,7 @@ ccbb                descriptors: c-cyl, o-oct, b-box (1 character + space)
 v  ,W  ,E  ,E  ,    bc&#39;s (3 characters + comma)
 </pre></div>
 </div>
-<p>An example of a mesh is shown in <a class="reference internal" href="#fig-cylbox-2d"><span class="std std-numref">Fig. 16</span></a>.   The mesh has been quad-refined
+<p>An example of a mesh is shown in <a class="reference internal" href="#fig-cylbox-2d"><span class="std std-numref">Fig. 17</span></a>.   The mesh has been quad-refined
 once with oct-refine option of <code class="docutils literal"><span class="pre">prenek</span></code>. The 3D counterpart to this
 mesh could joined to a hemisphere/Cartesian transition built with
 the spherical mesh option in <code class="docutils literal"><span class="pre">prenek</span></code>.</p>
@@ -1145,7 +1145,7 @@ problem is solved consists of two distinct subdomains. The
 first subdomain is that part of the region occupied by
 fluid, denoted <span class="math">\(\Omega_f\)</span>, while the second subdomain is that part
 of the region occupied by a solid, denoted <span class="math">\(\Omega_s\)</span>. These two
-subdomains are depicted in <a class="reference internal" href="theory.html#fig-walls"><span class="std std-numref">Fig. 11</span></a>. The entire domain is denoted as <span class="math">\(D=\Omega_f \cup \Omega_s\)</span>.
+subdomains are depicted in <a class="reference internal" href="theory.html#fig-walls"><span class="std std-numref">Fig. 12</span></a>. The entire domain is denoted as <span class="math">\(D=\Omega_f \cup \Omega_s\)</span>.
 The fluid problem is solved in the domain <span class="math">\(\Omega_f\)</span>, while the
 temperature in the energy equation is solved in the
 entire domain; the passive scalars can be solved in either
@@ -1156,7 +1156,7 @@ of the boundary of <span class="math">\(\Omega_f\)</span> which is not shared by
 that part of the boundary of <span class="math">\(\Omega_f\)</span> which is shared by <span class="math">\(\Omega_s\)</span>.
 In addition, <span class="math">\(\partial \Omega_{s}, \overline{\partial \Omega_s}\)</span> are analogously defined.
 These distinct portions of the
-domain boundary are illustrated in <a class="reference internal" href="theory.html#fig-walls"><span class="std std-numref">Fig. 11</span></a>.
+domain boundary are illustrated in <a class="reference internal" href="theory.html#fig-walls"><span class="std std-numref">Fig. 12</span></a>.
 The restrictions on the domain for Nek5000 are itemized below.</p>
 <ul class="simple">
 <li>The domain <span class="math">\(\Omega=\Omega_f \cup \Omega_s\)</span> must correspond either to a

@@ -1144,11 +1144,11 @@ are in the fluid mesh (100).</p>
 </div></blockquote>
 <p>Following the header, all elements are listed. The fluid elements are listed
 first, followed by all solid elements if present.</p>
-<p>The data following the header is formatted as shown in <a class="reference internal" href="#tab-element"><span class="std std-numref">Table 15</span></a>. This provides all the coordinates of an element for top and bottom faces. The numbering of the vertices is shown in Fig. <a class="reference internal" href="#fig-elorder"><span class="std std-numref">Fig. 7</span></a>. The header for each element as in <a class="reference internal" href="#tab-element"><span class="std std-numref">Table 15</span></a>, i.e. <code class="docutils literal"><span class="pre">[1A]</span> <span class="pre">GROUP</span></code> is reminiscent of older Nek5000 format and does not impact the mesh generation at this stage.</p>
+<p>The data following the header is formatted as shown in <a class="reference internal" href="#tab-element"><span class="std std-numref">Table 15</span></a>. This provides all the coordinates of an element for top and bottom faces. The numbering of the vertices is shown in Fig. <a class="reference internal" href="#fig-elorder"><span class="std std-numref">Fig. 8</span></a>. The header for each element as in <a class="reference internal" href="#tab-element"><span class="std std-numref">Table 15</span></a>, i.e. <code class="docutils literal"><span class="pre">[1A]</span> <span class="pre">GROUP</span></code> is reminiscent of older Nek5000 format and does not impact the mesh generation at this stage.</p>
 <blockquote>
 <div><div class="align-center figure" id="id13">
 <span id="fig-elorder"></span><img alt="rea-geometry" src="../_images/3dcube_1.png" />
-<p class="caption"><span class="caption-number">Fig. 7 </span><span class="caption-text">Geometry description in <code class="docutils literal"><span class="pre">.rea</span></code> file (sketch of one element ordering - Preprocessor
+<p class="caption"><span class="caption-number">Fig. 8 </span><span class="caption-text">Geometry description in <code class="docutils literal"><span class="pre">.rea</span></code> file (sketch of one element ordering - Preprocessor
 corner notation)</span></p>
 </div>
 </div></blockquote>
@@ -1231,13 +1231,13 @@ The formatting for the curvature data is provided in <a class="reference interna
 <blockquote>
 <div><div class="align-center figure" id="id15">
 <span id="fig-edges"></span><img alt="edge-numbering" src="../_images/3dcube.png" />
-<p class="caption"><span class="caption-number">Fig. 8 </span><span class="caption-text">Edge numbering in <code class="docutils literal"><span class="pre">.rea</span></code> file, the edge number is in between parenthesis. The other
+<p class="caption"><span class="caption-number">Fig. 9 </span><span class="caption-text">Edge numbering in <code class="docutils literal"><span class="pre">.rea</span></code> file, the edge number is in between parenthesis. The other
 numbers represent vertices.</span></p>
 </div>
 </div></blockquote>
 <div class="align-center figure" id="id16">
 <span id="fig-ex2"></span><img alt="edge-numbering" src="../_images/modified1.png" />
-<p class="caption"><span class="caption-number">Fig. 9 </span><span class="caption-text">Example mesh - with curvature. Circular dots represent example midsize points.</span></p>
+<p class="caption"><span class="caption-number">Fig. 10 </span><span class="caption-text">Example mesh - with curvature. Circular dots represent example midsize points.</span></p>
 </div>
 </div></blockquote>
 </div>
@@ -1250,11 +1250,11 @@ numbers represent vertices.</span></p>
 </div>
 <p>and the data is stored as illustarted in <a class="reference internal" href="#tab-bcs"><span class="std std-numref">Table 17</span></a>. For each field boundary conditions are listed for each face of each element.</p>
 <p>Boundary conditions are given in order per each element, see <a class="reference internal" href="#tab-bcs"><span class="std std-numref">Table 17</span></a> column <code class="docutils literal"><span class="pre">IEL</span></code>, and faces listed in ascending order 1-6 in column <code class="docutils literal"><span class="pre">IFACE</span></code>. Note that the header in <a class="reference internal" href="#tab-bcs"><span class="std std-numref">Table 17</span></a> does not appear in the actual <code class="docutils literal"><span class="pre">.rea</span></code>.</p>
-<p>The ordering for faces each element is shown in <a class="reference internal" href="#fig-forder"><span class="std std-numref">Fig. 10</span></a>. A total equivalent to <span class="math">\(6N_{field}\)</span> boundary conditions are listed for each field, where <span class="math">\(N_{field}\)</span> is the number of elements for the specific field. <span class="math">\(N_{field}\)</span> is equal to the total number of fluid elements for the velocity and equal to the total number of elements (including solid elements) for temperature. For the passive scalars it will depend on the specific choice, but typically scalars are solved on the temeprature mesh (solid+fluid).</p>
+<p>The ordering for faces each element is shown in <a class="reference internal" href="#fig-forder"><span class="std std-numref">Fig. 11</span></a>. A total equivalent to <span class="math">\(6N_{field}\)</span> boundary conditions are listed for each field, where <span class="math">\(N_{field}\)</span> is the number of elements for the specific field. <span class="math">\(N_{field}\)</span> is equal to the total number of fluid elements for the velocity and equal to the total number of elements (including solid elements) for temperature. For the passive scalars it will depend on the specific choice, but typically scalars are solved on the temeprature mesh (solid+fluid).</p>
 <blockquote>
 <div><div class="align-center figure" id="id17">
 <span id="fig-forder"></span><img alt="edge-numbering" src="../_images/3dcube_2.png" />
-<p class="caption"><span class="caption-number">Fig. 10 </span><span class="caption-text">Face ordering for each element.</span></p>
+<p class="caption"><span class="caption-number">Fig. 11 </span><span class="caption-text">Face ordering for each element.</span></p>
 </div>
 </div></blockquote>
 <p>Each BC letter condition is formed by three characters. Common BCs include:</p>
