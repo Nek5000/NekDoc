@@ -4,6 +4,9 @@
 Quickstart
 ==============
 
+Before beginning to use Nek5000, it is recommended that the user have basic familiarity with Linux or another Unix-based OS.
+The instructions provided in the quickstart guide and the tutorials use basic bash commands and assume the user has this knowledge.
+
 -------------------
 Directory structure
 -------------------
@@ -116,7 +119,8 @@ Then follow the instructions below
   cd ~
   tar -xvzf Nek5000_X.Y.tar.gz
   export PATH=$HOME/Nek5000/bin:$PATH
-  cd ~/Nek5000/tools; ./maketools genmap
+  cd ~/Nek5000/tools
+  ./maketools genmap
   cd ~/Nek5000/run
   cp -r ../examples/eddy_uv .
   cd eddy_uv
@@ -124,9 +128,14 @@ Then follow the instructions below
   makenek eddy_uv              # build case, edit script to change settings
   nekbmpi eddy_uv 2            # run Nek5000 on 2 ranks in the background
   tail logfile                 # view solver output
-  visnek eddy_uv; visit -o eddy_uv.nek5000 # requires a VisIt/Paraview installation
+  visnek eddy_uv               # produces the eddy_uv.nek5000 file
+
+As the case runs, it will generate multiple ``eddy_uv0.fXXXXX`` files.
+These are the restart checkpoint and visualization data files.
+The metadata file, ``eddy_uv.nek5000``, can be opened with either VisIt or ParaView, which will look for the data files in the same directory as the ``eddy_uv.nek5000`` file.
 
 Note that this will not work if you clone the master branch from GitHub, as the ``examples`` folder is NOT included.
+To obtain the examples using git, clone the ``Nek5000/NekExamples.git`` repository.
 
 .. _qstart_meshing:
 
@@ -134,16 +143,18 @@ Note that this will not work if you clone the master branch from GitHub, as the 
 Meshing
 -------------------
 
-Nek5000 is mainly a solver. However, simple box type meshes can be generated with the ``genbox`` tool. For more complex meshes please consider using ``PRENEK`` and the meshing tools ``nekmerge`` and ``n2to3``. We provide mesh converters like ``exo2nek`` and ``msh2nek`` which are quite handy if you want to use your favorite mesh generator. Also check our 
-`Bazaar <https://github.com/Nek5000/NekBazaar>`_ for 3rd party meshing tools.
+Nek5000 is mainly a solver. 
+However, simple box type meshes can be generated with the ``genbox`` tool. 
+For more complex meshes please consider using ``PRENEK`` and the meshing tools ``nekmerge`` and ``n2to3``. 
+We provide mesh converters like ``exo2nek`` and ``msh2nek`` which are quite handy if you want to use your favorite mesh generator. 
 
 .. _qstart_vis:
 
 -------------------
 Visualization
 -------------------
-Nek5000 output (``.fld`` or ``0.f%05d``) files can be read by `VisIt <https://wci.llnl.gov/simulation/computer-codes/visit/>`_ or 
-`ParaView <https://www.paraview.org/>`_. This requires using ``visnek`` to generate a metadata file.  
-There is also an build-in X-Window based postprocessor called ``POSTNEK`` located in tools.
+Nek5000 output (``.fld`` or ``0.f%05d``) files can be read by `VisIt <https://wci.llnl.gov/simulation/computer-codes/visit/>`_ or `ParaView <https://www.paraview.org/>`_. 
+This requires using ``visnek`` to generate a metadata file.  
+There is also an built-in X-Window based postprocessor called ``POSTNEK`` located in tools.
 
 
