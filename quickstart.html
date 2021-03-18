@@ -171,6 +171,8 @@
             
   <div class="section" id="quickstart">
 <span id="qstart"></span><h1>Quickstart<a class="headerlink" href="#quickstart" title="Permalink to this headline">¶</a></h1>
+<p>Before beginning to use Nek5000, it is recommended that the user have basic familiarity with Linux or another Unix-based OS.
+The instructions provided in the quickstart guide and the tutorials use basic bash commands and assume the user has this knowledge.</p>
 <div class="section" id="directory-structure">
 <h2>Directory structure<a class="headerlink" href="#directory-structure" title="Permalink to this headline">¶</a></h2>
 <p>Here’s a brief description of each top-level directory:</p>
@@ -272,7 +274,8 @@ Then follow the instructions below</p>
 <div class="highlight-default"><div class="highlight"><pre><span></span>cd ~
 tar -xvzf Nek5000_X.Y.tar.gz
 export PATH=$HOME/Nek5000/bin:$PATH
-cd ~/Nek5000/tools; ./maketools genmap
+cd ~/Nek5000/tools
+./maketools genmap
 cd ~/Nek5000/run
 cp -r ../examples/eddy_uv .
 cd eddy_uv
@@ -280,21 +283,27 @@ genmap                       # run partioner, on input type eddy_uv
 makenek eddy_uv              # build case, edit script to change settings
 nekbmpi eddy_uv 2            # run Nek5000 on 2 ranks in the background
 tail logfile                 # view solver output
-visnek eddy_uv; visit -o eddy_uv.nek5000 # requires a VisIt/Paraview installation
+visnek eddy_uv               # produces the eddy_uv.nek5000 file
 </pre></div>
 </div>
-<p>Note that this will not work if you clone the master branch from GitHub, as the <code class="docutils literal"><span class="pre">examples</span></code> folder is NOT included.</p>
+<p>As the case runs, it will generate multiple <code class="docutils literal"><span class="pre">eddy_uv0.fXXXXX</span></code> files.
+These are the restart checkpoint and visualization data files.
+The metadata file, <code class="docutils literal"><span class="pre">eddy_uv.nek5000</span></code>, can be opened with either VisIt or ParaView, which will look for the data files in the same directory as the <code class="docutils literal"><span class="pre">eddy_uv.nek5000</span></code> file.</p>
+<p>Note that this will not work if you clone the master branch from GitHub, as the <code class="docutils literal"><span class="pre">examples</span></code> folder is NOT included.
+To obtain the examples using git, clone the <code class="docutils literal"><span class="pre">Nek5000/NekExamples.git</span></code> repository.</p>
 </div>
 <div class="section" id="meshing">
 <span id="qstart-meshing"></span><h2>Meshing<a class="headerlink" href="#meshing" title="Permalink to this headline">¶</a></h2>
-<p>Nek5000 is mainly a solver. However, simple box type meshes can be generated with the <code class="docutils literal"><span class="pre">genbox</span></code> tool. For more complex meshes please consider using <code class="docutils literal"><span class="pre">PRENEK</span></code> and the meshing tools <code class="docutils literal"><span class="pre">nekmerge</span></code> and <code class="docutils literal"><span class="pre">n2to3</span></code>. We provide mesh converters like <code class="docutils literal"><span class="pre">exo2nek</span></code> and <code class="docutils literal"><span class="pre">msh2nek</span></code> which are quite handy if you want to use your favorite mesh generator. Also check our
-<a class="reference external" href="https://github.com/Nek5000/NekBazaar">Bazaar</a> for 3rd party meshing tools.</p>
+<p>Nek5000 is mainly a solver.
+However, simple box type meshes can be generated with the <code class="docutils literal"><span class="pre">genbox</span></code> tool.
+For more complex meshes please consider using <code class="docutils literal"><span class="pre">PRENEK</span></code> and the meshing tools <code class="docutils literal"><span class="pre">nekmerge</span></code> and <code class="docutils literal"><span class="pre">n2to3</span></code>.
+We provide mesh converters like <code class="docutils literal"><span class="pre">exo2nek</span></code> and <code class="docutils literal"><span class="pre">msh2nek</span></code> which are quite handy if you want to use your favorite mesh generator.</p>
 </div>
 <div class="section" id="visualization">
 <span id="qstart-vis"></span><h2>Visualization<a class="headerlink" href="#visualization" title="Permalink to this headline">¶</a></h2>
-<p>Nek5000 output (<code class="docutils literal"><span class="pre">.fld</span></code> or <code class="docutils literal"><span class="pre">0.f%05d</span></code>) files can be read by <a class="reference external" href="https://wci.llnl.gov/simulation/computer-codes/visit/">VisIt</a> or
-<a class="reference external" href="https://www.paraview.org/">ParaView</a>. This requires using <code class="docutils literal"><span class="pre">visnek</span></code> to generate a metadata file.
-There is also an build-in X-Window based postprocessor called <code class="docutils literal"><span class="pre">POSTNEK</span></code> located in tools.</p>
+<p>Nek5000 output (<code class="docutils literal"><span class="pre">.fld</span></code> or <code class="docutils literal"><span class="pre">0.f%05d</span></code>) files can be read by <a class="reference external" href="https://wci.llnl.gov/simulation/computer-codes/visit/">VisIt</a> or <a class="reference external" href="https://www.paraview.org/">ParaView</a>.
+This requires using <code class="docutils literal"><span class="pre">visnek</span></code> to generate a metadata file.
+There is also an built-in X-Window based postprocessor called <code class="docutils literal"><span class="pre">POSTNEK</span></code> located in tools.</p>
 </div>
 </div>
 
