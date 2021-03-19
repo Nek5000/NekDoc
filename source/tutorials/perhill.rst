@@ -94,14 +94,15 @@ In Nek5000, we can specify this through ``usrdat2`` in the usr file as follows
 
 .. code-block:: fortran
 
-   subroutine usrdat2
-
-   ! implicit none
-
+   subroutine usrdat2()
+   implicit none
    include 'SIZE'
    include 'TOTAL'
 
-   ntot = nx1*ny1*nz1*nelt
+   integer ntot,i
+   real sa,sb,sc,xx,argx,A1
+
+   ntot = lx1*ly1*lz1*nelt
 
    sa   = 4.5
    sb   = 3.5
@@ -116,14 +117,14 @@ In Nek5000, we can specify this through ``usrdat2`` in the usr file as follows
 
    ! apply mass flux to drive the flow such that Ubar = 1 
    param(54) = -1   ! x-direction 
-   param(55) = 1    ! Ubar
+   param(55) = 1.0  ! Ubar
 
    return
    end
 
 .. _fig:hill_mesh:
 
-.. figure:: hill_mesh_v2.png
+.. figure:: perhill/hill_mesh_v2.png
     :align: center
     :figclass: align-center
     :alt: per_mesh
@@ -140,14 +141,12 @@ This can be done in the subroutine ``useric`` as follows:
 .. code-block:: fortran
 
    subroutine useric(ix,iy,iz,ieg)
-
-   ! implicit none
-
-   integer ix,iy,iz,eg
-
+   implicit none
    include 'SIZE'
    include 'TOTAL'
    include 'NEKUSE'
+
+   integer ix,iy,iz,ieg
 
    ux   = 1.0 
    uy   = 0.0
@@ -156,6 +155,8 @@ This can be done in the subroutine ``useric`` as follows:
 
    return
    end
+
+For walls and periodic boundaries, nothing needs to be specified in the user file, so ``userbc`` can remain unmodified.
 
 ..........................
 Control parameters
@@ -284,7 +285,7 @@ In the viewing window one can visualize the flow-field as depicted in
 
 .. _fig:hill_flow:
 
-.. figure:: hill_flow_v3.png
+.. figure:: perhill/hill_flow_v3.png
     :align: center
     :figclass: align-center
     :alt: per_flow

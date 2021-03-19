@@ -1,0 +1,16 @@
+  Input .rea name
+ combined
+  Input .rea/.re2 output name:
+ cht2d
+
+ Start converting...
+
+ read:   *** MESH DATA ***
+          400          200 2 nelt/nelv/ndim
+ read:   ***** CURVED SIDE DATA *****
+ read:   ***** BOUNDARY CONDITIONS *****
+ read:   ***** FLUID   BOUNDARY CONDITIONS *****
+            1          60  Number of bcs
+ read:   ***** THERMAL BOUNDARY CONDITIONS *****
+            2          80  Number of bcs
+  done

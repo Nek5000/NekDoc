@@ -1,0 +1,163 @@
+c-----------------------------------------------------------------------
+c  nek5000 user-file template
+c
+c  user specified routines:
+c     - uservp  : variable properties
+c     - userf   : local acceleration term for fluid
+c     - userq   : local source term for scalars
+c     - userbc  : boundary conditions
+c     - useric  : initial conditions
+c     - userchk : general purpose routine for checking errors etc.
+c     - userqtl : thermal divergence for lowMach number flows 
+c     - usrdat  : modify element vertices 
+c     - usrdat2 : modify mesh coordinates
+c     - usrdat3 : general purpose routine for initialization
+c     
+c-----------------------------------------------------------------------
+      subroutine uservp(ix,iy,iz,eg) ! set variable properties
+      implicit none
+      include 'SIZE'
+      include 'TOTAL'
+      include 'NEKUSE'
+
+      integer ix,iy,iz,eg,e
+      real deltaT,hs,lambda
+      common /myparams/ deltaT,hs,lambda
+
+!     e = gllel(eg)
+
+      udiff  = cpfld(ifield,1)
+      utrans = cpfld(ifield,2)
+      if(eg.gt.nelgv) udiff=lambda*cpfld(ifield,1)
+
+      return
+      end
+c-----------------------------------------------------------------------
+      subroutine userf(ix,iy,iz,eg) ! set acceleration term
+!
+!     Note: this is an acceleration term, NOT a force!
+!     Thus, ffx will subsequently be multiplied by rho(x,t).
+!
+      implicit none
+      include 'SIZE'
+      include 'TOTAL'
+      include 'NEKUSE'
+
+      integer ix,iy,iz,eg,e
+!     e = gllel(eg)
+
+      ffx = 0.0
+      ffy = temp
+      ffz = 0.0
+
+      return
+      end
+c-----------------------------------------------------------------------
+      subroutine userq(ix,iy,iz,eg) ! set source term
+      implicit none
+      include 'SIZE'
+      include 'TOTAL'
+      include 'NEKUSE'
+
+      integer ix,iy,iz,eg,e
+!     e = gllel(eg)
+
+      qvol   = 0.0
+
+      return
+      end
+c-----------------------------------------------------------------------
+      subroutine userbc(ix,iy,iz,iside,eg) ! set up boundary conditions
+!
+!     NOTE ::: This subroutine MAY NOT be called by every process
+!
+      implicit none
+      include 'SIZE'
+      include 'TOTAL'
+      include 'NEKUSE'
+
+      integer ix,iy,iz,iside,eg
+      real deltaT,hs,lambda
+      common /myparams/ deltaT,hs,lambda
+
+!      if (cbc(iside,gllel(eg),ifield).eq.'v01')
+
+      ux   = 0.0
+      uy   = 0.0
+      uz   = 0.0
+      temp = 0.0
+      if(y.gt.1.0) temp =-deltaT !top plate
+      if(y.lt.0.0) temp = deltaT !bottom plate
+
+      return
+      end
+c-----------------------------------------------------------------------
+      subroutine useric(ix,iy,iz,eg) ! set up initial conditions
+      implicit none
+      include 'SIZE'
+      include 'TOTAL'
+      include 'NEKUSE'
+
+      integer ix,iy,iz,eg
+      real deltaT,hs,lambda
+      common /myparams/ deltaT,hs,lambda
+
+      ux   = 0.0
+      uy   = 0.0
+      uz   = 0.0
+      temp = 1.0 - y !fluid temperature
+
+      if(y.ge.1.0) then
+        temp = 1.0 - ( y / hs ) * deltaT !top plate
+      elseif(y.le.0.0) then
+        temp = ( 1.0 - y ) / hs * deltaT !bottom plate
+      endif
+
+      return
+      end
+c-----------------------------------------------------------------------
+      subroutine userchk()
+      implicit none
+      include 'SIZE'
+      include 'TOTAL'
+
+      return
+      end
+c-----------------------------------------------------------------------
+      subroutine userqtl ! Set thermal divergence
+
+      call userqtl_scig 
+
+      return
+      end
+c-----------------------------------------------------------------------
+      subroutine usrdat()   ! This routine to modify element vertices
+      implicit none
+      include 'SIZE'
+      include 'TOTAL'
+
+      real deltaT,hs,lambda
+      common /myparams/ deltaT,hs,lambda
+
+      deltaT = 2.5  !temperature change across solid domain
+      hs = 0.2      !thickness of solid domain
+      lambda = 10.0 !ratio of solid to fluid conductivity
+
+      return
+      end
+c-----------------------------------------------------------------------
+      subroutine usrdat2()  ! This routine to modify mesh coordinates
+      implicit none
+      include 'SIZE'
+      include 'TOTAL'
+
+      return
+      end
+c-----------------------------------------------------------------------
+      subroutine usrdat3()
+      implicit none
+      include 'SIZE'
+      include 'TOTAL'
+
+      return
+      end

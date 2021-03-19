@@ -107,7 +107,7 @@ As for the mono-domain periodic hill case, we modify the mesh in usrdat2 as:
 
 .. _fig:hillnn_mesh:
 
-.. figure:: hillnn_mesh.png
+.. figure:: neknek/hillnn_mesh.png
     :align: center
     :figclass: align-center
     :alt: neknek_mesh
@@ -341,7 +341,7 @@ Using Visit, the user can post-process the results.
 
 .. _fig:hillnn_flow:
 
-.. figure:: hillnn_result.png
+.. figure:: neknek/hillnn_result.png
     :align: center
     :figclass: align-center
     :alt: hillnn_flow

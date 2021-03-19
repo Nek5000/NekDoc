@@ -1,0 +1,14 @@
+ Choose a Name for This Session:
+ combined
+   Beginning Session cht2d
+   1 READ PREVIOUS PARAMETERS
+   2 TYPE IN  NEW  PARAMETERS
+   3 CONJ. HEAT TRANSFER MERGE
+ Choose item:
+   3
+   3
+ Enter name of fluid session
+   fluid
+ Enter name of the solid session
+   solid
+ Exiting session
