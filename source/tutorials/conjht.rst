@@ -326,7 +326,7 @@ After confirming that you have all five, you are now ready to compile::
 
 If all works properly, upon compilation the executable ``nek5000`` will be generated and you will see something like:
 
-.. literalinclude:: conjht/build.log
+.. literalinclude:: conjht/buildlog.txt
    :language: none
 
 Note that compilation only relies on the user file and the SIZE file.
