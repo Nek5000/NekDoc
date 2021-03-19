@@ -249,10 +249,13 @@ P  ,P  ,int,W                             BC&#39;s:  (cbx0, cbx1, cby0, cby1)
 <p>As for the mono-domain periodic hill case, we modify the mesh in usrdat2 as:</p>
 <div class="highlight-fortran"><div class="highlight"><pre><span></span><span class="k">subroutine </span><span class="n">usrdat2</span>
 
-<span class="c">! implicit none</span>
+<span class="k">implicit none</span>
 
 <span class="k">include</span> <span class="s1">&#39;SIZE&#39;</span>
 <span class="k">include</span> <span class="s1">&#39;TOTAL&#39;</span>
+
+<span class="kt">integer </span><span class="n">ntot</span>
+<span class="kt">real </span><span class="n">sa</span><span class="p">,</span><span class="n">sb</span><span class="p">,</span><span class="n">sc</span><span class="p">,</span><span class="n">xx</span><span class="p">,</span><span class="n">argx</span><span class="p">,</span><span class="n">A1</span>
 
 <span class="n">ntot</span> <span class="o">=</span> <span class="n">nx1</span><span class="o">*</span><span class="n">ny1</span><span class="o">*</span><span class="n">nz1</span><span class="o">*</span><span class="n">nelt</span>
 
@@ -278,10 +281,10 @@ P  ,P  ,int,W                             BC&#39;s:  (cbx0, cbx1, cby0, cby1)
 <p>Currently, applying a constant mass flux with <code class="docutils literal"><span class="pre">param(54)</span></code> and <code class="docutils literal"><span class="pre">param(55)</span></code> is <strong>not</strong> supported with overlapping overset grids.
 For this case, we drive the flow using a constant acceleration term in userf as:</p>
 <div class="highlight-fortran"><div class="highlight"><pre><span></span>     <span class="k">subroutine </span><span class="n">userf</span><span class="p">(</span><span class="n">ix</span><span class="p">,</span><span class="n">iy</span><span class="p">,</span><span class="n">iz</span><span class="p">,</span><span class="n">eg</span><span class="p">)</span> <span class="c">! set acceleration term</span>
-<span class="n">c</span>
-<span class="n">c</span>     <span class="n">Note</span><span class="p">:</span> <span class="n">this</span> <span class="k">is </span><span class="n">an</span> <span class="n">acceleration</span> <span class="n">term</span><span class="p">,</span> <span class="nb">NOT </span><span class="n">a</span> <span class="n">force</span><span class="c">!</span>
-<span class="n">c</span>     <span class="n">Thus</span><span class="p">,</span> <span class="n">ffx</span> <span class="n">will</span> <span class="n">subsequently</span> <span class="n">be</span> <span class="n">multiplied</span> <span class="n">by</span> <span class="n">rho</span><span class="p">(</span><span class="n">x</span><span class="p">,</span><span class="n">t</span><span class="p">).</span>
-<span class="n">c</span>
+<span class="c">!</span>
+<span class="c">!     Note: this is an acceleration term, NOT a force!</span>
+<span class="c">!     Thus, ffx will subsequently be multiplied by rho(x,t).</span>
+<span class="c">!</span>
      <span class="k">implicit none</span>
 
 <span class="k">     </span><span class="kt">integer </span><span class="n">ix</span><span class="p">,</span><span class="n">iy</span><span class="p">,</span><span class="n">iz</span><span class="p">,</span><span class="n">eg</span>
@@ -291,7 +294,7 @@ For this case, we drive the flow using a constant acceleration term in userf as:
      <span class="k">include</span> <span class="s1">&#39;NEKUSE&#39;</span>
 
      <span class="kt">integer </span><span class="n">e</span>
-<span class="n">c</span>    <span class="n">e</span> <span class="o">=</span> <span class="n">gllel</span><span class="p">(</span><span class="n">eg</span><span class="p">)</span>
+<span class="c">!    e = gllel(eg)</span>
 
      <span class="n">ffx</span> <span class="o">=</span> <span class="mf">0.052</span>
      <span class="n">ffy</span> <span class="o">=</span> <span class="mf">0.0</span>
@@ -349,9 +352,9 @@ This can be done in the subroutine <code class="docutils literal"><span class="p
 </div>
 <p>Next we modify userbc to read the boundary conditions, interpolated from overlapping domains, as follows:</p>
 <div class="highlight-fortran"><div class="highlight"><pre><span></span>     <span class="k">subroutine </span><span class="n">userbc</span><span class="p">(</span><span class="n">ix</span><span class="p">,</span><span class="n">iy</span><span class="p">,</span><span class="n">iz</span><span class="p">,</span><span class="n">iside</span><span class="p">,</span><span class="n">eg</span><span class="p">)</span> <span class="c">! set up boundary conditions</span>
-<span class="n">c</span>
-<span class="n">c</span>     <span class="n">NOTE</span> <span class="kd">::</span><span class="p">:</span> <span class="n">This</span> <span class="k">subroutine </span><span class="n">MAY</span> <span class="nb">NOT </span><span class="n">be</span> <span class="n">called</span> <span class="n">by</span> <span class="n">every</span> <span class="n">process</span>
-<span class="n">c</span>
+<span class="c">!</span>
+<span class="c">!     NOTE ::: This subroutine MAY NOT be called by every process</span>
+<span class="c">!</span>
      <span class="k">implicit none</span>
 
 <span class="k">     </span><span class="kt">integer </span><span class="n">ix</span><span class="p">,</span><span class="n">iy</span><span class="p">,</span><span class="n">iz</span><span class="p">,</span><span class="n">iside</span><span class="p">,</span><span class="n">eg</span>

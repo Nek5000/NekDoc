@@ -84,10 +84,13 @@ As for the mono-domain periodic hill case, we modify the mesh in usrdat2 as:
 
   subroutine usrdat2
   
-  ! implicit none
+  implicit none
   
   include 'SIZE'
   include 'TOTAL'
+
+  integer ntot
+  real sa,sb,sc,xx,argx,A1
   
   ntot = nx1*ny1*nz1*nelt
   
@@ -107,7 +110,7 @@ As for the mono-domain periodic hill case, we modify the mesh in usrdat2 as:
 
 .. _fig:hillnn_mesh:
 
-.. figure:: hillnn_mesh.png
+.. figure:: neknek/hillnn_mesh.png
     :align: center
     :figclass: align-center
     :alt: neknek_mesh
@@ -120,10 +123,10 @@ For this case, we drive the flow using a constant acceleration term in userf as:
 .. code-block:: fortran
 
       subroutine userf(ix,iy,iz,eg) ! set acceleration term
- c
- c     Note: this is an acceleration term, NOT a force!
- c     Thus, ffx will subsequently be multiplied by rho(x,t).
- c
+ !
+ !     Note: this is an acceleration term, NOT a force!
+ !     Thus, ffx will subsequently be multiplied by rho(x,t).
+ !
       implicit none
 
       integer ix,iy,iz,eg
@@ -133,7 +136,7 @@ For this case, we drive the flow using a constant acceleration term in userf as:
       include 'NEKUSE'
 
       integer e
- c    e = gllel(eg)
+ !    e = gllel(eg)
 
       ffx = 0.052
       ffy = 0.0
@@ -200,9 +203,9 @@ Next we modify userbc to read the boundary conditions, interpolated from overlap
 .. code-block:: fortran
 
       subroutine userbc(ix,iy,iz,iside,eg) ! set up boundary conditions
- c
- c     NOTE ::: This subroutine MAY NOT be called by every process
- c
+ !
+ !     NOTE ::: This subroutine MAY NOT be called by every process
+ !
       implicit none
 
       integer ix,iy,iz,iside,eg
@@ -341,7 +344,7 @@ Using Visit, the user can post-process the results.
 
 .. _fig:hillnn_flow:
 
-.. figure:: hillnn_result.png
+.. figure:: neknek/hillnn_result.png
     :align: center
     :figclass: align-center
     :alt: hillnn_flow

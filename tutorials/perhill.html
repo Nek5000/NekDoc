@@ -247,14 +247,15 @@ We have chosen these constants so that the height of the hill (our reference len
 Note that, as <span class="math">\(y \longrightarrow 3\)</span>, the perturbation, goes to zero.
 So that near <span class="math">\(y = 3\)</span>, the mesh recovers its original form.</p>
 <p>In Nek5000, we can specify this through <code class="docutils literal"><span class="pre">usrdat2</span></code> in the usr file as follows</p>
-<div class="highlight-fortran"><div class="highlight"><pre><span></span><span class="k">subroutine </span><span class="n">usrdat2</span>
-
-<span class="c">! implicit none</span>
-
+<div class="highlight-fortran"><div class="highlight"><pre><span></span><span class="k">subroutine </span><span class="n">usrdat2</span><span class="p">()</span>
+<span class="k">implicit none</span>
 <span class="k">include</span> <span class="s1">&#39;SIZE&#39;</span>
 <span class="k">include</span> <span class="s1">&#39;TOTAL&#39;</span>
 
-<span class="n">ntot</span> <span class="o">=</span> <span class="n">nx1</span><span class="o">*</span><span class="n">ny1</span><span class="o">*</span><span class="n">nz1</span><span class="o">*</span><span class="n">nelt</span>
+<span class="kt">integer </span><span class="n">ntot</span><span class="p">,</span><span class="n">i</span>
+<span class="kt">real </span><span class="n">sa</span><span class="p">,</span><span class="n">sb</span><span class="p">,</span><span class="n">sc</span><span class="p">,</span><span class="n">xx</span><span class="p">,</span><span class="n">argx</span><span class="p">,</span><span class="n">A1</span>
+
+<span class="n">ntot</span> <span class="o">=</span> <span class="n">lx1</span><span class="o">*</span><span class="n">ly1</span><span class="o">*</span><span class="n">lz1</span><span class="o">*</span><span class="n">nelt</span>
 
 <span class="n">sa</span>   <span class="o">=</span> <span class="mf">4.5</span>
 <span class="n">sb</span>   <span class="o">=</span> <span class="mf">3.5</span>
@@ -269,7 +270,7 @@ So that near <span class="math">\(y = 3\)</span>, the mesh recovers its original
 
 <span class="c">! apply mass flux to drive the flow such that Ubar = 1</span>
 <span class="n">param</span><span class="p">(</span><span class="mi">54</span><span class="p">)</span> <span class="o">=</span> <span class="o">-</span><span class="mi">1</span>   <span class="c">! x-direction</span>
-<span class="n">param</span><span class="p">(</span><span class="mi">55</span><span class="p">)</span> <span class="o">=</span> <span class="mi">1</span>    <span class="c">! Ubar</span>
+<span class="n">param</span><span class="p">(</span><span class="mi">55</span><span class="p">)</span> <span class="o">=</span> <span class="mf">1.0</span>  <span class="c">! Ubar</span>
 
 <span class="k">return</span>
 <span class="k">end</span>
@@ -285,14 +286,12 @@ So that near <span class="math">\(y = 3\)</span>, the mesh recovers its original
 <p>The next step is to specify the initial conditions.
 This can be done in the subroutine <code class="docutils literal"><span class="pre">useric</span></code> as follows:</p>
 <div class="highlight-fortran"><div class="highlight"><pre><span></span><span class="k">subroutine </span><span class="n">useric</span><span class="p">(</span><span class="n">ix</span><span class="p">,</span><span class="n">iy</span><span class="p">,</span><span class="n">iz</span><span class="p">,</span><span class="n">ieg</span><span class="p">)</span>
-
-<span class="c">! implicit none</span>
-
-<span class="kt">integer </span><span class="n">ix</span><span class="p">,</span><span class="n">iy</span><span class="p">,</span><span class="n">iz</span><span class="p">,</span><span class="n">eg</span>
-
+<span class="k">implicit none</span>
 <span class="k">include</span> <span class="s1">&#39;SIZE&#39;</span>
 <span class="k">include</span> <span class="s1">&#39;TOTAL&#39;</span>
 <span class="k">include</span> <span class="s1">&#39;NEKUSE&#39;</span>
+
+<span class="kt">integer </span><span class="n">ix</span><span class="p">,</span><span class="n">iy</span><span class="p">,</span><span class="n">iz</span><span class="p">,</span><span class="n">ieg</span>
 
 <span class="n">ux</span>   <span class="o">=</span> <span class="mf">1.0</span>
 <span class="n">uy</span>   <span class="o">=</span> <span class="mf">0.0</span>
@@ -303,6 +302,7 @@ This can be done in the subroutine <code class="docutils literal"><span class="p
 <span class="k">end</span>
 </pre></div>
 </div>
+<p>For walls and periodic boundaries, nothing needs to be specified in the user file, so <code class="docutils literal"><span class="pre">userbc</span></code> can remain unmodified.</p>
 </div>
 </div>
 <div class="section" id="control-parameters">

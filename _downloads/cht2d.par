@@ -1,0 +1,18 @@
+# Nek5000 parameter file
+[GENERAL]
+stopAt = endTime
+endTime = 50
+dt = 5.0e-1
+variabledt = yes
+targetCFL = 0.5
+writeControl = runTime
+writeInterval = 1.0
+
+[VELOCITY]
+density = 1.0
+viscosity = 5.744563e-5
+
+[TEMPERATURE]
+conjugateHeatTransfer = yes
+rhoCp = 1.0
+conductivity = 1.740776e-3

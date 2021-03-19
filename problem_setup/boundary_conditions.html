@@ -184,8 +184,8 @@
 </ul>
 <p>The general convention for boundary conditions is</p>
 <ul class="simple">
-<li>uppercase letters correspond to primitive boundary conditions, as given in <a class="reference internal" href="#tab-bcf"><span class="std std-numref">Table 1</span></a>, <a class="reference internal" href="#tab-bct"><span class="std std-numref">Table 3</span></a></li>
-<li>lowercase letters correspond to user defined boundary conditions, see <a class="reference internal" href="#tab-ubcf"><span class="std std-numref">Table 2</span></a> , <a class="reference internal" href="#tab-userbct"><span class="std std-numref">Table 4</span></a></li>
+<li>uppercase letters correspond to primitive boundary conditions, as given in <a class="reference internal" href="#tab-bcf"><span class="std std-numref">Table 2</span></a>, <a class="reference internal" href="#tab-bct"><span class="std std-numref">Table 4</span></a></li>
+<li>lowercase letters correspond to user defined boundary conditions, see <a class="reference internal" href="#tab-ubcf"><span class="std std-numref">Table 3</span></a> , <a class="reference internal" href="#tab-userbct"><span class="std std-numref">Table 5</span></a></li>
 <li>lowercase letters ending with <code class="docutils literal"><span class="pre">l</span></code>, i.e. <code class="docutils literal"><span class="pre">'vl</span> <span class="pre">'</span></code>, are specified in face-local coordinates, i.e. normal, tangent and bitangent directions.</li>
 </ul>
 <p>Uppercase boundary conditions which require assigned values in the <code class="docutils literal"><span class="pre">.rea</span></code> file are considered legacy and are not recommended for use.</p>
@@ -198,9 +198,9 @@ If the nonstress formulation is selected, then traction is not defined on the bo
 In this case, any Neumann boundary condition imposed must be homogeneous, i.e. equal to zero.
 .. In addition, mixed Dirichlet/Neumann boundaries must be aligned with one of the Cartesian axes.
 For flow geometry which consists of a periodic repetition of a particular geometric unit, the periodic boundary conditions can be imposed, as illustrated in <a class="reference internal" href="../theory.html#fig-walls"><span class="std std-numref">Fig. 12</span></a> .
-The available primitive boundary conditions for the fluid are given in <a class="reference internal" href="#tab-bcf"><span class="std std-numref">Table 1</span></a> , with the user-specified boundary conditions in <a class="reference internal" href="#tab-ubcf"><span class="std std-numref">Table 2</span></a> .</p>
+The available primitive boundary conditions for the fluid are given in <a class="reference internal" href="#tab-bcf"><span class="std std-numref">Table 2</span></a> , with the user-specified boundary conditions in <a class="reference internal" href="#tab-ubcf"><span class="std std-numref">Table 3</span></a> .</p>
 <span id="tab-bcf"></span><table border="1" class="docutils" id="id1">
-<caption><span class="caption-number">Table 1 </span><span class="caption-text">Primitive boundary conditions for velocity</span><a class="headerlink" href="#id1" title="Permalink to this table">¶</a></caption>
+<caption><span class="caption-number">Table 2 </span><span class="caption-text">Primitive boundary conditions for velocity</span><a class="headerlink" href="#id1" title="Permalink to this table">¶</a></caption>
 <colgroup>
 <col width="11%" />
 <col width="27%" />
@@ -258,7 +258,7 @@ The available primitive boundary conditions for the fluid are given in <a class=
 </tbody>
 </table>
 <span id="tab-ubcf"></span><table border="1" class="docutils" id="id2">
-<caption><span class="caption-number">Table 2 </span><span class="caption-text">User defined boundary conditions for velocity</span><a class="headerlink" href="#id2" title="Permalink to this table">¶</a></caption>
+<caption><span class="caption-number">Table 3 </span><span class="caption-text">User defined boundary conditions for velocity</span><a class="headerlink" href="#id2" title="Permalink to this table">¶</a></caption>
 <colgroup>
 <col width="10%" />
 <col width="23%" />
@@ -400,7 +400,7 @@ power of the surface temperature.</p>
 <p>The boundary conditions for the passive scalar fields are analogous to those used for the temperature field.
 Thus, the temperature boundary condition menu will reappear for each passive scalar field so that the user can specify an independent set of boundary conditions for each passive scalar field.</p>
 <span id="tab-bct"></span><table border="1" class="docutils" id="id3">
-<caption><span class="caption-number">Table 3 </span><span class="caption-text">Primitive boundary conditions (Temperature and Passive scalars)</span><a class="headerlink" href="#id3" title="Permalink to this table">¶</a></caption>
+<caption><span class="caption-number">Table 4 </span><span class="caption-text">Primitive boundary conditions (Temperature and Passive scalars)</span><a class="headerlink" href="#id3" title="Permalink to this table">¶</a></caption>
 <colgroup>
 <col width="11%" />
 <col width="27%" />
@@ -453,7 +453,7 @@ Thus, the temperature boundary condition menu will reappear for each passive sca
 </tbody>
 </table>
 <span id="tab-userbct"></span><table border="1" class="docutils" id="id4">
-<caption><span class="caption-number">Table 4 </span><span class="caption-text">User defined boundary conditions for temperature and passive scalars</span><a class="headerlink" href="#id4" title="Permalink to this table">¶</a></caption>
+<caption><span class="caption-number">Table 5 </span><span class="caption-text">User defined boundary conditions for temperature and passive scalars</span><a class="headerlink" href="#id4" title="Permalink to this table">¶</a></caption>
 <colgroup>
 <col width="10%" />
 <col width="23%" />
