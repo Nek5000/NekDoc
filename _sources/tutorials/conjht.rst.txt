@@ -17,6 +17,7 @@ Pre-processing
 ..........................
 Users must always bear in mind, when setting up a test case in *Nek5000*, case files will need to be edited. 
 Some samples can be found in the ``Nek5000/examples`` directory included with the release version.
+Note that the ``examples`` directory is not included by default in the github repository (it can be obtained `here _http://github.com/Nek5000/NekExamples`).
 Blank template files for the user file, ``zero.usr``, and the ``SIZE`` file, ``SIZE.template``, can be found in the ``Nek5000/core`` directory.
 As a first step, the user should create a case directory in the corresponding run directory:
 
@@ -70,7 +71,7 @@ Note that any line beginning with '#' is a comment and is ignored by ``genbox``
    W  ,W  ,W  ,W  ,    V bc's  ! NB:  3 characters each !
    I  ,I  ,E  ,E  ,    T bc's  !      You must have 2 spaces!
    
-It is worth mentioning that since we are running a 2D case, the input file named ``ray0.rea`` should be a 2D file, not a 3D file. 
+.. It is worth mentioning that since we are running a 2D case, the input file named ``ray0.rea`` should be a 2D file, not a 3D file. 
 In this example, the elements are distributed uniformly in the stream-wise (x) and span-wise (y) directions. 
 All surfaces of the fluid domain are assumed to be wall boundaries, as indicated by ``'W  '``.
 The lateral surfaces of the inner domain and solid walls are assumed to be adiabatic, denoted by ``'I  '``.
@@ -232,8 +233,8 @@ The highlighted line indicates where the buoyancy force is added in the *y*-dire
    :lines: 36-54
    :emphasize-lines: 15
 
-In this study, the volumetric heat source is set to be zero, ``qvol = 0``, in the *t-mesh* which is the default behavior in the ``userq`` subroutine. 
-So no modification to ``userq`` is necessary.
+.. In this study, the volumetric heat source is set to be zero, ``qvol = 0``, in the *t-mesh* which is the default behavior in the ``userq`` subroutine. 
+.. So no modification to ``userq`` is necessary.
 
 Initial & boundary conditions
 _____________________________
@@ -244,7 +245,7 @@ We apply a linear variation of temperature in the fluid mesh in the *y*-directio
 In this RBC example :math:`Ra = 10 ^ {7}` and :math:`Pr= 0.033` are choosen. 
 The equilibrium state of pure conductive heat transfer as the initial condition takes the form ``T = 1 - y`` for  ``0 < y < 1``  in the fluid domain and :math:`T \approx 1` and :math:`\approx 0` at the fluid-solid boundaries. 
 It should be mentioned that the temperature drop across both solid-plates varies with *Pr* and *Ra* and it should be adjusted at the boundaries with temperature increment :math:`\delta T`. 
-One can apply a temperature increment of :math:`\delta T = 2.5` at the top of the upper plate and the bottom of the lower plate for *Pr = 0.033* and :math:`\delta T = 4.72` for *Pr = 0.7* as depicted in :numref:`fig:deltaT2`.
+One can apply a temperature increment of :math:`\delta T = 2.5` at the top of the upper plate and the bottom of the lower plate for :math:`Pr = 0.033` and :math:`\delta T = 4.72` for :math:`Pr = 0.7` as depicted in :numref:`fig:deltaT2`.
 Subsequently, we modify ``userbc`` and ``useric`` as:
 
 .. literalinclude:: conjht/cht2d.usr
@@ -349,14 +350,16 @@ Once execution is completed your directory should now contain multiple checkpoin
   cht2d.f00002
   ...
 
-The preferred mode for data visualization and analysis with *Nek5000* is
-to use Visit/Paraview. One can use the script *visnek*, to be found in ``/scripts``. It is sufficent to run:: 
+The preferred mode for data visualization with *Nek5000* is to use Visit or Paraview. 
+This requires generating a metadata file with ``visnek``, found in ``/scripts``.
+It can be run with::
 
   visnek cht2d
 
-*(or the name of your session)* to obtain a file named ``cht2d.nek5000`` which can be recognized in Visit/Paraview.
+to obtain a file named ``cht2d.nek5000``.
+This file can be opened with either Visit or Paraview.
 
-In the viewing window, one can visualize the temperature-field. 
+In the viewing window, the temperature-field can be visualized.
 It will be similar to, but not necessarily identical to that shown in :numref:`fig:cht_rbc`.
 
 .. _fig:cht_rbc:
@@ -366,6 +369,6 @@ It will be similar to, but not necessarily identical to that shown in :numref:`f
     :figclass: align-center
     :alt: per_flow
 
-    Steady-State flow field visualized in Visit/Paraview. Vectors represent velocity. Colors represent velocity magnitude.  
+    Steady-State flow field visualized in Visit. Vectors represent velocity. Colors represent velocity magnitude.  
 
 
