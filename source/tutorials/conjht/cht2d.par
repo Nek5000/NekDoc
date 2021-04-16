@@ -10,9 +10,11 @@ writeInterval = 1.0
 
 [VELOCITY]
 density = 1.0
+# viscosity = sqrt(1/Ra)
 viscosity = 5.744563e-5
 
 [TEMPERATURE]
 conjugateHeatTransfer = yes
 rhoCp = 1.0
+# conductivity = sqrt(Ra * Pr)
 conductivity = 1.740776e-3
