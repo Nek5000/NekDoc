@@ -212,7 +212,8 @@ Physical Models
 **What turbulence models are available in Nek5000?**
 
    For LES we provide an explicit filtering approach or a relaxation term model. 
-   RANS turbulence models (k-ω, k-ω SST, etc.) are not an integral part of the code but available through examples.
+   We currently offer a selection of RANS models from the k-ω class as "experimental" features.
+   These include the k-τ model and regularized versions of the standard k-ω, and k-ω SST models.
 
 -------------------
 Computational Speed
