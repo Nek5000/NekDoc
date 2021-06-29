@@ -139,7 +139,7 @@ Parameters
 | 
 | **P047** Poisson ratio for mesh elasticity solve (default 0.4)
 | 
-| **P054** direction of fixed flowrate (1: x, 2: y, 3: z), negative means fixed bulk
+| **P054** direction of fixed flowrate (1: x, 2: y, 3: z), negative means fixed bulk velocity
 | 
 | **P055** volumetric flowrate or bulk velocity (see p054) for periodic case
 | 
