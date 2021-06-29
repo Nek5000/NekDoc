@@ -61,12 +61,12 @@ Installing, Compiling, and Running
 **Which platforms are supported by Nek5000?**
 
    All posix compliant operations system. 
-   Compiling and running on Microsoft Windows 10 has been demonstrated using CMake and MinGW, although this is **not** supported.
+   To run on Windows, we recommend using the Windows Subsystem for Linux.
 
 **Can Nek5000 run on GPUs?**
 
-   Currently there is no support for GPUs. We are actively working on a high-performance GPU version but this is
-   a topic of active research. 
+   We are currently developing the NekRS code to support GPUs.
+   The repository is available on `Github <https://github.com/Nek5000/nekrs>`__.
 
 **Which compilers work?**
 
@@ -212,7 +212,9 @@ Physical Models
 **What turbulence models are available in Nek5000?**
 
    For LES we provide an explicit filtering approach or a relaxation term model. 
-   RANS turbulence models (k-ω, k-ω SST, etc.) are not an integral part of the code but available through examples.
+   We currently offer a selection of RANS models from the k-ω class as "experimental" features.
+   These include the k-τ model and regularized versions of the standard k-ω, and k-ω SST models.
+   See the RANSChannel example for further info.
 
 -------------------
 Computational Speed
@@ -228,6 +230,7 @@ Computational Speed
   The upper limit is given by the available memory. The lower limit is (technically) 1 but you may want to have more
   elements (work) to get a reasonable (whatever that means for you) parallel efficiency. 
   On most machines you need more than 10 elements per MPI rank to get a parallel efficiency of 0.5 (assuming N=7).  
+  We recommend you perform a small scaling study on your machine to get a better estimate.
 
 **Should I use residual projection?**
 
@@ -277,7 +280,7 @@ Post-Processing
 
 **Where are my solution files?**
 
-   By default Nek5000 outputs solution files in binary ``<casename>.f%05d``.  
+   By default Nek5000 outputs solution files in binary ``<casename>0.f%05d``.  
 
 **I have calculated additional fields from my solution, how do I visualize them?**
 
@@ -296,6 +299,6 @@ Post-Processing
 
 **How do I obtain values of variables at a specific point?**
 
-
   The simplest way is through the use of history points. See the section on the :ref:`features_his` file.
   You can also use the spectral interpolation tool (see examples for more details).
+

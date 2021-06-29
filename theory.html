@@ -1,58 +1,57 @@
 
 
 <!DOCTYPE html>
-<!--[if IE 8]><html class="no-js lt-ie9" lang="en" > <![endif]-->
-<!--[if gt IE 8]><!--> <html class="no-js" lang="en" > <!--<![endif]-->
+<html class="writer-html4" lang="en" >
 <head>
-  <meta charset="utf-8">
+  <meta charset="utf-8" />
   
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   
   <title>Theory &mdash; Nek5000 17.0 documentation</title>
   
 
   
+  <link rel="stylesheet" href="_static/css/theme.css" type="text/css" />
+  <link rel="stylesheet" href="_static/pygments.css" type="text/css" />
+
   
+  
+
   
   
 
   
 
   
+  <!--[if lt IE 9]>
+    <script src="_static/js/html5shiv.min.js"></script>
+  <![endif]-->
   
     
+      <script type="text/javascript" id="documentation_options" data-url_root="./" src="_static/documentation_options.js"></script>
+        <script type="text/javascript" src="_static/jquery.js"></script>
+        <script type="text/javascript" src="_static/underscore.js"></script>
+        <script type="text/javascript" src="_static/doctools.js"></script>
+        <script type="text/javascript" src="_static/language_data.js"></script>
+        <script async="async" type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.5/latest.js?config=TeX-AMS-MML_HTMLorMML"></script>
+    
+    <script type="text/javascript" src="_static/js/theme.js"></script>
 
-  
-
-  
-  
-    <link rel="stylesheet" href="_static/css/theme.css" type="text/css" />
-  
-
-  
-
-  
-        <link rel="index" title="Index"
-              href="genindex.html"/>
-        <link rel="search" title="Search" href="search.html"/>
-    <link rel="top" title="Nek5000 17.0 documentation" href="index.html"/>
-        <link rel="next" title="Appendices" href="appendix.html"/>
-        <link rel="prev" title="Additional Features" href="problem_setup/features.html"/> 
-
-  
-  <script src="_static/js/modernizr.min.js"></script>
-
+    
+    <link rel="index" title="Index" href="genindex.html" />
+    <link rel="search" title="Search" href="search.html" />
+    <link rel="next" title="Appendices" href="appendix.html" />
+    <link rel="prev" title="Additional Features" href="problem_setup/features.html" /> 
 </head>
 
-<body class="wy-body-for-nav" role="document">
+<body class="wy-body-for-nav">
 
    
   <div class="wy-grid-for-nav">
-
     
     <nav data-toggle="wy-nav-shift" class="wy-nav-side">
       <div class="wy-side-scroll">
-        <div class="wy-side-nav-search">
+        <div class="wy-side-nav-search" >
           
 
           
@@ -83,6 +82,7 @@
           
         </div>
 
+        
         <div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="main navigation">
           
             
@@ -118,13 +118,14 @@
             
           
         </div>
+        
       </div>
     </nav>
 
     <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap">
 
       
-      <nav class="wy-nav-top" role="navigation" aria-label="top navigation">
+      <nav class="wy-nav-top" aria-label="top navigation">
         
           <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
           <a href="index.html">Nek5000</a>
@@ -132,10 +133,13 @@
       </nav>
 
 
-      
       <div class="wy-nav-content">
+        
         <div class="rst-content">
+        
           
+
+
 
 
 
@@ -155,14 +159,14 @@
 
   <ul class="wy-breadcrumbs">
     
-      <li><a href="index.html">Docs</a> &raquo;</li>
+      <li><a href="index.html" class="icon icon-home"></a> &raquo;</li>
         
       <li>Theory</li>
     
     
       <li class="wy-breadcrumbs-aside">
         
-            
+          
             <a href="_sources/theory.rst.txt" rel="nofollow"> View page source</a>
           
         
@@ -182,12 +186,12 @@
 <span id="intro-comput-approach"></span><h2>Computational Approach<a class="headerlink" href="#computational-approach" title="Permalink to this headline">¶</a></h2>
 <p>The spatial discretization is based on the spectral element method (SEM) <a class="reference internal" href="references.html#patera1984" id="id1">[Patera1984]</a>, which is a
 high-order weighted residual technique similar to the finite element method.   In the SEM, the
-solution and data are represented in terms of <span class="math">\(N\)</span> th-order tensor-product polynomials within each
-of <span class="math">\(E\)</span> deformable hexahedral (brick) elements. Typical discretizations involve
-<span class="math">\(E\)</span>=100–10,000 elements of order <span class="math">\(N\)</span>=8–16 (corresponding to 512–4096 points per
+solution and data are represented in terms of <span class="math notranslate nohighlight">\(N\)</span> th-order tensor-product polynomials within each
+of <span class="math notranslate nohighlight">\(E\)</span> deformable hexahedral (brick) elements. Typical discretizations involve
+<span class="math notranslate nohighlight">\(E\)</span>=100–10,000 elements of order <span class="math notranslate nohighlight">\(N\)</span>=8–16 (corresponding to 512–4096 points per
 element).  Vectorization and cache efficiency derive from the local lexicographical ordering within
 each macro-element and from the fact that the action of discrete operators, which nominally have
-<span class="math">\(O(EN^6)\)</span> nonzeros, can be evaluated in only <span class="math">\(O(EN^4)\)</span> work and <span class="math">\(O(EN^3)\)</span> storage
+<span class="math notranslate nohighlight">\(O(EN^6)\)</span> nonzeros, can be evaluated in only <span class="math notranslate nohighlight">\(O(EN^4)\)</span> work and <span class="math notranslate nohighlight">\(O(EN^3)\)</span> storage
 through the use of tensor-product-sum factorization <a class="reference internal" href="references.html#orszag1980" id="id2">[Orszag1980]</a>.   The SEM exhibits very little
 numerical dispersion and dissipation, which can be important, for example, in stability
 calculations, for long time integrations, and for high Reynolds number flows. We refer to
@@ -196,75 +200,75 @@ calculations, for long time integrations, and for high Reynolds number flows. We
 Stokes or Navier-Stokes equations with forced or natural convection heat transfer in both
 stationary (fixed) or time-dependent geometry. It also solves the compressible Navier-Stokes in the
 Low Mach regime, the magnetohydrodynamic equation (MHD).  The solution variables are the fluid
-velocity <span class="math">\(\mathbf u=(u_{x},u_{y},u_{z})\)</span>, the pressure <span class="math">\(p\)</span>, the temperature <span class="math">\(T\)</span>.
-All of the above field variables are functions of space <span class="math">\({\bf x}=(x,y,z)\)</span> and time <span class="math">\(t\)</span>
-in domains <span class="math">\(\Omega_f\)</span> and/or <span class="math">\(\Omega_s\)</span> defined in <a class="reference internal" href="#fig-walls"><span class="std std-numref">Fig. 12</span></a>.
+velocity <span class="math notranslate nohighlight">\(\mathbf u=(u_{x},u_{y},u_{z})\)</span>, the pressure <span class="math notranslate nohighlight">\(p\)</span>, the temperature <span class="math notranslate nohighlight">\(T\)</span>.
+All of the above field variables are functions of space <span class="math notranslate nohighlight">\({\bf x}=(x,y,z)\)</span> and time <span class="math notranslate nohighlight">\(t\)</span>
+in domains <span class="math notranslate nohighlight">\(\Omega_f\)</span> and/or <span class="math notranslate nohighlight">\(\Omega_s\)</span> defined in <a class="reference internal" href="#fig-walls"><span class="std std-numref">Fig. 12</span></a>.
 Additionally Nek5000 can handle conjugate heat transfer problems.</p>
 <div class="align-center figure" id="id6">
 <span id="fig-walls"></span><img alt="domains" src="_images/walls.png" />
-<p class="caption"><span class="caption-number">Fig. 12 </span><span class="caption-text">Computational domain showing respective fluid and solid subdomains, <span class="math">\(\Omega_f\)</span> and
-<span class="math">\(\Omega_s\)</span>.  The shared boundaries are denoted <span class="math">\(\partial\Omega_f=\partial\Omega_s\)</span>
-and the solid boundary which is not shared by fluid is <span class="math">\(\overline{\partial\Omega_s}\)</span>,
-while the fluid boundary not shared by solid <span class="math">\(\overline{\partial\Omega_f}\)</span>.</span></p>
+<p class="caption"><span class="caption-number">Fig. 12 </span><span class="caption-text">Computational domain showing respective fluid and solid subdomains, <span class="math notranslate nohighlight">\(\Omega_f\)</span> and
+<span class="math notranslate nohighlight">\(\Omega_s\)</span>.  The shared boundaries are denoted <span class="math notranslate nohighlight">\(\partial\Omega_f=\partial\Omega_s\)</span>
+and the solid boundary which is not shared by fluid is <span class="math notranslate nohighlight">\(\overline{\partial\Omega_s}\)</span>,
+while the fluid boundary not shared by solid <span class="math notranslate nohighlight">\(\overline{\partial\Omega_f}\)</span>.</span></p>
 </div>
 </div>
 <div class="section" id="incompressible-navier-stokes-equations">
 <span id="intro-ns"></span><h2>Incompressible Navier-Stokes Equations<a class="headerlink" href="#incompressible-navier-stokes-equations" title="Permalink to this headline">¶</a></h2>
 <p>The governing equations of flow motion in dimensional form are</p>
-<div class="math" id="equation-ns_momentum">
-<span class="eqno">(1)<a class="headerlink" href="#equation-ns_momentum" title="Permalink to this equation">¶</a></span>\[\rho\left(\frac{\partial\mathbf u}{\partial t} +\mathbf u \cdot \nabla \mathbf u\right) = - \nabla p + \nabla \cdot \boldsymbol\tau + \rho {\bf f} \,\, , \text{in } \Omega_f , \quad \text{  (Momentum)  }\]</div>
-<p>where <span class="math">\(\boldsymbol\tau=\mu[\nabla \mathbf u+\nabla \mathbf u^{T}]\)</span> and <span class="math">\(\mathbf f\)</span> is a user defined acceleration.</p>
-<div class="math" id="equation-ns_cont">
-<span class="eqno">(2)<a class="headerlink" href="#equation-ns_cont" title="Permalink to this equation">¶</a></span>\[\nabla \cdot \mathbf u =0 \,\, , \text{in } \Omega_f, \quad \text{  (Continuity)  }\]</div>
+<div class="math notranslate nohighlight" id="equation-ns-momentum">
+<span class="eqno">(1)<a class="headerlink" href="#equation-ns-momentum" title="Permalink to this equation">¶</a></span>\[\rho\left(\frac{\partial\mathbf u}{\partial t} +\mathbf u \cdot \nabla \mathbf u\right) = - \nabla p + \nabla \cdot \boldsymbol\tau + \rho {\bf f} \,\, , \text{in } \Omega_f , \quad \text{  (Momentum)  }\]</div>
+<p>where <span class="math notranslate nohighlight">\(\boldsymbol\tau=\mu[\nabla \mathbf u+\nabla \mathbf u^{T}]\)</span> and <span class="math notranslate nohighlight">\(\mathbf f\)</span> is a user defined acceleration.</p>
+<div class="math notranslate nohighlight" id="equation-ns-cont">
+<span class="eqno">(2)<a class="headerlink" href="#equation-ns-cont" title="Permalink to this equation">¶</a></span>\[\nabla \cdot \mathbf u =0 \,\, , \text{in } \Omega_f, \quad \text{  (Continuity)  }\]</div>
 <p>If the fluid viscosity is constant in the entire domain the viscous stress tensor can be contracted
-<span class="math">\(\nabla\cdot\boldsymbol\tau=\mu\Delta \mathbf u\)</span>, therefore one may solve the Navier–Stokes equations
+<span class="math notranslate nohighlight">\(\nabla\cdot\boldsymbol\tau=\mu\Delta \mathbf u\)</span>, therefore one may solve the Navier–Stokes equations
 in either the stress formulation, or no stress</p>
 <ul class="simple">
-<li>Variable viscosity requires the full stress tensor <span class="math">\(\nabla \cdot \boldsymbol\tau=\nabla \cdot
+<li>Variable viscosity requires the full stress tensor <span class="math notranslate nohighlight">\(\nabla \cdot \boldsymbol\tau=\nabla \cdot
 \mu[\nabla \mathbf u+\nabla \mathbf u^{T}]\)</span>, and we shall refer to this as the stress formulation</li>
-<li>Constant viscosity leads to a simpler stress tensor <span class="math">\(\nabla \cdot \boldsymbol\tau=\mu\Delta \mathbf u\)</span>,
+<li>Constant viscosity leads to a simpler stress tensor <span class="math notranslate nohighlight">\(\nabla \cdot \boldsymbol\tau=\mu\Delta \mathbf u\)</span>,
 which we refer to as the ‘no stress’ formulation</li>
 </ul>
 </div>
 <div class="section" id="non-dimensional-navier-stokes">
 <span id="intro-ns-nondim"></span><h2>Non-Dimensional Navier-Stokes<a class="headerlink" href="#non-dimensional-navier-stokes" title="Permalink to this headline">¶</a></h2>
-<p>Let us introduce the following non-dimensional variables <span class="math">\(\mathbf x^*\ = \frac{\mathbf x}{L}\)</span>,
-<span class="math">\(\mathbf u^*\ = \frac{u}{U}\)</span>, <span class="math">\(t^*\ = \frac{tU}{L}\)</span>, and <span class="math">\(\mathbf f^* =\frac{\mathbf f L}{U^2}\)</span>.  For the pressure scale we have
+<p>Let us introduce the following non-dimensional variables <span class="math notranslate nohighlight">\(\mathbf x^*\ = \frac{\mathbf x}{L}\)</span>,
+<span class="math notranslate nohighlight">\(\mathbf u^*\ = \frac{u}{U}\)</span>, <span class="math notranslate nohighlight">\(t^*\ = \frac{tU}{L}\)</span>, and <span class="math notranslate nohighlight">\(\mathbf f^* =\frac{\mathbf f L}{U^2}\)</span>.  For the pressure scale we have
 two options:</p>
 <ul class="simple">
-<li>Convective effects are dominant i.e. high velocity flows <span class="math">\(p^* = \frac{p}{\rho U^2}\)</span></li>
-<li>Viscous effects are dominant i.e. creeping flows (Stokes flow) <span class="math">\(p^* = \frac{p L}{\mu U}\)</span></li>
+<li>Convective effects are dominant i.e. high velocity flows <span class="math notranslate nohighlight">\(p^* = \frac{p}{\rho U^2}\)</span></li>
+<li>Viscous effects are dominant i.e. creeping flows (Stokes flow) <span class="math notranslate nohighlight">\(p^* = \frac{p L}{\mu U}\)</span></li>
 </ul>
 <p>For highly convective flows we choose the first scaling of the pressure and obtain the
 non-dimensional Navier-Stokes:</p>
-<div class="math" id="equation-NS_nondim">
-<span class="eqno">(3)<a class="headerlink" href="#equation-NS_nondim" title="Permalink to this equation">¶</a></span>\[\frac{\partial \mathbf{u^*}}{\partial t^*} + \mathbf{u^*} \cdot \nabla \mathbf{u^*}\ = -\nabla p^* + \frac{1}{Re} \nabla\cdot \boldsymbol\tau^* + \mathbf f^*.\]</div>
-<p>where <span class="math">\(\boldsymbol\tau^*=[\nabla \mathbf u^*+\nabla \mathbf u^{*T}]\)</span> and <span class="math">\(\mathbf f^*\)</span> is the dimensionless user defined forcing function, e.g. gravity.</p>
-<p>The non-dimensional number here is the Reynolds number <span class="math">\(Re=\frac{\rho U L}{\mu}\)</span>.</p>
+<div class="math notranslate nohighlight" id="equation-ns-nondim">
+<span class="eqno">(3)<a class="headerlink" href="#equation-ns-nondim" title="Permalink to this equation">¶</a></span>\[\frac{\partial \mathbf{u^*}}{\partial t^*} + \mathbf{u^*} \cdot \nabla \mathbf{u^*}\ = -\nabla p^* + \frac{1}{Re} \nabla\cdot \boldsymbol\tau^* + \mathbf f^*.\]</div>
+<p>where <span class="math notranslate nohighlight">\(\boldsymbol\tau^*=[\nabla \mathbf u^*+\nabla \mathbf u^{*T}]\)</span> and <span class="math notranslate nohighlight">\(\mathbf f^*\)</span> is the dimensionless user defined forcing function, e.g. gravity.</p>
+<p>The non-dimensional number here is the Reynolds number <span class="math notranslate nohighlight">\(Re=\frac{\rho U L}{\mu}\)</span>.</p>
 </div>
 <div class="section" id="energy-equation">
 <span id="intro-energy"></span><h2>Energy Equation<a class="headerlink" href="#energy-equation" title="Permalink to this headline">¶</a></h2>
 <p>In addition to the fluid flow, Nek5000 computes automatically the energy equation</p>
-<div class="math" id="equation-energy">
+<div class="math notranslate nohighlight" id="equation-energy">
 <span class="eqno">(4)<a class="headerlink" href="#equation-energy" title="Permalink to this equation">¶</a></span>\[\rho c_{p} \left( \frac{\partial T}{\partial t} + \mathbf u \cdot \nabla T \right) =
    \nabla \cdot (k \nabla T) + q_{vol}\,\, ,\text{in } \Omega_f\cup \Omega_s  \text{  (Energy)  }\]</div>
 </div>
 <div class="section" id="non-dimensional-energy-passive-scalar-equation">
 <span id="intro-energy-nondim"></span><h2>Non-Dimensional Energy / Passive Scalar Equation<a class="headerlink" href="#non-dimensional-energy-passive-scalar-equation" title="Permalink to this headline">¶</a></h2>
 <p>A similar non-dimensionalization as for the flow equations using the non-dimensional variables
-<span class="math">\(\mathbf x^*\ = \frac{\mathbf x}{L}\)</span>,  <span class="math">\(\mathbf u^*\ = \frac{u}{U}\)</span>, <span class="math">\(t^*\ =
-\frac{t}{L/U}\)</span>, <span class="math">\(T=\frac{T^*-T_0}{\delta T}\)</span> leads to</p>
-<div class="math" id="equation-energy_nondim">
-<span class="eqno">(5)<a class="headerlink" href="#equation-energy_nondim" title="Permalink to this equation">¶</a></span>\[\frac{\partial T^*}{\partial t^*} + \mathbf u^* \cdot \nabla T^* =
+<span class="math notranslate nohighlight">\(\mathbf x^*\ = \frac{\mathbf x}{L}\)</span>,  <span class="math notranslate nohighlight">\(\mathbf u^*\ = \frac{u}{U}\)</span>, <span class="math notranslate nohighlight">\(t^*\ =
+\frac{t}{L/U}\)</span>, <span class="math notranslate nohighlight">\(T=\frac{T^*-T_0}{\delta T}\)</span> leads to</p>
+<div class="math notranslate nohighlight" id="equation-energy-nondim">
+<span class="eqno">(5)<a class="headerlink" href="#equation-energy-nondim" title="Permalink to this equation">¶</a></span>\[\frac{\partial T^*}{\partial t^*} + \mathbf u^* \cdot \nabla T^* =
   \frac{1}{Pe} \nabla \cdot \nabla T^* + q_{vol}\,\, ,\text{in } \Omega_f\cup \Omega_s  \text{  (Energy)  }\]</div>
-<p>where <span class="math">\(Pe=LU/\alpha\)</span>, with <span class="math">\(\alpha=k/\rho c_p\)</span>.</p>
+<p>where <span class="math notranslate nohighlight">\(Pe=LU/\alpha\)</span>, with <span class="math notranslate nohighlight">\(\alpha=k/\rho c_p\)</span>.</p>
 </div>
 <div class="section" id="passive-scalars">
 <span id="intro-pass-scal"></span><h2>Passive Scalars<a class="headerlink" href="#passive-scalars" title="Permalink to this headline">¶</a></h2>
-<p>We can additionally solve a convection-diffusion equation for each passive scalar <span class="math">\(\phi_i\)</span>,
-<span class="math">\(i = 1,2,\ldots\)</span> in <span class="math">\(\Omega_f \cup \Omega_s\)</span></p>
-<div class="math" id="equation-pass_scal">
-<span class="eqno">(6)<a class="headerlink" href="#equation-pass_scal" title="Permalink to this equation">¶</a></span>\[(\rho c_{p})_i \left( \frac{\partial \phi_{i}}{\partial t} + \mathbf u \cdot \nabla \phi_{i} \right) =
+<p>We can additionally solve a convection-diffusion equation for each passive scalar <span class="math notranslate nohighlight">\(\phi_i\)</span>,
+<span class="math notranslate nohighlight">\(i = 1,2,\ldots\)</span> in <span class="math notranslate nohighlight">\(\Omega_f \cup \Omega_s\)</span></p>
+<div class="math notranslate nohighlight" id="equation-pass-scal">
+<span class="eqno">(6)<a class="headerlink" href="#equation-pass-scal" title="Permalink to this equation">¶</a></span>\[(\rho c_{p})_i \left( \frac{\partial \phi_{i}}{\partial t} + \mathbf u \cdot \nabla \phi_{i} \right) =
 \nabla \cdot (k_i \nabla \phi_{i}) + (q_{vol})_i.\]</div>
 <p>The terminology and restrictions of the temperature equations are retained for the passive scalars,
 so that it is the responsibility of the user to convert the notation of the passive scalar
@@ -277,17 +281,17 @@ exists) is found as stable evolution of the initial-value-problem. Secondly, the
 must be selected if the geometry is time-dependent. In addition, stress formulation must be
 employed if there are traction boundary conditions applied on any fluid boundary, or if any mixed
 velocity/traction boundaries, such as symmetry and outflow/n, are not aligned with either one of
-the Cartesian <span class="math">\(x,y\)</span> or <span class="math">\(z\)</span> axes.  Other capabilities of Nek5000 are the linearized
+the Cartesian <span class="math notranslate nohighlight">\(x,y\)</span> or <span class="math notranslate nohighlight">\(z\)</span> axes.  Other capabilities of Nek5000 are the linearized
 Navier-Stokes for flow stability, magnetohydrodynamic flows etc.</p>
 </div>
 <div class="section" id="unsteady-stokes">
 <span id="intro-ns-stokes"></span><h2>Unsteady Stokes<a class="headerlink" href="#unsteady-stokes" title="Permalink to this headline">¶</a></h2>
 <p>In the case of flows dominated by viscous effects Nek5000 can solve the reduced Stokes equations</p>
-<div class="math" id="equation-ns_momentum_stokes">
-<span class="eqno">(7)<a class="headerlink" href="#equation-ns_momentum_stokes" title="Permalink to this equation">¶</a></span>\[\rho\left(\frac{\partial \mathbf u}{\partial t} \right) = - \nabla p + \nabla \cdot \boldsymbol\tau + \rho {\bf f} \,\, , \text{in } \Omega_f \text{  (Momentum)  }\]</div>
-<p>where <span class="math">\(\boldsymbol\tau=\mu[\nabla \mathbf u+\nabla \mathbf u^{T}]\)</span> and</p>
-<div class="math" id="equation-ns_cont_stokes">
-<span class="eqno">(8)<a class="headerlink" href="#equation-ns_cont_stokes" title="Permalink to this equation">¶</a></span>\[\nabla \cdot \mathbf u =0 \,\, , \text{in } \Omega_f  \text{  (Continuity)  }\]</div>
+<div class="math notranslate nohighlight" id="equation-ns-momentum-stokes">
+<span class="eqno">(7)<a class="headerlink" href="#equation-ns-momentum-stokes" title="Permalink to this equation">¶</a></span>\[\rho\left(\frac{\partial \mathbf u}{\partial t} \right) = - \nabla p + \nabla \cdot \boldsymbol\tau + \rho {\bf f} \,\, , \text{in } \Omega_f \text{  (Momentum)  }\]</div>
+<p>where <span class="math notranslate nohighlight">\(\boldsymbol\tau=\mu[\nabla \mathbf u+\nabla \mathbf u^{T}]\)</span> and</p>
+<div class="math notranslate nohighlight" id="equation-ns-cont-stokes">
+<span class="eqno">(8)<a class="headerlink" href="#equation-ns-cont-stokes" title="Permalink to this equation">¶</a></span>\[\nabla \cdot \mathbf u =0 \,\, , \text{in } \Omega_f  \text{  (Continuity)  }\]</div>
 <p>Also here we can distinguish between the stress and non-stress formulation according to whether the
 viscosity is variable or not. The non-dimensional form of these equations can be obtained using the
 viscous scaling of the pressure.</p>
@@ -295,48 +299,48 @@ viscous scaling of the pressure.</p>
 <div class="section" id="steady-stokes">
 <span id="intro-ns-steady-stokes"></span><h2>Steady Stokes<a class="headerlink" href="#steady-stokes" title="Permalink to this headline">¶</a></h2>
 <p>If there is no time-dependence, then Nek5000 can further reduce to</p>
-<div class="math" id="equation-ns_momentum_steady_stokes">
-<span class="eqno">(9)<a class="headerlink" href="#equation-ns_momentum_steady_stokes" title="Permalink to this equation">¶</a></span>\[- \nabla p + \nabla \cdot \boldsymbol\tau + \rho {\bf f}=0 \,\, , \text{in } \Omega_f \text{  (Momentum)  }\]</div>
-<p>where <span class="math">\(\boldsymbol\tau=\mu[\nabla \mathbf u+\nabla {\mathbf u}^{T}]\)</span> and</p>
-<div class="math" id="equation-ns_cont_steady_stokes">
-<span class="eqno">(10)<a class="headerlink" href="#equation-ns_cont_steady_stokes" title="Permalink to this equation">¶</a></span>\[\nabla \cdot \mathbf u =0 \,\, , \text{in } \Omega_f  \text{  (Continuity)  }\]</div>
+<div class="math notranslate nohighlight" id="equation-ns-momentum-steady-stokes">
+<span class="eqno">(9)<a class="headerlink" href="#equation-ns-momentum-steady-stokes" title="Permalink to this equation">¶</a></span>\[- \nabla p + \nabla \cdot \boldsymbol\tau + \rho {\bf f}=0 \,\, , \text{in } \Omega_f \text{  (Momentum)  }\]</div>
+<p>where <span class="math notranslate nohighlight">\(\boldsymbol\tau=\mu[\nabla \mathbf u+\nabla {\mathbf u}^{T}]\)</span> and</p>
+<div class="math notranslate nohighlight" id="equation-ns-cont-steady-stokes">
+<span class="eqno">(10)<a class="headerlink" href="#equation-ns-cont-steady-stokes" title="Permalink to this equation">¶</a></span>\[\nabla \cdot \mathbf u =0 \,\, , \text{in } \Omega_f  \text{  (Continuity)  }\]</div>
 </div>
 <div class="section" id="linearized-equations">
 <span id="intro-linear-eq"></span><h2>Linearized Equations<a class="headerlink" href="#linearized-equations" title="Permalink to this headline">¶</a></h2>
 <p>In addition to the basic evolution equations described above, Nek5000 provides support for the
 evolution of small perturbations about a base state by solving the <em>linearized equations</em></p>
-<div class="math" id="equation-pertu">
+<div class="math notranslate nohighlight" id="equation-pertu">
 <span class="eqno">(11)<a class="headerlink" href="#equation-pertu" title="Permalink to this equation">¶</a></span>\[\begin{split}\rho\left(\frac{\partial \mathbf u_i'}{\partial t} + \mathbf u \cdot \nabla {\mathbf u_i}^{'} + \mathbf u_i' \cdot \nabla \mathbf u \right) &amp;=
 - \nabla p_i' + \mu \nabla^2 \mathbf u_i'\\
 \nabla \cdot \mathbf u_i' &amp;= 0 \nonumber\end{split}\]</div>
-<p>for multiple perturbation fields <span class="math">\(i=1,2,\dots\)</span> subject to different initial
+<p>for multiple perturbation fields <span class="math notranslate nohighlight">\(i=1,2,\dots\)</span> subject to different initial
 conditions and (typically) homogeneous boundary conditions.</p>
-<p>These solutions can be evolved concurrently with the base fields <span class="math">\((\mathbf u,p,T)\)</span>.  There is
+<p>These solutions can be evolved concurrently with the base fields <span class="math notranslate nohighlight">\((\mathbf u,p,T)\)</span>.  There is
 also support for computing perturbation solutions to the Boussinesq equations for natural
 convection.  Calculations such as these can be used to estimate Lyapunov exponents of chaotic
 flows, etc.</p>
 </div>
 <div class="section" id="steady-conduction">
 <span id="intro-steady-conduct"></span><h2>Steady Conduction<a class="headerlink" href="#steady-conduction" title="Permalink to this headline">¶</a></h2>
-<p>The energy equation <a class="reference internal" href="#equation-energy">(4)</a> in which the advection term <span class="math">\(\mathbf u \cdot \nabla T\)</span> and the
-transient term <span class="math">\(\partial T/\partial t\)</span> are zero. In essence this represents a Poisson equation.</p>
+<p>The energy equation <a class="reference internal" href="#equation-energy">(4)</a> in which the advection term <span class="math notranslate nohighlight">\(\mathbf u \cdot \nabla T\)</span> and the
+transient term <span class="math notranslate nohighlight">\(\partial T/\partial t\)</span> are zero. In essence this represents a Poisson equation.</p>
 </div>
 <div class="section" id="low-mach-navier-stokes">
 <span id="intro-low-mach"></span><h2>Low-Mach Navier-Stokes<a class="headerlink" href="#low-mach-navier-stokes" title="Permalink to this headline">¶</a></h2>
 <p>The compressible Navier-Stokes differ mathematically from the incompressible ones mainly in the
-divergence constraint <span class="math">\(\nabla \cdot \mathbf u\neq 0\)</span>.
-In this case the system of equations is not closed and an additional equation of state (EOS) is required to connect the state variables, e.g. <span class="math">\(\rho=f(p,T)\)</span>.
-Nek5000 includes the ability to solve the low-Mach approximation of the compressible Navier-Stokes, <span class="math">\(\rho\approx f(T)\)</span>.
+divergence constraint <span class="math notranslate nohighlight">\(\nabla \cdot \mathbf u\neq 0\)</span>.
+In this case the system of equations is not closed and an additional equation of state (EOS) is required to connect the state variables, e.g. <span class="math notranslate nohighlight">\(\rho=f(p,T)\)</span>.
+Nek5000 includes the ability to solve the low-Mach approximation of the compressible Navier-Stokes, <span class="math notranslate nohighlight">\(\rho\approx f(T)\)</span>.
 The low-Mach approximation decouples the pressure from the velocity leading to a system of equations which can be solved numerically in a similar fashion as the incompressible Navier-Stokes.</p>
 <p>The low-Mach equations are</p>
-<div class="math" id="equation-lowmach">
+<div class="math notranslate nohighlight" id="equation-lowmach">
 <span class="eqno">(12)<a class="headerlink" href="#equation-lowmach" title="Permalink to this equation">¶</a></span>\[\begin{split}\rho\left(\frac{\partial \mathbf u}{\partial t}+ \mathbf u\cdot\nabla\mathbf u\right)&amp;=-\nabla p+\nabla \cdot\boldsymbol\tau+\rho\mathbf f\ \\
 \nabla \cdot \mathbf u &amp;= -\frac{1}{\rho}\frac{\mathrm d \rho}{\mathrm d T}\left(\frac{\partial T}{\partial t}+ \mathbf u\cdot\nabla T\right) \\
 \rho c_p\left(\frac{\partial T}{\partial t}+ \mathbf u\cdot\nabla T\right)&amp;=-\nabla \cdot k \nabla T + q_{vol}\end{split}\]</div>
-<p>where <span class="math">\(\boldsymbol\tau=\mu[\nabla \mathbf u+\nabla \mathbf u^{T}-\frac{2}{3}\nabla \cdot
+<p>where <span class="math notranslate nohighlight">\(\boldsymbol\tau=\mu[\nabla \mathbf u+\nabla \mathbf u^{T}-\frac{2}{3}\nabla \cdot
 \mathbf u \mathbf I]\)</span>.</p>
 <p>This allows for both variable density and variable viscosity.
-The system is solved by substituting <span class="math">\(\rho\approx f(T)\)</span> into the continuity equation and obtaining a so-called thermal divergence.</p>
+The system is solved by substituting <span class="math notranslate nohighlight">\(\rho\approx f(T)\)</span> into the continuity equation and obtaining a so-called thermal divergence.</p>
 </div>
 <div class="section" id="incompressible-mhd-equations">
 <span id="intro-mhd"></span><h2>Incompressible MHD Equations<a class="headerlink" href="#incompressible-mhd-equations" title="Permalink to this headline">¶</a></h2>
@@ -345,69 +349,69 @@ conductive fluid, which in turn creates forces on the fluid and changing the mag
 The set of equations which describe MHD are a combination of the Navier-Stokes equations of fluid
 dynamics and Maxwell’s equations of electromagnetism. These differential equations have to be
 solved simultaneously, and Nek5000 has an implementation for the incompressible MHD.</p>
-<p>Consider a fluid of velocity <span class="math">\(\mathbf u\)</span> subject to a magnetic field <span class="math">\(\mathbf B\)</span> then
+<p>Consider a fluid of velocity <span class="math notranslate nohighlight">\(\mathbf u\)</span> subject to a magnetic field <span class="math notranslate nohighlight">\(\mathbf B\)</span> then
 the incompressible MHD equations are</p>
-<div class="math" id="equation-mhd">
+<div class="math notranslate nohighlight" id="equation-mhd">
 <span class="eqno">(13)<a class="headerlink" href="#equation-mhd" title="Permalink to this equation">¶</a></span>\[\begin{split}\rho\left(\frac{\partial\mathbf u}{\partial t} + \mathbf u \cdot \nabla \mathbf u\right) &amp;= - \nabla p + \mu \Delta \mathbf u + \mathbf B\cdot \nabla \mathbf B \ ,\\
 \nabla \cdot \mathbf u &amp;= 0\\ \nonumber
 \frac{\partial \mathbf B}{\partial t} + \mathbf u \cdot \nabla \mathbf B &amp;= - \nabla q + \eta \Delta \mathbf B + \mathbf B\cdot \nabla \mathbf u \ ,\\
 \nabla \cdot \mathbf B &amp;= 0\end{split}\]</div>
-<p>where <span class="math">\(\rho\)</span> is the density <span class="math">\(\mu\)</span> the viscosity, <span class="math">\(\eta\)</span> resistivity, and pressure <span class="math">\(p\)</span>.</p>
-<p>The total magnetic field can be split into two parts: <span class="math">\(\mathbf{B} = \mathbf{B_0} +
+<p>where <span class="math notranslate nohighlight">\(\rho\)</span> is the density <span class="math notranslate nohighlight">\(\mu\)</span> the viscosity, <span class="math notranslate nohighlight">\(\eta\)</span> resistivity, and pressure <span class="math notranslate nohighlight">\(p\)</span>.</p>
+<p>The total magnetic field can be split into two parts: <span class="math notranslate nohighlight">\(\mathbf{B} = \mathbf{B_0} +
 \mathbf{b}\)</span> (mean + fluctuations). The above equations become in terms of Elsässer variables
-(<span class="math">\(\mathbf{z}^{\pm} =  \mathbf{u} \pm \mathbf{b}\)</span>)</p>
-<div class="math">
+(<span class="math notranslate nohighlight">\(\mathbf{z}^{\pm} =  \mathbf{u} \pm \mathbf{b}\)</span>)</p>
+<div class="math notranslate nohighlight">
 \[\frac{\partial {\mathbf{z}^{\pm}}}{\partial t}\mp\left(\mathbf {B}_0\cdot{\mathbf \nabla}\right){\mathbf z^{\pm}} + \left({\mathbf z^{\mp}}\cdot{\mathbf \nabla}\right){\mathbf z^{\pm}} = -{\mathbf \nabla}p
 + \nu_+ \nabla^2 \mathbf{z}^{\pm} + \nu_- \nabla^2 \mathbf{z}^{\mp}\]</div>
-<p>where <span class="math">\(\nu_\pm = \nu \pm \eta\)</span>.</p>
-<p>The important non-dimensional parameters for MHD are <span class="math">\(Re = U L /\nu\)</span> and the magnetic Re <span class="math">\(Re_M = U L /\eta\)</span>.</p>
+<p>where <span class="math notranslate nohighlight">\(\nu_\pm = \nu \pm \eta\)</span>.</p>
+<p>The important non-dimensional parameters for MHD are <span class="math notranslate nohighlight">\(Re = U L /\nu\)</span> and the magnetic Re <span class="math notranslate nohighlight">\(Re_M = U L /\eta\)</span>.</p>
 </div>
 <div class="section" id="arbitrary-lagrangian-eulerian-ale">
 <h2>Arbitrary Lagrangian-Eulerian (ALE)<a class="headerlink" href="#arbitrary-lagrangian-eulerian-ale" title="Permalink to this headline">¶</a></h2>
 <p>We consider unsteady incompressible flow in a domain with moving boundaries:</p>
-<div class="math" id="equation-mhd1">
+<div class="math notranslate nohighlight" id="equation-mhd1">
 <span class="eqno">(14)<a class="headerlink" href="#equation-mhd1" title="Permalink to this equation">¶</a></span>\[\begin{split}\frac{\partial\mathbf u}{\partial t} = -\nabla p +\frac{1}{Re}\nabla\cdot(\nabla + \nabla^T)\mathbf u  + NL,\\
 \nabla \cdot \mathbf u = 0\end{split}\]</div>
-<p>Here, <span class="math">\(NL\)</span> represents the quadratic nonlinearities from the convective term.</p>
+<p>Here, <span class="math notranslate nohighlight">\(NL\)</span> represents the quadratic nonlinearities from the convective term.</p>
 <p>Our free-surface hydrodynamic formulation is based upon the arbitrary Lagrangian-Eulerian (ALE)
-formulation described in <a class="reference internal" href="references.html#ho1989" id="id4">[Ho1989]</a>.  Here, the domain <span class="math">\(\Omega(t)\)</span> is also an unknown.  As
-with the velocity, the geometry <span class="math">\(\mathbf x\)</span> is represented by high-order polynomials.  For
+formulation described in <a class="reference internal" href="references.html#ho1989" id="id4">[Ho1989]</a>.  Here, the domain <span class="math notranslate nohighlight">\(\Omega(t)\)</span> is also an unknown.  As
+with the velocity, the geometry <span class="math notranslate nohighlight">\(\mathbf x\)</span> is represented by high-order polynomials.  For
 viscous free-surface flows, the rapid convergence of the high-order surface approximation to the
 physically smooth solution minimizes surface-tension-induced stresses arising from non-physical
-cusps at the element interfaces, where only <span class="math">\(C^0\)</span> continuity is enforced.  The geometric
-deformation is specified by a mesh velocity <span class="math">\(\mathbf w := \dot{\mathbf x}\)</span> that is
-essentially arbitrary, provided that <span class="math">\(\mathbf w\)</span> satisfies the kinematic condition
-<span class="math">\(\mathbf w \cdot \hat{\mathbf n}|^{}_{\Gamma} = \mathbf u \cdot \hat{\mathbf
-n}|^{}_{\Gamma}\)</span>, where <span class="math">\(\hat{\mathbf n}\)</span> is the unit normal at the free surface
-<span class="math">\(\Gamma(x,y,t)\)</span>.  The ALE formulation provides a very accurate description of the free
+cusps at the element interfaces, where only <span class="math notranslate nohighlight">\(C^0\)</span> continuity is enforced.  The geometric
+deformation is specified by a mesh velocity <span class="math notranslate nohighlight">\(\mathbf w := \dot{\mathbf x}\)</span> that is
+essentially arbitrary, provided that <span class="math notranslate nohighlight">\(\mathbf w\)</span> satisfies the kinematic condition
+<span class="math notranslate nohighlight">\(\mathbf w \cdot \hat{\mathbf n}|^{}_{\Gamma} = \mathbf u \cdot \hat{\mathbf
+n}|^{}_{\Gamma}\)</span>, where <span class="math notranslate nohighlight">\(\hat{\mathbf n}\)</span> is the unit normal at the free surface
+<span class="math notranslate nohighlight">\(\Gamma(x,y,t)\)</span>.  The ALE formulation provides a very accurate description of the free
 surface and is appropriate in situations where wave-breaking does not occur.</p>
 <p>To highlight the key aspects of the ALE formulation, we introduce the weighted residual formulation
-of Eq. <a class="reference internal" href="#equation-mhd1">(14)</a>: <em>Find</em> <span class="math">\((\mathbf u,p) \in X^N \times Y^N\)</span> <em>such that:</em></p>
-<div class="math" id="equation-wrt1">
+of Eq. <a class="reference internal" href="#equation-mhd1">(14)</a>: <em>Find</em> <span class="math notranslate nohighlight">\((\mathbf u,p) \in X^N \times Y^N\)</span> <em>such that:</em></p>
+<div class="math notranslate nohighlight" id="equation-wrt1">
 <span class="eqno">(15)<a class="headerlink" href="#equation-wrt1" title="Permalink to this equation">¶</a></span>\[\frac{\mathrm d}{\mathrm d t}(\mathbf v,\mathbf u) = (\nabla \cdot \mathbf v,p) - \frac{2}{Re}(\nabla \mathbf v,\mathbf S)
 +(\mathbf v,N\!L) + c(\mathbf v,\mathbf w,\mathbf u),
 \qquad
 (\nabla \cdot \mathbf u,q) = 0,\]</div>
-<p>for all test functions <span class="math">\((\mathbf v,q) \in X^N \times Y^N\)</span>.  Here <span class="math">\((X^N,Y^N)\)</span> are the
-compatible velocity-pressure approximation spaces introduced in <a class="reference internal" href="references.html#maday1989" id="id5">[Maday1989]</a>, <span class="math">\((.,.)\)</span> denotes
-the inner-product <span class="math">\((\mathbf f,\mathbf g) := \int_{\Omega(t)} \mathbf f \cdot \mathbf g \,dV\)</span>,
-and <span class="math">\(\mathbf S\)</span> is the stress tensor <span class="math">\(S_{ij}^{} := \frac{1}{2}( \frac{\partial
+<p>for all test functions <span class="math notranslate nohighlight">\((\mathbf v,q) \in X^N \times Y^N\)</span>.  Here <span class="math notranslate nohighlight">\((X^N,Y^N)\)</span> are the
+compatible velocity-pressure approximation spaces introduced in <a class="reference internal" href="references.html#maday1989" id="id5">[Maday1989]</a>, <span class="math notranslate nohighlight">\((.,.)\)</span> denotes
+the inner-product <span class="math notranslate nohighlight">\((\mathbf f,\mathbf g) := \int_{\Omega(t)} \mathbf f \cdot \mathbf g \,dV\)</span>,
+and <span class="math notranslate nohighlight">\(\mathbf S\)</span> is the stress tensor <span class="math notranslate nohighlight">\(S_{ij}^{} := \frac{1}{2}( \frac{\partial
 u_i}{\partial x_j} + \frac{\partial u_j}{\partial x_i} )\)</span>.  For simplicity, we have neglected the
 surface tension term.  A new term in Eq.  <a class="reference internal" href="#equation-wrt1">(15)</a> is the trilinear form involving the mesh
 velocity</p>
-<div class="math" id="equation-trilin">
+<div class="math notranslate nohighlight" id="equation-trilin">
 <span class="eqno">(16)<a class="headerlink" href="#equation-trilin" title="Permalink to this equation">¶</a></span>\[c(\mathbf v,\mathbf w,\mathbf u) :=
 \int_{\Omega(t)}^{}
 \sum_{i=1}^3
 \sum_{j=1}^3 v_i^{} \frac{\partial w_j^{} u_i^{}}{\partial x_j^{}} \,dV,\]</div>
 <p>which derives from the Reynolds transport theorem when the time derivative is moved outside the
-bilinear form <span class="math">\((\mathbf v,\mathbf u_t^{})\)</span>.  The advantage of Eq. <a class="reference internal" href="#equation-wrt1">(15)</a> is that it
+bilinear form <span class="math notranslate nohighlight">\((\mathbf v,\mathbf u_t^{})\)</span>.  The advantage of Eq. <a class="reference internal" href="#equation-wrt1">(15)</a> is that it
 greatly simplifies the time differencing and avoids grid-to-grid interpolation as the domain
 evolves in time.  With the time derivative outside of the integral, each bilinear or trilinear form
-involves functions at a specific time, <span class="math">\(t^{n-q}\)</span>, integrated over <span class="math">\(\Omega(t^{n-q})\)</span>.
+involves functions at a specific time, <span class="math notranslate nohighlight">\(t^{n-q}\)</span>, integrated over <span class="math notranslate nohighlight">\(\Omega(t^{n-q})\)</span>.
 For example, with a second-order backward-difference/extrapolation scheme, the discrete form of
 Eq. <a class="reference internal" href="#equation-wrt1">(15)</a> is</p>
-<div class="math" id="equation-bdk">
+<div class="math notranslate nohighlight" id="equation-bdk">
 <span class="eqno">(17)<a class="headerlink" href="#equation-bdk" title="Permalink to this equation">¶</a></span>\[\frac{1}{2 \Delta t}\left[
  3 (\mathbf v^n,\mathbf u^n)^n
 -4 (\mathbf v^{n-1},\mathbf u^{n-1})^{n-1}
@@ -415,16 +419,16 @@ Eq. <a class="reference internal" href="#equation-wrt1">(15)</a> is</p>
 = L^n (\mathbf u) +
 2 \widetilde{N\!L}^{n-1}
 - \widetilde{N\!L}^{n-2}.\]</div>
-<p>Here, <span class="math">\(L^n(\mathbf u)\)</span> accounts for all <em>linear</em> terms in Eq. <a class="reference internal" href="#equation-wrt1">(15)</a>, including the
+<p>Here, <span class="math notranslate nohighlight">\(L^n(\mathbf u)\)</span> accounts for all <em>linear</em> terms in Eq. <a class="reference internal" href="#equation-wrt1">(15)</a>, including the
 pressure and divergence-free constraint, which are evaluated implicitly (i.e., at time level
-<span class="math">\(t^n\)</span>, on <span class="math">\(\Omega(t^n)\)</span>), and <span class="math">\(\widetilde{N\!L}^{n-q}\)</span> accounts for all
-<em>nonlinear</em> terms, including the mesh motion term <a class="reference internal" href="#equation-trilin">(16)</a>, at time-level <span class="math">\(t^{n-q}\)</span>.
-The superscript on the inner-products <span class="math">\((.,.)^{n-q}\)</span> indicates integration over
-<span class="math">\(\Omega(t^{n-q})\)</span>.  The overall time advancement is as follows.  The mesh position
-<span class="math">\(\mathbf x^n \in \Omega(t^n)\)</span> is computed explicitly using <span class="math">\(\mathbf w^{n-1}\)</span> and
-<span class="math">\(\mathbf w^{n-2}\)</span>; the new mass, stiffness, and gradient operators involving integrals and
-derivatives on <span class="math">\(\Omega(t^n)\)</span> are computed;  the extrapolated right-hand-side terms are
-evaluated; and the implicit linear system is solved for <span class="math">\(\mathbf u^n\)</span>.   Note that it is only
+<span class="math notranslate nohighlight">\(t^n\)</span>, on <span class="math notranslate nohighlight">\(\Omega(t^n)\)</span>), and <span class="math notranslate nohighlight">\(\widetilde{N\!L}^{n-q}\)</span> accounts for all
+<em>nonlinear</em> terms, including the mesh motion term <a class="reference internal" href="#equation-trilin">(16)</a>, at time-level <span class="math notranslate nohighlight">\(t^{n-q}\)</span>.
+The superscript on the inner-products <span class="math notranslate nohighlight">\((.,.)^{n-q}\)</span> indicates integration over
+<span class="math notranslate nohighlight">\(\Omega(t^{n-q})\)</span>.  The overall time advancement is as follows.  The mesh position
+<span class="math notranslate nohighlight">\(\mathbf x^n \in \Omega(t^n)\)</span> is computed explicitly using <span class="math notranslate nohighlight">\(\mathbf w^{n-1}\)</span> and
+<span class="math notranslate nohighlight">\(\mathbf w^{n-2}\)</span>; the new mass, stiffness, and gradient operators involving integrals and
+derivatives on <span class="math notranslate nohighlight">\(\Omega(t^n)\)</span> are computed;  the extrapolated right-hand-side terms are
+evaluated; and the implicit linear system is solved for <span class="math notranslate nohighlight">\(\mathbf u^n\)</span>.   Note that it is only
 the <em>operators</em> that are updated, not the <em>matrices</em>.  Matrices are never formed in Nek5000
 and because of this, the overhead for the moving domain formulation is very low.</p>
 </div>
@@ -432,34 +436,32 @@ and because of this, the overhead for the moving domain formulation is very low.
 
 
            </div>
-           <div class="articleComments">
-            
-           </div>
+           
           </div>
           <footer>
-  
     <div class="rst-footer-buttons" role="navigation" aria-label="footer navigation">
-      
-        <a href="appendix.html" class="btn btn-neutral float-right" title="Appendices" accesskey="n" rel="next">Next <span class="fa fa-arrow-circle-right"></span></a>
-      
-      
-        <a href="problem_setup/features.html" class="btn btn-neutral" title="Additional Features" accesskey="p" rel="prev"><span class="fa fa-arrow-circle-left"></span> Previous</a>
-      
+        <a href="appendix.html" class="btn btn-neutral float-right" title="Appendices" accesskey="n" rel="next">Next <span class="fa fa-arrow-circle-right" aria-hidden="true"></span></a>
+        <a href="problem_setup/features.html" class="btn btn-neutral float-left" title="Additional Features" accesskey="p" rel="prev"><span class="fa fa-arrow-circle-left" aria-hidden="true"></span> Previous</a>
     </div>
-  
 
   <hr/>
 
   <div role="contentinfo">
     <p>
-        &copy; Copyright 2015-2017, UCHICAGO ARGONNE, LLC.
+        &#169; Copyright 2015-2017, UCHICAGO ARGONNE, LLC.
 
     </p>
   </div>
-  Built with <a href="http://sphinx-doc.org/">Sphinx</a> using a <a href="https://github.com/snide/sphinx_rtd_theme">theme</a> provided by <a href="https://readthedocs.org">Read the Docs</a>. 
+    
+    
+    
+    Built with <a href="https://www.sphinx-doc.org/">Sphinx</a> using a
+    
+    <a href="https://github.com/readthedocs/sphinx_rtd_theme">theme</a>
+    
+    provided by <a href="https://readthedocs.org">Read the Docs</a>. 
 
 </footer>
-
         </div>
       </div>
 
@@ -468,38 +470,15 @@ and because of this, the overhead for the moving domain formulation is very low.
   </div>
   
 
-
-  
-
-    <script type="text/javascript">
-        var DOCUMENTATION_OPTIONS = {
-            URL_ROOT:'./',
-            VERSION:'17.0',
-            COLLAPSE_INDEX:false,
-            FILE_SUFFIX:'.html',
-            HAS_SOURCE:  true,
-            SOURCELINK_SUFFIX: '.txt'
-        };
-    </script>
-      <script type="text/javascript" src="_static/jquery.js"></script>
-      <script type="text/javascript" src="_static/underscore.js"></script>
-      <script type="text/javascript" src="_static/doctools.js"></script>
-      <script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.1/MathJax.js?config=TeX-AMS-MML_HTMLorMML"></script>
-
-  
-
-  
-  
-    <script type="text/javascript" src="_static/js/theme.js"></script>
-  
-
-  
-  
   <script type="text/javascript">
       jQuery(function () {
-          SphinxRtdTheme.StickyNav.enable();
+          SphinxRtdTheme.Navigation.enable(true);
       });
   </script>
+
+  
+  
+    
    
 
 </body>

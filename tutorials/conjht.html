@@ -1,59 +1,57 @@
 
 
 <!DOCTYPE html>
-<!--[if IE 8]><html class="no-js lt-ie9" lang="en" > <![endif]-->
-<!--[if gt IE 8]><!--> <html class="no-js" lang="en" > <!--<![endif]-->
+<html class="writer-html4" lang="en" >
 <head>
-  <meta charset="utf-8">
+  <meta charset="utf-8" />
   
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   
   <title>Conjugate Heat Transfer &mdash; Nek5000 17.0 documentation</title>
   
 
   
+  <link rel="stylesheet" href="../_static/css/theme.css" type="text/css" />
+  <link rel="stylesheet" href="../_static/pygments.css" type="text/css" />
+
   
+  
+
   
   
 
   
 
   
+  <!--[if lt IE 9]>
+    <script src="../_static/js/html5shiv.min.js"></script>
+  <![endif]-->
   
     
+      <script type="text/javascript" id="documentation_options" data-url_root="../" src="../_static/documentation_options.js"></script>
+        <script type="text/javascript" src="../_static/jquery.js"></script>
+        <script type="text/javascript" src="../_static/underscore.js"></script>
+        <script type="text/javascript" src="../_static/doctools.js"></script>
+        <script type="text/javascript" src="../_static/language_data.js"></script>
+        <script async="async" type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.5/latest.js?config=TeX-AMS-MML_HTMLorMML"></script>
+    
+    <script type="text/javascript" src="../_static/js/theme.js"></script>
 
-  
-
-  
-  
-    <link rel="stylesheet" href="../_static/css/theme.css" type="text/css" />
-  
-
-  
-
-  
-        <link rel="index" title="Index"
-              href="../genindex.html"/>
-        <link rel="search" title="Search" href="../search.html"/>
-    <link rel="top" title="Nek5000 17.0 documentation" href="../index.html"/>
-        <link rel="up" title="Tutorials" href="../tutorials.html"/>
-        <link rel="next" title="Overlapping Overset Grids" href="neknek.html"/>
-        <link rel="prev" title="Periodic Hill" href="perhill.html"/> 
-
-  
-  <script src="../_static/js/modernizr.min.js"></script>
-
+    
+    <link rel="index" title="Index" href="../genindex.html" />
+    <link rel="search" title="Search" href="../search.html" />
+    <link rel="next" title="Overlapping Overset Grids" href="neknek.html" />
+    <link rel="prev" title="Periodic Hill" href="perhill.html" /> 
 </head>
 
-<body class="wy-body-for-nav" role="document">
+<body class="wy-body-for-nav">
 
    
   <div class="wy-grid-for-nav">
-
     
     <nav data-toggle="wy-nav-shift" class="wy-nav-side">
       <div class="wy-side-scroll">
-        <div class="wy-side-nav-search">
+        <div class="wy-side-nav-search" >
           
 
           
@@ -84,6 +82,7 @@
           
         </div>
 
+        
         <div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="main navigation">
           
             
@@ -124,13 +123,14 @@
             
           
         </div>
+        
       </div>
     </nav>
 
     <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap">
 
       
-      <nav class="wy-nav-top" role="navigation" aria-label="top navigation">
+      <nav class="wy-nav-top" aria-label="top navigation">
         
           <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
           <a href="../index.html">Nek5000</a>
@@ -138,10 +138,13 @@
       </nav>
 
 
-      
       <div class="wy-nav-content">
+        
         <div class="rst-content">
+        
           
+
+
 
 
 
@@ -161,7 +164,7 @@
 
   <ul class="wy-breadcrumbs">
     
-      <li><a href="../index.html">Docs</a> &raquo;</li>
+      <li><a href="../index.html" class="icon icon-home"></a> &raquo;</li>
         
           <li><a href="../tutorials.html">Tutorials</a> &raquo;</li>
         
@@ -170,7 +173,7 @@
     
       <li class="wy-breadcrumbs-aside">
         
-            
+          
             <a href="../_sources/tutorials/conjht.rst.txt" rel="nofollow"> View page source</a>
           
         
@@ -195,31 +198,31 @@ Similarly, we start by generating a 2D mesh, and modify the case files for this 
 <div class="section" id="pre-processing">
 <h2>Pre-processing<a class="headerlink" href="#pre-processing" title="Permalink to this headline">¶</a></h2>
 <p>Users must always bear in mind, when setting up a test case in <em>Nek5000</em>, case files will need to be edited.
-Some samples can be found in the <code class="docutils literal"><span class="pre">Nek5000/examples</span></code> directory included with the release version.
-Note that the <code class="docutils literal"><span class="pre">examples</span></code> directory is not included by default in the github repository (it can be obtained <cite>here _http://github.com/Nek5000/NekExamples</cite>).
-Blank template files for the user file, <code class="docutils literal"><span class="pre">zero.usr</span></code>, and the <code class="docutils literal"><span class="pre">SIZE</span></code> file, <code class="docutils literal"><span class="pre">SIZE.template</span></code>, can be found in the <code class="docutils literal"><span class="pre">Nek5000/core</span></code> directory.
+Some samples can be found in the <code class="docutils literal notranslate"><span class="pre">Nek5000/examples</span></code> directory included with the release version.
+Note that the <code class="docutils literal notranslate"><span class="pre">examples</span></code> directory is not included by default in the github repository (it can be obtained <cite>here _http://github.com/Nek5000/NekExamples</cite>).
+Blank template files for the user file, <code class="docutils literal notranslate"><span class="pre">zero.usr</span></code>, and the <code class="docutils literal notranslate"><span class="pre">SIZE</span></code> file, <code class="docutils literal notranslate"><span class="pre">SIZE.template</span></code>, can be found in the <code class="docutils literal notranslate"><span class="pre">Nek5000/core</span></code> directory.
 As a first step, the user should create a case directory in the corresponding run directory:</p>
-<div class="highlight-none"><div class="highlight"><pre><span></span>cd $HOME/Nek5000/run
+<div class="highlight-none notranslate"><div class="highlight"><pre><span></span>cd $HOME/Nek5000/run
 mkdir conj_ht
 cd conj_ht
 </pre></div>
 </div>
 <p>and copy the template files into this directory.
-Additionally, this tutorial requires the <code class="docutils literal"><span class="pre">ray0.rea</span></code> file from the Rayleigh-Bernard example found in <code class="docutils literal"><span class="pre">Nek5000/examples/rayleigh</span></code>.</p>
+Additionally, this tutorial requires the <code class="docutils literal notranslate"><span class="pre">ray0.rea</span></code> file from the Rayleigh-Bernard example found in <code class="docutils literal notranslate"><span class="pre">Nek5000/examples/rayleigh</span></code>.</p>
 <p>We begin by creating the mesh with appropriate bounday conditions and then setting up the parameters and case files.</p>
 </div>
 <div class="section" id="mesh-generation">
 <h2>Mesh generation<a class="headerlink" href="#mesh-generation" title="Permalink to this headline">¶</a></h2>
-<p>This tutorial requires that you have the tools <code class="docutils literal"><span class="pre">genbox</span></code>, <code class="docutils literal"><span class="pre">genmap</span></code>, and <em>preNek</em> compiled.
+<p>This tutorial requires that you have the tools <code class="docutils literal notranslate"><span class="pre">genbox</span></code>, <code class="docutils literal notranslate"><span class="pre">genmap</span></code>, and <em>preNek</em> compiled.
 Note that <em>preNek</em> requires the use of an xterminal.
-Make sure the tools directory (typically <code class="docutils literal"><span class="pre">Nek5000/bin</span></code>) is in your environment PATH.
+Make sure the tools directory (typically <code class="docutils literal notranslate"><span class="pre">Nek5000/bin</span></code>) is in your environment PATH.
 Before beginning, it is important to understand that there are two types of mesh topology: the “<em>v-mesh</em>” for the velocity and the “<em>t-mesh</em>” which can be used for the temperature and passive scalars.
 The <em>v-mesh</em> (fluid subdomain) is always a subset of the <em>t-mesh</em> and the global element ID numbers of the <em>v-mesh</em> must preceed those of the <em>t-mesh</em>.
 Therefore, we generate a <em>v-mesh</em> and <em>t-mesh</em> with appropriate BCs separately and later merge both subdomains using the conjugate heat transfer merge option in <em>preNek</em>.
 This ensures the proper element ordering.</p>
-<p>First, we create the mesh for the fluid part by creating the following input file in any text editor and running <code class="docutils literal"><span class="pre">genbox</span></code>.
-Note that any line beginning with ‘#’ is a comment and is ignored by <code class="docutils literal"><span class="pre">genbox</span></code></p>
-<div class="highlight-none"><div class="highlight"><pre><span></span>ray0.rea
+<p>First, we create the mesh for the fluid part by creating the following input file in any text editor and running <code class="docutils literal notranslate"><span class="pre">genbox</span></code>.
+Note that any line beginning with ‘#’ is a comment and is ignored by <code class="docutils literal notranslate"><span class="pre">genbox</span></code></p>
+<div class="highlight-none notranslate"><div class="highlight"><pre><span></span>ray0.rea
 2        spatial dimension
 2        number of fields
 #========================================================
@@ -243,19 +246,19 @@ I  ,I  ,E  ,E  ,    T bc&#39;s  !      You must have 2 spaces!
 </pre></div>
 </div>
 <p>In this example, the elements are distributed uniformly in the stream-wise (x) and span-wise (y) directions.
-All surfaces of the fluid domain are assumed to be wall boundaries, as indicated by <code class="docutils literal"><span class="pre">'W</span>&#160; <span class="pre">'</span></code>.
-The lateral surfaces of the inner domain and solid walls are assumed to be adiabatic, denoted by <code class="docutils literal"><span class="pre">'I</span>&#160; <span class="pre">'</span></code>.
-The thermal boundary conditions for the upper and lower face should be <code class="docutils literal"><span class="pre">'E</span>&#160; <span class="pre">'</span></code>, which indicates that they are <em>interior boundaries</em>.
+All surfaces of the fluid domain are assumed to be wall boundaries, as indicated by <code class="docutils literal notranslate"><span class="pre">'W</span>&#160; <span class="pre">'</span></code>.
+The lateral surfaces of the inner domain and solid walls are assumed to be adiabatic, denoted by <code class="docutils literal notranslate"><span class="pre">'I</span>&#160; <span class="pre">'</span></code>.
+The thermal boundary conditions for the upper and lower face should be <code class="docutils literal notranslate"><span class="pre">'E</span>&#160; <span class="pre">'</span></code>, which indicates that they are <em>interior boundaries</em>.
 This condition is not mandatory, as any boundary condition set on these faces will be overwritten by <em>preNek</em> when the solid and fluid domains are merged with <em>preNek</em>.
-However, it is <strong>HIGHLY RECOMMENDED</strong> to assign any expected interior faces as <code class="docutils literal"><span class="pre">'E</span>&#160; <span class="pre">'</span></code>, as any unjoined interior boundaries will be caught later by <em>preNek</em>.
+However, it is <strong>HIGHLY RECOMMENDED</strong> to assign any expected interior faces as <code class="docutils literal notranslate"><span class="pre">'E</span>&#160; <span class="pre">'</span></code>, as any unjoined interior boundaries will be caught later by <em>preNek</em>.
 This is useful for identifying inconsistencies in mesh generation.</p>
-<p>When <code class="docutils literal"><span class="pre">genbox</span></code> is run, the tool will produce a file named <code class="docutils literal"><span class="pre">box.rea</span></code> containing mesh, boundary condition, and simulation parameter information, which should be renamed to <code class="docutils literal"><span class="pre">fluid.rea</span></code>.</p>
+<p>When <code class="docutils literal notranslate"><span class="pre">genbox</span></code> is run, the tool will produce a file named <code class="docutils literal notranslate"><span class="pre">box.rea</span></code> containing mesh, boundary condition, and simulation parameter information, which should be renamed to <code class="docutils literal notranslate"><span class="pre">fluid.rea</span></code>.</p>
 <p>In the next step, we create the upper and lower solid parts of finite thickness h=0.2.
-The lower domain spans <span class="math">\(y \in [-0.2,0]\)</span> and the upper domain spans <span class="math">\(y \in [1,1.2]\)</span>.</p>
+The lower domain spans <span class="math notranslate nohighlight">\(y \in [-0.2,0]\)</span> and the upper domain spans <span class="math notranslate nohighlight">\(y \in [1,1.2]\)</span>.</p>
 <p><strong>Note:</strong> It is important to keep the <em>number of elements equal in the spanwise direction</em> for different parts.
 This is to ensure that all the subdomains are conformal on their interfaces.</p>
-<p>Both domains can be generated simultaneously by <code class="docutils literal"><span class="pre">genbox</span></code> with the following input file:</p>
-<div class="highlight-none"><div class="highlight"><pre><span></span>ray0.rea
+<p>Both domains can be generated simultaneously by <code class="docutils literal notranslate"><span class="pre">genbox</span></code> with the following input file:</p>
+<div class="highlight-none notranslate"><div class="highlight"><pre><span></span>ray0.rea
 2        spatial dimension
 2        number of fields
 #========================================================
@@ -284,20 +287,20 @@ I  ,I  ,E  ,t  ,    T bc&#39;s  !      You must have 2 spaces!!
 </div>
 <p>There are a few things worth notice here.
 First, no boundary conditions were given for the velocity.
-As the generated mesh corresponds only to the solid domain, any provided BCs will be ignored by <em>Nek5000</em> at runtime and these are left as blank, <code class="docutils literal"><span class="pre">'</span>&#160;&#160; <span class="pre">'</span></code>, to indicate that the velocity is not defined on the solid mesh.
-Second, Dirichlet boundaries, <code class="docutils literal"><span class="pre">'t</span>&#160; <span class="pre">'</span></code>, are prescribed for the temperature.
-These will indicate which faces the <code class="docutils literal"><span class="pre">userbc</span></code> subroutine is called.
-Finally, <code class="docutils literal"><span class="pre">genbox</span></code> does not perform any consistency checks, so even though the two domains are not connected, it will still produce a mesh file.
-The tool will again produce a file named <code class="docutils literal"><span class="pre">box.rea</span></code> which should be renamed to <code class="docutils literal"><span class="pre">solid.rea</span></code>.</p>
+As the generated mesh corresponds only to the solid domain, any provided BCs will be ignored by <em>Nek5000</em> at runtime and these are left as blank, <code class="docutils literal notranslate"><span class="pre">'</span>&#160;&#160; <span class="pre">'</span></code>, to indicate that the velocity is not defined on the solid mesh.
+Second, Dirichlet boundaries, <code class="docutils literal notranslate"><span class="pre">'t</span>&#160; <span class="pre">'</span></code>, are prescribed for the temperature.
+These will indicate which faces the <code class="docutils literal notranslate"><span class="pre">userbc</span></code> subroutine is called.
+Finally, <code class="docutils literal notranslate"><span class="pre">genbox</span></code> does not perform any consistency checks, so even though the two domains are not connected, it will still produce a mesh file.
+The tool will again produce a file named <code class="docutils literal notranslate"><span class="pre">box.rea</span></code> which should be renamed to <code class="docutils literal notranslate"><span class="pre">solid.rea</span></code>.</p>
 <p>Then, we can run <em>preNek</em> to merge the fluid and solid subdomains.
-<em>preNek</em> can be invoked with either the GUI or text-based interface via the commands <code class="docutils literal"><span class="pre">prex</span></code> and <code class="docutils literal"><span class="pre">pretex</span></code> respectively.
+<em>preNek</em> can be invoked with either the GUI or text-based interface via the commands <code class="docutils literal notranslate"><span class="pre">prex</span></code> and <code class="docutils literal notranslate"><span class="pre">pretex</span></code> respectively.
 While the GUI has more functionality, the text-based interface is useful for scripting.
 Note that the GUI is displayed in either case, requiring an X-window.
 The only difference is in how commands are input into <em>preNek</em>.
 For this case the text-based interface will be used.</p>
 <p>It is important to first enter the fluid domain file name and then the solid part.
-An example of running <code class="docutils literal"><span class="pre">pretex</span></code> is shown below, with the expected user input highlighted.</p>
-<div class="highlight-none"><div class="highlight"><pre><span></span> Choose a Name for This Session:
+An example of running <code class="docutils literal notranslate"><span class="pre">pretex</span></code> is shown below, with the expected user input highlighted.</p>
+<div class="highlight-none notranslate"><div class="highlight"><pre><span></span> Choose a Name for This Session:
 <span class="hll"> combined
 </span>   Beginning Session cht2d
    1 READ PREVIOUS PARAMETERS
@@ -313,13 +316,13 @@ An example of running <code class="docutils literal"><span class="pre">pretex</s
 </span> Exiting session
 </pre></div>
 </div>
-<p>Note that the <code class="docutils literal"><span class="pre">.rea</span></code> suffix is assumed when specifying files to <em>preNek</em>.
-If all goes well, this will produce the <code class="docutils literal"><span class="pre">combined.rea</span></code> file.
+<p>Note that the <code class="docutils literal notranslate"><span class="pre">.rea</span></code> suffix is assumed when specifying files to <em>preNek</em>.
+If all goes well, this will produce the <code class="docutils literal notranslate"><span class="pre">combined.rea</span></code> file.
 <em>preNek</em> will check for boundary condition consistency before exiting.
 If it asks to assign any BCs, something is inconsistent with the box files.</p>
-<p>Now, the user needs to run the <code class="docutils literal"><span class="pre">reatore2</span></code> and <code class="docutils literal"><span class="pre">genmap</span></code> tools in order to produce the <code class="docutils literal"><span class="pre">cht2d.re2</span></code> and <code class="docutils literal"><span class="pre">cht2d.ma2</span></code> binary files respectively.
-An example of running <code class="docutils literal"><span class="pre">reatore2</span></code> is shown, again with expected user input highlighted.</p>
-<div class="highlight-none"><div class="highlight"><pre><span></span>  Input .rea name
+<p>Now, the user needs to run the <code class="docutils literal notranslate"><span class="pre">reatore2</span></code> and <code class="docutils literal notranslate"><span class="pre">genmap</span></code> tools in order to produce the <code class="docutils literal notranslate"><span class="pre">cht2d.re2</span></code> and <code class="docutils literal notranslate"><span class="pre">cht2d.ma2</span></code> binary files respectively.
+An example of running <code class="docutils literal notranslate"><span class="pre">reatore2</span></code> is shown, again with expected user input highlighted.</p>
+<div class="highlight-none notranslate"><div class="highlight"><pre><span></span>  Input .rea name
 <span class="hll"> combined
 </span>  Input .rea/.re2 output name:
 <span class="hll"> cht2d
@@ -337,8 +340,8 @@ An example of running <code class="docutils literal"><span class="pre">reatore2<
   done
 </pre></div>
 </div>
-<p>Note that <code class="docutils literal"><span class="pre">reatore2</span></code> will produce both a binary mesh file, <code class="docutils literal"><span class="pre">cht2d.re2</span></code>, and a new rea file, <code class="docutils literal"><span class="pre">cht2d.rea</span></code>.
-The options in the rea file are propagated from the original template, <code class="docutils literal"><span class="pre">ray0.rea</span></code>, and will override the options we will later set in the par file, so it is recommend to either rename or delete the new rea file.
+<p>Note that <code class="docutils literal notranslate"><span class="pre">reatore2</span></code> will produce both a binary mesh file, <code class="docutils literal notranslate"><span class="pre">cht2d.re2</span></code>, and a new rea file, <code class="docutils literal notranslate"><span class="pre">cht2d.rea</span></code>.
+The options in the rea file are propagated from the original template, <code class="docutils literal notranslate"><span class="pre">ray0.rea</span></code>, and will override the options we will later set in the par file, so it is recommend to either rename or delete the new rea file.
 The produced mesh is shown in <a class="reference internal" href="#fig-cht-mesh"><span class="std std-numref">Fig. 3</span></a>.</p>
 <div class="align-center figure" id="id3">
 <span id="fig-cht-mesh"></span><img alt="per_mesh" src="../_images/mesh.png" />
@@ -349,18 +352,18 @@ The produced mesh is shown in <a class="reference internal" href="#fig-cht-mesh"
 <h2>usr file<a class="headerlink" href="#usr-file" title="Permalink to this headline">¶</a></h2>
 <p>The <a class="reference internal" href="../problem_setup/case_files.html#case-files-usr"><span class="std std-ref">user routines</span></a> file implements various subroutines to allow the users to interact with the solver.</p>
 <p>To get started we copy the template to our case directory and then we modify its subroutines accordingly.</p>
-<div class="highlight-none"><div class="highlight"><pre><span></span>cp $HOME/Nek5000/core/zero.usr cht2d.usr
+<div class="highlight-none notranslate"><div class="highlight"><pre><span></span>cp $HOME/Nek5000/core/zero.usr cht2d.usr
 </pre></div>
 </div>
 <div class="section" id="user-data">
 <h3>User Data<a class="headerlink" href="#user-data" title="Permalink to this headline">¶</a></h3>
 <p><em>Nek5000</em> provides multiple subroutines useful for providing user data.
-These are <code class="docutils literal"><span class="pre">usrdat</span></code>, <code class="docutils literal"><span class="pre">usrdat2</span></code>, and <code class="docutils literal"><span class="pre">usrdat3</span></code> which are all called once at the begining of a run and appear towards the bottom of the template user file.
-They are called at different times during initialization and the different use cases for each one can be significant, but for the purposes of this tutorial we focus only on basic input done in <code class="docutils literal"><span class="pre">usrdat</span></code>.
-By specifying the needed user parameters in <code class="docutils literal"><span class="pre">usrdat</span></code> and providing them in a common block, those parameters can easily be made available to any user subroutine.
+These are <code class="docutils literal notranslate"><span class="pre">usrdat</span></code>, <code class="docutils literal notranslate"><span class="pre">usrdat2</span></code>, and <code class="docutils literal notranslate"><span class="pre">usrdat3</span></code> which are all called once at the begining of a run and appear towards the bottom of the template user file.
+They are called at different times during initialization and the different use cases for each one can be significant, but for the purposes of this tutorial we focus only on basic input done in <code class="docutils literal notranslate"><span class="pre">usrdat</span></code>.
+By specifying the needed user parameters in <code class="docutils literal notranslate"><span class="pre">usrdat</span></code> and providing them in a common block, those parameters can easily be made available to any user subroutine.
 The relevant lines describing the common block are highlighted for emphasis.
 Note that they will appear in most of the modified subroutines.</p>
-<div class="highlight-fortran"><div class="highlight"><pre><span></span>      <span class="k">subroutine </span><span class="n">usrdat</span><span class="p">()</span>   <span class="c">! This routine to modify element vertices</span>
+<div class="highlight-fortran notranslate"><div class="highlight"><pre><span></span>      <span class="k">subroutine </span><span class="n">usrdat</span><span class="p">()</span>   <span class="c">! This routine to modify element vertices</span>
       <span class="k">implicit none</span>
 <span class="k">      include</span> <span class="s1">&#39;SIZE&#39;</span>
       <span class="k">include</span> <span class="s1">&#39;TOTAL&#39;</span>
@@ -380,11 +383,11 @@ Note that they will appear in most of the modified subroutines.</p>
 <div class="section" id="variable-properties">
 <h3>Variable properties<a class="headerlink" href="#variable-properties" title="Permalink to this headline">¶</a></h3>
 <p>In the <a class="reference internal" href="../problem_setup/case_files.html#case-files-uservp"><span class="std std-ref">uservp subroutine</span></a>, users can specifiy different variable properties for the fluid and solid subdomains independently.
-As an example, the thermal diffusivity of Copper is <span class="math">\(\alpha = 1.1 (10 ^ {-4})\)</span> [<span class="math">\(m^{2}/s\)</span>].
+As an example, the thermal diffusivity of Copper is <span class="math notranslate nohighlight">\(\alpha = 1.1 (10 ^ {-4})\)</span> [<span class="math notranslate nohighlight">\(m^{2}/s\)</span>].
 The thermal diffusivity ratio of Copper and liquid metal alloy GaInSn (Pr = 0.033) is 10 and the thermal diffusivity ratio of Copper and air (Pr = 0.7) is 5.2 <a class="reference internal" href="../references.html#foroozani2021" id="id2">[Foroozani2021]</a>.
-The conductivity of the solid region is set by comparing the global element number, <code class="docutils literal"><span class="pre">eg</span></code>, to the the total number of elements in the <em>v-mesh</em>, <code class="docutils literal"><span class="pre">nelgv</span></code>.
+The conductivity of the solid region is set by comparing the global element number, <code class="docutils literal notranslate"><span class="pre">eg</span></code>, to the the total number of elements in the <em>v-mesh</em>, <code class="docutils literal notranslate"><span class="pre">nelgv</span></code>.
 The highlighted line indicates where this is done:</p>
-<div class="highlight-fortran"><div class="highlight"><pre><span></span>      <span class="k">subroutine </span><span class="n">uservp</span><span class="p">(</span><span class="n">ix</span><span class="p">,</span><span class="n">iy</span><span class="p">,</span><span class="n">iz</span><span class="p">,</span><span class="n">eg</span><span class="p">)</span> <span class="c">! set variable properties</span>
+<div class="highlight-fortran notranslate"><div class="highlight"><pre><span></span>      <span class="k">subroutine </span><span class="n">uservp</span><span class="p">(</span><span class="n">ix</span><span class="p">,</span><span class="n">iy</span><span class="p">,</span><span class="n">iz</span><span class="p">,</span><span class="n">eg</span><span class="p">)</span> <span class="c">! set variable properties</span>
       <span class="k">implicit none</span>
 <span class="k">      include</span> <span class="s1">&#39;SIZE&#39;</span>
       <span class="k">include</span> <span class="s1">&#39;TOTAL&#39;</span>
@@ -405,8 +408,8 @@ The highlighted line indicates where this is done:</p>
 </pre></div>
 </div>
 <p>Note that the properties only vary between the fluid and the solid subdomains.
-Properties with the fluid and solid respectively remain constant as provided by the <code class="docutils literal"><span class="pre">cpfld</span></code> array.
-The <code class="docutils literal"><span class="pre">cpfld</span></code> array is filled with the values assigned in the par file according to:</p>
+Properties with the fluid and solid respectively remain constant as provided by the <code class="docutils literal notranslate"><span class="pre">cpfld</span></code> array.
+The <code class="docutils literal notranslate"><span class="pre">cpfld</span></code> array is filled with the values assigned in the par file according to:</p>
 <table border="1" class="colwidths-given docutils" id="id4">
 <caption><span class="caption-number">Table 1 </span><span class="caption-text">The field coefficient array</span><a class="headerlink" href="#id4" title="Permalink to this table">¶</a></caption>
 <colgroup>
@@ -420,16 +423,16 @@ The <code class="docutils literal"><span class="pre">cpfld</span></code> array i
 </thead>
 <tbody valign="top">
 <tr class="row-even"><td>viscosity</td>
-<td><code class="docutils literal"><span class="pre">cpfld(1,1)</span></code></td>
+<td><code class="docutils literal notranslate"><span class="pre">cpfld(1,1)</span></code></td>
 </tr>
 <tr class="row-odd"><td>density</td>
-<td><code class="docutils literal"><span class="pre">cpfld(1,2)</span></code></td>
+<td><code class="docutils literal notranslate"><span class="pre">cpfld(1,2)</span></code></td>
 </tr>
 <tr class="row-even"><td>conductivity</td>
-<td><code class="docutils literal"><span class="pre">cpfld(2,1)</span></code></td>
+<td><code class="docutils literal notranslate"><span class="pre">cpfld(2,1)</span></code></td>
 </tr>
 <tr class="row-odd"><td>rhoCp</td>
-<td><code class="docutils literal"><span class="pre">cpfld(2,2)</span></code></td>
+<td><code class="docutils literal notranslate"><span class="pre">cpfld(2,2)</span></code></td>
 </tr>
 </tbody>
 </table>
@@ -437,11 +440,11 @@ The <code class="docutils literal"><span class="pre">cpfld</span></code> array i
 <div class="section" id="buoyancy-model">
 <h3>Buoyancy model<a class="headerlink" href="#buoyancy-model" title="Permalink to this headline">¶</a></h3>
 <p>To account for buoyancy, the Buossinesq approximation is used.
-Rather than explicitly including a variable density, a body force of the form <span class="math">\(F = \rho g \beta (T-T_{ref})\)</span> is included.
-Due to the choice of non-dimensionalization, this is implemented here simply as <span class="math">\(F = T\)</span>.
-A body force is added to <em>Nek5000</em> in the <code class="docutils literal"><span class="pre">userf</span></code> subroutine, which is seen below.
+Rather than explicitly including a variable density, a body force of the form <span class="math notranslate nohighlight">\(F = \rho g \beta (T-T_{ref})\)</span> is included.
+Due to the choice of non-dimensionalization, this is implemented here simply as <span class="math notranslate nohighlight">\(F = T\)</span>.
+A body force is added to <em>Nek5000</em> in the <code class="docutils literal notranslate"><span class="pre">userf</span></code> subroutine, which is seen below.
 The highlighted line indicates where the buoyancy force is added in the <em>y</em>-direction.</p>
-<div class="highlight-fortran"><div class="highlight"><pre><span></span>      <span class="k">subroutine </span><span class="n">userf</span><span class="p">(</span><span class="n">ix</span><span class="p">,</span><span class="n">iy</span><span class="p">,</span><span class="n">iz</span><span class="p">,</span><span class="n">eg</span><span class="p">)</span> <span class="c">! set acceleration term</span>
+<div class="highlight-fortran notranslate"><div class="highlight"><pre><span></span>      <span class="k">subroutine </span><span class="n">userf</span><span class="p">(</span><span class="n">ix</span><span class="p">,</span><span class="n">iy</span><span class="p">,</span><span class="n">iz</span><span class="p">,</span><span class="n">eg</span><span class="p">)</span> <span class="c">! set acceleration term</span>
 <span class="c">!</span>
 <span class="c">!     Note: this is an acceleration term, NOT a force!</span>
 <span class="c">!     Thus, ffx will subsequently be multiplied by rho(x,t).</span>
@@ -467,12 +470,12 @@ The highlighted line indicates where the buoyancy force is added in the <em>y</e
 <h3>Initial &amp; boundary conditions<a class="headerlink" href="#initial-boundary-conditions" title="Permalink to this headline">¶</a></h3>
 <p>The next step is to specify the initial and boundary conditions.
 We apply a linear variation of temperature in the fluid mesh in the <em>y</em>-direction where the lower surface of the lower plate is maintained at a high temperature, and the upper surface of the upper plate is maintained at a low temperature.</p>
-<p>In this RBC example <span class="math">\(Ra = 10 ^ {7}\)</span> and <span class="math">\(Pr= 0.033\)</span> are choosen.
-The equilibrium state of pure conductive heat transfer as the initial condition takes the form <code class="docutils literal"><span class="pre">T</span> <span class="pre">=</span> <span class="pre">1</span> <span class="pre">-</span> <span class="pre">y</span></code> for  <code class="docutils literal"><span class="pre">0</span> <span class="pre">&lt;</span> <span class="pre">y</span> <span class="pre">&lt;</span> <span class="pre">1</span></code>  in the fluid domain and <span class="math">\(T \approx 1\)</span> and <span class="math">\(\approx 0\)</span> at the fluid-solid boundaries.
-It should be mentioned that the temperature drop across both solid-plates varies with <em>Pr</em> and <em>Ra</em> and it should be adjusted at the boundaries with temperature increment <span class="math">\(\delta T\)</span>.
-One can apply a temperature increment of <span class="math">\(\delta T = 2.5\)</span> at the top of the upper plate and the bottom of the lower plate for <span class="math">\(Pr = 0.033\)</span> and <span class="math">\(\delta T = 4.72\)</span> for <span class="math">\(Pr = 0.7\)</span> as depicted in <a class="reference internal" href="#fig-deltat2"><span class="std std-numref">Fig. 4</span></a>.
-Subsequently, we modify <code class="docutils literal"><span class="pre">userbc</span></code> and <code class="docutils literal"><span class="pre">useric</span></code> as:</p>
-<div class="highlight-fortran"><div class="highlight"><pre><span></span>      <span class="k">subroutine </span><span class="n">userbc</span><span class="p">(</span><span class="n">ix</span><span class="p">,</span><span class="n">iy</span><span class="p">,</span><span class="n">iz</span><span class="p">,</span><span class="n">iside</span><span class="p">,</span><span class="n">eg</span><span class="p">)</span> <span class="c">! set up boundary conditions</span>
+<p>In this RBC example <span class="math notranslate nohighlight">\(Ra = 10 ^ {7}\)</span> and <span class="math notranslate nohighlight">\(Pr= 0.033\)</span> are choosen.
+The equilibrium state of pure conductive heat transfer as the initial condition takes the form <code class="docutils literal notranslate"><span class="pre">T</span> <span class="pre">=</span> <span class="pre">1</span> <span class="pre">-</span> <span class="pre">y</span></code> for  <code class="docutils literal notranslate"><span class="pre">0</span> <span class="pre">&lt;</span> <span class="pre">y</span> <span class="pre">&lt;</span> <span class="pre">1</span></code>  in the fluid domain and <span class="math notranslate nohighlight">\(T \approx 1\)</span> and <span class="math notranslate nohighlight">\(\approx 0\)</span> at the fluid-solid boundaries.
+It should be mentioned that the temperature drop across both solid-plates varies with <em>Pr</em> and <em>Ra</em> and it should be adjusted at the boundaries with temperature increment <span class="math notranslate nohighlight">\(\delta T\)</span>.
+One can apply a temperature increment of <span class="math notranslate nohighlight">\(\delta T = 2.5\)</span> at the top of the upper plate and the bottom of the lower plate for <span class="math notranslate nohighlight">\(Pr = 0.033\)</span> and <span class="math notranslate nohighlight">\(\delta T = 4.72\)</span> for <span class="math notranslate nohighlight">\(Pr = 0.7\)</span> as depicted in <a class="reference internal" href="#fig-deltat2"><span class="std std-numref">Fig. 4</span></a>.
+Subsequently, we modify <code class="docutils literal notranslate"><span class="pre">userbc</span></code> and <code class="docutils literal notranslate"><span class="pre">useric</span></code> as:</p>
+<div class="highlight-fortran notranslate"><div class="highlight"><pre><span></span>      <span class="k">subroutine </span><span class="n">userbc</span><span class="p">(</span><span class="n">ix</span><span class="p">,</span><span class="n">iy</span><span class="p">,</span><span class="n">iz</span><span class="p">,</span><span class="n">iside</span><span class="p">,</span><span class="n">eg</span><span class="p">)</span> <span class="c">! set up boundary conditions</span>
 <span class="c">!</span>
 <span class="c">!     NOTE ::: This subroutine MAY NOT be called by every process</span>
 <span class="c">!</span>
@@ -498,7 +501,7 @@ Subsequently, we modify <code class="docutils literal"><span class="pre">userbc<
 <span class="k">      end</span>
 </pre></div>
 </div>
-<div class="highlight-fortran"><div class="highlight"><pre><span></span>      <span class="k">subroutine </span><span class="n">useric</span><span class="p">(</span><span class="n">ix</span><span class="p">,</span><span class="n">iy</span><span class="p">,</span><span class="n">iz</span><span class="p">,</span><span class="n">eg</span><span class="p">)</span> <span class="c">! set up initial conditions</span>
+<div class="highlight-fortran notranslate"><div class="highlight"><pre><span></span>      <span class="k">subroutine </span><span class="n">useric</span><span class="p">(</span><span class="n">ix</span><span class="p">,</span><span class="n">iy</span><span class="p">,</span><span class="n">iz</span><span class="p">,</span><span class="n">eg</span><span class="p">)</span> <span class="c">! set up initial conditions</span>
       <span class="k">implicit none</span>
 <span class="k">      include</span> <span class="s1">&#39;SIZE&#39;</span>
       <span class="k">include</span> <span class="s1">&#39;TOTAL&#39;</span>
@@ -531,9 +534,9 @@ Subsequently, we modify <code class="docutils literal"><span class="pre">userbc<
 </div>
 <div class="section" id="control-parameters">
 <h2>Control parameters<a class="headerlink" href="#control-parameters" title="Permalink to this headline">¶</a></h2>
-<p>The control parameters for any case are given in the <code class="docutils literal"><span class="pre">.par</span></code> file.
-For this case, using any text editor, create a new file called <code class="docutils literal"><span class="pre">cht2d.par</span></code> and type in the following:</p>
-<div class="highlight-ini"><div class="highlight"><pre><span></span><span class="c1"># Nek5000 parameter file</span>
+<p>The control parameters for any case are given in the <code class="docutils literal notranslate"><span class="pre">.par</span></code> file.
+For this case, using any text editor, create a new file called <code class="docutils literal notranslate"><span class="pre">cht2d.par</span></code> and type in the following:</p>
+<div class="highlight-ini notranslate"><div class="highlight"><pre><span></span><span class="c1"># Nek5000 parameter file</span>
 <span class="k">[GENERAL]</span>
 <span class="na">stopAt</span> <span class="o">=</span> <span class="s">endTime</span>
 <span class="na">endTime</span> <span class="o">=</span> <span class="s">50</span>
@@ -555,24 +558,24 @@ For this case, using any text editor, create a new file called <code class="docu
 <span class="na">conductivity</span> <span class="o">=</span> <span class="s">1.740776e-3</span>
 </pre></div>
 </div>
-<p>Note that if the file <code class="docutils literal"><span class="pre">cht2d.rea</span></code> exists within the case directory, <em>Nek5000</em> will preferentially read the case parameters from that file instead, which may result in errors or inconsistent results.
-In this example, we have set the calculation to stop after a physical time of 50 (<code class="docutils literal"><span class="pre">endTime</span> <span class="pre">=</span> <span class="pre">50.0</span></code>) and write the checkpoint file every 1 physical time units (<code class="docutils literal"><span class="pre">writeInterval</span> <span class="pre">=</span> <span class="pre">1.0</span></code>).
+<p>Note that if the file <code class="docutils literal notranslate"><span class="pre">cht2d.rea</span></code> exists within the case directory, <em>Nek5000</em> will preferentially read the case parameters from that file instead, which may result in errors or inconsistent results.
+In this example, we have set the calculation to stop after a physical time of 50 (<code class="docutils literal notranslate"><span class="pre">endTime</span> <span class="pre">=</span> <span class="pre">50.0</span></code>) and write the checkpoint file every 1 physical time units (<code class="docutils literal notranslate"><span class="pre">writeInterval</span> <span class="pre">=</span> <span class="pre">1.0</span></code>).
 This will provide 50 snapshots of the developing velocity and temperature fields.
-In choosing <code class="docutils literal"><span class="pre">viscosity</span> <span class="pre">=</span> <span class="pre">5.744563E-05</span></code> and <code class="docutils literal"><span class="pre">conductivity</span> <span class="pre">=</span> <span class="pre">1.740776E-03</span></code>, actually we are setting the Rayleigh <em>Ra=10e7</em> and <em>Pr=0.033</em>.
-By omitting the <code class="docutils literal"><span class="pre">[PRESSURE]</span></code> and <code class="docutils literal"><span class="pre">[PROBLEMTYPE]</span></code> categories, we are telling the solver to use default values for the necessary parameters.
+In choosing <code class="docutils literal notranslate"><span class="pre">viscosity</span> <span class="pre">=</span> <span class="pre">5.744563E-05</span></code> and <code class="docutils literal notranslate"><span class="pre">conductivity</span> <span class="pre">=</span> <span class="pre">1.740776E-03</span></code>, actually we are setting the Rayleigh <em>Ra=10e7</em> and <em>Pr=0.033</em>.
+By omitting the <code class="docutils literal notranslate"><span class="pre">[PRESSURE]</span></code> and <code class="docutils literal notranslate"><span class="pre">[PROBLEMTYPE]</span></code> categories, we are telling the solver to use default values for the necessary parameters.
 Additional details on available settings in the par file are available <a class="reference internal" href="../problem_setup/case_files.html#case-files-par"><span class="std std-ref">here</span></a>.</p>
 </div>
 <div class="section" id="size-file">
 <h2>SIZE file<a class="headerlink" href="#size-file" title="Permalink to this headline">¶</a></h2>
-<p>The static memory layout of <em>Nek5000</em> requires the user to set some solver parameters through a so called <code class="docutils literal"><span class="pre">SIZE</span></code> file.
+<p>The static memory layout of <em>Nek5000</em> requires the user to set some solver parameters through a so called <code class="docutils literal notranslate"><span class="pre">SIZE</span></code> file.
 Typically it’s a good idea to start from the template.
-If you haven’t already, copy the <code class="docutils literal"><span class="pre">SIZE.template</span></code> file from the core directory and rename it <code class="docutils literal"><span class="pre">SIZE</span></code> in the working directory:</p>
-<div class="highlight-none"><div class="highlight"><pre><span></span>cp $HOME/Nek5000/core/SIZE.template SIZE
+If you haven’t already, copy the <code class="docutils literal notranslate"><span class="pre">SIZE.template</span></code> file from the core directory and rename it <code class="docutils literal notranslate"><span class="pre">SIZE</span></code> in the working directory:</p>
+<div class="highlight-none notranslate"><div class="highlight"><pre><span></span>cp $HOME/Nek5000/core/SIZE.template SIZE
 </pre></div>
 </div>
 <p>Then, adjust the following parameters in the BASIC section.
 The only one you will likely need to change is the number of global elements on the highlighted line.</p>
-<div class="highlight-fortran"><div class="highlight"><pre><span></span>      <span class="c">! BASIC</span>
+<div class="highlight-fortran notranslate"><div class="highlight"><pre><span></span>      <span class="c">! BASIC</span>
       <span class="k">parameter</span> <span class="p">(</span><span class="n">ldim</span><span class="o">=</span><span class="mi">2</span><span class="p">)</span>               <span class="c">! domain dimension (2 or 3)</span>
       <span class="k">parameter</span> <span class="p">(</span><span class="n">lx1</span><span class="o">=</span><span class="mi">8</span><span class="p">)</span>                <span class="c">! GLL points per element along each direction</span>
       <span class="k">parameter</span> <span class="p">(</span><span class="n">lxd</span><span class="o">=</span><span class="mi">12</span><span class="p">)</span>               <span class="c">! GL  points for over-integration (dealiasing) </span>
@@ -584,8 +587,8 @@ The only one you will likely need to change is the number of global elements on 
       <span class="k">parameter</span> <span class="p">(</span><span class="n">ldimt</span><span class="o">=</span><span class="mi">1</span><span class="p">)</span>              <span class="c">! max auxiliary fields (temperature + scalars)</span>
 </pre></div>
 </div>
-<p>For this tutorial we have set our polynomial order to be <span class="math">\(N=7\)</span> - this is defined in the <code class="docutils literal"><span class="pre">SIZE</span></code> file above as <code class="docutils literal"><span class="pre">lx1=8</span></code> which indices that there are 8 points in each spatial dimension of every element.
-Additional details on the parameters in the <code class="docutils literal"><span class="pre">SIZE</span></code> file are given <a class="reference internal" href="../problem_setup/case_files.html#case-files-size"><span class="std std-ref">here</span></a>.</p>
+<p>For this tutorial we have set our polynomial order to be <span class="math notranslate nohighlight">\(N=7\)</span> - this is defined in the <code class="docutils literal notranslate"><span class="pre">SIZE</span></code> file above as <code class="docutils literal notranslate"><span class="pre">lx1=8</span></code> which indices that there are 8 points in each spatial dimension of every element.
+Additional details on the parameters in the <code class="docutils literal notranslate"><span class="pre">SIZE</span></code> file are given <a class="reference internal" href="../problem_setup/case_files.html#case-files-size"><span class="std std-ref">here</span></a>.</p>
 </div>
 <div class="section" id="compilation">
 <h2>Compilation<a class="headerlink" href="#compilation" title="Permalink to this headline">¶</a></h2>
@@ -593,20 +596,20 @@ Additional details on the parameters in the <code class="docutils literal"><span
 As a final check, you should have the following files:</p>
 <blockquote>
 <div><ul class="simple">
-<li><a class="reference download internal" href="../_downloads/cht2d.usr" download=""><code class="xref download docutils literal"><span class="pre">cht2d.usr</span></code></a></li>
-<li><a class="reference download internal" href="../_downloads/cht2d.par" download=""><code class="xref download docutils literal"><span class="pre">cht2d.par</span></code></a></li>
-<li><a class="reference download internal" href="../_downloads/cht2d.re2" download=""><code class="xref download docutils literal"><span class="pre">cht2d.re2</span></code></a></li>
-<li><a class="reference download internal" href="../_downloads/cht2d.ma2" download=""><code class="xref download docutils literal"><span class="pre">cht2d.ma2</span></code></a></li>
-<li><a class="reference download internal" href="../_downloads/SIZE" download=""><code class="xref download docutils literal"><span class="pre">SIZE</span></code></a></li>
+<li><a class="reference download internal" download="" href="../_downloads/773d95526f7b9bd9bdc250951e692d1f/cht2d.usr"><code class="xref download docutils literal notranslate"><span class="pre">cht2d.usr</span></code></a></li>
+<li><a class="reference download internal" download="" href="../_downloads/914e369a0337bfef572e129ff37ba38d/cht2d.par"><code class="xref download docutils literal notranslate"><span class="pre">cht2d.par</span></code></a></li>
+<li><a class="reference download internal" download="" href="../_downloads/8a8aa5fb4111aa5bc7100a8e5b69e455/cht2d.re2"><code class="xref download docutils literal notranslate"><span class="pre">cht2d.re2</span></code></a></li>
+<li><a class="reference download internal" download="" href="../_downloads/8f73d6e00119fe7c9e9215080d28da0d/cht2d.ma2"><code class="xref download docutils literal notranslate"><span class="pre">cht2d.ma2</span></code></a></li>
+<li><a class="reference download internal" download="" href="../_downloads/ef121159f9c0f12896b75e1676fab000/SIZE"><code class="xref download docutils literal notranslate"><span class="pre">SIZE</span></code></a></li>
 </ul>
 </div></blockquote>
 <p>If for some reason you encountered an insurmountable error and were unable to generate any of the required files, you may use the provided links to download them.
 After confirming that you have all five, you are now ready to compile:</p>
-<div class="highlight-default"><div class="highlight"><pre><span></span><span class="n">makenek</span> <span class="n">cht2d</span>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">makenek</span> <span class="n">cht2d</span>
 </pre></div>
 </div>
-<p>If all works properly, upon compilation the executable <code class="docutils literal"><span class="pre">nek5000</span></code> will be generated and you will see something like:</p>
-<div class="highlight-none"><div class="highlight"><pre><span></span>#############################################################
+<p>If all works properly, upon compilation the executable <code class="docutils literal notranslate"><span class="pre">nek5000</span></code> will be generated and you will see something like:</p>
+<div class="highlight-none notranslate"><div class="highlight"><pre><span></span>#############################################################
 #                  Compilation successful!                  #
 #############################################################
    text	   data	    bss	    dec	    hex	filename
@@ -616,26 +619,26 @@ After confirming that you have all five, you are now ready to compile:</p>
 <p>Note that compilation only relies on the user file and the SIZE file.
 Any changes to these two files will require recompiling your case!
 Now you are all set, just run</p>
-<div class="highlight-bash"><div class="highlight"><pre><span></span>nekbmpi cht2d <span class="m">4</span>
+<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>nekbmpi cht2d <span class="m">4</span>
 </pre></div>
 </div>
-<p>to launch an MPI jobs on your local machine using 4 ranks. The output will be redirected to <code class="docutils literal"><span class="pre">logfile</span></code>.</p>
+<p>to launch an MPI jobs on your local machine using 4 ranks. The output will be redirected to <code class="docutils literal notranslate"><span class="pre">logfile</span></code>.</p>
 </div>
 <div class="section" id="post-processing-the-results">
 <h2>Post-processing the results<a class="headerlink" href="#post-processing-the-results" title="Permalink to this headline">¶</a></h2>
 <p>Once execution is completed your directory should now contain multiple checkpoint files that look like this:</p>
-<div class="highlight-default"><div class="highlight"><pre><span></span><span class="n">cht2d</span><span class="o">.</span><span class="n">f00001</span>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">cht2d</span><span class="o">.</span><span class="n">f00001</span>
 <span class="n">cht2d</span><span class="o">.</span><span class="n">f00002</span>
 <span class="o">...</span>
 </pre></div>
 </div>
 <p>The preferred mode for data visualization with <em>Nek5000</em> is to use Visit or Paraview.
-This requires generating a metadata file with <code class="docutils literal"><span class="pre">visnek</span></code>, found in <code class="docutils literal"><span class="pre">/scripts</span></code>.
+This requires generating a metadata file with <code class="docutils literal notranslate"><span class="pre">visnek</span></code>, found in <code class="docutils literal notranslate"><span class="pre">/scripts</span></code>.
 It can be run with:</p>
-<div class="highlight-default"><div class="highlight"><pre><span></span><span class="n">visnek</span> <span class="n">cht2d</span>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">visnek</span> <span class="n">cht2d</span>
 </pre></div>
 </div>
-<p>to obtain a file named <code class="docutils literal"><span class="pre">cht2d.nek5000</span></code>.
+<p>to obtain a file named <code class="docutils literal notranslate"><span class="pre">cht2d.nek5000</span></code>.
 This file can be opened with either Visit or Paraview.</p>
 <p>In the viewing window, the temperature-field can be visualized.
 It will be similar to, but not necessarily identical to that shown in <a class="reference internal" href="#fig-cht-rbc"><span class="std std-numref">Fig. 5</span></a>.</p>
@@ -648,34 +651,32 @@ It will be similar to, but not necessarily identical to that shown in <a class="
 
 
            </div>
-           <div class="articleComments">
-            
-           </div>
+           
           </div>
           <footer>
-  
     <div class="rst-footer-buttons" role="navigation" aria-label="footer navigation">
-      
-        <a href="neknek.html" class="btn btn-neutral float-right" title="Overlapping Overset Grids" accesskey="n" rel="next">Next <span class="fa fa-arrow-circle-right"></span></a>
-      
-      
-        <a href="perhill.html" class="btn btn-neutral" title="Periodic Hill" accesskey="p" rel="prev"><span class="fa fa-arrow-circle-left"></span> Previous</a>
-      
+        <a href="neknek.html" class="btn btn-neutral float-right" title="Overlapping Overset Grids" accesskey="n" rel="next">Next <span class="fa fa-arrow-circle-right" aria-hidden="true"></span></a>
+        <a href="perhill.html" class="btn btn-neutral float-left" title="Periodic Hill" accesskey="p" rel="prev"><span class="fa fa-arrow-circle-left" aria-hidden="true"></span> Previous</a>
     </div>
-  
 
   <hr/>
 
   <div role="contentinfo">
     <p>
-        &copy; Copyright 2015-2017, UCHICAGO ARGONNE, LLC.
+        &#169; Copyright 2015-2017, UCHICAGO ARGONNE, LLC.
 
     </p>
   </div>
-  Built with <a href="http://sphinx-doc.org/">Sphinx</a> using a <a href="https://github.com/snide/sphinx_rtd_theme">theme</a> provided by <a href="https://readthedocs.org">Read the Docs</a>. 
+    
+    
+    
+    Built with <a href="https://www.sphinx-doc.org/">Sphinx</a> using a
+    
+    <a href="https://github.com/readthedocs/sphinx_rtd_theme">theme</a>
+    
+    provided by <a href="https://readthedocs.org">Read the Docs</a>. 
 
 </footer>
-
         </div>
       </div>
 
@@ -684,38 +685,15 @@ It will be similar to, but not necessarily identical to that shown in <a class="
   </div>
   
 
-
-  
-
-    <script type="text/javascript">
-        var DOCUMENTATION_OPTIONS = {
-            URL_ROOT:'../',
-            VERSION:'17.0',
-            COLLAPSE_INDEX:false,
-            FILE_SUFFIX:'.html',
-            HAS_SOURCE:  true,
-            SOURCELINK_SUFFIX: '.txt'
-        };
-    </script>
-      <script type="text/javascript" src="../_static/jquery.js"></script>
-      <script type="text/javascript" src="../_static/underscore.js"></script>
-      <script type="text/javascript" src="../_static/doctools.js"></script>
-      <script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.1/MathJax.js?config=TeX-AMS-MML_HTMLorMML"></script>
-
-  
-
-  
-  
-    <script type="text/javascript" src="../_static/js/theme.js"></script>
-  
-
-  
-  
   <script type="text/javascript">
       jQuery(function () {
-          SphinxRtdTheme.StickyNav.enable();
+          SphinxRtdTheme.Navigation.enable(true);
       });
   </script>
+
+  
+  
+    
    
 
 </body>

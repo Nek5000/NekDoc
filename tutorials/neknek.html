@@ -1,59 +1,57 @@
 
 
 <!DOCTYPE html>
-<!--[if IE 8]><html class="no-js lt-ie9" lang="en" > <![endif]-->
-<!--[if gt IE 8]><!--> <html class="no-js" lang="en" > <!--<![endif]-->
+<html class="writer-html4" lang="en" >
 <head>
-  <meta charset="utf-8">
+  <meta charset="utf-8" />
   
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   
   <title>Overlapping Overset Grids &mdash; Nek5000 17.0 documentation</title>
   
 
   
+  <link rel="stylesheet" href="../_static/css/theme.css" type="text/css" />
+  <link rel="stylesheet" href="../_static/pygments.css" type="text/css" />
+
   
+  
+
   
   
 
   
 
   
+  <!--[if lt IE 9]>
+    <script src="../_static/js/html5shiv.min.js"></script>
+  <![endif]-->
   
     
+      <script type="text/javascript" id="documentation_options" data-url_root="../" src="../_static/documentation_options.js"></script>
+        <script type="text/javascript" src="../_static/jquery.js"></script>
+        <script type="text/javascript" src="../_static/underscore.js"></script>
+        <script type="text/javascript" src="../_static/doctools.js"></script>
+        <script type="text/javascript" src="../_static/language_data.js"></script>
+        <script async="async" type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.5/latest.js?config=TeX-AMS-MML_HTMLorMML"></script>
+    
+    <script type="text/javascript" src="../_static/js/theme.js"></script>
 
-  
-
-  
-  
-    <link rel="stylesheet" href="../_static/css/theme.css" type="text/css" />
-  
-
-  
-
-  
-        <link rel="index" title="Index"
-              href="../genindex.html"/>
-        <link rel="search" title="Search" href="../search.html"/>
-    <link rel="top" title="Nek5000 17.0 documentation" href="../index.html"/>
-        <link rel="up" title="Tutorials" href="../tutorials.html"/>
-        <link rel="next" title="Problem Setup" href="../problem_setup.html"/>
-        <link rel="prev" title="Conjugate Heat Transfer" href="conjht.html"/> 
-
-  
-  <script src="../_static/js/modernizr.min.js"></script>
-
+    
+    <link rel="index" title="Index" href="../genindex.html" />
+    <link rel="search" title="Search" href="../search.html" />
+    <link rel="next" title="Problem Setup" href="../problem_setup.html" />
+    <link rel="prev" title="Conjugate Heat Transfer" href="conjht.html" /> 
 </head>
 
-<body class="wy-body-for-nav" role="document">
+<body class="wy-body-for-nav">
 
    
   <div class="wy-grid-for-nav">
-
     
     <nav data-toggle="wy-nav-shift" class="wy-nav-side">
       <div class="wy-side-scroll">
-        <div class="wy-side-nav-search">
+        <div class="wy-side-nav-search" >
           
 
           
@@ -84,6 +82,7 @@
           
         </div>
 
+        
         <div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="main navigation">
           
             
@@ -124,13 +123,14 @@
             
           
         </div>
+        
       </div>
     </nav>
 
     <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap">
 
       
-      <nav class="wy-nav-top" role="navigation" aria-label="top navigation">
+      <nav class="wy-nav-top" aria-label="top navigation">
         
           <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
           <a href="../index.html">Nek5000</a>
@@ -138,10 +138,13 @@
       </nav>
 
 
-      
       <div class="wy-nav-content">
+        
         <div class="rst-content">
+        
           
+
+
 
 
 
@@ -161,7 +164,7 @@
 
   <ul class="wy-breadcrumbs">
     
-      <li><a href="../index.html">Docs</a> &raquo;</li>
+      <li><a href="../index.html" class="icon icon-home"></a> &raquo;</li>
         
           <li><a href="../tutorials.html">Tutorials</a> &raquo;</li>
         
@@ -170,7 +173,7 @@
     
       <li class="wy-breadcrumbs-aside">
         
-            
+          
             <a href="../_sources/tutorials/neknek.rst.txt" rel="nofollow"> View page source</a>
           
         
@@ -194,19 +197,19 @@ If you are not familiar with Nek5000, we strongly recommend you begin with the P
 <div><ol class="arabic simple">
 <li>Setting up the mesh with appropriate boundary conditions for the overlapping interface.</li>
 <li>Specifying parameters to control stability and accuracy for the overlapping-Schwarz iterations.</li>
-<li>Modifying <code class="docutils literal"><span class="pre">userbc</span></code> to read Dirichlet boundary data for the overlapping interfaces.</li>
+<li>Modifying <code class="docutils literal notranslate"><span class="pre">userbc</span></code> to read Dirichlet boundary data for the overlapping interfaces.</li>
 </ol>
 </div></blockquote>
 <div class="section" id="pre-processing">
 <h2>Pre-processing<a class="headerlink" href="#pre-processing" title="Permalink to this headline">¶</a></h2>
-<p>The pre-processing steps for a NekNek calculation differ from a mono-domain Nek5000 calculation only in terms of ensuring that the appropriate boundary condition <code class="docutils literal"><span class="pre">int</span></code> is specified at the overlapping interface.
+<p>The pre-processing steps for a NekNek calculation differ from a mono-domain Nek5000 calculation only in terms of ensuring that the appropriate boundary condition <code class="docutils literal notranslate"><span class="pre">int</span></code> is specified at the overlapping interface.
 This boundary condition serves as the flag to let the solver know that Dirichlet data for these boundary conditions must come from interpolation of the data in the overlapping mesh.</p>
 </div>
 <div class="section" id="mesh-generation">
 <h2>Mesh generation<a class="headerlink" href="#mesh-generation" title="Permalink to this headline">¶</a></h2>
 <p>In this tutorial, we generate two meshes to span the entire domain, an upper and a lower mesh.
 The lower mesh is generated by genbox with the following input file:</p>
-<div class="highlight-none"><div class="highlight"><pre><span></span>-2                     spatial dimension (will create box.re2)
+<div class="highlight-none notranslate"><div class="highlight"><pre><span></span>-2                     spatial dimension (will create box.re2)
 1                      number of fields
 #
 #    comments: two dimensional periodic hill
@@ -221,7 +224,7 @@ P  ,P  ,W  ,int                           BC&#39;s:  (cbx0, cbx1, cby0, cby1)
 </pre></div>
 </div>
 <p>and the upper mesh is generated by genbox with the following input file:</p>
-<div class="highlight-none"><div class="highlight"><pre><span></span>-2                     spatial dimension (will create box.re2)
+<div class="highlight-none notranslate"><div class="highlight"><pre><span></span>-2                     spatial dimension (will create box.re2)
 1                      number of fields
 #
 #    comments: two dimensional periodic hill
@@ -235,19 +238,19 @@ Box                                       hillp
 P  ,P  ,int,W                             BC&#39;s:  (cbx0, cbx1, cby0, cby1)
 </pre></div>
 </div>
-<p>Note: the lower domain spans <span class="math">\(y \in [0,2.5]\)</span> and the upper domain spans <span class="math">\(y \in [2.25,3]\)</span>. We also use <code class="docutils literal"><span class="pre">int</span></code> for the boundary surfaces that overlap the other domain.</p>
-<p>Now the meshes can be generated by running genbox for each of these cases to obtain <code class="docutils literal"><span class="pre">upper.re2</span></code> and <code class="docutils literal"><span class="pre">lower.re2</span></code>.</p>
+<p>Note: the lower domain spans <span class="math notranslate nohighlight">\(y \in [0,2.5]\)</span> and the upper domain spans <span class="math notranslate nohighlight">\(y \in [2.25,3]\)</span>. We also use <code class="docutils literal notranslate"><span class="pre">int</span></code> for the boundary surfaces that overlap the other domain.</p>
+<p>Now the meshes can be generated by running genbox for each of these cases to obtain <code class="docutils literal notranslate"><span class="pre">upper.re2</span></code> and <code class="docutils literal notranslate"><span class="pre">lower.re2</span></code>.</p>
 </div>
 <div class="section" id="usr-file">
 <h2>usr file<a class="headerlink" href="#usr-file" title="Permalink to this headline">¶</a></h2>
 <p>As for the mono-domain periodic hill case, we start by copying the template to our case directory:</p>
-<div class="highlight-none"><div class="highlight"><pre><span></span>cp $HOME/Nek5000/core/zero.usr hillpnn.usr
+<div class="highlight-none notranslate"><div class="highlight"><pre><span></span>cp $HOME/Nek5000/core/zero.usr hillpnn.usr
 </pre></div>
 </div>
 <div class="section" id="modify-mesh-and-add-forcing-to-the-flow">
 <h3>Modify mesh and add forcing to the flow<a class="headerlink" href="#modify-mesh-and-add-forcing-to-the-flow" title="Permalink to this headline">¶</a></h3>
 <p>As for the mono-domain periodic hill case, we modify the mesh in usrdat2 as:</p>
-<div class="highlight-fortran"><div class="highlight"><pre><span></span><span class="k">subroutine </span><span class="n">usrdat2</span>
+<div class="highlight-fortran notranslate"><div class="highlight"><pre><span></span><span class="k">subroutine </span><span class="n">usrdat2</span>
 
 <span class="k">implicit none</span>
 
@@ -278,9 +281,9 @@ P  ,P  ,int,W                             BC&#39;s:  (cbx0, cbx1, cby0, cby1)
 <span id="fig-hillnn-mesh"></span><img alt="neknek_mesh" src="../_images/hillnn_mesh.png" />
 <p class="caption"><span class="caption-number">Fig. 6 </span><span class="caption-text">Modified box mesh graded</span></p>
 </div>
-<p>Currently, applying a constant mass flux with <code class="docutils literal"><span class="pre">param(54)</span></code> and <code class="docutils literal"><span class="pre">param(55)</span></code> is <strong>not</strong> supported with overlapping overset grids.
+<p>Currently, applying a constant mass flux with <code class="docutils literal notranslate"><span class="pre">param(54)</span></code> and <code class="docutils literal notranslate"><span class="pre">param(55)</span></code> is <strong>not</strong> supported with overlapping overset grids.
 For this case, we drive the flow using a constant acceleration term in userf as:</p>
-<div class="highlight-fortran"><div class="highlight"><pre><span></span>     <span class="k">subroutine </span><span class="n">userf</span><span class="p">(</span><span class="n">ix</span><span class="p">,</span><span class="n">iy</span><span class="p">,</span><span class="n">iz</span><span class="p">,</span><span class="n">eg</span><span class="p">)</span> <span class="c">! set acceleration term</span>
+<div class="highlight-fortran notranslate"><div class="highlight"><pre><span></span>     <span class="k">subroutine </span><span class="n">userf</span><span class="p">(</span><span class="n">ix</span><span class="p">,</span><span class="n">iy</span><span class="p">,</span><span class="n">iz</span><span class="p">,</span><span class="n">eg</span><span class="p">)</span> <span class="c">! set acceleration term</span>
 <span class="c">!</span>
 <span class="c">!     Note: this is an acceleration term, NOT a force!</span>
 <span class="c">!     Thus, ffx will subsequently be multiplied by rho(x,t).</span>
@@ -310,7 +313,7 @@ For this case, we drive the flow using a constant acceleration term in userf as:
 <p>In usrdat, we  specify the number of Schwarz-like iterations and extrapolation order for the boundary conditions of the overlapping interface.
 These parameters impact the stability and accuracy of the calculation.
 This is done as:</p>
-<div class="highlight-fortran"><div class="highlight"><pre><span></span><span class="k">subroutine </span><span class="n">usrdat</span><span class="p">()</span>   <span class="c">! This routine to modify element vertices</span>
+<div class="highlight-fortran notranslate"><div class="highlight"><pre><span></span><span class="k">subroutine </span><span class="n">usrdat</span><span class="p">()</span>   <span class="c">! This routine to modify element vertices</span>
 
 <span class="k">implicit none</span>
 
@@ -330,8 +333,8 @@ This is done as:</p>
 <div class="section" id="initial-boundary-conditions">
 <h3>Initial &amp; boundary conditions<a class="headerlink" href="#initial-boundary-conditions" title="Permalink to this headline">¶</a></h3>
 <p>The next step is to specify the initial conditions.
-This can be done in the subroutine <code class="docutils literal"><span class="pre">useric</span></code> as follows:</p>
-<div class="highlight-fortran"><div class="highlight"><pre><span></span><span class="k">subroutine </span><span class="n">useric</span><span class="p">(</span><span class="n">ix</span><span class="p">,</span><span class="n">iy</span><span class="p">,</span><span class="n">iz</span><span class="p">,</span><span class="n">ieg</span><span class="p">)</span>
+This can be done in the subroutine <code class="docutils literal notranslate"><span class="pre">useric</span></code> as follows:</p>
+<div class="highlight-fortran notranslate"><div class="highlight"><pre><span></span><span class="k">subroutine </span><span class="n">useric</span><span class="p">(</span><span class="n">ix</span><span class="p">,</span><span class="n">iy</span><span class="p">,</span><span class="n">iz</span><span class="p">,</span><span class="n">ieg</span><span class="p">)</span>
 
 <span class="k">implicit none</span>
 
@@ -351,7 +354,7 @@ This can be done in the subroutine <code class="docutils literal"><span class="p
 </pre></div>
 </div>
 <p>Next we modify userbc to read the boundary conditions, interpolated from overlapping domains, as follows:</p>
-<div class="highlight-fortran"><div class="highlight"><pre><span></span>     <span class="k">subroutine </span><span class="n">userbc</span><span class="p">(</span><span class="n">ix</span><span class="p">,</span><span class="n">iy</span><span class="p">,</span><span class="n">iz</span><span class="p">,</span><span class="n">iside</span><span class="p">,</span><span class="n">eg</span><span class="p">)</span> <span class="c">! set up boundary conditions</span>
+<div class="highlight-fortran notranslate"><div class="highlight"><pre><span></span>     <span class="k">subroutine </span><span class="n">userbc</span><span class="p">(</span><span class="n">ix</span><span class="p">,</span><span class="n">iy</span><span class="p">,</span><span class="n">iz</span><span class="p">,</span><span class="n">iside</span><span class="p">,</span><span class="n">eg</span><span class="p">)</span> <span class="c">! set up boundary conditions</span>
 <span class="c">!</span>
 <span class="c">!     NOTE ::: This subroutine MAY NOT be called by every process</span>
 <span class="c">!</span>
@@ -387,8 +390,8 @@ This can be done in the subroutine <code class="docutils literal"><span class="p
 <div class="section" id="control-parameters">
 <h2>Control parameters<a class="headerlink" href="#control-parameters" title="Permalink to this headline">¶</a></h2>
 <p>The control parameters for this case are the same as that for the mono-domain periodic hill case.
-Create two files called <code class="docutils literal"><span class="pre">lower.par</span></code> and <code class="docutils literal"><span class="pre">upper.par</span></code>, and type in each the following:</p>
-<div class="highlight-ini"><div class="highlight"><pre><span></span><span class="c1">#</span>
+Create two files called <code class="docutils literal notranslate"><span class="pre">lower.par</span></code> and <code class="docutils literal notranslate"><span class="pre">upper.par</span></code>, and type in each the following:</p>
+<div class="highlight-ini notranslate"><div class="highlight"><pre><span></span><span class="c1">#</span>
 <span class="c1"># nek parameter file</span>
 <span class="c1">#</span>
 <span class="k">[GENERAL]</span>
@@ -418,14 +421,14 @@ Create two files called <code class="docutils literal"><span class="pre">lower.p
 </div>
 <div class="section" id="size-file">
 <h2>SIZE file<a class="headerlink" href="#size-file" title="Permalink to this headline">¶</a></h2>
-<p>The static memory layout of Nek5000 requires the user to set some solver parameters through a so called <code class="docutils literal"><span class="pre">SIZE</span></code> file.
+<p>The static memory layout of Nek5000 requires the user to set some solver parameters through a so called <code class="docutils literal notranslate"><span class="pre">SIZE</span></code> file.
 Typically it’s a good idea to start from our template.
-Copy the <code class="docutils literal"><span class="pre">SIZE.template</span></code> file from the core directory and rename it <code class="docutils literal"><span class="pre">SIZE</span></code> in the working directory:</p>
-<div class="highlight-none"><div class="highlight"><pre><span></span>cp $HOME/Nek5000/core/SIZE.template SIZE
+Copy the <code class="docutils literal notranslate"><span class="pre">SIZE.template</span></code> file from the core directory and rename it <code class="docutils literal notranslate"><span class="pre">SIZE</span></code> in the working directory:</p>
+<div class="highlight-none notranslate"><div class="highlight"><pre><span></span>cp $HOME/Nek5000/core/SIZE.template SIZE
 </pre></div>
 </div>
 <p>Then, adjust the following parameters</p>
-<div class="highlight-fortran"><div class="highlight"><pre><span></span><span class="p">...</span>
+<div class="highlight-fortran notranslate"><div class="highlight"><pre><span></span><span class="p">...</span>
 
 <span class="c">! BASIC</span>
 <span class="k">parameter</span> <span class="p">(</span><span class="n">ldim</span><span class="o">=</span><span class="mi">2</span><span class="p">)</span>
@@ -443,31 +446,31 @@ Copy the <code class="docutils literal"><span class="pre">SIZE.template</span></
 <span class="p">...</span>
 </pre></div>
 </div>
-<p>For this tutorial we have set our polynomial order to be <span class="math">\(N=7\)</span> - this is defined in the <code class="docutils literal"><span class="pre">SIZE</span></code> file above as <code class="docutils literal"><span class="pre">lx1=8</span></code> which indices that there are 8 points in each spatial dimension of every element.
-Additional details on the parameters in the <code class="docutils literal"><span class="pre">SIZE</span></code> file are given <a class="reference internal" href="../problem_setup/case_files.html#case-files-size"><span class="std std-ref">here</span></a>.</p>
+<p>For this tutorial we have set our polynomial order to be <span class="math notranslate nohighlight">\(N=7\)</span> - this is defined in the <code class="docutils literal notranslate"><span class="pre">SIZE</span></code> file above as <code class="docutils literal notranslate"><span class="pre">lx1=8</span></code> which indices that there are 8 points in each spatial dimension of every element.
+Additional details on the parameters in the <code class="docutils literal notranslate"><span class="pre">SIZE</span></code> file are given <a class="reference internal" href="../problem_setup/case_files.html#case-files-size"><span class="std std-ref">here</span></a>.</p>
 </div>
 <div class="section" id="compilation">
 <h2>Compilation<a class="headerlink" href="#compilation" title="Permalink to this headline">¶</a></h2>
-<p>With the <code class="docutils literal"><span class="pre">hillpnn.usr</span></code>, and <code class="docutils literal"><span class="pre">SIZE</span></code> files created, we are now ready to compile:</p>
-<div class="highlight-default"><div class="highlight"><pre><span></span><span class="n">makenek</span> <span class="n">hillpnn</span>
+<p>With the <code class="docutils literal notranslate"><span class="pre">hillpnn.usr</span></code>, and <code class="docutils literal notranslate"><span class="pre">SIZE</span></code> files created, we are now ready to compile:</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">makenek</span> <span class="n">hillpnn</span>
 </pre></div>
 </div>
-<p>If all works properly, upon compilation the executable <code class="docutils literal"><span class="pre">nek5000</span></code> will be generated.</p>
+<p>If all works properly, upon compilation the executable <code class="docutils literal notranslate"><span class="pre">nek5000</span></code> will be generated.</p>
 </div>
 <div class="section" id="running-the-case">
 <h2>Running the case<a class="headerlink" href="#running-the-case" title="Permalink to this headline">¶</a></h2>
 <p>First we need to run our domain paritioning tool</p>
-<div class="highlight-bash"><div class="highlight"><pre><span></span>genmap
+<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>genmap
 </pre></div>
 </div>
-<p>On input specify <code class="docutils literal"><span class="pre">lower</span></code> as your casename and press enter to use the default tolerance.
-This step will produce <code class="docutils literal"><span class="pre">lower.ma2</span></code> which needs to be generated only once.
-Next do the same for the upper mesh to generate <code class="docutils literal"><span class="pre">upper.ma2</span></code>.</p>
+<p>On input specify <code class="docutils literal notranslate"><span class="pre">lower</span></code> as your casename and press enter to use the default tolerance.
+This step will produce <code class="docutils literal notranslate"><span class="pre">lower.ma2</span></code> which needs to be generated only once.
+Next do the same for the upper mesh to generate <code class="docutils literal notranslate"><span class="pre">upper.ma2</span></code>.</p>
 <p>Now you are all set, just run</p>
-<div class="highlight-bash"><div class="highlight"><pre><span></span>neknekb lower upper <span class="m">2</span> <span class="m">2</span>
+<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>neknekb lower upper <span class="m">2</span> <span class="m">2</span>
 </pre></div>
 </div>
-<p>to launch an MPI jobs on your local machine using 4 ranks. The output will be redirected to <code class="docutils literal"><span class="pre">logfile</span></code>.</p>
+<p>to launch an MPI jobs on your local machine using 4 ranks. The output will be redirected to <code class="docutils literal notranslate"><span class="pre">logfile</span></code>.</p>
 </div>
 <div class="section" id="post-processing-the-results">
 <h2>Post-processing the results<a class="headerlink" href="#post-processing-the-results" title="Permalink to this headline">¶</a></h2>
@@ -481,34 +484,32 @@ Next do the same for the upper mesh to generate <code class="docutils literal"><
 
 
            </div>
-           <div class="articleComments">
-            
-           </div>
+           
           </div>
           <footer>
-  
     <div class="rst-footer-buttons" role="navigation" aria-label="footer navigation">
-      
-        <a href="../problem_setup.html" class="btn btn-neutral float-right" title="Problem Setup" accesskey="n" rel="next">Next <span class="fa fa-arrow-circle-right"></span></a>
-      
-      
-        <a href="conjht.html" class="btn btn-neutral" title="Conjugate Heat Transfer" accesskey="p" rel="prev"><span class="fa fa-arrow-circle-left"></span> Previous</a>
-      
+        <a href="../problem_setup.html" class="btn btn-neutral float-right" title="Problem Setup" accesskey="n" rel="next">Next <span class="fa fa-arrow-circle-right" aria-hidden="true"></span></a>
+        <a href="conjht.html" class="btn btn-neutral float-left" title="Conjugate Heat Transfer" accesskey="p" rel="prev"><span class="fa fa-arrow-circle-left" aria-hidden="true"></span> Previous</a>
     </div>
-  
 
   <hr/>
 
   <div role="contentinfo">
     <p>
-        &copy; Copyright 2015-2017, UCHICAGO ARGONNE, LLC.
+        &#169; Copyright 2015-2017, UCHICAGO ARGONNE, LLC.
 
     </p>
   </div>
-  Built with <a href="http://sphinx-doc.org/">Sphinx</a> using a <a href="https://github.com/snide/sphinx_rtd_theme">theme</a> provided by <a href="https://readthedocs.org">Read the Docs</a>. 
+    
+    
+    
+    Built with <a href="https://www.sphinx-doc.org/">Sphinx</a> using a
+    
+    <a href="https://github.com/readthedocs/sphinx_rtd_theme">theme</a>
+    
+    provided by <a href="https://readthedocs.org">Read the Docs</a>. 
 
 </footer>
-
         </div>
       </div>
 
@@ -517,38 +518,15 @@ Next do the same for the upper mesh to generate <code class="docutils literal"><
   </div>
   
 
-
-  
-
-    <script type="text/javascript">
-        var DOCUMENTATION_OPTIONS = {
-            URL_ROOT:'../',
-            VERSION:'17.0',
-            COLLAPSE_INDEX:false,
-            FILE_SUFFIX:'.html',
-            HAS_SOURCE:  true,
-            SOURCELINK_SUFFIX: '.txt'
-        };
-    </script>
-      <script type="text/javascript" src="../_static/jquery.js"></script>
-      <script type="text/javascript" src="../_static/underscore.js"></script>
-      <script type="text/javascript" src="../_static/doctools.js"></script>
-      <script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.1/MathJax.js?config=TeX-AMS-MML_HTMLorMML"></script>
-
-  
-
-  
-  
-    <script type="text/javascript" src="../_static/js/theme.js"></script>
-  
-
-  
-  
   <script type="text/javascript">
       jQuery(function () {
-          SphinxRtdTheme.StickyNav.enable();
+          SphinxRtdTheme.Navigation.enable(true);
       });
   </script>
+
+  
+  
+    
    
 
 </body>

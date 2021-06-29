@@ -1,59 +1,57 @@
 
 
 <!DOCTYPE html>
-<!--[if IE 8]><html class="no-js lt-ie9" lang="en" > <![endif]-->
-<!--[if gt IE 8]><!--> <html class="no-js" lang="en" > <!--<![endif]-->
+<html class="writer-html4" lang="en" >
 <head>
-  <meta charset="utf-8">
+  <meta charset="utf-8" />
   
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   
   <title>Case Files &mdash; Nek5000 17.0 documentation</title>
   
 
   
+  <link rel="stylesheet" href="../_static/css/theme.css" type="text/css" />
+  <link rel="stylesheet" href="../_static/pygments.css" type="text/css" />
+
   
+  
+
   
   
 
   
 
   
+  <!--[if lt IE 9]>
+    <script src="../_static/js/html5shiv.min.js"></script>
+  <![endif]-->
   
     
+      <script type="text/javascript" id="documentation_options" data-url_root="../" src="../_static/documentation_options.js"></script>
+        <script type="text/javascript" src="../_static/jquery.js"></script>
+        <script type="text/javascript" src="../_static/underscore.js"></script>
+        <script type="text/javascript" src="../_static/doctools.js"></script>
+        <script type="text/javascript" src="../_static/language_data.js"></script>
+        <script async="async" type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.5/latest.js?config=TeX-AMS-MML_HTMLorMML"></script>
+    
+    <script type="text/javascript" src="../_static/js/theme.js"></script>
 
-  
-
-  
-  
-    <link rel="stylesheet" href="../_static/css/theme.css" type="text/css" />
-  
-
-  
-
-  
-        <link rel="index" title="Index"
-              href="../genindex.html"/>
-        <link rel="search" title="Search" href="../search.html"/>
-    <link rel="top" title="Nek5000 17.0 documentation" href="../index.html"/>
-        <link rel="up" title="Problem Setup" href="../problem_setup.html"/>
-        <link rel="next" title="Additional Features" href="features.html"/>
-        <link rel="prev" title="Boundary Conditions" href="boundary_conditions.html"/> 
-
-  
-  <script src="../_static/js/modernizr.min.js"></script>
-
+    
+    <link rel="index" title="Index" href="../genindex.html" />
+    <link rel="search" title="Search" href="../search.html" />
+    <link rel="next" title="Additional Features" href="features.html" />
+    <link rel="prev" title="Boundary Conditions" href="boundary_conditions.html" /> 
 </head>
 
-<body class="wy-body-for-nav" role="document">
+<body class="wy-body-for-nav">
 
    
   <div class="wy-grid-for-nav">
-
     
     <nav data-toggle="wy-nav-shift" class="wy-nav-side">
       <div class="wy-side-scroll">
-        <div class="wy-side-nav-search">
+        <div class="wy-side-nav-search" >
           
 
           
@@ -84,6 +82,7 @@
           
         </div>
 
+        
         <div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="main navigation">
           
             
@@ -136,13 +135,14 @@
             
           
         </div>
+        
       </div>
     </nav>
 
     <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap">
 
       
-      <nav class="wy-nav-top" role="navigation" aria-label="top navigation">
+      <nav class="wy-nav-top" aria-label="top navigation">
         
           <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
           <a href="../index.html">Nek5000</a>
@@ -150,10 +150,13 @@
       </nav>
 
 
-      
       <div class="wy-nav-content">
+        
         <div class="rst-content">
+        
           
+
+
 
 
 
@@ -173,7 +176,7 @@
 
   <ul class="wy-breadcrumbs">
     
-      <li><a href="../index.html">Docs</a> &raquo;</li>
+      <li><a href="../index.html" class="icon icon-home"></a> &raquo;</li>
         
           <li><a href="../problem_setup.html">Problem Setup</a> &raquo;</li>
         
@@ -182,7 +185,7 @@
     
       <li class="wy-breadcrumbs-aside">
         
-            
+          
             <a href="../_sources/problem_setup/case_files.rst.txt" rel="nofollow"> View page source</a>
           
         
@@ -214,22 +217,22 @@
 </ul>
 <div class="section" id="session-name">
 <h2>SESSION.NAME<a class="headerlink" href="#session-name" title="Permalink to this headline">¶</a></h2>
-<p>To run Nek5000, each simulation must have a <code class="docutils literal"><span class="pre">SESSION.NAME</span></code> file.
+<p>To run Nek5000, each simulation must have a <code class="docutils literal notranslate"><span class="pre">SESSION.NAME</span></code> file.
 This file is read in by the code and gives the path to the relevant files describing the structure and parameters of the simulation.
-The <code class="docutils literal"><span class="pre">SESSION.NAME</span></code> file is a file that contains the name of the simulation and the full path to supporting files.
-For example, to run the eddy example from the repository, the <code class="docutils literal"><span class="pre">SESSION.NAME</span></code> file would look like:</p>
-<div class="highlight-none"><div class="highlight"><pre><span></span>eddy_uv
+The <code class="docutils literal notranslate"><span class="pre">SESSION.NAME</span></code> file is a file that contains the name of the simulation and the full path to supporting files.
+For example, to run the eddy example from the repository, the <code class="docutils literal notranslate"><span class="pre">SESSION.NAME</span></code> file would look like:</p>
+<div class="highlight-none notranslate"><div class="highlight"><pre><span></span>eddy_uv
 /home/user_name/Nek5000/short_tests/eddy/
 </pre></div>
 </div>
-<p>Note that this file is generated automatically by the <code class="docutils literal"><span class="pre">nek</span></code>, <code class="docutils literal"><span class="pre">nekb</span></code>, <code class="docutils literal"><span class="pre">nekmpi</span></code> and <code class="docutils literal"><span class="pre">nekbmpi</span></code> scripts at runtime.</p>
+<p>Note that this file is generated automatically by the <code class="docutils literal notranslate"><span class="pre">nek</span></code>, <code class="docutils literal notranslate"><span class="pre">nekb</span></code>, <code class="docutils literal notranslate"><span class="pre">nekmpi</span></code> and <code class="docutils literal notranslate"><span class="pre">nekbmpi</span></code> scripts at runtime.</p>
 </div>
 <div class="section" id="parameter-file-par">
 <span id="case-files-par"></span><h2>Parameter File (.par)<a class="headerlink" href="#parameter-file-par" title="Permalink to this headline">¶</a></h2>
-<p>The simulation paramaters are defined in the <code class="docutils literal"><span class="pre">.par</span></code> file.
+<p>The simulation paramaters are defined in the <code class="docutils literal notranslate"><span class="pre">.par</span></code> file.
 The keys are grouped in different sections and a specific value is assigned to each key.
-The <code class="docutils literal"><span class="pre">.par</span></code> file follows the structure exemplified below.</p>
-<div class="highlight-none"><div class="highlight"><pre><span></span>#
+The <code class="docutils literal notranslate"><span class="pre">.par</span></code> file follows the structure exemplified below.</p>
+<div class="highlight-none notranslate"><div class="highlight"><pre><span></span>#
 # nek parameter file
 #
 
@@ -244,22 +247,22 @@ key = value
 </div>
 <p>The sections are:</p>
 <ul class="simple">
-<li><code class="docutils literal"><span class="pre">GENERAL</span></code> (mandatory)</li>
-<li><code class="docutils literal"><span class="pre">PROBLEMTYPE</span></code></li>
-<li><code class="docutils literal"><span class="pre">MESH</span></code></li>
-<li><code class="docutils literal"><span class="pre">VELOCITY</span></code></li>
-<li><code class="docutils literal"><span class="pre">PRESSURE</span></code> (required for velocity)</li>
-<li><code class="docutils literal"><span class="pre">TEMPERATURE</span></code></li>
-<li><code class="docutils literal"><span class="pre">SCALAR%%</span></code></li>
-<li><code class="docutils literal"><span class="pre">CVODE</span></code></li>
+<li><code class="docutils literal notranslate"><span class="pre">GENERAL</span></code> (mandatory)</li>
+<li><code class="docutils literal notranslate"><span class="pre">PROBLEMTYPE</span></code></li>
+<li><code class="docutils literal notranslate"><span class="pre">MESH</span></code></li>
+<li><code class="docutils literal notranslate"><span class="pre">VELOCITY</span></code></li>
+<li><code class="docutils literal notranslate"><span class="pre">PRESSURE</span></code> (required for velocity)</li>
+<li><code class="docutils literal notranslate"><span class="pre">TEMPERATURE</span></code></li>
+<li><code class="docutils literal notranslate"><span class="pre">SCALAR%%</span></code></li>
+<li><code class="docutils literal notranslate"><span class="pre">CVODE</span></code></li>
 </ul>
-<p>When scalars are used, the keys of each scalar are defined under the section <code class="docutils literal"><span class="pre">SCALAR%%</span></code> varying
-between <code class="docutils literal"><span class="pre">SCALAR01</span></code> and <code class="docutils literal"><span class="pre">SCALAR99</span></code>. The descripton of the keys of each section is given in the
+<p>When scalars are used, the keys of each scalar are defined under the section <code class="docutils literal notranslate"><span class="pre">SCALAR%%</span></code> varying
+between <code class="docutils literal notranslate"><span class="pre">SCALAR01</span></code> and <code class="docutils literal notranslate"><span class="pre">SCALAR99</span></code>. The descripton of the keys of each section is given in the
 following tables (all keys/values are case insensitive). The value assigned to each key can be a
 user input (e.g. a &lt;real&gt; value) or one of the avaliable options listed in the tables below.
 Values in parentheses denote the default value.</p>
 <span id="tab-generalparams"></span><table border="1" class="docutils" id="id2">
-<caption><span class="caption-number">Table 6 </span><span class="caption-text"><code class="docutils literal"><span class="pre">GENERAL</span></code> keys in the <code class="docutils literal"><span class="pre">.par</span></code> file</span><a class="headerlink" href="#id2" title="Permalink to this table">¶</a></caption>
+<caption><span class="caption-number">Table 6 </span><span class="caption-text"><code class="docutils literal notranslate"><span class="pre">GENERAL</span></code> keys in the <code class="docutils literal notranslate"><span class="pre">.par</span></code> file</span><a class="headerlink" href="#id2" title="Permalink to this table">¶</a></caption>
 <colgroup>
 <col width="28%" />
 <col width="19%" />
@@ -278,9 +281,9 @@ Values in parentheses denote the default value.</p>
 </tr>
 </thead>
 <tbody valign="top">
-<tr class="row-even"><td><code class="docutils literal"><span class="pre">startFrom</span></code></td>
+<tr class="row-even"><td><code class="docutils literal notranslate"><span class="pre">startFrom</span></code></td>
 <td><div class="first last line-block">
-<div class="line"><code class="docutils literal"><span class="pre">&lt;string&gt;</span></code></div>
+<div class="line"><code class="docutils literal notranslate"><span class="pre">&lt;string&gt;</span></code></div>
 </div>
 </td>
 <td><div class="first last line-block">
@@ -289,10 +292,10 @@ Values in parentheses denote the default value.</p>
 </div>
 </td>
 </tr>
-<tr class="row-odd"><td><code class="docutils literal"><span class="pre">stopAt</span></code></td>
+<tr class="row-odd"><td><code class="docutils literal notranslate"><span class="pre">stopAt</span></code></td>
 <td><div class="first last line-block">
-<div class="line"><code class="docutils literal"><span class="pre">(numSteps)</span></code></div>
-<div class="line"><code class="docutils literal"><span class="pre">endTime</span></code></div>
+<div class="line"><code class="docutils literal notranslate"><span class="pre">(numSteps)</span></code></div>
+<div class="line"><code class="docutils literal notranslate"><span class="pre">endTime</span></code></div>
 </div>
 </td>
 <td><div class="first last line-block">
@@ -300,9 +303,9 @@ Values in parentheses denote the default value.</p>
 </div>
 </td>
 </tr>
-<tr class="row-even"><td><code class="docutils literal"><span class="pre">endTime</span></code></td>
+<tr class="row-even"><td><code class="docutils literal notranslate"><span class="pre">endTime</span></code></td>
 <td><div class="first last line-block">
-<div class="line"><code class="docutils literal"><span class="pre">&lt;real&gt;</span></code></div>
+<div class="line"><code class="docutils literal notranslate"><span class="pre">&lt;real&gt;</span></code></div>
 </div>
 </td>
 <td><div class="first last line-block">
@@ -311,9 +314,9 @@ Values in parentheses denote the default value.</p>
 </div>
 </td>
 </tr>
-<tr class="row-odd"><td><code class="docutils literal"><span class="pre">numSteps</span></code></td>
+<tr class="row-odd"><td><code class="docutils literal notranslate"><span class="pre">numSteps</span></code></td>
 <td><div class="first last line-block">
-<div class="line"><code class="docutils literal"><span class="pre">&lt;real&gt;</span></code></div>
+<div class="line"><code class="docutils literal notranslate"><span class="pre">&lt;real&gt;</span></code></div>
 </div>
 </td>
 <td><div class="first last line-block">
@@ -322,9 +325,9 @@ Values in parentheses denote the default value.</p>
 </div>
 </td>
 </tr>
-<tr class="row-even"><td><code class="docutils literal"><span class="pre">dt</span></code></td>
+<tr class="row-even"><td><code class="docutils literal notranslate"><span class="pre">dt</span></code></td>
 <td><div class="first last line-block">
-<div class="line"><code class="docutils literal"><span class="pre">&lt;real&gt;</span></code></div>
+<div class="line"><code class="docutils literal notranslate"><span class="pre">&lt;real&gt;</span></code></div>
 </div>
 </td>
 <td><div class="first last line-block">
@@ -333,10 +336,10 @@ Values in parentheses denote the default value.</p>
 </div>
 </td>
 </tr>
-<tr class="row-odd"><td><code class="docutils literal"><span class="pre">variableDT</span></code></td>
+<tr class="row-odd"><td><code class="docutils literal notranslate"><span class="pre">variableDT</span></code></td>
 <td><div class="first last line-block">
-<div class="line"><code class="docutils literal"><span class="pre">(no)</span></code></div>
-<div class="line"><code class="docutils literal"><span class="pre">yes</span></code></div>
+<div class="line"><code class="docutils literal notranslate"><span class="pre">(no)</span></code></div>
+<div class="line"><code class="docutils literal notranslate"><span class="pre">yes</span></code></div>
 </div>
 </td>
 <td><div class="first last line-block">
@@ -345,9 +348,9 @@ Values in parentheses denote the default value.</p>
 </div>
 </td>
 </tr>
-<tr class="row-even"><td><code class="docutils literal"><span class="pre">targetCFL</span></code></td>
+<tr class="row-even"><td><code class="docutils literal notranslate"><span class="pre">targetCFL</span></code></td>
 <td><div class="first last line-block">
-<div class="line"><code class="docutils literal"><span class="pre">&lt;real&gt;</span></code></div>
+<div class="line"><code class="docutils literal notranslate"><span class="pre">&lt;real&gt;</span></code></div>
 </div>
 </td>
 <td><div class="first last line-block">
@@ -357,10 +360,10 @@ Values in parentheses denote the default value.</p>
 </div>
 </td>
 </tr>
-<tr class="row-odd"><td><code class="docutils literal"><span class="pre">writeControl</span></code></td>
+<tr class="row-odd"><td><code class="docutils literal notranslate"><span class="pre">writeControl</span></code></td>
 <td><div class="first last line-block">
-<div class="line"><code class="docutils literal"><span class="pre">(timeStep)</span></code></div>
-<div class="line"><code class="docutils literal"><span class="pre">runTime</span></code></div>
+<div class="line"><code class="docutils literal notranslate"><span class="pre">(timeStep)</span></code></div>
+<div class="line"><code class="docutils literal notranslate"><span class="pre">runTime</span></code></div>
 </div>
 </td>
 <td><div class="first last line-block">
@@ -369,9 +372,9 @@ Values in parentheses denote the default value.</p>
 </div>
 </td>
 </tr>
-<tr class="row-even"><td><code class="docutils literal"><span class="pre">writeInterval</span></code></td>
+<tr class="row-even"><td><code class="docutils literal notranslate"><span class="pre">writeInterval</span></code></td>
 <td><div class="first last line-block">
-<div class="line"><code class="docutils literal"><span class="pre">&lt;real&gt;</span></code></div>
+<div class="line"><code class="docutils literal notranslate"><span class="pre">&lt;real&gt;</span></code></div>
 </div>
 </td>
 <td><div class="first last line-block">
@@ -380,11 +383,11 @@ Values in parentheses denote the default value.</p>
 </div>
 </td>
 </tr>
-<tr class="row-odd"><td><code class="docutils literal"><span class="pre">filtering</span></code></td>
+<tr class="row-odd"><td><code class="docutils literal notranslate"><span class="pre">filtering</span></code></td>
 <td><div class="first last line-block">
-<div class="line"><code class="docutils literal"><span class="pre">(none)</span></code></div>
-<div class="line"><code class="docutils literal"><span class="pre">explicit</span></code></div>
-<div class="line"><code class="docutils literal"><span class="pre">hpfrt</span></code></div>
+<div class="line"><code class="docutils literal notranslate"><span class="pre">(none)</span></code></div>
+<div class="line"><code class="docutils literal notranslate"><span class="pre">explicit</span></code></div>
+<div class="line"><code class="docutils literal notranslate"><span class="pre">hpfrt</span></code></div>
 </div>
 </td>
 <td><div class="first last line-block">
@@ -392,9 +395,9 @@ Values in parentheses denote the default value.</p>
 </div>
 </td>
 </tr>
-<tr class="row-even"><td><code class="docutils literal"><span class="pre">filterModes</span></code></td>
+<tr class="row-even"><td><code class="docutils literal notranslate"><span class="pre">filterModes</span></code></td>
 <td><div class="first last line-block">
-<div class="line"><code class="docutils literal"><span class="pre">&lt;int&gt;</span></code></div>
+<div class="line"><code class="docutils literal notranslate"><span class="pre">&lt;int&gt;</span></code></div>
 </div>
 </td>
 <td><div class="first last line-block">
@@ -405,9 +408,9 @@ Values in parentheses denote the default value.</p>
 </div>
 </td>
 </tr>
-<tr class="row-odd"><td><code class="docutils literal"><span class="pre">filterCutoffRatio</span></code></td>
+<tr class="row-odd"><td><code class="docutils literal notranslate"><span class="pre">filterCutoffRatio</span></code></td>
 <td><div class="first last line-block">
-<div class="line"><code class="docutils literal"><span class="pre">&lt;real&gt;</span></code></div>
+<div class="line"><code class="docutils literal notranslate"><span class="pre">&lt;real&gt;</span></code></div>
 </div>
 </td>
 <td><div class="first last line-block">
@@ -418,9 +421,9 @@ Values in parentheses denote the default value.</p>
 </div>
 </td>
 </tr>
-<tr class="row-even"><td><code class="docutils literal"><span class="pre">filterWeight</span></code></td>
+<tr class="row-even"><td><code class="docutils literal notranslate"><span class="pre">filterWeight</span></code></td>
 <td><div class="first last line-block">
-<div class="line"><code class="docutils literal"><span class="pre">&lt;real&gt;</span></code></div>
+<div class="line"><code class="docutils literal notranslate"><span class="pre">&lt;real&gt;</span></code></div>
 </div>
 </td>
 <td><div class="first last line-block">
@@ -430,10 +433,10 @@ Values in parentheses denote the default value.</p>
 </div>
 </td>
 </tr>
-<tr class="row-odd"><td><code class="docutils literal"><span class="pre">writeDoublePrecision</span></code></td>
+<tr class="row-odd"><td><code class="docutils literal notranslate"><span class="pre">writeDoublePrecision</span></code></td>
 <td><div class="first last line-block">
-<div class="line"><code class="docutils literal"><span class="pre">no</span></code></div>
-<div class="line"><code class="docutils literal"><span class="pre">(yes)</span></code></div>
+<div class="line"><code class="docutils literal notranslate"><span class="pre">no</span></code></div>
+<div class="line"><code class="docutils literal notranslate"><span class="pre">(yes)</span></code></div>
 </div>
 </td>
 <td><div class="first last line-block">
@@ -441,9 +444,9 @@ Values in parentheses denote the default value.</p>
 </div>
 </td>
 </tr>
-<tr class="row-even"><td><code class="docutils literal"><span class="pre">writeNFiles</span></code></td>
+<tr class="row-even"><td><code class="docutils literal notranslate"><span class="pre">writeNFiles</span></code></td>
 <td><div class="first last line-block">
-<div class="line"><code class="docutils literal"><span class="pre">(1)</span></code></div>
+<div class="line"><code class="docutils literal notranslate"><span class="pre">(1)</span></code></div>
 </div>
 </td>
 <td><div class="first last line-block">
@@ -452,10 +455,10 @@ Values in parentheses denote the default value.</p>
 </div>
 </td>
 </tr>
-<tr class="row-odd"><td><code class="docutils literal"><span class="pre">dealiasing</span></code></td>
+<tr class="row-odd"><td><code class="docutils literal notranslate"><span class="pre">dealiasing</span></code></td>
 <td><div class="first last line-block">
-<div class="line"><code class="docutils literal"><span class="pre">no</span></code></div>
-<div class="line"><code class="docutils literal"><span class="pre">(yes)</span></code></div>
+<div class="line"><code class="docutils literal notranslate"><span class="pre">no</span></code></div>
+<div class="line"><code class="docutils literal notranslate"><span class="pre">(yes)</span></code></div>
 </div>
 </td>
 <td><div class="first last line-block">
@@ -463,11 +466,11 @@ Values in parentheses denote the default value.</p>
 </div>
 </td>
 </tr>
-<tr class="row-even"><td><code class="docutils literal"><span class="pre">timeStepper</span></code></td>
+<tr class="row-even"><td><code class="docutils literal notranslate"><span class="pre">timeStepper</span></code></td>
 <td><div class="first last line-block">
-<div class="line"><code class="docutils literal"><span class="pre">BDF1</span></code></div>
-<div class="line"><code class="docutils literal"><span class="pre">(BDF2)</span></code></div>
-<div class="line"><code class="docutils literal"><span class="pre">BDF3</span></code></div>
+<div class="line"><code class="docutils literal notranslate"><span class="pre">BDF1</span></code></div>
+<div class="line"><code class="docutils literal notranslate"><span class="pre">(BDF2)</span></code></div>
+<div class="line"><code class="docutils literal notranslate"><span class="pre">BDF3</span></code></div>
 </div>
 </td>
 <td><div class="first last line-block">
@@ -475,10 +478,10 @@ Values in parentheses denote the default value.</p>
 </div>
 </td>
 </tr>
-<tr class="row-odd"><td><code class="docutils literal"><span class="pre">extrapolation</span></code></td>
+<tr class="row-odd"><td><code class="docutils literal notranslate"><span class="pre">extrapolation</span></code></td>
 <td><div class="first last line-block">
-<div class="line"><code class="docutils literal"><span class="pre">(standard)</span></code></div>
-<div class="line"><code class="docutils literal"><span class="pre">OIFS</span></code></div>
+<div class="line"><code class="docutils literal notranslate"><span class="pre">(standard)</span></code></div>
+<div class="line"><code class="docutils literal notranslate"><span class="pre">OIFS</span></code></div>
 </div>
 </td>
 <td><div class="first last line-block">
@@ -486,9 +489,9 @@ Values in parentheses denote the default value.</p>
 </div>
 </td>
 </tr>
-<tr class="row-even"><td><code class="docutils literal"><span class="pre">optLevel</span></code></td>
+<tr class="row-even"><td><code class="docutils literal notranslate"><span class="pre">optLevel</span></code></td>
 <td><div class="first last line-block">
-<div class="line"><code class="docutils literal"><span class="pre">(2)</span></code></div>
+<div class="line"><code class="docutils literal notranslate"><span class="pre">(2)</span></code></div>
 </div>
 </td>
 <td><div class="first last line-block">
@@ -496,9 +499,9 @@ Values in parentheses denote the default value.</p>
 </div>
 </td>
 </tr>
-<tr class="row-odd"><td><code class="docutils literal"><span class="pre">logLevel</span></code></td>
+<tr class="row-odd"><td><code class="docutils literal notranslate"><span class="pre">logLevel</span></code></td>
 <td><div class="first last line-block">
-<div class="line"><code class="docutils literal"><span class="pre">(2)</span></code></div>
+<div class="line"><code class="docutils literal notranslate"><span class="pre">(2)</span></code></div>
 </div>
 </td>
 <td><div class="first last line-block">
@@ -506,21 +509,21 @@ Values in parentheses denote the default value.</p>
 </div>
 </td>
 </tr>
-<tr class="row-even"><td><code class="docutils literal"><span class="pre">userParam%%</span></code></td>
+<tr class="row-even"><td><code class="docutils literal notranslate"><span class="pre">userParam%%</span></code></td>
 <td><div class="first last line-block">
-<div class="line"><code class="docutils literal"><span class="pre">&lt;real&gt;</span></code></div>
+<div class="line"><code class="docutils literal notranslate"><span class="pre">&lt;real&gt;</span></code></div>
 </div>
 </td>
 <td><div class="first last line-block">
 <div class="line">User parameter (can be accessed through</div>
-<div class="line">uparam(%) array in <code class="docutils literal"><span class="pre">.usr</span></code></div>
+<div class="line">uparam(%) array in <code class="docutils literal notranslate"><span class="pre">.usr</span></code></div>
 </div>
 </td>
 </tr>
 </tbody>
 </table>
 <span id="tab-probtypeparams"></span><table border="1" class="docutils" id="id3">
-<caption><span class="caption-number">Table 7 </span><span class="caption-text"><code class="docutils literal"><span class="pre">PROBLEMTYPE</span></code> keys in the <code class="docutils literal"><span class="pre">.par</span></code> file</span><a class="headerlink" href="#id3" title="Permalink to this table">¶</a></caption>
+<caption><span class="caption-number">Table 7 </span><span class="caption-text"><code class="docutils literal notranslate"><span class="pre">PROBLEMTYPE</span></code> keys in the <code class="docutils literal notranslate"><span class="pre">.par</span></code> file</span><a class="headerlink" href="#id3" title="Permalink to this table">¶</a></caption>
 <colgroup>
 <col width="28%" />
 <col width="21%" />
@@ -539,15 +542,15 @@ Values in parentheses denote the default value.</p>
 </tr>
 </thead>
 <tbody valign="top">
-<tr class="row-even"><td><code class="docutils literal"><span class="pre">equation</span></code></td>
+<tr class="row-even"><td><code class="docutils literal notranslate"><span class="pre">equation</span></code></td>
 <td><div class="first last line-block">
-<div class="line"><code class="docutils literal"><span class="pre">(incompNS)</span></code></div>
-<div class="line"><code class="docutils literal"><span class="pre">lowMachNS</span></code></div>
-<div class="line"><code class="docutils literal"><span class="pre">steadyStokes</span></code></div>
-<div class="line"><code class="docutils literal"><span class="pre">incompLinNS</span></code></div>
-<div class="line"><code class="docutils literal"><span class="pre">incompLinAdjNS</span></code></div>
-<div class="line"><code class="docutils literal"><span class="pre">incompMHD</span></code></div>
-<div class="line"><code class="docutils literal"><span class="pre">compNS</span></code></div>
+<div class="line"><code class="docutils literal notranslate"><span class="pre">(incompNS)</span></code></div>
+<div class="line"><code class="docutils literal notranslate"><span class="pre">lowMachNS</span></code></div>
+<div class="line"><code class="docutils literal notranslate"><span class="pre">steadyStokes</span></code></div>
+<div class="line"><code class="docutils literal notranslate"><span class="pre">incompLinNS</span></code></div>
+<div class="line"><code class="docutils literal notranslate"><span class="pre">incompLinAdjNS</span></code></div>
+<div class="line"><code class="docutils literal notranslate"><span class="pre">incompMHD</span></code></div>
+<div class="line"><code class="docutils literal notranslate"><span class="pre">compNS</span></code></div>
 </div>
 </td>
 <td><div class="first last line-block">
@@ -555,10 +558,10 @@ Values in parentheses denote the default value.</p>
 </div>
 </td>
 </tr>
-<tr class="row-odd"><td><code class="docutils literal"><span class="pre">axiSymmetry</span></code></td>
+<tr class="row-odd"><td><code class="docutils literal notranslate"><span class="pre">axiSymmetry</span></code></td>
 <td><div class="first last line-block">
-<div class="line"><code class="docutils literal"><span class="pre">(no)</span></code></div>
-<div class="line"><code class="docutils literal"><span class="pre">yes</span></code></div>
+<div class="line"><code class="docutils literal notranslate"><span class="pre">(no)</span></code></div>
+<div class="line"><code class="docutils literal notranslate"><span class="pre">yes</span></code></div>
 </div>
 </td>
 <td><div class="first last line-block">
@@ -566,10 +569,10 @@ Values in parentheses denote the default value.</p>
 </div>
 </td>
 </tr>
-<tr class="row-even"><td><code class="docutils literal"><span class="pre">swirl</span></code></td>
+<tr class="row-even"><td><code class="docutils literal notranslate"><span class="pre">swirl</span></code></td>
 <td><div class="first last line-block">
-<div class="line"><code class="docutils literal"><span class="pre">(no)</span></code></div>
-<div class="line"><code class="docutils literal"><span class="pre">yes</span></code></div>
+<div class="line"><code class="docutils literal notranslate"><span class="pre">(no)</span></code></div>
+<div class="line"><code class="docutils literal notranslate"><span class="pre">yes</span></code></div>
 </div>
 </td>
 <td><div class="first last line-block">
@@ -578,10 +581,10 @@ Values in parentheses denote the default value.</p>
 </div>
 </td>
 </tr>
-<tr class="row-odd"><td><code class="docutils literal"><span class="pre">cyclicBoundaries</span></code></td>
+<tr class="row-odd"><td><code class="docutils literal notranslate"><span class="pre">cyclicBoundaries</span></code></td>
 <td><div class="first last line-block">
-<div class="line"><code class="docutils literal"><span class="pre">(no)</span></code></div>
-<div class="line"><code class="docutils literal"><span class="pre">yes</span></code></div>
+<div class="line"><code class="docutils literal notranslate"><span class="pre">(no)</span></code></div>
+<div class="line"><code class="docutils literal notranslate"><span class="pre">yes</span></code></div>
 </div>
 </td>
 <td><div class="first last line-block">
@@ -589,9 +592,9 @@ Values in parentheses denote the default value.</p>
 </div>
 </td>
 </tr>
-<tr class="row-even"><td><code class="docutils literal"><span class="pre">numberOfPerturbations</span></code></td>
+<tr class="row-even"><td><code class="docutils literal notranslate"><span class="pre">numberOfPerturbations</span></code></td>
 <td><div class="first last line-block">
-<div class="line"><code class="docutils literal"><span class="pre">(1)</span></code></div>
+<div class="line"><code class="docutils literal notranslate"><span class="pre">(1)</span></code></div>
 </div>
 </td>
 <td><div class="first last line-block">
@@ -599,10 +602,10 @@ Values in parentheses denote the default value.</p>
 </div>
 </td>
 </tr>
-<tr class="row-odd"><td><code class="docutils literal"><span class="pre">solveBaseFlow</span></code></td>
+<tr class="row-odd"><td><code class="docutils literal notranslate"><span class="pre">solveBaseFlow</span></code></td>
 <td><div class="first last line-block">
-<div class="line"><code class="docutils literal"><span class="pre">(no)</span></code></div>
-<div class="line"><code class="docutils literal"><span class="pre">yes</span></code></div>
+<div class="line"><code class="docutils literal notranslate"><span class="pre">(no)</span></code></div>
+<div class="line"><code class="docutils literal notranslate"><span class="pre">yes</span></code></div>
 </div>
 </td>
 <td><div class="first last line-block">
@@ -610,10 +613,10 @@ Values in parentheses denote the default value.</p>
 </div>
 </td>
 </tr>
-<tr class="row-even"><td><code class="docutils literal"><span class="pre">variableProperties</span></code></td>
+<tr class="row-even"><td><code class="docutils literal notranslate"><span class="pre">variableProperties</span></code></td>
 <td><div class="first last line-block">
-<div class="line"><code class="docutils literal"><span class="pre">(no)</span></code></div>
-<div class="line"><code class="docutils literal"><span class="pre">yes</span></code></div>
+<div class="line"><code class="docutils literal notranslate"><span class="pre">(no)</span></code></div>
+<div class="line"><code class="docutils literal notranslate"><span class="pre">yes</span></code></div>
 </div>
 </td>
 <td><div class="first last line-block">
@@ -621,10 +624,10 @@ Values in parentheses denote the default value.</p>
 </div>
 </td>
 </tr>
-<tr class="row-odd"><td><code class="docutils literal"><span class="pre">stressFormulation</span></code></td>
+<tr class="row-odd"><td><code class="docutils literal notranslate"><span class="pre">stressFormulation</span></code></td>
 <td><div class="first last line-block">
-<div class="line"><code class="docutils literal"><span class="pre">(no)</span></code></div>
-<div class="line"><code class="docutils literal"><span class="pre">yes</span></code></div>
+<div class="line"><code class="docutils literal notranslate"><span class="pre">(no)</span></code></div>
+<div class="line"><code class="docutils literal notranslate"><span class="pre">yes</span></code></div>
 </div>
 </td>
 <td><div class="first last line-block">
@@ -632,10 +635,10 @@ Values in parentheses denote the default value.</p>
 </div>
 </td>
 </tr>
-<tr class="row-even"><td><code class="docutils literal"><span class="pre">dp0dt</span></code></td>
+<tr class="row-even"><td><code class="docutils literal notranslate"><span class="pre">dp0dt</span></code></td>
 <td><div class="first last line-block">
-<div class="line"><code class="docutils literal"><span class="pre">(no)</span></code></div>
-<div class="line"><code class="docutils literal"><span class="pre">yes</span></code></div>
+<div class="line"><code class="docutils literal notranslate"><span class="pre">(no)</span></code></div>
+<div class="line"><code class="docutils literal notranslate"><span class="pre">yes</span></code></div>
 </div>
 </td>
 <td><div class="first last line-block">
@@ -646,7 +649,7 @@ Values in parentheses denote the default value.</p>
 </tbody>
 </table>
 <span id="tab-commonparams"></span><table border="1" class="docutils" id="id4">
-<caption><span class="caption-number">Table 8 </span><span class="caption-text"><code class="docutils literal"><span class="pre">COMMON</span></code> keys for all field variables in the <code class="docutils literal"><span class="pre">.par</span></code> file</span><a class="headerlink" href="#id4" title="Permalink to this table">¶</a></caption>
+<caption><span class="caption-number">Table 8 </span><span class="caption-text"><code class="docutils literal notranslate"><span class="pre">COMMON</span></code> keys for all field variables in the <code class="docutils literal notranslate"><span class="pre">.par</span></code> file</span><a class="headerlink" href="#id4" title="Permalink to this table">¶</a></caption>
 <colgroup>
 <col width="26%" />
 <col width="18%" />
@@ -665,9 +668,9 @@ Values in parentheses denote the default value.</p>
 </tr>
 </thead>
 <tbody valign="top">
-<tr class="row-even"><td><code class="docutils literal"><span class="pre">residualTol</span></code></td>
+<tr class="row-even"><td><code class="docutils literal notranslate"><span class="pre">residualTol</span></code></td>
 <td><div class="first last line-block">
-<div class="line"><code class="docutils literal"><span class="pre">&lt;real&gt;</span></code></div>
+<div class="line"><code class="docutils literal notranslate"><span class="pre">&lt;real&gt;</span></code></div>
 </div>
 </td>
 <td><div class="first last line-block">
@@ -675,10 +678,10 @@ Values in parentheses denote the default value.</p>
 </div>
 </td>
 </tr>
-<tr class="row-odd"><td><code class="docutils literal"><span class="pre">residualProj</span></code></td>
+<tr class="row-odd"><td><code class="docutils literal notranslate"><span class="pre">residualProj</span></code></td>
 <td><div class="first last line-block">
-<div class="line"><code class="docutils literal"><span class="pre">(no)</span></code></div>
-<div class="line"><code class="docutils literal"><span class="pre">yes</span></code></div>
+<div class="line"><code class="docutils literal notranslate"><span class="pre">(no)</span></code></div>
+<div class="line"><code class="docutils literal notranslate"><span class="pre">yes</span></code></div>
 </div>
 </td>
 <td><div class="first last line-block">
@@ -686,10 +689,10 @@ Values in parentheses denote the default value.</p>
 </div>
 </td>
 </tr>
-<tr class="row-even"><td><code class="docutils literal"><span class="pre">writeToFieldFile</span></code></td>
+<tr class="row-even"><td><code class="docutils literal notranslate"><span class="pre">writeToFieldFile</span></code></td>
 <td><div class="first last line-block">
-<div class="line"><code class="docutils literal"><span class="pre">no</span></code></div>
-<div class="line"><code class="docutils literal"><span class="pre">(yes)</span></code></div>
+<div class="line"><code class="docutils literal notranslate"><span class="pre">no</span></code></div>
+<div class="line"><code class="docutils literal notranslate"><span class="pre">(yes)</span></code></div>
 </div>
 </td>
 <td><div class="first last line-block">
@@ -700,7 +703,7 @@ Values in parentheses denote the default value.</p>
 </tbody>
 </table>
 <span id="tab-meshparams"></span><table border="1" class="docutils" id="id5">
-<caption><span class="caption-number">Table 9 </span><span class="caption-text"><code class="docutils literal"><span class="pre">MESH</span></code> keys in the <code class="docutils literal"><span class="pre">.par</span></code> file</span><a class="headerlink" href="#id5" title="Permalink to this table">¶</a></caption>
+<caption><span class="caption-number">Table 9 </span><span class="caption-text"><code class="docutils literal notranslate"><span class="pre">MESH</span></code> keys in the <code class="docutils literal notranslate"><span class="pre">.par</span></code> file</span><a class="headerlink" href="#id5" title="Permalink to this table">¶</a></caption>
 <colgroup>
 <col width="26%" />
 <col width="18%" />
@@ -719,11 +722,11 @@ Values in parentheses denote the default value.</p>
 </tr>
 </thead>
 <tbody valign="top">
-<tr class="row-even"><td><code class="docutils literal"><span class="pre">motion</span></code></td>
+<tr class="row-even"><td><code class="docutils literal notranslate"><span class="pre">motion</span></code></td>
 <td><div class="first last line-block">
-<div class="line"><code class="docutils literal"><span class="pre">(none)</span></code></div>
-<div class="line"><code class="docutils literal"><span class="pre">user</span></code></div>
-<div class="line"><code class="docutils literal"><span class="pre">elasticity</span></code></div>
+<div class="line"><code class="docutils literal notranslate"><span class="pre">(none)</span></code></div>
+<div class="line"><code class="docutils literal notranslate"><span class="pre">user</span></code></div>
+<div class="line"><code class="docutils literal notranslate"><span class="pre">elasticity</span></code></div>
 </div>
 </td>
 <td><div class="first last line-block">
@@ -731,9 +734,9 @@ Values in parentheses denote the default value.</p>
 </div>
 </td>
 </tr>
-<tr class="row-odd"><td><code class="docutils literal"><span class="pre">viscosity</span></code></td>
+<tr class="row-odd"><td><code class="docutils literal notranslate"><span class="pre">viscosity</span></code></td>
 <td><div class="first last line-block">
-<div class="line"><code class="docutils literal"><span class="pre">(0.4)</span></code></div>
+<div class="line"><code class="docutils literal notranslate"><span class="pre">(0.4)</span></code></div>
 </div>
 </td>
 <td><div class="first last line-block">
@@ -741,26 +744,26 @@ Values in parentheses denote the default value.</p>
 </div>
 </td>
 </tr>
-<tr class="row-even"><td><code class="docutils literal"><span class="pre">numberOfBCFields</span></code></td>
+<tr class="row-even"><td><code class="docutils literal notranslate"><span class="pre">numberOfBCFields</span></code></td>
 <td><div class="first last line-block">
-<div class="line"><code class="docutils literal"><span class="pre">(nfields)</span></code></div>
+<div class="line"><code class="docutils literal notranslate"><span class="pre">(nfields)</span></code></div>
 </div>
 </td>
 <td><div class="first last line-block">
 <div class="line">Number of field variables which have a boundary</div>
 <div class="line-block">
-<div class="line">condition in <code class="docutils literal"><span class="pre">.re2</span></code> file</div>
+<div class="line">condition in <code class="docutils literal notranslate"><span class="pre">.re2</span></code> file</div>
 </div>
 </div>
 </td>
 </tr>
-<tr class="row-odd"><td><code class="docutils literal"><span class="pre">firstBCFieldIndex</span></code></td>
+<tr class="row-odd"><td><code class="docutils literal notranslate"><span class="pre">firstBCFieldIndex</span></code></td>
 <td><div class="first last line-block">
-<div class="line"><code class="docutils literal"><span class="pre">(1</span> <span class="pre">or</span> <span class="pre">2)</span></code></div>
+<div class="line"><code class="docutils literal notranslate"><span class="pre">(1</span> <span class="pre">or</span> <span class="pre">2)</span></code></div>
 </div>
 </td>
 <td><div class="first last line-block">
-<div class="line">Field index of the first BC specified in <code class="docutils literal"><span class="pre">.re2</span></code></div>
+<div class="line">Field index of the first BC specified in <code class="docutils literal notranslate"><span class="pre">.re2</span></code></div>
 <div class="line">file</div>
 </div>
 </td>
@@ -768,7 +771,7 @@ Values in parentheses denote the default value.</p>
 </tbody>
 </table>
 <span id="tab-velocityparams"></span><table border="1" class="docutils" id="id6">
-<caption><span class="caption-number">Table 10 </span><span class="caption-text"><code class="docutils literal"><span class="pre">VELOCITY</span></code> keys in the <code class="docutils literal"><span class="pre">.par</span></code> file</span><a class="headerlink" href="#id6" title="Permalink to this table">¶</a></caption>
+<caption><span class="caption-number">Table 10 </span><span class="caption-text"><code class="docutils literal notranslate"><span class="pre">VELOCITY</span></code> keys in the <code class="docutils literal notranslate"><span class="pre">.par</span></code> file</span><a class="headerlink" href="#id6" title="Permalink to this table">¶</a></caption>
 <colgroup>
 <col width="29%" />
 <col width="16%" />
@@ -787,9 +790,9 @@ Values in parentheses denote the default value.</p>
 </tr>
 </thead>
 <tbody valign="top">
-<tr class="row-even"><td><code class="docutils literal"><span class="pre">viscosity</span></code></td>
+<tr class="row-even"><td><code class="docutils literal notranslate"><span class="pre">viscosity</span></code></td>
 <td><div class="first last line-block">
-<div class="line"><code class="docutils literal"><span class="pre">&lt;real&gt;</span></code></div>
+<div class="line"><code class="docutils literal notranslate"><span class="pre">&lt;real&gt;</span></code></div>
 </div>
 </td>
 <td><div class="first last line-block">
@@ -798,9 +801,9 @@ Values in parentheses denote the default value.</p>
 </div>
 </td>
 </tr>
-<tr class="row-odd"><td><code class="docutils literal"><span class="pre">density</span></code></td>
+<tr class="row-odd"><td><code class="docutils literal notranslate"><span class="pre">density</span></code></td>
 <td><div class="first last line-block">
-<div class="line"><code class="docutils literal"><span class="pre">&lt;real&gt;</span></code></div>
+<div class="line"><code class="docutils literal notranslate"><span class="pre">&lt;real&gt;</span></code></div>
 </div>
 </td>
 <td><div class="first last line-block">
@@ -811,7 +814,7 @@ Values in parentheses denote the default value.</p>
 </tbody>
 </table>
 <span id="tab-pressureparams"></span><table border="1" class="docutils" id="id7">
-<caption><span class="caption-number">Table 11 </span><span class="caption-text"><code class="docutils literal"><span class="pre">PRESSURE</span></code> keys in the <code class="docutils literal"><span class="pre">.par</span></code> file</span><a class="headerlink" href="#id7" title="Permalink to this table">¶</a></caption>
+<caption><span class="caption-number">Table 11 </span><span class="caption-text"><code class="docutils literal notranslate"><span class="pre">PRESSURE</span></code> keys in the <code class="docutils literal notranslate"><span class="pre">.par</span></code> file</span><a class="headerlink" href="#id7" title="Permalink to this table">¶</a></caption>
 <colgroup>
 <col width="28%" />
 <col width="20%" />
@@ -830,10 +833,10 @@ Values in parentheses denote the default value.</p>
 </tr>
 </thead>
 <tbody valign="top">
-<tr class="row-even"><td><code class="docutils literal"><span class="pre">preconditioner</span></code></td>
+<tr class="row-even"><td><code class="docutils literal notranslate"><span class="pre">preconditioner</span></code></td>
 <td><div class="first last line-block">
-<div class="line"><code class="docutils literal"><span class="pre">(semg_xxt)</span></code></div>
-<div class="line"><code class="docutils literal"><span class="pre">semg_amg</span></code></div>
+<div class="line"><code class="docutils literal notranslate"><span class="pre">(semg_xxt)</span></code></div>
+<div class="line"><code class="docutils literal notranslate"><span class="pre">semg_amg</span></code></div>
 </div>
 </td>
 <td><div class="first last line-block">
@@ -848,7 +851,7 @@ Values in parentheses denote the default value.</p>
 </tbody>
 </table>
 <span id="tab-tpscommonparams"></span><table border="1" class="docutils" id="id8">
-<caption><span class="caption-number">Table 12 </span><span class="caption-text"><code class="docutils literal"><span class="pre">COMMON</span></code> keys for temperature and scalar fields in the <code class="docutils literal"><span class="pre">.par</span></code> file</span><a class="headerlink" href="#id8" title="Permalink to this table">¶</a></caption>
+<caption><span class="caption-number">Table 12 </span><span class="caption-text"><code class="docutils literal notranslate"><span class="pre">COMMON</span></code> keys for temperature and scalar fields in the <code class="docutils literal notranslate"><span class="pre">.par</span></code> file</span><a class="headerlink" href="#id8" title="Permalink to this table">¶</a></caption>
 <colgroup>
 <col width="30%" />
 <col width="17%" />
@@ -867,11 +870,11 @@ Values in parentheses denote the default value.</p>
 </tr>
 </thead>
 <tbody valign="top">
-<tr class="row-even"><td><code class="docutils literal"><span class="pre">solver</span></code></td>
+<tr class="row-even"><td><code class="docutils literal notranslate"><span class="pre">solver</span></code></td>
 <td><div class="first last line-block">
-<div class="line"><code class="docutils literal"><span class="pre">(helm)</span></code></div>
-<div class="line"><code class="docutils literal"><span class="pre">cvode</span></code></div>
-<div class="line"><code class="docutils literal"><span class="pre">none</span></code></div>
+<div class="line"><code class="docutils literal notranslate"><span class="pre">(helm)</span></code></div>
+<div class="line"><code class="docutils literal notranslate"><span class="pre">cvode</span></code></div>
+<div class="line"><code class="docutils literal notranslate"><span class="pre">none</span></code></div>
 </div>
 </td>
 <td><div class="first last line-block">
@@ -879,10 +882,10 @@ Values in parentheses denote the default value.</p>
 </div>
 </td>
 </tr>
-<tr class="row-odd"><td><code class="docutils literal"><span class="pre">advection</span></code></td>
+<tr class="row-odd"><td><code class="docutils literal notranslate"><span class="pre">advection</span></code></td>
 <td><div class="first last line-block">
-<div class="line"><code class="docutils literal"><span class="pre">no</span></code></div>
-<div class="line"><code class="docutils literal"><span class="pre">(yes)</span></code></div>
+<div class="line"><code class="docutils literal notranslate"><span class="pre">no</span></code></div>
+<div class="line"><code class="docutils literal notranslate"><span class="pre">(yes)</span></code></div>
 </div>
 </td>
 <td><div class="first last line-block">
@@ -890,9 +893,9 @@ Values in parentheses denote the default value.</p>
 </div>
 </td>
 </tr>
-<tr class="row-even"><td><code class="docutils literal"><span class="pre">absoluteTol</span></code></td>
+<tr class="row-even"><td><code class="docutils literal notranslate"><span class="pre">absoluteTol</span></code></td>
 <td><div class="first last line-block">
-<div class="line"><code class="docutils literal"><span class="pre">&lt;real&gt;</span></code></div>
+<div class="line"><code class="docutils literal notranslate"><span class="pre">&lt;real&gt;</span></code></div>
 </div>
 </td>
 <td><div class="first last line-block">
@@ -903,7 +906,7 @@ Values in parentheses denote the default value.</p>
 </tbody>
 </table>
 <span id="tab-temperatureparams"></span><table border="1" class="docutils" id="id9">
-<caption><span class="caption-number">Table 13 </span><span class="caption-text"><code class="docutils literal"><span class="pre">TEMPERATURE</span></code> keys in the <code class="docutils literal"><span class="pre">.par</span></code> file</span><a class="headerlink" href="#id9" title="Permalink to this table">¶</a></caption>
+<caption><span class="caption-number">Table 13 </span><span class="caption-text"><code class="docutils literal notranslate"><span class="pre">TEMPERATURE</span></code> keys in the <code class="docutils literal notranslate"><span class="pre">.par</span></code> file</span><a class="headerlink" href="#id9" title="Permalink to this table">¶</a></caption>
 <colgroup>
 <col width="30%" />
 <col width="16%" />
@@ -922,10 +925,10 @@ Values in parentheses denote the default value.</p>
 </tr>
 </thead>
 <tbody valign="top">
-<tr class="row-even"><td><code class="docutils literal"><span class="pre">ConjugateHeatTransfer</span></code></td>
+<tr class="row-even"><td><code class="docutils literal notranslate"><span class="pre">ConjugateHeatTransfer</span></code></td>
 <td><div class="first last line-block">
-<div class="line"><code class="docutils literal"><span class="pre">(no)</span></code></div>
-<div class="line"><code class="docutils literal"><span class="pre">yes</span></code></div>
+<div class="line"><code class="docutils literal notranslate"><span class="pre">(no)</span></code></div>
+<div class="line"><code class="docutils literal notranslate"><span class="pre">yes</span></code></div>
 </div>
 </td>
 <td><div class="first last line-block">
@@ -933,9 +936,9 @@ Values in parentheses denote the default value.</p>
 </div>
 </td>
 </tr>
-<tr class="row-odd"><td><code class="docutils literal"><span class="pre">conductivity</span></code></td>
+<tr class="row-odd"><td><code class="docutils literal notranslate"><span class="pre">conductivity</span></code></td>
 <td><div class="first last line-block">
-<div class="line"><code class="docutils literal"><span class="pre">&lt;real&gt;</span></code></div>
+<div class="line"><code class="docutils literal notranslate"><span class="pre">&lt;real&gt;</span></code></div>
 </div>
 </td>
 <td><div class="first last line-block">
@@ -943,9 +946,9 @@ Values in parentheses denote the default value.</p>
 </div>
 </td>
 </tr>
-<tr class="row-even"><td><code class="docutils literal"><span class="pre">rhoCp</span></code></td>
+<tr class="row-even"><td><code class="docutils literal notranslate"><span class="pre">rhoCp</span></code></td>
 <td><div class="first last line-block">
-<div class="line"><code class="docutils literal"><span class="pre">&lt;real&gt;</span></code></div>
+<div class="line"><code class="docutils literal notranslate"><span class="pre">&lt;real&gt;</span></code></div>
 </div>
 </td>
 <td><div class="first last line-block">
@@ -955,9 +958,9 @@ Values in parentheses denote the default value.</p>
 </tr>
 </tbody>
 </table>
-<p>Note: <code class="docutils literal"><span class="pre">[TEMPERATURE]</span> <span class="pre">solver</span> <span class="pre">=</span> <span class="pre">none</span></code> is incompatible with <code class="docutils literal"><span class="pre">[PROBLEMTYPE]</span> <span class="pre">equation</span> <span class="pre">=</span> <span class="pre">lowMachNS</span></code> without defining a custom thermal divergence in the <code class="docutils literal"><span class="pre">usr</span></code> file.</p>
+<p>Note: <code class="docutils literal notranslate"><span class="pre">[TEMPERATURE]</span> <span class="pre">solver</span> <span class="pre">=</span> <span class="pre">none</span></code> is incompatible with <code class="docutils literal notranslate"><span class="pre">[PROBLEMTYPE]</span> <span class="pre">equation</span> <span class="pre">=</span> <span class="pre">lowMachNS</span></code> without defining a custom thermal divergence in the <code class="docutils literal notranslate"><span class="pre">usr</span></code> file.</p>
 <span id="tab-scalarparams"></span><table border="1" class="docutils" id="id10">
-<caption><span class="caption-number">Table 14 </span><span class="caption-text"><code class="docutils literal"><span class="pre">SCALAR%%</span></code> keys in the <code class="docutils literal"><span class="pre">.par</span></code> file</span><a class="headerlink" href="#id10" title="Permalink to this table">¶</a></caption>
+<caption><span class="caption-number">Table 14 </span><span class="caption-text"><code class="docutils literal notranslate"><span class="pre">SCALAR%%</span></code> keys in the <code class="docutils literal notranslate"><span class="pre">.par</span></code> file</span><a class="headerlink" href="#id10" title="Permalink to this table">¶</a></caption>
 <colgroup>
 <col width="30%" />
 <col width="19%" />
@@ -976,9 +979,9 @@ Values in parentheses denote the default value.</p>
 </tr>
 </thead>
 <tbody valign="top">
-<tr class="row-even"><td><code class="docutils literal"><span class="pre">density</span></code></td>
+<tr class="row-even"><td><code class="docutils literal notranslate"><span class="pre">density</span></code></td>
 <td><div class="first last line-block">
-<div class="line"><code class="docutils literal"><span class="pre">&lt;real&gt;</span></code></div>
+<div class="line"><code class="docutils literal notranslate"><span class="pre">&lt;real&gt;</span></code></div>
 </div>
 </td>
 <td><div class="first last line-block">
@@ -986,9 +989,9 @@ Values in parentheses denote the default value.</p>
 </div>
 </td>
 </tr>
-<tr class="row-odd"><td><code class="docutils literal"><span class="pre">diffusivity</span></code></td>
+<tr class="row-odd"><td><code class="docutils literal notranslate"><span class="pre">diffusivity</span></code></td>
 <td><div class="first last line-block">
-<div class="line"><code class="docutils literal"><span class="pre">&lt;real&gt;</span></code></div>
+<div class="line"><code class="docutils literal notranslate"><span class="pre">&lt;real&gt;</span></code></div>
 </div>
 </td>
 <td><div class="first last line-block">
@@ -999,7 +1002,7 @@ Values in parentheses denote the default value.</p>
 </tbody>
 </table>
 <span id="tab-cvodeparams"></span><table border="1" class="docutils" id="id11">
-<caption><span class="caption-number">Table 15 </span><span class="caption-text"><code class="docutils literal"><span class="pre">CVODE</span></code> keys in the <code class="docutils literal"><span class="pre">.par</span></code> file</span><a class="headerlink" href="#id11" title="Permalink to this table">¶</a></caption>
+<caption><span class="caption-number">Table 15 </span><span class="caption-text"><code class="docutils literal notranslate"><span class="pre">CVODE</span></code> keys in the <code class="docutils literal notranslate"><span class="pre">.par</span></code> file</span><a class="headerlink" href="#id11" title="Permalink to this table">¶</a></caption>
 <colgroup>
 <col width="30%" />
 <col width="18%" />
@@ -1018,9 +1021,9 @@ Values in parentheses denote the default value.</p>
 </tr>
 </thead>
 <tbody valign="top">
-<tr class="row-even"><td><code class="docutils literal"><span class="pre">relativeTol</span></code></td>
+<tr class="row-even"><td><code class="docutils literal notranslate"><span class="pre">relativeTol</span></code></td>
 <td><div class="first last line-block">
-<div class="line"><code class="docutils literal"><span class="pre">&lt;real&gt;</span></code></div>
+<div class="line"><code class="docutils literal notranslate"><span class="pre">&lt;real&gt;</span></code></div>
 </div>
 </td>
 <td><div class="first last line-block">
@@ -1028,10 +1031,10 @@ Values in parentheses denote the default value.</p>
 </div>
 </td>
 </tr>
-<tr class="row-odd"><td><code class="docutils literal"><span class="pre">stiff</span></code></td>
+<tr class="row-odd"><td><code class="docutils literal notranslate"><span class="pre">stiff</span></code></td>
 <td><div class="first last line-block">
-<div class="line"><code class="docutils literal"><span class="pre">no</span></code></div>
-<div class="line"><code class="docutils literal"><span class="pre">(yes)</span></code></div>
+<div class="line"><code class="docutils literal notranslate"><span class="pre">no</span></code></div>
+<div class="line"><code class="docutils literal notranslate"><span class="pre">(yes)</span></code></div>
 </div>
 </td>
 <td><div class="first last line-block">
@@ -1039,10 +1042,10 @@ Values in parentheses denote the default value.</p>
 </div>
 </td>
 </tr>
-<tr class="row-even"><td><code class="docutils literal"><span class="pre">preconditioner</span></code></td>
+<tr class="row-even"><td><code class="docutils literal notranslate"><span class="pre">preconditioner</span></code></td>
 <td><div class="first last line-block">
-<div class="line"><code class="docutils literal"><span class="pre">(none)</span></code></div>
-<div class="line"><code class="docutils literal"><span class="pre">user</span></code></div>
+<div class="line"><code class="docutils literal notranslate"><span class="pre">(none)</span></code></div>
+<div class="line"><code class="docutils literal notranslate"><span class="pre">user</span></code></div>
 </div>
 </td>
 <td><div class="first last line-block">
@@ -1050,9 +1053,9 @@ Values in parentheses denote the default value.</p>
 </div>
 </td>
 </tr>
-<tr class="row-odd"><td><code class="docutils literal"><span class="pre">dtMax</span></code></td>
+<tr class="row-odd"><td><code class="docutils literal notranslate"><span class="pre">dtMax</span></code></td>
 <td><div class="first last line-block">
-<div class="line"><code class="docutils literal"><span class="pre">&lt;real&gt;</span></code></div>
+<div class="line"><code class="docutils literal notranslate"><span class="pre">&lt;real&gt;</span></code></div>
 </div>
 </td>
 <td><div class="first last line-block">
@@ -1073,7 +1076,7 @@ Values in parentheses denote the default value.</p>
 <h3>Header<a class="headerlink" href="#header" title="Permalink to this headline">¶</a></h3>
 <blockquote>
 <div><p>The 80 byte ASCI header of the file has the following representation:</p>
-<div class="highlight-default"><div class="highlight"><pre><span></span><span class="c1">#v002     200  3     100 hdr</span>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="c1">#v002     200  3     100 hdr</span>
 </pre></div>
 </div>
 <p>The header states first how many elements are available in total (200), what
@@ -1086,7 +1089,7 @@ are in the fluid mesh (100).</p>
 <blockquote>
 <div><blockquote>
 <div><span id="tab-element"></span><table border="1" class="docutils" id="id12">
-<caption><span class="caption-number">Table 16 </span><span class="caption-text">Geometry description in <code class="docutils literal"><span class="pre">.rea</span></code> file</span><a class="headerlink" href="#id12" title="Permalink to this table">¶</a></caption>
+<caption><span class="caption-number">Table 16 </span><span class="caption-text">Geometry description in <code class="docutils literal notranslate"><span class="pre">.rea</span></code> file</span><a class="headerlink" href="#id12" title="Permalink to this table">¶</a></caption>
 <colgroup>
 <col width="31%" />
 <col width="17%" />
@@ -1095,45 +1098,45 @@ are in the fluid mesh (100).</p>
 <col width="17%" />
 </colgroup>
 <thead valign="bottom">
-<tr class="row-odd"><th class="head" colspan="5"><code class="docutils literal"><span class="pre">ELEMENT</span> <span class="pre">1</span> <span class="pre">[</span> <span class="pre">1A]</span> <span class="pre">GROUP</span> <span class="pre">0</span></code></th>
+<tr class="row-odd"><th class="head" colspan="5"><code class="docutils literal notranslate"><span class="pre">ELEMENT</span> <span class="pre">1</span> <span class="pre">[</span> <span class="pre">1A]</span> <span class="pre">GROUP</span> <span class="pre">0</span></code></th>
 </tr>
 </thead>
 <tbody valign="top">
-<tr class="row-even"><td colspan="5"><code class="docutils literal"><span class="pre">Face</span> <span class="pre">{1,2,3,4}</span></code></td>
+<tr class="row-even"><td colspan="5"><code class="docutils literal notranslate"><span class="pre">Face</span> <span class="pre">{1,2,3,4}</span></code></td>
 </tr>
-<tr class="row-odd"><td><span class="math">\(x_{1,\ldots,4}=\)</span></td>
+<tr class="row-odd"><td><span class="math notranslate nohighlight">\(x_{1,\ldots,4}=\)</span></td>
 <td>0.000000E+00</td>
 <td>0.171820E+00</td>
 <td>0.146403E+00</td>
 <td>0.000000E+00</td>
 </tr>
-<tr class="row-even"><td><span class="math">\(y_{1,\ldots,4}=\)</span></td>
+<tr class="row-even"><td><span class="math notranslate nohighlight">\(y_{1,\ldots,4}=\)</span></td>
 <td>0.190000E+00</td>
 <td>0.168202E+00</td>
 <td>0.343640E+00</td>
 <td>0.380000E+00</td>
 </tr>
-<tr class="row-odd"><td><span class="math">\(z_{1,\ldots,4}=\)</span></td>
+<tr class="row-odd"><td><span class="math notranslate nohighlight">\(z_{1,\ldots,4}=\)</span></td>
 <td>0.000000E+00</td>
 <td>0.000000E+00</td>
 <td>0.000000E+00</td>
 <td>0.000000E+00</td>
 </tr>
-<tr class="row-even"><td colspan="5"><code class="docutils literal"><span class="pre">Face</span> <span class="pre">{5,6,7,8}</span></code></td>
+<tr class="row-even"><td colspan="5"><code class="docutils literal notranslate"><span class="pre">Face</span> <span class="pre">{5,6,7,8}</span></code></td>
 </tr>
-<tr class="row-odd"><td><span class="math">\(x_{5,\ldots,8}=\)</span></td>
+<tr class="row-odd"><td><span class="math notranslate nohighlight">\(x_{5,\ldots,8}=\)</span></td>
 <td>0.000000E+00</td>
 <td>0.171820E+00</td>
 <td>0.146403E+00</td>
 <td>0.000000E+00</td>
 </tr>
-<tr class="row-even"><td><span class="math">\(y_{5,\ldots,8}=\)</span></td>
+<tr class="row-even"><td><span class="math notranslate nohighlight">\(y_{5,\ldots,8}=\)</span></td>
 <td>0.190000E+00</td>
 <td>0.168202E+00</td>
 <td>0.343640E+00</td>
 <td>0.380000E+00</td>
 </tr>
-<tr class="row-odd"><td><span class="math">\(z_{5,\ldots,8}=\)</span></td>
+<tr class="row-odd"><td><span class="math notranslate nohighlight">\(z_{5,\ldots,8}=\)</span></td>
 <td>0.250000E+00</td>
 <td>0.250000E+00</td>
 <td>0.250000E+00</td>
@@ -1144,11 +1147,11 @@ are in the fluid mesh (100).</p>
 </div></blockquote>
 <p>Following the header, all elements are listed. The fluid elements are listed
 first, followed by all solid elements if present.</p>
-<p>The data following the header is formatted as shown in <a class="reference internal" href="#tab-element"><span class="std std-numref">Table 16</span></a>. This provides all the coordinates of an element for top and bottom faces. The numbering of the vertices is shown in Fig. <a class="reference internal" href="#fig-elorder"><span class="std std-numref">Fig. 8</span></a>. The header for each element as in <a class="reference internal" href="#tab-element"><span class="std std-numref">Table 16</span></a>, i.e. <code class="docutils literal"><span class="pre">[1A]</span> <span class="pre">GROUP</span></code> is reminiscent of older Nek5000 format and does not impact the mesh generation at this stage.</p>
+<p>The data following the header is formatted as shown in <a class="reference internal" href="#tab-element"><span class="std std-numref">Table 16</span></a>. This provides all the coordinates of an element for top and bottom faces. The numbering of the vertices is shown in Fig. <a class="reference internal" href="#fig-elorder"><span class="std std-numref">Fig. 8</span></a>. The header for each element as in <a class="reference internal" href="#tab-element"><span class="std std-numref">Table 16</span></a>, i.e. <code class="docutils literal notranslate"><span class="pre">[1A]</span> <span class="pre">GROUP</span></code> is reminiscent of older Nek5000 format and does not impact the mesh generation at this stage.</p>
 <blockquote>
 <div><div class="align-center figure" id="id13">
 <span id="fig-elorder"></span><img alt="rea-geometry" src="../_images/3dcube_1.png" />
-<p class="caption"><span class="caption-number">Fig. 8 </span><span class="caption-text">Geometry description in <code class="docutils literal"><span class="pre">.rea</span></code> file (sketch of one element ordering - Preprocessor
+<p class="caption"><span class="caption-number">Fig. 8 </span><span class="caption-text">Geometry description in <code class="docutils literal notranslate"><span class="pre">.rea</span></code> file (sketch of one element ordering - Preprocessor
 corner notation)</span></p>
 </div>
 </div></blockquote>
@@ -1160,7 +1163,7 @@ corner notation)</span></p>
 <div><p>This section describes the curvature of the elements. It is expressed as deformation of the linear elements.
 Therefore, if no elements are curved (if only linear elements are present) the section remains empty.</p>
 <p>The section header may look like this:</p>
-<div class="highlight-default"><div class="highlight"><pre><span></span><span class="mi">640</span> <span class="n">Curved</span> <span class="n">sides</span> <span class="n">follow</span> <span class="n">IEDGE</span><span class="p">,</span><span class="n">IEL</span><span class="p">,</span><span class="n">CURVE</span><span class="p">(</span><span class="n">I</span><span class="p">),</span><span class="n">I</span><span class="o">=</span><span class="mi">1</span><span class="p">,</span><span class="mi">5</span><span class="p">,</span> <span class="n">CCURVE</span>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="mi">640</span> <span class="n">Curved</span> <span class="n">sides</span> <span class="n">follow</span> <span class="n">IEDGE</span><span class="p">,</span><span class="n">IEL</span><span class="p">,</span><span class="n">CURVE</span><span class="p">(</span><span class="n">I</span><span class="p">),</span><span class="n">I</span><span class="o">=</span><span class="mi">1</span><span class="p">,</span><span class="mi">5</span><span class="p">,</span> <span class="n">CCURVE</span>
 </pre></div>
 </div>
 <p>Curvature information is provided by edge and element. Therefore up to 12 curvature entries can be present for each element.
@@ -1180,14 +1183,14 @@ The formatting for the curvature data is provided in <a class="reference interna
 <col width="12%" />
 </colgroup>
 <thead valign="bottom">
-<tr class="row-odd"><th class="head"><code class="docutils literal"><span class="pre">IEDGE</span></code></th>
-<th class="head"><code class="docutils literal"><span class="pre">IEL</span></code></th>
-<th class="head"><code class="docutils literal"><span class="pre">CURVE(1)</span></code></th>
-<th class="head"><code class="docutils literal"><span class="pre">CURVE(2)</span></code></th>
-<th class="head"><code class="docutils literal"><span class="pre">CURVE(3)</span></code></th>
-<th class="head"><code class="docutils literal"><span class="pre">CURVE(4)</span></code></th>
-<th class="head"><code class="docutils literal"><span class="pre">CURVE(5)</span></code></th>
-<th class="head"><code class="docutils literal"><span class="pre">CCURVE</span></code></th>
+<tr class="row-odd"><th class="head"><code class="docutils literal notranslate"><span class="pre">IEDGE</span></code></th>
+<th class="head"><code class="docutils literal notranslate"><span class="pre">IEL</span></code></th>
+<th class="head"><code class="docutils literal notranslate"><span class="pre">CURVE(1)</span></code></th>
+<th class="head"><code class="docutils literal notranslate"><span class="pre">CURVE(2)</span></code></th>
+<th class="head"><code class="docutils literal notranslate"><span class="pre">CURVE(3)</span></code></th>
+<th class="head"><code class="docutils literal notranslate"><span class="pre">CURVE(4)</span></code></th>
+<th class="head"><code class="docutils literal notranslate"><span class="pre">CURVE(5)</span></code></th>
+<th class="head"><code class="docutils literal notranslate"><span class="pre">CCURVE</span></code></th>
 </tr>
 </thead>
 <tbody valign="top">
@@ -1221,17 +1224,17 @@ The formatting for the curvature data is provided in <a class="reference interna
 </tbody>
 </table>
 </div></blockquote>
-<p>There are several types of possible curvature information represented by <code class="docutils literal"><span class="pre">CCURVE</span></code>. This include:</p>
+<p>There are several types of possible curvature information represented by <code class="docutils literal notranslate"><span class="pre">CCURVE</span></code>. This include:</p>
 <ul class="simple">
-<li>‘C’ stands for circle and is given by the radius of the circle,  in <code class="docutils literal"><span class="pre">CURVE(1)</span></code>, all other compoentns of the <code class="docutils literal"><span class="pre">CURVE</span></code> array are not used but need to be present.</li>
-<li>‘s’ stands for sphere and is given by the radius and the center of the sphere, thus filling the first 4 components of the <code class="docutils literal"><span class="pre">CURVE</span></code> array. The fifth component needs to be present but is not utilized.</li>
-<li>‘m’ is given by the coordinates of the midside-node, thus using the first 3 components of the <code class="docutils literal"><span class="pre">CURVE</span></code> array, and leads to a second order reconstruction of the face.  The fourth and fifth components need to be present but are not utilized.</li>
+<li>‘C’ stands for circle and is given by the radius of the circle,  in <code class="docutils literal notranslate"><span class="pre">CURVE(1)</span></code>, all other compoentns of the <code class="docutils literal notranslate"><span class="pre">CURVE</span></code> array are not used but need to be present.</li>
+<li>‘s’ stands for sphere and is given by the radius and the center of the sphere, thus filling the first 4 components of the <code class="docutils literal notranslate"><span class="pre">CURVE</span></code> array. The fifth component needs to be present but is not utilized.</li>
+<li>‘m’ is given by the coordinates of the midside-node, thus using the first 3 components of the <code class="docutils literal notranslate"><span class="pre">CURVE</span></code> array, and leads to a second order reconstruction of the face.  The fourth and fifth components need to be present but are not utilized.</li>
 </ul>
 <p>Both ‘C’ and ‘s’ types allow for a surface of as high order as the polynomial used in the spectral method, since they have an underlying analytical description, any circle arc can be fully determined by the radius and end points. However for the ‘m’ curved element descriptor the surface can be reconstructed only up to second order. This can be later updated to match the high-order polynomial after the GLL points have been distributed across the boundaries. This is the only general mean to describe curvature currrently in Nek5000 and corresponds to a HEX20 representation.</p>
 <blockquote>
 <div><div class="align-center figure" id="id15">
 <span id="fig-edges"></span><img alt="edge-numbering" src="../_images/3dcube.png" />
-<p class="caption"><span class="caption-number">Fig. 9 </span><span class="caption-text">Edge numbering in <code class="docutils literal"><span class="pre">.rea</span></code> file, the edge number is in between parenthesis. The other
+<p class="caption"><span class="caption-number">Fig. 9 </span><span class="caption-text">Edge numbering in <code class="docutils literal notranslate"><span class="pre">.rea</span></code> file, the edge number is in between parenthesis. The other
 numbers represent vertices.</span></p>
 </div>
 </div></blockquote>
@@ -1245,12 +1248,12 @@ numbers represent vertices.</span></p>
 <h3>Boundaries<a class="headerlink" href="#boundaries" title="Permalink to this headline">¶</a></h3>
 <blockquote>
 <div><p>Boundaries are specified for each field in sequence: velocity, temperature and passive scalars. The section header for each field will be as follows (example for the velocity):</p>
-<div class="highlight-default"><div class="highlight"><pre><span></span><span class="o">*****</span> <span class="n">FLUID</span>   <span class="n">BOUNDARY</span> <span class="n">CONDITIONS</span> <span class="o">*****</span>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="o">*****</span> <span class="n">FLUID</span>   <span class="n">BOUNDARY</span> <span class="n">CONDITIONS</span> <span class="o">*****</span>
 </pre></div>
 </div>
 <p>and the data is stored as illustarted in <a class="reference internal" href="#tab-bcs"><span class="std std-numref">Table 18</span></a>. For each field boundary conditions are listed for each face of each element.</p>
-<p>Boundary conditions are given in order per each element, see <a class="reference internal" href="#tab-bcs"><span class="std std-numref">Table 18</span></a> column <code class="docutils literal"><span class="pre">IEL</span></code>, and faces listed in ascending order 1-6 in column <code class="docutils literal"><span class="pre">IFACE</span></code>. Note that the header in <a class="reference internal" href="#tab-bcs"><span class="std std-numref">Table 18</span></a> does not appear in the actual <code class="docutils literal"><span class="pre">.rea</span></code>.</p>
-<p>The ordering for faces each element is shown in <a class="reference internal" href="#fig-forder"><span class="std std-numref">Fig. 11</span></a>. A total equivalent to <span class="math">\(6N_{field}\)</span> boundary conditions are listed for each field, where <span class="math">\(N_{field}\)</span> is the number of elements for the specific field. <span class="math">\(N_{field}\)</span> is equal to the total number of fluid elements for the velocity and equal to the total number of elements (including solid elements) for temperature. For the passive scalars it will depend on the specific choice, but typically scalars are solved on the temeprature mesh (solid+fluid).</p>
+<p>Boundary conditions are given in order per each element, see <a class="reference internal" href="#tab-bcs"><span class="std std-numref">Table 18</span></a> column <code class="docutils literal notranslate"><span class="pre">IEL</span></code>, and faces listed in ascending order 1-6 in column <code class="docutils literal notranslate"><span class="pre">IFACE</span></code>. Note that the header in <a class="reference internal" href="#tab-bcs"><span class="std std-numref">Table 18</span></a> does not appear in the actual <code class="docutils literal notranslate"><span class="pre">.rea</span></code>.</p>
+<p>The ordering for faces each element is shown in <a class="reference internal" href="#fig-forder"><span class="std std-numref">Fig. 11</span></a>. A total equivalent to <span class="math notranslate nohighlight">\(6N_{field}\)</span> boundary conditions are listed for each field, where <span class="math notranslate nohighlight">\(N_{field}\)</span> is the number of elements for the specific field. <span class="math notranslate nohighlight">\(N_{field}\)</span> is equal to the total number of fluid elements for the velocity and equal to the total number of elements (including solid elements) for temperature. For the passive scalars it will depend on the specific choice, but typically scalars are solved on the temeprature mesh (solid+fluid).</p>
 <blockquote>
 <div><div class="align-center figure" id="id17">
 <span id="fig-forder"></span><img alt="edge-numbering" src="../_images/3dcube_2.png" />
@@ -1259,17 +1262,17 @@ numbers represent vertices.</span></p>
 </div></blockquote>
 <p>Each BC letter condition is formed by three characters. Common BCs include:</p>
 <ul class="simple">
-<li><code class="docutils literal"><span class="pre">E</span></code> - internal boundary condition. No additional information needs to be provided.</li>
-<li><code class="docutils literal"><span class="pre">SYM</span></code> - symmetry boundary condition. No additional information needs to be provided.</li>
-<li><code class="docutils literal"><span class="pre">P</span></code> - periodic boundary conditions,  which indicates that an element face is connected to another element to establish a periodic BC. The connecting element and face need be  to specified in <code class="docutils literal"><span class="pre">CONN-IEL</span></code> and <code class="docutils literal"><span class="pre">CONN-IFACE</span></code>.</li>
-<li><code class="docutils literal"><span class="pre">v</span></code> - imposed velocity boundary conditions (inlet). The value is specified in the user subroutines. No additional information needs to be provided in the <code class="docutils literal"><span class="pre">.rea</span></code> file.</li>
-<li><code class="docutils literal"><span class="pre">W</span></code> - wall boundary condition (no-slip) for the velocity. No additional information needs to be provided.</li>
-<li><code class="docutils literal"><span class="pre">O</span></code> - outlet boundary condition (velocity). No additional information needs to be provided.</li>
-<li><code class="docutils literal"><span class="pre">t</span></code> - imposed temperature  boundary conditions (inlet). The value is specified in the user subroutines. No additional information needs to be provided in the <code class="docutils literal"><span class="pre">.rea</span></code> file.</li>
-<li><code class="docutils literal"><span class="pre">f</span></code> - imposed heat flux  boundary conditions (temperature). The value is specified in the user subroutines. No additional information needs to be provided in the <code class="docutils literal"><span class="pre">.rea</span></code> file.</li>
-<li><code class="docutils literal"><span class="pre">I</span></code> - adiabatic boundary conditions (temeperature). No additional information needs to be provided.</li>
+<li><code class="docutils literal notranslate"><span class="pre">E</span></code> - internal boundary condition. No additional information needs to be provided.</li>
+<li><code class="docutils literal notranslate"><span class="pre">SYM</span></code> - symmetry boundary condition. No additional information needs to be provided.</li>
+<li><code class="docutils literal notranslate"><span class="pre">P</span></code> - periodic boundary conditions,  which indicates that an element face is connected to another element to establish a periodic BC. The connecting element and face need be  to specified in <code class="docutils literal notranslate"><span class="pre">CONN-IEL</span></code> and <code class="docutils literal notranslate"><span class="pre">CONN-IFACE</span></code>.</li>
+<li><code class="docutils literal notranslate"><span class="pre">v</span></code> - imposed velocity boundary conditions (inlet). The value is specified in the user subroutines. No additional information needs to be provided in the <code class="docutils literal notranslate"><span class="pre">.rea</span></code> file.</li>
+<li><code class="docutils literal notranslate"><span class="pre">W</span></code> - wall boundary condition (no-slip) for the velocity. No additional information needs to be provided.</li>
+<li><code class="docutils literal notranslate"><span class="pre">O</span></code> - outlet boundary condition (velocity). No additional information needs to be provided.</li>
+<li><code class="docutils literal notranslate"><span class="pre">t</span></code> - imposed temperature  boundary conditions (inlet). The value is specified in the user subroutines. No additional information needs to be provided in the <code class="docutils literal notranslate"><span class="pre">.rea</span></code> file.</li>
+<li><code class="docutils literal notranslate"><span class="pre">f</span></code> - imposed heat flux  boundary conditions (temperature). The value is specified in the user subroutines. No additional information needs to be provided in the <code class="docutils literal notranslate"><span class="pre">.rea</span></code> file.</li>
+<li><code class="docutils literal notranslate"><span class="pre">I</span></code> - adiabatic boundary conditions (temeperature). No additional information needs to be provided.</li>
 </ul>
-<p>Many of the BCs support either a constant specification or a user defined specification which may be an arbitrary function.   For example, a constant Dirichlet BC for velocity is specified by <code class="docutils literal"><span class="pre">V</span></code>, while a user defined BC is specified by <code class="docutils literal"><span class="pre">v</span></code>.   This upper/lower-case distinction is  used for all cases.   There are about 70 different types of boundary conditions in all, including free-surface, moving boundary, heat flux, convective cooling, etc. The above cases are just the most used types.</p>
+<p>Many of the BCs support either a constant specification or a user defined specification which may be an arbitrary function.   For example, a constant Dirichlet BC for velocity is specified by <code class="docutils literal notranslate"><span class="pre">V</span></code>, while a user defined BC is specified by <code class="docutils literal notranslate"><span class="pre">v</span></code>.   This upper/lower-case distinction is  used for all cases.   There are about 70 different types of boundary conditions in all, including free-surface, moving boundary, heat flux, convective cooling, etc. The above cases are just the most used types.</p>
 <blockquote>
 <div><span id="tab-bcs"></span><table border="1" class="docutils" id="id18">
 <caption><span class="caption-number">Table 18 </span><span class="caption-text">Formatting of boundary conditions input.</span><a class="headerlink" href="#id18" title="Permalink to this table">¶</a></caption>
@@ -1284,11 +1287,11 @@ numbers represent vertices.</span></p>
 <col width="10%" />
 </colgroup>
 <thead valign="bottom">
-<tr class="row-odd"><th class="head"><code class="docutils literal"><span class="pre">CBC</span></code></th>
-<th class="head"><code class="docutils literal"><span class="pre">IEL</span></code></th>
-<th class="head"><code class="docutils literal"><span class="pre">IFACE</span></code></th>
-<th class="head"><code class="docutils literal"><span class="pre">CONN-IEL</span></code></th>
-<th class="head"><code class="docutils literal"><span class="pre">CONN-IFACE</span></code></th>
+<tr class="row-odd"><th class="head"><code class="docutils literal notranslate"><span class="pre">CBC</span></code></th>
+<th class="head"><code class="docutils literal notranslate"><span class="pre">IEL</span></code></th>
+<th class="head"><code class="docutils literal notranslate"><span class="pre">IFACE</span></code></th>
+<th class="head"><code class="docutils literal notranslate"><span class="pre">CONN-IEL</span></code></th>
+<th class="head"><code class="docutils literal notranslate"><span class="pre">CONN-IFACE</span></code></th>
 <th class="head">&#160;</th>
 <th class="head">&#160;</th>
 <th class="head">&#160;</th>
@@ -1304,14 +1307,14 @@ numbers represent vertices.</span></p>
 <td>0.00000</td>
 <td>0.00000</td>
 </tr>
-<tr class="row-odd"><td><code class="docutils literal"><span class="pre">..</span></code></td>
-<td><code class="docutils literal"><span class="pre">..</span></code></td>
-<td><code class="docutils literal"><span class="pre">..</span></code></td>
-<td><code class="docutils literal"><span class="pre">..</span></code></td>
-<td><code class="docutils literal"><span class="pre">..</span></code></td>
-<td><code class="docutils literal"><span class="pre">..</span></code></td>
-<td><code class="docutils literal"><span class="pre">..</span></code></td>
-<td><code class="docutils literal"><span class="pre">..</span></code></td>
+<tr class="row-odd"><td><code class="docutils literal notranslate"><span class="pre">..</span></code></td>
+<td><code class="docutils literal notranslate"><span class="pre">..</span></code></td>
+<td><code class="docutils literal notranslate"><span class="pre">..</span></code></td>
+<td><code class="docutils literal notranslate"><span class="pre">..</span></code></td>
+<td><code class="docutils literal notranslate"><span class="pre">..</span></code></td>
+<td><code class="docutils literal notranslate"><span class="pre">..</span></code></td>
+<td><code class="docutils literal notranslate"><span class="pre">..</span></code></td>
+<td><code class="docutils literal notranslate"><span class="pre">..</span></code></td>
 </tr>
 <tr class="row-even"><td>W</td>
 <td>5</td>
@@ -1322,14 +1325,14 @@ numbers represent vertices.</span></p>
 <td>0.00000</td>
 <td>0.00000</td>
 </tr>
-<tr class="row-odd"><td><code class="docutils literal"><span class="pre">..</span></code></td>
-<td><code class="docutils literal"><span class="pre">..</span></code></td>
-<td><code class="docutils literal"><span class="pre">..</span></code></td>
-<td><code class="docutils literal"><span class="pre">..</span></code></td>
-<td><code class="docutils literal"><span class="pre">..</span></code></td>
-<td><code class="docutils literal"><span class="pre">..</span></code></td>
-<td><code class="docutils literal"><span class="pre">..</span></code></td>
-<td><code class="docutils literal"><span class="pre">..</span></code></td>
+<tr class="row-odd"><td><code class="docutils literal notranslate"><span class="pre">..</span></code></td>
+<td><code class="docutils literal notranslate"><span class="pre">..</span></code></td>
+<td><code class="docutils literal notranslate"><span class="pre">..</span></code></td>
+<td><code class="docutils literal notranslate"><span class="pre">..</span></code></td>
+<td><code class="docutils literal notranslate"><span class="pre">..</span></code></td>
+<td><code class="docutils literal notranslate"><span class="pre">..</span></code></td>
+<td><code class="docutils literal notranslate"><span class="pre">..</span></code></td>
+<td><code class="docutils literal notranslate"><span class="pre">..</span></code></td>
 </tr>
 <tr class="row-even"><td>P</td>
 <td>23</td>
@@ -1355,7 +1358,7 @@ subroutines.</p>
 <p>This function can be used  to specify customized or solution dependent material
 properties.</p>
 <p>Example:</p>
-<div class="highlight-fortran"><div class="highlight"><pre><span></span><span class="k">if</span> <span class="p">(</span><span class="n">ifield</span><span class="p">.</span><span class="n">eq</span><span class="p">.</span><span class="mi">1</span><span class="p">)</span> <span class="k">then</span>
+<div class="highlight-fortran notranslate"><div class="highlight"><pre><span></span><span class="k">if</span> <span class="p">(</span><span class="n">ifield</span><span class="p">.</span><span class="n">eq</span><span class="p">.</span><span class="mi">1</span><span class="p">)</span> <span class="k">then</span>
 <span class="k">   </span><span class="n">udiff</span>  <span class="o">=</span> <span class="n">a</span> <span class="o">*</span> <span class="nb">exp</span><span class="p">(</span><span class="o">-</span><span class="n">b</span><span class="o">*</span><span class="n">temp</span><span class="p">)</span> <span class="c">! dynamic viscosity</span>
    <span class="n">utrans</span> <span class="o">=</span> <span class="mf">1.0</span>              <span class="c">! density</span>
 <span class="k">else if</span> <span class="p">(</span><span class="n">ifield</span><span class="p">.</span><span class="n">eq</span><span class="p">.</span><span class="mi">2</span><span class="p">)</span> <span class="k">then</span>
@@ -1370,7 +1373,7 @@ properties.</p>
 <p>This functions sets the source term (which will be subsequently be multiplied by
 the density) for the momentum equation.</p>
 <p>Example:</p>
-<div class="highlight-fortran"><div class="highlight"><pre><span></span><span class="k">parameter</span><span class="p">(</span><span class="n">g</span> <span class="o">=</span> <span class="mf">9.81</span><span class="p">)</span>
+<div class="highlight-fortran notranslate"><div class="highlight"><pre><span></span><span class="k">parameter</span><span class="p">(</span><span class="n">g</span> <span class="o">=</span> <span class="mf">9.81</span><span class="p">)</span>
 
 <span class="n">ffx</span> <span class="o">=</span> <span class="mf">0.0</span>
 <span class="n">ffy</span> <span class="o">=</span> <span class="mf">0.0</span>
@@ -1423,9 +1426,9 @@ in Nek5000, with the exception of those required by the C utilities.
 The <em>basic</em> parameters of interest in SIZE are:</p>
 <ul class="simple">
 <li><strong>ldim</strong> = 2 or 3.  This must be set to 2 for two-dimensional or axisymmetric simulations  (the latter only partially supported) or to 3 for three-dimensional simulations.</li>
-<li><strong>lx1</strong> controls the polynomial order of the solution, <span class="math">\(N = {\tt lx1-1}\)</span>.</li>
-<li><strong>lxd</strong> controls the polynomial order of the (over-)integration/dealiasing. Strictly speaking <span class="math">\({\tt lxd=3 * lx1/2}\)</span> is required but often smaller values are good enough.</li>
-<li><strong>lx2</strong> = <code class="docutils literal"><span class="pre">lx1</span></code> or <code class="docutils literal"><span class="pre">lx1-2</span></code> and is an approximation order for pressure that determines the formulation for the Navier-Stokes  solver (i.e., the choice between the <span class="math">\(\mathbb{P}_N - \mathbb{P}_N\)</span> or <span class="math">\(\mathbb{P}_N - \mathbb{P}_{N-2}\)</span> spectral-element methods).</li>
+<li><strong>lx1</strong> controls the polynomial order of the solution, <span class="math notranslate nohighlight">\(N = {\tt lx1-1}\)</span>.</li>
+<li><strong>lxd</strong> controls the polynomial order of the (over-)integration/dealiasing. Strictly speaking <span class="math notranslate nohighlight">\({\tt lxd=3 * lx1/2}\)</span> is required but often smaller values are good enough.</li>
+<li><strong>lx2</strong> = <code class="docutils literal notranslate"><span class="pre">lx1</span></code> or <code class="docutils literal notranslate"><span class="pre">lx1-2</span></code> and is an approximation order for pressure that determines the formulation for the Navier-Stokes  solver (i.e., the choice between the <span class="math notranslate nohighlight">\(\mathbb{P}_N - \mathbb{P}_N\)</span> or <span class="math notranslate nohighlight">\(\mathbb{P}_N - \mathbb{P}_{N-2}\)</span> spectral-element methods).</li>
 <li><strong>lelg</strong>, an upper bound on the total number of elements in your mesh.</li>
 <li><strong>lpmax</strong>, a maximum number of processors that can be used</li>
 <li><strong>lpmin</strong>, a minimum number of processors that can be used (see also  <strong>Memory Requirements</strong>).</li>
@@ -1439,7 +1442,7 @@ upper bounds on parameters in SIZE are (minimum being 1 unless otherwise noted):
 <li><strong>lpert</strong>, a maximum perturbations.</li>
 <li><strong>toteq</strong>, a maximum number of conserved scalars in CMT (minimum could be 0).</li>
 <li><strong>nsessmax</strong>, a maximum number of (ensemble-average) sessions.</li>
-<li><strong>lxo</strong>, a maximum number of points per element for field file output (<span class="math">\({\tt lxo \geq lx1}\)</span>).</li>
+<li><strong>lxo</strong>, a maximum number of points per element for field file output (<span class="math notranslate nohighlight">\({\tt lxo \geq lx1}\)</span>).</li>
 <li><strong>lelx</strong>, <strong>lely</strong>, <strong>lelz</strong>, a maximum number of element in each direction for global tensor product solver and/or dimentions.</li>
 <li><strong>mxprev</strong>, a maximum dimension of projection space (e.g. 20).</li>
 <li><strong>lgmres</strong>, a maximum dimension of Krylov space (e.g. 30).</li>
@@ -1452,7 +1455,7 @@ upper bounds on parameters in SIZE are (minimum being 1 unless otherwise noted):
 <li><strong>lfdm</strong> equals to 1 for global tensor product solver (that uses fast diagonalization method) being 0 otherwise.</li>
 </ul>
 <p>Note that one also need to include the following line to SIZE file:</p>
-<div class="highlight-fortran"><div class="highlight"><pre><span></span><span class="k">include</span> <span class="s1">&#39;SIZE.inc&#39;</span>
+<div class="highlight-fortran notranslate"><div class="highlight"><pre><span></span><span class="k">include</span> <span class="s1">&#39;SIZE.inc&#39;</span>
 </pre></div>
 </div>
 <p>that defines addional internal parameters.</p>
@@ -1463,7 +1466,7 @@ upper bounds on parameters in SIZE are (minimum being 1 unless otherwise noted):
 </div>
 <div class="section" id="restart-output-files-f">
 <span id="case-files-fld"></span><h2>Restart/Output files (.f#####)<a class="headerlink" href="#restart-output-files-f" title="Permalink to this headline">¶</a></h2>
-<p>Field files are used to read/write physical fields in both serial and parallel.  They have extension <code class="docutils literal"><span class="pre">.f#####</span></code>
+<p>Field files are used to read/write physical fields in both serial and parallel.  They have extension <code class="docutils literal notranslate"><span class="pre">.f#####</span></code>
 where # is a numeral. The file format is unique to Nek5000 and is described in this section.</p>
 <p>The file is composed of:</p>
 <blockquote>
@@ -1479,19 +1482,19 @@ In the table below, the offsets and widths are measured in bytes. Note that cons
 by a single byte, which is the ASCII space character.  Finally, note that the data entries do not require all 132 bytes.</p>
 <p>Some elements that require additional explanation are:</p>
 <ul class="simple">
-<li><code class="docutils literal"><span class="pre">nz</span></code>:  This is the number of GLL gridpoints in the z-direction. If equal to 1, the field data were
+<li><code class="docutils literal notranslate"><span class="pre">nz</span></code>:  This is the number of GLL gridpoints in the z-direction. If equal to 1, the field data were
 produced for a 2D simulation.  If &gt; 1, the data were produced for a 3D simulation.</li>
-<li><code class="docutils literal"><span class="pre">rdcode</span></code>: Specifies the type and ordering of fields that are present in this file.
+<li><code class="docutils literal notranslate"><span class="pre">rdcode</span></code>: Specifies the type and ordering of fields that are present in this file.
 The code can consist of the following.  All fields are optional, but if present, they are expected
 to appear in this order.<ul>
-<li><code class="docutils literal"><span class="pre">X</span></code> : Coordinates</li>
-<li><code class="docutils literal"><span class="pre">U</span></code> : Velocity</li>
-<li><code class="docutils literal"><span class="pre">P</span></code> : Pressure</li>
-<li><code class="docutils literal"><span class="pre">T</span></code> : Temperature</li>
-<li><code class="docutils literal"><span class="pre">S#</span></code>: Passive scalar(s).  # is a numeral that specifies the number of different passive scalars.</li>
+<li><code class="docutils literal notranslate"><span class="pre">X</span></code> : Coordinates</li>
+<li><code class="docutils literal notranslate"><span class="pre">U</span></code> : Velocity</li>
+<li><code class="docutils literal notranslate"><span class="pre">P</span></code> : Pressure</li>
+<li><code class="docutils literal notranslate"><span class="pre">T</span></code> : Temperature</li>
+<li><code class="docutils literal notranslate"><span class="pre">S#</span></code>: Passive scalar(s).  # is a numeral that specifies the number of different passive scalars.</li>
 </ul>
 </li>
-<li><code class="docutils literal"><span class="pre">test</span> <span class="pre">value</span></code>: When Nek5000 writes the header to file, it writes the specific value 6.54321 as a
+<li><code class="docutils literal notranslate"><span class="pre">test</span> <span class="pre">value</span></code>: When Nek5000 writes the header to file, it writes the specific value 6.54321 as a
 test value.  When the file is later read – possibly on a different computer – the test value is
 read and compared to the expected value.  If the values match, then the computer that wrote the file
 and the computer that is now reading the file use the same endianness for floating-point numbers.
@@ -1517,105 +1520,105 @@ byte-swapped by the computer reading the data.</li>
 </tr>
 </thead>
 <tbody valign="top">
-<tr class="row-even"><td><code class="docutils literal"><span class="pre">tag</span></code></td>
+<tr class="row-even"><td><code class="docutils literal notranslate"><span class="pre">tag</span></code></td>
 <td>0</td>
 <td>4</td>
 <td>ASCII</td>
 <td>text</td>
-<td>The string <code class="docutils literal"><span class="pre">#std</span></code>. Tags the start of the fil</td>
+<td>The string <code class="docutils literal notranslate"><span class="pre">#std</span></code>. Tags the start of the fil</td>
 </tr>
-<tr class="row-odd"><td><code class="docutils literal"><span class="pre">wdsize</span></code></td>
+<tr class="row-odd"><td><code class="docutils literal notranslate"><span class="pre">wdsize</span></code></td>
 <td>5</td>
 <td>1</td>
 <td>ASCII</td>
 <td>integer</td>
 <td>Floating-point precision of field data (in bytes)</td>
 </tr>
-<tr class="row-even"><td><code class="docutils literal"><span class="pre">nx</span></code></td>
+<tr class="row-even"><td><code class="docutils literal notranslate"><span class="pre">nx</span></code></td>
 <td>7</td>
 <td>2</td>
 <td>ASCII</td>
 <td>integer</td>
 <td>Number of GLL points per element in x direction</td>
 </tr>
-<tr class="row-odd"><td><code class="docutils literal"><span class="pre">ny</span></code></td>
+<tr class="row-odd"><td><code class="docutils literal notranslate"><span class="pre">ny</span></code></td>
 <td>10</td>
 <td>2</td>
 <td>ASCII</td>
 <td>integer</td>
 <td>Number of GLL points per element in y direction</td>
 </tr>
-<tr class="row-even"><td><code class="docutils literal"><span class="pre">nz</span></code></td>
+<tr class="row-even"><td><code class="docutils literal notranslate"><span class="pre">nz</span></code></td>
 <td>13</td>
 <td>2</td>
 <td>ASCII</td>
 <td>integer</td>
 <td>Number of GLL points per element in z direction</td>
 </tr>
-<tr class="row-odd"><td><code class="docutils literal"><span class="pre">nelt</span></code></td>
+<tr class="row-odd"><td><code class="docutils literal notranslate"><span class="pre">nelt</span></code></td>
 <td>16</td>
 <td>10</td>
 <td>ASCII</td>
 <td>integer</td>
 <td>Number of elements in this file</td>
 </tr>
-<tr class="row-even"><td><code class="docutils literal"><span class="pre">nelgt</span></code></td>
+<tr class="row-even"><td><code class="docutils literal notranslate"><span class="pre">nelgt</span></code></td>
 <td>27</td>
 <td>10</td>
 <td>ASCII</td>
 <td>integer</td>
 <td>Number of global elements</td>
 </tr>
-<tr class="row-odd"><td><code class="docutils literal"><span class="pre">time</span></code></td>
+<tr class="row-odd"><td><code class="docutils literal notranslate"><span class="pre">time</span></code></td>
 <td>38</td>
 <td>20</td>
 <td>ASCII</td>
 <td>decimal</td>
 <td>Absolute simulation time of this file’s state</td>
 </tr>
-<tr class="row-even"><td><code class="docutils literal"><span class="pre">iostep</span></code></td>
+<tr class="row-even"><td><code class="docutils literal notranslate"><span class="pre">iostep</span></code></td>
 <td>59</td>
 <td>9</td>
 <td>ASCII</td>
 <td>integer</td>
 <td>I/O timestep of this file’s state</td>
 </tr>
-<tr class="row-odd"><td><code class="docutils literal"><span class="pre">fid</span></code></td>
+<tr class="row-odd"><td><code class="docutils literal notranslate"><span class="pre">fid</span></code></td>
 <td>69</td>
 <td>6</td>
 <td>ASCII</td>
 <td>integer</td>
 <td>Index of this file (when using multi-file output)</td>
 </tr>
-<tr class="row-even"><td><code class="docutils literal"><span class="pre">nfileoo</span></code></td>
+<tr class="row-even"><td><code class="docutils literal notranslate"><span class="pre">nfileoo</span></code></td>
 <td>76</td>
 <td>6</td>
 <td>ASCII</td>
 <td>integer</td>
 <td>Number of files produced at this I/O step</td>
 </tr>
-<tr class="row-odd"><td><code class="docutils literal"><span class="pre">rdcode</span></code></td>
+<tr class="row-odd"><td><code class="docutils literal notranslate"><span class="pre">rdcode</span></code></td>
 <td>83</td>
 <td>10</td>
 <td>ASCII</td>
 <td>text</td>
 <td>Specifies which fields contained in this file</td>
 </tr>
-<tr class="row-even"><td><code class="docutils literal"><span class="pre">p0th</span></code></td>
+<tr class="row-even"><td><code class="docutils literal notranslate"><span class="pre">p0th</span></code></td>
 <td>94</td>
 <td>15</td>
 <td>ASCII</td>
 <td>decimal</td>
 <td>Thermodynamic pressure</td>
 </tr>
-<tr class="row-odd"><td><code class="docutils literal"><span class="pre">if_press_mesh</span></code></td>
+<tr class="row-odd"><td><code class="docutils literal notranslate"><span class="pre">if_press_mesh</span></code></td>
 <td>110</td>
 <td>1</td>
 <td>ASCII</td>
 <td>text</td>
 <td>States whether pressure mesh is being used</td>
 </tr>
-<tr class="row-even"><td><code class="docutils literal"><span class="pre">test_value</span></code></td>
+<tr class="row-even"><td><code class="docutils literal notranslate"><span class="pre">test_value</span></code></td>
 <td>112</td>
 <td>4</td>
 <td>binary</td>
@@ -1625,10 +1628,10 @@ byte-swapped by the computer reading the data.</li>
 </tbody>
 </table>
 <p>The <strong>global element IDs, coordinates, and field data</strong> start at offset 136 bytes.  Integer data are always 32-bit.
-The precision of floating-point data is inferred from the value of <code class="docutils literal"><span class="pre">wdsize</span></code> (see above).  The number of
-dimensions (<code class="docutils literal"><span class="pre">ndims</span></code>) is inferred from <code class="docutils literal"><span class="pre">nz</span></code> (see above).  The global element IDs are required, but the
+The precision of floating-point data is inferred from the value of <code class="docutils literal notranslate"><span class="pre">wdsize</span></code> (see above).  The number of
+dimensions (<code class="docutils literal notranslate"><span class="pre">ndims</span></code>) is inferred from <code class="docutils literal notranslate"><span class="pre">nz</span></code> (see above).  The global element IDs are required, but the
 coordinates and any field data are optional.  Their presence of coordinates and field data are inferred from
-<code class="docutils literal"><span class="pre">rdcode</span></code>, as described above.</p>
+<code class="docutils literal notranslate"><span class="pre">rdcode</span></code>, as described above.</p>
 <table border="1" class="docutils">
 <colgroup>
 <col width="29%" />
@@ -1644,27 +1647,27 @@ coordinates and any field data are optional.  Their presence of coordinates and 
 <tbody valign="top">
 <tr class="row-even"><td>Global element IDs</td>
 <td>integer</td>
-<td><code class="docutils literal"><span class="pre">(nelt)</span></code></td>
+<td><code class="docutils literal notranslate"><span class="pre">(nelt)</span></code></td>
 </tr>
 <tr class="row-odd"><td>Coordinates</td>
 <td>float</td>
-<td><code class="docutils literal"><span class="pre">(nelt,</span> <span class="pre">ndims,</span> <span class="pre">nx</span> <span class="pre">*</span> <span class="pre">ny</span> <span class="pre">*</span> <span class="pre">nz)</span></code></td>
+<td><code class="docutils literal notranslate"><span class="pre">(nelt,</span> <span class="pre">ndims,</span> <span class="pre">nx</span> <span class="pre">*</span> <span class="pre">ny</span> <span class="pre">*</span> <span class="pre">nz)</span></code></td>
 </tr>
 <tr class="row-even"><td>Velocity</td>
 <td>float</td>
-<td><code class="docutils literal"><span class="pre">(nelt,</span> <span class="pre">ndims,</span> <span class="pre">nx</span> <span class="pre">*</span> <span class="pre">ny</span> <span class="pre">*</span> <span class="pre">nz)</span></code></td>
+<td><code class="docutils literal notranslate"><span class="pre">(nelt,</span> <span class="pre">ndims,</span> <span class="pre">nx</span> <span class="pre">*</span> <span class="pre">ny</span> <span class="pre">*</span> <span class="pre">nz)</span></code></td>
 </tr>
 <tr class="row-odd"><td>Pressure</td>
 <td>float</td>
-<td><code class="docutils literal"><span class="pre">(nelt,</span> <span class="pre">nx</span> <span class="pre">*</span> <span class="pre">ny</span> <span class="pre">*</span> <span class="pre">nz)</span></code></td>
+<td><code class="docutils literal notranslate"><span class="pre">(nelt,</span> <span class="pre">nx</span> <span class="pre">*</span> <span class="pre">ny</span> <span class="pre">*</span> <span class="pre">nz)</span></code></td>
 </tr>
 <tr class="row-even"><td>Temperature</td>
 <td>float</td>
-<td><code class="docutils literal"><span class="pre">(nelt,</span> <span class="pre">nx</span> <span class="pre">*</span> <span class="pre">ny</span> <span class="pre">*</span> <span class="pre">nz)</span></code></td>
+<td><code class="docutils literal notranslate"><span class="pre">(nelt,</span> <span class="pre">nx</span> <span class="pre">*</span> <span class="pre">ny</span> <span class="pre">*</span> <span class="pre">nz)</span></code></td>
 </tr>
 <tr class="row-odd"><td>Passive scalars</td>
 <td>float</td>
-<td><code class="docutils literal"><span class="pre">(nscalars,</span> <span class="pre">nelt,</span> <span class="pre">nx</span> <span class="pre">*</span> <span class="pre">ny</span> <span class="pre">*</span> <span class="pre">nz)</span></code></td>
+<td><code class="docutils literal notranslate"><span class="pre">(nscalars,</span> <span class="pre">nelt,</span> <span class="pre">nx</span> <span class="pre">*</span> <span class="pre">ny</span> <span class="pre">*</span> <span class="pre">nz)</span></code></td>
 </tr>
 </tbody>
 </table>
@@ -1674,34 +1677,32 @@ coordinates and any field data are optional.  Their presence of coordinates and 
 
 
            </div>
-           <div class="articleComments">
-            
-           </div>
+           
           </div>
           <footer>
-  
     <div class="rst-footer-buttons" role="navigation" aria-label="footer navigation">
-      
-        <a href="features.html" class="btn btn-neutral float-right" title="Additional Features" accesskey="n" rel="next">Next <span class="fa fa-arrow-circle-right"></span></a>
-      
-      
-        <a href="boundary_conditions.html" class="btn btn-neutral" title="Boundary Conditions" accesskey="p" rel="prev"><span class="fa fa-arrow-circle-left"></span> Previous</a>
-      
+        <a href="features.html" class="btn btn-neutral float-right" title="Additional Features" accesskey="n" rel="next">Next <span class="fa fa-arrow-circle-right" aria-hidden="true"></span></a>
+        <a href="boundary_conditions.html" class="btn btn-neutral float-left" title="Boundary Conditions" accesskey="p" rel="prev"><span class="fa fa-arrow-circle-left" aria-hidden="true"></span> Previous</a>
     </div>
-  
 
   <hr/>
 
   <div role="contentinfo">
     <p>
-        &copy; Copyright 2015-2017, UCHICAGO ARGONNE, LLC.
+        &#169; Copyright 2015-2017, UCHICAGO ARGONNE, LLC.
 
     </p>
   </div>
-  Built with <a href="http://sphinx-doc.org/">Sphinx</a> using a <a href="https://github.com/snide/sphinx_rtd_theme">theme</a> provided by <a href="https://readthedocs.org">Read the Docs</a>. 
+    
+    
+    
+    Built with <a href="https://www.sphinx-doc.org/">Sphinx</a> using a
+    
+    <a href="https://github.com/readthedocs/sphinx_rtd_theme">theme</a>
+    
+    provided by <a href="https://readthedocs.org">Read the Docs</a>. 
 
 </footer>
-
         </div>
       </div>
 
@@ -1710,38 +1711,15 @@ coordinates and any field data are optional.  Their presence of coordinates and 
   </div>
   
 
-
-  
-
-    <script type="text/javascript">
-        var DOCUMENTATION_OPTIONS = {
-            URL_ROOT:'../',
-            VERSION:'17.0',
-            COLLAPSE_INDEX:false,
-            FILE_SUFFIX:'.html',
-            HAS_SOURCE:  true,
-            SOURCELINK_SUFFIX: '.txt'
-        };
-    </script>
-      <script type="text/javascript" src="../_static/jquery.js"></script>
-      <script type="text/javascript" src="../_static/underscore.js"></script>
-      <script type="text/javascript" src="../_static/doctools.js"></script>
-      <script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.1/MathJax.js?config=TeX-AMS-MML_HTMLorMML"></script>
-
-  
-
-  
-  
-    <script type="text/javascript" src="../_static/js/theme.js"></script>
-  
-
-  
-  
   <script type="text/javascript">
       jQuery(function () {
-          SphinxRtdTheme.StickyNav.enable();
+          SphinxRtdTheme.Navigation.enable(true);
       });
   </script>
+
+  
+  
+    
    
 
 </body>
