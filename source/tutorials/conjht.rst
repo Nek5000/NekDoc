@@ -71,7 +71,6 @@ Note that any line beginning with '#' is a comment and is ignored by ``genbox``
    W  ,W  ,W  ,W  ,    V bc's  ! NB:  3 characters each !
    I  ,I  ,E  ,E  ,    T bc's  !      You must have 2 spaces!
    
-.. It is worth mentioning that since we are running a 2D case, the input file named ``ray0.rea`` should be a 2D file, not a 3D file. 
 In this example, the elements are distributed uniformly in the stream-wise (x) and span-wise (y) directions. 
 All surfaces of the fluid domain are assumed to be wall boundaries, as indicated by ``'W  '``.
 The lateral surfaces of the inner domain and solid walls are assumed to be adiabatic, denoted by ``'I  '``.
