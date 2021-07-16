@@ -288,7 +288,7 @@ The preferred mode for data visualization and analysis with Nek5000 is to use Vi
 
    visnek plf
 
-to obtain a file named ``plf.nek5000`` which can be recognized in Visit/Paraview. In the viewing window one can visualize the flow-field as depicted in Fig. 1 as well as the temperature profile as depicted in Fig. 2 below.
+to obtain a file named ``plf.nek5000`` which can be recognized in Visit/Paraview. In the viewing window one can visualize the flow-field as depicted in :numref:`fig:velocity_paraview` as well as the temperature profile as depicted in :numref:`fig:temperature_paraview` below.
 
 .. _fig:velocity_paraview:
 
@@ -308,7 +308,7 @@ to obtain a file named ``plf.nek5000`` which can be recognized in Visit/Paraview
 
    Temperature profile visualized in Visit/Paraview.
 
-Plots of the velocity and temperature varying along the y-axis as evaluated by Nek5000 compared to analytic solutions are shown below in Fig. 3 and Fig. 4.
+Plots of the velocity and temperature varying along the y-axis as evaluated by Nek5000 compared to analytic solutions are shown below in :numref:`velocity_lineplot` and :numref:`temperature_lineplot`.
 
 .. _fig:velocity_lineplot:
 
@@ -319,7 +319,7 @@ Plots of the velocity and temperature varying along the y-axis as evaluated by N
 
    Nek5000 velocity solutions plotted against analytical solutions.
 
-.. _figure:velocity_lineplot:
+.. _figure:temperature_lineplot:
 
 .. figure:: plf/temperature_lineplot.png
    :align: center
