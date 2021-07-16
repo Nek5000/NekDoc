@@ -55,6 +55,37 @@ For this mesh we are specifying 50 uniform elements in the stream-wise (x) direc
 When prompted provide the input file name, which for this case is ``plf.box``. The tool will produce binary mesh and boundary data file ``box.re2`` which should be renamed to ``plf.re2``.
 
 ........................
+Control parameters
+........................
+
+The control parameters for any case are given in the ``.par`` file. For this case, create a new file called ``plf.par`` with the following:
+
+.. code-block:: ini
+
+   #
+   # nek parameter file
+   #
+   [GENERAL]
+   dt = 1.0e-4
+   numsteps = 10000
+   writeInterval = 2000
+
+   userParam01 = 0.01  #channel height [m]
+   userParam02 = 0.5   #mean velocity [m/s]
+   userParam03 = 300.0 #heat flux [W/m^2]
+   userParam04 = 10    #inlet temperature [C]
+
+   [VELOCITY]
+   density = 1.2
+   viscosity = 0.00002
+
+   [TEMPERATURE]
+   rhoCp = 1200.0
+   conductivity = 0.025
+
+For this case the properties evaluated are for air at ~20 C. The required values for the initial and boundary conditions specfied by lower case letters in the  ``.box`` file are defined here as a list of user given parameters, as well as the height of the channel. These initial and boundary conditions will later be called in respective subroutines of the ``.usr`` file.
+
+........................
 usr file
 ........................
 
@@ -93,7 +124,7 @@ The next step is to specify the intial conditions. This can be done in the subro
    return
    end
 
-The boundary conditions can be setup in subroutine ``userbc`` as follows:
+The inlet temperature and mean velocity are called from the list of user defined parameters in the ``.par`` file. The boundary conditions can be setup in subroutine ``userbc`` as follows:
 
 .. code-block:: fortran
 
@@ -120,6 +151,8 @@ The boundary conditions can be setup in subroutine ``userbc`` as follows:
 
    return
    end
+
+The channel height, mean velocity, heat flux, and mean inlet temperature are all called from the list of user defined parameters in the ``.par`` file as well.
 
 ........................
 userchk
@@ -176,37 +209,6 @@ The subroutine ``userchk`` is a general purpose function that is executed before
 A custom function is called to evaluate the inlet pressure, outlet pressure, and the wall temperature. Built in routines for array multiplication are used to evaluate the bulk temperature. The Nusselt number and Darcy friction factor are evaluated and printed to the logfile along with their associated errors.
 
 ........................
-Control parameters
-........................
-
-The control parameters for any case are given in the ``.par`` file. For this case, create a new file called ``plf.par`` with the following:
-
-.. code-block:: ini
-
-   #
-   # nek parameter file
-   #
-   [GENERAL]
-   dt = 1.0e-4
-   numsteps = 10000
-   writeInterval = 2000
-
-   userParam01 = 0.01  #channel height [m]
-   userParam02 = 0.5   #mean velocity [m/s]
-   userParam03 = 300.0 #heat flux [W/m^2]
-   userParam04 = 10    #inlet temperature [C]
-
-   [VELOCITY]
-   density = 1.2
-   viscosity = 0.00002
-
-   [TEMPERATURE]
-   rhoCp = 1200.0
-   conductivity = 0.025
-
-For this case the properties evaluated are for air at ~20;0C.
-
-........................
 SIZE file
 ........................
 
@@ -214,8 +216,7 @@ It is recommended to copy a template of the ``SIZE`` file from the core director
 
 .. code-block:: none
 
-   cp $HOME/Nek5000/core/SIZE.template SIZE
-
+   cp $HOME/Nek5000/core/SIZE.template SIZE 
 Then, adjust the following parameters in the BASIC section
 
 .. code-block:: fortran
