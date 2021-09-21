@@ -1,0 +1,520 @@
+
+
+<!DOCTYPE html>
+<html class="writer-html4" lang="en" >
+<head>
+  <meta charset="utf-8" />
+  
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  
+  <title>Fully Developed Laminar Flow &mdash; Nek5000 17.0 documentation</title>
+  
+
+  
+  <link rel="stylesheet" href="../_static/css/theme.css" type="text/css" />
+  <link rel="stylesheet" href="../_static/pygments.css" type="text/css" />
+
+  
+  
+
+  
+  
+
+  
+
+  
+  <!--[if lt IE 9]>
+    <script src="../_static/js/html5shiv.min.js"></script>
+  <![endif]-->
+  
+    
+      <script type="text/javascript" id="documentation_options" data-url_root="../" src="../_static/documentation_options.js"></script>
+        <script type="text/javascript" src="../_static/jquery.js"></script>
+        <script type="text/javascript" src="../_static/underscore.js"></script>
+        <script type="text/javascript" src="../_static/doctools.js"></script>
+        <script type="text/javascript" src="../_static/language_data.js"></script>
+        <script async="async" type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.5/latest.js?config=TeX-AMS-MML_HTMLorMML"></script>
+    
+    <script type="text/javascript" src="../_static/js/theme.js"></script>
+
+    
+    <link rel="index" title="Index" href="../genindex.html" />
+    <link rel="search" title="Search" href="../search.html" />
+    <link rel="next" title="Periodic Hill" href="perhill.html" />
+    <link rel="prev" title="Tutorials" href="../tutorials.html" /> 
+</head>
+
+<body class="wy-body-for-nav">
+
+   
+  <div class="wy-grid-for-nav">
+    
+    <nav data-toggle="wy-nav-shift" class="wy-nav-side">
+      <div class="wy-side-scroll">
+        <div class="wy-side-nav-search" >
+          
+
+          
+            <a href="../index.html" class="icon icon-home"> Nek5000
+          
+
+          
+          </a>
+
+          
+            
+            
+              <div class="version">
+                17.0
+              </div>
+            
+          
+
+          
+<div role="search">
+  <form id="rtd-search-form" class="wy-form" action="../search.html" method="get">
+    <input type="text" name="q" placeholder="Search docs" />
+    <input type="hidden" name="check_keywords" value="yes" />
+    <input type="hidden" name="area" value="default" />
+  </form>
+</div>
+
+          
+        </div>
+
+        
+        <div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="main navigation">
+          
+            
+            
+              
+            
+            
+              <ul class="current">
+<li class="toctree-l1"><a class="reference internal" href="../quickstart.html">Quickstart</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../faq.html">FAQ</a></li>
+<li class="toctree-l1 current"><a class="reference internal" href="../tutorials.html">Tutorials</a><ul class="current">
+<li class="toctree-l2 current"><a class="current reference internal" href="#">Fully Developed Laminar Flow</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="#before-you-begin">Before You Begin</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#mesh-generation">Mesh Generation</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#control-parameters">Control parameters</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#usr-file">usr file</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#initial-boundary-conditions">Initial &amp; boundary conditions</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#size-file">SIZE file</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#compilation">Compilation</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#running-the-case">Running the case</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#post-processing-the-results">Post-processing the results</a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="perhill.html">Periodic Hill</a></li>
+<li class="toctree-l2"><a class="reference internal" href="conjht.html">Conjugate Heat Transfer</a></li>
+<li class="toctree-l2"><a class="reference internal" href="neknek.html">Overlapping Overset Grids</a></li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="../problem_setup.html">Problem Setup</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../theory.html">Theory</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../appendix.html">Appendices</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../references.html">References</a></li>
+</ul>
+
+            
+          
+        </div>
+        
+      </div>
+    </nav>
+
+    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap">
+
+      
+      <nav class="wy-nav-top" aria-label="top navigation">
+        
+          <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
+          <a href="../index.html">Nek5000</a>
+        
+      </nav>
+
+
+      <div class="wy-nav-content">
+        
+        <div class="rst-content">
+        
+          
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<div role="navigation" aria-label="breadcrumbs navigation">
+
+  <ul class="wy-breadcrumbs">
+    
+      <li><a href="../index.html" class="icon icon-home"></a> &raquo;</li>
+        
+          <li><a href="../tutorials.html">Tutorials</a> &raquo;</li>
+        
+      <li>Fully Developed Laminar Flow</li>
+    
+    
+      <li class="wy-breadcrumbs-aside">
+        
+          
+            <a href="../_sources/tutorials/fdlf.rst.txt" rel="nofollow"> View page source</a>
+          
+        
+      </li>
+    
+  </ul>
+
+  
+  <hr/>
+</div>
+          <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
+           <div itemprop="articleBody">
+            
+  <div class="section" id="fully-developed-laminar-flow">
+<span id="fdlf"></span><h1>Fully Developed Laminar Flow<a class="headerlink" href="#fully-developed-laminar-flow" title="Permalink to this headline">¶</a></h1>
+<p>In this tutorial we will be building a case that involves incompressible laminar flow in a channel with a constant heat flux applied.
+This case uses air as a working fluid and will be simulated using fully dimensional quantities.
+A diagram of the case is provided in <a class="reference internal" href="#fig-setup"><span class="std std-numref">Fig. 1</span></a> and the necessary case parameters are provided in <a class="reference internal" href="#tab-setup"><span class="std std-numref">Table 1</span></a>.
+Note that round numbers have been selected for the fluid properties and simulation parameters for the sake of simplicity.</p>
+<div class="align-center figure" id="id1">
+<span id="fig-setup"></span><img alt="flow diagram" src="../_images/setup.png" />
+<p class="caption"><span class="caption-number">Fig. 1 </span><span class="caption-text">Diagram describing the case setup for fully developed laminar flow in a channel..</span></p>
+</div>
+<span id="tab-setup"></span><table border="1" class="colwidths-given docutils align-center" id="id2">
+<caption><span class="caption-number">Table 1 </span><span class="caption-text">Fluid properties and simulation parameters</span><a class="headerlink" href="#id2" title="Permalink to this table">¶</a></caption>
+<colgroup>
+<col width="33%" />
+<col width="33%" />
+<col width="33%" />
+</colgroup>
+<thead valign="bottom">
+<tr class="row-odd"><th class="head">Parameter name</th>
+<th class="head">variable</th>
+<th class="head">value</th>
+</tr>
+</thead>
+<tbody valign="top">
+<tr class="row-even"><td>channel height</td>
+<td><span class="math notranslate nohighlight">\(H\)</span></td>
+<td>1 cm</td>
+</tr>
+<tr class="row-odd"><td>channel length</td>
+<td><span class="math notranslate nohighlight">\(L\)</span></td>
+<td>20 cm</td>
+</tr>
+<tr class="row-even"><td>mean velocity</td>
+<td><span class="math notranslate nohighlight">\(U_m\)</span></td>
+<td>0.5 m/s</td>
+</tr>
+<tr class="row-odd"><td>heat flux</td>
+<td><span class="math notranslate nohighlight">\(q''\)</span></td>
+<td>300 W/m<sup>2</sup></td>
+</tr>
+<tr class="row-even"><td>inlet temperature</td>
+<td><span class="math notranslate nohighlight">\(T_{in}\)</span></td>
+<td>10 C</td>
+</tr>
+<tr class="row-odd"><td>density</td>
+<td><span class="math notranslate nohighlight">\(\rho\)</span></td>
+<td>1.2 kg/m<sup>3</sup></td>
+</tr>
+<tr class="row-even"><td>viscosity</td>
+<td><span class="math notranslate nohighlight">\(\mu\)</span></td>
+<td>0.00002 kg/m-s</td>
+</tr>
+<tr class="row-odd"><td>thermal conductivity</td>
+<td><span class="math notranslate nohighlight">\(\lambda\)</span></td>
+<td>0.025 W/m-K</td>
+</tr>
+<tr class="row-even"><td>specific heat</td>
+<td><span class="math notranslate nohighlight">\(c_p\)</span></td>
+<td>1000 J/kg-K</td>
+</tr>
+</tbody>
+</table>
+<p>This case has analytic solutions to the momentum and energy equations which makes it easy to confirm if the problem is setup correctly.
+These expressions will be used to test the accuracy of the solution.</p>
+<div class="math notranslate nohighlight" id="equation-fdlf-vel">
+<span class="eqno">(1)<a class="headerlink" href="#equation-fdlf-vel" title="Permalink to this equation">¶</a></span>\[u(y) = \frac{3}{2} U_m \left( 1 - 4\left(\frac{y}{H}\right)^2\right)\]</div>
+<div class="math notranslate nohighlight" id="equation-fdlf-temp">
+<span class="eqno">(2)<a class="headerlink" href="#equation-fdlf-temp" title="Permalink to this equation">¶</a></span>\[T(x,y)-T_b(x) = \frac{q'' H}{2\lambda}\left( 3\left(\frac{y}{H}\right)^2 - 2\left(\frac{y}{H}\right)^4-\frac{39}{280}\right)\]</div>
+<p>where the bulk temperature is given by the expression</p>
+<div class="math notranslate nohighlight">
+\[T_b(x) = \left(\frac{2q''}{U_m \rho c_p H}\right)x + T_{in}\]</div>
+<div class="section" id="before-you-begin">
+<h2>Before You Begin<a class="headerlink" href="#before-you-begin" title="Permalink to this headline">¶</a></h2>
+<p>This tutorial assumes that you have installed Nek5000 in your home directory.
+Be sure that <code class="docutils literal notranslate"><span class="pre">$HOME/Nek5000/bin</span></code> is in your search PATH.
+Before running the case, you will need to compile the tools <code class="docutils literal notranslate"><span class="pre">genbox</span></code> and <code class="docutils literal notranslate"><span class="pre">genmap</span></code>.
+These can be compiled using the following command in the <code class="docutils literal notranslate"><span class="pre">$HOME/Nek5000/tools</span></code> directory:</p>
+<div class="highlight-none notranslate"><div class="highlight"><pre><span></span>$ ./maketools genbox
+$ ./maketools genmap
+</pre></div>
+</div>
+<p>Before building the case, the user should set up a case subdirectory in their run directory.</p>
+<div class="highlight-none notranslate"><div class="highlight"><pre><span></span>$ cd $HOME/Nek5000/run
+$ mkdir fdlf
+$ cd fdlf
+</pre></div>
+</div>
+</div>
+<div class="section" id="mesh-generation">
+<h2>Mesh Generation<a class="headerlink" href="#mesh-generation" title="Permalink to this headline">¶</a></h2>
+<p>This tutorial uses a simple rectangular box mesh generated by <code class="docutils literal notranslate"><span class="pre">genbox</span></code>.
+To create the input file, copy the following script and save the file as <code class="docutils literal notranslate"><span class="pre">fdlf.box</span></code>.</p>
+<div class="highlight-none notranslate"><div class="highlight"><pre><span></span>-2                     spatial dimension (will create box.re2)
+2                      number of fields
+#
+#    comments: periodic laminar flow
+#
+#========================================================
+#
+Box                                       fdlf
+-50 -5                                    Nelx  Nely
+0.0 0.2 1.0                               x0 x1 ratio
+0.0 0.005 0.7                             y0 y1 ratio
+v  ,O  ,SYM,W                             Velocity BC&#39;s:  (cbx0, cbx1, cby0, cby1)
+t  ,O  ,I  ,f                             Temperature BC&#39;s:  (cbx0, cbx1, cby0, cby1)
+</pre></div>
+</div>
+<p>For this mesh we are specifying 50 uniform elements in the stream-wise (x) direction and 5 uniform elements in the span-wise (y) direction. The velocity boundary conditions in the x-direction are a standard Dirichlet velocity boundary condition at x<sub>min</sub> and an open boundary condition with zero pressure at x<sub>max</sub>. The velocity boundary conditions in the y-direction are a symmetric boundary at y<sub>min</sub> and a wall with no slip condition at y<sub>max</sub>. The temperature boundary conditions in the x-direction are a standard Dirichlet boundary condition at x<sub>min</sub> and an outflow conditon with zero gradient at x<sub>max</sub>. The temperature boundary conditions in the y-direction are an insulated condition with zero gradient at y<sub>min</sub> and a constant heat flux at y<sub>max</sub>. Note that the boundary conditions specified with lower case letters must have values assigned in userbc, which will be shown later in this tutorial. Now we can run genbox with</p>
+<div class="highlight-none notranslate"><div class="highlight"><pre><span></span>genbox
+</pre></div>
+</div>
+<p>When prompted provide the input file name, which for this case is <code class="docutils literal notranslate"><span class="pre">fdlf.box</span></code>. The tool will produce binary mesh and boundary data file <code class="docutils literal notranslate"><span class="pre">box.re2</span></code> which should be renamed to <code class="docutils literal notranslate"><span class="pre">fdlf.re2</span></code>.</p>
+</div>
+<div class="section" id="control-parameters">
+<h2>Control parameters<a class="headerlink" href="#control-parameters" title="Permalink to this headline">¶</a></h2>
+<p>The control parameters for any case are given in the <code class="docutils literal notranslate"><span class="pre">.par</span></code> file. For this case, create a new file called <code class="docutils literal notranslate"><span class="pre">fdlf.par</span></code> with the following:</p>
+<div class="highlight-ini notranslate"><div class="highlight"><pre><span></span><span class="c1">#</span>
+<span class="c1"># nek parameter file</span>
+<span class="c1">#</span>
+<span class="k">[GENERAL]</span>
+<span class="na">dt</span> <span class="o">=</span> <span class="s">1.0e-4</span>
+<span class="na">numsteps</span> <span class="o">=</span> <span class="s">10000</span>
+<span class="na">writeInterval</span> <span class="o">=</span> <span class="s">2000</span>
+
+<span class="na">userParam01</span> <span class="o">=</span> <span class="s">0.01   #channel height [m]</span>
+<span class="na">userParam02</span> <span class="o">=</span> <span class="s">0.5    #mean velocity [m/s]</span>
+<span class="na">userParam03</span> <span class="o">=</span> <span class="s">300.0  #heat flux [W/m^2]</span>
+<span class="na">userParam04</span> <span class="o">=</span> <span class="s">10     #inlet temperature [C]</span>
+
+<span class="k">[VELOCITY]</span>
+<span class="na">density</span> <span class="o">=</span> <span class="s">1.2        #kg/m3</span>
+<span class="na">viscosity</span> <span class="o">=</span> <span class="s">0.00002  #kg/m-s</span>
+
+<span class="k">[TEMPERATURE]</span>
+<span class="na">rhoCp</span> <span class="o">=</span> <span class="s">1200.0       #J/m3-K</span>
+<span class="na">conductivity</span> <span class="o">=</span> <span class="s">0.025 #W/m-K</span>
+</pre></div>
+</div>
+<p>For this case the properties evaluated are for air at ~20 C.
+Note that <code class="docutils literal notranslate"><span class="pre">rhoCp</span></code> is the product of density and specific heat.
+The <code class="docutils literal notranslate"><span class="pre">userParam</span></code> list represents an easy way of passing data to <em>Nek5000</em> that can later be used throughout the <code class="docutils literal notranslate"><span class="pre">.usr</span></code> file.
+Additionally, like all values specified in the <code class="docutils literal notranslate"><span class="pre">.par</span></code> file, they can be changed without the need to recompile <em>Nek5000</em>.</p>
+<p>The required values for the initial and boundary conditions specfied by lower case letters in the  <code class="docutils literal notranslate"><span class="pre">.box</span></code> file are defined here as a list of user given parameters, as well as the height of the channel.
+These initial and boundary conditions will later be called in respective subroutines of the <code class="docutils literal notranslate"><span class="pre">.usr</span></code> file.</p>
+</div>
+<div class="section" id="usr-file">
+<h2>usr file<a class="headerlink" href="#usr-file" title="Permalink to this headline">¶</a></h2>
+<p>The user file implements various subroutines to allow the user to interact with the solver.
+Note that only the subroutines that need to be edited to run this case will be discused.
+The remaining routines can be left as is.</p>
+<p>To get started we copy the template to our case directory</p>
+<div class="highlight-none notranslate"><div class="highlight"><pre><span></span>cp $HOME/Nek5000/core/zero.usr fdlf.usr
+</pre></div>
+</div>
+</div>
+<div class="section" id="initial-boundary-conditions">
+<h2>Initial &amp; boundary conditions<a class="headerlink" href="#initial-boundary-conditions" title="Permalink to this headline">¶</a></h2>
+<p>The next step is to specify the intial conditions. This can be done in the subroutine <code class="docutils literal notranslate"><span class="pre">useric</span></code> as follows:</p>
+<div class="highlight-fortran notranslate"><div class="highlight"><pre><span></span><span class="k">subroutine </span><span class="n">useric</span><span class="p">(</span><span class="n">ix</span><span class="p">,</span><span class="n">iy</span><span class="p">,</span><span class="n">iz</span><span class="p">,</span><span class="n">ieg</span><span class="p">)</span>
+<span class="k">implicit none</span>
+<span class="k">include</span> <span class="s1">&#39;SIZE&#39;</span>
+<span class="k">include</span> <span class="s1">&#39;TOTAL&#39;</span>
+<span class="k">include</span> <span class="s1">&#39;NEKUSE&#39;</span>
+
+<span class="kt">integer </span><span class="n">ix</span><span class="p">,</span><span class="n">iy</span><span class="p">,</span><span class="n">ix</span><span class="p">,</span><span class="n">ieg</span>
+
+<span class="n">um</span> <span class="o">=</span> <span class="n">uparam</span><span class="p">(</span><span class="mi">2</span><span class="p">)</span>
+<span class="n">Tin</span> <span class="o">=</span> <span class="n">uparam</span><span class="p">(</span><span class="mi">4</span><span class="p">)</span>
+
+<span class="n">ux</span>   <span class="o">=</span> <span class="n">um</span>
+<span class="n">uy</span>   <span class="o">=</span> <span class="mf">0.0</span>
+<span class="n">uz</span>   <span class="o">=</span> <span class="mf">0.0</span>
+<span class="n">temp</span> <span class="o">=</span> <span class="n">Tin</span>
+
+<span class="k">return</span>
+<span class="k">end</span>
+</pre></div>
+</div>
+<p>The inlet temperature and mean velocity are called from the list of user defined parameters in the <code class="docutils literal notranslate"><span class="pre">.par</span></code> file. The boundary conditions can be setup in subroutine <code class="docutils literal notranslate"><span class="pre">userbc</span></code> as follows:</p>
+<div class="highlight-fortran notranslate"><div class="highlight"><pre><span></span><span class="k">subroutine </span><span class="n">userbc</span><span class="p">(</span><span class="n">ix</span><span class="p">,</span><span class="n">iy</span><span class="p">,</span><span class="n">iz</span><span class="p">,</span><span class="n">iside</span><span class="p">,</span><span class="n">eg</span><span class="p">)</span> <span class="c">! set up boundary conditions</span>
+<span class="k">implicit none</span>
+<span class="k">include</span> <span class="s1">&#39;SIZE&#39;</span>
+<span class="k">include</span> <span class="s1">&#39;TOTAL&#39;</span>
+<span class="k">include</span> <span class="s1">&#39;NEKUSE&#39;</span>
+
+<span class="kt">integer </span><span class="n">ix</span><span class="p">,</span><span class="n">iy</span><span class="p">,</span><span class="n">iz</span><span class="p">,</span><span class="n">iside</span><span class="p">,</span><span class="n">eg</span>
+
+<span class="n">H</span>    <span class="o">=</span> <span class="n">uparam</span><span class="p">(</span><span class="mi">1</span><span class="p">)</span>     <span class="c">!channel height</span>
+<span class="n">um</span>   <span class="o">=</span> <span class="n">uparam</span><span class="p">(</span><span class="mi">2</span><span class="p">)</span>     <span class="c">!mean velocity</span>
+<span class="n">qpp</span>  <span class="o">=</span> <span class="n">uparam</span><span class="p">(</span><span class="mi">3</span><span class="p">)</span>     <span class="c">!heat flux</span>
+<span class="n">Tin</span>  <span class="o">=</span> <span class="n">uparam</span><span class="p">(</span><span class="mi">4</span><span class="p">)</span>     <span class="c">!mean inlet temperature</span>
+<span class="n">con</span>  <span class="o">=</span> <span class="n">cpfld</span><span class="p">(</span><span class="mi">2</span><span class="p">,</span><span class="mi">1</span><span class="p">)</span>    <span class="c">!thermal conductivity</span>
+<span class="n">term</span> <span class="o">=</span> <span class="n">qpp</span><span class="o">*</span><span class="n">H</span><span class="o">/</span><span class="p">(</span><span class="mi">2</span><span class="o">*</span><span class="n">con</span><span class="p">)</span>
+
+<span class="n">ux</span>   <span class="o">=</span> <span class="n">um</span><span class="o">*</span><span class="mf">3.</span><span class="o">/</span><span class="mf">2.</span><span class="o">*</span><span class="p">(</span><span class="mi">1</span><span class="o">-</span><span class="mf">4.</span><span class="o">*</span><span class="p">(</span><span class="n">y</span><span class="o">/</span><span class="n">H</span><span class="p">)</span><span class="o">**</span><span class="mi">2</span><span class="p">)</span>
+<span class="n">uy</span>   <span class="o">=</span> <span class="mf">0.0</span>
+<span class="n">uz</span>   <span class="o">=</span> <span class="mf">0.0</span>
+<span class="n">temp</span> <span class="o">=</span> <span class="n">term</span><span class="o">*</span><span class="p">(</span><span class="mf">3.</span><span class="o">*</span><span class="p">(</span><span class="n">y</span><span class="o">/</span><span class="n">H</span><span class="p">)</span><span class="o">**</span><span class="mi">2</span><span class="o">-</span><span class="mf">2.</span><span class="o">*</span><span class="p">(</span><span class="n">y</span><span class="o">/</span><span class="n">H</span><span class="p">)</span><span class="o">**</span><span class="mi">4</span><span class="o">-</span><span class="mi">3</span><span class="mf">9.</span><span class="o">/</span><span class="mi">28</span><span class="mf">0.</span><span class="p">)</span><span class="o">+</span><span class="n">Tin</span>
+<span class="n">flux</span> <span class="o">=</span> <span class="n">qpp</span>
+
+<span class="k">return</span>
+<span class="k">end</span>
+</pre></div>
+</div>
+<p>The channel height, mean velocity, heat flux, and mean inlet temperature are all called from the list of user defined parameters in the <code class="docutils literal notranslate"><span class="pre">.par</span></code> file as well.</p>
+</div>
+<div class="section" id="size-file">
+<h2>SIZE file<a class="headerlink" href="#size-file" title="Permalink to this headline">¶</a></h2>
+<p>It is recommended to copy a template of the <code class="docutils literal notranslate"><span class="pre">SIZE</span></code> file from the core directory and rename it <code class="docutils literal notranslate"><span class="pre">SIZE</span></code> in the working directory:</p>
+<div class="highlight-none notranslate"><div class="highlight"><pre><span></span>cp $HOME/Nek5000/core/SIZE.template SIZE
+</pre></div>
+</div>
+<p>Then, adjust the following parameters in the BASIC section</p>
+<div class="highlight-fortran notranslate"><div class="highlight"><pre><span></span><span class="p">...</span>
+
+<span class="c">! BASIC</span>
+<span class="k">parameter</span> <span class="p">(</span><span class="n">ldim</span><span class="o">=</span><span class="mi">2</span><span class="p">)</span>
+<span class="k">parameter</span> <span class="p">(</span><span class="n">lx1</span><span class="o">=</span><span class="mi">8</span><span class="p">)</span>
+<span class="k">parameter</span> <span class="p">(</span><span class="n">lxd</span><span class="o">=</span><span class="mi">12</span><span class="p">)</span>
+<span class="k">parameter</span> <span class="p">(</span><span class="n">lx2</span><span class="o">=</span><span class="n">lx1</span><span class="o">-</span><span class="mi">0</span><span class="p">)</span>
+
+<span class="k">parameter</span> <span class="p">(</span><span class="n">lelg</span><span class="o">=</span><span class="mi">250</span><span class="p">)</span>
+<span class="k">parameter</span> <span class="p">(</span><span class="n">lpmin</span><span class="o">=</span><span class="mi">1</span><span class="p">)</span>
+<span class="k">parameter</span> <span class="p">(</span><span class="n">lelt</span><span class="o">=</span><span class="n">lelg</span><span class="o">/</span><span class="n">lpmin</span> <span class="o">+</span> <span class="mi">3</span><span class="p">)</span>
+<span class="k">parameter</span> <span class="p">(</span><span class="n">ldimt</span><span class="o">=</span><span class="mi">1</span><span class="p">)</span>
+
+<span class="p">...</span>
+</pre></div>
+</div>
+<p>For this tutorial we have set our polynomial order to be <span class="math notranslate nohighlight">\(N=7\)</span> which is defined in the <code class="docutils literal notranslate"><span class="pre">SIZE</span></code> file as <code class="docutils literal notranslate"><span class="pre">lx1=8</span></code> which indicates that there are 8 points in each spatial dimension of every element. The number of dimensions is specified using <code class="docutils literal notranslate"><span class="pre">ldim</span></code> and the number of global elements used is specified using <code class="docutils literal notranslate"><span class="pre">lelg</span></code>.</p>
+</div>
+<div class="section" id="compilation">
+<h2>Compilation<a class="headerlink" href="#compilation" title="Permalink to this headline">¶</a></h2>
+<p>With the <code class="docutils literal notranslate"><span class="pre">fdlf.usr</span></code> and <code class="docutils literal notranslate"><span class="pre">SIZE</span></code> files created, we are now ready to compile:</p>
+<div class="highlight-none notranslate"><div class="highlight"><pre><span></span>makenek fdlf
+</pre></div>
+</div>
+<p>If the compilation is successful, the executable <code class="docutils literal notranslate"><span class="pre">nek5000</span></code> will be generated.</p>
+</div>
+<div class="section" id="running-the-case">
+<h2>Running the case<a class="headerlink" href="#running-the-case" title="Permalink to this headline">¶</a></h2>
+<p>First, we need to run our domain partitioning tool</p>
+<div class="highlight-none notranslate"><div class="highlight"><pre><span></span>genmap
+</pre></div>
+</div>
+<p>On input specify <code class="docutils literal notranslate"><span class="pre">fdlf</span></code> as your casename and press enter to use the default tolerance. This step will produce <code class="docutils literal notranslate"><span class="pre">fdlf.ma2</span></code> which needs to be generated only once.</p>
+<p>Now you can run the case</p>
+<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>nekbmpi fdlf <span class="m">4</span>
+</pre></div>
+</div>
+<p>To launch an MPI jobs on your local machine using 4 ranks. The output will be redirected to <code class="docutils literal notranslate"><span class="pre">logfile</span></code>.</p>
+</div>
+<div class="section" id="post-processing-the-results">
+<h2>Post-processing the results<a class="headerlink" href="#post-processing-the-results" title="Permalink to this headline">¶</a></h2>
+<p>Once execution is completed your directory should now contain 5 checkpoint files that look like this:</p>
+<div class="highlight-none notranslate"><div class="highlight"><pre><span></span>fdlf0.f00001
+fdlf0.f00002
+...
+</pre></div>
+</div>
+<p>The preferred mode for data visualization and analysis with Nek5000 is to use Visit/Paraview. One can use the script <em>visnek</em>, to be found in <code class="docutils literal notranslate"><span class="pre">/scripts</span></code>. It is sufficient to run:</p>
+<div class="highlight-none notranslate"><div class="highlight"><pre><span></span>visnek fdlf
+</pre></div>
+</div>
+<p>to obtain a file named <code class="docutils literal notranslate"><span class="pre">fdlf.nek5000</span></code> which can be recognized in Visit/Paraview. In the viewing window one can visualize the flow-field as depicted in <a class="reference internal" href="#fig-velocity-paraview"><span class="std std-numref">Fig. 2</span></a> as well as the temperature profile as depicted in <a class="reference internal" href="#fig-temperature-paraview"><span class="std std-numref">Fig. 3</span></a> below.</p>
+<div class="align-center figure" id="id3">
+<span id="fig-velocity-paraview"></span><img alt="../_images/velocity_paraview.png" src="../_images/velocity_paraview.png" />
+<p class="caption"><span class="caption-number">Fig. 2 </span><span class="caption-text">Steady-State flow field visualized in Visit/Paraview. Colors represent velocity magnitude.</span></p>
+</div>
+<div class="align-center figure" id="id4">
+<span id="fig-temperature-paraview"></span><img alt="../_images/temp.png" src="../_images/temp.png" />
+<p class="caption"><span class="caption-number">Fig. 3 </span><span class="caption-text">Temperature profile visualized in Visit/Paraview.</span></p>
+</div>
+<p>Plots of the velocity and temperature varying along the y-axis as evaluated by Nek5000 compared to the analytic solutions provided by Eqs. <a class="reference internal" href="#equation-fdlf-vel">(1)</a> and <a class="reference internal" href="#equation-fdlf-temp">(2)</a> respectively are shown below in <a class="reference internal" href="#fig-velocity-lineplot"><span class="std std-numref">Fig. 4</span></a> and <a class="reference internal" href="#fig-temperature-lineplot"><span class="std std-numref">Fig. 5</span></a>.</p>
+<div class="align-center figure" id="id5">
+<span id="fig-velocity-lineplot"></span><img alt="../_images/velocity_lineplot.png" src="../_images/velocity_lineplot.png" />
+<p class="caption"><span class="caption-number">Fig. 4 </span><span class="caption-text">Nek5000 velocity solutions plotted against analytical solutions.</span></p>
+</div>
+<div class="align-center figure" id="id6">
+<span id="fig-temperature-lineplot"></span><img alt="../_images/temperature_lineplot.png" src="../_images/temperature_lineplot.png" />
+<p class="caption"><span class="caption-number">Fig. 5 </span><span class="caption-text">Nek5000 temperature solutions plotted against analytical solutions.</span></p>
+</div>
+</div>
+</div>
+
+
+           </div>
+           
+          </div>
+          <footer>
+    <div class="rst-footer-buttons" role="navigation" aria-label="footer navigation">
+        <a href="perhill.html" class="btn btn-neutral float-right" title="Periodic Hill" accesskey="n" rel="next">Next <span class="fa fa-arrow-circle-right" aria-hidden="true"></span></a>
+        <a href="../tutorials.html" class="btn btn-neutral float-left" title="Tutorials" accesskey="p" rel="prev"><span class="fa fa-arrow-circle-left" aria-hidden="true"></span> Previous</a>
+    </div>
+
+  <hr/>
+
+  <div role="contentinfo">
+    <p>
+        &#169; Copyright 2015-2017, UCHICAGO ARGONNE, LLC.
+
+    </p>
+  </div>
+    
+    
+    
+    Built with <a href="https://www.sphinx-doc.org/">Sphinx</a> using a
+    
+    <a href="https://github.com/readthedocs/sphinx_rtd_theme">theme</a>
+    
+    provided by <a href="https://readthedocs.org">Read the Docs</a>. 
+
+</footer>
+        </div>
+      </div>
+
+    </section>
+
+  </div>
+  
+
+  <script type="text/javascript">
+      jQuery(function () {
+          SphinxRtdTheme.Navigation.enable(true);
+      });
+  </script>
+
+  
+  
+    
+   
+
+</body>
+</html>
