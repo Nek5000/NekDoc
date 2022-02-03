@@ -428,23 +428,34 @@ Copy the <code class="docutils literal notranslate"><span class="pre">SIZE.templ
 <div class="highlight-none notranslate"><div class="highlight"><pre><span></span>cp $HOME/Nek5000/core/SIZE.template SIZE
 </pre></div>
 </div>
-<p>Then, adjust the following parameters</p>
-<div class="highlight-fortran notranslate"><div class="highlight"><pre><span></span><span class="p">...</span>
-
-<span class="c">! BASIC</span>
-<span class="k">parameter</span> <span class="p">(</span><span class="n">ldim</span><span class="o">=</span><span class="mi">2</span><span class="p">)</span>
-<span class="k">parameter</span> <span class="p">(</span><span class="n">lx1</span><span class="o">=</span><span class="mi">8</span><span class="p">)</span>
-<span class="k">parameter</span> <span class="p">(</span><span class="n">lxd</span><span class="o">=</span><span class="mi">12</span><span class="p">)</span>
-<span class="k">parameter</span> <span class="p">(</span><span class="n">lx2</span><span class="o">=</span><span class="n">lx1</span><span class="p">)</span>
-
-<span class="k">parameter</span> <span class="p">(</span><span class="n">lelg</span><span class="o">=</span><span class="mi">22</span><span class="o">*</span><span class="mi">8</span><span class="p">)</span>
-<span class="k">parameter</span> <span class="p">(</span><span class="n">lpmin</span><span class="o">=</span><span class="mi">1</span><span class="p">)</span>
-<span class="k">parameter</span> <span class="p">(</span><span class="n">lpmax</span><span class="o">=</span><span class="mi">4</span><span class="p">)</span>
-<span class="k">parameter</span> <span class="p">(</span><span class="n">ldimt</span><span class="o">=</span><span class="mi">1</span><span class="p">)</span>
-
-<span class="c">! OPTIONAL</span>
-<span class="k">parameter</span> <span class="p">(</span><span class="n">nsessmax</span><span class="o">=</span><span class="mi">2</span><span class="p">)</span>
-<span class="p">...</span>
+<p>Then, adjust the following parameters in the BASIC section</p>
+<div class="highlight-fortran notranslate"><div class="highlight"><pre><span></span>      <span class="c">! BASIC</span>
+      <span class="k">parameter</span> <span class="p">(</span><span class="n">ldim</span><span class="o">=</span><span class="mi">2</span><span class="p">)</span>               <span class="c">! domain dimension (2 or 3)</span>
+      <span class="k">parameter</span> <span class="p">(</span><span class="n">lx1</span><span class="o">=</span><span class="mi">8</span><span class="p">)</span>                <span class="c">! GLL points per element along each direction</span>
+      <span class="k">parameter</span> <span class="p">(</span><span class="n">lxd</span><span class="o">=</span><span class="mi">12</span><span class="p">)</span>               <span class="c">! GL  points for over-integration (dealiasing) </span>
+      <span class="k">parameter</span> <span class="p">(</span><span class="n">lx2</span><span class="o">=</span><span class="n">lx1</span><span class="o">-</span><span class="mi">0</span><span class="p">)</span>            <span class="c">! GLL points for pressure (lx1 or lx1-2)</span>
+                                     
+      <span class="k">parameter</span> <span class="p">(</span><span class="n">lelg</span><span class="o">=</span><span class="mi">22</span><span class="o">*</span><span class="mi">8</span><span class="p">)</span>            <span class="c">! max number of global elements</span>
+      <span class="k">parameter</span> <span class="p">(</span><span class="n">lpmin</span><span class="o">=</span><span class="mi">1</span><span class="p">)</span>              <span class="c">! min number of MPI ranks </span>
+      <span class="k">parameter</span> <span class="p">(</span><span class="n">lelt</span><span class="o">=</span><span class="n">lelg</span><span class="o">/</span><span class="n">lpmin</span> <span class="o">+</span> <span class="mi">3</span><span class="p">)</span>  <span class="c">! max number of local elements per MPI rank</span>
+      <span class="k">parameter</span> <span class="p">(</span><span class="n">ldimt</span><span class="o">=</span><span class="mi">1</span><span class="p">)</span>              <span class="c">! max auxiliary fields (temperature + scalars)</span>
+</pre></div>
+</div>
+<p>and in the OPTIONAL section, set the maximum number of sessions, <code class="docutils literal notranslate"><span class="pre">nsessmax</span></code> to 2</p>
+<div class="highlight-fortran notranslate"><div class="highlight"><pre><span></span>      <span class="c">! OPTIONAL</span>
+      <span class="k">parameter</span> <span class="p">(</span><span class="n">ldimt_proj</span><span class="o">=</span><span class="mi">1</span><span class="p">)</span>         <span class="c">! max auxiliary fields residual projection</span>
+      <span class="k">parameter</span> <span class="p">(</span><span class="n">lelr</span><span class="o">=</span><span class="n">lelt</span><span class="p">)</span>            <span class="c">! max number of local elements per restart file</span>
+      <span class="k">parameter</span> <span class="p">(</span><span class="n">lhis</span><span class="o">=</span><span class="mi">1</span><span class="p">)</span>               <span class="c">! max history/monitoring points</span>
+      <span class="k">parameter</span> <span class="p">(</span><span class="n">maxobj</span><span class="o">=</span><span class="mi">1</span><span class="p">)</span>             <span class="c">! max number of objects</span>
+      <span class="k">parameter</span> <span class="p">(</span><span class="n">lpert</span><span class="o">=</span><span class="mi">1</span><span class="p">)</span>              <span class="c">! max number of perturbations</span>
+<span class="hll">      <span class="k">parameter</span> <span class="p">(</span><span class="n">nsessmax</span><span class="o">=</span><span class="mi">2</span><span class="p">)</span>           <span class="c">! max sessions to NEKNEK</span>
+</span>      <span class="k">parameter</span> <span class="p">(</span><span class="n">lxo</span><span class="o">=</span><span class="n">lx1</span><span class="p">)</span>              <span class="c">! max GLL points on output (lxo&gt;=lx1)</span>
+      <span class="k">parameter</span> <span class="p">(</span><span class="n">mxprev</span><span class="o">=</span><span class="mi">20</span><span class="p">)</span>            <span class="c">! max dim of projection space</span>
+      <span class="k">parameter</span> <span class="p">(</span><span class="n">lgmres</span><span class="o">=</span><span class="mi">30</span><span class="p">)</span>            <span class="c">! max dim Krylov space</span>
+      <span class="k">parameter</span> <span class="p">(</span><span class="n">lorder</span><span class="o">=</span><span class="mi">3</span><span class="p">)</span>             <span class="c">! max order in time</span>
+      <span class="k">parameter</span> <span class="p">(</span><span class="n">lx1m</span><span class="o">=</span><span class="mi">1</span><span class="p">)</span>               <span class="c">! GLL points mesh solver</span>
+      <span class="k">parameter</span> <span class="p">(</span><span class="n">lfdm</span><span class="o">=</span><span class="mi">0</span><span class="p">)</span>               <span class="c">! unused </span>
+      <span class="k">parameter</span> <span class="p">(</span><span class="n">lelx</span><span class="o">=</span><span class="mi">1</span><span class="p">,</span><span class="n">lely</span><span class="o">=</span><span class="mi">1</span><span class="p">,</span><span class="n">lelz</span><span class="o">=</span><span class="mi">1</span><span class="p">)</span> <span class="c">! global tensor mesh dimensions</span>
 </pre></div>
 </div>
 <p>For this tutorial we have set our polynomial order to be <span class="math notranslate nohighlight">\(N=7\)</span> - this is defined in the <code class="docutils literal notranslate"><span class="pre">SIZE</span></code> file above as <code class="docutils literal notranslate"><span class="pre">lx1=8</span></code> which indices that there are 8 points in each spatial dimension of every element.

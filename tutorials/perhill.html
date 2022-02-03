@@ -353,20 +353,16 @@ Copy the <code class="docutils literal notranslate"><span class="pre">SIZE.templ
 </pre></div>
 </div>
 <p>Then, adjust the following parameters in the BASIC section</p>
-<div class="highlight-fortran notranslate"><div class="highlight"><pre><span></span><span class="p">...</span>
-
-<span class="c">! BASIC</span>
-<span class="k">parameter</span> <span class="p">(</span><span class="n">ldim</span><span class="o">=</span><span class="mi">2</span><span class="p">)</span>
-<span class="k">parameter</span> <span class="p">(</span><span class="n">lx1</span><span class="o">=</span><span class="mi">8</span><span class="p">)</span>
-<span class="k">parameter</span> <span class="p">(</span><span class="n">lxd</span><span class="o">=</span><span class="mi">12</span><span class="p">)</span>
-<span class="k">parameter</span> <span class="p">(</span><span class="n">lx2</span><span class="o">=</span><span class="n">lx1</span><span class="p">)</span>
-
-<span class="k">parameter</span> <span class="p">(</span><span class="n">lelg</span><span class="o">=</span><span class="mi">22</span><span class="o">*</span><span class="mi">8</span><span class="p">)</span>
-<span class="k">parameter</span> <span class="p">(</span><span class="n">lpmin</span><span class="o">=</span><span class="mi">1</span><span class="p">)</span>
-<span class="k">parameter</span> <span class="p">(</span><span class="n">lpmax</span><span class="o">=</span><span class="mi">4</span><span class="p">)</span>
-<span class="k">parameter</span> <span class="p">(</span><span class="n">ldimt</span><span class="o">=</span><span class="mi">1</span><span class="p">)</span>
-
-<span class="p">...</span>
+<div class="highlight-fortran notranslate"><div class="highlight"><pre><span></span>      <span class="c">! BASIC</span>
+      <span class="k">parameter</span> <span class="p">(</span><span class="n">ldim</span><span class="o">=</span><span class="mi">2</span><span class="p">)</span>               <span class="c">! domain dimension (2 or 3)</span>
+      <span class="k">parameter</span> <span class="p">(</span><span class="n">lx1</span><span class="o">=</span><span class="mi">8</span><span class="p">)</span>                <span class="c">! GLL points per element along each direction</span>
+      <span class="k">parameter</span> <span class="p">(</span><span class="n">lxd</span><span class="o">=</span><span class="mi">12</span><span class="p">)</span>               <span class="c">! GL  points for over-integration (dealiasing) </span>
+      <span class="k">parameter</span> <span class="p">(</span><span class="n">lx2</span><span class="o">=</span><span class="n">lx1</span><span class="o">-</span><span class="mi">0</span><span class="p">)</span>            <span class="c">! GLL points for pressure (lx1 or lx1-2)</span>
+                                     
+      <span class="k">parameter</span> <span class="p">(</span><span class="n">lelg</span><span class="o">=</span><span class="mi">22</span><span class="o">*</span><span class="mi">8</span><span class="p">)</span>            <span class="c">! max number of global elements</span>
+      <span class="k">parameter</span> <span class="p">(</span><span class="n">lpmin</span><span class="o">=</span><span class="mi">1</span><span class="p">)</span>              <span class="c">! min number of MPI ranks </span>
+      <span class="k">parameter</span> <span class="p">(</span><span class="n">lelt</span><span class="o">=</span><span class="n">lelg</span><span class="o">/</span><span class="n">lpmin</span> <span class="o">+</span> <span class="mi">3</span><span class="p">)</span>  <span class="c">! max number of local elements per MPI rank</span>
+      <span class="k">parameter</span> <span class="p">(</span><span class="n">ldimt</span><span class="o">=</span><span class="mi">1</span><span class="p">)</span>              <span class="c">! max auxiliary fields (temperature + scalars)</span>
 </pre></div>
 </div>
 <p>For this tutorial we have set our polynomial order to be <span class="math notranslate nohighlight">\(N=7\)</span> - this is defined in the <code class="docutils literal notranslate"><span class="pre">SIZE</span></code> file above as <code class="docutils literal notranslate"><span class="pre">lx1=8</span></code> which indices that there are 8 points in each spatial dimension of every element.
