@@ -9,6 +9,7 @@ Nek5000
    tutorials
    problem_setup
    theory
+   build
    appendix
    references
 

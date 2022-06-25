@@ -17,7 +17,7 @@ Pre-processing
 ..........................
 Users must always bear in mind, when setting up a test case in *Nek5000*, case files will need to be edited. 
 Some samples can be found in the ``Nek5000/examples`` directory included with the release version.
-Note that the ``examples`` directory is not included by default in the github repository (it can be obtained `here _http://github.com/Nek5000/NekExamples`).
+Note that the ``examples`` directory is linked in the github repository as a submodule and can alternatively be obtained `here <http://github.com/Nek5000/NekExamples>`_.
 Blank template files for the user file, ``zero.usr``, and the ``SIZE`` file, ``SIZE.template``, can be found in the ``Nek5000/core`` directory.
 As a first step, the user should create a case directory in the corresponding run directory:
 
@@ -36,7 +36,7 @@ We begin by creating the mesh with appropriate bounday conditions and then setti
 Mesh generation
 ..........................
 
-This tutorial requires that you have the tools ``genbox``, ``genmap``, and *preNek* compiled. 
+This tutorial requires that you have the tools ``genbox``, ``genmap``, ``reatore2`` and *preNek* compiled. 
 Note that *preNek* requires the use of an xterminal.
 Make sure the tools directory (typically ``Nek5000/bin``) is in your environment PATH. 
 Before beginning, it is important to understand that there are two types of mesh topology: the "*v-mesh*" for the velocity and the "*t-mesh*" which can be used for the temperature and passive scalars.
@@ -65,7 +65,7 @@ Note that any line beginning with '#' is a comment and is ignored by ``genbox``
    #========================================================
    #
    Box
-   -20     -10         nelx,nely,nelz for Box)
+   -20     -10         nelx,nely,nelz for Box
    0.0    2.0   1.0    x0 x1 ratio
    0.0    1.0   1.0    y0 y1 ratio
    W  ,W  ,W  ,W  ,    V bc's  ! NB:  3 characters each !
@@ -105,13 +105,13 @@ Both domains can be generated simultaneously by ``genbox`` with the following in
    #========================================================
    #
    Box
-   -20    -5           nelx,nely,nelz for Box)
+   -20    -5           nelx,nely,nelz for Box
    0.0    2.0   1.0    x0 x1 ratio
    -0.2   0.0   1.0    y0 y1 ratio
       ,   ,   ,   ,    V bc's  ! NB:  3 characters each, in order: -x, +x, -y, +y, (-z, +z)!
    I  ,I  ,t  ,E  ,    T bc's  !      You must have 2 spaces!!
    Box
-   -20    -5           nelx,nely,nelz for Box)
+   -20    -5           nelx,nely,nelz for Box
    0.0    2.0   1.0    x0 x1 ratio
    1.0    1.2   1.0    y0 y1 ratio
       ,   ,   ,   ,    V bc's  ! NB:  3 characters each, in order: left, right, bottom, top
@@ -137,7 +137,7 @@ An example of running ``pretex`` is shown below, with the expected user input hi
 
 .. literalinclude:: conjht/pretex.txt
    :language: none
-   :emphasize-lines: 2,8,9,11,13
+   :emphasize-lines: 1,6,12,15,23
 
 Note that the ``.rea`` suffix is assumed when specifying files to *preNek*.
 If all goes well, this will produce the ``combined.rea`` file.
