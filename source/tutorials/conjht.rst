@@ -36,7 +36,7 @@ We begin by creating the mesh with appropriate bounday conditions and then setti
 Mesh generation
 ..........................
 
-This tutorial requires that you have the tools ``genbox``, ``genmap``, ``reatore2`` and ``prenek`` compiled. 
+This tutorial requires that you have the tools ``genbox``, ``genmap``, ``reatore2`` and *preNek* compiled. 
 Note that *preNek* requires the use of an xterminal.
 Make sure the tools directory (typically ``Nek5000/bin``) is in your environment PATH. 
 Before beginning, it is important to understand that there are two types of mesh topology: the "*v-mesh*" for the velocity and the "*t-mesh*" which can be used for the temperature and passive scalars.
