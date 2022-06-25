@@ -248,15 +248,15 @@ Values in parentheses denote the default value.
 
 .. table:: ``PRESSURE`` keys in the ``.par`` file
 
-   +-------------------------+------------------+-----------------------------------------------+
-   |   Key                   | | Value(s)       | | Description                                 |
-   +=========================+==================+===============================================+
-   | ``preconditioner``      | | ``(semg_xxt)`` | | Preconditioning method                      |
-   |                         | | ``semg_amg``   | | First time usage of AMG will write three    |
-   |                         |                  | | dump files to disc. Subsequently please run |
-   |                         |                  | | the amg_hypre tool to create the setup files|
-   |                         |                  | | required for the AMG solver initialization  |
-   +-------------------------+------------------+-----------------------------------------------+
+   +-------------------------+----------------------+-----------------------------------------------+
+   |   Key                   | | Value(s)           | | Description                                 |
+   +=========================+======================+===============================================+
+   | ``preconditioner``      | | ``(semg_xxt)``     | | Preconditioning method                      |
+   |                         | | ``semg_amg``       | | First time usage of AMG will write three    |
+   |                         | | ``semg_amg_hypre`` | | dump files to disc. Subsequently please run |
+   |                         |                      | | the amg_hypre tool to create the setup files|
+   |                         |                      | | required for the AMG solver initialization  |
+   +-------------------------+----------------------+-----------------------------------------------+
 
 .. _tab:tpscommonparams:
 
