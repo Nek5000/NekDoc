@@ -137,7 +137,7 @@ An example of running ``pretex`` is shown below, with the expected user input hi
 
 .. literalinclude:: conjht/pretex.txt
    :language: none
-   :emphasize-lines: 2,8,11,13
+   :emphasize-lines: 1,6,12,15,23
 
 Note that the ``.rea`` suffix is assumed when specifying files to *preNek*.
 If all goes well, this will produce the ``combined.rea`` file.

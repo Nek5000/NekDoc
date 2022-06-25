@@ -1,6 +1,10 @@
+$ pretex
+-*-*-*-*-*--*-*-*-*-*-*-*-*
+ NEKTON Version   2.6
+...
  Choose a Name for This Session:
 combined
-   Beginning Session combined
+  Beginning Session combined
    1 READ PREVIOUS PARAMETERS
    2 TYPE IN  NEW  PARAMETERS
    3 CONJ. HEAT TRANSFER MERGE
@@ -8,7 +12,23 @@ Choose item:
 3
            3
  Enter name of fluid session
-   fluid
+fluid
+ Will Read Mesh and B.C. data from  fluid.rea
+     Reading Element       4   [    1d]
+...
+     Reading Element     200   [    1R]
+ drwobjs:            0
+Showing only nelcap elements of          200
  Enter name of the solid session
-   solid
- Exiting session
+solid
+ Found           0  curve sides.
+  ***** FLUID   BOUNDARY CONDITIONS *****
+...
+Curve side consistency check OK.
+ bound A: ACCEPT B.C.'s                        0           1
+Curve side consistency check OK.
+ bound A: ACCEPT B.C.'s                        0           1
+         400  this is nel in prexit
+Writing Parameters to file
+Deleting tmp.* files.
+  Exiting session    0.00000000
