@@ -7,7 +7,7 @@
   
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   
-  <title>Boundary Conditions &mdash; Nek5000 17.0 documentation</title>
+  <title>Boundary Conditions &mdash; Nek5000  documentation</title>
   
 
   
@@ -64,10 +64,6 @@
           
             
             
-              <div class="version">
-                17.0
-              </div>
-            
           
 
           
@@ -106,6 +102,7 @@
 </ul>
 </li>
 <li class="toctree-l1"><a class="reference internal" href="../theory.html">Theory</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../build.html">Build Options</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../appendix.html">Appendices</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../references.html">References</a></li>
 </ul>
@@ -178,11 +175,11 @@
            <div itemprop="articleBody">
             
   <div class="section" id="boundary-conditions">
-<h1>Boundary Conditions<a class="headerlink" href="#boundary-conditions" title="Permalink to this headline">¶</a></h1>
+<span id="id1"></span><h1>Boundary Conditions<a class="headerlink" href="#boundary-conditions" title="Permalink to this headline">¶</a></h1>
 <p>The boundary conditions can be imposed in various ways:</p>
 <ul class="simple">
-<li>when the mesh is generated, e.g. with <code class="docutils literal notranslate"><span class="pre">genbox</span></code>, as is explained in <a class="reference internal" href="../appendix.html#sec-genbox"><span class="std std-ref">Cylindrical/Cartesian-transition Annuli</span></a></li>
-<li>when an <code class="docutils literal notranslate"><span class="pre">.rea</span></code> file is read in <code class="docutils literal notranslate"><span class="pre">prenek</span></code></li>
+<li>when the mesh is generated, e.g. with <code class="docutils literal notranslate"><span class="pre">genbox</span></code>, as is explained in <a class="reference internal" href="../appendix.html#sec-genbox"><span class="std std-ref">Generating a Mesh with Genbox</span></a></li>
+<li>when an <code class="docutils literal notranslate"><span class="pre">.rea</span></code> file is read in <em>preNek</em></li>
 <li>translated from side-set numbers in <code class="docutils literal notranslate"><span class="pre">usrdat</span></code> when using <code class="docutils literal notranslate"><span class="pre">exotonek</span></code> or similar</li>
 </ul>
 <p>The general convention for boundary conditions is</p>
@@ -202,8 +199,8 @@ In this case, any Neumann boundary condition imposed must be homogeneous, i.e. e
 .. In addition, mixed Dirichlet/Neumann boundaries must be aligned with one of the Cartesian axes.
 For flow geometry which consists of a periodic repetition of a particular geometric unit, the periodic boundary conditions can be imposed, as illustrated in <a class="reference internal" href="../theory.html#fig-walls"><span class="std std-numref">Fig. 17</span></a> .
 The available primitive boundary conditions for the fluid are given in <a class="reference internal" href="#tab-bcf"><span class="std std-numref">Table 3</span></a> , with the user-specified boundary conditions in <a class="reference internal" href="#tab-ubcf"><span class="std std-numref">Table 4</span></a> .</p>
-<span id="tab-bcf"></span><table border="1" class="docutils" id="id1">
-<caption><span class="caption-number">Table 3 </span><span class="caption-text">Primitive boundary conditions for velocity</span><a class="headerlink" href="#id1" title="Permalink to this table">¶</a></caption>
+<span id="tab-bcf"></span><table border="1" class="docutils" id="id2">
+<caption><span class="caption-number">Table 3 </span><span class="caption-text">Primitive boundary conditions for velocity</span><a class="headerlink" href="#id2" title="Permalink to this table">¶</a></caption>
 <colgroup>
 <col width="11%" />
 <col width="27%" />
@@ -260,8 +257,8 @@ The available primitive boundary conditions for the fluid are given in <a class=
 </tr>
 </tbody>
 </table>
-<span id="tab-ubcf"></span><table border="1" class="docutils" id="id2">
-<caption><span class="caption-number">Table 4 </span><span class="caption-text">User defined boundary conditions for velocity</span><a class="headerlink" href="#id2" title="Permalink to this table">¶</a></caption>
+<span id="tab-ubcf"></span><table border="1" class="docutils" id="id3">
+<caption><span class="caption-number">Table 4 </span><span class="caption-text">User defined boundary conditions for velocity</span><a class="headerlink" href="#id3" title="Permalink to this table">¶</a></caption>
 <colgroup>
 <col width="10%" />
 <col width="23%" />
@@ -402,8 +399,8 @@ of the environmental temperature <span class="math notranslate nohighlight">\(T_
 power of the surface temperature.</p>
 <p>The boundary conditions for the passive scalar fields are analogous to those used for the temperature field.
 Thus, the temperature boundary condition menu will reappear for each passive scalar field so that the user can specify an independent set of boundary conditions for each passive scalar field.</p>
-<span id="tab-bct"></span><table border="1" class="docutils" id="id3">
-<caption><span class="caption-number">Table 5 </span><span class="caption-text">Primitive boundary conditions (Temperature and Passive scalars)</span><a class="headerlink" href="#id3" title="Permalink to this table">¶</a></caption>
+<span id="tab-bct"></span><table border="1" class="docutils" id="id4">
+<caption><span class="caption-number">Table 5 </span><span class="caption-text">Primitive boundary conditions (Temperature and Passive scalars)</span><a class="headerlink" href="#id4" title="Permalink to this table">¶</a></caption>
 <colgroup>
 <col width="11%" />
 <col width="27%" />
@@ -455,8 +452,8 @@ Thus, the temperature boundary condition menu will reappear for each passive sca
 </tr>
 </tbody>
 </table>
-<span id="tab-userbct"></span><table border="1" class="docutils" id="id4">
-<caption><span class="caption-number">Table 6 </span><span class="caption-text">User defined boundary conditions for temperature and passive scalars</span><a class="headerlink" href="#id4" title="Permalink to this table">¶</a></caption>
+<span id="tab-userbct"></span><table border="1" class="docutils" id="id5">
+<caption><span class="caption-number">Table 6 </span><span class="caption-text">User defined boundary conditions for temperature and passive scalars</span><a class="headerlink" href="#id5" title="Permalink to this table">¶</a></caption>
 <colgroup>
 <col width="10%" />
 <col width="23%" />
@@ -585,7 +582,7 @@ which is also assumed to be constant, should be specified.</p>
 
   <div role="contentinfo">
     <p>
-        &#169; Copyright 2015-2017, UCHICAGO ARGONNE, LLC.
+        &#169; Copyright 2015-2022, UCHICAGO ARGONNE, LLC.
 
     </p>
   </div>

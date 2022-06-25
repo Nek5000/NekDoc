@@ -7,7 +7,7 @@
   
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   
-  <title>FAQ &mdash; Nek5000 17.0 documentation</title>
+  <title>FAQ &mdash; Nek5000  documentation</title>
   
 
   
@@ -64,10 +64,6 @@
           
             
             
-              <div class="version">
-                17.0
-              </div>
-            
           
 
           
@@ -105,6 +101,7 @@
 <li class="toctree-l1"><a class="reference internal" href="tutorials.html">Tutorials</a></li>
 <li class="toctree-l1"><a class="reference internal" href="problem_setup.html">Problem Setup</a></li>
 <li class="toctree-l1"><a class="reference internal" href="theory.html">Theory</a></li>
+<li class="toctree-l1"><a class="reference internal" href="build.html">Build Options</a></li>
 <li class="toctree-l1"><a class="reference internal" href="appendix.html">Appendices</a></li>
 <li class="toctree-l1"><a class="reference internal" href="references.html">References</a></li>
 </ul>
@@ -224,7 +221,7 @@ If it turns out your issue really is a bug in the code, an issue will then be cr
 <p><strong>Which platforms are supported by Nek5000?</strong></p>
 <blockquote>
 <div>All posix compliant operations system.
-To run on Windows, we recommend using the Windows Subsystem for Linux.</div></blockquote>
+To run on Windows, we recommend using Ubuntu 20.04 on V2 of the Windows Subsystem for Linux.</div></blockquote>
 <p><strong>Can Nek5000 run on GPUs?</strong></p>
 <blockquote>
 <div>We are currently developing the NekRS code to support GPUs.
@@ -242,7 +239,7 @@ screen whenever Nek5000 exits. What follows is a first rough guess:</div></block
 <blockquote>
 <div><p>where <code class="docutils literal notranslate"><span class="pre">lelt</span></code> (the maximum number of local elements) is computed as lelg/lpmin.
 The memory allocated by MPI will depend heavily on the total number of ranks and the considered MPI implementation.
-For large rank counts (say &gt; 100’000) it’s easily 50-100MB.</p>
+For large rank counts (say <span class="math notranslate nohighlight">\(E&gt;100,000\)</span>) it’s easily 50-100MB.</p>
 <p>Note, the output of GNU`s SIZE utility is inaccurate as it does not take into account the dynamic memory alloation of MPI, gslib, CVODE, etc.</p>
 </div></blockquote>
 <p><strong>Why does the compiler issue relocation errors?</strong></p>
@@ -250,7 +247,8 @@ For large rank counts (say &gt; 100’000) it’s easily 50-100MB.</p>
 <div><p><code class="docutils literal notranslate"><span class="pre">relocation</span> <span class="pre">truncated</span> <span class="pre">to</span> <span class="pre">fit:</span> <span class="pre">R_X86_64</span> <span class="pre">against</span> <span class="pre">symbol</span> <span class="pre">'foo_'</span> <span class="pre">defined</span> <span class="pre">in</span> <span class="pre">COMMON</span> <span class="pre">section</span> <span class="pre">in</span> <span class="pre">obj/bar.o</span></code></p>
 <p>This happens when the resultant executable requires more than 2GB of static data.
 The best way to avoid this is to increase the minimum number of MPI ranks, <code class="docutils literal notranslate"><span class="pre">lpmin</span></code> in <code class="docutils literal notranslate"><span class="pre">SIZE</span></code>.
-Alternatively, you can add <code class="docutils literal notranslate"><span class="pre">-mcmodel=medium</span></code> to the <code class="docutils literal notranslate"><span class="pre">FFLAGS/CFLAGS</span></code> variable in <code class="docutils literal notranslate"><span class="pre">makenek</span></code>.</p>
+Alternatively, you can add <code class="docutils literal notranslate"><span class="pre">-mcmodel=medium</span></code> to the <code class="docutils literal notranslate"><span class="pre">FFLAGS/CFLAGS</span></code> variable in <code class="docutils literal notranslate"><span class="pre">makenek</span></code>.
+See <a class="reference internal" href="build.html#build-compflags"><span class="std std-ref">Compiler Flags</span></a> for more information.</p>
 </div></blockquote>
 <p><strong>Why does the code use static memory allocation?</strong></p>
 <blockquote>
@@ -262,8 +260,14 @@ as full rebuild takes less than 1 minute.</div></blockquote>
 If you are running on a machine with a queuing system, consult your sysadmin how to submit a job.</div></blockquote>
 <p><strong>How do I run the examples?</strong></p>
 <blockquote>
-<div>The examples are included by default in the release tarball (see example directory). There is nothing special you need
-to do as they are ready to run.</div></blockquote>
+<div>The examples are included by default in the release tarball (see example directory).
+There is nothing special you need to do as they are ready to run.
+If you cloned the github repo, you will also need to clone the NekExamples repository separately.</div></blockquote>
+<p><strong>How do I run a case with more than 350,000 elements?</strong></p>
+<blockquote>
+<div>To run a large case, you will need to compile with HYPRE support and use one of the AMG pressure preconditioners.
+To compile with HYPRE see <a class="reference internal" href="build.html#build-pplist"><span class="std std-ref">Preprocessor List</span></a>.
+To select an AMG preconditioner see <a class="reference internal" href="problem_setup/case_files.html#tab-pressureparams"><span class="std std-ref">PRESSURE keys in the .par file</span></a>.</div></blockquote>
 </div>
 <div class="section" id="pre-processing-and-numerics">
 <h2>Pre-Processing and Numerics<a class="headerlink" href="#pre-processing-and-numerics" title="Permalink to this headline">¶</a></h2>
@@ -403,7 +407,6 @@ A scalar solve requiring ~40 iterations or greater is a good candidate for use.<
 <div><ul class="simple">
 <li>For data analysis you use Nek5000’s internal machinery through the usr file</li>
 <li>Solution files can be read by VisIt and Paraview (for more information see <a class="reference internal" href="quickstart.html#qstart-vis"><span class="std std-ref">Visualization</span></a>)</li>
-<li>Various user contributions in <a class="reference external" href="https://github.com/Nek5000/NekBazaar/">NekBazaar</a></li>
 </ul>
 </div></blockquote>
 <p><strong>The local coordinate axes of my elements are not aligned with the global coordinate system, is this normal?</strong></p>
@@ -444,7 +447,7 @@ You can also use the spectral interpolation tool (see examples for more details)
 
   <div role="contentinfo">
     <p>
-        &#169; Copyright 2015-2017, UCHICAGO ARGONNE, LLC.
+        &#169; Copyright 2015-2022, UCHICAGO ARGONNE, LLC.
 
     </p>
   </div>

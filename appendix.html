@@ -7,7 +7,7 @@
   
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   
-  <title>Appendices &mdash; Nek5000 17.0 documentation</title>
+  <title>Appendices &mdash; Nek5000  documentation</title>
   
 
   
@@ -41,7 +41,7 @@
     <link rel="index" title="Index" href="genindex.html" />
     <link rel="search" title="Search" href="search.html" />
     <link rel="next" title="References" href="references.html" />
-    <link rel="prev" title="Theory" href="theory.html" /> 
+    <link rel="prev" title="Build Options" href="build.html" /> 
 </head>
 
 <body class="wy-body-for-nav">
@@ -63,10 +63,6 @@
 
           
             
-            
-              <div class="version">
-                17.0
-              </div>
             
           
 
@@ -96,12 +92,11 @@
 <li class="toctree-l1"><a class="reference internal" href="tutorials.html">Tutorials</a></li>
 <li class="toctree-l1"><a class="reference internal" href="problem_setup.html">Problem Setup</a></li>
 <li class="toctree-l1"><a class="reference internal" href="theory.html">Theory</a></li>
+<li class="toctree-l1"><a class="reference internal" href="build.html">Build Options</a></li>
 <li class="toctree-l1 current"><a class="current reference internal" href="#">Appendices</a><ul>
-<li class="toctree-l2"><a class="reference internal" href="#build-options">Build Options</a></li>
 <li class="toctree-l2"><a class="reference internal" href="#internal-input-parameters-switches">Internal Input Parameters/Switches</a><ul>
 <li class="toctree-l3"><a class="reference internal" href="#parameters">Parameters</a></li>
 <li class="toctree-l3"><a class="reference internal" href="#logical-switches">Logical switches</a></li>
-<li class="toctree-l3"><a class="reference internal" href="#other-input-variables">Other Input Variables</a></li>
 </ul>
 </li>
 <li class="toctree-l2"><a class="reference internal" href="#commonly-used-variables">Commonly used Variables</a><ul>
@@ -195,150 +190,12 @@
             
   <div class="section" id="appendices">
 <h1>Appendices<a class="headerlink" href="#appendices" title="Permalink to this headline">¶</a></h1>
-<div class="section" id="build-options">
-<h2>Build Options<a class="headerlink" href="#build-options" title="Permalink to this headline">¶</a></h2>
-<p>The shell script <code class="docutils literal notranslate"><span class="pre">makenek</span></code> is designed to assist the compilation process of Nek5000. The script will create a <code class="docutils literal notranslate"><span class="pre">makefile</span></code> based on the user settings section in <code class="docutils literal notranslate"><span class="pre">makenek</span></code>. The GNU gmake utility is used to build Nek5000.
-Available configurations options:</p>
-<span id="tab-bdms"></span><table border="1" class="colwidths-given docutils" id="id1">
-<caption><span class="caption-number">Table 20 </span><span class="caption-text">Compiler options</span><a class="headerlink" href="#id1" title="Permalink to this table">¶</a></caption>
-<colgroup>
-<col width="24%" />
-<col width="14%" />
-<col width="24%" />
-<col width="39%" />
-</colgroup>
-<thead valign="bottom">
-<tr class="row-odd"><th class="head">name</th>
-<th class="head">values</th>
-<th class="head">default</th>
-<th class="head">description</th>
-</tr>
-</thead>
-<tbody valign="top">
-<tr class="row-even"><td>PPLIST</td>
-<td>string</td>
-<td>&#160;</td>
-<td>list of pre-processor symbols (CVODE, …)</td>
-</tr>
-<tr class="row-odd"><td>MPI</td>
-<td>1, 0</td>
-<td>1</td>
-<td>use MPI (needed for a multiprocessor computation)</td>
-</tr>
-<tr class="row-even"><td>&#160;</td>
-<td>&#160;</td>
-<td>&#160;</td>
-<td>&#160;</td>
-</tr>
-<tr class="row-odd"><td>FC</td>
-<td>string</td>
-<td>optional</td>
-<td>Fortran compiler (mpif77)</td>
-</tr>
-<tr class="row-even"><td>CC</td>
-<td>string</td>
-<td>optional</td>
-<td>C compiler (mpicc)</td>
-</tr>
-<tr class="row-odd"><td>FCLAGS</td>
-<td>string</td>
-<td>optional</td>
-<td>optional Fortan compilation flags</td>
-</tr>
-<tr class="row-even"><td>CCLAGS</td>
-<td>string</td>
-<td>optional</td>
-<td>optional C compilation flags</td>
-</tr>
-<tr class="row-odd"><td>SOURCE_ROOT</td>
-<td>string</td>
-<td>optional</td>
-<td>path of Nek5000 source</td>
-</tr>
-<tr class="row-even"><td>USR</td>
-<td>string</td>
-<td>optional</td>
-<td>object list of additional files to compile make intructions (<code class="docutils literal notranslate"><span class="pre">makefile_usr.inc</span></code> required)</td>
-</tr>
-<tr class="row-odd"><td>USR_LFLAGS</td>
-<td>string</td>
-<td>optional</td>
-<td>optional linking flags</td>
-</tr>
-<tr class="row-even"><td>PROFILING</td>
-<td>1, 0</td>
-<td>1</td>
-<td>enable internal timers for performance statistics</td>
-</tr>
-<tr class="row-odd"><td>VISIT</td>
-<td>1, 0</td>
-<td>0</td>
-<td>Toggles Visit in situ. See Visit_in_situ for details</td>
-</tr>
-<tr class="row-even"><td>VISIT_INSTALL</td>
-<td>string</td>
-<td>VISIT in situ</td>
-<td>Path to VISIT install path. See Visit_in_situ for details.</td>
-</tr>
-<tr class="row-odd"><td>VISIT_STOP</td>
-<td>true, false</td>
-<td>false</td>
-<td>When running VISIT in situ, simulation stops after step 1 to connect VISIT.</td>
-</tr>
-</tbody>
-</table>
-<p>The <code class="docutils literal notranslate"><span class="pre">PPLIST</span></code> field can be used to activate several features at compilation time.
-A list of possible options is below:</p>
-<span id="tab-pplist"></span><table border="1" class="docutils" id="id2">
-<caption><span class="caption-number">Table 21 </span><span class="caption-text">PPLIST options</span><a class="headerlink" href="#id2" title="Permalink to this table">¶</a></caption>
-<colgroup>
-<col width="50%" />
-<col width="50%" />
-</colgroup>
-<thead valign="bottom">
-<tr class="row-odd"><th class="head">Symbol</th>
-<th class="head">Description</th>
-</tr>
-</thead>
-<tbody valign="top">
-<tr class="row-even"><td>NOMPIIO</td>
-<td>deactivate MPI-IO support</td>
-</tr>
-<tr class="row-odd"><td>BGQ</td>
-<td>use Blue Gene Q optimized mxm</td>
-</tr>
-<tr class="row-even"><td>XSMM</td>
-<td>use libxsmm for mxm</td>
-</tr>
-<tr class="row-odd"><td>CVODE</td>
-<td>compile with CVODE support for scalars</td>
-</tr>
-<tr class="row-even"><td>VENDOR_BLAS</td>
-<td>use VENDOR BLAS/LAPACK</td>
-</tr>
-<tr class="row-odd"><td>EXTBAR</td>
-<td>add underscore to exit call (for BGQ)</td>
-</tr>
-<tr class="row-even"><td>NEKNEK</td>
-<td>activate overlapping mesh solver (experimental)</td>
-</tr>
-<tr class="row-odd"><td>CMTNEK</td>
-<td>activate discontinuous Galerkin compressible-flow solver (experimental)</td>
-</tr>
-</tbody>
-</table>
-<p>In addition to these preprocessor items, the user can add compilation and linking flags.
-<code class="docutils literal notranslate"><span class="pre">FFLAGS</span></code> allows the user to add Fortran compilation flags while <code class="docutils literal notranslate"><span class="pre">CCFAGS</span></code> allows the user to
-add C compilation flags.
-These will be compiler dependent and the user is encouraged to consult the manual of the compiler if specific options are needed/desired.
-A commonly used flag is <code class="docutils literal notranslate"><span class="pre">-mcmodel</span></code> which allows for arrays of size larger than 2GB.
-This option  tells the compiler to use a specific memory model to generate code and store data.
-It can affect code size and performance.
-If your program has global and static data with a total size smaller than 2GB, <code class="docutils literal notranslate"><span class="pre">-mcmodel=small</span></code> is sufficient.
-Global and static data larger than 2GB requires <code class="docutils literal notranslate"><span class="pre">-mcmodel=medium</span></code> or <code class="docutils literal notranslate"><span class="pre">-mcmodel=large</span></code>.</p>
-</div>
 <div class="section" id="internal-input-parameters-switches">
 <h2>Internal Input Parameters/Switches<a class="headerlink" href="#internal-input-parameters-switches" title="Permalink to this headline">¶</a></h2>
+<p>The parameter list is handled internally and is populated based on options prescribed in the <code class="docutils literal notranslate"><span class="pre">.par</span></code> file.
+In general, it is not recommend for users to override these parameters as their usage may be subject to change.
+However they can be set or referenced in the <code class="docutils literal notranslate"><span class="pre">.usr</span></code> file via the <code class="docutils literal notranslate"><span class="pre">param()</span></code> array.
+This list was explicitly set with the legacy <code class="docutils literal notranslate"><span class="pre">.rea</span></code> format.</p>
 <div class="section" id="parameters">
 <h3>Parameters<a class="headerlink" href="#parameters" title="Permalink to this headline">¶</a></h3>
 <style> .red {color:red} </style><div class="line-block">
@@ -454,6 +311,7 @@ Global and static data larger than 2GB requires <code class="docutils literal no
 </div>
 <div class="section" id="logical-switches">
 <span id="sec-switches"></span><h3>Logical switches<a class="headerlink" href="#logical-switches" title="Permalink to this headline">¶</a></h3>
+<p>Like the parameter list, the logical switches are handled internally based on options set in the <code class="docutils literal notranslate"><span class="pre">.par</span></code> file and it is not recommended for the user to override these settings.</p>
 <p><strong>IFFLOW</strong> solve for fluid (velocity, pressure)</p>
 <p><strong>IFHEAT</strong> solve for heat (temperature and/or scalars)</p>
 <p><strong>IFTRAN</strong> solve transient equations (otherwise, solve the steady Stokes flow)</p>
@@ -467,11 +325,11 @@ Global and static data larger than 2GB requires <code class="docutils literal no
 <p><strong>IFCHAR</strong> use characteristics for convection operator</p>
 <p><strong>IFSYNC</strong> use upfront synchronization</p>
 <p><strong>IFUSERVP</strong> user-defined properties</p>
-</div>
-<div class="section" id="other-input-variables">
-<h3>Other Input Variables<a class="headerlink" href="#other-input-variables" title="Permalink to this headline">¶</a></h3>
-<p><strong>filterType</strong> 0: explicit, 1: HPT-RT</p>
-<p><strong>restol(:)</strong> field solver tolerance</p>
+<p><strong>IFXYO</strong> include coordinates in output files</p>
+<p><strong>IFPO</strong> include pressure field in output files</p>
+<p><strong>IFVO</strong> include velocity fields in output files</p>
+<p><strong>IFTO</strong> include temperature field in output files</p>
+<p><strong>IFPSCO</strong> include passive scalar fields in output files, <code class="docutils literal notranslate"><span class="pre">ifpsco(ldimt1)</span></code></p>
 </div>
 </div>
 <div class="section" id="commonly-used-variables">
@@ -908,7 +766,7 @@ The resulting integral is storted in <code class="docutils literal notranslate">
 </dl>
 </div>
 <div class="section" id="generating-a-mesh-with-genbox">
-<span id="mesh-gen"></span><h2>Generating a Mesh with Genbox<a class="headerlink" href="#generating-a-mesh-with-genbox" title="Permalink to this headline">¶</a></h2>
+<span id="sec-genbox"></span><span id="mesh-gen"></span><h2>Generating a Mesh with Genbox<a class="headerlink" href="#generating-a-mesh-with-genbox" title="Permalink to this headline">¶</a></h2>
 <div class="section" id="uniformly-distributed-mesh">
 <h3>Uniformly Distributed Mesh<a class="headerlink" href="#uniformly-distributed-mesh" title="Permalink to this headline">¶</a></h3>
 <p>Suppose you wish to simulate flow through an axisymmetric pipe,
@@ -934,27 +792,35 @@ Box 1                         Pipe
 v  ,O  ,A  ,W  ,   ,          BC&#39;s:  (cbx0, cbx1, cby0, cby1, cbz0, cbz1)
 </pre></div>
 </div>
-<div class="align-center figure" id="id3">
+<div class="align-center figure" id="id1">
 <span id="fig-mesh-axi1"></span><img alt="axis-pipe-mesh" src="_images/mesh_axi1.png" />
 <p class="caption"><span class="caption-number">Fig. 18 </span><span class="caption-text">Axisymmetric pipe mesh.</span></p>
 </div>
-<ul class="simple">
-<li>The first line of this file supplies the name of an existing 2D <code class="docutils literal notranslate"><span class="pre">.rea</span></code> file that has the appropriate run parameters (viscosity, timestep size, etc.). These parameters can be modified later, but it is important that <code class="docutils literal notranslate"><span class="pre">axisymmetric.rea</span></code> be a 2D file, and not a 3D file.</li>
-<li>The second line indicates the number of fields for this simulation, in this case, just 1, corresponding to the velocity field (i.e., no heat transfer).</li>
-<li>The next set of lines just shows how one can place comments into a <code class="docutils literal notranslate"><span class="pre">genbox</span></code> input file.</li>
-<li>The line that starts with “Box” indicates that a new box is starting, and that the following lines describe a typical box input.  Other possible key characters (the first character of Box, “B”) are “C” and “M”, more on those later.</li>
-<li>The first line after “Box” specifies the number of elements in the
+<ul>
+<li><p class="first">The first line of this file supplies the name of an existing 2D <code class="docutils literal notranslate"><span class="pre">.rea</span></code> file that has the appropriate run parameters (viscosity, timestep size, etc.). These parameters can be modified later, but it is important that <code class="docutils literal notranslate"><span class="pre">axisymmetric.rea</span></code> be a 2D file, and not a 3D file.</p>
+</li>
+<li><p class="first">The second line indicates the number of fields for this simulation, in this case, just 1, corresponding to the velocity field (i.e., no heat transfer).</p>
+</li>
+<li><p class="first">The next set of lines just shows how one can place comments into a <code class="docutils literal notranslate"><span class="pre">genbox</span></code> input file.</p>
+</li>
+<li><p class="first">The line that starts with “Box” indicates that a new box is starting, and that the following lines describe a typical box input.  Other possible key characters (the first character of Box, “B”) are “C” and “M”, more on those later.</p>
+</li>
+<li><p class="first">The first line after “Box” specifies the number of elements in the
 <span class="math notranslate nohighlight">\(x\)</span> and <span class="math notranslate nohighlight">\(y\)</span> directions.   The fact that these values are negative indicates
 that you want <code class="docutils literal notranslate"><span class="pre">genbox</span></code> to automatically generate the element distribution
-along each axis, rather than providing it by hand.  (More on this below.)</li>
-<li>The next line specifies the distribution of the 5 elements in the <span class="math notranslate nohighlight">\(x\)</span> direction.
+along each axis, rather than providing it by hand.  (More on this below.)</p>
+</li>
+<li><p class="first">The next line specifies the distribution of the 5 elements in the <span class="math notranslate nohighlight">\(x\)</span> direction.
 The mesh starts at <span class="math notranslate nohighlight">\(x=0\)</span> and ends at <span class="math notranslate nohighlight">\(x=4.0\)</span>.  The <code class="docutils literal notranslate"><span class="pre">ratio</span></code> indicates the
-relative size of each element, progressing from left to right.</li>
-<li>The next line specifies the distribution of the 3 elements in the <span class="math notranslate nohighlight">\(y\)</span> direction,
+relative size of each element, progressing from left to right.</p>
+</li>
+<li><p class="first">The next line specifies the distribution of the 3 elements in the <span class="math notranslate nohighlight">\(y\)</span> direction,
 starting at <span class="math notranslate nohighlight">\(y=0\)</span> and going to <span class="math notranslate nohighlight">\(y=0.5\)</span>.  Again,
-<code class="docutils literal notranslate"><span class="pre">ratio</span></code> =1.0 indicates that the elements will be of uniform height.</li>
-<li>The last line specifies boundary conditions on each of the 4 sides of the
-box:<ul>
+<code class="docutils literal notranslate"><span class="pre">ratio</span></code> =1.0 indicates that the elements will be of uniform height.</p>
+</li>
+<li><p class="first">The last line specifies boundary conditions on each of the 4 sides of the
+box:</p>
+<ul class="simple">
 <li>Lower-case <em>v</em> indicates that the left <span class="math notranslate nohighlight">\((x)\)</span> boundary is to be a velocity
 boundary condition, with a user-specified distribution determined by
 routine <code class="docutils literal notranslate"><span class="pre">userbc</span></code> in the <code class="docutils literal notranslate"><span class="pre">.usr</span></code> file.  (Upper-case <span class="math notranslate nohighlight">\(V\)</span> would indicate that
@@ -967,12 +833,13 @@ boundary is at <span class="math notranslate nohighlight">\(y=0\)</span>, which 
 <li><em>W</em> indicates that the upper <span class="math notranslate nohighlight">\((y)\)</span> boundary is a wall.  This would be
 equivalent to a <em>v</em> or <em>V</em> boundary condition, with <span class="math notranslate nohighlight">\({\bf u}=0\)</span>.</li>
 </ul>
+<p>Other available boundary conditions are given in <a class="reference internal" href="problem_setup/boundary_conditions.html#boundary-conditions"><span class="std std-ref">Boundary Conditions</span></a>.</p>
 </li>
 </ul>
 </div>
 <div class="section" id="graded-mesh">
 <h3>Graded Mesh<a class="headerlink" href="#graded-mesh" title="Permalink to this headline">¶</a></h3>
-<div class="align-center figure" id="id4">
+<div class="align-center figure" id="id2">
 <span id="fig-mesh-axi2"></span><img alt="axis-pipe-mesh-graded" src="_images/mesh_axi2.png" />
 <p class="caption"><span class="caption-number">Fig. 19 </span><span class="caption-text">Axisymmetric pipe mesh, graded</span></p>
 </div>
@@ -996,7 +863,7 @@ in the above <code class="docutils literal notranslate"><span class="pre">genbox
 </div>
 <div class="section" id="user-specified-distribution">
 <h3>User-Specified Distribution<a class="headerlink" href="#user-specified-distribution" title="Permalink to this headline">¶</a></h3>
-<div class="align-center figure" id="id5">
+<div class="align-center figure" id="id3">
 <span id="fig-mesh-axi3"></span><img alt="axis-pipe-mesh-user" src="_images/mesh_axi3.png" />
 <p class="caption"><span class="caption-number">Fig. 20 </span><span class="caption-text">Axisymmetric pipe mesh, user specified.</span></p>
 </div>
@@ -1065,23 +932,23 @@ Nek5000 to communicate the new mesh to <code class="docutils literal notranslate
 file, so you must request that the geometry be dumped to the
 <code class="docutils literal notranslate"><span class="pre">.fld</span></code> file.
 The result of above changes is shown in <a class="reference internal" href="#fig-wavypipe"><span class="std std-numref">Fig. 21</span></a>.</p>
-<div class="align-center figure" id="id6">
+<div class="align-center figure" id="id4">
 <span id="fig-wavypipe"></span><img alt="axis-pipe-mesh-wavy" src="_images/wavypipe.png" />
 <p class="caption"><span class="caption-number">Fig. 21 </span><span class="caption-text">Axisymmetric pipe mesh.</span></p>
 </div>
 <div class="section" id="cylindrical-cartesian-transition-annuli">
-<span id="sec-genbox"></span><h3>Cylindrical/Cartesian-transition Annuli<a class="headerlink" href="#cylindrical-cartesian-transition-annuli" title="Permalink to this headline">¶</a></h3>
-<div class="align-center figure" id="id7">
+<h3>Cylindrical/Cartesian-transition Annuli<a class="headerlink" href="#cylindrical-cartesian-transition-annuli" title="Permalink to this headline">¶</a></h3>
+<div class="align-center figure" id="id5">
 <span id="fig-cylbox-2d"></span><img alt="annuli-mesh-1" src="_images/cylbox_2d.png" />
 <p class="caption"><span class="caption-number">Fig. 22 </span><span class="caption-text">Cylinder mesh</span></p>
 </div>
-<div class="align-center figure" id="id8">
+<div class="align-center figure" id="id6">
 <span id="fig-cylbox-2da"></span><img alt="annuli-mesh-2" src="_images/cylbox_2da.png" />
 <p class="caption"><span class="caption-number">Fig. 23 </span><span class="caption-text">Cylinder mesh</span></p>
 </div>
 <p>More sophisticated
 transition treatments may be generated using the GLOBAL REFINE options in
-<code class="docutils literal notranslate"><span class="pre">prenek</span></code> or through an upgrade of <code class="docutils literal notranslate"><span class="pre">genb7</span></code>, as demand warrants.
+<em>preNek</em> or through an upgrade of <code class="docutils literal notranslate"><span class="pre">genb7</span></code>, as demand warrants.
 Example 2D and 3D input files are provided in the <code class="docutils literal notranslate"><span class="pre">nek5000/doc</span></code> files
 <code class="docutils literal notranslate"><span class="pre">box7.2d</span></code> and <code class="docutils literal notranslate"><span class="pre">box7.3d</span></code>.
 <a class="reference internal" href="#fig-cylbox-2d"><span class="std std-numref">Fig. 22</span></a> shows a 2D example generated using
@@ -1105,9 +972,9 @@ v  ,W  ,E  ,E  ,    bc&#39;s (3 characters + comma)
 </pre></div>
 </div>
 <p>An example of a mesh is shown in <a class="reference internal" href="#fig-cylbox-2d"><span class="std std-numref">Fig. 22</span></a>.   The mesh has been quad-refined
-once with oct-refine option of <code class="docutils literal notranslate"><span class="pre">prenek</span></code>. The 3D counterpart to this
+once with oct-refine option of <em>preNek</em>. The 3D counterpart to this
 mesh could joined to a hemisphere/Cartesian transition built with
-the spherical mesh option in <code class="docutils literal notranslate"><span class="pre">prenek</span></code>.</p>
+the spherical mesh option in <em>preNek</em>.</p>
 </div>
 </div>
 <div class="section" id="mesh-extrusion-and-mirroring">
@@ -1185,7 +1052,7 @@ but only <span class="math notranslate nohighlight">\(y\)</span>, that is, radiu
 relevant equations to “two-dimensional” form.</li>
 </ul>
 <p>Fully general three-dimensional meshes generated by other softwares
-packages can be input to <code class="docutils literal notranslate"><span class="pre">prenek</span></code> as imported meshes.</p>
+packages can be input to <em>preNek</em> as imported meshes.</p>
 </div>
 </div>
 
@@ -1196,14 +1063,14 @@ packages can be input to <code class="docutils literal notranslate"><span class=
           <footer>
     <div class="rst-footer-buttons" role="navigation" aria-label="footer navigation">
         <a href="references.html" class="btn btn-neutral float-right" title="References" accesskey="n" rel="next">Next <span class="fa fa-arrow-circle-right" aria-hidden="true"></span></a>
-        <a href="theory.html" class="btn btn-neutral float-left" title="Theory" accesskey="p" rel="prev"><span class="fa fa-arrow-circle-left" aria-hidden="true"></span> Previous</a>
+        <a href="build.html" class="btn btn-neutral float-left" title="Build Options" accesskey="p" rel="prev"><span class="fa fa-arrow-circle-left" aria-hidden="true"></span> Previous</a>
     </div>
 
   <hr/>
 
   <div role="contentinfo">
     <p>
-        &#169; Copyright 2015-2017, UCHICAGO ARGONNE, LLC.
+        &#169; Copyright 2015-2022, UCHICAGO ARGONNE, LLC.
 
     </p>
   </div>

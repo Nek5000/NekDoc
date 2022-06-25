@@ -7,7 +7,7 @@
   
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   
-  <title>Conjugate Heat Transfer &mdash; Nek5000 17.0 documentation</title>
+  <title>Conjugate Heat Transfer &mdash; Nek5000  documentation</title>
   
 
   
@@ -64,10 +64,6 @@
           
             
             
-              <div class="version">
-                17.0
-              </div>
-            
           
 
           
@@ -117,6 +113,7 @@
 </li>
 <li class="toctree-l1"><a class="reference internal" href="../problem_setup.html">Problem Setup</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../theory.html">Theory</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../build.html">Build Options</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../appendix.html">Appendices</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../references.html">References</a></li>
 </ul>
@@ -200,7 +197,7 @@ Similarly, we start by generating a 2D mesh, and modify the case files for this 
 <h2>Pre-processing<a class="headerlink" href="#pre-processing" title="Permalink to this headline">¶</a></h2>
 <p>Users must always bear in mind, when setting up a test case in <em>Nek5000</em>, case files will need to be edited.
 Some samples can be found in the <code class="docutils literal notranslate"><span class="pre">Nek5000/examples</span></code> directory included with the release version.
-Note that the <code class="docutils literal notranslate"><span class="pre">examples</span></code> directory is not included by default in the github repository (it can be obtained <cite>here _http://github.com/Nek5000/NekExamples</cite>).
+Note that the <code class="docutils literal notranslate"><span class="pre">examples</span></code> directory is linked in the github repository as a submodule and can alternatively be obtained <a class="reference external" href="http://github.com/Nek5000/NekExamples">here</a>.
 Blank template files for the user file, <code class="docutils literal notranslate"><span class="pre">zero.usr</span></code>, and the <code class="docutils literal notranslate"><span class="pre">SIZE</span></code> file, <code class="docutils literal notranslate"><span class="pre">SIZE.template</span></code>, can be found in the <code class="docutils literal notranslate"><span class="pre">Nek5000/core</span></code> directory.
 As a first step, the user should create a case directory in the corresponding run directory:</p>
 <div class="highlight-none notranslate"><div class="highlight"><pre><span></span>cd $HOME/Nek5000/run
@@ -214,7 +211,7 @@ Additionally, this tutorial requires the <code class="docutils literal notransla
 </div>
 <div class="section" id="mesh-generation">
 <h2>Mesh generation<a class="headerlink" href="#mesh-generation" title="Permalink to this headline">¶</a></h2>
-<p>This tutorial requires that you have the tools <code class="docutils literal notranslate"><span class="pre">genbox</span></code>, <code class="docutils literal notranslate"><span class="pre">genmap</span></code>, and <em>preNek</em> compiled.
+<p>This tutorial requires that you have the tools <code class="docutils literal notranslate"><span class="pre">genbox</span></code>, <code class="docutils literal notranslate"><span class="pre">genmap</span></code>, <code class="docutils literal notranslate"><span class="pre">reatore2</span></code> and <em>preNek</em> compiled.
 Note that <em>preNek</em> requires the use of an xterminal.
 Make sure the tools directory (typically <code class="docutils literal notranslate"><span class="pre">Nek5000/bin</span></code>) is in your environment PATH.
 Before beginning, it is important to understand that there are two types of mesh topology: the “<em>v-mesh</em>” for the velocity and the “<em>t-mesh</em>” which can be used for the temperature and passive scalars.
@@ -239,7 +236,7 @@ Note that any line beginning with ‘#’ is a comment and is ignored by <code c
 #========================================================
 #
 Box
--20     -10         nelx,nely,nelz for Box)
+-20     -10         nelx,nely,nelz for Box
 0.0    2.0   1.0    x0 x1 ratio
 0.0    1.0   1.0    y0 y1 ratio
 W  ,W  ,W  ,W  ,    V bc&#39;s  ! NB:  3 characters each !
@@ -273,13 +270,13 @@ This is to ensure that all the subdomains are conformal on their interfaces.</p>
 #========================================================
 #
 Box
--20    -5           nelx,nely,nelz for Box)
+-20    -5           nelx,nely,nelz for Box
 0.0    2.0   1.0    x0 x1 ratio
 -0.2   0.0   1.0    y0 y1 ratio
    ,   ,   ,   ,    V bc&#39;s  ! NB:  3 characters each, in order: -x, +x, -y, +y, (-z, +z)!
 I  ,I  ,t  ,E  ,    T bc&#39;s  !      You must have 2 spaces!!
 Box
--20    -5           nelx,nely,nelz for Box)
+-20    -5           nelx,nely,nelz for Box
 0.0    2.0   1.0    x0 x1 ratio
 1.0    1.2   1.0    y0 y1 ratio
    ,   ,   ,   ,    V bc&#39;s  ! NB:  3 characters each, in order: left, right, bottom, top
@@ -301,20 +298,40 @@ The only difference is in how commands are input into <em>preNek</em>.
 For this case the text-based interface will be used.</p>
 <p>It is important to first enter the fluid domain file name and then the solid part.
 An example of running <code class="docutils literal notranslate"><span class="pre">pretex</span></code> is shown below, with the expected user input highlighted.</p>
-<div class="highlight-none notranslate"><div class="highlight"><pre><span></span> Choose a Name for This Session:
-<span class="hll"> combined
-</span>   Beginning Session cht2d
+<div class="highlight-none notranslate"><div class="highlight"><pre><span></span><span class="hll">$ pretex
+</span>-*-*-*-*-*--*-*-*-*-*-*-*-*
+ NEKTON Version   2.6
+...
+ Choose a Name for This Session:
+<span class="hll">combined
+</span>  Beginning Session combined
    1 READ PREVIOUS PARAMETERS
    2 TYPE IN  NEW  PARAMETERS
    3 CONJ. HEAT TRANSFER MERGE
- Choose item:
-<span class="hll">   3
-</span><span class="hll">   3
-</span> Enter name of fluid session
-<span class="hll">   fluid
-</span> Enter name of the solid session
-<span class="hll">   solid
-</span> Exiting session
+Choose item:
+<span class="hll">3
+</span>           3
+ Enter name of fluid session
+<span class="hll">fluid
+</span> Will Read Mesh and B.C. data from  fluid.rea
+     Reading Element       4   [    1d]
+...
+     Reading Element     200   [    1R]
+ drwobjs:            0
+Showing only nelcap elements of          200
+ Enter name of the solid session
+<span class="hll">solid
+</span> Found           0  curve sides.
+  ***** FLUID   BOUNDARY CONDITIONS *****
+...
+Curve side consistency check OK.
+ bound A: ACCEPT B.C.&#39;s                        0           1
+Curve side consistency check OK.
+ bound A: ACCEPT B.C.&#39;s                        0           1
+         400  this is nel in prexit
+Writing Parameters to file
+Deleting tmp.* files.
+  Exiting session    0.00000000
 </pre></div>
 </div>
 <p>Note that the <code class="docutils literal notranslate"><span class="pre">.rea</span></code> suffix is assumed when specifying files to <em>preNek</em>.
@@ -664,7 +681,7 @@ It will be similar to, but not necessarily identical to that shown in <a class="
 
   <div role="contentinfo">
     <p>
-        &#169; Copyright 2015-2017, UCHICAGO ARGONNE, LLC.
+        &#169; Copyright 2015-2022, UCHICAGO ARGONNE, LLC.
 
     </p>
   </div>

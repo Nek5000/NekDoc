@@ -7,7 +7,7 @@
   
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   
-  <title>Case Files &mdash; Nek5000 17.0 documentation</title>
+  <title>Case Files &mdash; Nek5000  documentation</title>
   
 
   
@@ -63,10 +63,6 @@
 
           
             
-            
-              <div class="version">
-                17.0
-              </div>
             
           
 
@@ -128,6 +124,7 @@
 </ul>
 </li>
 <li class="toctree-l1"><a class="reference internal" href="../theory.html">Theory</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../build.html">Build Options</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../appendix.html">Appendices</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../references.html">References</a></li>
 </ul>
@@ -816,35 +813,40 @@ Values in parentheses denote the default value.</p>
 <span id="tab-pressureparams"></span><table border="1" class="docutils" id="id7">
 <caption><span class="caption-number">Table 12 </span><span class="caption-text"><code class="docutils literal notranslate"><span class="pre">PRESSURE</span></code> keys in the <code class="docutils literal notranslate"><span class="pre">.par</span></code> file</span><a class="headerlink" href="#id7" title="Permalink to this table">¶</a></caption>
 <colgroup>
-<col width="28%" />
-<col width="20%" />
-<col width="52%" />
+<col width="27%" />
+<col width="22%" />
+<col width="51%" />
 </colgroup>
 <thead valign="bottom">
 <tr class="row-odd"><th class="head">Key</th>
-<th class="head"><div class="first last line-block">
-<div class="line">Value(s)</div>
-</div>
-</th>
-<th class="head"><div class="first last line-block">
-<div class="line">Description</div>
-</div>
-</th>
+<th class="head">Value(s)</th>
+<th class="head">Description</th>
 </tr>
 </thead>
 <tbody valign="top">
-<tr class="row-even"><td><code class="docutils literal notranslate"><span class="pre">preconditioner</span></code></td>
+<tr class="row-even"><td rowspan="3"><code class="docutils literal notranslate"><span class="pre">preconditioner</span></code></td>
+<td><code class="docutils literal notranslate"><span class="pre">(semg_xxt)</span></code></td>
 <td><div class="first last line-block">
-<div class="line"><code class="docutils literal notranslate"><span class="pre">(semg_xxt)</span></code></div>
-<div class="line"><code class="docutils literal notranslate"><span class="pre">semg_amg</span></code></div>
+<div class="line">Standard preconditioning method. Requires</div>
+<div class="line">no additional setup. Only works for problems</div>
+<div class="line">with <span class="math notranslate nohighlight">\(E&lt;350,000\)</span></div>
 </div>
 </td>
+</tr>
+<tr class="row-odd"><td><code class="docutils literal notranslate"><span class="pre">semg_amg</span></code></td>
 <td><div class="first last line-block">
-<div class="line">Preconditioning method</div>
 <div class="line">First time usage of AMG will write three</div>
 <div class="line">dump files to disc. Subsequently please run</div>
 <div class="line">the amg_hypre tool to create the setup files</div>
 <div class="line">required for the AMG solver initialization</div>
+</div>
+</td>
+</tr>
+<tr class="row-even"><td><code class="docutils literal notranslate"><span class="pre">semg_amg_hypre</span></code></td>
+<td><div class="first last line-block">
+<div class="line">Recommended for <span class="math notranslate nohighlight">\(E≥350,000\)</span>. Requires</div>
+<div class="line">compiling with HYPRE support. See</div>
+<div class="line"><a class="reference internal" href="../build.html#build-pplist"><span class="std std-ref">Preprocessor List</span></a> for details.</div>
 </div>
 </td>
 </tr>
@@ -1689,7 +1691,7 @@ coordinates and any field data are optional.  Their presence of coordinates and 
 
   <div role="contentinfo">
     <p>
-        &#169; Copyright 2015-2017, UCHICAGO ARGONNE, LLC.
+        &#169; Copyright 2015-2022, UCHICAGO ARGONNE, LLC.
 
     </p>
   </div>
