@@ -488,6 +488,8 @@ Commonly used Subroutines
 
 .. _mesh_gen: 
 
+.. _sec:genbox:
+
 -----------------------------
 Generating a Mesh with Genbox
 -----------------------------
@@ -558,6 +560,8 @@ to ``genbox``:
     boundary is at :math:`y=0`, which corresponds to :math:`r=0`.
   - *W* indicates that the upper :math:`(y)` boundary is a wall.  This would be
     equivalent to a *v* or *V* boundary condition, with :math:`{\bf u}=0`.
+
+  Other available boundary conditions are given in :ref:`boundary-conditions`.
 
 ...........
 Graded Mesh
@@ -691,8 +695,6 @@ The result of above changes is shown in :numref:`fig:wavypipe`.
     :alt: axis-pipe-mesh-wavy
 
     Axisymmetric pipe mesh.
-
-.. _sec:genbox:
 
 .......................................
 Cylindrical/Cartesian-transition Annuli
