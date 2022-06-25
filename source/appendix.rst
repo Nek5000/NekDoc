@@ -40,13 +40,42 @@ A list of possible options is below:
    :header: Symbol, Description
 
    NOMPIIO, deactivate MPI-IO support
-   BGQ, use Blue Gene Q optimized mxm
    XSMM, use libxsmm for mxm
    CVODE, compile with CVODE support for scalars
    VENDOR_BLAS, use VENDOR BLAS/LAPACK
-   EXTBAR, add underscore to exit call (for BGQ)
-   NEKNEK, activate overlapping mesh solver (experimental)
-   CMTNEK, activate discontinuous Galerkin compressible-flow solver (experimental)
+
+The upcoming version (available via the github master branch) also supports the following options:
+
+.. _tab:PPLIST_new:
+
+.. csv-table:: upcoming PPLIST options
+   :header: Symbol, Description
+
+   HYPRE, enable HYPRE support for AMG preconditioner (requires Cmake)
+   DPROCMAP, use distributed processor mapping
+   PARRSB, use online RSB partitioner
+
+The ``HYPRE`` symbol simplifies the use of the AMG preconditioner and is necessary to use any of the HYPRE pressure preconditioners as specified in the ``.par`` file. 
+This will download and install `HYPRE <https://github.com/hypre-space/hypre>`_ V2.15.1. 
+An AMG preconditioner is recommend for large (:math:`E>350,000`) meshes.
+
+The ``PARRSB`` symbol compiles Nek with the new online mesh partitioner. 
+This can be used along with the tool ``gencon`` as an alternative to ``genmap``. 
+This is recommended for large (:math:`E>150,000`) meshes.
+
+The following options have been deprecated following V19 and are no longer available or necessary as of the latest version availble on github:
+
+.. _tab:PPLIST_dep:
+
+.. csv-table:: legacy PPLIST options
+   :header: Symbol, Description
+
+   BGQ, use Blue Gene Q optimized mxm
+   EXTBAR, add underscore to exit call
+   NEKNEK, activate overlapping mesh solver
+   CMTNEK, activate discontinuous Galerkin
+
+The NekNek capability has been fully integrated into *Nek5000* and a preprocessor symbol is no longer necesary to use this feature.
 
 In addition to these preprocessor items, the user can add compilation and linking flags. 
 ``FFLAGS`` allows the user to add Fortran compilation flags while ``CCFAGS`` allows the user to 
