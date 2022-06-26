@@ -88,6 +88,7 @@
             
               <ul class="current">
 <li class="toctree-l1 current"><a class="current reference internal" href="#">Quickstart</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="#before-you-begin">Before You Begin…</a></li>
 <li class="toctree-l2"><a class="reference internal" href="#directory-structure">Directory structure</a></li>
 <li class="toctree-l2"><a class="reference internal" href="#case-files">Case files</a></li>
 <li class="toctree-l2"><a class="reference internal" href="#scripts">Scripts</a></li>
@@ -172,85 +173,87 @@
             
   <div class="section" id="quickstart">
 <span id="qstart"></span><h1>Quickstart<a class="headerlink" href="#quickstart" title="Permalink to this headline">¶</a></h1>
-<p>Before beginning to use Nek5000, it is recommended that the user have basic familiarity with Linux or another Unix-based OS.
-The instructions provided in the quickstart guide and the tutorials use basic bash commands and assume the user has this knowledge.</p>
+<div class="section" id="before-you-begin">
+<h2>Before You Begin…<a class="headerlink" href="#before-you-begin" title="Permalink to this headline">¶</a></h2>
+<p>It is recommended that the user have basic familiarity with Linux or another Unix-based OS.
+The instructions provided in the quickstart guide and the tutorials use basic bash commands and assume the user has this knowledge.
+At an absolute minimum, to successfully build and run <em>Nek5000</em> will require compatible C and Fortran compilers, such as <code class="docutils literal notranslate"><span class="pre">gcc</span></code> and <code class="docutils literal notranslate"><span class="pre">gfortran</span></code>, and <em>GNU Make</em>.
+To successfully build and run <em>Nek5000</em> in parallel will additionally require a compatible MPI wrapper, such as <em>OpenMPI</em> or <em>MPICH</em>.
+Some of the tools and advanced features will have additional dependencies, such as <em>CMake</em>.</p>
+</div>
 <div class="section" id="directory-structure">
 <h2>Directory structure<a class="headerlink" href="#directory-structure" title="Permalink to this headline">¶</a></h2>
 <p>Here’s a brief description of each top-level directory:</p>
 <div class="topic">
 <p class="topic-title">/core</p>
-<p>contains the Nek5000 application sources.</p>
+<p>Contains the Nek5000 application sources.</p>
 </div>
 <div class="topic">
 <p class="topic-title">/bin</p>
-<p>contains scripts for running nek5000 and manipulating its output.</p>
+<p>Contains scripts for running nek5000 and manipulating its output, and binaries for the tools. This directory should be added to your environment <a class="reference external" href="https://opensource.com/article/17/6/set-path-linux">PATH</a>.</p>
 </div>
 <div class="topic">
 <p class="topic-title">/tools</p>
-<p>contains the sources for the pre- and post-processing tools which are stand-alone.</p>
+<p>Contains the sources for the pre- and post-processing tools which are stand-alone.</p>
 </div>
 <div class="topic">
 <p class="topic-title">/short-tests</p>
-<p>contains light-weight regression tests for verification.</p>
+<p>Contains light-weight regression tests for verification.</p>
 </div>
 <div class="topic">
 <p class="topic-title">/run</p>
-<p>consistent place for users to place their problem cases.</p>
+<p>A place for users to keep their problem cases. Note that many HPC systems recommend keeping source code and output on separate file systems, in which case this directory should not be used. Consult your system administrator for best practices.</p>
 </div>
 <div class="topic">
 <p class="topic-title">/examples</p>
-<p>contains example problems. Note: NOT included in the master branch on the GitHub repo.</p>
-</div>
-<div class="topic">
-<p class="topic-title">/doc</p>
-<p>contains the user documentation. Note: NOT included in the master branch on the GitHub repo.</p>
+<p>Contains example problems. Note that this directory is NOT included in the master branch on the GitHub repo. The <em>NekExamples</em> repository can be found <a class="reference external" href="https://github.com/Nek5000/NekExamples">here</a>.</p>
 </div>
 <div class="topic">
 <p class="topic-title">/3rd_party</p>
-<p>its purpose it to provide a consistent place for 3rd party code.</p>
+<p>Contains third party software not part of the <em>Nek5000</em> core, e.g. <em>gslib</em>, <em>HYPRE</em>, and <em>CVODE</em>.</p>
 </div>
 </div>
 <div class="section" id="case-files">
 <h2>Case files<a class="headerlink" href="#case-files" title="Permalink to this headline">¶</a></h2>
 <div class="topic">
 <p class="topic-title">SIZE</p>
-<p>contains some hardwired runtime parameters to dimension static arrays.</p>
+<p>Contains some hardwired runtime parameters to dimension static arrays.</p>
 </div>
 <div class="topic">
 <p class="topic-title">foo.par</p>
-<p>contains runtime parameters.</p>
+<p>Contains runtime parameters.</p>
 </div>
 <div class="topic">
 <p class="topic-title">foo.re2</p>
-<p>contains mesh and boundary data.</p>
+<p>Contains mesh and boundary data.</p>
 </div>
 <div class="topic">
 <p class="topic-title">foo.ma2</p>
-<p>contains partioning data.</p>
+<p>Contains partioning data.</p>
 </div>
 <div class="topic">
 <p class="topic-title">foo.usr</p>
-<p>contains user specific code to initialize solver, set source terms and boundary conditions or to manipulate solver internals.</p>
+<p>Contains user specific code to initialize solver, set source terms and boundary conditions or to manipulate solver internals.</p>
 </div>
 <div class="topic">
 <p class="topic-title">foo.his</p>
-<p>contains probing points.</p>
+<p>Contains probing points.</p>
 </div>
 <div class="topic">
 <p class="topic-title">foo.f00000</p>
-<p>contains checkpoint data.</p>
+<p>Contains checkpoint data.</p>
 </div>
 <div class="topic">
 <p class="topic-title">foo.nek5000</p>
-<p>contains metadata for VisIt or ParaView.</p>
+<p>Contains metadata for VisIt or ParaView.</p>
 </div>
 <div class="topic">
 <p class="topic-title">foo.rea (legacy)</p>
-<p>contains runtime parameters and mesh in ASCII. Replaced by .par and .re2 file.</p>
+<p>Contains runtime parameters and mesh in ASCII. Replaced by .par and .re2 file.</p>
 </div>
 <div class="topic">
 <p class="topic-title">foo.map (legacy)</p>
-<p>contains partioning data in ASCII.</p>
+<p>Contains partioning data in ASCII.</p>
 </div>
 <p>Note: The old legacy files (.rea &amp; .map) are recommended for debugging purposes only.</p>
 </div>
