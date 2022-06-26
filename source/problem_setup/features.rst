@@ -2,7 +2,7 @@
 Additional Features
 ===================
 
-Nek5000 includes several features which make case setup, running, and data processing much easier.  
+*Nek5000* includes several features which make case setup, running, and data processing much easier.  
 These capabilities are outlined here.
 
 .. _features_his:
@@ -47,6 +47,8 @@ For example, to interpolate a result from case ``foo``:
    [GENERAL]
    startFrom = foo0.f00001 int
 
+When invoked from the ``.par`` file, the ``int`` option is compatible with all other restart options, except for ``X``.
+
 To use this feature in V19, add a call to the ``gfldr`` subroutine in ``userchk`` in the user routines file.
 
 .. literalinclude:: g2g.txt
@@ -55,6 +57,37 @@ To use this feature in V19, add a call to the ``gfldr`` subroutine in ``userchk`
 
 Note that ``foo0.f00001`` must include the coordinates, i.e. it must have been created from a run with ``writeToFieldFile = yes`` in the ``[MESH]`` section of the ``.par`` file and that selection of specific fields to read is not currently supported.
 That means all fields included in ``foo.f00001`` will be overwritten.
+
+.. _features_restart:
+
+---------------
+Restart Options
+---------------
+
+By default, *Nek5000* will read all available variables from the restart file. 
+Restart options can be added after the filename in the ``.par`` file to control which variables are loaded, to manually set the time, and in the latest github version, to specify an interpolated restart (see :ref:`features_gfldr`).
+To control which variables are read from a restart file, add an additional string composed of the following:
+
+.. csv-table:: Variables loaded with restart options
+   :header: "Variable","Characters"
+   :widths: 20, 30
+ 
+   Coordinates,``X``
+   Velocity,``U``
+   Pressure,``P``
+   Temperature,``T``
+   Passive scalar 'i',``Si``
+   reset time,``time=0.0``
+
+For example, to load only velocity and passive scalar 2, and set the physical time to 5.0, use the following
+
+.. code-block:: ini
+
+   [GENERAL]
+   startFrom = foo0.f00001 US2 time=5.0
+
+:Feature:
+   If a restart file contains coordinates, *Nek5000* will overwrite the coordinates generated from the ``.re2`` file. This behavior may or may not be desirable, use the restart options to control it!
 
 .. _features_avg:
 
