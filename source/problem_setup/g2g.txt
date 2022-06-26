@@ -1,0 +1,14 @@
+c-----------------------------------------------------------------------
+      subroutine userchk()
+
+c      implicit none
+
+      include 'SIZE'
+      include 'TOTAL'
+
+      if(istep.eq.0) call gfldr("foo0.f00001")
+
+      return
+      end
+c-----------------------------------------------------------------------
+
