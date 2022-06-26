@@ -84,7 +84,10 @@ Values in parentheses denote the default value.
    |   Key                   | | Value(s)      | | Description                                |
    +=========================+=================+==============================================+
    | ``startFrom``           | | ``<string>``  | | Absolute/relative path of the field file   |
-   |                         |                 | | to restart the simulation from             |
+   |                         |                 | | to restart the simulation from. Also       |
+   |                         |                 | | includes several restart options (see      |
+   |                         |                 | | :ref:`features_restart` for details)       |
+   |                         |                 | |                                            |
    +-------------------------+-----------------+----------------------------------------------+
    | ``stopAt``              | | ``(numSteps)``| | Stop mode                                  |
    |                         | | ``endTime``   |                                              |
