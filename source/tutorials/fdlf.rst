@@ -415,6 +415,7 @@ The dimensions of the channel can now both be nondimensionalized using the hydra
    y_{max}^*=\frac{y_{max}}{D_H}=\frac{L}{2H}=\frac{0.2}{0.02}=10
 
 These are the new values used in genbox to generate the nondimensional domain in ``fdlf.box``.
+
 .. code-block:: none
 
    -2                     spatial dimension (will create box.re2)
