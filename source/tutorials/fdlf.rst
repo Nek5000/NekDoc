@@ -511,10 +511,11 @@ In ``userbc`` the heat flux is simply set equal to 1 and the equations for veloc
 The rest of the files used for the case remain the same and the process of compiling the case is also unchanged.
 The results from running the cases nondimensionally compared to the dimensional case and analytical solution are shown below in :numref:`fig:velocity_lineplot_nondim` and :numref:`fig:temperature_lineplot_nondim`.
 
+
 .. _fig:velocity_lineplot_nondim:
 
 .. figure:: fdlf/velocity_lineplot_nondim.png
-      :align: center
+   :align: center
    :figclass: align-center
 
    Nondimensional and dimensional Nek5000 velocity solutions plotted against analytical solutions.
@@ -522,8 +523,9 @@ The results from running the cases nondimensionally compared to the dimensional 
 .. _fig:temperature_lineplot_nondim:
 
 .. figure:: fdlf/temperature_lineplot_nondim.png
-      :align: center
+   :align: center
    :figclass: align-center
 
    Nondimensional and dimensional Nek5000 temperature solutions plotted against analytical solutions.
+
 
