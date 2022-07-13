@@ -1,9 +1,11 @@
+.. _boundary-conditions:
+
 -------------------------------
 Boundary Conditions
 -------------------------------
 
 .. The boundary conditions for Nek5000 are stored as part of the mesh, i.e. either part of the ``.rea`` or ``.re2`` file.
-.. Any mesh generated with either ``prenek`` or ``genbox`` will include the assigned boundary conditions.
+.. Any mesh generated with either *preNek* or ``genbox`` will include the assigned boundary conditions.
 .. These are available at runtime in the ``cbc(iface,iel,ifld)`` array, indexed by face number, local element number, and field number.
 .. For meshes converted from exodus format via the ``exo2nek`` script, the sideset numbers will be converted.
 .. These are available at runtime in the ``bc(5,iface,iel,1)`` array, indexed by face number and local element number.
@@ -15,7 +17,7 @@ Boundary Conditions
 The boundary conditions can be imposed in various ways:
 
 - when the mesh is generated, e.g. with ``genbox``, as is explained in :ref:`sec:genbox`
-- when an ``.rea`` file is read in ``prenek``
+- when an ``.rea`` file is read in *preNek*
 - translated from side-set numbers in ``usrdat`` when using ``exotonek`` or similar
 
 .. TODO: add exotonek tutorial

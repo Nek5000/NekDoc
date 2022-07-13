@@ -4,8 +4,15 @@
 Quickstart
 ==============
 
-Before beginning to use Nek5000, it is recommended that the user have basic familiarity with Linux or another Unix-based OS.
+-------------------
+Before You Begin...
+-------------------
+
+It is recommended that the user have basic familiarity with Linux or another Unix-based OS.
 The instructions provided in the quickstart guide and the tutorials use basic bash commands and assume the user has this knowledge.
+At an absolute minimum, to successfully build and run *Nek5000* will require compatible C and Fortran compilers, such as ``gcc`` and ``gfortran``, and *GNU Make*.
+To successfully build and run *Nek5000* in parallel will additionally require a compatible MPI wrapper, such as *OpenMPI* or *MPICH*.
+Some of the tools and advanced features will have additional dependencies, such as *CMake*.
 
 -------------------
 Directory structure
@@ -15,35 +22,31 @@ Here’s a brief description of each top-level directory:
 
 .. topic:: /core
 
-   contains the Nek5000 application sources.
+   Contains the Nek5000 application sources.
 
 .. topic:: /bin
 
-   contains scripts for running nek5000 and manipulating its output.
+   Contains scripts for running nek5000 and manipulating its output, and binaries for the tools. This directory should be added to your environment `PATH <https://opensource.com/article/17/6/set-path-linux>`__.
 
 .. topic:: /tools
 
-   contains the sources for the pre- and post-processing tools which are stand-alone.
+   Contains the sources for the pre- and post-processing tools which are stand-alone.
 
 .. topic:: /short-tests
 
-   contains light-weight regression tests for verification.
+   Contains light-weight regression tests for verification.
  
 .. topic:: /run
 
-   consistent place for users to place their problem cases.
+   A place for users to keep their problem cases. Note that many HPC systems recommend keeping source code and output on separate file systems, in which case this directory should not be used. Consult your system administrator for best practices.
 
 .. topic:: /examples
 
-   contains example problems. Note: NOT included in the master branch on the GitHub repo.
+   Contains example problems. Note that this directory is NOT included in the master branch on the GitHub repo. The *NekExamples* repository can be found `here <https://github.com/Nek5000/NekExamples>`__.
 
-.. topic:: /doc
-
-   contains the user documentation. Note: NOT included in the master branch on the GitHub repo.
- 
 .. topic:: /3rd_party
 
-   its purpose it to provide a consistent place for 3rd party code.
+   Contains third party software not part of the *Nek5000* core, e.g. *gslib*, *HYPRE*, and *CVODE*.
 
 ---------------------
 Case files
@@ -52,43 +55,43 @@ Case files
 
 .. topic::  SIZE
 
-   contains some hardwired runtime parameters to dimension static arrays.
+   Contains some hardwired runtime parameters to dimension static arrays.
 
 .. topic::  foo.par
 
-   contains runtime parameters.
+   Contains runtime parameters.
 
 .. topic::  foo.re2
 
-   contains mesh and boundary data.
+   Contains mesh and boundary data.
 
 .. topic::  foo.ma2
 
-   contains partioning data.
+   Contains partioning data.
 
 .. topic::  foo.usr
 
-   contains user specific code to initialize solver, set source terms and boundary conditions or to manipulate solver internals.
+   Contains user specific code to initialize solver, set source terms and boundary conditions or to manipulate solver internals.
 
 .. topic::  foo.his
 
-   contains probing points.
+   Contains probing points.
  
 .. topic::  foo.f00000
 
-   contains checkpoint data.
+   Contains checkpoint data.
 
 .. topic::  foo.nek5000
 
-   contains metadata for VisIt or ParaView.
+   Contains metadata for VisIt or ParaView.
 
 .. topic::  foo.rea (legacy)
 
-   contains runtime parameters and mesh in ASCII. Replaced by .par and .re2 file.
+   Contains runtime parameters and mesh in ASCII. Replaced by .par and .re2 file.
 
 .. topic::  foo.map (legacy)
 
-   contains partioning data in ASCII.
+   Contains partioning data in ASCII.
 
 Note: The old legacy files (.rea & .map) are recommended for debugging purposes only.
 
@@ -145,7 +148,7 @@ Meshing
 
 Nek5000 is mainly a solver. 
 However, simple box type meshes can be generated with the ``genbox`` tool. 
-For more complex meshes please consider using ``PRENEK`` and the meshing tools ``nekmerge`` and ``n2to3``. 
+For more complex meshes please consider using *preNek* and the meshing tools ``nekmerge`` and ``n2to3``. 
 We provide mesh converters like ``exo2nek`` and ``msh2nek`` which are quite handy if you want to use your favorite mesh generator. 
 
 .. _qstart_vis:

@@ -61,7 +61,7 @@ Installing, Compiling, and Running
 **Which platforms are supported by Nek5000?**
 
    All posix compliant operations system. 
-   To run on Windows, we recommend using the Windows Subsystem for Linux.
+   To run on Windows, we recommend using Ubuntu 20.04 on V2 of the Windows Subsystem for Linux.
 
 **Can Nek5000 run on GPUs?**
 
@@ -84,7 +84,7 @@ Installing, Compiling, and Running
 
    where ``lelt`` (the maximum number of local elements) is computed as lelg/lpmin.
    The memory allocated by MPI will depend heavily on the total number of ranks and the considered MPI implementation. 
-   For large rank counts (say > 100'000) it's easily 50-100MB.
+   For large rank counts (say :math:`E>100,000`) it's easily 50-100MB.
 
    Note, the output of GNU`s SIZE utility is inaccurate as it does not take into account the dynamic memory alloation of MPI, gslib, CVODE, etc. 
 
@@ -95,6 +95,7 @@ Installing, Compiling, and Running
    This happens when the resultant executable requires more than 2GB of static data.  
    The best way to avoid this is to increase the minimum number of MPI ranks, ``lpmin`` in ``SIZE``.  
    Alternatively, you can add ``-mcmodel=medium`` to the ``FFLAGS/CFLAGS`` variable in ``makenek``.
+   See :ref:`build_compflags` for more information.
 
 **Why does the code use static memory allocation?**
 
@@ -108,8 +109,15 @@ Installing, Compiling, and Running
 
 **How do I run the examples?**
 
-  The examples are included by default in the release tarball (see example directory). There is nothing special you need
-  to do as they are ready to run.  
+  The examples are included by default in the release tarball (see example directory). 
+  There is nothing special you need to do as they are ready to run. 
+  If you cloned the github repo, you will also need to clone the NekExamples repository separately. 
+
+**How do I run a case with more than 350,000 elements?**
+
+  To run a large case, you will need to compile with HYPRE support and use one of the AMG pressure preconditioners.
+  To compile with HYPRE see :ref:`build_pplist`.
+  To select an AMG preconditioner see :ref:`tab:pressureparams`.
 
 ---------------------------
 Pre-Processing and Numerics
@@ -272,7 +280,6 @@ Post-Processing
 
    * For data analysis you use Nek5000's internal machinery through the usr file
    * Solution files can be read by VisIt and Paraview (for more information see :ref:`qstart_vis`)
-   * Various user contributions in `NekBazaar <https://github.com/Nek5000/NekBazaar/>`_ 
 
 **The local coordinate axes of my elements are not aligned with the global coordinate system, is this normal?**
 

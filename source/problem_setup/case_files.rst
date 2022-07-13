@@ -84,7 +84,10 @@ Values in parentheses denote the default value.
    |   Key                   | | Value(s)      | | Description                                |
    +=========================+=================+==============================================+
    | ``startFrom``           | | ``<string>``  | | Absolute/relative path of the field file   |
-   |                         |                 | | to restart the simulation from             |
+   |                         |                 | | to restart the simulation from. Also       |
+   |                         |                 | | includes several restart options (see      |
+   |                         |                 | | :ref:`features_restart` for details)       |
+   |                         |                 | |                                            |
    +-------------------------+-----------------+----------------------------------------------+
    | ``stopAt``              | | ``(numSteps)``| | Stop mode                                  |
    |                         | | ``endTime``   |                                              |
@@ -248,15 +251,22 @@ Values in parentheses denote the default value.
 
 .. table:: ``PRESSURE`` keys in the ``.par`` file
 
-   +-------------------------+------------------+-----------------------------------------------+
-   |   Key                   | | Value(s)       | | Description                                 |
-   +=========================+==================+===============================================+
-   | ``preconditioner``      | | ``(semg_xxt)`` | | Preconditioning method                      |
-   |                         | | ``semg_amg``   | | First time usage of AMG will write three    |
-   |                         |                  | | dump files to disc. Subsequently please run |
-   |                         |                  | | the amg_hypre tool to create the setup files|
-   |                         |                  | | required for the AMG solver initialization  |
-   +-------------------------+------------------+-----------------------------------------------+
+   +-------------------------+--------------------+-----------------------------------------------+
+   | Key                     | Value(s)           | Description                                   |
+   +=========================+====================+===============================================+
+   | ``preconditioner``      | ``(semg_xxt)``     | | Standard preconditioning method. Requires   |
+   |                         |                    | | no additional setup. Only works for problems|
+   |                         |                    | | with :math:`E<350,000`                      |
+   |                         +--------------------+-----------------------------------------------+
+   |                         | ``semg_amg``       | | First time usage of AMG will write three    |
+   |                         |                    | | dump files to disc. Subsequently please run |
+   |                         |                    | | the amg_hypre tool to create the setup files|
+   |                         |                    | | required for the AMG solver initialization  |
+   |                         +--------------------+-----------------------------------------------+
+   |                         | ``semg_amg_hypre`` | | Recommended for :math:`E≥350,000`. Requires |
+   |                         |                    | | compiling with HYPRE support. See           |
+   |                         |                    | | :ref:`build_pplist` for details.            |
+   +-------------------------+--------------------+-----------------------------------------------+
 
 .. _tab:tpscommonparams:
 
