@@ -176,52 +176,52 @@ The next step is to specify the intial conditions. This can be done in the subro
 
 .. code-block:: fortran
 
-   subroutine useric(ix,iy,iz,ieg)
-   implicit none
-   include 'SIZE'
-   include 'TOTAL'
-   include 'NEKUSE'
+          subroutine useric(ix,iy,iz,eg)
+   c      implicit none
+          include 'SIZE'
+          include 'TOTAL'
+          include 'NEKUSE'
 
-   integer ix,iy,ix,ieg
+          integer ix,iy,ix,eg
 
-   um = uparam(2)
-   Tin = uparam(4)
+          um = uparam(2)
+          Tin = uparam(4)
 
-   ux   = um
-   uy   = 0.0
-   uz   = 0.0
-   temp = Tin
+          ux   = um
+          uy   = 0.0
+          uz   = 0.0
+          temp = Tin
 
-   return
-   end
+          return
+          end
 
 The inlet temperature and mean velocity are called from the list of user defined parameters in the ``.par`` file. The boundary conditions can be setup in subroutine ``userbc`` as follows:
 
 .. code-block:: fortran
 
-   subroutine userbc(ix,iy,iz,iside,eg) ! set up boundary conditions
-   implicit none
-   include 'SIZE'
-   include 'TOTAL'
-   include 'NEKUSE'
+          subroutine userbc(ix,iy,iz,iside,eg) ! set up boundary conditions
+   c      implicit none
+          include 'SIZE'
+          include 'TOTAL'
+          include 'NEKUSE'
 
-   integer ix,iy,iz,iside,eg
+          integer ix,iy,iz,iside,eg
 
-   H    = uparam(1)     !channel height
-   um   = uparam(2)     !mean velocity
-   qpp  = uparam(3)     !heat flux
-   Tin  = uparam(4)     !mean inlet temperature
-   con  = cpfld(2,1)    !thermal conductivity
-   term = qpp*H/(2*con)
+          H    = uparam(1)     !channel height
+          um   = uparam(2)     !mean velocity
+          qpp  = uparam(3)     !heat flux
+          Tin  = uparam(4)     !mean inlet temperature
+          con  = cpfld(2,1)    !thermal conductivity
+          term = qpp*H/(2*con)
 
-   ux   = um*3./2.*(1-4.*(y/H)**2)
-   uy   = 0.0
-   uz   = 0.0
-   temp = term*(3.*(y/H)**2-2.*(y/H)**4-39./280.)+Tin
-   flux = qpp
+          ux   = um*3./2.*(1-4.*(y/H)**2)
+          uy   = 0.0
+          uz   = 0.0
+          temp = term*(3.*(y/H)**2-2.*(y/H)**4-39./280.)+Tin
+          flux = qpp
 
-   return
-   end
+          return
+          end
 
 The channel height, mean velocity, heat flux, and mean inlet temperature are all called from the list of user defined parameters in the ``.par`` file as well.
 
@@ -395,4 +395,137 @@ Plots of the velocity and temperature varying along the y-axis as evaluated by N
    :figclass: align-center
 
    Nek5000 temperature solutions plotted against analytical solutions.
+
+........................
+Nondimensionalizing the case
+........................
+
+This case can also be ran nondimensionally in Nek5000 to yield the same results. 
+
+First, the length scale needs to be determined to nondimensionalize the fluid domain. 
+The length scale can be found by calculating the hydraulic diameter.
+
+.. math::
+   D_H = \frac{4A_{xs}}{P_w}= \frac{4 \Delta z H}{2 \Delta z} = 2H
+
+The dimensions of the channel can now both be nondimensionalized using the hydraulic diameter.
+
+.. math::
+   x_{max}^*=\frac{x_{max}}{D_H}=\frac{H/2}{2H}=\frac{1}{4}
+   y_{max}^*=\frac{y_{max}}{D_H}=\frac{L}{2H}=\frac{0.2}{0.02}=10
+
+These are the new values used in genbox to generate the nondimensional domain in ``fdlf.box``.
+
+.. code-block:: none
+
+   -2                     spatial dimension (will create box.re2)
+   2                      number of fields
+   #
+   #    comments: periodic laminar flow
+   #
+   #========================================================
+   #
+   Box                                       fdlf
+   -50 -5                                    Nelx  Nely
+   0.0 0.25 1.0                              x0 x1 ratio
+   0.0 10 0.7                                y0 y1 ratio
+   v  ,O  ,SYM,W                             Velocity BC's:  (cbx0, cbx1, cby0, cby1)
+   t  ,O  ,I  ,f                             Temperature BC's:  (cbx0, cbx1, cby0, cby1)
+
+ 
+The next file that needs to be modified is the ``fdlf.par`` file.
+The user parameters can be removed from the par file as they won't be needed anymore to run the case nondimensionally and instead they will be adjusted for in the ``fdlf.usr`` file later.
+
+.. code-block:: ini
+
+   #
+   # nek parameter file
+   #
+   [GENERAL]
+   dt = 1.0e-3
+   numsteps = 10000
+   writeInterval = 2000
+
+   [VELOCITY]
+   density = 1        
+   viscosity = -600
+
+   [TEMPERATURE]
+   rhoCp = 1       
+   conductivity = -480
+
+
+Both ``rho`` and ``rhoCp`` become 1 and ``viscosity`` is set to -600 to define the Reynolds number while ``conductivity`` is set to -480 to define the Peclet number.
+The time step size was also increased because the case took longer to develop and the CFL was low enough to support the increase in step size.
+
+The last file that needs to be modified to nondimensionalize the case is the ``fdlf.usr``  file.
+The inlet conditions are nondimensionalized as shown and the resulting values are defined in ``useric``.
+
+.. math::
+   u_m^* = u_m/u_m = 1
+   T_{in}^* = \frac{T_{in}-T_{in}}{\Delta T_{ref}} = 0
+
+.. code-block:: fortran
+
+          subroutine useric(ix,iy,iz,eg)
+   c      implicit none
+          include 'SIZE'
+          include 'TOTAL'
+          include 'NEKUSE'
+
+          integer ix,iy,ix,eg
+
+          ux   = 1.0
+          uy   = 0.0
+          uz   = 0.0
+          temp = 0.0
+
+          return
+          end
+
+In ``userbc`` the heat flux is simply set equal to 1 and the equations for velocity and temperature are replaced with their respective nondimensional forms. 
+
+.. code-block:: fortran
+
+          subroutine userbc(ix,iy,iz,iside,eg) ! set up boundary conditions
+   c      implicit none
+          include 'SIZE'
+          include 'TOTAL'
+          include 'NEKUSE'
+
+          integer ix,iy,iz,iside,eg
+
+          qpp  = 1             !heat flux
+          con  = cpfld(2,1)    !thermal conductivity
+          term = qpp*H/(2*con)
+
+          ux   = 3./2.*(1-16*y**2)
+          uy   = 0.0
+          uz   = 0.0
+          temp = (1/(4*con))*(12.*y**2-32.*y**4-39./280.)
+          flux = qpp
+
+          return
+          end
+
+The rest of the files used for the case remain the same and the process of compiling the case is also unchanged.
+The results from running the cases nondimensionally compared to the dimensional case and analytical solution are shown below in :numref:`fig:velocity_lineplot_nondim` and :numref:`fig:temperature_lineplot_nondim`.
+
+
+.. _fig:velocity_lineplot_nondim:
+
+.. figure:: fdlf/velocity_lineplot_nondim.png
+   :align: center
+   :figclass: align-center
+
+   Nondimensional and dimensional Nek5000 velocity solutions plotted against analytical solutions.
+
+.. _fig:temperature_lineplot_nondim:
+
+.. figure:: fdlf/temperature_lineplot_nondim.png
+   :align: center
+   :figclass: align-center
+
+   Nondimensional and dimensional Nek5000 temperature solutions plotted against analytical solutions.
+
 
