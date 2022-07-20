@@ -612,9 +612,28 @@ usrdat3
 
 This function can be used to initialize case/user specific data.
 
+.. _NEKUSE:
+
 ...................
 NEKUSE
 ...................
+
+In many of the subroutines available in the ``.usr`` file include the ``NEKUSE`` common block. 
+This block contains solver variables that may be useful for defining custom models, such as variable properties, or a localized heating rate.
+
+The following variables are assigned in the subroutine ``nekasgn``, which is called before the subroutines ``uservp``, ``userf``, ``userq``, ``userbc``, and ``useric``.
+
+.. _tab:NEKUSEpre:
+
+.. csv-table:: Prepopulated ``NEKUSE`` variables
+   :header: Variable,Description,Expression,Solution Array
+   :widths: 15,50,15,20
+
+   ``x``,x-coordinate,,"``xm1(:,:,:,:)``"
+   ``y``,y-coordinate,,"``ym1(:,:,:,:)``"
+   ``z``,z-coordinate,,"``zm1(:,:,:,:)``"
+   ``r``,r-coordinate,:math:`\sqrt{x^2+y^2}`,
+   ``theta``,:math:`\theta`-coordinate,":math:`atan2(y,x)`",
 
 .. _tab:NEKUSEvar:
 
