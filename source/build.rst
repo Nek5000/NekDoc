@@ -34,7 +34,7 @@ Preprocessor List
 
 The ``PPLIST`` field can be used to activate several features at compilation time. 
 A list of possible options is shown in the table below.
-For a comprehensive list of options available with your version of *Nek5000*, run ``$ makenek -h``.
+For a comprehensive list of options available with your version of *Nek5000*, set ``PPLIST="?"`` and execute ``makenek``.
 
 .. _tab:PPLIST:
 
