@@ -522,6 +522,85 @@ User Routines File (.usr)
 This file implements the the user interface to Nek5000. What follows is a brief description of the available
 subroutines.
 
+.. _NEKUSE:
+
+...................
+NEKUSE
+...................
+
+In many of the subroutines available in the ``.usr`` file include the ``NEKUSE`` common block. 
+This block contains solver variables that may be useful for defining custom models, such as variable properties, or a localized heating rate.
+
+The following variables are assigned in the subroutine ``nekasgn``, which is called before the subroutines ``uservp``, ``userf``, ``userq``, ``userbc``, and ``useric``.
+These subroutines take ``ix``, ``iy``, ``iz``, and ``eg`` as arguments, which correspond to the local GLL indexing and global element number.
+The global element number is translated into a local element number and ``nekasgn`` fills the variable with the corresponding entry from the solution array.
+
+.. _tab:NEKUSEpre:
+
+.. csv-table:: Prepopulated ``NEKUSE`` variables
+   :header: Variable,Description,Solution Array,Note
+   :widths: 15,50,20,15
+
+   ``pi``,:math:`\pi`,N/A - available in ``TOTAL``,``pi=4.0atan(1.0)``
+   ``x``,x-coordinate,"``xm1(ix,iy,iz,ie)``",
+   ``y``,y-coordinate,"``ym1(ix,iy,iz,ie)``",
+   ``z``,z-coordinate,"``zm1(ix,iy,iz,ie)``",
+   ``r``,r-coordinate,N/A,:math:`\sqrt{x^2+y^2}`
+   ``theta``,:math:`\theta`-coordinate,N/A,"``theta=atan2(y,x)``"
+   ``ux``,x-velocity,"``vx(ix,iy,iz,ie)``",
+   ``uy``,y-velocity,"``vy(ix,iy,iz,ie)``",
+   ``uz``,z-velocity,"``vz(ix,iy,iz,ie)``",
+   ``temp``,temperature,"``t(ix,iy,iz,ie,1)``",
+   ``ps(i)``,passive scalar \"i\","``t(ix,iy,iz,ie,i+1)``",
+   ``pa``,pressure,"``pr(ix,iy,iz,ie)``",not recommended for use with ``PN/PN-2``
+   ``p0``,thermodynamic pressure,``p0th``,
+   ``si2``,strain rate invariant II,"``sii(ix,iy,iz,ie)``",
+   ``si3``,strain rate invarient III,"``siii(ix,iy,iz,ie)``",
+   ``udiff``,diffusion coeffcient,"``vdiff(ix,iy,iz,ie,ifield)``","viscosity, conductivity, or diffusivity"
+   ``utrans``,convective coefficient,"``vtrans(ix,iy,iz,ie,ifield)``","density, rho cp, etc."
+
+.. _tab:NEKUSEvar:
+
+.. table:: ``NEKUSE`` common block variables
+
+   +-----------------------------+-----------------------------------------------------------------+
+   |   Variable                  | | Description                                                   |
+   +=============================+=================================================================+
+   | ``x`` , ``y`` , ``z``       | | ``x`` , ``y`` , ``z`` coordinate                              |
+   +-----------------------------+-----------------------------------------------------------------+
+   | ``r`` , ``theta``           | | ``r`` , ``theta`` coordinate                                  |
+   +-----------------------------+-----------------------------------------------------------------+
+   | ``ux`` , ``uy`` , ``uz``    | | ``x`` , ``y`` , ``z`` velocity components                     |
+   +-----------------------------+-----------------------------------------------------------------+
+   | ``un`` , ``u1`` , ``u2``    | | ``x`` , ``y`` , ``z`` velocity component of face unit normal  |
+   +-----------------------------+-----------------------------------------------------------------+
+   | ``trx`` , ``try`` , ``trz`` | | ``x`` , ``y`` , ``z`` traction components                     |
+   +-----------------------------+-----------------------------------------------------------------+
+   | ``trn`` , ``tr1`` , ``tr2`` | | ``x`` , ``y`` , ``z`` traction component of face unit normal  |
+   +-----------------------------+-----------------------------------------------------------------+
+   | ``pa`` , ``p0``             | | Outlet pressure, system pressure                              |
+   +-----------------------------+-----------------------------------------------------------------+
+   | ``ffx`` , ``ffy`` , ``ffz`` | | ``x`` , ``y`` , ``z`` acceleration                            |
+   +-----------------------------+-----------------------------------------------------------------+
+   | ``temp``                    | | Temperature                                                   |
+   +-----------------------------+-----------------------------------------------------------------+
+   | ``flux``                    | | Heat flux                                                     |
+   +-----------------------------+-----------------------------------------------------------------+
+   | ``hc`` , ``hrad``           | | Heat transfer coefficient (convective, radiative)             |
+   +-----------------------------+-----------------------------------------------------------------+
+   | ``tinf``                    | | Temperature at infinity                                       |
+   +-----------------------------+-----------------------------------------------------------------+
+   | ``qvol`` , ``avol``         | | Source terms for temperature and passive scalars              |
+   +-----------------------------+-----------------------------------------------------------------+
+   | ``udiff`` , ``utrans``      | | Diffusion coefficient, convective coefficient                 |
+   +-----------------------------+-----------------------------------------------------------------+
+   | ``si2`` , ``si3``           | | Strainrate invariant II, III                                  |  
+   +-----------------------------+-----------------------------------------------------------------+
+   | ``sigma``                   | | Surface-tension coefficient                                   |
+   +-----------------------------+-----------------------------------------------------------------+
+   | ``ps``                      | | Passive scalars                                               |
+   +-----------------------------+-----------------------------------------------------------------+
+
 .. _case_files_uservp:
 
 ...................
@@ -611,71 +690,6 @@ usrdat3
 ...................
 
 This function can be used to initialize case/user specific data.
-
-.. _NEKUSE:
-
-...................
-NEKUSE
-...................
-
-In many of the subroutines available in the ``.usr`` file include the ``NEKUSE`` common block. 
-This block contains solver variables that may be useful for defining custom models, such as variable properties, or a localized heating rate.
-
-The following variables are assigned in the subroutine ``nekasgn``, which is called before the subroutines ``uservp``, ``userf``, ``userq``, ``userbc``, and ``useric``.
-
-.. _tab:NEKUSEpre:
-
-.. csv-table:: Prepopulated ``NEKUSE`` variables
-   :header: Variable,Description,Expression,Solution Array
-   :widths: 15,50,15,20
-
-   ``x``,x-coordinate,,"``xm1(:,:,:,:)``"
-   ``y``,y-coordinate,,"``ym1(:,:,:,:)``"
-   ``z``,z-coordinate,,"``zm1(:,:,:,:)``"
-   ``r``,r-coordinate,:math:`\sqrt{x^2+y^2}`,
-   ``theta``,:math:`\theta`-coordinate,":math:`atan2(y,x)`",
-
-.. _tab:NEKUSEvar:
-
-.. table:: ``NEKUSE`` common block variables
-
-   +-----------------------------+-----------------------------------------------------------------+
-   |   Variable                  | | Description                                                   |
-   +=============================+=================================================================+
-   | ``x`` , ``y`` , ``z``       | | ``x`` , ``y`` , ``z`` coordinate                              |
-   +-----------------------------+-----------------------------------------------------------------+
-   | ``r`` , ``theta``           | | ``r`` , ``theta`` coordinate                                  |
-   +-----------------------------+-----------------------------------------------------------------+
-   | ``ux`` , ``uy`` , ``uz``    | | ``x`` , ``y`` , ``z`` velocity components                     |
-   +-----------------------------+-----------------------------------------------------------------+
-   | ``un`` , ``u1`` , ``u2``    | | ``x`` , ``y`` , ``z`` velocity component of face unit normal  |
-   +-----------------------------+-----------------------------------------------------------------+
-   | ``trx`` , ``try`` , ``trz`` | | ``x`` , ``y`` , ``z`` traction components                     |
-   +-----------------------------+-----------------------------------------------------------------+
-   | ``trn`` , ``tr1`` , ``tr2`` | | ``x`` , ``y`` , ``z`` traction component of face unit normal  |
-   +-----------------------------+-----------------------------------------------------------------+
-   | ``pa`` , ``p0``             | | Outlet pressure, system pressure                              |
-   +-----------------------------+-----------------------------------------------------------------+
-   | ``ffx`` , ``ffy`` , ``ffz`` | | ``x`` , ``y`` , ``z`` acceleration                            |
-   +-----------------------------+-----------------------------------------------------------------+
-   | ``temp``                    | | Temperature                                                   |
-   +-----------------------------+-----------------------------------------------------------------+
-   | ``flux``                    | | Heat flux                                                     |
-   +-----------------------------+-----------------------------------------------------------------+
-   | ``hc`` , ``hrad``           | | Heat transfer coefficient (convective, radiative)             |
-   +-----------------------------+-----------------------------------------------------------------+
-   | ``tinf``                    | | Temperature at infinity                                       |
-   +-----------------------------+-----------------------------------------------------------------+
-   | ``qvol`` , ``avol``         | | Source terms for temperature and passive scalars              |
-   +-----------------------------+-----------------------------------------------------------------+
-   | ``udiff`` , ``utrans``      | | Diffusion coefficient, convective coefficient                 |
-   +-----------------------------+-----------------------------------------------------------------+
-   | ``si2`` , ``si3``           | | Strainrate invariant II, III                                  |  
-   +-----------------------------+-----------------------------------------------------------------+
-   | ``sigma``                   | | Surface-tension coefficient                                   |
-   +-----------------------------+-----------------------------------------------------------------+
-   | ``ps``                      | | Passive scalars                                               |
-   +-----------------------------+-----------------------------------------------------------------+
 
 .. _case_files_SIZE:
 
