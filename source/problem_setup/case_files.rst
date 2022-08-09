@@ -22,7 +22,7 @@ Additional *optional* case files may be generated or included:
 SESSION.NAME
 ------------
 
-To run Nek5000, each simulation must have a ``SESSION.NAME`` file.
+To run *Nek5000*, each simulation must have a ``SESSION.NAME`` file.
 This file is read in by the code and gives the path to the relevant files describing the structure and parameters of the simulation.
 The ``SESSION.NAME`` file is a file that contains the name of the simulation and the full path to supporting files.
 For example, to run the eddy example from the repository, the ``SESSION.NAME`` file would look like:
@@ -345,7 +345,6 @@ Stores the mesh and boundary condition.
 
 TODO: Update to re2
 
-
 ...................
 Header
 ...................
@@ -389,7 +388,7 @@ Element data
     Following the header, all elements are listed. The fluid elements are listed
     first, followed by all solid elements if present.
 
-    The data following the header is formatted as shown in :numref:`tab:element`. This provides all the coordinates of an element for top and bottom faces. The numbering of the vertices is shown in Fig. :numref:`fig:elorder`. The header for each element as in :numref:`tab:element`, i.e. ``[1A] GROUP`` is reminiscent of older Nek5000 format and does not impact the mesh generation at this stage.
+    The data following the header is formatted as shown in :numref:`tab:element`. This provides all the coordinates of an element for top and bottom faces. The numbering of the vertices is shown in Fig. :numref:`fig:elorder`. The header for each element as in :numref:`tab:element`, i.e. ``[1A] GROUP`` is reminiscent of older *Nek5000* format and does not impact the mesh generation at this stage.
 
       .. _fig:elorder:
 
@@ -511,185 +510,6 @@ Boundaries
          +---------+---------+-----------+--------------+----------------+---------+---------+---------+
          | P       | 23      | 5         | 149.000      | 6.00000        | 0.00000 | 0.00000 | 0.00000 |
          +---------+---------+-----------+--------------+----------------+---------+---------+---------+
-
-
-.. _case_files_usr:
-
------------------------------
-User Routines File (.usr)
------------------------------
-
-This file implements the the user interface to Nek5000. What follows is a brief description of the available
-subroutines.
-
-.. _NEKUSE:
-
-...................
-NEKUSE
-...................
-
-In many of the subroutines available in the ``.usr`` file include the ``NEKUSE`` common block. 
-This block contains solver variables that may be useful for defining custom models, such as variable properties, or a localized heating rate.
-
-The following variables are assigned in the subroutine ``nekasgn``, which is called before the subroutines ``uservp``, ``userf``, ``userq``, ``userbc``, and ``useric``.
-These subroutines take ``ix``, ``iy``, ``iz``, and ``eg`` as arguments, which correspond to the local GLL indexing and global element number.
-The global element number is translated into a local element number and ``nekasgn`` fills the variable with the corresponding entry from the solution array.
-
-.. _tab:NEKUSEpre:
-
-.. csv-table:: Prepopulated ``NEKUSE`` variables
-   :header: Variable,Description,Solution Array,Note
-   :widths: 15,50,20,15
-
-   ``pi``,:math:`\pi`,N/A - available in ``TOTAL``,``pi=4.0atan(1.0)``
-   ``x``,x-coordinate,"``xm1(ix,iy,iz,ie)``",
-   ``y``,y-coordinate,"``ym1(ix,iy,iz,ie)``",
-   ``z``,z-coordinate,"``zm1(ix,iy,iz,ie)``",
-   ``r``,r-coordinate,N/A,:math:`\sqrt{x^2+y^2}`
-   ``theta``,:math:`\theta`-coordinate,N/A,"``theta=atan2(y,x)``"
-   ``ux``,x-velocity,"``vx(ix,iy,iz,ie)``",
-   ``uy``,y-velocity,"``vy(ix,iy,iz,ie)``",
-   ``uz``,z-velocity,"``vz(ix,iy,iz,ie)``",
-   ``temp``,temperature,"``t(ix,iy,iz,ie,1)``",
-   ``ps(i)``,passive scalar \"i\","``t(ix,iy,iz,ie,i+1)``",
-   ``pa``,pressure,"``pr(ix,iy,iz,ie)``",not recommended for use with ``PN/PN-2``
-   ``p0``,thermodynamic pressure,``p0th``,
-   ``si2``,strain rate invariant II,"``sii(ix,iy,iz,ie)``",
-   ``si3``,strain rate invarient III,"``siii(ix,iy,iz,ie)``",
-   ``udiff``,diffusion coeffcient,"``vdiff(ix,iy,iz,ie,ifield)``","viscosity, conductivity, or diffusivity"
-   ``utrans``,convective coefficient,"``vtrans(ix,iy,iz,ie,ifield)``","density, rho cp, etc."
-
-.. _tab:NEKUSEvar:
-
-.. table:: ``NEKUSE`` common block variables
-
-   +-----------------------------+-----------------------------------------------------------------+
-   |   Variable                  | | Description                                                   |
-   +=============================+=================================================================+
-   | ``x`` , ``y`` , ``z``       | | ``x`` , ``y`` , ``z`` coordinate                              |
-   +-----------------------------+-----------------------------------------------------------------+
-   | ``r`` , ``theta``           | | ``r`` , ``theta`` coordinate                                  |
-   +-----------------------------+-----------------------------------------------------------------+
-   | ``ux`` , ``uy`` , ``uz``    | | ``x`` , ``y`` , ``z`` velocity components                     |
-   +-----------------------------+-----------------------------------------------------------------+
-   | ``un`` , ``u1`` , ``u2``    | | ``x`` , ``y`` , ``z`` velocity component of face unit normal  |
-   +-----------------------------+-----------------------------------------------------------------+
-   | ``trx`` , ``try`` , ``trz`` | | ``x`` , ``y`` , ``z`` traction components                     |
-   +-----------------------------+-----------------------------------------------------------------+
-   | ``trn`` , ``tr1`` , ``tr2`` | | ``x`` , ``y`` , ``z`` traction component of face unit normal  |
-   +-----------------------------+-----------------------------------------------------------------+
-   | ``pa`` , ``p0``             | | Outlet pressure, system pressure                              |
-   +-----------------------------+-----------------------------------------------------------------+
-   | ``ffx`` , ``ffy`` , ``ffz`` | | ``x`` , ``y`` , ``z`` acceleration                            |
-   +-----------------------------+-----------------------------------------------------------------+
-   | ``temp``                    | | Temperature                                                   |
-   +-----------------------------+-----------------------------------------------------------------+
-   | ``flux``                    | | Heat flux                                                     |
-   +-----------------------------+-----------------------------------------------------------------+
-   | ``hc`` , ``hrad``           | | Heat transfer coefficient (convective, radiative)             |
-   +-----------------------------+-----------------------------------------------------------------+
-   | ``tinf``                    | | Temperature at infinity                                       |
-   +-----------------------------+-----------------------------------------------------------------+
-   | ``qvol`` , ``avol``         | | Source terms for temperature and passive scalars              |
-   +-----------------------------+-----------------------------------------------------------------+
-   | ``udiff`` , ``utrans``      | | Diffusion coefficient, convective coefficient                 |
-   +-----------------------------+-----------------------------------------------------------------+
-   | ``si2`` , ``si3``           | | Strainrate invariant II, III                                  |  
-   +-----------------------------+-----------------------------------------------------------------+
-   | ``sigma``                   | | Surface-tension coefficient                                   |
-   +-----------------------------+-----------------------------------------------------------------+
-   | ``ps``                      | | Passive scalars                                               |
-   +-----------------------------+-----------------------------------------------------------------+
-
-.. _case_files_uservp:
-
-...................
-uservp
-...................
-
-This function can be used  to specify customized or solution dependent material
-properties.
-
-Example:
-
-.. code-block:: fortran
-
-      if (ifield.eq.1) then
-         udiff  = a * exp(-b*temp) ! dynamic viscosity
-         utrans = 1.0              ! density
-      else if (ifield.eq.2) then
-         udiff  = 1.0              ! conductivity
-         utrans = 1.0              ! rho*cp
-      endif
-
-...................
-userf
-...................
-
-This functions sets the source term (which will be subsequently be multiplied by
-the density) for the momentum equation.
-
-Example:
-
-.. code-block:: fortran
-
-      parameter(g = 9.81)
-
-      ffx = 0.0
-      ffy = 0.0
-      ffz = -g ! gravitational acceleration
-
-...................
-userq
-...................
-
-This functions sets the source term for the energy (temperature) and passive scalar equations.
-
-...................
-userbc
-...................
-
-This functions sets boundary conditions. Note, this function is only called
-for special boundary condition types and only for points on the boundary surface.
-
-...................
-useric
-...................
-
-This functions sets the initial conditions.
-
-...................
-userchk
-...................
-
-This is a general purpose function that gets executed before the time stepper and after every time
-step.
-
-...................
-userqtl
-...................
-
-This function can be used  to specify a cutomzized thermal diveregence for the low Mach solver.
-step.
-
-...................
-usrdat
-...................
-
-This function can be used to modify the element vertices and is called before the spectral element mesh (GLL points) has been laid out.
-
-...................
-usrdat2
-...................
-
-This function can be used to modify the spectral element mesh.
-The geometry information (mass matrix, surface normals, etc.) will be rebuilt after this routine is called.
-
-...................
-usrdat3
-...................
-
-This function can be used to initialize case/user specific data.
 
 .. _case_files_SIZE:
 
