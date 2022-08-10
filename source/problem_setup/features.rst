@@ -155,7 +155,38 @@ Currently, custom user code is necessary to accomplish this.
 Filtering
 ------------------
 
-TODO...
+Nek5000 includes two options to implement an explicit filter. 
+Both options use the same approach, but the high-pass filter includes an additional weighting term to make it independent of time-step size.
+
+...............
+Explicit Filter
+...............
+
+.. code-block:: ini
+
+   [GENERAL]
+   filtering = explicit
+   filterModes = 2
+   filterWeight = 0.05
+
+The explicit filter can also be invoked using the ``cutoff ratio`` key instead of the ``filterModes`` key.
+
+.. code-block:: ini
+
+   [GENERAL]
+   filtering = explicit
+   cutoffRatio = 0.9
+   filterWeight = 0.05
+
+................
+High-Pass Filter
+................
+
+.. code-block:: ini
+
+   [GENERAL]
+   filtering = hpfrt
+   
 
 .. _features_obj:
 
