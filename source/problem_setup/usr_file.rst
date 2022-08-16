@@ -27,13 +27,22 @@ The following variables are assigned in the subroutine ``nekasgn``, which is cal
 These subroutines take ``ix``, ``iy``, ``iz``, and ``eg`` as arguments, which correspond to the local GLL indexing and global element number.
 The global element number is translated into a local element number and ``nekasgn`` fills the variable with the corresponding entry from the solution array.
 
+.. _tab:Globalvars:
+
+.. csv-table:: Commonly used global variables available in ``TOTAL``
+   :header: Variable,Description,Note
+   :widths: 20,55,20
+
+   ``pi``,:math:`\pi`,``pi=4.0atan(1.0)``
+   ``time``,physical time,
+   ``dt``,time step size,
+
 .. _tab:NEKUSEpre:
 
 .. csv-table:: Prepopulated ``NEKUSE`` variables
    :header: Variable,Description,Solution Array,Note
    :widths: 15,50,20,15
 
-   ``pi``,:math:`\pi`,N/A - available in ``TOTAL``,``pi=4.0atan(1.0)``
    ``x``,x-coordinate,"``xm1(ix,iy,iz,ie)``",
    ``y``,y-coordinate,"``ym1(ix,iy,iz,ie)``",
    ``z``,z-coordinate,"``zm1(ix,iy,iz,ie)``",
@@ -44,12 +53,13 @@ The global element number is translated into a local element number and ``nekasg
    ``uz``,z-velocity,"``vz(ix,iy,iz,ie)``",
    ``temp``,temperature,"``t(ix,iy,iz,ie,1)``",
    ``ps(i)``,passive scalar \"i\","``t(ix,iy,iz,ie,i+1)``",
-   ``pa``,pressure,"``pr(ix,iy,iz,ie)``",not recommended for use with ``PN/PN-2``
+   ``pa``,pressure,"``pr(ix,iy,iz,ie)``",not recommended for use with :math:`P_N/P_{N-2}`
    ``p0``,thermodynamic pressure,``p0th``,
-   ``si2``,strain rate invariant II,"``sii(ix,iy,iz,ie)``",
-   ``si3``,strain rate invarient III,"``siii(ix,iy,iz,ie)``",
    ``udiff``,diffusion coeffcient,"``vdiff(ix,iy,iz,ie,ifield)``","viscosity, conductivity, or diffusivity"
    ``utrans``,convective coefficient,"``vtrans(ix,iy,iz,ie,ifield)``","density, rho-cp, etc."
+
+..   ``si2``,strain rate invariant II,"``sii(ix,iy,iz,ie)``",
+     ``si3``,strain rate invarient III,"``siii(ix,iy,iz,ie)``",
 
 .. _tab:NEKUSEvar:
 
