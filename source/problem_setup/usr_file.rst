@@ -63,9 +63,9 @@ The global element number is translated into a local element number and ``nekasg
 ..   ``si2``,strain rate invariant II,"``sii(ix,iy,iz,ie)``",
      ``si3``,strain rate invarient III,"``siii(ix,iy,iz,ie)``",
 
-.. _tab:NEKUSEvar:
+.. .. _tab:NEKUSEvar:
 
-.. table:: ``NEKUSE`` common block variables
+.. .. table:: ``NEKUSE`` common block variables
 
    +-----------------------------+-----------------------------------------------------------------+
    |   Variable                  | | Description                                                   |
@@ -106,26 +106,40 @@ uservp
 This function can be used to specify customized or solution dependent material properties.
 It is called for every GLL-point for every field at every time step.
 The diffusion and transport coefficients should be set using the variables described in the table below.
-The diffusion coefficient refers to the variable :math:`\mu` in the :ref:`intro_ns`, the variable :math:`\lambda` in the :ref:`intro_energy`, and the variable :math:`\Gamma_i` in the :ref:`intro_pass_scal` transport equation.
-The transport coefficient refers to the coefficient attached to the convective term, i.e., variable :math:`\rho` in the :ref:`intro_ns`, the variables :math:`(\rho c_p)` in the :ref:`intro_energy`, and the variables :math:`(\rho c_p)_i` in the :ref:`intro_pass_scal` transport equation.
+The diffusion coefficient refers the viscosity, thermal conductivity, or diffusivity for passive scalars.
+The transport coefficient refers to the coefficient attached to the convective term, typically density for velocity and passive scalars and the product of density and specific heat for temperature.
 
-.. csv-table::
-   :header: Variable,Description,Note
-   :widths: 20,55,20
+.. _tab:usrvp:
 
-   ``udiff``,diffusion coefficient,"viscosity, conductivity, or diffusivity"
-   ``utrans``,transport coefficient,"density, rho-cp, etc. "
+.. table:: Terms set in ``uservp``
+
+   +------------+-----------------------+-----------------------------------------------------------------------------------------+----------------------------+
+   |            | Description           | Variable in governing equations                                                         | solution field(s)          |
+   +============+=======================+=========================================================================================+============================+
+   |            |                       | :math:`\mu` in the :ref:`momentum equation <intro_ns>`                                  | ``ifield = 1``             |
+   |            |                       +-----------------------------------------------------------------------------------------+----------------------------+ 
+   | ``udiff``  | diffusion coefficient | :math:`\lambda` in the :ref:`energy equation <intro_energy>`                            | ``ifield = 2``             |
+   |            |                       +-----------------------------------------------------------------------------------------+----------------------------+
+   |            |                       | :math:`\Gamma_i` in the :ref:`passive scalar transport equations <intro_pass_scal>`     | ``ifield = 3 .. npscal+2`` |
+   +------------+-----------------------+-----------------------------------------------------------------------------------------+----------------------------+
+   |            |                       | :math:`\rho` in the :ref:`momentum equation <intro_ns>`                                 | ``ifield = 1``             |
+   |            |                       +-----------------------------------------------------------------------------------------+----------------------------+ 
+   | ``utrans`` | transport coefficient | :math:`(\rho c_p)` in the :ref:`energy equation <intro_energy>`                         | ``ifield = 2``             |
+   |            |                       +-----------------------------------------------------------------------------------------+----------------------------+ 
+   |            |                       | :math:`(\rho c_p)_i` in the :ref:`passive scalar transport equations <intro_pass_scal>` | ``ifield = 3 .. npscal+2`` |
+   +------------+-----------------------+-----------------------------------------------------------------------------------------+----------------------------+
 
 :Example:
+  The code block below shows how to implement a variable viscosity as a function of temperature, with the density, rho-cp, and thermal conductivity set from the values in the ``.par`` file.
 
 .. code-block:: fortran
 
       if (ifield.eq.1) then
          udiff  = a * exp(-b*temp) ! dynamic viscosity
-         utrans = 1.0              ! density
-      else if (ifield.eq.2) then
-         udiff  = 1.0              ! conductivity
-         utrans = 1.0              ! rho*cp
+         utrans = cpfld(ifield,2)  ! density
+      else
+         udiff  = cpfld(ifield,1)  ! conductivity
+         utrans = cpfld(ifield,2)  ! rho*cp
       endif
 
 ...................
@@ -165,6 +179,19 @@ Note, this function is only called for special boundary condition types and only
 It includes an additional argument compared to the other Local Routines.
 The ``iside`` variables refers to which side of the element the boundary condition is on. 
 This can be used for accessing the appropriate entery in the ``boundaryID`` or ``cbc`` arrays.
+
+.. csv-table:: Boundary conditions set in ``userbc``
+   :widths: 10,80,10
+   :header:  ,Description,``cbc`` value
+
+   ``ux``,x-velocity,``v``
+   ``uy``,y-velocity,``v``
+   ``uz``,z-velocity,``v``
+   ``un``,"velocity normal to the boundary face, :math:`\mathbf u\cdot\mathbf n`",``vl``   
+   ``trx``,"traction in the x-direction",``sh``
+   ``try``,"traction in the y-direction",``sh``
+   ``trz``,"traction in the z-direction",``sh``
+   ``trn``,"traction normal to the boundary face",``shl``
 
 :Example: 
   In the example below, the code sets a parabolic inlet velocity with a constant inlet temperature of 0.0 and a constant wall temperature of 1.0. 
