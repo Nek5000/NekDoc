@@ -108,7 +108,7 @@ In addition to the fluid flow, Nek5000 computes automatically the energy equatio
     :label: energy
 
     \rho c_{p} \left( \frac{\partial T}{\partial t} + \mathbf u \cdot \nabla T \right) =
-       \nabla \cdot (k \nabla T) + q_{vol}\,\, ,\text{in } \Omega_f\cup \Omega_s  \text{  (Energy)  } 
+       \nabla \cdot (\lambda \nabla T) + q_{vol}\,\, ,\text{in } \Omega_f\cup \Omega_s  \text{  (Energy)  } 
 
 .. _intro_energy_nondim:
 
@@ -141,7 +141,7 @@ We can additionally solve a convection-diffusion equation for each passive scala
     :label: pass_scal
 
     (\rho c_{p})_i \left( \frac{\partial \phi_{i}}{\partial t} + \mathbf u \cdot \nabla \phi_{i} \right) =
-    \nabla \cdot (k_i \nabla \phi_{i}) + (q_{vol})_i.
+    \nabla \cdot (\Gamma_i \nabla \phi_{i}) + (q_{vol})_i.
 
 The terminology and restrictions of the temperature equations are retained for the passive scalars,
 so that it is the responsibility of the user to convert the notation of the passive scalar

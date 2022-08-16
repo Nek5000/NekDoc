@@ -70,10 +70,6 @@ The global element number is translated into a local element number and ``nekasg
    +-----------------------------+-----------------------------------------------------------------+
    |   Variable                  | | Description                                                   |
    +=============================+=================================================================+
-   | ``x`` , ``y`` , ``z``       | | ``x`` , ``y`` , ``z`` coordinate                              |
-   +-----------------------------+-----------------------------------------------------------------+
-   | ``r`` , ``theta``           | | ``r`` , ``theta`` coordinate                                  |
-   +-----------------------------+-----------------------------------------------------------------+
    | ``ux`` , ``uy`` , ``uz``    | | ``x`` , ``y`` , ``z`` velocity components                     |
    +-----------------------------+-----------------------------------------------------------------+
    | ``un`` , ``u1`` , ``u2``    | | ``x`` , ``y`` , ``z`` velocity component of face unit normal  |
@@ -96,10 +92,6 @@ The global element number is translated into a local element number and ``nekasg
    +-----------------------------+-----------------------------------------------------------------+
    | ``qvol`` , ``avol``         | | Source terms for temperature and passive scalars              |
    +-----------------------------+-----------------------------------------------------------------+
-   | ``udiff`` , ``utrans``      | | Diffusion coefficient, convective coefficient                 |
-   +-----------------------------+-----------------------------------------------------------------+
-   | ``si2`` , ``si3``           | | Strainrate invariant II, III                                  |  
-   +-----------------------------+-----------------------------------------------------------------+
    | ``sigma``                   | | Surface-tension coefficient                                   |
    +-----------------------------+-----------------------------------------------------------------+
    | ``ps``                      | | Passive scalars                                               |
@@ -111,8 +103,18 @@ The global element number is translated into a local element number and ``nekasg
 uservp
 ...................
 
-This function can be used  to specify customized or solution dependent material
-properties.
+This function can be used to specify customized or solution dependent material properties.
+It is called for every GLL-point for every field at every time step.
+The diffusion and transport coefficients should be set using the variables described in the table below.
+The diffusion coefficient refers to the variable :math:`\mu` in the :ref:`intro_ns`, the variable :math:`\lambda` in the :ref:`intro_energy`, and the variable :math:`\Gamma_i` in the :ref:`intro_pass_scal` transport equation.
+The transport coefficient refers to the coefficient attached to the convective term, i.e., variable :math:`\rho` in the :ref:`intro_ns`, the variables :math:`(\rho c_p)` in the :ref:`intro_energy`, and the variables :math:`(\rho c_p)_i` in the :ref:`intro_pass_scal` transport equation.
+
+.. csv-table::
+   :header: Variable,Description,Note
+   :widths: 20,55,20
+
+   ``udiff``,diffusion coefficient,"viscosity, conductivity, or diffusivity"
+   ``utrans``,transport coefficient,"density, rho-cp, etc. "
 
 :Example:
 
