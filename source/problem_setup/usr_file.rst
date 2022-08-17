@@ -180,18 +180,38 @@ It includes an additional argument compared to the other Local Routines.
 The ``iside`` variables refers to which side of the element the boundary condition is on. 
 This can be used for accessing the appropriate entery in the ``boundaryID`` or ``cbc`` arrays.
 
-.. csv-table:: Boundary conditions set in ``userbc``
-   :widths: 10,80,10
-   :header:  ,Description,``cbc`` value
 
-   ``ux``,x-velocity,``v``
-   ``uy``,y-velocity,``v``
-   ``uz``,z-velocity,``v``
-   ``un``,"velocity normal to the boundary face, :math:`\mathbf u\cdot\mathbf n`",``vl``   
-   ``trx``,"traction in the x-direction",``sh``
-   ``try``,"traction in the y-direction",``sh``
-   ``trz``,"traction in the z-direction",``sh``
-   ``trn``,"traction normal to the boundary face",``shl``
+.. csv-table:: Velocity boundary conditions set in ``userbc``
+   :widths: 10,45,30,15
+   :header:  ,Description,Definition,``cbc`` value
+
+   ``ux``,x-velocity,":math:`\mathbf u\cdot\mathbf{\hat e_x}`",``v``
+   ``uy``,y-velocity,":math:`\mathbf u\cdot\mathbf{\hat e_y}`",``v``
+   ``uz``,z-velocity,":math:`\mathbf u\cdot\mathbf{\hat e_z}`",``v``
+   ``un``,velocity normal to the boundary face,":math:`\mathbf u\cdot\mathbf {\hat e_n}`",``vl``   
+   ``u1``,velocity tangent* to the boundary face,":math:`\mathbf u\cdot\mathbf {\hat e_t}`",``vl``   
+   ``u2``,velocity bitangent* to boundary face,":math:`\mathbf u\cdot\mathbf {\hat e_b}`",``vl``   
+   ``trx``,"traction in the x-direction",":math:`(\boldsymbol{\underline\tau}\cdot\mathbf{\hat e_n})\cdot\mathbf{\hat e_x}`","``s``, ``sh``"
+   ``try``,"traction in the y-direction",":math:`(\boldsymbol{\underline\tau}\cdot\mathbf{\hat e_n})\cdot\mathbf{\hat e_y}`","``s``, ``sh``"
+   ``trz``,"traction in the z-direction",":math:`(\boldsymbol{\underline\tau}\cdot\mathbf{\hat e_n})\cdot\mathbf{\hat e_z}`","``s``, ``sh``"
+   ``trn``,"traction normal to the boundary face",":math:`(\boldsymbol{\underline\tau}\cdot\mathbf{\hat e_n})\cdot\mathbf{\hat e_n}`",``sl``
+   ``tr1``,"traction tangent* to the boundary face",":math:`(\boldsymbol{\underline\tau}\cdot\mathbf{\hat e_n})\cdot\mathbf{\hat e_t}`","``sl``, ``shl``"
+   ``tr2``,"traction bitangent* to the boundary face",":math:`(\boldsymbol{\underline\tau}\cdot\mathbf{\hat e_n})\cdot\mathbf{\hat e_b}`","``sl``, ``shl``"
+
+:Warning:
+  \*The tangent and bitangent directions are not guaranteed to be consistent between elements.
+
+.. csv-table:: Temperature boundary conditions set in ``userbc``
+   :widths: 10,45,30,15
+   :header:  ,Description,Definition,``cbc`` value
+
+   ``temp``,temperature,":math:`T`",``t``
+   ``flux``,heat flux,":math:`\lambda\nabla T\cdot\mathbf{\hat e_n}`",``f``
+   ``hc``,"heat transfer coefficient, :math:`h`",":math:`\lambda\nabla T\cdot\mathbf{\hat e_n}=h(T-T_{\infty})`",``r``
+   ``tinf``,"ambient temperature, :math:`T_{\infty}`",":math:`\lambda\nabla T\cdot\mathbf{\hat e_n}=h(T-T_{\infty})`",``r``
+
+:Note:
+  Both heat transfer coefficient and ambient temperature must be specified for a Robin boundary condition.
 
 :Example: 
   In the example below, the code sets a parabolic inlet velocity with a constant inlet temperature of 0.0 and a constant wall temperature of 1.0. 
