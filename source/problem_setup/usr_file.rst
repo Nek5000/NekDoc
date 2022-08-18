@@ -22,12 +22,11 @@ These subroutines can be broadly divided into 3 categories
 Local Routines
 --------------
 
-In many of the subroutines available in the ``.usr`` file include the ``NEKUSE`` common block. 
-This block contains solver variables that may be useful for defining custom models, such as variable properties, or a localized heating rate.
-
-The following variables are assigned in the subroutine ``nekasgn``, which is called before the subroutines ``uservp``, ``userf``, ``userq``, ``userbc``, and ``useric``.
+The local subroutines ``uservp``, ``userf``, and ``userq`` are called at every GLL point, for every field at every time step.
+The subroutines ``userbc`` and ``useric`` are similar, but ``userbc`` is only called for GLL points on a boundary face with certain boundary conditions and ``useric`` is only called during initialization.
 These subroutines take ``ix``, ``iy``, ``iz``, and ``eg`` as arguments, which correspond to the local GLL indexing and global element number.
-The global element number is translated into a local element number and ``nekasgn`` fills the variable with the corresponding entry from the solution array.
+Note that the local element number can be accessed via the ``gllel`` array.
+
 
 .. _tab:Globalvars:
 
@@ -38,6 +37,28 @@ The global element number is translated into a local element number and ``nekasg
    ``pi``,:math:`\pi`,``pi=4.0atan(1.0)``
    ``time``,physical time,
    ``dt``,time step size,
+   ``ifield``,active solution field,see :numref:`tab:ifield`
+
+.. _tab:ifield:
+
+.. csv-table:: Corresponding solution fields for ``ifield``
+   :header: ``ifield`` value,Field name,Solution variable
+
+   1,velocity,:math:`\mathbf u`
+   2,temperature,:math:`T`
+   3,passive scalar 1,:math:`\phi_1`
+   4,passive scalar 2,:math:`\phi_2`
+   :math:`\ge 3`,passive scalar :math:`(` ``ifield`` :math:`-2)`,:math:`\phi_{ifld-2}`
+
+......
+NEKUSE
+......
+
+The ``ix``, ``iy``, etc. indices can be used to cross-reference the local solution arrays, however, the ``NEKUSE`` common block is provided for easier access.
+This block contains solver variables that may be useful for defining custom models, such as variable properties, or a localized heating rate.
+Immediately before a local routine is called by *Nek5000*, the subroutine ``nekasgn`` is called.
+This routine sets many of the commonly used values in ``NEKUSE``, making them available for use in the local subroutines.
+:numref:`tab:NEKUSEpre` describes the variables that are assigned in ``nekasgn``.
 
 .. _tab:NEKUSEpre:
 
@@ -54,7 +75,7 @@ The global element number is translated into a local element number and ``nekasg
    ``uy``,y-velocity,"``vy(ix,iy,iz,ie)``",
    ``uz``,z-velocity,"``vz(ix,iy,iz,ie)``",
    ``temp``,temperature,"``t(ix,iy,iz,ie,1)``",
-   ``ps(i)``,passive scalar \"i\","``t(ix,iy,iz,ie,i+1)``",
+   ``ps(i)``,"passive scalar 'i', :math:`\phi_i`","``t(ix,iy,iz,ie,i+1)``",":math:`i=(` ``ifield`` :math:`-2)`"
    ``pa``,pressure,"``pr(ix,iy,iz,ie)``",not recommended for use with :math:`P_N/P_{N-2}`
    ``p0``,thermodynamic pressure,``p0th``,
    ``udiff``,diffusion coeffcient,"``vdiff(ix,iy,iz,ie,ifield)``","viscosity, conductivity, or diffusivity"
@@ -128,6 +149,9 @@ The transport coefficient refers to the coefficient attached to the convective t
    |            |                       +-----------------------------------------------------------------------------------------+----------------------------+ 
    |            |                       | :math:`(\rho c_p)_i` in the :ref:`passive scalar transport equations <intro_pass_scal>` | ``ifield = 3 .. npscal+2`` |
    +------------+-----------------------+-----------------------------------------------------------------------------------------+----------------------------+
+
+:Warning:
+  The coresponding entries in ``vdiff`` and ``vtrans`` are overwritten by whatever is assigned to ``udiff`` and ``utrans``. Setting ``vdiff`` and ``vtrans`` directly is not supported.
 
 :Example:
   The code block below shows how to implement a variable viscosity as a function of temperature, with the density, rho-cp, and thermal conductivity set from the values in the ``.par`` file.
@@ -235,7 +259,7 @@ This can be used for accessing the appropriate entery in the ``boundaryID`` or `
   endif
 
 :Example:
-  In this example, the ``boundaryID`` array is used to set a positive heat flux on wall 1 and a negative (cooling) heat flux on wall 2.
+  In this example, the ``boundaryID`` array is used to differentiate between the inlet and two different walls. The inlet (ID = 1) has a velocity profile and constant temperature value. The walls (IDs 2 and 3 respectively) are set as a positive heat flux on wall 2 and a negative (cooling) heat flux on wall 3.
 
 .. code-block:: fortran
 
@@ -244,8 +268,11 @@ This can be used for accessing the appropriate entery in the ``boundaryID`` or `
   ie=gllel(eg)  !get local element number
 
   if(boundaryID(iside,ie).eq.1)
-    flux = 1.0
+    uz = 3./2. (1.0-(2.0*y-1.0)**2
+    temp = 1.0
   elseif(boundaryID(iside,ie).eq.2)
+    flux = 1.0
+  elseif(boundaryID(iside,ie).eq.3)
     flux = -1.0
   endif
 
@@ -254,6 +281,9 @@ useric
 ...................
 
 This functions sets the initial conditions.
+
+:Warning:
+  ``useric`` is **NOT** called at all if a restart file is used. Even if only certain fields are loaded from the restart file.
 
 .. _global_routines:
 
@@ -265,15 +295,13 @@ Global Routines
 userchk
 ...................
 
-This is a general purpose routine that gets executed both during intialization and after every time
-step.
+This is a general purpose routine that gets executed both during intialization and after every time step.
 
 ...................
 userqtl
 ...................
 
-This function can be used  to specify a cutomzized thermal diveregence for the low Mach solver.
-step.
+This function can be used to specify a cutomzized thermal diveregence for the low Mach solver.
 
 .. _initialization_routines:
 
@@ -286,6 +314,7 @@ usrdat
 ...................
 
 This function can be used to modify the element vertices and is called before the spectral element mesh (GLL points) has been laid out.
+It can be used to fill the ``cbc`` array based on ``BoundaryID`` for 3rd party meshes.
 
 ...................
 usrdat2
@@ -293,6 +322,7 @@ usrdat2
 
 This function can be used to modify the spectral element mesh.
 The geometry information (mass matrix, surface normals, etc.) will be rebuilt after this routine is called.
+Any changes to the ``cbc`` array must be made before or during this call.
 
 ...................
 usrdat3
