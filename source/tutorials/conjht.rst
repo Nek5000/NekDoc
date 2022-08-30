@@ -15,6 +15,7 @@ Similarly, we start by generating a 2D mesh, and modify the case files for this 
 ..........................
 Pre-processing
 ..........................
+
 Users must always bear in mind, when setting up a test case in *Nek5000*, case files will need to be edited. 
 Some samples can be found in the ``Nek5000/examples`` directory included with the release version.
 Note that the ``examples`` directory is linked in the github repository as a submodule and can alternatively be obtained `here <http://github.com/Nek5000/NekExamples>`_.
@@ -194,7 +195,7 @@ Note that they will appear in most of the modified subroutines.
 Variable properties
 _____________________________
 
-In the :ref:`uservp subroutine <case_files_uservp>`, users can specifiy different variable properties for the fluid and solid subdomains independently. 
+In the :ref:`uservp subroutine <sec:uservp>`, users can specifiy different variable properties for the fluid and solid subdomains independently. 
 As an example, the thermal diffusivity of Copper is :math:`\alpha = 1.1 (10 ^ {-4})` [:math:`m^{2}/s`]. 
 The thermal diffusivity ratio of Copper and liquid metal alloy GaInSn (Pr = 0.033) is 10 and the thermal diffusivity ratio of Copper and air (Pr = 0.7) is 5.2 [Foroozani2021]_.
 The conductivity of the solid region is set by comparing the global element number, ``eg``, to the the total number of elements in the *v-mesh*, ``nelgv``.
