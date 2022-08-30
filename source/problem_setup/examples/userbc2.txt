@@ -1,0 +1,32 @@
+      subroutine userbc(ix,iy,iz,iside,eg) ! set up boundary conditions
+c
+c     NOTE ::: This subroutine MAY NOT be called by every process
+c
+      implicit none
+
+      integer ix,iy,iz,iside,eg
+
+      include 'SIZE'
+      include 'TOTAL'
+      include 'NEKUSE'
+
+      integer ie
+
+      ie=gllel(eg)  !get local element number
+
+      ux   = 0.0
+      uy   = 0.0
+      uz   = 0.0
+      temp = 0.0
+
+      if(boundaryID(iside,ie).eq.1)
+        uz = 3./2.*(1.0-(2.0*y-1.0)**2)
+        temp = 1.0
+      elseif(boundaryID(iside,ie).eq.2)
+        flux = 1.0
+      elseif(boundaryID(iside,ie).eq.3)
+        flux = -1.0
+      endif
+
+      return
+      end

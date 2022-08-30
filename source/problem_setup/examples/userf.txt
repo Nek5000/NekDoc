@@ -1,0 +1,25 @@
+      subroutine userf(ix,iy,iz,eg) ! set acceleration term
+c
+c     Note: this is an acceleration term, NOT a force!
+c     Thus, ffx will subsequently be multiplied by rho(x,t).
+c
+      implicit none
+
+      integer ix,iy,iz,eg
+
+      include 'SIZE'
+      include 'TOTAL'
+      include 'NEKUSE'
+
+      integer e
+      real beta
+c     e = gllel(eg)
+
+      beta = 1.0
+
+      ffx = 0.0
+      ffy = 0.0
+      ffz = beta * temp
+
+      return
+      end

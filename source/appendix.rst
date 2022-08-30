@@ -176,8 +176,10 @@ Like the parameter list, the logical switches are handled internally based on op
 
 **IFPSCO** include passive scalar fields in output files, ``ifpsco(ldimt1)``
 
+.. _sec:commonvars:
+
 ------------------------------
-Commonly used Variables
+Commonly Used Variables
 ------------------------------
 
 ..................
@@ -337,9 +339,11 @@ Arrays associated with the ``avg_all`` subroutine
 -------------------------
 Commonly used Subroutines
 -------------------------
+``subroutine cmult(x,C,n)``
+    multiplies ``n`` elements of array ``x`` by a constant, ``C``.
 
 ``subroutine rescale_x(x,x0,x1)``
-    Rescales the array ``x`` to be in the range ``(x0,x1)``. This is usually called from ``usrdat2`` in the ``.usr`` file
+    Rescales the array ``x`` to be in the range ``(x0,x1)``. This is usually called from ``usrdat2`` in the ``.usr`` file.
 
 ``subroutine normvc(h1,semi,l2,linf,x1,x2,x3)``
     Computes the error norms of a vector field variable ``(x1,x2,x3)`` defined on mesh 1, the velocity mesh. The error norms are normalized with respect to the volume, with the exception on the infinity norm, ``linf``.

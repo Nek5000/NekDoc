@@ -1,0 +1,27 @@
+      subroutine uservp(ix,iy,iz,eg) ! set variable properties
+
+      implicit none
+
+      integer ix,iy,iz,eg
+
+      include 'SIZE'
+      include 'TOTAL'
+      include 'NEKUSE'
+
+      integer e
+      real a,b
+c     e = gllel(eg)
+
+      a = 0.001 
+      b = 10.0
+
+      if (ifield.eq.1) then
+        udiff  = a * exp(-b*temp) ! dynamic viscosity
+        utrans = cpfld(ifield,2)  ! density
+      else
+        udiff  = cpfld(ifield,1)  ! conductivity
+        utrans = cpfld(ifield,2)  ! rho*cp
+      endif
+
+      return
+      end
