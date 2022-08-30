@@ -126,7 +126,7 @@ A similar non-dimensionalization as for the flow equations using the non-dimensi
     \frac{\partial T^*}{\partial t^*} + \mathbf u^* \cdot \nabla T^* =
       \frac{1}{Pe} \nabla \cdot \nabla T^* + q'''\,\, ,\text{in } \Omega_f\cup \Omega_s  \text{  (Energy)  } 
 
-where :math:`Pe=LU/\alpha`, with :math:`\alpha=k/\rho c_p`.
+where :math:`Pe=LU/\alpha`, with :math:`\alpha=\lambda/\rho c_p`.
 
 .. _intro_pass_scal:
 
@@ -140,7 +140,7 @@ We can additionally solve a convection-diffusion equation for each passive scala
 .. math::
     :label: pass_scal
 
-    (\rho c_{p})_i \left( \frac{\partial \phi_{i}}{\partial t} + \mathbf u \cdot \nabla \phi_{i} \right) =
+    \rho_i \left( \frac{\partial \phi_{i}}{\partial t} + \mathbf u \cdot \nabla \phi_{i} \right) =
     \nabla \cdot (\Gamma_i \nabla \phi_{i}) + (q''')_i.
 
 The terminology and restrictions of the temperature equations are retained for the passive scalars,

@@ -132,7 +132,7 @@ The transport coefficient refers to the coefficient attached to the convective t
    |            |                       +-------------------------------------------------------------------------------+----------------------------+ 
    | ``utrans`` | transport coefficient | :math:`(\rho c_p)` in the :ref:`energy equation <intro_energy>`               | ``ifield = 2``             |
    |            |                       +-------------------------------------------------------------------------------+----------------------------+ 
-   |            |                       | :math:`(\rho c_p)_i` in the :ref:`passive scalar equations <intro_pass_scal>` | ``ifield = 3 .. npscal+2`` |
+   |            |                       | :math:`\rho_i` in the :ref:`passive scalar equations <intro_pass_scal>`       | ``ifield = 3 .. npscal+2`` |
    +------------+-----------------------+-------------------------------------------------------------------------------+----------------------------+
 
 :Warning:
@@ -178,6 +178,9 @@ A source term that has the form
 can be implemented either entirely explicitly, or semi-implicitly.
 In general, the implicit term should be used wherever possible as it tends to stabilize the solution.
 Both approaches are shown below.
+It is not necessary for :math:`\alpha` and :math:`\beta` to be constants.
+They can vary with time, position, or any of the solution variables -- including temperature.
+However, using a solution variable may impose limits on the stability of the solution.
 
 :Example:
   In the first example, the source term is set entirely explicitly

@@ -186,43 +186,25 @@ Commonly Used Variables
 Solution Variables
 ..................
 
-.. table::
+.. csv-table:: Solution Variables
+  :header: Name,Size,Type,Short Description
 
-  +---------------+------------------------------------+---------+------------------------------------------+
-  | Variable Name | Size                               | Type    | Short Description                        |
-  +===============+====================================+=========+==========================================+
-  | ``vx``        | (lx1,ly1,lz1,lelv)                 | real    | x-velocity (u)                           |
-  +---------------+------------------------------------+---------+------------------------------------------+
-  | ``vy``        | (lx1,ly1,lz1,lelv)                 | real    | y-velocity (v)                           |
-  +---------------+------------------------------------+---------+------------------------------------------+
-  | ``vz``        | (lx1,ly1,lz1,lelv)                 | real    | z-velocity (w)                           |
-  +---------------+------------------------------------+---------+------------------------------------------+
-  | ``pr``        | (lx2,ly2,lz2,lelv)                 | real    | pressure (pr)                            |
-  +---------------+------------------------------------+---------+------------------------------------------+
-  | ``t``         | (lx1,ly1,lz1,lelt,ldimt)           | real    | temperature (t) and passive scalars (ps) |
-  +---------------+------------------------------------+---------+------------------------------------------+
-  | ``vtrans``    | (lx1,ly1,lz1,lelt,ldimt+1)         | real    | convective coefficient                   |
-  +---------------+------------------------------------+---------+------------------------------------------+
-  | ``vdiff``     | (lx1,ly1,lz1,lelt,ldimt+1)         | real    | diffusion coefficient                    |
-  +---------------+------------------------------------+---------+------------------------------------------+
-  | ``vxlag``     | (lx1,ly1,lz1,lelv,2)               | real    | x-velocity at previous time steps        |
-  +---------------+------------------------------------+---------+------------------------------------------+
-  | ``vylag``     | (lx1,ly1,lz1,lelv,2)               | real    | y-velocity at previous time steps        |
-  +---------------+------------------------------------+---------+------------------------------------------+
-  | ``vzlag``     | (lx1,ly1,lz1,lelv,2)               | real    | z-velocity at previous time steps        |
-  +---------------+------------------------------------+---------+------------------------------------------+
-  | ``prlag``     | (lx2,ly2,lz2,lelv,lorder2)         | real    | pressure at previous time steps          |
-  +---------------+------------------------------------+---------+------------------------------------------+
-  | ``tlag``      | (lx1,ly1,lz1,lelv,lorder-1,ldimt+1)| real    | t and ps at previous time steps          |
-  +---------------+------------------------------------+---------+------------------------------------------+
-  | ``time``      | --                                 | real    | physical time                            |
-  +---------------+------------------------------------+---------+------------------------------------------+
-  | ``dt``        | --                                 | real    | time step size                           |
-  +---------------+------------------------------------+---------+------------------------------------------+
-  | ``dtlag``     | ( 10 )                             | real    | previous time step sizes                 |
-  +---------------+------------------------------------+---------+------------------------------------------+
-  | ``istep``     | --                                 | integer | time step number                         |
-  +---------------+------------------------------------+---------+------------------------------------------+
+  ``vx``, "(lx1,ly1,lz1,lelv)",real,x-velocity (:math:`u`)                  
+  ``vy``, "(lx1,ly1,lz1,lelv)",real,y-velocity (:math:`v`)                  
+  ``vz``,"(lx1,ly1,lz1,lelv)",real,z-velocity (:math:`w`)
+  ``pr``,"(lx2,ly2,lz2,lelv)",real,pressure (:math:`P`)
+  ``t``,"(lx1,ly1,lz1,lelt,ldimt)",real,temperature (:math:`T`) and passives calars (:math:`\phi_i`)
+  ``vtrans``,"(lx1,ly1,lz1,lelt,ldimt+1)",real,"convective coefficient -- :math:`\rho`, :math:`(\rho c_p)`, :math:`\rho_i`"
+  ``vdiff``,"(lx1,ly1,lz1,lelt,ldimt+1)",real,"diffusion coefficient -- :math:`\mu`, :math:`\lambda`, :math:`\Gamma_i`"
+  ``vxlag``,"(lx1,ly1,lz1,lelv,2)",real,:math:`u` at previous time steps
+  ``vylag``,"(lx1,ly1,lz1,lelv,2)",real,:math:`v` at previous time steps
+  ``vzlag``,"(lx1,ly1,lz1,lelv,2)",real,:math:`w` at previous time steps
+  ``prlag``,"(lx2,ly2,lz2,lelv,lorder2)",real,:math:`P` at previous time steps
+  ``tlag``,"(lx1,ly1,lz1,lelv,lorder-1,ldimt+1)",real,:math:`T` and :math:`\phi_i` at previous time steps
+  ``time``,--,real,physical time
+  ``dt``,--,real,time step size
+  ``dtlag``,(10),real,previous time step sizes
+  ``istep``,--,integer,time step number
 
 ..................
 Geometry Variables
@@ -293,6 +275,8 @@ Problem Setup Variables
   +---------------+---------------------------+-------------+-------------------------------------------+
   | ``gllel``     | (lelg)                    | integer     | global to local element number map        |
   +---------------+---------------------------+-------------+-------------------------------------------+
+
+.. _sec:avgvars:
 
 ...................
 Averaging Variables
