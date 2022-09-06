@@ -1,0 +1,20 @@
+      subroutine usrdat2()   ! This routine to modify mesh coordinates
+
+      implicit none
+
+      include 'SIZE'
+      include 'TOTAL'
+
+      integer n
+      real Dhyd
+
+      n=lx1*ly1*lz1*nelv !number of GLL points on the local MPI rank
+
+      Dhyd = 0.00915 !hydraulic diameter in meters
+
+      call cmult(xm1,1.0/Dhyd,n)
+      call cmult(ym1,1.0/Dhyd,n)
+      call cmult(zm1,1.0/Dhyd,n)
+
+      return
+      end

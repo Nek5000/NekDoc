@@ -149,7 +149,7 @@ Meshing
 Nek5000 is mainly a solver. 
 However, simple box type meshes can be generated with the ``genbox`` tool. 
 For more complex meshes please consider using *preNek* and the meshing tools ``nekmerge`` and ``n2to3``. 
-We provide mesh converters like ``exo2nek`` and ``msh2nek`` which are quite handy if you want to use your favorite mesh generator. 
+We provide mesh converters like ``exo2nek`` and ``gmsh2nek`` which are quite handy if you want to use your favorite mesh generator. 
 
 .. _qstart_vis:
 

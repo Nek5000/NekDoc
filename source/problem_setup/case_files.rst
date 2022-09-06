@@ -22,9 +22,9 @@ Additional *optional* case files may be generated or included:
 SESSION.NAME
 ------------
 
-To run Nek5000, each simulation must have a ``SESSION.NAME`` file.
+To run *Nek5000*, each simulation must have a ``SESSION.NAME`` file.
 This file is read in by the code and gives the path to the relevant files describing the structure and parameters of the simulation.
-The ``SESSION.NAME`` file is a file that contains the name of the simulation and the full path to supporting files.
+It contains the name of the simulation and the full path to supporting files.
 For example, to run the eddy example from the repository, the ``SESSION.NAME`` file would look like:
 
 .. code-block:: none
@@ -32,7 +32,12 @@ For example, to run the eddy example from the repository, the ``SESSION.NAME`` f
   eddy_uv
   /home/user_name/Nek5000/short_tests/eddy/
 
-Note that this file is generated automatically by the ``nek``, ``nekb``, ``nekmpi`` and ``nekbmpi`` scripts at runtime.
+This file is generated automatically by the ``nek``, ``nekb``, ``nekmpi``, ``nekbmpi``, ``neknek`` and ``neknekb`` scripts at runtime.
+If you are calling ``$ mpirun`` directly, such as in a submission script for an HPC system, you must manually generate this file or setup your script to generate it for you.
+
+:Warning:
+  When using :ref:`NekNek <neknek>`, ``SESSION.NAME`` is substantially different. 
+  We recommend running the example and checking the ``neknek`` script for further information.
 
 .. _case_files_par:
 
@@ -345,7 +350,6 @@ Stores the mesh and boundary condition.
 
 TODO: Update to re2
 
-
 ...................
 Header
 ...................
@@ -389,7 +393,7 @@ Element data
     Following the header, all elements are listed. The fluid elements are listed
     first, followed by all solid elements if present.
 
-    The data following the header is formatted as shown in :numref:`tab:element`. This provides all the coordinates of an element for top and bottom faces. The numbering of the vertices is shown in Fig. :numref:`fig:elorder`. The header for each element as in :numref:`tab:element`, i.e. ``[1A] GROUP`` is reminiscent of older Nek5000 format and does not impact the mesh generation at this stage.
+    The data following the header is formatted as shown in :numref:`tab:element`. This provides all the coordinates of an element for top and bottom faces. The numbering of the vertices is shown in Fig. :numref:`fig:elorder`. The header for each element as in :numref:`tab:element`, i.e. ``[1A] GROUP`` is reminiscent of older *Nek5000* format and does not impact the mesh generation at this stage.
 
       .. _fig:elorder:
 
@@ -511,107 +515,6 @@ Boundaries
          +---------+---------+-----------+--------------+----------------+---------+---------+---------+
          | P       | 23      | 5         | 149.000      | 6.00000        | 0.00000 | 0.00000 | 0.00000 |
          +---------+---------+-----------+--------------+----------------+---------+---------+---------+
-
-
-.. _case_files_usr:
-
------------------------------
-User Routines File (.usr)
------------------------------
-
-This file implements the the user interface to Nek5000. What follows is a brief description of the available
-subroutines.
-
-.. _case_files_uservp:
-
-...................
-uservp
-...................
-
-This function can be used  to specify customized or solution dependent material
-properties.
-
-Example:
-
-.. code-block:: fortran
-
-      if (ifield.eq.1) then
-         udiff  = a * exp(-b*temp) ! dynamic viscosity
-         utrans = 1.0              ! density
-      else if (ifield.eq.2) then
-         udiff  = 1.0              ! conductivity
-         utrans = 1.0              ! rho*cp
-      endif
-
-...................
-userf
-...................
-
-This functions sets the source term (which will be subsequently be multiplied by
-the density) for the momentum equation.
-
-Example:
-
-.. code-block:: fortran
-
-      parameter(g = 9.81)
-
-      ffx = 0.0
-      ffy = 0.0
-      ffz = -g ! gravitational acceleration
-
-...................
-userq
-...................
-
-This functions sets the source term for the energy (temperature) and passive scalar equations.
-
-...................
-userbc
-...................
-
-This functions sets boundary conditions. Note, this function is only called
-for special boundary condition types and only for points on the boundary surface.
-
-...................
-useric
-...................
-
-This functions sets the initial conditions.
-
-...................
-userchk
-...................
-
-This is a general purpose function that gets executed before the time stepper and after every time
-step.
-
-...................
-userqtl
-...................
-
-This function can be used  to specify a cutomzized thermal diveregence for the low Mach solver.
-step.
-
-...................
-usrdat
-...................
-
-This function can be used to modify the element vertices and is called before the spectral element mesh (GLL points) has been laid out.
-
-...................
-usrdat2
-...................
-
-This function can be used to modify the spectral element mesh.
-The geometry information (mass matrix, surface normals, etc.) will be rebuilt after this routine is called.
-
-...................
-usrdat3
-...................
-
-This function can be used to initialize case/user specific data.
-
 
 .. _case_files_SIZE:
 

@@ -1,0 +1,31 @@
+      subroutine usrdat()   ! This routine to modify element vertices
+
+      implicit none
+
+      include 'SIZE'
+      include 'TOTAL'
+
+      integer ie,iside
+
+      do ie=1,nelv !loop over all elements on the local MPI rank
+        do iside=1,2*ldim !loop over all sides on the element
+          cbc(iside,ie,1)="E  " !first set all faces to internal boundaries
+          cbc(iside,ie,2)="E  " !"E  " and "   " both work for this
+          if(boundaryID(iside,ie).eq.1) then !boundary 1 is the inlet
+            cbc(iside,ie,1) = "v  "
+            cbc(iside,ie,2) = "t  "
+          elseif(boundaryID(iside,ie).eq.2) then !boundary 2 is a heated wall
+            cbc(iside,ie,1) = "W  "
+            cbc(iside,ie,2) = "f  "
+          elseif(boundaryID(iside,ie).eq.3) then !boundary 3 is another heated wall
+            cbc(iside,ie,1) = "W  "
+            cbc(iside,ie,2) = "f  "
+          elseif(boundaryID(iside,ie).eq.4) then !boundary 4 is the outlet
+            cbc(iside,ie,1) = "O  "
+            cbc(iside,ie,2) = "I  "
+          endif 
+        enddo
+      enddo
+
+      return
+      end

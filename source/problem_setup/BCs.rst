@@ -18,7 +18,7 @@ The boundary conditions can be imposed in various ways:
 
 - when the mesh is generated, e.g. with ``genbox``, as is explained in :ref:`sec:genbox`
 - when an ``.rea`` file is read in *preNek*
-- translated from side-set numbers in ``usrdat`` when using ``exotonek`` or similar
+- translated from side-set numbers in ``usrdat`` when using ``exotonek`` or similar. For an example see :ref:`here <sec:usrdat>`.
 
 .. TODO: add exotonek tutorial
 
@@ -36,8 +36,10 @@ Fluid Velocity
 
 Two types of boundary conditions are applicable to the fluid velocity : essential (Dirichlet) boundary condition in which the velocity is specified and natural (Neumann) boundary condition in which the traction is specified.
 For segments that constitute the boundary :math:`\partial \Omega_f`, see :numref:`fig-walls`, one of these two types of boundary conditions must be assigned to each component of the fluid velocity.
-The fluid boundary condition can be *all Dirichlet* if all velocity components of :math:`{\bf u}` are specified; or it can be *all Neumann* if all traction components :math:`{\bf t} = [-p {\bf I} + \mu (\nabla {\bf u} + (\nabla {\bf u})^{T})] \cdot {\bf n}`, where :math:`{\bf I}` is the identity tensor, :math:`{\bf n}` is the unit normal and :math:`\mu` is the dynamic viscosity, are specified; or it can be *mixed Dirichlet/Neumann* if Dirichlet and Neumann conditions are selected for different velocity components.
-If the nonstress formulation is selected, then traction is not defined on the boundary.
+The fluid boundary condition can be *all Dirichlet* if all velocity components of :math:`{\bf u}` are specified, or it can be *all Neumann* if all traction components (:math:`\boldsymbol{\underline \tau} = [-P {\bf \underline I} + \mu (\nabla {\bf u} + (\nabla {\bf u})^{T})] \cdot {\bf \hat e_n}`) are specified. 
+Where :math:`{\bf \underline I}` is the identity tensor, :math:`{\bf \hat e_n}` is the unit normal and :math:`\mu` is the dynamic viscosity, are specified.
+It can also be *mixed Dirichlet/Neumann* if Dirichlet and Neumann conditions are selected for different velocity components.
+If the no stress formulation is selected, then traction is not defined on the boundary.
 In this case, any Neumann boundary condition imposed must be homogeneous, i.e. equal to zero.
 .. In addition, mixed Dirichlet/Neumann boundaries must be aligned with one of the Cartesian axes.
 For flow geometry which consists of a periodic repetition of a particular geometric unit, the periodic boundary conditions can be imposed, as illustrated in :numref:`fig-walls` .
@@ -102,39 +104,11 @@ The available primitive boundary conditions for the fluid are given in :numref:`
    +------------+-----------------------------+--------------+----------------------------------------------------------------------+
    | mvn        | Moving boundary, normal     | Dirichlet    | Zero velocity in non-normal directions                               |
    +------------+-----------------------------+--------------+----------------------------------------------------------------------+ 
-.. | ms         | Moving surface              | --           |                                                         |
-.. +------------+-----------------------------+--------------+---------------------------------------------------------+
-.. | msi        | Moving internal surface     | --           |                                                         |
-.. +------------+-----------------------------+--------------+---------------------------------------------------------+    
 
-.. _tab:LBCf:
-
-.. .. table:: Legacy boundary conditions for velocity
-..
-..   +------------+-------------------------+-----------------+-----------------------------------------+
-..   | Identifier | Description             | Type            | Note                                    |
-..   +============+=========================+=================+=========================================+
-..   | V          | Velocity                | Dirichlet       |                                         |
-..   +------------+-------------------------+-----------------+-----------------------------------------+
-..   | VL         | Velocity, local         | Dirichlet       |                                         | 
-..   +------------+-------------------------+-----------------+-----------------------------------------+
-..   | S          | Traction                | Neumann         |                                         |
-..   +------------+-------------------------+-----------------+-----------------------------------------+
-..   | SL         | Traction, local         | Neumann         |                                         |
-..   +------------+-------------------------+-----------------+-----------------------------------------+
-..   | MM         | Moving mesh             | Dirichlet       |                                         |
-..   +------------+-------------------------+-----------------+-----------------------------------------+
-..   | MS         | Moving surface          | Dirichlet       |                                         |
-..   +------------+-------------------------+-----------------+-----------------------------------------+
-..   | MSI        | Moving interior surface | --              |                                         |
-..   +------------+-------------------------+-----------------+-----------------------------------------+
-.. | MF         |                         | --              |                                         |
-.. +------------+-------------------------+-----------------+-----------------------------------------+
-.. | WS         |                         | --              |                                         |
-.. +------------+-------------------------+-----------------+-----------------------------------------+
-.. | WSL        |                         | --              |                                         |
-.. +------------+-------------------------+-----------------+-----------------------------------------+
-
+..  | ms         | Moving surface              | --           |                                                         |
+    +------------+-----------------------------+--------------+---------------------------------------------------------+
+    | msi        | Moving internal surface     | --           |                                                         |
+    +------------+-----------------------------+--------------+---------------------------------------------------------+    
 
 The open(outflow) boundary condition ("O") arises as a natural boundary condition from the variational formulation of Navier Stokes. 
 We identify two situations
@@ -143,23 +117,24 @@ We identify two situations
 
   .. math::
 
-     [-p{\bf I} + \nu(\nabla {\bf u})]\cdot {\bf n}=0
+     [-p{\bf I} + \nu(\nabla {\bf u})]\cdot {\bf \hat e_n}=0
 
 - In the stress formulation, free traction boundary condition
 
   .. math::
 
-     [-p{\bf I} + \nu(\nabla {\bf u}+\nabla {\bf u}^T)]\cdot {\bf n}=0
+     [-p{\bf I} + \nu(\nabla {\bf u}+\nabla {\bf u}^T)]\cdot {\bf \hat e_n}=0
 
 - the symmetric boundary condition ("SYM") is given as
 
   .. math::
 
-     {\bf u} \cdot {\bf n} &= 0\ ,\\
-     (\nabla {\bf u} \cdot {\bf t})\cdot {\bf n} &= 0
+     {\bf u} \cdot {\bf \hat e_n} &= 0\ ,\\
+     (\nabla {\bf u} \cdot {\bf \hat e_t})\cdot {\bf \hat e_n} &= 0\,\\
+     (\nabla {\bf u} \cdot {\bf \hat e_b})\cdot {\bf \hat e_n} &= 0
 
-  where :math:`{\bf n}` is the normal vector and :math:`{\bf t}` the tangent vector. 
-  If the normal and tangent vector are not aligned with the mesh the stress formulation has to be used.
+where :math:`{\bf \hat e_n}` is the unit normal vector, :math:`{\bf \hat e_t}` the unit tangent vector and :math:`{\bf \hat e_b}` is the unit bitangent vector.
+If the normal, tangent, and bitangent vectors are not aligned with the mesh the stress formulation has to be used.
 - the periodic boundary condition ("P") needs to be prescribed in the ``.rea`` or ``.re2`` file since it already assigns the last point to first via :math:`{\bf u}({\bf x})={\bf u}({\bf x} + L)`, where :math:`L` is the periodic length.
 - the wall boundary condition ("W") corresponds to :math:`{\bf u}=0`.
 
@@ -167,7 +142,7 @@ For a fully-developed flow in such a configuration, one can effect great computa
 Nek5000 requires that the pairs of sides (or faces, in the case of a three-dimensional mesh) identified as periodic be identical (i.e., that the geometry be periodic).
 
 For an axisymmetric flow geometry, the axis boundary condition is provided for boundary segments that lie entirely on the axis of symmetry.
-This is essentially a symmetry (mixed Dirichlet/Neumann) boundary conditionin which the normal velocity and the tangential traction are set to zero.
+This is essentially a symmetry (mixed Dirichlet/Neumann) boundary condition in which the normal velocity and the tangential traction are set to zero.
 
 For free-surface boundary segments, the inhomogeneous traction boundary conditions involve both the surface tension coefficient :math:`\sigma` and the mean curvature of the free surface.
 
@@ -243,27 +218,28 @@ Thus, the temperature boundary condition menu will reappear for each passive sca
 
   .. math::
 
-     k(\nabla T)\cdot {\bf n} =0
+     k(\nabla T)\cdot {\bf \hat e_n} =0
 
 - insulated boundary condition ("I")
 
   .. math::
 
-     k(\nabla T)\cdot {\bf n} =0
+     k(\nabla T)\cdot {\bf \hat e_n} =0
 
-  where :math:`{\bf n}` is the normal vector and :math:`{\bf t}` the tangent vector. If the normal and tangent vector are not aligned with the mesh the stress formulation has to be used.
+where :math:`{\bf \hat e_n}` is the unit normal vector, :math:`{\bf \hat e_t}` the unit tangent vector and :math:`{\bf \hat e_b}` is the unit bitangent vector.
+If the normal, tangent, and bitangent vectors are not aligned with the mesh the stress formulation has to be used.
 - the periodic boundary condition ("P") needs to be prescribed in the ``.rea`` file since it already assigns the last point to first via :math:`{\bf u}({\bf x})={\bf u}({\bf x} + L)`, where :math:`L` is the periodic length.
 - Newton cooling boundary condition ("c")
 
   .. math::
 
-     k(\nabla T)\cdot {\bf n}=h(T-T_{\infty})
+     k(\nabla T)\cdot {\bf \hat e_n}=h(T-T_{\infty})
 
 - flux boundary condition ("f")
 
   .. math::
 
-     k(\nabla T)\cdot {\bf n} =f
+     k(\nabla T)\cdot {\bf \hat e_n} =f
 
 
 ............................
