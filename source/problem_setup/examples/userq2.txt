@@ -1,0 +1,22 @@
+      subroutine userq(ix,iy,iz,eg) ! set source term
+
+      implicit none
+
+      integer ix,iy,iz,eg
+
+      include 'SIZE'
+      include 'TOTAL'
+      include 'NEKUSE'
+
+      integer e
+      real alpha, beta
+c     e = gllel(eg)
+
+      alpha = 1.0
+      beta = 10.0
+
+      qvol = alpha !set the explicit source term
+      avol = beta  !set the implicit source term
+
+      return
+      end

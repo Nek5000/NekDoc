@@ -1,0 +1,29 @@
+      subroutine userbc(ix,iy,iz,iside,eg) ! set up boundary conditions
+c
+c     NOTE ::: This subroutine MAY NOT be called by every process
+c
+      implicit none
+
+      integer ix,iy,iz,iside,eg
+
+      include 'SIZE'
+      include 'TOTAL'
+      include 'NEKUSE'
+
+      real time0,sigma
+
+      time0 = 1.0
+      sigma = 0.1
+
+      ux   = 0.0
+      uy   = 0.0
+      uz   = 0.0
+
+      if(ifield.eq.2) then
+        temp = 0.0 !set temperature to zero
+      elseif(ifield.eq.3) then
+        temp = 1./(sigma*sqrt(2.*pi))*exp(-0.5*((time-time0)/sigma)**2) !set scalar 1
+      endif
+
+      return
+      end
