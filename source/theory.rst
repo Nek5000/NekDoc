@@ -53,9 +53,9 @@ The governing equations of flow motion in dimensional form are
 .. math::
     :label: ns_momentum
 
-    \rho\left(\frac{\partial\mathbf u}{\partial t} +\mathbf u \cdot \nabla \mathbf u\right) = - \nabla p + \nabla \cdot \boldsymbol\tau + \rho {\bf f} \,\, , \text{in } \Omega_f , \quad \text{  (Momentum)  } 
+    \rho\left(\frac{\partial\mathbf u}{\partial t} +\mathbf u \cdot \nabla \mathbf u\right) = - \nabla p + \nabla \cdot \boldsymbol{\underline\tau} + \rho {\bf f} \,\, , \text{in } \Omega_f , \quad \text{  (Momentum)  } 
 
-where :math:`\boldsymbol\tau=\mu[\nabla \mathbf u+\nabla \mathbf u^{T}]` and :math:`\mathbf f` is a user defined acceleration.
+where :math:`\boldsymbol{\underline\tau}=\mu[\nabla \mathbf u+\nabla \mathbf u^{T}]` and :math:`\mathbf f` is a user defined acceleration.
 
 .. math::
     :label: ns_cont
@@ -63,12 +63,12 @@ where :math:`\boldsymbol\tau=\mu[\nabla \mathbf u+\nabla \mathbf u^{T}]` and :ma
     \nabla \cdot \mathbf u =0 \,\, , \text{in } \Omega_f, \quad \text{  (Continuity)  }   
 
 If the fluid viscosity is constant in the entire domain the viscous stress tensor can be contracted
-:math:`\nabla\cdot\boldsymbol\tau=\mu\Delta \mathbf u`, therefore one may solve the Navier--Stokes equations
+:math:`\nabla\cdot\boldsymbol{\underline\tau}=\mu\Delta \mathbf u`, therefore one may solve the Navier--Stokes equations
 in either the stress formulation, or no stress
 
-- Variable viscosity requires the full stress tensor :math:`\nabla \cdot \boldsymbol\tau=\nabla \cdot
+- Variable viscosity requires the full stress tensor :math:`\nabla \cdot \boldsymbol{\underline\tau}=\nabla \cdot
   \mu[\nabla \mathbf u+\nabla \mathbf u^{T}]`, and we shall refer to this as the stress formulation
-- Constant viscosity leads to a simpler stress tensor :math:`\nabla \cdot \boldsymbol\tau=\mu\Delta \mathbf u`,
+- Constant viscosity leads to a simpler stress tensor :math:`\nabla \cdot \boldsymbol{\underline\tau}=\mu\Delta \mathbf u`,
   which we refer to as the 'no stress' formulation
 
 .. _intro_ns_nondim:
@@ -90,9 +90,9 @@ non-dimensional Navier-Stokes:
 .. math::
     :label: NS_nondim
 
-    \frac{\partial \mathbf{u^*}}{\partial t^*} + \mathbf{u^*} \cdot \nabla \mathbf{u^*}\ = -\nabla p^* + \frac{1}{Re} \nabla\cdot \boldsymbol\tau^* + \mathbf f^*.
+    \frac{\partial \mathbf{u^*}}{\partial t^*} + \mathbf{u^*} \cdot \nabla \mathbf{u^*}\ = -\nabla p^* + \frac{1}{Re} \nabla\cdot \boldsymbol{\underline\tau}^* + \mathbf f^*.
 
-where :math:`\boldsymbol\tau^*=[\nabla \mathbf u^*+\nabla \mathbf u^{*T}]` and :math:`\mathbf f^*` is the dimensionless user defined forcing function, e.g. gravity.
+where :math:`\boldsymbol{\underline\tau}^*=[\nabla \mathbf u^*+\nabla \mathbf u^{*T}]` and :math:`\mathbf f^*` is the dimensionless user defined forcing function, e.g. gravity.
 
 The non-dimensional number here is the Reynolds number :math:`Re=\frac{\rho U L}{\mu}`.
 
@@ -168,9 +168,9 @@ In the case of flows dominated by viscous effects Nek5000 can solve the reduced 
 .. math::
     :label: ns_momentum_stokes
 
-    \rho\left(\frac{\partial \mathbf u}{\partial t} \right) = - \nabla p + \nabla \cdot \boldsymbol\tau + \rho {\bf f} \,\, , \text{in } \Omega_f \text{  (Momentum)  }
+    \rho\left(\frac{\partial \mathbf u}{\partial t} \right) = - \nabla p + \nabla \cdot \boldsymbol{\underline\tau} + \rho {\bf f} \,\, , \text{in } \Omega_f \text{  (Momentum)  }
 
-where :math:`\boldsymbol\tau=\mu[\nabla \mathbf u+\nabla \mathbf u^{T}]` and
+where :math:`\boldsymbol{\underline\tau}=\mu[\nabla \mathbf u+\nabla \mathbf u^{T}]` and
 
 .. math::
     :label: ns_cont_stokes
@@ -192,9 +192,9 @@ If there is no time-dependence, then Nek5000 can further reduce to
 .. math::
     :label: ns_momentum_steady_stokes
 
-    - \nabla p + \nabla \cdot \boldsymbol\tau + \rho {\bf f}=0 \,\, , \text{in } \Omega_f \text{  (Momentum)  }
+    - \nabla p + \nabla \cdot \boldsymbol{\underline\tau} + \rho {\bf f}=0 \,\, , \text{in } \Omega_f \text{  (Momentum)  }
 
-where :math:`\boldsymbol\tau=\mu[\nabla \mathbf u+\nabla {\mathbf u}^{T}]` and
+where :math:`\boldsymbol{\underline\tau}=\mu[\nabla \mathbf u+\nabla {\mathbf u}^{T}]` and
 
 .. math::
     :label: ns_cont_steady_stokes
@@ -251,11 +251,11 @@ The low-Mach equations are
 .. math::
     :label: lowmach
 
-    \rho\left(\frac{\partial \mathbf u}{\partial t}+ \mathbf u\cdot\nabla\mathbf u\right)&=-\nabla p+\nabla \cdot\boldsymbol\tau+\rho\mathbf f\ \\
+    \rho\left(\frac{\partial \mathbf u}{\partial t}+ \mathbf u\cdot\nabla\mathbf u\right)&=-\nabla p+\nabla \cdot\boldsymbol{\underline\tau}+\rho\mathbf f\ \\
     \nabla \cdot \mathbf u &= -\frac{1}{\rho}\frac{\mathrm d \rho}{\mathrm d T}\left(\frac{\partial T}{\partial t}+ \mathbf u\cdot\nabla T\right) \\ 
     \rho c_p\left(\frac{\partial T}{\partial t}+ \mathbf u\cdot\nabla T\right)&=-\nabla \cdot k \nabla T + q'''
 
-where :math:`\boldsymbol\tau=\mu[\nabla \mathbf u+\nabla \mathbf u^{T}-\frac{2}{3}\nabla \cdot
+where :math:`\boldsymbol{\underline\tau}=\mu[\nabla \mathbf u+\nabla \mathbf u^{T}-\frac{2}{3}\nabla \cdot
 \mathbf u \mathbf I]`.
 
 .. The implementation of the equation of state for the low-Mach formulation is for the moment hard-coded to be the ideal gas equation of state :math:`p=\rho R T`. 

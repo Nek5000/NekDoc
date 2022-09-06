@@ -24,7 +24,7 @@ SESSION.NAME
 
 To run *Nek5000*, each simulation must have a ``SESSION.NAME`` file.
 This file is read in by the code and gives the path to the relevant files describing the structure and parameters of the simulation.
-The ``SESSION.NAME`` file is a file that contains the name of the simulation and the full path to supporting files.
+It contains the name of the simulation and the full path to supporting files.
 For example, to run the eddy example from the repository, the ``SESSION.NAME`` file would look like:
 
 .. code-block:: none
@@ -32,7 +32,12 @@ For example, to run the eddy example from the repository, the ``SESSION.NAME`` f
   eddy_uv
   /home/user_name/Nek5000/short_tests/eddy/
 
-Note that this file is generated automatically by the ``nek``, ``nekb``, ``nekmpi`` and ``nekbmpi`` scripts at runtime.
+This file is generated automatically by the ``nek``, ``nekb``, ``nekmpi``, ``nekbmpi``, ``neknek`` and ``neknekb`` scripts at runtime.
+If you are calling ``$ mpirun`` directly, such as in a submission script for an HPC system, you must manually generate this file or setup your script to generate it for you.
+
+:Warning:
+  When using :ref:`NekNek <neknek>`, ``SESSION.NAME`` is substantially different. 
+  We recommend running the example and checking the ``neknek`` script for further information.
 
 .. _case_files_par:
 
