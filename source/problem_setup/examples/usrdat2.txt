@@ -6,9 +6,17 @@
       include 'TOTAL'
 
       integer n
+<<<<<<< HEAD
       Dhyd = 0.00915 !hydraulic diameter in meters
 
       n=lx1*ly1*lz1*nelv
+=======
+      real Dhyd
+
+      n=lx1*ly1*lz1*nelv !number of GLL points on the local MPI rank
+
+      Dhyd = 0.00915 !hydraulic diameter in meters
+>>>>>>> origin
 
       call cmult(xm1,1.0/Dhyd,n)
       call cmult(ym1,1.0/Dhyd,n)

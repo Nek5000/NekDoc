@@ -37,7 +37,33 @@ For a more complete list see :ref:`sec:commonvars`.
    ``ifield``,active solution field,see :numref:`tab:ifield`
 
 :Note: 
-  ``nelt`` is always greater than or equal to ``nelv``. For non-conjugate heat transfer cases, ``nelv`` and ``nelt`` are identical. Similarly for ``nelgv`` and ``nelgt``.
+  ``nelt`` is always greater than or equal to ``nelv``. 
+  For non-conjugate heat transfer cases, ``nelv`` and ``nelt`` are identical. 
+  Similarly for ``nelgv`` and ``nelgt``.
+
+Also included in the ``TOTAL`` block is the field coefficient array.
+This array contains reference values for fluid properties that are inherited directly from the ``.par`` file.
+For a simulation with constant properties, this array corresponds directly to density, viscosity, etc. 
+as the values from this array are copied directly into the ``vtrans`` and ``vdiff`` arrays internally by *Nek5000* (See :ref:`sec:uservp` for more information on ``vtrans`` and ``vdiff``).
+For simulations with variable properties, this array can be useful as it retains the values assigned in the ``.par`` file.
+
+.. _tab:cpfld:
+
+.. csv-table:: The field coefficient array
+   :header: Variable,Entry in ``.par`` file,Description
+
+   "``cpfld(1,1)``",``velocity:density``,Reference density
+   "``cpfld(1,2)``",``velocity:viscosity``,Reference viscosity
+   "``cpfld(2,1)``",``temperature:rhocp``,Reference rho-cp
+   "``cpfld(2,2)``",``temperature:conductivity``,Reference conductivity
+   "``cpfld(3,1)``",``scalar01:density``,Reference density for scalar 1
+   "``cpfld(3,2)``",``scalar01:diffusivity``,Reference diffusivity for scalar 1
+   "``cpfld(i+2,1)``",``scalar i:density``,Reference density for scalar :math:`i`
+   "``cpfld(i+2,2)``",``scalar i:diffusivity``,Reference diffusivity for :math:`i`
+
+:Note:
+  The entries in the field coefficient array for velocity and temperature correspond directly to parameters 1, 2, 7, and 8 from the old ``.rea`` format.
+  However, no corresponding parameters exist for the passive scalars.
 
 .. _local_routines:
 
@@ -132,14 +158,14 @@ The transport coefficient refers to the coefficient attached to the convective t
    |            |                       +-------------------------------------------------------------------------------+----------------------------+ 
    | ``utrans`` | transport coefficient | :math:`(\rho c_p)` in the :ref:`energy equation <intro_energy>`               | ``ifield = 2``             |
    |            |                       +-------------------------------------------------------------------------------+----------------------------+ 
-   |            |                       | :math:`(\rho c_p)_i` in the :ref:`passive scalar equations <intro_pass_scal>` | ``ifield = 3 .. npscal+2`` |
+   |            |                       | :math:`\rho_i` in the :ref:`passive scalar equations <intro_pass_scal>`       | ``ifield = 3 .. npscal+2`` |
    +------------+-----------------------+-------------------------------------------------------------------------------+----------------------------+
 
 :Warning:
   The coresponding entries in ``vdiff`` and ``vtrans`` are overwritten by whatever is assigned to ``udiff`` and ``utrans``. Setting ``vdiff`` and ``vtrans`` directly is not supported.
 
 :Example:
-  The code block below shows how to implement a variable viscosity as a function of temperature, with the density, rho-cp, and thermal conductivity set from the values in the ``.par`` file.
+  The code block below shows how to implement a variable viscosity as a function of temperature, with the density, rho-cp, and thermal conductivity set from the values in the ``.par`` file using the :ref:`field coefficient array <tab:cpfld>`.
 
 .. literalinclude:: examples/uservp.txt
    :language: fortran
@@ -150,7 +176,7 @@ The transport coefficient refers to the coefficient attached to the convective t
 userf
 ...................
 
-This functions sets the source term (which will be subsequently be multiplied by he density) for the momentum equation.
+This functions sets the source term (which will be subsequently be multiplied by the density) for the momentum equation.
 It allows the user to effectively add an acceleration term.
 
 
@@ -178,6 +204,9 @@ A source term that has the form
 can be implemented either entirely explicitly, or semi-implicitly.
 In general, the implicit term should be used wherever possible as it tends to stabilize the solution.
 Both approaches are shown below.
+It is not necessary for :math:`\alpha` and :math:`\beta` to be constants.
+They can vary with time, position, or any of the solution variables -- including temperature.
+However, using a solution variable may impose limits on the stability of the solution.
 
 :Example:
   In the first example, the source term is set entirely explicitly
@@ -203,6 +232,7 @@ It is only called for special boundary condition types -- any lowercase value in
 It includes an additional argument compared to the other Local Routines.
 The ``iside`` variable refers to which side of the element the boundary condition is on. 
 This can be used for accessing the appropriate entry in the ``boundaryID`` or ``cbc`` arrays.
+For a more complete list of all supported boundary conditions, see :ref:`boundary-conditions`.
 
 The available values that can be set for velocity are listed in :numref:`tab:velbcs` along with their definitions and the corresponding entry in the ``cbc`` array, where :math:`\mathbf{\hat e}` denotes a unit vector.
 
@@ -401,6 +431,10 @@ This function can be used to modify the spectral element mesh.
 The geometry information (mass matrix, surface normals, etc.) will be rebuilt after this routine is called.
 Any changes to the ``cbc`` array must be made before or during this call.
 
+:Example:
+  In the code below, the mesh is scaled by a factor of :math:`1/D_h`, where :math:`D_h` is the hydraulic diameter.
+  It is typically convenient to generate a mesh with dimensions, this allows the user to non-dimensionalize the mesh at runtime.
+
 .. literalinclude:: examples/usrdat2.txt
    :language: fortran
 
@@ -410,5 +444,6 @@ Any changes to the ``cbc`` array must be made before or during this call.
 usrdat3
 ...................
 
-This function can be used to initialize case/user specific data.
+This function can be used to initialize any additional case/user specific data.
+The GLL mesh should not be further modified in this routine as the geometric factors are not automatically recomputed.
 

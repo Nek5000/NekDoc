@@ -207,17 +207,7 @@ The highlighted line indicates where this is done:
    :emphasize-lines: 15
 
 Note that the properties only vary between the fluid and the solid subdomains.
-Properties with the fluid and solid respectively remain constant as provided by the ``cpfld`` array.
-The ``cpfld`` array is filled with the values assigned in the par file according to:
-
-.. csv-table:: The field coefficient array
-   :header: "Parameter in the par file",
-   :widths: 15, 15
-
-   "viscosity","``cpfld(1,1)``"
-   "density","``cpfld(1,2)``"
-   "conductivity","``cpfld(2,1)``"
-   "rhoCp","``cpfld(2,2)``"
+Properties within the fluid and solid respectively remain constant as provided by :ref:`the field coefficient array <tab:cpfld>` (``cpfld``).
 
 Buoyancy model
 ______________
