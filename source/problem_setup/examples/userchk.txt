@@ -1,0 +1,36 @@
+      subroutine userchk()
+
+      implicit none
+
+      include 'SIZE'
+      include 'TOTAL'
+
+      integer n1,n2
+      real Lref,Uref,rhoref,Pref
+
+      n1=lx1*ly1*lz1*nelv !number of GLL points in the velocity mesh on the local MPI rank
+      n2=lx2*ly2*lz2*nelv !number of GLL points in the pressure mesh on the local MPI rank
+
+      Lref   = 0.00915          !hydraulic diameter in meters
+      Uref   = 0.768            !reference velocity in m/s
+      rhoref = 998.6            !reference density in kg/m3
+      Pref   = rhoref*Uref*Uref !reference pressure in Pa
+
+      if(nsteps.eq.0) then ! postprocessing mode
+
+        call cmult(xm1,Lref,n1) !re-dimesionalize the domain
+        call cmult(ym1,Lref,n1)
+        call cmult(zm1,Lref,n1)
+        call cmult(vx,Uref,n1)  !re-dimensionalize the velocity
+        call cmult(vy,Uref,n1)
+        call cmult(vz,Uref,n1)
+        call cmult(pr,Pref,n2)  !re-dimensionalize the pressure
+
+        call prepost(.true.'dim') !write a restart file with dimensional quantities
+
+        call exitt !exit without writing another new restart file
+
+      endif
+
+      return
+      end

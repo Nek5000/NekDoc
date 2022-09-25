@@ -106,6 +106,7 @@ To activate time-averaging, simply call ``avg_all`` in ``userchk``.
    :emphasize-lines: 9
 
 Adding this call to ``userchk`` will output three additional files, ``avgfoo``, ``rmsfoo``, and ``rm2foo``, where "foo" is your case name.
+As the case is running, the running averages are stored in memory in the arrays documented :ref:`here <sec:avgvars>`.
 
 :WARNING:
   Averaging files are written in double precision by default and can very quickly consume a large amount of disk space!

@@ -1,0 +1,30 @@
+      subroutine userbc(ix,iy,iz,iside,eg) ! set up boundary conditions
+c
+c     NOTE ::: This subroutine MAY NOT be called by every process
+c
+      implicit none
+
+      integer ix,iy,iz,iside,eg
+
+      include 'SIZE'
+      include 'TOTAL'
+      include 'NEKUSE'
+
+      integer ie
+      character*3 cb3
+
+      ie=gllel(eg) !get local element number
+      cb3=cbc(iside,ie,1) !access the velocity boundary condition
+
+      ux   = 0.0
+      uy   = 0.0
+      uz = 3./2. (1.0-(2.0*y-1.0)**2
+
+      if(cb3.eq.'v  ')
+        temp = 0.0 !set inlet temperature to 0
+      elseif(cb3.eq.'W  ')
+        temp = 1.0 !set wall temperature to 1
+      endif
+      
+      return
+      end
