@@ -79,12 +79,25 @@ To control which variables are read from a restart file, add an additional strin
    Passive scalar 'i',``Si``
    reset time,``time=0.0``
 
-For example, to load only velocity and passive scalar 2, and set the physical time to 5.0, use the following
+:Example:
+  The following directive will load only velocity and passive scalar 2, and set the physical time to 5.0.
 
 .. code-block:: ini
 
    [GENERAL]
    startFrom = foo0.f00001 US2 time=5.0
+
+Additionally, *Nek5000* supports loading multiple files simultaneously by providing a list of comma separated filenames.
+With the default behavior, each subsequent file will overwrite everything loaded with the previous file.
+However, by making use of the restart options, a Frankenstein's Monster type of restart can be created combining fields from multiple solution files.
+
+:Example:
+  The following directive will load the mesh coordinates from the first file, ``mshfoo0.f00001``, then interpolate velocity, pressure and temperature from the second file, ``foo0.f00001`` onto the new coordinates.
+  
+.. code-block:: ini
+
+   [GENERAL]
+   startFrom = mshfoo0.f00001 X, foo0.f00001 UPT int
 
 :Feature:
    If a restart file contains coordinates, *Nek5000* will overwrite the coordinates generated from the ``.re2`` file. This behavior may or may not be desirable, use the restart options to control it!
@@ -140,6 +153,10 @@ Additionally, the width of the time-window is recorded as the phyiscal time in e
    :math:`\overline{p^2}`,rm2foo0.f00000,pressure
    :math:`\overline{T^2}`,rm2foo0.f00000,temperature
 
+:Note: 
+  ``avg_all`` does NOT output enough information to reconstruct the turbulent heat fluxes by default.
+  Currently, custom user code is necessary to accomplish this.
+
 The averaging files can then be reloaded into *Nek5000* as a standard restart file for post processing.
 The files contain enough information to reconstruct Reynolds stresses considering that for a sufficiently large time-window at statistically steady state:
 
@@ -147,21 +164,29 @@ The files contain enough information to reconstruct Reynolds stresses considerin
 
    \overline{u'u'}=\overline{u^2}-\overline{u}^2
 
-Note that by default, ``avg_all`` does NOT output enough information to reconstruct the turbulent heat fluxes.
-Currently, custom user code is necessary to accomplish this.
-
 .. _features_filt:
 
 ------------------
 Filtering
 ------------------
 
-Nek5000 includes two options to implement an explicit filter. 
-Both options use the same approach, but the high-pass filter includes an additional weighting term to make it independent of time-step size.
+Nek5000 includes two options to implement a stabilizing filter.
+Both methods will drain energy from the solution at the lowest resolved wavelengths, effectively acting as a subgrid scale dissipation model.
+A filter is necessary to run an LES turbulence model in *Nek5000* and high-order methods in general, as they lack the numerical dissipation necessary to stabilize a so-called *implicit LES* method, which relies on a lack of resolution to provide dissipation.
+Both methods described here demonstrate spectral convergence for increasing polynomial order.
+Both options use the same underlying convolution operation, but apply it in different ways.
+
+
 
 ...............
 Explicit Filter
 ...............
+
+The explicit filter is based on a method described by Fischer and Mullen [Fischer2001]_.
+It is so named as it applies a low-pass filtering operation directly to the solution variables at the end of every time step, **explicitly** filtering the solution.
+
+:Note:
+  The explicit filter is applied after every time, consequently its strength is dependent on time step size.
 
 .. code-block:: ini
 
@@ -170,7 +195,7 @@ Explicit Filter
    filterModes = 2
    filterWeight = 0.05
 
-The explicit filter can also be invoked using the ``cutoff ratio`` key instead of the ``filterModes`` key.
+The explicit filter can also be invoked using the ``cutoffRatio`` key instead of the ``filterModes`` key.
 
 .. code-block:: ini
 
@@ -183,11 +208,20 @@ The explicit filter can also be invoked using the ``cutoff ratio`` key instead o
 High-Pass Filter
 ................
 
+The high-pass filter is based on a method described by Stolz, Schlatter, and Kleiser [Stolz2005]_.
+
 .. code-block:: ini
 
    [GENERAL]
    filtering = hpfrt
    
+
+.. _features_post:
+
+------------------
+Post Processing
+------------------
+TODO...
 
 .. _features_obj:
 
