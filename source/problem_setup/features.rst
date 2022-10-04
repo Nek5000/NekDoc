@@ -36,7 +36,7 @@ Usage example:
 Grid-to-Grid Interpolation
 --------------------------
 
-Nek includes the capability to transfer a solution from one mesh to an entirely different mesh.
+*Nek5000* includes the capability to transfer a solution from one mesh to an entirely different mesh.
 This allows a user to restart from an existing field file with a new mesh. 
 This is accomplished by calling the generic field reader which will spectrally interpolate a result file from a previous case.
 If using the latest master branch from github, this can be done by specifying the ``int`` restart option in the ``.par`` file.
@@ -55,7 +55,7 @@ To use this feature in V19, add a call to the ``gfldr`` subroutine in ``userchk`
    :language: fortran
    :emphasize-lines: 9
 
-Note that ``foo0.f00001`` must include the coordinates, i.e. it must have been created from a run with ``writeToFieldFile = yes`` in the ``[MESH]`` section of the ``.par`` file and that selection of specific fields to read is not currently supported.
+Note that ``foo0.f00001`` must include the coordinates, i.e.\ it must have been created from a run with ``writeToFieldFile = yes`` in the ``[MESH]`` section of the ``.par`` file and that selection of specific fields to read is not currently supported.
 That means all fields included in ``foo.f00001`` will be overwritten.
 
 .. _features_restart:
@@ -108,7 +108,7 @@ However, by making use of the restart options, a Frankenstein's Monster type of 
 Averaging
 ---------------
 
-When running a high fidelity case with DNS or LES turbulence models, it is often necessary to time-average the solution fields to extract meaningful quanties.
+When running a high fidelity case with DNS or LES turbulence models, it is often necessary to time-average the solution fields to extract meaningful quantities.
 This may sometimes even be useful for a URANS case as well.
 *Nek5000* includes a subroutine for calculating a running time-average of all the primitive variables, i.e. :math:`u`, :math:`v`, :math:`w`, :math:`p`, and :math:`T`, as well as the second order terms :math:`u^2`, :math:`v^2`, :math:`w^2`, :math:`uv`, :math:`uw`, and :math:`vw`.
 Which can be used to reconstruct the Reynolds stresses.
@@ -129,7 +129,7 @@ When the files are written, the averaging restarts.
 The average files thus only contain averages over the window specified by ``writeInterval`` in the ``.par`` file.
 
 The complete list of variables, including which file they are written to and the scalar position they occupy in that file are specified in the table below.
-Additionally, the width of the time-window is recorded as the phyiscal time in each average file.
+Additionally, the width of the time-window is recorded as the physical time in each average file.
 
 .. csv-table:: Variables included in ``avg_all``
    :header: "Variable","filename","scalar"
@@ -172,11 +172,54 @@ Filtering
 
 Nek5000 includes two options to implement a stabilizing filter.
 Both methods will drain energy from the solution at the lowest resolved wavelengths, effectively acting as a subgrid scale dissipation model.
-A filter is necessary to run an LES turbulence model in *Nek5000* and high-order methods in general, as they lack the numerical dissipation necessary to stabilize a so-called *implicit LES* method, which relies on a lack of resolution to provide dissipation.
-Both methods described here demonstrate spectral convergence for increasing polynomial order.
-Both options use the same underlying convolution operation, but apply it in different ways.
+A filter is necessary to run an LES turbulence model in *Nek5000* and spectral methods in general, as they lack the numerical dissipation necessary to stabilize a so-called "implicit LES" method, which relies on a lack of resolution to provide dissipation.
+Both methods described here demonstrate spectral convergence for increasing polynomial order as they use the same underlying convolution operator, but apply it in different ways.
 
+The convolution operator is applied on an element-by-element basis.
+Functions in the SEM are locally represented on each element
+as :math:`N^{th}`--order tensor-product Lagrange polynomials in the reference element, :math:`\hat\Omega\equiv[-1,1]^3`.
+This representation can readily be expressed as a tensor-product of Legendre polynomials, :math:`P_k`.
+For example, consider
 
+.. , :math:`\Omega^e`, :math:`e=1...E`, 
+
+.. math::
+
+  u(x)=\sum^N_{k=0}\hat u_k P_k(x)
+
+where :math:`u(x)` is any polynomial of degree :math:`N` on :math:`[-1,1]`.
+As each Legendre polynomial corresponds to a wavelength on :math:`[-1,1]`, a filtered variant of :math:`u(x)` can be constructed from
+
+.. math::
+
+  \bar u(x)=\sum^N_{k=0}\sigma_k\hat u_k P_k(x).
+
+By choosing appropriate values for the weighting factors, :math:`\sigma_k`, we can control the characteristics of the filter.
+In *Nek5000* we chose a filter cutoff ratio, :math:`N'/N`, which can also be equivalently expressed as a number of filtered modes, and choose
+
+.. math::
+
+  \sigma_k = 1\qquad\text{for}\qquad k\le N'\\
+  \sigma_k < 1\qquad\text{for}\qquad k> N'
+
+to construct a low-pass filter. 
+An example is shown below in :numref:`fig:filter`.
+
+.. _fig:filter:
+
+.. figure:: filter.png
+   :align: center
+   :figclass: align-center
+   :alt: filter
+
+   Example of a strong low-pass filter.
+
+We define :math:`F` as the matrix operation that applies for this one-dimensional low-pass filter.
+From there, the convolution operating representing the three-dimensional low-pass filter, :math:`(G*)`, on the reference element, :math:`\hat\Omega`, is given by the Kronecker product :math:`F \otimes F \otimes F`
+
+.. math::
+
+  \bar u = G * u = (F \otimes F \otimes F) u.
 
 ...............
 Explicit Filter
@@ -187,6 +230,8 @@ It is so named as it applies a low-pass filtering operation directly to the solu
 
 :Note:
   The explicit filter is applied after every time, consequently its strength is dependent on time step size.
+
+
 
 .. code-block:: ini
 
