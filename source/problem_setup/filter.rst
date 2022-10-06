@@ -182,7 +182,7 @@ Typical values for this are :math:`5\le\chi\le10`, which drains adequate energy 
 The high-wavenumber relaxation of the high-pass filter model is similar to the approximate deconvolution approach [Stolz2001]_.
 It is attractive in that it can be tailored to directly act on marginally resolved modes at the grid scale.
 The approach allows good prediction of transitional and turbulent flows with minimal sensitivity for model coefficients [Schlatter2006]_.
-Furthermore, the high-pass filters enable the computation of the structure function in the filtered or HPF structure-function model in all spatial directions even for inhomogeneous flows, removing the arbitrariness of special treatment of selected (e.g.\ wall-normal) directions.
+Furthermore, the high-pass filters enable the computation of the structure function in the filtered or HPF structure-function model in all spatial directions even for inhomogeneous flows, removing the arbitrariness of special treatment of selected (e.g. wall-normal) directions.
 
 Generally recommended settings are as follows
 
