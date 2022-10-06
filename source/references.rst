@@ -29,6 +29,10 @@ References
 .. [Foroozani2021] Foroozani, N., Krasnov, D., Schumacher, J., "Turbulent convection for different thermal
     boundary conditions at the plates", *J. Fluid. Mech.*, **907**, A27:1--22, 2021 
 
-.. [Fischer2001] Fischer, P., Mullen, J., "Filter-based stabilization of spectral elementl methods", *Comptes Rendus de l'Académie des Sciences - Series I - Mathematics*, **332**, 3:265--270, 2001, https://doi.org/10.1016/S0764-4442(00)01763-8
+.. [Fischer2001] Fischer, P., Mullen, J., "Filter-based stabilization of spectral elementl methods", *Comptes Rendus de l'Académie des Sciences - Series I - Mathematics*, **332**, 3:265--270, 2001. https://doi.org/10.1016/S0764-4442(00)01763-8
 
-.. [Stolz2005] Stolz, S., Schlatter, P., and Kleiser, L., "High-pass filtered eddy-viscosity models for large-eddy simulations of transitional and turbulent flow", *Physics of Fluids*, **17**, 065103, 2005, https://doi.org/10.1063/1.1923048
+.. [Stolz2005] Stolz, S., Schlatter, P., and Kleiser, L., "High-pass filtered eddy-viscosity models for large-eddy simulations of transitional and turbulent flow", *Physics of Fluids*, **17**, 065103, 2005. https://doi.org/10.1063/1.1923048
+
+.. [Stolz2001] Stolz, S., Adams, N. A. and Kleiser, L., "An approximate deconvolution model for large-eddy simulation with application to incompressible wall-bounded flows", *Physics of Fluids*, **13**, no. 4, pp. 997--1015, 2005. https://doi.org/10.1063/1.1350896
+
+.. [Schlatter2006] Schlatter, P., Stolz, S., and Kleiser, L., "Analysis of the SGS energy budget for deconvolution- and relaxation-based models in channel flow", in *Direct and Large-Eddy Simulation VI*, pp. 135--142, Springer, Dordrecht, 2006. https://doi.org/10.1007/978-1-4020-5152-2_15 

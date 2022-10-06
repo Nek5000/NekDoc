@@ -4,7 +4,7 @@
 Stabilizing Filters
 ===================
 
-Nek5000 includes two options to implement a stabilizing filter.
+*Nek5000* includes two options to implement a stabilizing filter.
 Both methods will drain energy from the solution at the lowest resolved wavelengths, effectively acting as a sub-grid scale dissipation model.
 A filter is necessary to run an LES turbulence model in *Nek5000* and spectral methods in general, as they lack the numerical dissipation necessary to stabilize a so-called "implicit LES" method, which relies on a lack of resolution to provide dissipation.
 Both methods described here demonstrate spectral convergence for increasing polynomial order as they use the same underlying convolution operator, but apply it in different ways.
@@ -51,7 +51,7 @@ However, if the energy of the input signal is fully resolved on the first six mo
 
    Example of a strong low-pass filter.
 
-We define :math:`F` as the matrix operation that applies for this one-dimensional low-pass filter.
+To construct the filter on a three-dimensional element, we define :math:`F` as the matrix operation that applies for this one-dimensional low-pass filter.
 From there, the convolution operator representing the three-dimensional low-pass filter, :math:`(G*)`, on the reference element, :math:`\hat\Omega`, is given by the Kronecker product :math:`F \otimes F \otimes F`
 
 .. math::
@@ -59,7 +59,7 @@ From there, the convolution operator representing the three-dimensional low-pass
   {\bf \tilde u} = G * {\bf u} = (F \otimes F \otimes F) {\bf u}.
 
 :Important:
-  The filtered wavelengths depend on the local element size, so the filtering operation is **NOT** uniform across the domain.
+  The filtered wavelengths depend on the local element size, so the filtering operation is **NOT** necessarily uniform across the domain.
 
 ---------------
 Explicit Filter
@@ -87,7 +87,7 @@ The cutoff ratio can be controlled by the ``filterCutoffRatio`` key
 
  \frac{N'+1}{N+1} = {\tt filterCutoffRatio}
 
-The cutoff ratio is assigned as a ``real``, while the corresponding value of :math:`N'` is restricted to integer values.
+The cutoff ratio is assigned as a ``real``, while the corresponding value of :math:`N'` is restricted to ``integer`` values.
 Consequently, *Nek5000* will pick a value of :math:`N'` to match the specified cutoff ratio as closely as possible.
 
 :Note:
@@ -113,7 +113,8 @@ The second row corresponds to the values for :math:`\sigma_k`, with :math:`\sigm
 
 In practice, for an LES turbulence model, we want to use as gentle of a filter as possible while maintaining stability.
 The filtering method demonstrates spectral convergence, so for stronger settings, the LES solution will still converge in the limit of increasing polynomial order.
-However, with a strong filter, we limit the effective resolution, so we want to limit the impact of the filter to take advantage of the full resolution that's available.  
+However, a strong filter decreases the effective resolution.
+To take advantage of the full resolution that's available, the impact of the filter should be minimized.
 Generally recommended settings for :math:`N\ge5` are as follows:
 
 .. code-block:: ini
@@ -141,57 +142,54 @@ The weights for this filter are shown below in :numref:`fig:expfilt` for a 7\ :s
 High-Pass Filter
 ----------------
 
-Another method of applying sub-grid scale dissipation is through the use of a high-pass filter.
 The high-pass filter in *Nek5000* is based on a method described by Stolz, Schlatter, and Kleiser [Stolz2005]_.
-To implement it, a high-pass filter is constructed using the convolution operator described above.
+It is another method of applying sub-grid scale dissipation.
+In the high-pass filter method, the convolution operator described above is used to obtain a low-pass filtered signal.
+The high-pass filter term is then constructed from the difference between the original signal and the low-pass filtered signal.
 For any scalar, this term has the form
 
 .. math::
 
   \chi\left(u-\tilde u\right)
 
-It is proportional to the difference between the original signal, :math:`u` and the low-pass filtered signal, :math:`\tilde u = G*u`.
-In polynomial space, this term is only non-zero for the last few Legendre modes.
+where :math:`u` is the original signal, :math:`\tilde u = G*u` is the low-pass filtered signal, and :math:`\chi` is a proportionality constant.
+In polynomial space, this term is only non-zero for the last few Legendre modes, :math:`k>N'`.
 It is subtracted from the RHS of the momentum, energy, and scalar transport equations, respectively
 
 .. math::
+  \frac{\partial{\bf u}}{\partial t}+{\bf u}\cdot\nabla{\bf u} &=-\nabla p+\frac{1}{Re}\nabla^2{\bf u}-\chi\left({\bf u}-G*{\bf u}\right)\\
+  \frac{\partial T}{\partial t}+{\bf u}\cdot\nabla T &= \frac{1}{Pe}\nabla^2 T - \chi\left(T-G*T\right)\\
+  \frac{\partial\phi_i}{\partial t} +{\bf u}\cdot\nabla\phi_i &= \frac{1}{ReSc} \nabla^2\phi_i -\chi\left(\phi_i-G*\phi_i\right)
 
-  \rho\left(\frac{\partial\mathbf u}{\partial t} +\mathbf u \cdot \nabla \mathbf u\right) &=- \nabla p 
-    + \nabla \cdot \boldsymbol{\underline\tau} + \rho {\bf f} -\chi\left({\bf u} - G * {\bf u}\right)\\
-  \rho c_{p} \left( \frac{\partial T}{\partial t} + \mathbf u \cdot \nabla T \right) &=
-    \nabla \cdot (\lambda \nabla T) + q''' - \chi\left(T-G*T\right)\\
-  \rho_i \left( \frac{\partial \phi_{i}}{\partial t} + \mathbf u \cdot \nabla \phi_{i} \right) &=
-    \nabla \cdot (\Gamma_i \nabla \phi_{i}) + (q''')_i-\chi\left(\phi_i-G*\phi_i\right)
 
-It acts to provide the necessary drain of energy out of the discretized system.
+and acts to provide the necessary drain of energy out of the discretized system.
 
 The high-pass filter can be invoked by setting the ``filtering=hpfrt`` key in the ``[GENERAL]`` section of the ``.par`` file.
-The cutoff ratio is controlled by either the ``filterCutoffRatio`` or the ``filterModes`` keys, identically to the explicit filter.
+The cutoff ratio used in the convolution operator, :math:`(G*)`, is controlled by either the ``filterCutoffRatio`` or the ``filterModes`` keys, identically to the explicit filter.
 
-The convolution operation for the high-pass filter completely removes the highest Legendre mode
-
-.. math::
-
-  \sigma_N = 0
-
-The coefficients used to construct the low-pass filtered signal, :math:`\tilde u`, then decrease parabolically for each subsequent lower mode to 
-
-.. math::
-
-  \sigma_{N'}=1.
-
+The convolution operation used to construct the filtered signal, :math:`\tilde u`, completely removes the highest Legendre mode :math:`\sigma_N = 0`.
+The coefficients for the subsequent lower modes decrease parabolically until :math:`\sigma_{N'}=1`.
 This corresponds to a strong low-pass filtering operation, similar to the one shown in :numref:`fig:filter`.
 
-The overall strength of the high-pass filter is controlled by he proportionality coefficient, :math:`\chi`, which is set using the ``filterWeight`` key.
+The overall strength of the high-pass filter is controlled by the proportionality coefficient, :math:`\chi`, which is set using the ``filterWeight`` key.
 
 .. math::
 
   \chi = {\tt filterWeight}
 
+Typical values for this are :math:`5\le\chi\le10`, which drains adequate energy to stabilize the simulations.
 
+The high-wavenumber relaxation of the high-pass filter model is similar to the approximate deconvolution approach [Stolz2001]_.
+It is attractive in that it can be tailored to directly act on marginally resolved modes at the grid scale.
+The approach allows good prediction of transitional and turbulent flows with minimal sensitivity for model coefficients [Schlatter2006]_.
+Furthermore, the high-pass filters enable the computation of the structure function in the filtered or HPF structure-function model in all spatial directions even for inhomogeneous flows, removing the arbitrariness of special treatment of selected (e.g.\ wall-normal) directions.
+
+Generally recommended settings are as follows
 
 .. code-block:: ini
 
    [GENERAL]
    filtering = hpfrt
-   
+   filterModes = 2
+   filterWeight = 5.0
+
