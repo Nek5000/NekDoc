@@ -48,6 +48,7 @@
 </li>
 <li class="toctree-l2"><a class="reference internal" href="case_files.html">Case Files</a></li>
 <li class="toctree-l2"><a class="reference internal" href="usr_file.html">User Routines File (.usr)</a></li>
+<li class="toctree-l2"><a class="reference internal" href="filter.html">Stabilizing Filters</a></li>
 <li class="toctree-l2"><a class="reference internal" href="features.html">Additional Features</a></li>
 </ul>
 </li>
@@ -101,14 +102,14 @@
 <div class="section" id="fluid-velocity">
 <h2>Fluid Velocity<a class="headerlink" href="#fluid-velocity" title="Permalink to this headline">¶</a></h2>
 <p>Two types of boundary conditions are applicable to the fluid velocity : essential (Dirichlet) boundary condition in which the velocity is specified and natural (Neumann) boundary condition in which the traction is specified.
-For segments that constitute the boundary <span class="math notranslate nohighlight">\(\partial \Omega_f\)</span>, see <a class="reference internal" href="../theory.html#fig-walls"><span class="std std-numref">Fig. 17</span></a>, one of these two types of boundary conditions must be assigned to each component of the fluid velocity.
+For segments that constitute the boundary <span class="math notranslate nohighlight">\(\partial \Omega_f\)</span>, see <a class="reference internal" href="../theory.html#fig-walls"><span class="std std-numref">Fig. 19</span></a>, one of these two types of boundary conditions must be assigned to each component of the fluid velocity.
 The fluid boundary condition can be <em>all Dirichlet</em> if all velocity components of <span class="math notranslate nohighlight">\({\bf u}\)</span> are specified, or it can be <em>all Neumann</em> if all traction components (<span class="math notranslate nohighlight">\(\boldsymbol{\underline \tau} = [-P {\bf \underline I} + \mu (\nabla {\bf u} + (\nabla {\bf u})^{T})] \cdot {\bf \hat e_n}\)</span>) are specified.
 Where <span class="math notranslate nohighlight">\({\bf \underline I}\)</span> is the identity tensor, <span class="math notranslate nohighlight">\({\bf \hat e_n}\)</span> is the unit normal and <span class="math notranslate nohighlight">\(\mu\)</span> is the dynamic viscosity, are specified.
 It can also be <em>mixed Dirichlet/Neumann</em> if Dirichlet and Neumann conditions are selected for different velocity components.
 If the no stress formulation is selected, then traction is not defined on the boundary.
 In this case, any Neumann boundary condition imposed must be homogeneous, i.e. equal to zero.
 .. In addition, mixed Dirichlet/Neumann boundaries must be aligned with one of the Cartesian axes.
-For flow geometry which consists of a periodic repetition of a particular geometric unit, the periodic boundary conditions can be imposed, as illustrated in <a class="reference internal" href="../theory.html#fig-walls"><span class="std std-numref">Fig. 17</span></a> .
+For flow geometry which consists of a periodic repetition of a particular geometric unit, the periodic boundary conditions can be imposed, as illustrated in <a class="reference internal" href="../theory.html#fig-walls"><span class="std std-numref">Fig. 19</span></a> .
 The available primitive boundary conditions for the fluid are given in <a class="reference internal" href="#tab-bcf"><span class="std std-numref">Table 1</span></a> , with the user-specified boundary conditions in <a class="reference internal" href="#tab-ubcf"><span class="std std-numref">Table 2</span></a> .</p>
 <span id="tab-bcf"></span><table border="1" class="docutils" id="id2">
 <caption><span class="caption-number">Table 1 </span><span class="caption-text">Primitive boundary conditions for velocity</span><a class="headerlink" href="#id2" title="Permalink to this table">¶</a></caption>
@@ -457,7 +458,7 @@ If the fluid flow problem is considered, i.e., the energy
 equation is solved in conjunction with the momentum and
 continuity equations, then only
 the common boundary between the fluid and the solid
-(i.e., all or portion of <span class="math notranslate nohighlight">\(\partial \overline{\Omega}_f'\)</span> in <a class="reference internal" href="../theory.html#fig-walls"><span class="std std-numref">Fig. 17</span></a>)
+(i.e., all or portion of <span class="math notranslate nohighlight">\(\partial \overline{\Omega}_f'\)</span> in <a class="reference internal" href="../theory.html#fig-walls"><span class="std std-numref">Fig. 19</span></a>)
 can be defined as the melting front.
 In this case, segments on <span class="math notranslate nohighlight">\(\partial \overline{\Omega}_f'\)</span> that
 belong to the dynamic melting/freezing interface need to be

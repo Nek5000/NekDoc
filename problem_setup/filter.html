@@ -1,0 +1,281 @@
+<!DOCTYPE html>
+<html class="writer-html4" lang="en" >
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Stabilizing Filters &mdash; Nek5000  documentation</title><link rel="stylesheet" href="../_static/css/theme.css" type="text/css" />
+    <link rel="stylesheet" href="../_static/pygments.css" type="text/css" />
+  <!--[if lt IE 9]>
+    <script src="../_static/js/html5shiv.min.js"></script>
+  <![endif]-->
+  <script id="documentation_options" data-url_root="../" src="../_static/documentation_options.js"></script>
+        <script type="text/javascript" src="../_static/jquery.js"></script>
+        <script type="text/javascript" src="../_static/underscore.js"></script>
+        <script type="text/javascript" src="../_static/doctools.js"></script>
+        <script type="text/javascript" src="../_static/language_data.js"></script>
+        <script async="async" type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.5/latest.js?config=TeX-AMS-MML_HTMLorMML"></script>
+    <script src="../_static/js/theme.js"></script>
+    <link rel="index" title="Index" href="../genindex.html" />
+    <link rel="search" title="Search" href="../search.html" />
+    <link rel="next" title="Additional Features" href="features.html" />
+    <link rel="prev" title="User Routines File (.usr)" href="usr_file.html" /> 
+</head>
+
+<body class="wy-body-for-nav"> 
+  <div class="wy-grid-for-nav">
+    <nav data-toggle="wy-nav-shift" class="wy-nav-side">
+      <div class="wy-side-scroll">
+        <div class="wy-side-nav-search" >
+            <a href="../index.html" class="icon icon-home"> Nek5000
+          </a>
+<div role="search">
+  <form id="rtd-search-form" class="wy-form" action="../search.html" method="get">
+    <input type="text" name="q" placeholder="Search docs" />
+    <input type="hidden" name="check_keywords" value="yes" />
+    <input type="hidden" name="area" value="default" />
+  </form>
+</div>
+        </div><div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="Navigation menu">
+              <ul class="current">
+<li class="toctree-l1"><a class="reference internal" href="../quickstart.html">Quickstart</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../faq.html">FAQ</a></li>
+<li class="toctree-l1 current"><a class="reference internal" href="../problem_setup.html">Problem Setup</a><ul class="current">
+<li class="toctree-l2"><a class="reference internal" href="BCs.html">Boundary Conditions</a></li>
+<li class="toctree-l2"><a class="reference internal" href="case_files.html">Case Files</a></li>
+<li class="toctree-l2"><a class="reference internal" href="usr_file.html">User Routines File (.usr)</a></li>
+<li class="toctree-l2 current"><a class="current reference internal" href="#">Stabilizing Filters</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="#explicit-filter">Explicit Filter</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#high-pass-filter">High-Pass Filter</a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="features.html">Additional Features</a></li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="../tutorials.html">Tutorials</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../theory.html">Theory</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../build.html">Build Options</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../appendix.html">Appendices</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../references.html">References</a></li>
+</ul>
+
+        </div>
+      </div>
+    </nav>
+
+    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap"><nav class="wy-nav-top" aria-label="Mobile navigation menu" >
+          <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
+          <a href="../index.html">Nek5000</a>
+      </nav>
+
+      <div class="wy-nav-content">
+        <div class="rst-content">
+          <div role="navigation" aria-label="Page navigation">
+  <ul class="wy-breadcrumbs">
+      <li><a href="../index.html" class="icon icon-home"></a> &raquo;</li>
+          <li><a href="../problem_setup.html">Problem Setup</a> &raquo;</li>
+      <li>Stabilizing Filters</li>
+      <li class="wy-breadcrumbs-aside">
+            <a href="../_sources/problem_setup/filter.rst.txt" rel="nofollow"> View page source</a>
+      </li>
+  </ul>
+  <hr/>
+</div>
+          <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
+           <div itemprop="articleBody">
+             
+  <div class="section" id="stabilizing-filters">
+<span id="sec-filter"></span><h1>Stabilizing Filters<a class="headerlink" href="#stabilizing-filters" title="Permalink to this headline">¶</a></h1>
+<p><em>Nek5000</em> includes two options to implement a stabilizing filter.
+Both methods will drain energy from the solution at the lowest resolved wavelengths, effectively acting as a sub-grid scale dissipation model.
+A filter is necessary to run an LES turbulence model in <em>Nek5000</em> and spectral methods in general, as they lack the numerical dissipation necessary to stabilize a so-called “implicit LES” method, which relies on a lack of resolution to provide dissipation.
+Both methods described here demonstrate spectral convergence for increasing polynomial order as they use the same underlying convolution operator, but apply it in different ways.</p>
+<p>The convolution operator is applied on an element-by-element basis.
+Functions in the SEM are locally represented on each element as <span class="math notranslate nohighlight">\(N^{th}\)</span>-order tensor-product Lagrange polynomials in the reference element, <span class="math notranslate nohighlight">\(\hat\Omega\equiv[-1,1]^3\)</span>.
+This representation can readily be expressed as a tensor-product of Legendre polynomials, <span class="math notranslate nohighlight">\(P_k\)</span>.
+For example, consider</p>
+<div class="math notranslate nohighlight">
+\[u(x)=\sum^N_{k=0}\hat u_k P_k(x)\]</div>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Reminder:</th><td class="field-body"><span class="math notranslate nohighlight">\(N\)</span> is the polynomial order, <span class="math notranslate nohighlight">\(N=\)</span> <code class="docutils literal notranslate"><span class="pre">lx1</span></code> <span class="math notranslate nohighlight">\(-1\)</span> (See <a class="reference internal" href="case_files.html#case-files-size"><span class="std std-ref">the SIZE file</span></a>)</td>
+</tr>
+</tbody>
+</table>
+<p>where <span class="math notranslate nohighlight">\(u(x)\)</span> is any polynomial of degree <span class="math notranslate nohighlight">\(N\)</span> on <span class="math notranslate nohighlight">\([-1,1]\)</span>.
+As each Legendre polynomial corresponds to a wavelength on <span class="math notranslate nohighlight">\([-1,1]\)</span>, a filtered variant of <span class="math notranslate nohighlight">\(u(x)\)</span> can be constructed from</p>
+<div class="math notranslate nohighlight">
+\[\tilde u(x)=\sum^N_{k=0}\sigma_k\hat u_k P_k(x).\]</div>
+<p>By choosing appropriate values for the weighting factors, <span class="math notranslate nohighlight">\(\sigma_k\)</span>, we can control the characteristics of the filter.
+In <em>Nek5000</em> we select a filter cutoff ratio, <span class="math notranslate nohighlight">\((N'+1)/(N+1)\)</span>, which can also be equivalently expressed as a number of filtered modes, <span class="math notranslate nohighlight">\(N_{modes}=N-N'\)</span>.
+Weights are chosen as</p>
+<div class="math notranslate nohighlight">
+\[\begin{split}\sigma_k = 1\qquad\text{for}\qquad k\le N'\\
+\sigma_k &lt; 1\qquad\text{for}\qquad k&gt; N'\end{split}\]</div>
+<p>to construct a low-pass filter.
+An example is shown below in <a class="reference internal" href="#fig-filter"><span class="std std-numref">Fig. 5</span></a>.
+The signal produced by this filter would have the highest Legendre mode (shortest wavelength) completely removed with the next two highest modes significantly diminished.
+However, if the energy of the input signal is fully resolved on the first six modes, the filter would not affect the signal at all.</p>
+<div class="align-center figure" id="id5">
+<span id="fig-filter"></span><img alt="filter" src="../_images/filter.png" />
+<p class="caption"><span class="caption-number">Fig. 5 </span><span class="caption-text">Example of a strong low-pass filter.</span></p>
+</div>
+<p>To construct the filter on a three-dimensional element, we define <span class="math notranslate nohighlight">\(F\)</span> as the matrix operation that applies for this one-dimensional low-pass filter.
+From there, the convolution operator representing the three-dimensional low-pass filter, <span class="math notranslate nohighlight">\((G*)\)</span>, on the reference element, <span class="math notranslate nohighlight">\(\hat\Omega\)</span>, is given by the Kronecker product <span class="math notranslate nohighlight">\(F \otimes F \otimes F\)</span></p>
+<div class="math notranslate nohighlight">
+\[{\bf \tilde u} = G * {\bf u} = (F \otimes F \otimes F) {\bf u}.\]</div>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Important:</th><td class="field-body">The filtered wavelengths depend on the local element size, so the filtering operation is <strong>NOT</strong> necessarily uniform across the domain.</td>
+</tr>
+</tbody>
+</table>
+<div class="section" id="explicit-filter">
+<h2>Explicit Filter<a class="headerlink" href="#explicit-filter" title="Permalink to this headline">¶</a></h2>
+<p>The explicit filter is based on a method described by Fischer and Mullen <a class="reference internal" href="../references.html#fischer2001" id="id1">[Fischer2001]</a>.
+It is so named as it applies a low-pass filtering operation directly to all the solution variables at the end of every time step, <strong>explicitly</strong> filtering the solution.
+In the turbulence energy cascade, energy is transferred from large scales to lower scales.
+In methods with negligible numerical dissipation, such as the SEM, this energy builds in the lowest resolved length-scales, or shortest resolved wavelengths.
+By applying a low-pass filter, <em>Nek5000</em> removes energy from the shortest wavelengths, acting as a sub-grid dissipation model and stabilizing the solution.</p>
+<p>The explicit filter can be invoked by setting the <code class="docutils literal notranslate"><span class="pre">filtering=explicit</span></code> key in the <code class="docutils literal notranslate"><span class="pre">[GENERAL]</span></code> section of the <code class="docutils literal notranslate"><span class="pre">.par</span></code> file.
+The weight is controlled by the <code class="docutils literal notranslate"><span class="pre">filterWeight</span></code> key and the cutoff ratio is controlled by either the <code class="docutils literal notranslate"><span class="pre">filterCutoffRatio</span></code> or the <code class="docutils literal notranslate"><span class="pre">filterModes</span></code> keys.
+The <code class="docutils literal notranslate"><span class="pre">filterWeight</span></code> key controls the weight of the highest filtered mode</p>
+<div class="math notranslate nohighlight">
+\[\sigma_N = 1 - {\tt filterWeight}\]</div>
+<p><em>Nek5000</em> will then parabolically decrease the effect of the filter for each subsequent lower mode until <span class="math notranslate nohighlight">\(\sigma_{N'}=1\)</span>.</p>
+<p>The cutoff ratio can be controlled by the <code class="docutils literal notranslate"><span class="pre">filterCutoffRatio</span></code> key</p>
+<div class="math notranslate nohighlight">
+\[\frac{N'+1}{N+1} = {\tt filterCutoffRatio}\]</div>
+<p>The cutoff ratio is assigned as a <code class="docutils literal notranslate"><span class="pre">real</span></code>, while the corresponding value of <span class="math notranslate nohighlight">\(N'\)</span> is restricted to <code class="docutils literal notranslate"><span class="pre">integer</span></code> values.
+Consequently, <em>Nek5000</em> will pick a value of <span class="math notranslate nohighlight">\(N'\)</span> to match the specified cutoff ratio as closely as possible.</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Note:</th><td class="field-body">For any non-zero value of <code class="docutils literal notranslate"><span class="pre">filterWeight</span></code> and <code class="docutils literal notranslate"><span class="pre">filterCutoffRatio</span></code><span class="math notranslate nohighlight">\(&lt;1\)</span>, <em>Nek5000</em> will always filter at least 1 mode.</td>
+</tr>
+</tbody>
+</table>
+<p>It may be more intuitive to directly assign the number of modes with the <code class="docutils literal notranslate"><span class="pre">filterModes</span></code> key</p>
+<div class="math notranslate nohighlight">
+\[N-N' = {\tt filterModes}\]</div>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Note:</th><td class="field-body">The <code class="docutils literal notranslate"><span class="pre">filterModes</span></code> key only supports <span class="math notranslate nohighlight">\(N-N'\ge2\)</span>. To filter only one mode, use <code class="docutils literal notranslate"><span class="pre">filterCutoffRatio</span> <span class="pre">=</span> <span class="pre">0.99</span></code>.</td>
+</tr>
+</tbody>
+</table>
+<p>The weights for each mode are printed to the logfile at the end of the first time step.
+To verify your filter settings, look for the two lines highlighted below.
+It will have two rows by <span class="math notranslate nohighlight">\((N+1)\)</span> columns.
+The second row corresponds to the values for <span class="math notranslate nohighlight">\(\sigma_k\)</span>, with <span class="math notranslate nohighlight">\(\sigma_0\)</span> on the left and <span class="math notranslate nohighlight">\(\sigma_N\)</span> on the right.</p>
+<div class="highlight-none notranslate"><div class="highlight"><pre><span></span>          1  Fluid done  5.5101E+01  4.0337E+00
+<span class="hll">filt amp 0.0000 0.0000 0.0000 0.0000 0.0000 0.0000 0.0125 0.0500
+</span><span class="hll">filt trn 1.0000 1.0000 1.0000 1.0000 1.0000 1.0000 0.9875 0.9500
+</span>
+Step      2, t= 2.0000000E-03, DT= 1.0000000E-03, C=  1.454 4.5714E+00 4.5714E+00
+</pre></div>
+</div>
+<p>In practice, for an LES turbulence model, we want to use as gentle of a filter as possible while maintaining stability.
+The filtering method demonstrates spectral convergence, so for stronger settings, the LES solution will still converge in the limit of increasing polynomial order.
+However, a strong filter decreases the effective resolution.
+To take advantage of the full resolution that’s available, the impact of the filter should be minimized.
+Generally recommended settings for <span class="math notranslate nohighlight">\(N\ge5\)</span> are as follows:</p>
+<div class="highlight-ini notranslate"><div class="highlight"><pre><span></span><span class="k">[GENERAL]</span>
+<span class="na">filtering</span> <span class="o">=</span> <span class="s">explicit</span>
+<span class="na">filterModes</span> <span class="o">=</span> <span class="s">2</span>
+<span class="na">filterWeight</span> <span class="o">=</span> <span class="s">0.05</span>
+</pre></div>
+</div>
+<p>This will set up a low-pass filter that touches the two highest Legendre modes and decreases the amplitude of the highest mode by 5%.
+The weights for this filter are shown below in <a class="reference internal" href="#fig-expfilt"><span class="std std-numref">Fig. 6</span></a> for a 7<sup>th</sup>-order case.</p>
+<div class="figure align-center" id="id6">
+<span id="fig-expfilt"></span><img alt="explicit LES filter" src="../_images/expfilter.png" />
+<p class="caption"><span class="caption-number">Fig. 6 </span><span class="caption-text">Weighting for the recommend explicit LES filter</span></p>
+</div>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Note:</th><td class="field-body">The explicit filter is applied after every time step, consequently its strength is inversely proportional to time step size for marginally resolved cases.</td>
+</tr>
+</tbody>
+</table>
+</div>
+<div class="section" id="high-pass-filter">
+<h2>High-Pass Filter<a class="headerlink" href="#high-pass-filter" title="Permalink to this headline">¶</a></h2>
+<p>The high-pass filter in <em>Nek5000</em> is based on a method described by Stolz, Schlatter, and Kleiser <a class="reference internal" href="../references.html#stolz2005" id="id2">[Stolz2005]</a>.
+It is another method of applying sub-grid scale dissipation.
+In the high-pass filter method, the convolution operator described above is used to obtain a low-pass filtered signal.
+The high-pass filter term is then constructed from the difference between the original signal and the low-pass filtered signal.
+For any scalar, this term has the form</p>
+<div class="math notranslate nohighlight">
+\[\chi\left(u-\tilde u\right)\]</div>
+<p>where <span class="math notranslate nohighlight">\(u\)</span> is the original signal, <span class="math notranslate nohighlight">\(\tilde u = G*u\)</span> is the low-pass filtered signal, and <span class="math notranslate nohighlight">\(\chi\)</span> is a proportionality constant.
+In polynomial space, this term is only non-zero for the last few Legendre modes, <span class="math notranslate nohighlight">\(k&gt;N'\)</span>.
+It is subtracted from the RHS of the momentum, energy, and scalar transport equations, respectively</p>
+<div class="math notranslate nohighlight">
+\[\begin{split}\frac{\partial{\bf u}}{\partial t}+{\bf u}\cdot\nabla{\bf u} &amp;=-\nabla p+\frac{1}{Re}\nabla^2{\bf u}-\chi\left({\bf u}-G*{\bf u}\right)\\
+\frac{\partial T}{\partial t}+{\bf u}\cdot\nabla T &amp;= \frac{1}{Pe}\nabla^2 T - \chi\left(T-G*T\right)\\
+\frac{\partial\phi_i}{\partial t} +{\bf u}\cdot\nabla\phi_i &amp;= \frac{1}{ReSc} \nabla^2\phi_i -\chi\left(\phi_i-G*\phi_i\right)\end{split}\]</div>
+<p>and acts to provide the necessary drain of energy out of the discretized system.</p>
+<p>The high-pass filter can be invoked by setting the <code class="docutils literal notranslate"><span class="pre">filtering=hpfrt</span></code> key in the <code class="docutils literal notranslate"><span class="pre">[GENERAL]</span></code> section of the <code class="docutils literal notranslate"><span class="pre">.par</span></code> file.
+The cutoff ratio used in the convolution operator, <span class="math notranslate nohighlight">\((G*)\)</span>, is controlled by either the <code class="docutils literal notranslate"><span class="pre">filterCutoffRatio</span></code> or the <code class="docutils literal notranslate"><span class="pre">filterModes</span></code> keys, identically to the explicit filter.</p>
+<p>The convolution operation used to construct the filtered signal, <span class="math notranslate nohighlight">\(\tilde u\)</span>, completely removes the highest Legendre mode <span class="math notranslate nohighlight">\(\sigma_N = 0\)</span>.
+The coefficients for the subsequent lower modes decrease parabolically until <span class="math notranslate nohighlight">\(\sigma_{N'}=1\)</span>.
+This corresponds to a strong low-pass filtering operation, similar to the one shown in <a class="reference internal" href="#fig-filter"><span class="std std-numref">Fig. 5</span></a>.</p>
+<p>The overall strength of the high-pass filter is controlled by the proportionality coefficient, <span class="math notranslate nohighlight">\(\chi\)</span>, which is set using the <code class="docutils literal notranslate"><span class="pre">filterWeight</span></code> key.</p>
+<div class="math notranslate nohighlight">
+\[\chi = {\tt filterWeight}\]</div>
+<p>Typical values for this are <span class="math notranslate nohighlight">\(5\le\chi\le10\)</span>, which drains adequate energy to stabilize the simulations.</p>
+<p>The high-wavenumber relaxation of the high-pass filter model is similar to the approximate deconvolution approach <a class="reference internal" href="../references.html#stolz2001" id="id3">[Stolz2001]</a>.
+It is attractive in that it can be tailored to directly act on marginally resolved modes at the grid scale.
+The approach allows good prediction of transitional and turbulent flows with minimal sensitivity for model coefficients <a class="reference internal" href="../references.html#schlatter2006" id="id4">[Schlatter2006]</a>.
+Furthermore, the high-pass filters enable the computation of the structure function in the filtered or HPF structure-function model in all spatial directions even for inhomogeneous flows, removing the arbitrariness of special treatment of selected (e.g. wall-normal) directions.</p>
+<p>Generally recommended settings are as follows</p>
+<div class="highlight-ini notranslate"><div class="highlight"><pre><span></span><span class="k">[GENERAL]</span>
+<span class="na">filtering</span> <span class="o">=</span> <span class="s">hpfrt</span>
+<span class="na">filterModes</span> <span class="o">=</span> <span class="s">2</span>
+<span class="na">filterWeight</span> <span class="o">=</span> <span class="s">5.0</span>
+</pre></div>
+</div>
+</div>
+</div>
+
+
+           </div>
+          </div>
+          <footer><div class="rst-footer-buttons" role="navigation" aria-label="Footer">
+        <a href="usr_file.html" class="btn btn-neutral float-left" title="User Routines File (.usr)" accesskey="p" rel="prev"><span class="fa fa-arrow-circle-left" aria-hidden="true"></span> Previous</a>
+        <a href="features.html" class="btn btn-neutral float-right" title="Additional Features" accesskey="n" rel="next">Next <span class="fa fa-arrow-circle-right" aria-hidden="true"></span></a>
+    </div>
+
+  <hr/>
+
+  <div role="contentinfo">
+    <p>&#169; Copyright 2015-2022, UCHICAGO ARGONNE, LLC.</p>
+  </div>
+
+  Built with <a href="https://www.sphinx-doc.org/">Sphinx</a> using a
+    <a href="https://github.com/readthedocs/sphinx_rtd_theme">theme</a>
+    provided by <a href="https://readthedocs.org">Read the Docs</a>.
+   
+
+</footer>
+        </div>
+      </div>
+    </section>
+  </div>
+  <script>
+      jQuery(function () {
+          SphinxRtdTheme.Navigation.enable(true);
+      });
+  </script> 
+
+</body>
+</html>

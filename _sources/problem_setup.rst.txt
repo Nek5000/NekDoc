@@ -14,5 +14,6 @@ Details of how to setup a case in Nek5000 are outlined in the following sections
   problem_setup/BCs.rst
   problem_setup/case_files.rst
   problem_setup/usr_file.rst
+  problem_setup/filter.rst
   problem_setup/features.rst
 

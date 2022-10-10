@@ -18,7 +18,7 @@
     <link rel="index" title="Index" href="../genindex.html" />
     <link rel="search" title="Search" href="../search.html" />
     <link rel="next" title="Tutorials" href="../tutorials.html" />
-    <link rel="prev" title="User Routines File (.usr)" href="usr_file.html" /> 
+    <link rel="prev" title="Stabilizing Filters" href="filter.html" /> 
 </head>
 
 <body class="wy-body-for-nav"> 
@@ -43,12 +43,13 @@
 <li class="toctree-l2"><a class="reference internal" href="BCs.html">Boundary Conditions</a></li>
 <li class="toctree-l2"><a class="reference internal" href="case_files.html">Case Files</a></li>
 <li class="toctree-l2"><a class="reference internal" href="usr_file.html">User Routines File (.usr)</a></li>
+<li class="toctree-l2"><a class="reference internal" href="filter.html">Stabilizing Filters</a></li>
 <li class="toctree-l2 current"><a class="current reference internal" href="#">Additional Features</a><ul>
 <li class="toctree-l3"><a class="reference internal" href="#history-points">History Points</a></li>
 <li class="toctree-l3"><a class="reference internal" href="#grid-to-grid-interpolation">Grid-to-Grid Interpolation</a></li>
 <li class="toctree-l3"><a class="reference internal" href="#restart-options">Restart Options</a></li>
 <li class="toctree-l3"><a class="reference internal" href="#averaging">Averaging</a></li>
-<li class="toctree-l3"><a class="reference internal" href="#filtering">Filtering</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#post-processing">Post Processing</a></li>
 <li class="toctree-l3"><a class="reference internal" href="#objects">Objects</a></li>
 </ul>
 </li>
@@ -113,7 +114,7 @@ x y z
 </div>
 <div class="section" id="grid-to-grid-interpolation">
 <span id="features-gfldr"></span><h2>Grid-to-Grid Interpolation<a class="headerlink" href="#grid-to-grid-interpolation" title="Permalink to this headline">¶</a></h2>
-<p>Nek includes the capability to transfer a solution from one mesh to an entirely different mesh.
+<p><em>Nek5000</em> includes the capability to transfer a solution from one mesh to an entirely different mesh.
 This allows a user to restart from an existing field file with a new mesh.
 This is accomplished by calling the generic field reader which will spectrally interpolate a result file from a previous case.
 If using the latest master branch from github, this can be done by specifying the <code class="docutils literal notranslate"><span class="pre">int</span></code> restart option in the <code class="docutils literal notranslate"><span class="pre">.par</span></code> file.
@@ -139,7 +140,7 @@ For example, to interpolate a result from case <code class="docutils literal not
 <span class="n">c</span><span class="o">-----------------------------------------------------------------------</span>
 </pre></div>
 </div>
-<p>Note that <code class="docutils literal notranslate"><span class="pre">foo0.f00001</span></code> must include the coordinates, i.e. it must have been created from a run with <code class="docutils literal notranslate"><span class="pre">writeToFieldFile</span> <span class="pre">=</span> <span class="pre">yes</span></code> in the <code class="docutils literal notranslate"><span class="pre">[MESH]</span></code> section of the <code class="docutils literal notranslate"><span class="pre">.par</span></code> file and that selection of specific fields to read is not currently supported.
+<p>Note that <code class="docutils literal notranslate"><span class="pre">foo0.f00001</span></code> must include the coordinates, i.e.it must have been created from a run with <code class="docutils literal notranslate"><span class="pre">writeToFieldFile</span> <span class="pre">=</span> <span class="pre">yes</span></code> in the <code class="docutils literal notranslate"><span class="pre">[MESH]</span></code> section of the <code class="docutils literal notranslate"><span class="pre">.par</span></code> file and that selection of specific fields to read is not currently supported.
 That means all fields included in <code class="docutils literal notranslate"><span class="pre">foo.f00001</span></code> will be overwritten.</p>
 </div>
 <div class="section" id="restart-options">
@@ -179,9 +180,31 @@ To control which variables are read from a restart file, add an additional strin
 </tr>
 </tbody>
 </table>
-<p>For example, to load only velocity and passive scalar 2, and set the physical time to 5.0, use the following</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Example:</th><td class="field-body">The following directive will load only velocity and passive scalar 2, and set the physical time to 5.0.</td>
+</tr>
+</tbody>
+</table>
 <div class="highlight-ini notranslate"><div class="highlight"><pre><span></span><span class="k">[GENERAL]</span>
 <span class="na">startFrom</span> <span class="o">=</span> <span class="s">foo0.f00001 US2 time=5.0</span>
+</pre></div>
+</div>
+<p>Additionally, <em>Nek5000</em> supports loading multiple files simultaneously by providing a list of comma separated filenames.
+With the default behavior, each subsequent file will overwrite everything loaded with the previous file.
+However, by making use of the restart options, a Frankenstein’s Monster type of restart can be created combining fields from multiple solution files.</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Example:</th><td class="field-body">The following directive will load the mesh coordinates from the first file, <code class="docutils literal notranslate"><span class="pre">mshfoo0.f00001</span></code>, then interpolate velocity, pressure and temperature from the second file, <code class="docutils literal notranslate"><span class="pre">foo0.f00001</span></code> onto the new coordinates.</td>
+</tr>
+</tbody>
+</table>
+<div class="highlight-ini notranslate"><div class="highlight"><pre><span></span><span class="k">[GENERAL]</span>
+<span class="na">startFrom</span> <span class="o">=</span> <span class="s">mshfoo0.f00001 X, foo0.f00001 UPT int</span>
 </pre></div>
 </div>
 <table class="docutils field-list" frame="void" rules="none">
@@ -195,7 +218,7 @@ To control which variables are read from a restart file, add an additional strin
 </div>
 <div class="section" id="averaging">
 <span id="features-avg"></span><h2>Averaging<a class="headerlink" href="#averaging" title="Permalink to this headline">¶</a></h2>
-<p>When running a high fidelity case with DNS or LES turbulence models, it is often necessary to time-average the solution fields to extract meaningful quanties.
+<p>When running a high fidelity case with DNS or LES turbulence models, it is often necessary to time-average the solution fields to extract meaningful quantities.
 This may sometimes even be useful for a URANS case as well.
 <em>Nek5000</em> includes a subroutine for calculating a running time-average of all the primitive variables, i.e. <span class="math notranslate nohighlight">\(u\)</span>, <span class="math notranslate nohighlight">\(v\)</span>, <span class="math notranslate nohighlight">\(w\)</span>, <span class="math notranslate nohighlight">\(p\)</span>, and <span class="math notranslate nohighlight">\(T\)</span>, as well as the second order terms <span class="math notranslate nohighlight">\(u^2\)</span>, <span class="math notranslate nohighlight">\(v^2\)</span>, <span class="math notranslate nohighlight">\(w^2\)</span>, <span class="math notranslate nohighlight">\(uv\)</span>, <span class="math notranslate nohighlight">\(uw\)</span>, and <span class="math notranslate nohighlight">\(vw\)</span>.
 Which can be used to reconstruct the Reynolds stresses.
@@ -229,7 +252,7 @@ As the case is running, the running averages are stored in memory in the arrays 
 When the files are written, the averaging restarts.
 The average files thus only contain averages over the window specified by <code class="docutils literal notranslate"><span class="pre">writeInterval</span></code> in the <code class="docutils literal notranslate"><span class="pre">.par</span></code> file.</p>
 <p>The complete list of variables, including which file they are written to and the scalar position they occupy in that file are specified in the table below.
-Additionally, the width of the time-window is recorded as the phyiscal time in each average file.</p>
+Additionally, the width of the time-window is recorded as the physical time in each average file.</p>
 <table border="1" class="colwidths-given docutils" id="id2">
 <caption><span class="caption-number">Table 27 </span><span class="caption-text">Variables included in <code class="docutils literal notranslate"><span class="pre">avg_all</span></code></span><a class="headerlink" href="#id2" title="Permalink to this table">¶</a></caption>
 <colgroup>
@@ -314,15 +337,22 @@ Additionally, the width of the time-window is recorded as the phyiscal time in e
 </tr>
 </tbody>
 </table>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Note:</th><td class="field-body"><code class="docutils literal notranslate"><span class="pre">avg_all</span></code> does NOT output enough information to reconstruct the turbulent heat fluxes by default.
+Currently, custom user code is necessary to accomplish this.</td>
+</tr>
+</tbody>
+</table>
 <p>The averaging files can then be reloaded into <em>Nek5000</em> as a standard restart file for post processing.
 The files contain enough information to reconstruct Reynolds stresses considering that for a sufficiently large time-window at statistically steady state:</p>
 <div class="math notranslate nohighlight">
 \[\overline{u'u'}=\overline{u^2}-\overline{u}^2\]</div>
-<p>Note that by default, <code class="docutils literal notranslate"><span class="pre">avg_all</span></code> does NOT output enough information to reconstruct the turbulent heat fluxes.
-Currently, custom user code is necessary to accomplish this.</p>
 </div>
-<div class="section" id="filtering">
-<span id="features-filt"></span><h2>Filtering<a class="headerlink" href="#filtering" title="Permalink to this headline">¶</a></h2>
+<div class="section" id="post-processing">
+<span id="features-post"></span><h2>Post Processing<a class="headerlink" href="#post-processing" title="Permalink to this headline">¶</a></h2>
 <p>TODO…</p>
 </div>
 <div class="section" id="objects">
@@ -335,7 +365,7 @@ Currently, custom user code is necessary to accomplish this.</p>
            </div>
           </div>
           <footer><div class="rst-footer-buttons" role="navigation" aria-label="Footer">
-        <a href="usr_file.html" class="btn btn-neutral float-left" title="User Routines File (.usr)" accesskey="p" rel="prev"><span class="fa fa-arrow-circle-left" aria-hidden="true"></span> Previous</a>
+        <a href="filter.html" class="btn btn-neutral float-left" title="Stabilizing Filters" accesskey="p" rel="prev"><span class="fa fa-arrow-circle-left" aria-hidden="true"></span> Previous</a>
         <a href="../tutorials.html" class="btn btn-neutral float-right" title="Tutorials" accesskey="n" rel="next">Next <span class="fa fa-arrow-circle-right" aria-hidden="true"></span></a>
     </div>
 

@@ -268,10 +268,10 @@ An example of running <code class="docutils literal notranslate"><span class="pr
 </div>
 <p>Note that <code class="docutils literal notranslate"><span class="pre">reatore2</span></code> will produce both a binary mesh file, <code class="docutils literal notranslate"><span class="pre">cht2d.re2</span></code>, and a new rea file, <code class="docutils literal notranslate"><span class="pre">cht2d.rea</span></code>.
 The options in the rea file are propagated from the original template, <code class="docutils literal notranslate"><span class="pre">ray0.rea</span></code>, and will override the options we will later set in the par file, so it is recommend to either rename or delete the new rea file.
-The produced mesh is shown in <a class="reference internal" href="#fig-cht-mesh"><span class="std std-numref">Fig. 12</span></a>.</p>
+The produced mesh is shown in <a class="reference internal" href="#fig-cht-mesh"><span class="std std-numref">Fig. 14</span></a>.</p>
 <div class="align-center figure" id="id3">
 <span id="fig-cht-mesh"></span><img alt="per_mesh" src="../_images/mesh.png" />
-<p class="caption"><span class="caption-number">Fig. 12 </span><span class="caption-text">Modified box mesh graded</span></p>
+<p class="caption"><span class="caption-number">Fig. 14 </span><span class="caption-text">Modified box mesh graded</span></p>
 </div>
 </div>
 <div class="section" id="usr-file">
@@ -372,7 +372,7 @@ We apply a linear variation of temperature in the fluid mesh in the <em>y</em>-d
 <p>In this RBC example <span class="math notranslate nohighlight">\(Ra = 10 ^ {7}\)</span> and <span class="math notranslate nohighlight">\(Pr= 0.033\)</span> are choosen.
 The equilibrium state of pure conductive heat transfer as the initial condition takes the form <code class="docutils literal notranslate"><span class="pre">T</span> <span class="pre">=</span> <span class="pre">1</span> <span class="pre">-</span> <span class="pre">y</span></code> for  <code class="docutils literal notranslate"><span class="pre">0</span> <span class="pre">&lt;</span> <span class="pre">y</span> <span class="pre">&lt;</span> <span class="pre">1</span></code>  in the fluid domain and <span class="math notranslate nohighlight">\(T \approx 1\)</span> and <span class="math notranslate nohighlight">\(\approx 0\)</span> at the fluid-solid boundaries.
 It should be mentioned that the temperature drop across both solid-plates varies with <em>Pr</em> and <em>Ra</em> and it should be adjusted at the boundaries with temperature increment <span class="math notranslate nohighlight">\(\delta T\)</span>.
-One can apply a temperature increment of <span class="math notranslate nohighlight">\(\delta T = 2.5\)</span> at the top of the upper plate and the bottom of the lower plate for <span class="math notranslate nohighlight">\(Pr = 0.033\)</span> and <span class="math notranslate nohighlight">\(\delta T = 4.72\)</span> for <span class="math notranslate nohighlight">\(Pr = 0.7\)</span> as depicted in <a class="reference internal" href="#fig-deltat2"><span class="std std-numref">Fig. 13</span></a>.
+One can apply a temperature increment of <span class="math notranslate nohighlight">\(\delta T = 2.5\)</span> at the top of the upper plate and the bottom of the lower plate for <span class="math notranslate nohighlight">\(Pr = 0.033\)</span> and <span class="math notranslate nohighlight">\(\delta T = 4.72\)</span> for <span class="math notranslate nohighlight">\(Pr = 0.7\)</span> as depicted in <a class="reference internal" href="#fig-deltat2"><span class="std std-numref">Fig. 15</span></a>.
 Subsequently, we modify <code class="docutils literal notranslate"><span class="pre">userbc</span></code> and <code class="docutils literal notranslate"><span class="pre">useric</span></code> as:</p>
 <div class="highlight-fortran notranslate"><div class="highlight"><pre><span></span>      <span class="k">subroutine </span><span class="n">userbc</span><span class="p">(</span><span class="n">ix</span><span class="p">,</span><span class="n">iy</span><span class="p">,</span><span class="n">iz</span><span class="p">,</span><span class="n">iside</span><span class="p">,</span><span class="n">eg</span><span class="p">)</span> <span class="c">! set up boundary conditions</span>
 <span class="c">!</span>
@@ -427,7 +427,7 @@ Subsequently, we modify <code class="docutils literal notranslate"><span class="
 </div>
 <div class="align-center figure" id="id4">
 <span id="fig-deltat2"></span><img alt="per_flow" src="../_images/deltaT2.png" />
-<p class="caption"><span class="caption-number">Fig. 13 </span><span class="caption-text">Mean dimensionless temperature profiles in the CHT setting. Temprerature variation in solid-fluid domain is shown here.</span></p>
+<p class="caption"><span class="caption-number">Fig. 15 </span><span class="caption-text">Mean dimensionless temperature profiles in the CHT setting. Temprerature variation in solid-fluid domain is shown here.</span></p>
 </div>
 </div>
 </div>
@@ -540,10 +540,10 @@ It can be run with:</p>
 <p>to obtain a file named <code class="docutils literal notranslate"><span class="pre">cht2d.nek5000</span></code>.
 This file can be opened with either Visit or Paraview.</p>
 <p>In the viewing window, the temperature-field can be visualized.
-It will be similar to, but not necessarily identical to that shown in <a class="reference internal" href="#fig-cht-rbc"><span class="std std-numref">Fig. 14</span></a>.</p>
+It will be similar to, but not necessarily identical to that shown in <a class="reference internal" href="#fig-cht-rbc"><span class="std std-numref">Fig. 16</span></a>.</p>
 <div class="align-center figure" id="id5">
 <span id="fig-cht-rbc"></span><img alt="per_flow" src="../_images/cht_rbc.png" />
-<p class="caption"><span class="caption-number">Fig. 14 </span><span class="caption-text">Steady-State flow field visualized in Visit. Vectors represent velocity. Colors represent velocity magnitude.</span></p>
+<p class="caption"><span class="caption-number">Fig. 16 </span><span class="caption-text">Steady-State flow field visualized in Visit. Vectors represent velocity. Colors represent velocity magnitude.</span></p>
 </div>
 </div>
 </div>

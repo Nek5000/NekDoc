@@ -9,25 +9,17 @@ Computational Approach
 ----------------------
 
 The spatial discretization is based on the spectral element method (SEM) [Patera1984]_, which is a
-high-order weighted residual technique similar to the finite element method.   In the SEM, the
-solution and data are represented in terms of :math:`N` th-order tensor-product polynomials within each
-of :math:`E` deformable hexahedral (brick) elements. Typical discretizations involve
-:math:`E`\=100--10,000 elements of order :math:`N`\=8--16 (corresponding to 512--4096 points per
-element).  Vectorization and cache efficiency derive from the local lexicographical ordering within
-each macro-element and from the fact that the action of discrete operators, which nominally have
-:math:`O(EN^6)` nonzeros, can be evaluated in only :math:`O(EN^4)` work and :math:`O(EN^3)` storage
-through the use of tensor-product-sum factorization [Orszag1980]_.   The SEM exhibits very little
-numerical dispersion and dissipation, which can be important, for example, in stability
-calculations, for long time integrations, and for high Reynolds number flows. We refer to
-[Denville2002]_ for more details.
+high-order weighted residual technique similar to the finite element method.   
+In the SEM, the solution and data are represented in terms of :math:`N^{th}`-order tensor-product polynomials within each of :math:`E` deformable hexahedral (brick) elements. 
+Typical discretizations involve :math:`E=` 100--1,000,000 elements of order :math:`N=` 8--16 (corresponding to 512--4096 points per element).  
+Vectorization and cache efficiency derive from the local lexicographical ordering within each macro-element and from the fact that the action of discrete operators, which nominally have :math:`O(EN^6)` nonzeros, can be evaluated in only :math:`O(EN^4)` work and :math:`O(EN^3)` storage through the use of tensor-product-sum factorization [Orszag1980]_.
+The SEM exhibits very little numerical dispersion and dissipation, which can be important, for example, in stability calculations, for long time integrations, and for high Reynolds number flows. 
+We refer to [Denville2002]_ for more details.
 
-Nek5000 solves the unsteady incompressible two-dimensional, axisymmetric, or three-dimensional
-Stokes or Navier-Stokes equations with forced or natural convection heat transfer in both
-stationary (fixed) or time-dependent geometry. It also solves the compressible Navier-Stokes in the
-Low Mach regime, the magnetohydrodynamic equation (MHD).  The solution variables are the fluid
-velocity :math:`\mathbf u=(u_{x},u_{y},u_{z})`, the pressure :math:`p`, the temperature :math:`T`.
-All of the above field variables are functions of space :math:`{\bf x}=(x,y,z)` and time :math:`t`
-in domains :math:`\Omega_f` and/or :math:`\Omega_s` defined in :numref:`fig-walls`.
+Nek5000 solves the unsteady incompressible two-dimensional, axisymmetric, or three-dimensional Stokes or Navier-Stokes equations with forced or natural convection heat transfer in both stationary (fixed) or time-dependent geometry. 
+It also solves the compressible Navier-Stokes in the Low Mach regime, and the magnetohydrodynamic equation (MHD).  
+The solution variables are the fluid velocity :math:`\mathbf u=(u_{x},u_{y},u_{z})`, the pressure :math:`p`, the temperature :math:`T`.
+All of the above field variables are functions of space :math:`{\bf x}=(x,y,z)` and time :math:`t` in domains :math:`\Omega_f` and/or :math:`\Omega_s` defined in :numref:`fig-walls`.
 Additionally Nek5000 can handle conjugate heat transfer problems.
 
 .. _fig-walls:

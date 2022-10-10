@@ -57,6 +57,7 @@
 </ul>
 </li>
 <li class="toctree-l2"><a class="reference internal" href="usr_file.html">User Routines File (.usr)</a></li>
+<li class="toctree-l2"><a class="reference internal" href="filter.html">Stabilizing Filters</a></li>
 <li class="toctree-l2"><a class="reference internal" href="features.html">Additional Features</a></li>
 </ul>
 </li>
@@ -298,6 +299,7 @@ Values in parentheses denote the default value.</p>
 </td>
 <td><div class="first last line-block">
 <div class="line">Specifies the filtering method</div>
+<div class="line">See <a class="reference internal" href="filter.html#sec-filter"><span class="std std-ref">Stabilizing Filters</span></a></div>
 </div>
 </td>
 </tr>
@@ -1262,39 +1264,39 @@ numbers represent vertices.</span></p>
 </div>
 <div class="section" id="size">
 <span id="case-files-size"></span><h2>SIZE<a class="headerlink" href="#size" title="Permalink to this headline">¶</a></h2>
-<p>SIZE file defines the problem size, i.e. spatial points at which the solution is to be evaluated within each element, number of elements per processor etc.
+<p>SIZE file defines the problem size, i.e.the spatial points at which the solution is to be evaluated within each element, number of elements per processor etc.
 The SIZE file governs the memory allocation for most of the arrays
 in Nek5000, with the exception of those required by the C utilities.
 The <em>basic</em> parameters of interest in SIZE are:</p>
 <ul class="simple">
-<li><strong>ldim</strong> = 2 or 3.  This must be set to 2 for two-dimensional or axisymmetric simulations  (the latter only partially supported) or to 3 for three-dimensional simulations.</li>
-<li><strong>lx1</strong> controls the polynomial order of the solution, <span class="math notranslate nohighlight">\(N = {\tt lx1-1}\)</span>.</li>
-<li><strong>lxd</strong> controls the polynomial order of the (over-)integration/dealiasing. Strictly speaking <span class="math notranslate nohighlight">\({\tt lxd=3 * lx1/2}\)</span> is required but often smaller values are good enough.</li>
-<li><strong>lx2</strong> = <code class="docutils literal notranslate"><span class="pre">lx1</span></code> or <code class="docutils literal notranslate"><span class="pre">lx1-2</span></code> and is an approximation order for pressure that determines the formulation for the Navier-Stokes  solver (i.e., the choice between the <span class="math notranslate nohighlight">\(\mathbb{P}_N - \mathbb{P}_N\)</span> or <span class="math notranslate nohighlight">\(\mathbb{P}_N - \mathbb{P}_{N-2}\)</span> spectral-element methods).</li>
-<li><strong>lelg</strong>, an upper bound on the total number of elements in your mesh.</li>
-<li><strong>lpmax</strong>, a maximum number of processors that can be used</li>
-<li><strong>lpmin</strong>, a minimum number of processors that can be used (see also  <strong>Memory Requirements</strong>).</li>
-<li><strong>ldimt</strong>, an upper bound on a number of auxilary fields to solve (temperature + other scalars, minimum is 1).</li>
+<li><code class="docutils literal notranslate"><span class="pre">ldim</span></code> = 2 or 3.  This must be set to 2 for two-dimensional or axisymmetric simulations  (the latter only partially supported) or to 3 for three-dimensional simulations.</li>
+<li><code class="docutils literal notranslate"><span class="pre">lx1</span></code> controls the polynomial order of the solution, <span class="math notranslate nohighlight">\(N =\)</span> <code class="docutils literal notranslate"><span class="pre">lx1</span></code> <span class="math notranslate nohighlight">\(-1\)</span>.</li>
+<li><code class="docutils literal notranslate"><span class="pre">lxd</span></code> controls the polynomial order of the (over-)integration/dealiasing. Strictly speaking <span class="math notranslate nohighlight">\({\tt lxd=3 * lx1/2}\)</span> is required but often smaller values are good enough.</li>
+<li><code class="docutils literal notranslate"><span class="pre">lx2</span></code> = <code class="docutils literal notranslate"><span class="pre">lx1</span></code> or <code class="docutils literal notranslate"><span class="pre">lx1-2</span></code> and is an approximation order for pressure that determines the formulation for the Navier-Stokes  solver (i.e., the choice between the <span class="math notranslate nohighlight">\(\mathbb{P}_N - \mathbb{P}_N\)</span> or <span class="math notranslate nohighlight">\(\mathbb{P}_N - \mathbb{P}_{N-2}\)</span> spectral-element methods).</li>
+<li><code class="docutils literal notranslate"><span class="pre">lelg</span></code>, an upper bound on the total number of elements in your mesh.</li>
+<li><code class="docutils literal notranslate"><span class="pre">lpmax</span></code>, a maximum number of processors that can be used (Deprecated as of the latest master branch)</li>
+<li><code class="docutils literal notranslate"><span class="pre">lpmin</span></code>, a minimum number of processors that can be used</li>
+<li><code class="docutils literal notranslate"><span class="pre">ldimt</span></code>, an upper bound on a number of auxilary fields to solve (temperature + other scalars, minimum is 1).</li>
 </ul>
 <p>The <em>optional</em>
 upper bounds on parameters in SIZE are (minimum being 1 unless otherwise noted):</p>
 <ul class="simple">
-<li><strong>lhis</strong>, a maximum history (i.e. monitoring) points.</li>
-<li><strong>maxobj</strong>, a maximum number of objects.</li>
-<li><strong>lpert</strong>, a maximum perturbations.</li>
-<li><strong>toteq</strong>, a maximum number of conserved scalars in CMT (minimum could be 0).</li>
-<li><strong>nsessmax</strong>, a maximum number of (ensemble-average) sessions.</li>
-<li><strong>lxo</strong>, a maximum number of points per element for field file output (<span class="math notranslate nohighlight">\({\tt lxo \geq lx1}\)</span>).</li>
-<li><strong>lelx</strong>, <strong>lely</strong>, <strong>lelz</strong>, a maximum number of element in each direction for global tensor product solver and/or dimentions.</li>
-<li><strong>mxprev</strong>, a maximum dimension of projection space (e.g. 20).</li>
-<li><strong>lgmres</strong>, a maximum dimension of Krylov space (e.g. 30).</li>
-<li><strong>lorder</strong>, a maximum order of temporal discretization (minimum is2 see also characteristic/OIFS method).</li>
-<li><strong>lelt</strong> determines the maximum number of elements <em>per processor</em> (should be not smaller than nelgt/lpmin, e.g. lelg/lpmin+1).</li>
-<li><strong>lx1m</strong>, a polynomial order for mesh solver that should be equal to lx1 in case of ALE and in case of stress-formulation (=1 otherwise).</li>
-<li><strong>lbelt</strong> determines the maximum number of elements per processor for MHD solver that should be equalt to lelt (=1 otherwise).</li>
-<li><strong>lpelt</strong> determines the maximum number of elements per processor for linear stability solver that should be equalt to lelt (=1 otherwise).</li>
-<li><strong>lcvelt</strong> determines the maximum number of elements per processor for CVODE solver that should be equalt to lelt (=1 otherwise).</li>
-<li><strong>lfdm</strong> equals to 1 for global tensor product solver (that uses fast diagonalization method) being 0 otherwise.</li>
+<li><code class="docutils literal notranslate"><span class="pre">lhis</span></code>, a maximum history (i.e. monitoring) points.</li>
+<li><code class="docutils literal notranslate"><span class="pre">maxobj</span></code>, a maximum number of objects.</li>
+<li><code class="docutils literal notranslate"><span class="pre">lpert</span></code>, a maximum perturbations.</li>
+<li><code class="docutils literal notranslate"><span class="pre">toteq</span></code>, a maximum number of conserved scalars in CMT (minimum could be 0).</li>
+<li><code class="docutils literal notranslate"><span class="pre">nsessmax</span></code>, a maximum number of (ensemble-average) sessions.</li>
+<li><code class="docutils literal notranslate"><span class="pre">lxo</span></code>, a maximum number of points per element for field file output (<code class="docutils literal notranslate"><span class="pre">lxo</span></code> <span class="math notranslate nohighlight">\(\geq\)</span> <code class="docutils literal notranslate"><span class="pre">lx1</span></code>).</li>
+<li><code class="docutils literal notranslate"><span class="pre">lelx</span></code>, <code class="docutils literal notranslate"><span class="pre">lely</span></code>, <code class="docutils literal notranslate"><span class="pre">lelz</span></code>, a maximum number of element in each direction for global tensor product solver and/or dimentions.</li>
+<li><code class="docutils literal notranslate"><span class="pre">mxprev</span></code>, a maximum dimension of projection space (e.g. 20).</li>
+<li><code class="docutils literal notranslate"><span class="pre">lgmres</span></code>, a maximum dimension of Krylov space (e.g. 30).</li>
+<li><code class="docutils literal notranslate"><span class="pre">lorder</span></code>, a maximum order of temporal discretization (minimum is2 see also characteristic/OIFS method).</li>
+<li><code class="docutils literal notranslate"><span class="pre">lelt</span></code> determines the maximum number of elements <em>per processor</em> (should be not smaller than nelgt/lpmin, e.g. lelg/lpmin+1) (promoted to <em>basic</em> section as of the latest master branch).</li>
+<li><code class="docutils literal notranslate"><span class="pre">lx1m</span></code>, a polynomial order for mesh solver that should be equal to lx1 in case of ALE and in case of stress-formulation (=1 otherwise).</li>
+<li><code class="docutils literal notranslate"><span class="pre">lbelt</span></code> determines the maximum number of elements per processor for MHD solver that should be equalt to lelt (=1 otherwise).</li>
+<li><code class="docutils literal notranslate"><span class="pre">lpelt</span></code> determines the maximum number of elements per processor for linear stability solver that should be equalt to lelt (=1 otherwise).</li>
+<li><code class="docutils literal notranslate"><span class="pre">lcvelt</span></code> determines the maximum number of elements per processor for CVODE solver that should be equalt to lelt (=1 otherwise).</li>
+<li><code class="docutils literal notranslate"><span class="pre">lfdm</span></code> equals to 1 for global tensor product solver (that uses fast diagonalization method) being 0 otherwise.</li>
 </ul>
 <p>Note that one also need to include the following line to SIZE file:</p>
 <div class="highlight-fortran notranslate"><div class="highlight"><pre><span></span><span class="k">include</span> <span class="s1">&#39;SIZE.inc&#39;</span>
