@@ -36,7 +36,7 @@ Usage example:
 Grid-to-Grid Interpolation
 --------------------------
 
-Nek includes the capability to transfer a solution from one mesh to an entirely different mesh.
+*Nek5000* includes the capability to transfer a solution from one mesh to an entirely different mesh.
 This allows a user to restart from an existing field file with a new mesh. 
 This is accomplished by calling the generic field reader which will spectrally interpolate a result file from a previous case.
 If using the latest master branch from github, this can be done by specifying the ``int`` restart option in the ``.par`` file.
@@ -55,7 +55,7 @@ To use this feature in V19, add a call to the ``gfldr`` subroutine in ``userchk`
    :language: fortran
    :emphasize-lines: 9
 
-Note that ``foo0.f00001`` must include the coordinates, i.e. it must have been created from a run with ``writeToFieldFile = yes`` in the ``[MESH]`` section of the ``.par`` file and that selection of specific fields to read is not currently supported.
+Note that ``foo0.f00001`` must include the coordinates, i.e.\ it must have been created from a run with ``writeToFieldFile = yes`` in the ``[MESH]`` section of the ``.par`` file and that selection of specific fields to read is not currently supported.
 That means all fields included in ``foo.f00001`` will be overwritten.
 
 .. _features_restart:
@@ -79,12 +79,25 @@ To control which variables are read from a restart file, add an additional strin
    Passive scalar 'i',``Si``
    reset time,``time=0.0``
 
-For example, to load only velocity and passive scalar 2, and set the physical time to 5.0, use the following
+:Example:
+  The following directive will load only velocity and passive scalar 2, and set the physical time to 5.0.
 
 .. code-block:: ini
 
    [GENERAL]
    startFrom = foo0.f00001 US2 time=5.0
+
+Additionally, *Nek5000* supports loading multiple files simultaneously by providing a list of comma separated filenames.
+With the default behavior, each subsequent file will overwrite everything loaded with the previous file.
+However, by making use of the restart options, a Frankenstein's Monster type of restart can be created combining fields from multiple solution files.
+
+:Example:
+  The following directive will load the mesh coordinates from the first file, ``mshfoo0.f00001``, then interpolate velocity, pressure and temperature from the second file, ``foo0.f00001`` onto the new coordinates.
+  
+.. code-block:: ini
+
+   [GENERAL]
+   startFrom = mshfoo0.f00001 X, foo0.f00001 UPT int
 
 :Feature:
    If a restart file contains coordinates, *Nek5000* will overwrite the coordinates generated from the ``.re2`` file. This behavior may or may not be desirable, use the restart options to control it!
@@ -95,7 +108,7 @@ For example, to load only velocity and passive scalar 2, and set the physical ti
 Averaging
 ---------------
 
-When running a high fidelity case with DNS or LES turbulence models, it is often necessary to time-average the solution fields to extract meaningful quanties.
+When running a high fidelity case with DNS or LES turbulence models, it is often necessary to time-average the solution fields to extract meaningful quantities.
 This may sometimes even be useful for a URANS case as well.
 *Nek5000* includes a subroutine for calculating a running time-average of all the primitive variables, i.e. :math:`u`, :math:`v`, :math:`w`, :math:`p`, and :math:`T`, as well as the second order terms :math:`u^2`, :math:`v^2`, :math:`w^2`, :math:`uv`, :math:`uw`, and :math:`vw`.
 Which can be used to reconstruct the Reynolds stresses.
@@ -116,7 +129,7 @@ When the files are written, the averaging restarts.
 The average files thus only contain averages over the window specified by ``writeInterval`` in the ``.par`` file.
 
 The complete list of variables, including which file they are written to and the scalar position they occupy in that file are specified in the table below.
-Additionally, the width of the time-window is recorded as the phyiscal time in each average file.
+Additionally, the width of the time-window is recorded as the physical time in each average file.
 
 .. csv-table:: Variables included in ``avg_all``
    :header: "Variable","filename","scalar"
@@ -140,6 +153,10 @@ Additionally, the width of the time-window is recorded as the phyiscal time in e
    :math:`\overline{p^2}`,rm2foo0.f00000,pressure
    :math:`\overline{T^2}`,rm2foo0.f00000,temperature
 
+:Note: 
+  ``avg_all`` does NOT output enough information to reconstruct the turbulent heat fluxes by default.
+  Currently, custom user code is necessary to accomplish this.
+
 The averaging files can then be reloaded into *Nek5000* as a standard restart file for post processing.
 The files contain enough information to reconstruct Reynolds stresses considering that for a sufficiently large time-window at statistically steady state:
 
@@ -147,15 +164,11 @@ The files contain enough information to reconstruct Reynolds stresses considerin
 
    \overline{u'u'}=\overline{u^2}-\overline{u}^2
 
-Note that by default, ``avg_all`` does NOT output enough information to reconstruct the turbulent heat fluxes.
-Currently, custom user code is necessary to accomplish this.
-
-.. _features_filt:
+.. _features_post:
 
 ------------------
-Filtering
+Post Processing
 ------------------
-
 TODO...
 
 .. _features_obj:

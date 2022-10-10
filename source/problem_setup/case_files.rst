@@ -120,7 +120,7 @@ Values in parentheses denote the default value.
    |                         |                 | | physical time                              |
    +-------------------------+-----------------+----------------------------------------------+
    | ``filtering``           | | ``(none)``    | | Specifies the filtering method             |
-   |                         | | ``explicit``  |                                              |
+   |                         | | ``explicit``  | | See :ref:`sec:filter`                      | 
    |                         | | ``hpfrt``     |                                              |
    +-------------------------+-----------------+----------------------------------------------+
    | ``filterModes``         | | ``<int>``     | | Specifies the number of modes filtered as  |
@@ -522,39 +522,39 @@ Boundaries
 SIZE
 ------------------------
 
-SIZE file defines the problem size, i.e. spatial points at which the solution is to be evaluated within each element, number of elements per processor etc.
+SIZE file defines the problem size, i.e.\ the spatial points at which the solution is to be evaluated within each element, number of elements per processor etc.
 The SIZE file governs the memory allocation for most of the arrays
 in Nek5000, with the exception of those required by the C utilities.
 The *basic* parameters of interest in SIZE are:
 
-* **ldim** = 2 or 3.  This must be set to 2 for two-dimensional or axisymmetric simulations  (the latter only partially supported) or to 3 for three-dimensional simulations.
-* **lx1** controls the polynomial order of the solution, :math:`N = {\tt lx1-1}`.
-* **lxd** controls the polynomial order of the (over-)integration/dealiasing. Strictly speaking :math:`{\tt lxd=3 * lx1/2}` is required but often smaller values are good enough.
-* **lx2** = ``lx1`` or ``lx1-2`` and is an approximation order for pressure that determines the formulation for the Navier-Stokes  solver (i.e., the choice between the :math:`\mathbb{P}_N - \mathbb{P}_N` or :math:`\mathbb{P}_N - \mathbb{P}_{N-2}` spectral-element methods).
-* **lelg**, an upper bound on the total number of elements in your mesh.
-* **lpmax**, a maximum number of processors that can be used
-* **lpmin**, a minimum number of processors that can be used (see also  **Memory Requirements**).
-* **ldimt**, an upper bound on a number of auxilary fields to solve (temperature + other scalars, minimum is 1).
+* ``ldim`` = 2 or 3.  This must be set to 2 for two-dimensional or axisymmetric simulations  (the latter only partially supported) or to 3 for three-dimensional simulations.
+* ``lx1`` controls the polynomial order of the solution, :math:`N =` ``lx1`` :math:`-1`.
+* ``lxd`` controls the polynomial order of the (over-)integration/dealiasing. Strictly speaking :math:`{\tt lxd=3 * lx1/2}` is required but often smaller values are good enough.
+* ``lx2`` = ``lx1`` or ``lx1-2`` and is an approximation order for pressure that determines the formulation for the Navier-Stokes  solver (i.e., the choice between the :math:`\mathbb{P}_N - \mathbb{P}_N` or :math:`\mathbb{P}_N - \mathbb{P}_{N-2}` spectral-element methods).
+* ``lelg``, an upper bound on the total number of elements in your mesh.
+* ``lpmax``, a maximum number of processors that can be used (Deprecated as of the latest master branch)
+* ``lpmin``, a minimum number of processors that can be used
+* ``ldimt``, an upper bound on a number of auxilary fields to solve (temperature + other scalars, minimum is 1).
 
 The *optional*
 upper bounds on parameters in SIZE are (minimum being 1 unless otherwise noted):
 
-* **lhis**, a maximum history (i.e. monitoring) points.
-* **maxobj**, a maximum number of objects.
-* **lpert**, a maximum perturbations.
-* **toteq**, a maximum number of conserved scalars in CMT (minimum could be 0).
-* **nsessmax**, a maximum number of (ensemble-average) sessions.
-* **lxo**, a maximum number of points per element for field file output (:math:`{\tt lxo \geq lx1}`).
-* **lelx**, **lely**, **lelz**, a maximum number of element in each direction for global tensor product solver and/or dimentions.
-* **mxprev**, a maximum dimension of projection space (e.g. 20).
-* **lgmres**, a maximum dimension of Krylov space (e.g. 30).
-* **lorder**, a maximum order of temporal discretization (minimum is2 see also characteristic/OIFS method).
-* **lelt** determines the maximum number of elements *per processor* (should be not smaller than nelgt/lpmin, e.g. lelg/lpmin+1).
-* **lx1m**, a polynomial order for mesh solver that should be equal to lx1 in case of ALE and in case of stress-formulation (=1 otherwise).
-* **lbelt** determines the maximum number of elements per processor for MHD solver that should be equalt to lelt (=1 otherwise).
-* **lpelt** determines the maximum number of elements per processor for linear stability solver that should be equalt to lelt (=1 otherwise).
-* **lcvelt** determines the maximum number of elements per processor for CVODE solver that should be equalt to lelt (=1 otherwise).
-* **lfdm** equals to 1 for global tensor product solver (that uses fast diagonalization method) being 0 otherwise.
+* ``lhis``, a maximum history (i.e. monitoring) points.
+* ``maxobj``, a maximum number of objects.
+* ``lpert``, a maximum perturbations.
+* ``toteq``, a maximum number of conserved scalars in CMT (minimum could be 0).
+* ``nsessmax``, a maximum number of (ensemble-average) sessions.
+* ``lxo``, a maximum number of points per element for field file output (``lxo`` :math:`\geq` ``lx1``).
+* ``lelx``, ``lely``, ``lelz``, a maximum number of element in each direction for global tensor product solver and/or dimentions.
+* ``mxprev``, a maximum dimension of projection space (e.g. 20).
+* ``lgmres``, a maximum dimension of Krylov space (e.g. 30).
+* ``lorder``, a maximum order of temporal discretization (minimum is2 see also characteristic/OIFS method).
+* ``lelt`` determines the maximum number of elements *per processor* (should be not smaller than nelgt/lpmin, e.g. lelg/lpmin+1) (promoted to *basic* section as of the latest master branch).
+* ``lx1m``, a polynomial order for mesh solver that should be equal to lx1 in case of ALE and in case of stress-formulation (=1 otherwise).
+* ``lbelt`` determines the maximum number of elements per processor for MHD solver that should be equalt to lelt (=1 otherwise).
+* ``lpelt`` determines the maximum number of elements per processor for linear stability solver that should be equalt to lelt (=1 otherwise).
+* ``lcvelt`` determines the maximum number of elements per processor for CVODE solver that should be equalt to lelt (=1 otherwise).
+* ``lfdm`` equals to 1 for global tensor product solver (that uses fast diagonalization method) being 0 otherwise.
 
 Note that one also need to include the following line to SIZE file:
 

@@ -1,0 +1,29 @@
+#! /usr/bin/env gnuplot
+
+set terminal pngcairo dashed font "default,22" size 1200,700
+set encoding utf8
+set output "filter.png"
+
+set xrange[-1:10]
+set yrange[0:1.1]
+set ylabel "weight ({/:Italic σ_k})"
+set xlabel "order ({/:Italic k})"
+set xtics 0,1,9
+
+set arrow from 6, 0 to 6, 1.1 ls 1 lw 2 dashtype 2 nohead
+set label "{/:Italic N'}=6" at 6.2,0.15
+plot\
+"filter.dat" w linespoints ls 2 pointsize 2.5 lw 2 notitle
+
+unset arrow
+unset label
+
+set output "expfilter.png"
+
+set xrange [-0.5:7.5]
+set xtics 0,1,7
+
+set arrow from 5, 0 to 5, 1.1 ls 1 lw 2 dashtype 2 nohead
+set label "{/:Italic N'}=5" at 5.2,0.15
+plot\
+"filter2.dat" w linespoints ls 2 pointsize 2.5 lw 2 notitle
