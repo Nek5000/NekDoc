@@ -26,7 +26,7 @@ Here’s a brief description of each top-level directory:
 
 .. topic:: /bin
 
-   Contains scripts for running nek5000 and manipulating its output, and binaries for the tools. This directory should be added to your environment `PATH <https://opensource.com/article/17/6/set-path-linux>`__.
+   Contains scripts for running nek5000 and manipulating its output, and binaries for the tools. This directory should be added to your environment PATH (see :ref:`below<sec:PATH>`).
 
 .. topic:: /tools
 
@@ -47,6 +47,31 @@ Here’s a brief description of each top-level directory:
 .. topic:: /3rd_party
 
    Contains third party software not part of the *Nek5000* core, e.g. *gslib*, *HYPRE*, and *CVODE*.
+
+.. _sec:PATH:
+
+--------------------
+Setting up your PATH
+--------------------
+
+We recommend adding the ``bin`` directory to your shell's execution PATH.
+In the ``bash`` shell, this can be done temporarily (only for your active session) with the command
+
+.. code-block:: none
+
+   $ export PATH+=:$HOME/Nek5000/bin
+
+To do this more permanently, this line can be added to your ``.bashrc`` file in your ``$HOME`` directory.
+This will require you to restart your current session, i.e. log out and log back in, to become active.
+You can check your current execution PATH with
+
+.. code-block:: none
+
+  $ echo $PATH
+
+This will produce a colon-separated list of the directories searched by Linux for the commands typed into the command line.
+The ``Nek5000/bin`` entry is likely either the first or last value in this list, depending on your environment.
+For more information on the execution PATH in Linux, see `here <https://opensource.com/article/17/6/set-path-linux>`__ (warning: links to a 3rd party website).
 
 ---------------------
 Case files
