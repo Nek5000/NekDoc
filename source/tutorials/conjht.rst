@@ -22,11 +22,11 @@ Note that the ``examples`` directory is linked in the github repository as a sub
 Blank template files for the user file, ``zero.usr``, and the ``SIZE`` file, ``SIZE.template``, can be found in the ``Nek5000/core`` directory.
 As a first step, the user should create a case directory in the corresponding run directory:
 
-.. code-block:: none
+.. code-block:: console
 
-   cd $HOME/Nek5000/run 
-   mkdir conj_ht
-   cd conj_ht
+   $ cd $HOME/Nek5000/run 
+   $ mkdir conj_ht
+   $ cd conj_ht
 
 and copy the template files into this directory.
 Additionally, this tutorial requires the ``ray0.rea`` file from the Rayleigh-Bernard example found in ``Nek5000/examples/rayleigh``.
@@ -163,7 +163,7 @@ The produced mesh is shown in :numref:`fig:cht_mesh`.
     :figclass: align-center
     :alt: per_mesh
 
-    Modified box mesh graded
+    Combined box mesh
 
 ..........................
 usr file
@@ -173,9 +173,9 @@ The :ref:`user routines <case_files_usr>` file implements various subroutines to
 
 To get started we copy the template to our case directory and then we modify its subroutines accordingly.
 
-.. code-block:: none
+.. code-block:: console
 
-   cp $HOME/Nek5000/core/zero.usr cht2d.usr 
+   $ cp $HOME/Nek5000/core/zero.usr cht2d.usr 
 
 User Data                    
 _____________________________
@@ -265,7 +265,6 @@ The control parameters for any case are given in the ``.par`` file.
 For this case, using any text editor, create a new file called ``cht2d.par`` and type in the following:
 
 .. literalinclude:: conjht/cht2d.par
-   :language: ini
 
 Note that if the file ``cht2d.rea`` exists within the case directory, *Nek5000* will preferentially read the case parameters from that file instead, which may result in errors or inconsistent results. 
 In this example, we have set the calculation to stop after a physical time of 50 (``endTime = 50.0``) and write the checkpoint file every 1 physical time units (``writeInterval = 1.0``).
@@ -282,9 +281,9 @@ The static memory layout of *Nek5000* requires the user to set some solver param
 Typically it's a good idea to start from the template.
 If you haven't already, copy the ``SIZE.template`` file from the core directory and rename it ``SIZE`` in the working directory:
 
-.. code-block:: none
+.. code-block:: console
 
-   cp $HOME/Nek5000/core/SIZE.template SIZE
+   $ cp $HOME/Nek5000/core/SIZE.template SIZE
 
 Then, adjust the following parameters in the BASIC section.
 The only one you will likely need to change is the number of global elements on the highlighted line.
@@ -311,9 +310,11 @@ As a final check, you should have the following files:
  * :download:`SIZE <conjht/SIZE>`
 
 If for some reason you encountered an insurmountable error and were unable to generate any of the required files, you may use the provided links to download them.
-After confirming that you have all five, you are now ready to compile::
+After confirming that you have all five, you are now ready to compile
 
-  makenek cht2d
+.. code-block:: console
+
+  $ makenek cht2d
 
 If all works properly, upon compilation the executable ``nek5000`` will be generated and you will see something like:
 
@@ -324,9 +325,9 @@ Note that compilation only relies on the user file and the SIZE file.
 Any changes to these two files will require recompiling your case!
 Now you are all set, just run
 
-.. code-block:: bash
+.. code-block:: console
 
-  nekbmpi cht2d 4
+  $ nekbmpi cht2d 4
 
 to launch an MPI jobs on your local machine using 4 ranks. The output will be redirected to ``logfile``.
 
@@ -342,9 +343,11 @@ Once execution is completed your directory should now contain multiple checkpoin
 
 The preferred mode for data visualization with *Nek5000* is to use Visit or Paraview. 
 This requires generating a metadata file with ``visnek``, found in ``/scripts``.
-It can be run with::
+It can be run with
 
-  visnek cht2d
+.. code-block:: console
+
+  $ visnek cht2d
 
 to obtain a file named ``cht2d.nek5000``.
 This file can be opened with either Visit or Paraview.
@@ -359,6 +362,6 @@ It will be similar to, but not necessarily identical to that shown in :numref:`f
     :figclass: align-center
     :alt: per_flow
 
-    Steady-State flow field visualized in Visit. Vectors represent velocity. Colors represent velocity magnitude.  
+    Steady-State flow field visualized in Visit. Vectors represent velocity. Colors represent temperature.
 
 
