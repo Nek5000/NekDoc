@@ -265,7 +265,6 @@ The control parameters for any case are given in the ``.par`` file.
 For this case, using any text editor, create a new file called ``cht2d.par`` and type in the following:
 
 .. literalinclude:: conjht/cht2d.par
-   :language: ini
 
 Note that if the file ``cht2d.rea`` exists within the case directory, *Nek5000* will preferentially read the case parameters from that file instead, which may result in errors or inconsistent results. 
 In this example, we have set the calculation to stop after a physical time of 50 (``endTime = 50.0``) and write the checkpoint file every 1 physical time units (``writeInterval = 1.0``).
