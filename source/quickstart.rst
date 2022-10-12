@@ -14,6 +14,25 @@ At an absolute minimum, to successfully build and run *Nek5000* will require com
 To successfully build and run *Nek5000* in parallel will additionally require a compatible MPI wrapper, such as *OpenMPI* or *MPICH*.
 Some of the tools and advanced features will have additional dependencies, such as *CMake*.
 
+On Ubuntu, the following packages will provide the necessary compilers and wrappers to run *Nek5000* in parallel. 
+
+.. code-block:: console
+
+  $ sudo apt-get update
+  $ sudo apt install build-essential  #provides gcc
+  $ sudo apt install gfortran         #provides gfortran
+  $ sudo apt install libopenmpi-dev   #provides openmpi
+
+Additionally, to install all of the NekTools, the following packages are necessary
+
+.. code-block:: console
+
+  $ sudo apt install cmake            #provides cmake
+  $ sudo apt install libx11-dev       #provides X11
+  $ sudo apt install libxt-dev        #provides X11
+
+:Note: These package lists also work for Ubuntu on the Windows Subsystem for Linux
+
 -------------------
 Directory structure
 -------------------
