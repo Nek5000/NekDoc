@@ -108,9 +108,9 @@ Some samples can be found in the <code class="docutils literal notranslate"><spa
 Note that the <code class="docutils literal notranslate"><span class="pre">examples</span></code> directory is linked in the github repository as a submodule and can alternatively be obtained <a class="reference external" href="http://github.com/Nek5000/NekExamples">here</a>.
 Blank template files for the user file, <code class="docutils literal notranslate"><span class="pre">zero.usr</span></code>, and the <code class="docutils literal notranslate"><span class="pre">SIZE</span></code> file, <code class="docutils literal notranslate"><span class="pre">SIZE.template</span></code>, can be found in the <code class="docutils literal notranslate"><span class="pre">Nek5000/core</span></code> directory.
 As a first step, the user should create a case directory in the corresponding run directory:</p>
-<div class="highlight-none notranslate"><div class="highlight"><pre><span></span>cd $HOME/Nek5000/run
-mkdir conj_ht
-cd conj_ht
+<div class="highlight-console notranslate"><div class="highlight"><pre><span></span><span class="gp">$</span> <span class="nb">cd</span> <span class="nv">$HOME</span>/Nek5000/run
+<span class="gp">$</span> mkdir conj_ht
+<span class="gp">$</span> <span class="nb">cd</span> conj_ht
 </pre></div>
 </div>
 <p>and copy the template files into this directory.
@@ -271,14 +271,14 @@ The options in the rea file are propagated from the original template, <code cla
 The produced mesh is shown in <a class="reference internal" href="#fig-cht-mesh"><span class="std std-numref">Fig. 14</span></a>.</p>
 <div class="align-center figure" id="id3">
 <span id="fig-cht-mesh"></span><img alt="per_mesh" src="../_images/mesh.png" />
-<p class="caption"><span class="caption-number">Fig. 14 </span><span class="caption-text">Modified box mesh graded</span></p>
+<p class="caption"><span class="caption-number">Fig. 14 </span><span class="caption-text">Combined box mesh</span></p>
 </div>
 </div>
 <div class="section" id="usr-file">
 <h2>usr file<a class="headerlink" href="#usr-file" title="Permalink to this headline">¶</a></h2>
 <p>The <a class="reference internal" href="../problem_setup/usr_file.html#case-files-usr"><span class="std std-ref">user routines</span></a> file implements various subroutines to allow the users to interact with the solver.</p>
 <p>To get started we copy the template to our case directory and then we modify its subroutines accordingly.</p>
-<div class="highlight-none notranslate"><div class="highlight"><pre><span></span>cp $HOME/Nek5000/core/zero.usr cht2d.usr
+<div class="highlight-console notranslate"><div class="highlight"><pre><span></span><span class="gp">$</span> cp <span class="nv">$HOME</span>/Nek5000/core/zero.usr cht2d.usr
 </pre></div>
 </div>
 <div class="section" id="user-data">
@@ -435,26 +435,26 @@ Subsequently, we modify <code class="docutils literal notranslate"><span class="
 <h2>Control parameters<a class="headerlink" href="#control-parameters" title="Permalink to this headline">¶</a></h2>
 <p>The control parameters for any case are given in the <code class="docutils literal notranslate"><span class="pre">.par</span></code> file.
 For this case, using any text editor, create a new file called <code class="docutils literal notranslate"><span class="pre">cht2d.par</span></code> and type in the following:</p>
-<div class="highlight-ini notranslate"><div class="highlight"><pre><span></span><span class="c1"># Nek5000 parameter file</span>
-<span class="k">[GENERAL]</span>
-<span class="na">stopAt</span> <span class="o">=</span> <span class="s">endTime</span>
-<span class="na">endTime</span> <span class="o">=</span> <span class="s">50</span>
-<span class="na">dt</span> <span class="o">=</span> <span class="s">5.0e-1</span>
-<span class="na">variabledt</span> <span class="o">=</span> <span class="s">yes</span>
-<span class="na">targetCFL</span> <span class="o">=</span> <span class="s">0.5</span>
-<span class="na">writeControl</span> <span class="o">=</span> <span class="s">runTime</span>
-<span class="na">writeInterval</span> <span class="o">=</span> <span class="s">1.0</span>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="c1"># Nek5000 parameter file</span>
+<span class="p">[</span><span class="n">GENERAL</span><span class="p">]</span>
+<span class="n">stopAt</span> <span class="o">=</span> <span class="n">endTime</span>
+<span class="n">endTime</span> <span class="o">=</span> <span class="mi">50</span>
+<span class="n">dt</span> <span class="o">=</span> <span class="mf">5.0e-1</span>
+<span class="n">variabledt</span> <span class="o">=</span> <span class="n">yes</span>
+<span class="n">targetCFL</span> <span class="o">=</span> <span class="mf">0.5</span>
+<span class="n">writeControl</span> <span class="o">=</span> <span class="n">runTime</span>
+<span class="n">writeInterval</span> <span class="o">=</span> <span class="mf">1.0</span>
 
-<span class="k">[VELOCITY]</span>
-<span class="na">density</span> <span class="o">=</span> <span class="s">1.0</span>
+<span class="p">[</span><span class="n">VELOCITY</span><span class="p">]</span>
+<span class="n">density</span> <span class="o">=</span> <span class="mf">1.0</span>
 <span class="c1"># viscosity = sqrt(1/Ra)</span>
-<span class="na">viscosity</span> <span class="o">=</span> <span class="s">5.744563e-5</span>
+<span class="n">viscosity</span> <span class="o">=</span> <span class="mf">5.744563e-5</span>
 
-<span class="k">[TEMPERATURE]</span>
-<span class="na">conjugateHeatTransfer</span> <span class="o">=</span> <span class="s">yes</span>
-<span class="na">rhoCp</span> <span class="o">=</span> <span class="s">1.0</span>
+<span class="p">[</span><span class="n">TEMPERATURE</span><span class="p">]</span>
+<span class="n">conjugateHeatTransfer</span> <span class="o">=</span> <span class="n">yes</span>
+<span class="n">rhoCp</span> <span class="o">=</span> <span class="mf">1.0</span>
 <span class="c1"># conductivity = sqrt(Ra * Pr)</span>
-<span class="na">conductivity</span> <span class="o">=</span> <span class="s">1.740776e-3</span>
+<span class="n">conductivity</span> <span class="o">=</span> <span class="mf">1.740776e-3</span>
 </pre></div>
 </div>
 <p>Note that if the file <code class="docutils literal notranslate"><span class="pre">cht2d.rea</span></code> exists within the case directory, <em>Nek5000</em> will preferentially read the case parameters from that file instead, which may result in errors or inconsistent results.
@@ -469,7 +469,7 @@ Additional details on available settings in the par file are available <a class=
 <p>The static memory layout of <em>Nek5000</em> requires the user to set some solver parameters through a so called <code class="docutils literal notranslate"><span class="pre">SIZE</span></code> file.
 Typically it’s a good idea to start from the template.
 If you haven’t already, copy the <code class="docutils literal notranslate"><span class="pre">SIZE.template</span></code> file from the core directory and rename it <code class="docutils literal notranslate"><span class="pre">SIZE</span></code> in the working directory:</p>
-<div class="highlight-none notranslate"><div class="highlight"><pre><span></span>cp $HOME/Nek5000/core/SIZE.template SIZE
+<div class="highlight-console notranslate"><div class="highlight"><pre><span></span><span class="gp">$</span> cp <span class="nv">$HOME</span>/Nek5000/core/SIZE.template SIZE
 </pre></div>
 </div>
 <p>Then, adjust the following parameters in the BASIC section.
@@ -503,8 +503,8 @@ As a final check, you should have the following files:</p>
 </ul>
 </div></blockquote>
 <p>If for some reason you encountered an insurmountable error and were unable to generate any of the required files, you may use the provided links to download them.
-After confirming that you have all five, you are now ready to compile:</p>
-<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">makenek</span> <span class="n">cht2d</span>
+After confirming that you have all five, you are now ready to compile</p>
+<div class="highlight-console notranslate"><div class="highlight"><pre><span></span><span class="gp">$</span> makenek cht2d
 </pre></div>
 </div>
 <p>If all works properly, upon compilation the executable <code class="docutils literal notranslate"><span class="pre">nek5000</span></code> will be generated and you will see something like:</p>
@@ -518,7 +518,7 @@ After confirming that you have all five, you are now ready to compile:</p>
 <p>Note that compilation only relies on the user file and the SIZE file.
 Any changes to these two files will require recompiling your case!
 Now you are all set, just run</p>
-<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>nekbmpi cht2d <span class="m">4</span>
+<div class="highlight-console notranslate"><div class="highlight"><pre><span></span><span class="gp">$</span> nekbmpi cht2d <span class="m">4</span>
 </pre></div>
 </div>
 <p>to launch an MPI jobs on your local machine using 4 ranks. The output will be redirected to <code class="docutils literal notranslate"><span class="pre">logfile</span></code>.</p>
@@ -533,8 +533,8 @@ Now you are all set, just run</p>
 </div>
 <p>The preferred mode for data visualization with <em>Nek5000</em> is to use Visit or Paraview.
 This requires generating a metadata file with <code class="docutils literal notranslate"><span class="pre">visnek</span></code>, found in <code class="docutils literal notranslate"><span class="pre">/scripts</span></code>.
-It can be run with:</p>
-<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">visnek</span> <span class="n">cht2d</span>
+It can be run with</p>
+<div class="highlight-console notranslate"><div class="highlight"><pre><span></span><span class="gp">$</span> visnek cht2d
 </pre></div>
 </div>
 <p>to obtain a file named <code class="docutils literal notranslate"><span class="pre">cht2d.nek5000</span></code>.
@@ -543,7 +543,7 @@ This file can be opened with either Visit or Paraview.</p>
 It will be similar to, but not necessarily identical to that shown in <a class="reference internal" href="#fig-cht-rbc"><span class="std std-numref">Fig. 16</span></a>.</p>
 <div class="align-center figure" id="id5">
 <span id="fig-cht-rbc"></span><img alt="per_flow" src="../_images/cht_rbc.png" />
-<p class="caption"><span class="caption-number">Fig. 16 </span><span class="caption-text">Steady-State flow field visualized in Visit. Vectors represent velocity. Colors represent velocity magnitude.</span></p>
+<p class="caption"><span class="caption-number">Fig. 16 </span><span class="caption-text">Steady-State flow field visualized in Visit. Vectors represent velocity. Colors represent temperature.</span></p>
 </div>
 </div>
 </div>

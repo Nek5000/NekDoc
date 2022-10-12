@@ -88,6 +88,8 @@ Installing, Compiling, and Running
 
    Note, the output of GNU`s SIZE utility is inaccurate as it does not take into account the dynamic memory alloation of MPI, gslib, CVODE, etc. 
 
+.. _sec:faq_relocation:
+
 **Why does the compiler issue relocation errors?**
 
    ``relocation truncated to fit: R_X86_64 against symbol 'foo_' defined in COMMON section in obj/bar.o``

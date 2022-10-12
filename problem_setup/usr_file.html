@@ -103,7 +103,7 @@
              
   <div class="section" id="user-routines-file-usr">
 <span id="case-files-usr"></span><h1>User Routines File (.usr)<a class="headerlink" href="#user-routines-file-usr" title="Permalink to this headline">¶</a></h1>
-<p>The user file is a special case file that implements the the user interface to <em>Nek5000</em>.
+<p>The user file is a special case file that implements the user interface to <em>Nek5000</em>.
 What follows is a brief description of the available subroutines and a primer on writing your own user code.
 An empty user file template can be found in the source directory at <code class="docutils literal notranslate"><span class="pre">Nek5000/core/zero.usr</span></code>.
 When setting up a new case, it is recommended to start by copying this file to your run directory when you don’t already have a similar case to use as a template.</p>
@@ -112,7 +112,7 @@ These subroutines can be broadly divided into 3 categories:</p>
 <ul class="simple">
 <li>Local routines - called every time step for every field and GLL point</li>
 <li>Global routines - called once per time step</li>
-<li>Intialization routines - only called once during intialization</li>
+<li>Initialization routines - only called once during initialization</li>
 </ul>
 <p>All of the routines in the <code class="docutils literal notranslate"><span class="pre">.usr</span></code> file have access to a common set of global variables and arrays.
 These are included in the <code class="docutils literal notranslate"><span class="pre">TOTAL</span></code> common block, included at the beginning of each subroutine.
@@ -432,7 +432,7 @@ The transport coefficient refers to the coefficient attached to the convective t
 <col class="field-name" />
 <col class="field-body" />
 <tbody valign="top">
-<tr class="field-odd field"><th class="field-name">Warning:</th><td class="field-body">The coresponding entries in <code class="docutils literal notranslate"><span class="pre">vdiff</span></code> and <code class="docutils literal notranslate"><span class="pre">vtrans</span></code> are overwritten by whatever is assigned to <code class="docutils literal notranslate"><span class="pre">udiff</span></code> and <code class="docutils literal notranslate"><span class="pre">utrans</span></code>. Setting <code class="docutils literal notranslate"><span class="pre">vdiff</span></code> and <code class="docutils literal notranslate"><span class="pre">vtrans</span></code> directly is not supported.</td>
+<tr class="field-odd field"><th class="field-name">Warning:</th><td class="field-body">The corresponding entries in <code class="docutils literal notranslate"><span class="pre">vdiff</span></code> and <code class="docutils literal notranslate"><span class="pre">vtrans</span></code> are overwritten by whatever is assigned to <code class="docutils literal notranslate"><span class="pre">udiff</span></code> and <code class="docutils literal notranslate"><span class="pre">utrans</span></code>. Setting <code class="docutils literal notranslate"><span class="pre">vdiff</span></code> and <code class="docutils literal notranslate"><span class="pre">vtrans</span></code> directly is not supported.</td>
 </tr>
 <tr class="field-even field"><th class="field-name">Example:</th><td class="field-body">The code block below shows how to implement a variable viscosity as a function of temperature, with the density, rho-cp, and thermal conductivity set from the values in the <code class="docutils literal notranslate"><span class="pre">.par</span></code> file using the <a class="reference internal" href="#tab-cpfld"><span class="std std-ref">field coefficient array</span></a>.</td>
 </tr>
@@ -735,7 +735,7 @@ These correspond to standard Dirichlet, Neumann, and Robin boundary conditions.<
 <tbody valign="top">
 <tr class="field-odd field"><th class="field-name">Example:</th><td class="field-body">In the example below, the code sets a parabolic inlet velocity with a constant inlet temperature of zero and a constant wall temperature of one.
 The temperature field has the same BC of <code class="docutils literal notranslate"><span class="pre">t</span></code>  on both the inlet and the wall, so the velocity BC is accessed to differentiate between the two.
-Also note that this routine will not be called for <code class="docutils literal notranslate"><span class="pre">ifield=1</span></code> for the <code class="docutils literal notranslate"><span class="pre">W</span></code> boundary, but it will be called for <code class="docutils literal notranslate"><span class="pre">ifield=2</span></code> for the <code class="docutils literal notranslate"><span class="pre">t</span></code> boundary colocated with the <code class="docutils literal notranslate"><span class="pre">W</span></code> boundary.</td>
+Also note that this routine will not be called for <code class="docutils literal notranslate"><span class="pre">ifield=1</span></code> for the <code class="docutils literal notranslate"><span class="pre">W</span></code> boundary, but it will be called for <code class="docutils literal notranslate"><span class="pre">ifield=2</span></code> for the <code class="docutils literal notranslate"><span class="pre">t</span></code> boundary co-located with the <code class="docutils literal notranslate"><span class="pre">W</span></code> boundary.</td>
 </tr>
 </tbody>
 </table>
@@ -901,14 +901,14 @@ These are listed in <a class="reference internal" href="#tab-psbcs"><span class=
 </pre></div>
 </div>
 <p>It is not uncommon to use multiple methods of discerning between different boundary conditions.
-The user may need to implement specific conditions for different fields on differeny boundaries at different times.
+The user may need to implement specific conditions for different fields on different boundaries at different times.
 This can quickly lead to complex, embedded if-then statements.
 Use care to ensure you’re setting the correct boundary conditions!</p>
 </div>
 <div class="section" id="useric">
 <span id="sec-useric"></span><h3>useric<a class="headerlink" href="#useric" title="Permalink to this headline">¶</a></h3>
 <p>This functions sets the initial conditions and behaves similarly to <code class="docutils literal notranslate"><span class="pre">userbc</span></code>.
-It is called only during intialization after <code class="docutils literal notranslate"><span class="pre">usrdat3</span></code> for every solution field on every GLL point in the domain.</p>
+It is called only during initialization after <code class="docutils literal notranslate"><span class="pre">usrdat3</span></code> for every solution field on every GLL point in the domain.</p>
 <table class="docutils field-list" frame="void" rules="none">
 <col class="field-name" />
 <col class="field-body" />
@@ -923,8 +923,8 @@ It is called only during intialization after <code class="docutils literal notra
 <span id="id3"></span><h2>Global Routines<a class="headerlink" href="#global-routines" title="Permalink to this headline">¶</a></h2>
 <div class="section" id="userchk">
 <span id="sec-userchk"></span><h3>userchk<a class="headerlink" href="#userchk" title="Permalink to this headline">¶</a></h3>
-<p>This is a general purpose routine that is executed both during intialization and after every time step.
-It can be used for a wide variety of purposes, such as monitoring the the solution, post-processing results, or implementing entirely new physical solvers.</p>
+<p>This is a general purpose routine that is executed both during initialization and after every time step.
+It can be used for a wide variety of purposes, such as monitoring the solution, post-processing results, or implementing entirely new physical solvers.</p>
 <p>It is helpful for users to familiarize themselves with the included utility subroutines in <em>Nek5000</em> as they can make performing complex calculations on the entire dataset much easier.
 For a list of some of the commonly used subroutines, see <a class="reference internal" href="../appendix.html#append-subroutines"><span class="std std-ref">here</span></a>.</p>
 <table class="docutils field-list" frame="void" rules="none">
@@ -933,7 +933,7 @@ For a list of some of the commonly used subroutines, see <a class="reference int
 <tbody valign="top">
 <tr class="field-odd field"><th class="field-name">Example:</th><td class="field-body">Most of the code shown below will only be executed if <em>Nek5000</em> is run in “post-processing” mode, i.e. <code class="docutils literal notranslate"><span class="pre">numSteps</span> <span class="pre">=</span> <span class="pre">0</span></code> is specified in the <code class="docutils literal notranslate"><span class="pre">.par</span></code> file.
 The solution is rescaled by reference length, velocity, and pressure and written to an output file.
-The name of the output file will be prepended with the charachters <code class="docutils literal notranslate"><span class="pre">dim</span></code> and it will contain dimensional quantities that can be loaded into Paraview or VisIt for further post processing.</td>
+The name of the output file will be prepended with the characters <code class="docutils literal notranslate"><span class="pre">dim</span></code> and it will contain dimensional quantities that can be loaded into Paraview or VisIt for further post processing.</td>
 </tr>
 </tbody>
 </table>

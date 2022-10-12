@@ -151,7 +151,7 @@ The memory allocated by MPI will depend heavily on the total number of ranks and
 For large rank counts (say <span class="math notranslate nohighlight">\(E&gt;100,000\)</span>) it’s easily 50-100MB.</p>
 <p>Note, the output of GNU`s SIZE utility is inaccurate as it does not take into account the dynamic memory alloation of MPI, gslib, CVODE, etc.</p>
 </div></blockquote>
-<p><strong>Why does the compiler issue relocation errors?</strong></p>
+<p id="sec-faq-relocation"><strong>Why does the compiler issue relocation errors?</strong></p>
 <blockquote>
 <div><p><code class="docutils literal notranslate"><span class="pre">relocation</span> <span class="pre">truncated</span> <span class="pre">to</span> <span class="pre">fit:</span> <span class="pre">R_X86_64</span> <span class="pre">against</span> <span class="pre">symbol</span> <span class="pre">'foo_'</span> <span class="pre">defined</span> <span class="pre">in</span> <span class="pre">COMMON</span> <span class="pre">section</span> <span class="pre">in</span> <span class="pre">obj/bar.o</span></code></p>
 <p>This happens when the resultant executable requires more than 2GB of static data.
