@@ -14,6 +14,25 @@ At an absolute minimum, to successfully build and run *Nek5000* will require com
 To successfully build and run *Nek5000* in parallel will additionally require a compatible MPI wrapper, such as *OpenMPI* or *MPICH*.
 Some of the tools and advanced features will have additional dependencies, such as *CMake*.
 
+On Ubuntu, the following packages will provide the necessary compilers and wrappers to run *Nek5000* in parallel. 
+
+.. code-block:: console
+
+  $ sudo apt-get update
+  $ sudo apt install build-essential  #provides gcc
+  $ sudo apt install gfortran         #provides gfortran
+  $ sudo apt install libopenmpi-dev   #provides openmpi
+
+Additionally, to install all of the NekTools, the following packages are necessary
+
+.. code-block:: console
+
+  $ sudo apt install cmake            #provides cmake
+  $ sudo apt install libx11-dev       #provides X11
+  $ sudo apt install libxt-dev        #provides X11
+
+:Note: These package lists also work for Ubuntu on the Windows Subsystem for Linux
+
 -------------------
 Directory structure
 -------------------
@@ -142,21 +161,21 @@ Hold your horses, this needs less than 5 min.
 Begin by downloading the latest release tarball from `here <https://github.com/Nek5000/Nek5000/releases>`_.
 Then follow the instructions below
 
-::
+.. code-block:: console
 
-  cd ~
-  tar -xvzf Nek5000_X.Y.tar.gz
-  export PATH=$HOME/Nek5000/bin:$PATH
-  cd ~/Nek5000/tools
-  ./maketools genmap
-  cd ~/Nek5000/run
-  cp -r ../examples/eddy_uv .
-  cd eddy_uv
-  genmap                       # run partioner, on input type eddy_uv 
-  makenek eddy_uv              # build case, edit script to change settings
-  nekbmpi eddy_uv 2            # run Nek5000 on 2 ranks in the background
-  tail logfile                 # view solver output
-  visnek eddy_uv               # produces the eddy_uv.nek5000 file
+  $ cd ~
+  $ tar -xvzf Nek5000_X.Y.tar.gz
+  $ export PATH=$HOME/Nek5000/bin:$PATH
+  $ cd ~/Nek5000/tools
+  $ ./maketools genmap
+  $ cd ~/Nek5000/run
+  $ cp -r ../examples/eddy_uv .
+  $ cd eddy_uv
+  $ genmap                       # run partioner, on input type eddy_uv 
+  $ makenek eddy_uv              # build case, edit script to change settings
+  $ nekbmpi eddy_uv 2            # run Nek5000 on 2 ranks in the background
+  $ tail logfile                 # view solver output
+  $ visnek eddy_uv               # produces the eddy_uv.nek5000 file
 
 As the case runs, it will generate multiple ``eddy_uv0.fXXXXX`` files.
 These are the restart checkpoint and visualization data files.
@@ -171,7 +190,7 @@ To obtain the examples using git, clone the ``Nek5000/NekExamples.git`` reposito
 Meshing
 -------------------
 
-Nek5000 is mainly a solver. 
+*Nek5000* is mainly a solver. 
 However, simple box type meshes can be generated with the ``genbox`` tool. 
 For more complex meshes please consider using *preNek* and the meshing tools ``nekmerge`` and ``n2to3``. 
 We provide mesh converters like ``exo2nek`` and ``gmsh2nek`` which are quite handy if you want to use your favorite mesh generator. 
@@ -181,8 +200,8 @@ We provide mesh converters like ``exo2nek`` and ``gmsh2nek`` which are quite han
 -------------------
 Visualization
 -------------------
-Nek5000 output (``.fld`` or ``0.f%05d``) files can be read by `VisIt <https://wci.llnl.gov/simulation/computer-codes/visit/>`_ or `ParaView <https://www.paraview.org/>`_. 
+*Nek5000* output (``.fld`` or ``0.f%05d``) files can be read by `VisIt <https://wci.llnl.gov/simulation/computer-codes/visit/>`_ or `ParaView <https://www.paraview.org/>`_. 
 This requires using ``visnek`` to generate a metadata file.  
-There is also an built-in X-Window based postprocessor called ``POSTNEK`` located in tools.
+There is also an built-in X-Window based postprocessor called ``postnek`` located in tools.
 
 
