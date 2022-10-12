@@ -33,6 +33,40 @@ Additionally, to install all of the NekTools, the following packages are necessa
 
 :Note: These package lists also work for Ubuntu on the Windows Subsystem for Linux
 
+----------------------------------
+Running your very first simulation
+----------------------------------
+
+Hold your horses, this needs less than 5 min.  
+Begin by downloading the latest release tarball from `here <https://github.com/Nek5000/Nek5000/releases>`_.
+Then follow the instructions below
+
+.. code-block:: console
+
+  $ cd ~
+  $ tar -xvzf Nek5000_X.Y.tar.gz
+  $ export PATH=$HOME/Nek5000/bin:$PATH
+  $ cd ~/Nek5000/tools
+  $ ./maketools genmap
+  $ cd ~/Nek5000/run
+  $ cp -r ../examples/eddy_uv .
+  $ cd eddy_uv
+  $ genmap                       # run partioner, on input type eddy_uv 
+  $ makenek eddy_uv              # build case, edit script to change settings
+  $ nekbmpi eddy_uv 2            # run Nek5000 on 2 ranks in the background
+  $ tail logfile                 # prints the last few lines of the solver output to the terminal
+  $ visnek eddy_uv               # produces the eddy_uv.nek5000 file
+
+:Note: 
+  The ``eddy_uv`` case will not be available if you cloned the master branch from GitHub, as the ``examples`` folder is NOT included.
+  To obtain the examples using git, clone the ``Nek5000/NekExamples.git`` repository.
+
+As the case runs, it will generate multiple ``eddy_uv0.fXXXXX`` files.
+These are the restart checkpoint and visualization data files.
+The metadata file, ``eddy_uv.nek5000``, can be opened with either VisIt or ParaView, which will look for the data files in the same directory as the ``eddy_uv.nek5000`` file.
+
+Assuming all went well, congratulations! You have now run your first simulation with *Nek5000*.
+
 -------------------
 Directory structure
 -------------------
@@ -76,7 +110,7 @@ Setting up your PATH
 We recommend adding the ``bin`` directory to your shell's execution PATH.
 In the ``bash`` shell, this can be done temporarily (only for your active session) with the command
 
-.. code-block:: none
+.. code-block:: console
 
    $ export PATH+=:$HOME/Nek5000/bin
 
@@ -84,12 +118,14 @@ To do this more permanently, this line can be added to your ``.bashrc`` file in 
 This will require you to restart your current session, i.e. log out and log back in, to become active.
 You can check your current execution PATH with
 
-.. code-block:: none
+.. code-block:: console
 
   $ echo $PATH
 
-This will produce a colon-separated list of the directories searched by Linux for the commands typed into the command line.
-The ``Nek5000/bin`` entry is likely either the first or last value in this list, depending on your environment.
+This will print a colon-separated list of the directories searched by Linux for the commands typed into the command line to the terminal.
+If you used the above command, the ``Nek5000/bin`` entry should be the last value in this list.
+Other common setups may add it as the first entry in this list.
+Your particular setup depends on your environment.
 For more information on the execution PATH in Linux, see `here <https://opensource.com/article/17/6/set-path-linux>`__ (warning: links to a 3rd party website).
 
 ---------------------
@@ -115,11 +151,13 @@ Case files
 
 .. topic::  foo.usr
 
-   Contains user specific code to initialize solver, set source terms and boundary conditions or to manipulate solver internals.
+   Contains user specific code to initialize solver, set source terms and boundary conditions or to manipulate solver internals. 
+   For more information see the :ref:`case_files_usr`.
 
 .. topic::  foo.his
 
    Contains probing points.
+   For more information see :ref:`features_his`.
  
 .. topic::  foo.f00000
 
@@ -152,37 +190,6 @@ Let’s walk through some useful batch scripts:
 - ``visnek <case>`` creates metadata file required by `VisIt <https://wci.llnl.gov/simulation/computer-codes/visit/>`_ and `ParaView <https://www.paraview.org/>`_. 
 - ``mvn <old name> <new name>`` renames all case files
 - ``cpn <old name> <new name>`` copies all case files
-
-----------------------------------
-Running your very first simulation
-----------------------------------
-
-Hold your horses, this needs less than 5 min.  
-Begin by downloading the latest release tarball from `here <https://github.com/Nek5000/Nek5000/releases>`_.
-Then follow the instructions below
-
-.. code-block:: console
-
-  $ cd ~
-  $ tar -xvzf Nek5000_X.Y.tar.gz
-  $ export PATH=$HOME/Nek5000/bin:$PATH
-  $ cd ~/Nek5000/tools
-  $ ./maketools genmap
-  $ cd ~/Nek5000/run
-  $ cp -r ../examples/eddy_uv .
-  $ cd eddy_uv
-  $ genmap                       # run partioner, on input type eddy_uv 
-  $ makenek eddy_uv              # build case, edit script to change settings
-  $ nekbmpi eddy_uv 2            # run Nek5000 on 2 ranks in the background
-  $ tail logfile                 # view solver output
-  $ visnek eddy_uv               # produces the eddy_uv.nek5000 file
-
-As the case runs, it will generate multiple ``eddy_uv0.fXXXXX`` files.
-These are the restart checkpoint and visualization data files.
-The metadata file, ``eddy_uv.nek5000``, can be opened with either VisIt or ParaView, which will look for the data files in the same directory as the ``eddy_uv.nek5000`` file.
-
-Note that this will not work if you clone the master branch from GitHub, as the ``examples`` folder is NOT included.
-To obtain the examples using git, clone the ``Nek5000/NekExamples.git`` repository.
 
 .. _qstart_meshing:
 

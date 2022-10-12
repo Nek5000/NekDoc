@@ -72,14 +72,14 @@ This tutorial assumes that you have installed *Nek5000* in your home directory a
 Before running the case, you will need to compile the tools ``genbox`` and ``genmap``. 
 These can be compiled using the following command in the ``$HOME/Nek5000/tools`` directory:
 
-.. code-block:: none
+.. code-block:: console
 
    $ ./maketools genbox
    $ ./maketools genmap
 
 Before building the case, the user should set up a case subdirectory in their run directory.
 
-.. code-block:: none
+.. code-block:: console
 
    $ cd $HOME/Nek5000/run
    $ mkdir fdlf
@@ -103,7 +103,7 @@ The temperature boundary conditions in the y-direction are an insulated conditio
 Note that the boundary conditions specified with lower case letters must have values assigned in userbc, which will be shown later in this tutorial. 
 Now we can run ``genbox`` with
 
-.. code-block:: none
+.. code-block:: console
 
    $ genbox
 
@@ -111,7 +111,7 @@ When prompted provide the input file name, which for this case is ``fdlf.box``. 
 
 Once we have the mesh file, we need to run the domain partitioning tool, ``genmap``.
 
-.. code-block:: none
+.. code-block:: console
 
    $ genmap
 
@@ -128,28 +128,7 @@ Control parameters
 
 The control parameters for any case are given in the ``.par`` file. For this case, create a new file called ``fdlf.par`` with the following:
 
-.. code-block:: ini
-
-   #
-   # nek parameter file
-   #
-   [GENERAL]
-   dt = 1.0e-4
-   numsteps = 10000
-   writeInterval = 2000
-
-   userParam01 = 0.01   #channel height [m]
-   userParam02 = 0.5    #mean velocity [m/s]
-   userParam03 = 300.0  #heat flux [W/m^2]
-   userParam04 = 10     #inlet temperature [C]
-
-   [VELOCITY]
-   density = 1.2        #kg/m3
-   viscosity = 0.00002  #kg/m-s
-
-   [TEMPERATURE]
-   rhoCp = 1200.0       #J/m3-K
-   conductivity = 0.025 #W/m-K
+.. literalinclude:: fdlf/fdlf.par
 
 For this case the properties evaluated are for air at ~20 C. 
 Note that ``rhoCp`` is the product of density and specific heat.
@@ -170,9 +149,9 @@ For more information on the ``.usr`` file and the available subroutines see :ref
 
 To get started we copy the template to our case directory
 
-.. code-block:: none
+.. code-block:: console
 
-   cp $HOME/Nek5000/core/zero.usr fdlf.usr
+   $ cp $HOME/Nek5000/core/zero.usr fdlf.usr
 
 
 Boundary and initial conditions
@@ -260,7 +239,7 @@ SIZE file
 
 It is recommended to copy a template of the ``SIZE`` file from the core directory and rename it ``SIZE`` in the working directory:
 
-.. code-block:: none
+.. code-block:: console
 
    $ cp $HOME/Nek5000/core/SIZE.template SIZE 
 
@@ -287,9 +266,9 @@ As a final check, you should have the following files:
  * :download:`SIZE <fdlf/SIZE>`
 
 If for some reason you encountered an insurmountable error and were unable to generate any of the required files, you may use the provided links to download them.
-After confirming that you have all five, you are now ready to compile::
+After confirming that you have all five, you are now ready to compile
 
-.. code-block:: none
+.. code-block:: console
 
    $ makenek fdlf
 
@@ -301,7 +280,7 @@ Running the case
 
 Now you can run the case
 
-.. code-block:: bash
+.. code-block:: console
 
    $ nekbmpi fdlf 4
 
@@ -321,7 +300,7 @@ Once execution is completed your directory should now contain 5 checkpoint files
 
 The preferred mode for data visualization and analysis with *Nek5000* is to use Visit/ParaView. One can use the script *visnek*, to be found in ``/scripts``. It is sufficient to run:
 
-.. code-block:: none
+.. code-block:: console
 
    $ visnek fdlf
 
