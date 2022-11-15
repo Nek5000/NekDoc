@@ -4,11 +4,10 @@
 RANS Channel
 ------------
 
-This tutorial describes the essential setup details for RANS simulation, illustrated through a 2D channel case.
-Necessary steps for both wall-resolved and wall-modeled simulations are included and the 
-:math:`k-\tau` RANS model is employed for this tutorial, which is the recommended RANS model in Nek5000.
-Other :ref:`intro_ktau` are also available for wall-resolved simulations, however wall models are
-currently specific to only the :math:`k-\tau` model.
+This tutorial describes the essential setup details for RANS wall-resolved simulation, illustrated through 
+a 2D channel case. The :math:`k-\tau` RANS model is employed for this tutorial, which is the recommended RANS
+model in Nek5000. Other RANS models, including the regularized :math:`k-\omega`, are also available, listed 
+:ref:`here <intro_ktau>`. 
 
 ..........................
 Before You Begin
@@ -21,8 +20,7 @@ setup files and procedures outlined in the :ref:`fdlf` and :ref:`perhill` tutori
 Mesh and Boundary Conditions
 ..............................
  
-For wall-resolved :math:`k-\tau` RANS simulation, the mesh is generated with ``genbox`` using the following
-script
+The mesh is generated with ``genbox`` using the following script
 
 .. literalinclude:: rans/wallResolved/chan_WR.box
    :language: none 
@@ -36,15 +34,6 @@ stored at the 3rd and 4th field index respectively. Note that the 1st and 2nd in
 velocity and temperature, respectively. In wall-resolved simulations Dirichlet boundary conditions are
 specified at the wall, denoted by ``W`` for velocity and ``t`` for :math:`k` and :math:`\tau`.
 
-In contrast, for a wall-modeled simulation traction boundary conditions are specified at the wall.
-This corresponds to ``shl`` specification for velocity and ``f`` (flux) for :math:`k` and :math:`\tau`.
-Use the following script for generating mesh for a wall-modeled channel simulation.
-
-.. literalinclude:: rans/wallModeled/chan_WF.box
-   :language: none
-   
-After generating the mesh, use the domain partitioning tool ``genmap`` to create the map file, as outlined 
-in the :ref:`fdlf` tutorial in more detail.
 
 ..............................
 Control Parameters (.par file)
@@ -55,13 +44,13 @@ is critical to include ``[SCALAR01]`` and ``[SCALAR02]`` cards which correspond 
 :math:`\tau` fields respectively. In addition, it is essential to also include the ``[PROBLEMTYPE]`` card
 and enable ``variableProperties`` and ``stressFormulation``.
 
-For this particular tutorial, the simulation is :ref:`non-dimensionalized <intro_ns_nondim>` and properties
-are ``density=1.0`` and ``viscosity=-125000``, the latter being the Reynolds number of the flow.
-It is strongly recommended to run RANS simulations in non-dimensional form. Further, it is important
-to prescribe identical properties ``density`` and ``diffusivity`` for ``SCALAR01`` and ``SCALAR02`` as the 
-velocity field parameters. Temperature field is not solved in this tutorial, but can be turned on by removing 
-``solver=none`` entry under the ``[TEMPERATURE]`` card. Note that the parameter file will be identical for 
-wall-resolved and wall-modeled RANS runs.
+For this particular tutorial, the simulation is :ref:`non-dimensionalized <intro_ns_nondim>` and flow
+properties are ``density=1.0`` and ``viscosity=-125000``, the latter being the Reynolds number of the flow.
+It is strongly recommended to run RANS simulations in non-dimensional form. ``density`` and ``diffusivity`` 
+for ``SCALAR01`` and ``SCALAR02`` should be assigned identical values as ``density`` and ``viscosity`` for
+velocity field, respectively (Note: property values for scalars are internally replaced with `velocity` 
+properties).  Temperature field is not solved in this tutorial, but can be turned on by removing 
+``solver=none`` entry under the ``[TEMPERATURE]`` card.
 
 .. literalinclude:: rans/wallResolved/chan_WR.par
    :language: none 
@@ -115,7 +104,6 @@ required code snippet is shown below.
 	! m_id = 6 !non-regularized standard k-tau SST
 
 	! Wall distance function:
-	! use w_id = 2 for wallfunctions
 	! w_id = 0 ! user specified
 	! w_id = 1 ! cheap_dist (path to wall, may work better for periodic boundaries)
 	w_id = 2 ! distf (coordinate difference, provides smoother function)
@@ -128,12 +116,12 @@ required code snippet is shown below.
 ``ifld_k`` and ``ifld_omega`` variables specify the field index location of the transport variables of the 
 two-equation RANS model. The specific RANS model used is identified by the ``m_id`` variable. All available
 RANS models are annotated in the above code. ``m_id=4`` invokes the recommended :math:`k-\tau` model. 
-``ifcoeffs=.false.`` selects the standard RANS coefficients outlined in [Wilcox2008]_. The advanced user has
+``ifcoeffs=.false.`` selects the standard RANS coefficients outlined in [Wilcox2008]_. Advanced users have
 the option of specifying their own coefficients which have to populated in the ``coeffs`` array, with 
 ``ifcoeffs=.true.``. Final parameter to be aware of is the wall distance function code ``w_id``. The recommended
 value for it is ``w_id=2`` which provides a smooth distance, populated in the ``wd`` array. A cheaper option
 is available through ``w_id=1`` which is recommended for periodic domains. The user also has the option of 
-specifying their own wall distance array by setting ``w_id=0`` which will require that the ``wd`` array
+specifying their own wall distance array by setting ``w_id=0`` which will require ``wd`` array to
 be populated with user computed wall distance before the ``rans_init`` call. 
 
 Diffusion coefficients for all fields in RANS simulation runs must be modified to include eddy viscosity.
@@ -245,36 +233,6 @@ For wall-resolved :math:`k-\tau` RANS, Dirichlet boundary conditions for velocit
 	return
 	end
 	
-For wall-modeled simulations, on the other hand, traction and flux boundary condition for the momentum
-and :math:`k-\tau` transport equations are specified through the ``ktau_wf`` subroutine. Accordingly,
-``userbc`` should be modified as follows
-
-.. code-block:: console
-
-	subroutine userbc(ix,iy,iz,iside,eg) 
-	implicit none
-	include 'SIZE'
-	include 'TOTAL'
-	include 'NEKUSE'
-
-	integer ix,iy,iz,iside,eg,e
-
-	logical ifpcorrect
-
-	e = gllel(eg)
-    
-	ifpcorrect = .false.
-	call ktau_wf(ix,iy,iz,iside,e,ifpcorrect)
-
-	return
-	end
-	
-The final parameter in the ``ktau_wf`` call is a switch for the type of wall functions used. 
-``ifpcorrect=.false.`` employs the (default) standard wall functions, while ``.true.`` uses the pressure-corrected
-wall functions. For simple geometries, such as the channel case in this tutorial, standard wall functions
-are recommended. Pressure-corrected wall functions should be used for cases where flow separation is
-expected, typical of complex geometries.   	
-
 Initial conditions are specified in ``useric`` routine. For RANS simulations, a positive initial value for
 the :math:`k` and :math:`\tau` fields is recommended. Following is used for the channel simulation,
 
@@ -340,20 +298,11 @@ All required case files for RANS wall-resolved channel simulation can be downloa
  * :download:`chan_WR.box <rans/wallResolved/chan_WR.box>`
  * :download:`SIZE <rans/wallResolved/SIZE>`
  
-All case file for wall-modeled RANS channel case:
- 
- * :download:`chan_WF.usr <rans/wallModeled/chan_WF.usr>`
- * :download:`chan_WF.par <rans/wallModeled/chan_WF.par>`
- * :download:`chan_WF.box <rans/wallModeled/chan_WF.box>`
- * :download:`SIZE <rans/wallModeled/SIZE>`
- 
- 
 ..............................
 Results
 ..............................
 
-For reference, the results obtained from the :math:`k-\tau` RANS wall-resolved and wall-modeled
-simulations are shown below:
+For reference, the results obtained from the :math:`k-\tau` RANS wall-resolved simulation are shown below:
 
 .. _fig:streamwise_vel:
 
@@ -361,7 +310,7 @@ simulations are shown below:
    :align: center
    :figclass: align-center
 
-   Comparison of normalized stream-wise velocity from wall-resolved and wall-modeled :math:`k-\tau` RANS
+   Normalized stream-wise velocity from wall-resolved :math:`k-\tau` RANS simulation
    
 .. _fig:chan_tke:
 
@@ -369,7 +318,7 @@ simulations are shown below:
    :align: center
    :figclass: align-center
 
-   Comparison of normalized TKE from wall-resolved and wall-modeled :math:`k-\tau` RANS
+   Normalized TKE from wall-resolved :math:`k-\tau` RANS simulation
    
 .. _fig:chan_tau:
 
@@ -377,4 +326,4 @@ simulations are shown below:
    :align: center
    :figclass: align-center
 
-   Comparison of normalized :math:`\tau` from wall-resolved and wall-modeled :math:`k-\tau` RANS
+   Normalized :math:`\tau` from wall-resolved :math:`k-\tau` RANS simulation
