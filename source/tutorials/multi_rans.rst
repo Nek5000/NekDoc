@@ -14,7 +14,7 @@ Nek5000 tools, procedures and user routines including,
  * ``exo2nek`` for importing third party mesh file to Nek5000
  * ``reatore2`` for converting ASCII Nek5000 mesh to binary format
  * ``gencon`` for generating mesh connectivity file
- * ``wiremesher`` for generating wire-wrapped pin bundle
+ * ``wiremesher`` for generating wire-wrapped pin bundle mesh
  * ``nekamg_setup`` for generating algebraic multi-grid solver (AMG) files
  * :math:`k-\tau` RANS simulation setup 
  *  ``NekNek`` setup
@@ -42,7 +42,7 @@ Extract the above tar file and navigate to the ``inlet_bundle`` (parent) directo
 	tar -xvf inlet_bundle.tar
 	cd inlet_bundle
 	
-It has the following structure, discussed in detail in the following sections:
+It has the following directories and files, discussed in detail in the following sections:
 
  * ``inletMesh`` --> Directory containing inlet mesh related files.
  * ``bundleMesh`` --> Directory containing pin-wire bundle mesh related files.
@@ -73,9 +73,13 @@ wire-wrapped pin bundle, as shown:
 The geometry is non-dimensionalized with respect to the pin diameter, :math:`D`. 
 Axial extent of the inlet nozzle component is :math:`z/D=[-4.75,0.25]` and the wire-pin bundle axial dimensions
 are :math:`z/D=[0,12.5]`.  The two components, therefore, have an axial overlap of :math:`\Delta z/D= 0.25`,
-while the lateral dimensions are conformal. Users should note that a reasonable overlap in the computational domains is imperative for a 
-robust ``NekNek`` simulation. As a general rule, increasing the extent of overlap will render more stability
-to the coupled solver. Pitch-to-diameter ratio of the wire-pin bundle is 1.13 and the wire diameter is 
+while the lateral dimensions are conformal. 
+
+:Note:
+	A reasonable overlap in the computational domains is imperative for a robust ``NekNek`` simulation.
+	As a general rule, increasing the extent of overlap will render more stability to the coupled solver.
+
+Pitch-to-diameter ratio of the wire-pin bundle is 1.13 and the wire diameter is 
 :math:`D_w=0.12875D`. To prevent sharp corners, a fillet of diameter :math:`0.05 D` is introduced between the 
 pin and the wire and the wire is slightly submerged in the pin by a distance of :math:`0.025D_w`.
 The side length of the hexagonal bundle is :math:`1.865D` and the diameter of the inlet nozzle boundary 
@@ -98,19 +102,19 @@ is specified on all remaining boundaries.
 
 .. table:: Flow and Thermal Properties 
 
-   +----------------------------+--------------------------------+
-   |:math:`Re_{in}`             |60000                           |
-   +----------------------------+--------------------------------+
-   |:math:`Re_{b}`              |10000 (approx)                  |
-   +----------------------------+--------------------------------+
-   |:math:`\nu^*`               |3.125e-5                        |
-   +----------------------------+--------------------------------+
-   |:math:`Pr`                  |0.005                           |
-   +----------------------------+--------------------------------+
-   |:math:`Pe`                  |160                             |
-   +----------------------------+--------------------------------+
-   |:math:`Pr_t`                |1.5                             |
-   +----------------------------+--------------------------------+
+   +--------------------------------------------------+--------------------------------+
+   |Inlet Reynolds number, :math:`Re_{in}`            |60000                           |
+   +--------------------------------------------------+--------------------------------+
+   |Bundle Reynolds number, :math:`Re_{b}`            |10000 (approx)                  |
+   +--------------------------------------------------+--------------------------------+
+   |Dimensionless Kinematic visocity, :math:`\nu^*`   |3.125e-5                        |
+   +--------------------------------------------------+--------------------------------+
+   |Prandtl Number, :math:`Pr`                        |0.005                           |
+   +--------------------------------------------------+--------------------------------+
+   |Peclet Number, :math:`Pe`                         |160                             |
+   +--------------------------------------------------+--------------------------------+
+   |Turbulent Prandtl number, :math:`Pr_t`            |1.5                             |
+   +--------------------------------------------------+--------------------------------+
 
 ..............................
 Mesh Generation
@@ -123,7 +127,7 @@ Inlet Nozzle (exo2nek)
 A third-party meshing tool (e.g., ANSYS ICEM) is required for generating the mesh for the inlet component,
 which must be saved as an ``EXODUS II (.exo)`` mesh file. Nek5000 offers the ``exo2nek`` mesh conversion tool
 for converting an ``.exo`` mesh file to ``.re2`` format. Ensure that the ``exo2nek`` tool is compiled, available
-in the  ``Nek5000`` directory:
+in the  ``Nek5000/tools`` directory:
 
 .. code-block:: console
 
@@ -292,7 +296,7 @@ control the mesh resolution and contribute towards a successful mesh, include:
  * ``Col`` --> Controls the resolution in the azimuthal direction.
  * ``Row`` --> Controls the resolution in radial direction. 
  * ``Rowdist`` --> Controls layer width distribution percentage in radial direction, from interior to pin wall. Must add up to 100 and entries must be equal to ``Row``.
- * ``Lay`` --> Controls resolution in axial direction. Specifies number of axial elements in length equal to 60 degree rotation of wire.  
+ * ``Lay`` --> Controls resolution in axial direction. Specifies number of elements in axial length equal to 60 degree rotation of wire.  
 
 The mesher is initiated by simply running the ``doall_binary`` bash file. Ensure that both Matlab and Python 
 (tested with Python 3.8) are active before launching the script and that Fortran compilers are available. 
@@ -315,7 +319,7 @@ ASCII mesh file for Nek5000. Convert this into the binary format by running ``re
 	bundle
 	
 We finally obtain the ``bundle.re2`` file which contains the pin-wire bundle mesh for Nek5000 run. Boundary IDs
-are assigned by the wire mesher as:
+are assigned by the ``wiremesher`` as:
 
  * 1 --> Fuel pin walls
  * 2 --> Bundle hexagonal (outer) walls
@@ -456,9 +460,11 @@ Parameter File (.par)
 	diffusivity = -32000.0
 	residualTol = 1.0e-6
 	
-Both parameter files are identical, except for one important difference. If the user wants to restart the case from
+Both parameter files are identical, except for one important difference. To restart the case from
 any given time, separate restart file names should be specified to the ``startFrom`` parameter. It is critical that the
-properties and time step size are identical for both ``.par`` files.
+properties and time step size are identical for both ``.par`` files. Values are assigned in dimensionless form;
+density is set to unity, viscosity and diffusivity are set to :math:`1/\nu^*` and conductivity to Peclet number 
+(-ve sign indicates that solver is run in dimensionless form).
 
 Note that given the large size of meshes, the ``preconditioner`` must be set to ``semg_amg``. This invokes the algebraic
 multigrid solver for pressure instead of the default ``XXT`` solver.
@@ -505,7 +511,7 @@ Following headers are required at the beginning of ``.usr`` file for loading RAN
 	end
 	
 ``ngeom`` specifies the number of overlapping Schwarz-like iterations, while ``ninter`` controls the time 
-extrapolation order of boundary conditions of the overlapping interface. ``ninter=1`` is unconditionally 
+extrapolation order of boundary conditions at the overlapping interface. ``ninter=1`` is unconditionally 
 stable, while a higher temporal order will typically require more iterations for stability (``ngeom>2``). 
 For computational savings, we maintain first order temporal extrapolation for this tutorial. 
 ``nfld_neknek`` specifies the number of total field arrays that are transferred between the two meshes 
@@ -603,16 +609,17 @@ Boundary Condition specification and RANS initialization is performed in ``usrda
 	end
 
 ``NekNek`` solver launches two Nek5000 sessions simultaneously and field data transfer is performed between the
-two sessions after each time iteration. Each session is assigned a unique id, stored in the variable ``idsess``.
+two sessions on each time iteration. Each session is assigned a unique id, stored in the variable ``idsess``.
 Here, ``idsess=0`` is assigned to the inlet component solve and ``idsess=1`` to bundle component. Boundary 
 conditions are assigned using this variable for each component, as shown above. 
 
-Recall the boundary IDs assigned to each component, described in the preceding section. Character codes
-for different boundary conditions are stored in the ``cbc`` array. Their detailed description can be found in
-:ref:`boundary-conditions`. For each component, the nested loops go through all elements and their faces and
-populates ``cbc`` array for all fields based on mesh assigned boundary IDs. Note that ``int`` boundary condition
-must be assigned to the overlapping surfaces on the inlet and bundle components. ``int`` condition is replaced 
-internally with Dirichlet boundary conditions subsequently by Nek5000. Insulated 
+Recall the boundary IDs assigned to each component during the mesh generation process, described in the preceding section.
+Character codes for different boundary conditions are stored in the ``cbc`` array. Their detailed description can be found in
+:ref:`boundary-conditions`. For each component, the nested loops go through all elements and their faces, populating
+``cbc`` array for all fields based on mesh assigned boundary IDs. Note that ``int`` boundary condition
+must be assigned to the overlapping surfaces of the inlet and bundle components. ``int`` condition is replaced 
+internally with Dirichlet boundary conditions subsequently by Nek5000. Flux boundary condition, ``f``, is assigned to
+pin walls for temperature field while insulated, ``I``, is assigned to all other walls.
 
 With regards to RANS initialization; ``m_id=4`` selects the :math:`k-\tau` RANS model and ``w_id=2`` selects the
 wall distance computing algorithm. :math:`k` and :math:`\tau` fields are stored in the 3rd and 4th index, respectively, 
@@ -698,9 +705,10 @@ to the basic :ref:`rans` case:
 	return
 	end
 	
-Note that either component does not have any volumetric source heat source and hence ``qvol=0`` for ``ifield .eq. 2``.
+Note that either component does not have any volumetric source heat source and hence ``qvol=0`` for temperature
+field (``ifield.eq.2``).
 
-Initial conditions are specified in ``useric``. Similar values are assigned to both components and thus, the routine
+Initial conditions are specified in ``useric``. Similar values are assigned to both components and, thus, the routine
 implementation is straightforward. Temperature is initalized to 1 for both components.
 
 .. code-block:: console
@@ -731,10 +739,10 @@ implementation is straightforward. Temperature is initalized to 1 for both compo
 	end
 
 Boundary conditions are assigned in ``userbc``. For the inlet component, inlet conditions are assigned using data
-generated from RANS simulation in a pipe with idential diameter as the inlet surface. The data is stored in the 
+generated from RANS simulation in a pipe with identical diameter as the inlet surface. The data is stored in the 
 ``InletProf.dat`` file which contains axial velocity, :math:`k` and :math:`\tau` information as a function of
 radial wall distance. Two plugin subroutines are required, which perform spline interpolation of the data to the 
-inlet surface, viz., ``getInletProf`` and ``init_prof``. These are provided for the user in the ``inlet_bundle.usr``
+inlet mesh, viz., ``getInletProf`` and ``init_prof``. These are provided for the user in the ``inlet_bundle.usr``
 file and can be used without modification. The usage is shown below:
  
 .. code-block:: console
@@ -808,14 +816,14 @@ limited to inlet radius to avoid spline from extrapolating. Inlet component is i
 inlet surface with its boundary ID, ``id_face.eq.2``.
 
 Temperature flux must also be assigned in ``userbc`` on the pin surface walls. As mentioned earlier, non-dimensional
-unit heat flux is assigned from half axial length of the bundle (``zmid``). A smoothed flux profile is imposed using
+unit heat flux is assigned from half axial length of the bundle (``zmid``). A smoothed axial flux profile is imposed using
 ``tanh`` step function as shown. Flux on all remaining walls is zero. 
  
 ..............................
 SIZE file
 ..............................
 
-The ``SIZE`` file used for this tutorial is inlcuded in the provided tar file. The user needs to ensure that the
+The ``SIZE`` file used for this tutorial is included in the provided tar file. The user needs to ensure that the
 auxiliary fields specified in the SIZE file is at minimum ``ldimt=3`` for RANS. Further, ``nsessmax`` must be
 set to 2 for ``NEKNEK`` simulation. Other details on the contents of the ``SIZE`` file can be found 
 :ref:`here<case_files_SIZE>`.
@@ -833,10 +841,10 @@ The command in the script that launches the ``NEKNEK`` job is
 
 	neknek inlet bundle $((ntpn*nodes/2)) $((ntpn*nodes/2))
 	
-Here, ``nodes`` variable is the user input on number of nodes. ``ntpn`` is the number of processors per node. First two
-parameters are the names of the component meshes and the following two parameters specify the number of total threads
-used for each session, respectively. We use equal number of threads for this turorial, but the user may modify the
-distribution of threads as needed. The script can be adopted suitably for the cluster being used. On Sawtooth cluster, 
+Here, ``nodes`` variable is the user input on number of nodes assigned for the job. ``ntpn`` is the number of processors/threads 
+per node. First two parameters are the names of the component meshes and the following two parameters specify the number of total
+threads used for each session, respectively. We use equal number of threads for this turorial, but the user may modify the
+distribution of threads as needed. The script can be adopted suitably for any cluster being used. On Sawtooth cluster, 
 the script is launched as follows:
 
 .. code-block:: console 
@@ -844,11 +852,11 @@ the script is launched as follows:
 	./neksaw inlet_bundle 40 4 30
 	
 The above runs ``NEKNEK`` job on 40 nodes (20 dedicated to each session) for 4 hours and 30 minutes. Remember to specify
-the project name before launching, assigned to ``prj`` variable in the script.
+the project name before launching, assigned to ``prj`` variable in the ``neksaw`` script file.
 
 On the first run, Nek5000 will generate files for setting up the AMG (algebraic multi-grid) solver with the suffix
 ``amgdmp_p.dat``, ``amgdmp_i.dat`` and ``amgdmp_j.dat`` for each component. Run the ``nekamg_setup`` tool to 
-create the setup files. The prompts will appear as shown:
+create the ANG setup files. The prompts will appear as shown:
 
 .. code-block:: console
 
@@ -873,7 +881,7 @@ create the setup files. The prompts will appear as shown:
 	Choice:
 	0
 
-User may choose any of the coarsening solver and interpolation methods available which succeffully converges.
+User may choose any of the coarsening solver and interpolation methods available which lead to successful convergence.
 For this tutorial we choose HMIS and classical interpolation for both components. 
 
 .. code-block:: console
@@ -883,13 +891,13 @@ For this tutorial we choose HMIS and classical interpolation for both components
 	
 Repeat the steps for the bundle component. Upon completion three files will be written containing AMG matrices.
 
-On the next run, Nek5000 will run normally and the user may proceed with the simulation.
+On the next run, Nek5000 will advance normally and the user may proceed with the simulation.
 
 ..............................
 Helpful Tips
 ..............................
 
-The following tips may be helpful to make the simulations tractable:
+The following tips may be helpful to make the simulations more tractable:
 
  * Commence with a small time step size and high viscosity value (low Re) to stabilize the pressure solver
    during initial transients.
@@ -904,8 +912,8 @@ The following tips may be helpful to make the simulations tractable:
 	targetCFL=4.0
 	extrapolation = OIFS
 	
-It is necessary to specify target CFL for the OIFS solver to prescribe the number of extrapolation iterations.
-
+It is necessary to specify target CFL for the OIFS solver. It calculates the number of extrapolation iterations
+based on ``targetCFL`` value.
 
 ..............................
 Results

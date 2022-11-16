@@ -302,7 +302,9 @@ All required case files for RANS wall-resolved channel simulation can be downloa
 Results
 ..............................
 
-For reference, the results obtained from the :math:`k-\tau` RANS wall-resolved simulation are shown below:
+For reference, the results obtained from the :math:`k-\tau` RANS wall-resolved simulation are shown below and
+compared with results from low-Re :math:`k-\tau` (``m_id=5``), regularized :math:`k-\omega` (``m_id=0``) and low-Re regularized 
+:math:`k-\omega` (``m_id=1``) models.
 
 .. _fig:streamwise_vel:
 
@@ -310,20 +312,15 @@ For reference, the results obtained from the :math:`k-\tau` RANS wall-resolved s
    :align: center
    :figclass: align-center
 
-   Normalized stream-wise velocity from wall-resolved :math:`k-\tau` RANS simulation
+   Normalized stream-wise velocity from different RANS models.
    
 .. _fig:chan_tke:
 
-.. figure:: rans/k.png
+.. figure:: rans/k1.png
    :align: center
    :figclass: align-center
 
-   Normalized TKE from wall-resolved :math:`k-\tau` RANS simulation
+   Normalized TKE from different RANS models.
    
-.. _fig:chan_tau:
-
-.. figure:: rans/tau.png
-   :align: center
-   :figclass: align-center
-
-   Normalized :math:`\tau` from wall-resolved :math:`k-\tau` RANS simulation
+RANS models may be simply switched by using the appropriate ``m_id`` in ``usrdat2``. The low-Re versions of the model should 
+be employed only for capturing the near wall TKE peak. It does not have an effect on the velocity profile. 
