@@ -53,7 +53,7 @@ properties).  Temperature field is not solved in this tutorial, but can be turne
 ``solver=none`` entry under the ``[TEMPERATURE]`` card.
 
 .. literalinclude:: rans/wallResolved/chan_WR.par
-   :language: none 
+   :language: ini 
 
 ..............................
 User Routines (.usr file)
@@ -64,55 +64,18 @@ Other details of all the subroutines can be found :ref:`here <case_files_usr>`.
 
 Foremost, it is essential to include the following header at the beginning of the ``.usr`` file.
 
-.. code-block:: console
-
-   include "experimental/rans_komg.f"
-   include "experimental/rans_wallfunctions.f"
-   
+.. literalinclude:: rans/wallResolved/chan_WR.usr
+   :language: fortran
+   :lines: 2-3
+      
 Files in the above relative locations in the Nek5000 repo load the essential RANS subroutines.
 RANS initialization is done through the ``rans_init`` subroutine call from ``usrdat2``. The 
 required code snippet is shown below.
 
-.. code-block:: console
-
-	subroutine usrdat2()
-	implicit none
-	include 'SIZE'
-	include 'TOTAL'
-
-	real wd
-	common /walldist/ wd(lx1,ly1,lz1,lelv)
-
-	common /rans_usr/ ifld_k, ifld_omega, m_id
-	integer ifld_k,ifld_omega, m_id
-
-	integer w_id,imid,i
-	real coeffs(30) !array for passing your own coeffs
-	logical ifcoeffs
-            
-	ifld_k     = 3 !address of tke equation in t array
-	ifld_omega = 4 !address of tau equation in t array
-	ifcoeffs=.false. !set to true to pass your own coeffs
-
-	! Supported models:
-	! m_id = 0 !regularized standard k-omega (no wall functions)
-	! m_id = 1 !regularized low-Re k-omega (no wall functions)
-	! m_id = 2 !regularized standard k-omega SST (no wall functions)
-	! m_id = 3 !non-regularized standard k-omega (wall functions)
-	m_id = 4 !non-regularized standard k-tau
-	! m_id = 5 !non-regularized low Re k-tau 
-	! m_id = 6 !non-regularized standard k-tau SST
-
-	! Wall distance function:
-	! w_id = 0 ! user specified
-	! w_id = 1 ! cheap_dist (path to wall, may work better for periodic boundaries)
-	w_id = 2 ! distf (coordinate difference, provides smoother function)
-
-	call rans_init(ifld_k,ifld_omega,ifcoeffs,coeffs,w_id,wd,m_id)
-
-	return
-	end
-
+.. literalinclude:: rans/wallResolved/chan_WR.usr
+   :language: fortran
+   :lines: 158-195
+   
 ``ifld_k`` and ``ifld_omega`` variables specify the field index location of the transport variables of the 
 two-equation RANS model. The specific RANS model used is identified by the ``m_id`` variable. All available
 RANS models are annotated in the above code. ``m_id=4`` invokes the recommended :math:`k-\tau` model. 
@@ -127,40 +90,9 @@ be populated with user computed wall distance before the ``rans_init`` call.
 Diffusion coefficients for all fields in RANS simulation runs must be modified to include eddy viscosity.
 This is done by the following inclusions in the ``uservp`` subroutine
 
-.. code-block:: console
-
-	subroutine uservp (ix,iy,iz,eg)
-	implicit none
-	include 'SIZE'
-	include 'TOTAL'
-	include 'NEKUSE'
-
-	integer ix,iy,iz,e,eg
-	
-	common /rans_usr/ ifld_k, ifld_omega, m_id
-	integer ifld_k,ifld_omega, m_id
-	
-	real rans_mut,rans_mutsk,rans_mutso,rans_turbPrandtl
-	real mu_t,Pr_t
-
-	e = gllel(eg)
-
-	Pr_t=rans_turbPrandtl()
-	mu_t=rans_mut(ix,iy,iz,e)
-
-	utrans = cpfld(ifield,2)
-	if(ifield.eq.1) then
-		udiff = cpfld(ifield,1)+mu_t
-	elseif(ifield.eq.2) then
-		udiff = cpfld(ifield,1)+mu_t*cpfld(ifield,2)/(Pr_t*cpfld(1,2))
-	elseif(ifield.eq.ifld_k) then  
-		udiff = cpfld(1,1)+rans_mutsk(ix,iy,iz,e)
-	elseif(ifield.eq.ifld_omega) then  
-		udiff = cpfld(1,1)+rans_mutso(ix,iy,iz,e)
-	endif
-
-	return
-	end
+.. literalinclude:: rans/wallResolved/chan_WR.usr
+   :language: fortran
+   :lines: 5-36
 	
 As above, eddy viscosity, ``mu_t``, is added to momentum diffusion coefficient and :math:`k` and :math:`\tau`
 diffusion coefficients are modified as described in :eq:`ktau`. 
@@ -168,36 +100,9 @@ diffusion coefficients are modified as described in :eq:`ktau`.
 Source terms in the :math:`k-\tau` transport equations :eq:`ktau` are added with the following inputs in 
 ``userq`` subroutine
 
-.. code-block:: console
-
-	subroutine userq  (ix,iy,iz,ieg)
-	implicit none
-	include 'SIZE'
-	include 'TOTAL'
-	include 'NEKUSE'
-
-	common /rans_usr/ ifld_k, ifld_omega, m_id
-	integer ifld_k,ifld_omega, m_id
-
-	real rans_kSrc,rans_omgSrc
-	real rans_kDiag,rans_omgDiag
-
-	integer ie,ix,iy,iz,ieg
-	ie = gllel(ieg)
-
-	if(ifield.eq.2) then
-		qvol = 0.0 
-		avol = 0.0
-	elseif(ifield.eq.ifld_k) then
-		qvol = rans_kSrc  (ix,iy,iz,ie)
-		avol = rans_kDiag (ix,iy,iz,ie)
-	elseif(ifield.eq.ifld_omega) then
-		qvol = rans_omgSrc (ix,iy,iz,ie)
-		avol = rans_omgDiag(ix,iy,iz,ie)
-	endif
-	
-	return
-	end
+.. literalinclude:: rans/wallResolved/chan_WR.usr
+   :language: fortran
+   :lines: 58-85
 	
 Implicit source terms contributions are specified to the ``avol`` variable, while remaining terms are 
 in the ``qvol`` variable. 
@@ -205,78 +110,22 @@ in the ``qvol`` variable.
 For wall-resolved :math:`k-\tau` RANS, Dirichlet boundary conditions for velocity, :math:`k` and 
 :math:`\tau` are all zero. ``userbc``, therefore, is simply
 
-.. code-block:: console
-
-	subroutine userbc(ix,iy,iz,iside,eg) 
-	implicit none
-	include 'SIZE'
-	include 'TOTAL'
-	include 'NEKUSE'
-
-	integer ix,iy,iz,iside,e,eg
-	
-	common /rans_usr/ ifld_k, ifld_omega, m_id
-	integer ifld_k,ifld_omega, m_id
-	
-	e = gllel(eg)
-
-	ux   = 0.0
-	uy   = 0.0
-	uz   = 0.0
-	
-	if(ifield.eq.ifld_k) then
-		temp = 0.0
-	elseif(ifield.eq.ifld_omega) then
-		temp = 0.0
-	endif
-
-	return
-	end
+.. literalinclude:: rans/wallResolved/chan_WR.usr
+   :language: fortran
+   :lines: 87-111
 	
 Initial conditions are specified in ``useric`` routine. For RANS simulations, a positive initial value for
 the :math:`k` and :math:`\tau` fields is recommended. Following is used for the channel simulation,
 
-.. code-block:: console
-
-	subroutine useric (ix,iy,iz,eg)
-	implicit none
-	include 'SIZE'
-	include 'TOTAL'
-	include 'NEKUSE'
-
-	integer ix,iy,iz,e,eg
-	
-	common /rans_usr/ ifld_k, ifld_omega, m_id
-	integer ifld_k,ifld_omega, m_id
-	
-	e = gllel(eg)
-
-	ux   = 1.0
-	uy   = 0.0
-	uz   = 0.0
-	temp = 0.0
-
-	if(ifield.eq.ifld_k) temp = 0.01
-	if(ifield.eq.ifld_omega) temp = 0.2
-
-	return
-	end
+.. literalinclude:: rans/wallResolved/chan_WR.usr
+   :language: fortran
+   :lines: 113-135
 	
 Flow is driven through the channel by the application of streamwise mass flux, specified in ``usrdat``
 
-.. code-block:: console
-
-	subroutine usrdat  
-	implicit none
-	include 'SIZE'     
-	include 'TOTAL'     
-
-	! apply mass flux to drive the flow such that Ubar = 1
-	param(54) =-1       !x-direction
-	param(55) = 1.0     !Mean Bulk velocity, Ubar
-
-	return
-	end
+.. literalinclude:: rans/wallResolved/chan_WR.usr
+   :language: fortran
+   :lines: 146-156
 
 ..............................
 SIZE file

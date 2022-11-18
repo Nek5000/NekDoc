@@ -3,37 +3,37 @@ c-----------------------------------------------------------------------
       include "experimental/rans_wallfunctions.f"
 c-----------------------------------------------------------------------
       subroutine uservp (ix,iy,iz,eg)
-	  implicit none
-	  include 'SIZE'
-	  include 'TOTAL'
-	  include 'NEKUSE'
-
-	  integer ix,iy,iz,e,eg
-
-	  common /rans_usr/ ifld_k, ifld_omega, m_id
-	  integer ifld_k,ifld_omega, m_id
-
-	  real rans_mut,rans_mutsk,rans_mutso,rans_turbPrandtl
-	  real mu_t,Pr_t
-
-	  e = gllel(eg)
-
-	  Pr_t=rans_turbPrandtl()
-	  mu_t=rans_mut(ix,iy,iz,e)
-
-	  utrans = cpfld(ifield,2)
-	  if(ifield.eq.1) then
-			udiff = cpfld(ifield,1)+mu_t
-	  elseif(ifield.eq.2) then
-			udiff = cpfld(ifield,1)+mu_t*cpfld(ifield,2)/(Pr_t*cpfld(1,2))
-	  elseif(ifield.eq.ifld_k) then
-			udiff = cpfld(1,1)+rans_mutsk(ix,iy,iz,e)
-	  elseif(ifield.eq.ifld_omega) then
-			udiff = cpfld(1,1)+rans_mutso(ix,iy,iz,e)
-	  endif
-
-	  return
-	  end
+      implicit none
+      include 'SIZE'
+      include 'TOTAL'
+      include 'NEKUSE'
+      
+      integer ix,iy,iz,e,eg
+      
+      common /rans_usr/ ifld_k, ifld_omega, m_id
+      integer ifld_k,ifld_omega, m_id
+      
+      real rans_mut,rans_mutsk,rans_mutso,rans_turbPrandtl
+      real mu_t,Pr_t
+      
+      e = gllel(eg)
+      
+      Pr_t=rans_turbPrandtl()
+      mu_t=rans_mut(ix,iy,iz,e)
+      
+      utrans = cpfld(ifield,2)
+      if(ifield.eq.1) then
+         udiff = cpfld(ifield,1)+mu_t
+      elseif(ifield.eq.2) then
+         udiff = cpfld(ifield,1)+mu_t*cpfld(ifield,2)/(Pr_t*cpfld(1,2))
+      elseif(ifield.eq.ifld_k) then
+         udiff = cpfld(1,1)+rans_mutsk(ix,iy,iz,e)
+      elseif(ifield.eq.ifld_omega) then
+         udiff = cpfld(1,1)+rans_mutso(ix,iy,iz,e)
+      endif
+      
+      return
+      end
 c-----------------------------------------------------------------------
       subroutine userf(ix,iy,iz,eg) ! set acceleration term
       implicit none
@@ -92,20 +92,20 @@ c-----------------------------------------------------------------------
 c
       integer ix,iy,iz,iside,e,eg
 	  
-	  common /rans_usr/ ifld_k, ifld_omega, m_id
+      common /rans_usr/ ifld_k, ifld_omega, m_id
       integer ifld_k,ifld_omega, m_id
-	  
+      
       e = gllel(eg)
 
       ux   = 0.0
       uy   = 0.0
       uz   = 0.0
       
-	  if(ifield.eq.ifld_k) then
-			temp = 0.0
-	  elseif(ifield.eq.ifld_omega) then
-			temp = 0.0
-	  endif
+      if(ifield.eq.ifld_k) then
+         temp = 0.0
+      elseif(ifield.eq.ifld_omega) then
+         temp = 0.0
+      endif
 
       return
       end
@@ -118,11 +118,11 @@ c-----------------------------------------------------------------------
 
       integer ix,iy,iz,e,eg
 
-	  common /rans_usr/ ifld_k, ifld_omega, m_id
-	  integer ifld_k,ifld_omega, m_id
-	  
+      common /rans_usr/ ifld_k, ifld_omega, m_id
+      integer ifld_k,ifld_omega, m_id
+      
       e = gllel(eg)
-
+      
       ux   = 1.0
       uy   = 0.0
       uz   = 0.0
@@ -130,7 +130,7 @@ c-----------------------------------------------------------------------
 
       if(ifield.eq.ifld_k) temp = 0.01
       if(ifield.eq.ifld_omega) temp = 0.2
-
+      
       return
       end
 c-----------------------------------------------------------------------
@@ -148,7 +148,7 @@ c-----------------------------------------------------------------------
       include 'SIZE'       
       include 'TOTAL'     
 
-	  ! apply mass flux to drive the flow such that Ubar = 1
+! apply mass flux to drive the flow such that Ubar = 1
       param(54) =-1       !x-direction
       param(55) = 1.0     !Mean Bulk velocity, Ubar
 
@@ -189,7 +189,7 @@ c      w_id = 0                  ! user specified
 c      w_id = 1 ! cheap_dist (path to wall, may work better for periodic boundaries)
       w_id = 2 ! distf (coordinate difference, provides smoother function)
 
-	  call rans_init(ifld_k,ifld_omega,ifcoeffs,coeffs,w_id,wd,m_id)
+      call rans_init(ifld_k,ifld_omega,ifcoeffs,coeffs,w_id,wd,m_id)
 
       return
       end

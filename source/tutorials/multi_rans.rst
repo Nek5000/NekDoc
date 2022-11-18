@@ -257,28 +257,10 @@ To generate the pin-wire bundle mesh, navigate to the ``wireMesh`` folder:
 It contains two sub-directories, viz., ``wire2nek`` and ``matlab``. Input parameters for the meshing 
 script are specified in the header of the ``matlab/wire_mesher.m`` file, as shown:
 
-.. code-block:: console
-
-	% Mesh parameters %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-	D    = 8.00;           % pin diameter  (mm)
-	P    = 9.04;           % pin pitch
-	Dw   = 1.03;           % wire diameter (mm)
-	Df   = 0.4;            % fillet diameter (mm) (making this too small can cause bad elements)
-	H    = 100.0;            % wire pitch (mm)
-	T    = 0.05*Dw         % trimmed off of wire (mm) (cuts off the tip of the wire)
-	S    = 0.025*Dw;       % Wire submerged (mm) (how sunken in the wire is into the pin)
-	Adjust = 1;            % if 1, Adjust flattness of wire when away from pins (if trimmed is on, only trim when wire passes pin)
-	iFtF   = 0;            % if 1, add layer next to outer can
-	G  = 0.0525;           % gap between wire and wall (mm)
-	FtF_rescale = 1.0086;  % rescaling of outer FtF, the difference is given by an additional mesh layer - MUST BE BIGGER THAN 1
-	ne=2;                  % Number of edge pins. e.g., ne=3 for 19 pin assembly. MINIMUM is 2
-	Col=12;                % Number of columns per block (5 or 6 blocks surround each pin)
-	Row=3;                 % Number of rows per block (2 blocks fit between neighboring pins)
-	Rowdist=[65 30 5];     % distribution of elements in the row (for creating boundary layer)
-	Lay=20;                % Number of layers for 60 degree turn (this should be a reasonable number - above 10, tested typically for ~20)
-	rperiodic=1.0;         % Less than zero if periodic, Greater than zero if inlet/outlet
-	ipolar=0.25*(D/H)*360. % Starting polar orientation of wire (in degrees)
-
+.. literalinclude:: multi_rans/inlet_bundle/bundleMesh/matlab/wire_mesher.m
+	:language: matlab
+	:lines: 1-20
+	
 All input variables are suitably annotated in the above code snippet. Although all input dimensions shown are in ``mm``, the 
 script eventually produces the wiremesh in non-dimensional units, normalized with pin diameter ``D``. It will usually
 take some heuristic experimentation to specify optimum parameters based on user requirements (such as resolution,
@@ -370,95 +352,11 @@ Parameter File (.par)
 
 ``NEKNEK`` requires separate ``.par`` file for each of the components. The files are included in the parent folder and shown below:
 
-.. code-block:: console
-
-	#
-	# nek parameter file - inlet.par
-	#
-	[GENERAL]
-	#startFrom = inlet.fld
-	stopAt = numSteps
-	numSteps = 20000
-	dt = 1.0e-5
-	writeInterval = 5000
-	timeStepper = BDF2
-	#targetCFL=4.0
-	#extrapolation = OIFS
-
-	[PROBLEMTYPE]
-	variableProperties = yes
-	stressFormulation = yes
-
-	[PRESSURE]
-	preconditioner = semg_amg
-	residualTol = 1.0e-5
-	residualProj = yes
-
-	[VELOCITY]
-	density = 1.0
-	viscosity = -32000.0
-	residualTol = 1.0e-6
-
-	[TEMPERATURE]
-	solver = none
-	rhoCp = 1.0
-	conductivity = -160.0
-	residualTol = 1.0e-6
-
-	[SCALAR01] 
-	density = 1.0
-	diffusivity = -32000.0
-	residualTol = 1.0e-6
-
-	[SCALAR02] 
-	density = 1.0
-	diffusivity = -32000.0
-	residualTol = 1.0e-6
-
-.. code-block:: console
-
-	#
-	# nek parameter file - bundle.par
-	#
-	[GENERAL]
-	#startFrom = bundle.fld
-	stopAt = numSteps
-	numSteps = 20000
-	dt = 1.0e-5
-	writeInterval = 5000
-	timeStepper = BDF2
-	#targetCFL = 4.0
-	#extrapolation = OIFS
-
-	[PROBLEMTYPE]
-	variableProperties = yes
-	stressFormulation = yes
-
-	[PRESSURE]
-	preconditioner = semg_amg
-	residualTol = 1.0e-5
-	residualProj = yes
-
-	[VELOCITY]
-	density = 1.0
-	viscosity = -32000.0
-	residualTol = 1.0e-6
-
-	[TEMPERATURE]
-	solver = none
-	rhoCp = 1.0
-	conductivity = -160.0
-	residualTol = 1.0e-6
-
-	[SCALAR01] 
-	density = 1.0
-	diffusivity = -32000.0
-	residualTol = 1.0e-6
-
-	[SCALAR02] 
-	density = 1.0
-	diffusivity = -32000.0
-	residualTol = 1.0e-6
+.. literalinclude:: multi_rans/inlet_bundle/inlet.par
+	:language: ini
+	
+.. literalinclude:: multi_rans/inlet_bundle/bundle.par
+	:language: ini
 	
 Both parameter files are identical, except for one important difference. To restart the case from
 any given time, separate restart file names should be specified to the ``startFrom`` parameter. It is critical that the
@@ -481,35 +379,16 @@ a comprehensive understanding of routines from these simpler cases is recommende
 
 Following headers are required at the beginning of ``.usr`` file for loading RANS related subroutines:
 
-.. code-block:: console
-
-	include "experimental/rans_komg.f"
-	include "experimental/rans_wallfunctions.f"
-
+.. literalinclude:: multi_rans/inlet_bundle/inlet_bundle.usr
+	:language: fortran
+	:lines: 17-18
+	
 ``NekNek`` related parameters are specified in ``usrdat`` routine:
 
-.. code-block:: console
-
-	subroutine usrdat() 
-	include 'SIZE'
-	include 'TOTAL'
-
-	!   ngeom - parameter controlling the number of iterations,
-	!   set to ngeom=2 by default (no iterations) 
-	!   One could change the number of iterations as
-	ngeom = 2
-
-	!   ninter - parameter controlling the order of interface extrapolation for neknek,
-	!   set to ninter=1 by default
-	!   Caution: if ninter greater than 1 is chosen, ngeom greater than 2 
-	!   should be used for stability
-	ninter = 1
-	
-	nfld_neknek=7 !velocity+pressure+t+sc1+sc2 
-
-	return
-	end
-	
+.. literalinclude:: multi_rans/inlet_bundle/inlet_bundle.usr
+	:language: fortran
+	:lines: 208-226
+		
 ``ngeom`` specifies the number of overlapping Schwarz-like iterations, while ``ninter`` controls the time 
 extrapolation order of boundary conditions at the overlapping interface. ``ninter=1`` is unconditionally 
 stable, while a higher temporal order will typically require more iterations for stability (``ngeom>2``). 
@@ -524,90 +403,10 @@ and must be equal to 7 for 3D RANS cases (3 velocity, 1 pressure and 3 scalar fi
 	
 Boundary Condition specification and RANS initialization is performed in ``usrdat2``:
 
-.. code-block:: console
-
-	subroutine usrdat2()
-	implicit none
-	include 'SIZE'
-	include 'TOTAL'
-	include 'NEKNEK'
-
-	real wd
-	common /walldist/ wd(lx1,ly1,lz1,lelv)
-
-	common /rans_usr/ ifld_k, ifld_omega, m_id
-	integer ifld_k,ifld_omega, m_id
-
-	integer w_id,imid,i
-	real coeffs(30) !array for passing your own coeffs
-	logical ifcoeffs
-    
-	integer ifc,iel,id_face
+.. literalinclude:: multi_rans/inlet_bundle/inlet_bundle.usr
+	:language: fortran
+	:lines: 228-308
 	
-	if(idsess.eq.0)then              !BCs for inlet mesh
-	  do iel=1,nelt
-	  do ifc=1,2*ndim
-	     id_face = bc(5,ifc,iel,1)
-	     if (id_face.eq.2) then      !inlet
-		 cbc(ifc,iel,1) = 'v  '
-		 cbc(ifc,iel,2) = 't  '
-		 cbc(ifc,iel,3) = 't  '
-		 cbc(ifc,iel,4) = 't  '
-	     elseif (id_face.eq.3) then  !interface
-		 cbc(ifc,iel,1) = 'int'
-		 cbc(ifc,iel,2) = 'int'
-		 cbc(ifc,iel,3) = 'int'
-		 cbc(ifc,iel,4) = 'int'
-	     elseif (id_face.eq.4) then  !walls
-		 cbc(ifc,iel,1) = 'W  '
-		 cbc(ifc,iel,2) = 'I  '
-		 cbc(ifc,iel,3) = 't  '
-		 cbc(ifc,iel,4) = 't  '
-	     endif
-	  enddo
-	  enddo
-	else                             !BCs for pin-wire bundle mesh
-	  do iel=1,nelt
-	  do ifc=1,2*ndim
-	     id_face = bc(5,ifc,iel,1)
-	     if (id_face.eq.3) then      !interface 
-		 cbc(ifc,iel,1) = 'int'
-		 cbc(ifc,iel,2) = 'int'
-		 cbc(ifc,iel,3) = 'int'
-		 cbc(ifc,iel,4) = 'int'
-	     elseif (id_face.eq.4) then  !outlet 
-		 cbc(ifc,iel,1) = 'O  '
-		 cbc(ifc,iel,2) = 'O  '
-		 cbc(ifc,iel,3) = 'O  '
-		 cbc(ifc,iel,4) = 'O  '
-	     elseif (id_face.eq.1) then  !pin walls
-		 cbc(ifc,iel,1) = 'W  '
-		 cbc(ifc,iel,2) = 'f  '
-		 cbc(ifc,iel,3) = 't  '
-		 cbc(ifc,iel,4) = 't  '
-	     elseif (id_face.eq.2) then  !outer walls
-		 cbc(ifc,iel,1) = 'W  '
-		 cbc(ifc,iel,2) = 'I  '
-		 cbc(ifc,iel,3) = 't  '
-		 cbc(ifc,iel,4) = 't  '
-	     endif
-	  enddo
-	  enddo
-	endif
-	
-	! RANS initialization
-	ifld_k     = 3 
-	ifld_omega = 4
-	ifcoeffs=.false.
-
-	m_id = 4 ! non-regularized standard k-tau
-	w_id = 2 ! distf (coordinate difference, provides smoother function)
-
-	call rans_init(ifld_k,ifld_omega,ifcoeffs,coeffs,w_id,wd,m_id)
-
-	return
-	end
-
 ``NekNek`` solver launches two Nek5000 sessions simultaneously and field data transfer is performed between the
 two sessions on each time iteration. Each session is assigned a unique id, stored in the variable ``idsess``.
 Here, ``idsess=0`` is assigned to the inlet component solve and ``idsess=1`` to bundle component. Boundary 
@@ -632,41 +431,10 @@ are required. For details on the RANS related parameters, refer :ref:`rans` tuto
 For RANS simulation, diffusion coefficients are assigned in the ``uservp`` routine. The routine used here remains 
 nearly identical to the :ref:`rans` tutorial:
 
-.. code-block:: console
-
-	subroutine uservp (ix,iy,iz,eg)
-	implicit none
-	include 'SIZE'
-	include 'TOTAL'
-	include 'NEKUSE'
-
-	integer ix,iy,iz,e,eg
+.. literalinclude:: multi_rans/inlet_bundle/inlet_bundle.usr
+	:language: fortran
+	:lines: 20-51
 	
-	common /rans_usr/ ifld_k, ifld_omega, m_id
-	integer ifld_k,ifld_omega, m_id
-	
-	real rans_mut,rans_mutsk,rans_mutso,rans_turbPrandtl
-	real mu_t,Pr_t
-
-	e = gllel(eg)
-
-	Pr_t=1.5 !rans_turbPrandtl()
-	mu_t=rans_mut(ix,iy,iz,e)
-
-	utrans = cpfld(ifield,2)
-	if(ifield.eq.1) then
-		udiff = cpfld(ifield,1)+mu_t
-	elseif(ifield.eq.2) then
-		udiff = cpfld(ifield,1)+mu_t*cpfld(ifield,2)/(Pr_t*cpfld(1,2))
-	elseif(ifield.eq.ifld_k) then  
-		udiff = cpfld(1,1)+rans_mutsk(ix,iy,iz,e)
-	elseif(ifield.eq.ifld_omega) then  
-		udiff = cpfld(1,1)+rans_mutso(ix,iy,iz,e)
-	endif
-
-	return
-	end
-
 Only turbulent Prandtl number is changed to ``Pr_t=1.5`` for this tutorial. This value is more appropriate for 
 molten sodium salts as compared to the default value of 0.85 (for air), which is assigned through ``rans_turbPrandtl()`` 
 function call.
@@ -674,69 +442,19 @@ function call.
 Source terms for the temperature and scalar equations are assigned through ``userq``. The routine here is identical
 to the basic :ref:`rans` case:
 
-.. code-block:: console
+.. literalinclude:: multi_rans/inlet_bundle/inlet_bundle.usr
+	:language: fortran
+	:lines: 76-103
 
-	subroutine userq  (ix,iy,iz,ieg)
-	implicit none
-	include 'SIZE'
-	include 'TOTAL'
-	include 'NEKUSE'
-
-	common /rans_usr/ ifld_k, ifld_omega, m_id
-	integer ifld_k,ifld_omega, m_id
-
-	real rans_kSrc,rans_omgSrc
-	real rans_kDiag,rans_omgDiag
-
-	integer ie,ix,iy,iz,ieg
-	ie = gllel(ieg)
-
-	if(ifield.eq.2) then
-		qvol = 0.0 
-		avol = 0.0
-	elseif(ifield.eq.ifld_k) then
-		qvol = rans_kSrc  (ix,iy,iz,ie)
-		avol = rans_kDiag (ix,iy,iz,ie)
-	elseif(ifield.eq.ifld_omega) then
-		qvol = rans_omgSrc (ix,iy,iz,ie)
-		avol = rans_omgDiag(ix,iy,iz,ie)
-	endif
-	
-	return
-	end
-	
 Note that either component does not have any volumetric source heat source and hence ``qvol=0`` for temperature
 field (``ifield.eq.2``).
 
 Initial conditions are specified in ``useric``. Similar values are assigned to both components and, thus, the routine
 implementation is straightforward. Temperature is initalized to 1 for both components.
 
-.. code-block:: console
-
-	subroutine useric (ix,iy,iz,eg)
-	implicit none
-	include 'SIZE'
-	include 'TOTAL'
-	include 'NEKUSE'
-
-	integer ix,iy,iz,e,eg
-	
-	common /rans_usr/ ifld_k, ifld_omega, m_id
-	integer ifld_k,ifld_omega, m_id
-	
-	e = gllel(eg)
-
-	ux   = 0.0
-	uy   = 0.0
-	uz   = 1.0
-	temp = 1.0
-
-	if(ifield.eq.2) temp = 1.0
-	if(ifield.eq.ifld_k) temp = 0.01
-	if(ifield.eq.ifld_omega) temp = 0.2
-
-	return
-	end
+.. literalinclude:: multi_rans/inlet_bundle/inlet_bundle.usr
+	:language: fortran
+	:lines: 168-191
 
 Boundary conditions are assigned in ``userbc``. For the inlet component, inlet conditions are assigned using data
 generated from RANS simulation in a pipe with identical diameter as the inlet surface. The data is stored in the 
@@ -744,71 +462,10 @@ generated from RANS simulation in a pipe with identical diameter as the inlet su
 radial wall distance. Two plugin subroutines are required, which perform spline interpolation of the data to the 
 inlet mesh, viz., ``getInletProf`` and ``init_prof``. These are provided for the user in the ``inlet_bundle.usr``
 file and can be used without modification. The usage is shown below:
- 
-.. code-block:: console
 
-	subroutine userbc (ix,iy,iz,iside,eg)
-	implicit none
-	include 'SIZE'
-	include 'TOTAL'
-	include 'NEKUSE'
-	include 'NEKNEK'
-	
-	integer ix,iy,iz,iside,eg,e
-	
-	real wd
-	common /walldist/ wd(lx1,ly1,lz1,lelv)
-	
-	common /rans_usr/ ifld_k, ifld_omega, m_id
-	integer ifld_k,ifld_omega, m_id
-	
-	real uin,kin,tauin,wdist
-	real din,zmid
-	
-	integer id_face
-	
-	integer icalld
-	save icalld
-	data icalld /0/
-	
-	e = gllel(eg)
-	
-	if(icalld.eq.0)then
-	  call getInletProf                      !Initialize spline routine
-	  icalld = 1
-	endif
-
-	ux = 0.0
-	uy = 0.0
-	
-	id_face = bc(5,iside,e,1)
-	
-	! Inlet condition
-	if(idsess.eq.0 .and. id_face.eq.2)then
-	  din = 1.875                            !Inlet diameter
-	  wdist = min(wd(ix,iy,iz,e),din/2.)     !Wall distance
-	  call init_prof(wdist,uin,kin,tauin)    !Spline interpolation from InletProf.dat
-	  uz = uin
-	  if(ifield.eq.2)temp = 1.0
-	  if(ifield.eq.ifld_k)temp = kin
-	  if(ifield.eq.ifld_omega)temp = tauin
-	endif
-	
-	! Heat flux on walls
-	if(ifield.eq.2)then
-	  if(idsess.eq.0)then
-	    flux = 0.0
-	  else
-	    zmid = 12.5/2.0
-	    flux=0.0
-	      if(id_face.eq.1)then               !Pin walls
-	        flux = 0.5*(1.0+tanh(2.0*PI*(zm1(ix,iy,iz,e)-zmid)))
-	      endif
-	  endif
-	endif
-	
-	return
-	end
+.. literalinclude:: multi_rans/inlet_bundle/inlet_bundle.usr
+	:language: fortran
+	:lines: 105-166
 	
 Note that the diameter of the inlet surface is ``din=1.875``. Spline interpolation routine, ``init_prof``, requires
 the wall distance array, ``wd``, which is populated in ``usrdat2`` (in ``rans_init`` call). The distance should be
@@ -905,12 +562,11 @@ The following tips may be helpful to make the simulations more tractable:
    before using ``NEKNEK`` solver for coupled simulation. Replace the ``int`` boundary condition with ``O`` (outlet)
    for the inlet component. The standalone case setup, if opted for, is left to the user as an exercise.
  * Use OIFS solver to run the simulation at larger time steps (CFL>1). This requires the following entries in the ``.par``
-   file:
+   file (uncomment to use):
  
-.. code-block:: console
-	
-	targetCFL=4.0
-	extrapolation = OIFS
+.. literalinclude:: multi_rans/inlet_bundle/inlet.par
+	:language: ini
+	:lines: 11-12
 	
 It is necessary to specify target CFL for the OIFS solver. It calculates the number of extrapolation iterations
 based on ``targetCFL`` value.
