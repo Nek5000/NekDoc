@@ -584,6 +584,9 @@ For reference, normalized velocity magnitude and turbulent kinetic energy (TKE) 
 cross-sections of the inlet and wire-pin bundle components. Note that the overlap plane is located at :math:`z=0` axial location,
 where the polar orientation of wire is :math:`7.2^{\circ}`. Contour plots along axial sections at successive downstream locations
 are also shown, corresponding to wire polar orientiations of :math:`\{7.2,90,180,360\}^{\circ}`.
+
+Dimensionless temperature axial distribution is shown in :numref:`fig:multi_rans_temp` along :math:`x`-section. Temperature contours
+along axial cross-section near the bundle outlet is also included in the figure.
    
 .. _fig:multi_rans_v:
 
@@ -616,4 +619,12 @@ are also shown, corresponding to wire polar orientiations of :math:`\{7.2,90,180
    :figclass: align-center
 
    Normalized TKE in bundle component at successive downstream locations (corresponding polar orientation annotated).
+
+.. _fig:multi_rans_temp:
+
+.. figure:: multi_rans/results/temp.png
+   :align: center
+   :figclass: align-center
+
+   Dimensionless Temperature contour plot along :math:`x` cross-section. Axial cross-section near the outlet also shown.
   
