@@ -17,7 +17,7 @@ Nek5000 tools, procedures and user routines including,
  * ``wiremesher`` for generating wire-wrapped pin bundle mesh
  * ``nekamg_setup`` for generating algebraic multi-grid solver (AMG) files
  * :math:`k-\tau` RANS simulation setup 
- *  ``NekNek`` setup
+ * ``NekNek`` setup
 
 ..........................
 Before You Begin
@@ -173,14 +173,14 @@ containing inlet mesh and run ``exo2nek``. Provide inputs to the prompts as show
 	title         =  Created by ICEMCFD - EXODUS II Interface                            
 
 	num_dim       =        3
-	num_nodes     =    36527
-	num_elem      =   167965
+	num_nodes     =    35901
+	num_elem      =   165590
 	num_elem_blk  =        1
 	num_side_sets =        3
 
 	element block id   =        1
 	element type       =    TETRA
-	num_elem_in_block  =   167965
+	num_elem_in_block  =   165590
 	num_nodes_per_elem =        4
 
 	TETRA4 is valid element in a 3D mesh.
@@ -201,26 +201,26 @@ containing inlet mesh and run ``exo2nek``. Provide inputs to the prompts as show
 	Sideset  4 ...
 
 	Converting elements ...
-	 flag1
-	 flag2
-	 Converting elements in block            1
-	 nvert,                     4
-	 Converted elements in nek:               671860
+	flag1
+	flag2
+	Converting elements in block            1
+	nvert,                     4
+	Converted elements in nek:               662360
 	Done :: Converting elements
-	 Domain max xyz:   1.8650400000000000        1.6151700000000000        0.0000000000000000
-	 Domain min xyz:  -1.8650400000000000       -1.6151700000000002       -5.0000000000000000
-	 total element now is                671860
-	 fluid exo file            1  has elements       671860
-	 calling: gather_bc_info()
-	 done: gather_bc_info()
-	 ******************************************************
-	 Boundary info summary
-	 sideSet ID
+	Domain max xyz:   1.8650400000000000        1.6151700000000000       0.25000000000000000
+	Domain min xyz:  -1.8650400000000000       -1.6151700000000002       -4.7500000000000000
+	total element now is                662360
+	fluid exo file            1  has elements       662360
+	calling: gather_bc_info()
+	done: gather_bc_info()
+	******************************************************
+	Boundary info summary
+	sideSet ID
            2
            3
            4
-	 ******************************************************
-	Enter number of periodic boundary surface pairs: 
+	******************************************************
+	Enter number of periodic boundary surface pairs:
 	0
 	
 
@@ -387,7 +387,7 @@ Following headers are required at the beginning of ``.usr`` file for loading RAN
 
 .. literalinclude:: multi_rans/inlet_bundle/inlet_bundle.usr
 	:language: fortran
-	:lines: 208-226
+	:lines: 220-238
 		
 ``ngeom`` specifies the number of overlapping Schwarz-like iterations, while ``ninter`` controls the time 
 extrapolation order of boundary conditions at the overlapping interface. ``ninter=1`` is unconditionally 
@@ -405,7 +405,7 @@ Boundary Condition specification and RANS initialization is performed in ``usrda
 
 .. literalinclude:: multi_rans/inlet_bundle/inlet_bundle.usr
 	:language: fortran
-	:lines: 228-308
+	:lines: 240-320
 	
 ``NekNek`` solver launches two Nek5000 sessions simultaneously and field data transfer is performed between the
 two sessions on each time iteration. Each session is assigned a unique id, stored in the variable ``idsess``.
@@ -454,7 +454,7 @@ implementation is straightforward. Temperature is initalized to 1 for both compo
 
 .. literalinclude:: multi_rans/inlet_bundle/inlet_bundle.usr
 	:language: fortran
-	:lines: 168-191
+	:lines: 180-203
 
 Boundary conditions are assigned in ``userbc``. For the inlet component, inlet conditions are assigned using data
 generated from RANS simulation in a pipe with identical diameter as the inlet surface. The data is stored in the 
@@ -465,7 +465,7 @@ file and can be used without modification. The usage is shown below:
 
 .. literalinclude:: multi_rans/inlet_bundle/inlet_bundle.usr
 	:language: fortran
-	:lines: 105-166
+	:lines: 105-178
 	
 Note that the diameter of the inlet surface is ``din=1.875``. Spline interpolation routine, ``init_prof``, requires
 the wall distance array, ``wd``, which is populated in ``usrdat2`` (in ``rans_init`` call). The distance should be
@@ -474,7 +474,12 @@ inlet surface with its boundary ID, ``id_face.eq.2``.
 
 Temperature flux must also be assigned in ``userbc`` on the pin surface walls. As mentioned earlier, non-dimensional
 unit heat flux is assigned from half axial length of the bundle (``zmid``). A smoothed axial flux profile is imposed using
-``tanh`` step function as shown. Flux on all remaining walls is zero. 
+``tanh`` step function as shown. Flux on all remaining walls is zero.
+
+Field data transfer between ``NekNek`` sessions is performed using ``valint`` array and the grid point locations of 
+of overlapping boundaries are identified using the ``imask`` array. Thus, Dirichlet boundary condition values stored in 
+``valint``, which contains spectral interpolation field values from overlapping mesh, are imposed at the boundary of 
+current mesh, where ``imask = 1``.
  
 ..............................
 SIZE file
@@ -574,5 +579,41 @@ based on ``targetCFL`` value.
 ..............................
 Results
 ..............................
-   
 
+For reference, normalized velocity magnitude and turbulent kinetic energy (TKE) contour plots are shown below along lateral
+cross-sections of the inlet and wire-pin bundle components. Note that the overlap plane is located at :math:`z=0` axial location,
+where the polar orientation of wire is :math:`7.2^{\circ}`. Contour plots along axial sections at successive downstream locations
+are also shown, corresponding to wire polar orientiations of :math:`\{7.2,90,180,360\}^{\circ}`.
+   
+.. _fig:multi_rans_v:
+
+.. figure:: multi_rans/results/umag_section.png
+   :align: center
+   :figclass: align-center
+
+   Normalized velocity magnitude along :math:`x` and :math:`y` cross-sections. Corresponding zoomed views near overlap region (:math:`z=0`) shown.
+
+.. _fig:multi_rans_k:
+
+.. figure:: multi_rans/results/k_section.png
+   :align: center
+   :figclass: align-center
+
+   Normalized TKE along :math:`x` and :math:`y` cross-sections. Corresponding zoomed views near overlap region (:math:`z=0`) shown.
+
+.. _fig:multi_rans_vpolar:
+
+.. figure:: multi_rans/results/umag_polar.png
+   :align: center
+   :figclass: align-center
+
+   Normalized velocity magnitude in bundle component at successive downstream locations (corresponding polar orientation annotated).
+  
+.. _fig:multi_rans_kpolar:
+
+.. figure:: multi_rans/results/k_polar.png
+   :align: center
+   :figclass: align-center
+
+   Normalized TKE in bundle component at successive downstream locations (corresponding polar orientation annotated).
+  

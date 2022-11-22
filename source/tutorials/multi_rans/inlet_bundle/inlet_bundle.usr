@@ -135,8 +135,20 @@ c---------------------------------------------------------------------
       
       ux = 0.0
       uy = 0.0
+      uz = 0.0
+      temp = 0.0
+      flux = 0.0
       
       id_face = bc(5,iside,e,1)
+
+      if(imask(ix,iy,iz,e).eq.0)then
+         continue
+      else
+         ux = valint(ix,iy,iz,e,1)
+         uy = valint(ix,iy,iz,e,2)
+         uz = valint(ix,iy,iz,e,3)
+         if(nfld_neknek.gt.3)temp = valint(ix,iy,iz,e,ldim+ifield)
+      endif
       
 !     Inlet condition
       if(idsess.eq.0 .and. id_face.eq.2)then
