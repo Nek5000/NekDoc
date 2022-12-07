@@ -132,13 +132,14 @@ in the  ``Nek5000/tools`` directory:
 .. code-block:: console
 
 	cd ~/Nek5000/tools
-	./maketools all
+	./maketools exo2nek gencon
 
-The above commands will compile all available Nek5000 tools including ``exo2nek``. 
+The above command will compile ``exo2nek`` and ``genmap`` tool. The latter is required for :ref:`generating mesh connectivity <multi_gencon>`
+file at a later step.  
 
 :Note:
 	Ensure that ``MAXNEL`` parameter in ``maketools.inc`` file is set to a high value. Default value is 150000. 
-	Set to a number greater than the number of elements in the mesh (1000000) before running the above commands.
+	Set to a number greater than the number of elements in the mesh (1000000) before running the above command.
 
 Currently, ``exo2nek`` supports the following mesh elements,
 
@@ -313,6 +314,9 @@ Return and move the mesh file to the parent directory:
 
 	cd ../
 	mv bundleMesh/bundle.re2 .
+
+
+.. _multi_gencon:
  
 ####################################
 Generating Connectivity file (.co2)
@@ -322,7 +326,7 @@ After generating the mesh files for both components, it is necessary to generate
 using ``gencon`` tool. Note that using ``gencon`` tool instead of ``genmap``, which generates  map (``.ma2``) file, is the 
 recommended procedure for large meshes. See :ref:`build_pplist` for details. 
 
-Users must specify ``PPLIST=PARRSB`` in ``makenek`` file (location: Nek5000/bin/makenek) which instructs Nek5000
+Users must include ``PARRSB`` in the ``PPLIST`` in ``makenek`` file (location: Nek5000/bin/makenek) which instructs Nek5000
 to partition the mesh during run-time and requires ``.co2`` file instead of ``.ma2`` for running the case. 
 
 Run ``gencon`` from the parent folder for each mesh file. Users will be prompted to specify the mesh file name and tolerance.
@@ -364,8 +368,14 @@ properties and time step size are identical for both ``.par`` files. Values are 
 density is set to unity, viscosity and diffusivity are set to :math:`1/\nu^*` and conductivity to Peclet number 
 (-ve sign indicates that solver is run in dimensionless form).
 
-Note that given the large size of meshes, the ``preconditioner`` must be set to ``semg_amg``. This invokes the algebraic
-multigrid solver for pressure instead of the default ``XXT`` solver.
+Note that given the large size of meshes, the ``preconditioner`` must be set to ``semg_amg_hypre``. This invokes the algebraic
+multigrid (AMG) solver for pressure instead of the default ``XXT`` solver. The AMG preconditioner requires third party ``HYPRE``
+libraries which must be included in the preprocessor list option in ``makenek`` file (location: Nek5000/bin/makenek). 
+Also including the ``PARRSB`` option, as mentioned earlier, the ``PPLIST`` therefore is:
+
+.. code-block:: console
+	
+	PPLIST = "HYPRE PARRSB"
 
 Further details on all parameters of ``.par`` file can be found :ref:`here <case_files_par>`.
  
@@ -515,45 +525,6 @@ the script is launched as follows:
 	
 The above runs ``NEKNEK`` job on 40 nodes (20 dedicated to each session) for 4 hours and 30 minutes. Remember to specify
 the project name before launching, assigned to ``prj`` variable in the ``neksaw`` script file.
-
-On the first run, Nek5000 will generate files for setting up the AMG (algebraic multi-grid) solver with the suffix
-``amgdmp_p.dat``, ``amgdmp_i.dat`` and ``amgdmp_j.dat`` for each component. Run the ``nekamg_setup`` tool to 
-create the ANG setup files. The prompts will appear as shown:
-
-.. code-block:: console
-
-	Enter name prefix of input file(s):
-	inlet
-	
-.. code-block:: console
-
-	Choose a coarsening method. Available options are:
-	- 3: Ruege-Stuben,
-	- 6: Falgout (default),
-	- 8: PMIS,
-	- 10: HMIS,
-	Choice:
-	10
-
-.. code-block:: console
-
-	Choose an interpolation method. Available options are:
-	- 0: classical modified interpolation,
-	- 6: extended + i interpolation (default),
-	Choice:
-	0
-
-User may choose any of the coarsening solver and interpolation methods available which lead to successful convergence.
-For this tutorial we choose HMIS and classical interpolation for both components. 
-
-.. code-block:: console
-	
-	Enter smoother tolerance [0.5]:
-	0.9
-	
-Repeat the steps for the bundle component. Upon completion three files will be written containing AMG matrices.
-
-On the next run, Nek5000 will advance normally and the user may proceed with the simulation.
 
 ..............................
 Helpful Tips
