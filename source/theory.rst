@@ -399,7 +399,7 @@ The time-averaged momentum equation is given as,
 
 where :math:`\mu_t` is the turbulent or eddy viscosity and :math:`\boldsymbol{\underline I}` is an
 identity tensor. 
-The current RANS implementation only supports incompressible flow where the divergence constraint, :math:`Q`, is zero,
+It only supports incompressible flow where the divergence constraint, :math:`Q`, is zero,
 
 .. math::
 	:label: ns_rans_cont
@@ -414,6 +414,10 @@ The velocity scale is given by turbulent kinetic energy while the choice of the 
 *Nek5000* offers several two-equation RANS models based on the :math:`k-\omega` [Wilcox2008]_ family of models.
 These include the regularized :math:`k-\omega` [Tombo2018]_ and the :math:`k-\tau` [Speziale1992]_ model. 
 In addition, the SST (shear stress transport) and low-Re variants of both models are available.
+
+.. Note::
+
+  All currently available RANS models are wall-resolved models.
 
 The :math:`k-\tau` model offers certain favorable characteristics over the :math:`k-\omega` model, including bounded asymptotic behavior of :math:`\tau` and its source terms and favorable near-wall gradients. 
 These make it especially suited for high-order codes and complex geometries. 
@@ -456,4 +460,8 @@ It eliminates non-physical free-stream dependence of the near-wall :math:`\tau` 
 
 All coefficients in the :math:`k-\tau` model are identical to the :math:`k-\omega` model and can be 
 found in [Wilcox2008]_. 
-  
+
+The current RANS implementation is offered on an *experimental*, as-is basis.
+It cannot be guaranteed to work with all other features of *Nek5000* and is still being tested for robustness.
+As such, it is not automatically compiled with the base code and the required subroutines will need to be included in the ``.usr`` file from the ``Nek5000/core/experimental`` directory.
+

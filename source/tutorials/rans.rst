@@ -1,4 +1,4 @@
-.. _rans:
+.. _tutorial_rans:
 
 ------------
 RANS Channel
