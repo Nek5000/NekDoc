@@ -36,3 +36,11 @@ References
 .. [Stolz2001] Stolz, S., Adams, N. A. and Kleiser, L., "An approximate deconvolution model for large-eddy simulation with application to incompressible wall-bounded flows", *Physics of Fluids*, **13**, no. 4, pp. 997--1015, 2005. `doi.org/10.1063/1.1350896 <https://doi.org/10.1063/1.1350896>`_
 
 .. [Schlatter2006] Schlatter, P., Stolz, S., and Kleiser, L., "Analysis of the SGS energy budget for deconvolution- and relaxation-based models in channel flow", in *Direct and Large-Eddy Simulation VI*, pp. 135--142, Springer, Dordrecht, 2006. `doi.org/10.1007/978-1-4020-5152-2_15 <https://doi.org/10.1007/978-1-4020-5152-2_15>`_
+
+.. [Wilcox2008] Wilcox, David C. "Formulation of the kw turbulence model revisited." AIAA journal 46, no. 11 (2008): 2823-2838.
+
+.. [Speziale1992] Speziale, Charles G., Ridha Abid, and E. Clay Anderson. "Critical evaluation of two-equation models for near-wall turbulence." AIAA journal 30, no. 2 (1992): 324-331.
+
+.. [Tombo2018] Tomboulides, A., S. M. Aithal, P. F. Fischer, E. Merzari, A. V. Obabko, and D. R. Shaver. "A novel numerical treatment of the near-wall regions in the k− ω class of RANS models." International Journal of Heat and Fluid Flow 72 (2018): 186-199.
+
+.. [Kok2000] Kok, Johannes Christiaan, and Stephanus Petrus Spekreijse. "Efficient and accurate implementation of the k-omega turbulence model in the NLR multi-block Navier-Stokes system." (2000).

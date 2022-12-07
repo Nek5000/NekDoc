@@ -378,3 +378,74 @@ derivatives on :math:`\Omega(t^n)` are computed;  the extrapolated right-hand-si
 evaluated; and the implicit linear system is solved for :math:`\mathbf u^n`.   Note that it is only
 the *operators* that are updated, not the *matrices*.  Matrices are never formed in Nek5000
 and because of this, the overhead for the moving domain formulation is very low.
+
+.. _intro_ktau:
+
+--------------------------------------
+Reynolds Averaged Navier-Stokes Models
+--------------------------------------
+
+Two-equation Reynolds Averaged Navier Stokes (RANS) models rely on the Bousinessq approximation
+which relates the Reynolds stress tensor to the mean strain rate, :math:`\boldsymbol{\underline {S}}`,
+linearly through eddy viscosity. The time-averaged momentum equation is given as,
+
+.. math::
+   :label: ns_rans
+   
+   \rho \left(\frac{\partial \mathbf u}{\partial t} + \mathbf u \cdot \nabla \mathbf u \right) &= 
+   - \nabla p + \nabla \cdot \left[ (\mu + \mu_t) 
+   \left( 2 \boldsymbol{\underline S} - 
+   \frac{2}{3} Q \boldsymbol{\underline I}\right) \right] \\
+   \boldsymbol{\underline S} &= \frac{1}{2} \left( \nabla \mathbf u + \mathbf{u}^T \right) \nonumber
+
+where :math:`\mu_t` is the turbulent or eddy viscosity and :math:`\boldsymbol{\underline I}` is an
+identity tensor. Assuming an incompressible flow, the divergence constraint, :math:`Q`, is zero,
+
+.. math::
+	:label: ns_rans_cont
+	
+	Q = \nabla \cdot \mathbf u = 0
+	
+RANS implementation in Nek5000 accomodates for low Mach number compressible, reactive or multi-phase
+flows where divergence of velocity may be non-zero.
+
+In two-equation models, description of the local eddy viscosity is given by two additional transported
+variables, which provide the velocity and length (or time) scale of turbulence. The velocity scale is
+given by turbulent kinetic energy while the choice of the second variable, which provides the length 
+scale, depends on the specific two-equation model used. Nek5000 offers several two-equation RANS models
+including the standard :math:`k-\omega` [Wilcox2008]_, regularized :math:`k-\omega` [Tombo2018]_ and the
+:math:`k-\tau` [Speziale1992]_ model. In addition, SST (shear stress transport) variant of the regularized
+:math:`k-\omega` model and low-Reynolds number variants of both regularized :math:`k-\omega` and 
+:math:`k-\tau` model are also available. 
+
+The :math:`k-\tau` model offers certain favorable characteristics over the :math:`k-\omega` model, 
+including bounded asymptotic behavior of :math:`\tau` and its source terms and favorable near-wall
+gradients, which make it especially suited for high-order codes and complex geometries. It is, therefore,
+the preferred two-equation RANS model in Nek5000. The :math:`k-\tau` transport equations are,
+
+.. math::
+	:label: ktau
+	
+	\rho\left( \frac{\partial k}{\partial t} + \nabla \cdot k\mathbf u\right) = 
+	\nabla \cdot (\Gamma_k \nabla k) + P - \rho \beta^* \frac{k}{\tau} \\
+	\rho\left( \frac{\partial \tau}{\partial t} + \nabla \cdot \tau \mathbf u\right) = 
+	\nabla \cdot (\Gamma_\omega \nabla \tau) - \alpha \frac{\tau}{k}P + \rho \beta - 
+	2\frac{\Gamma_\omega}{\tau} (\nabla \tau \cdot \nabla \tau) + C_{D_\tau}
+	
+where the respective diffusion coefficients are :math:`\Gamma_k = \mu + \mu_t/\sigma_k` and 
+:math:`\Gamma_\omega = \mu + \mu_t/\sigma_\omega`. The production term is :math:`P = \mu_t S^2` where, for 
+incompressible flow, :math:`S = \sqrt{2 \boldsymbol{\underline S}: \boldsymbol{\underline S}}` (:math:`:` denotes double dot product).
+Final term in the :math:`\tau` equation is the cross-diffusion term, introduced by [Kok2000]_,
+
+.. math::
+	:label: ktau_cd
+	
+	C_{D_\tau} = \rho \sigma_d \tau min(\nabla k \cdot \nabla \tau,0)
+	
+The above term is especially relevant for external flows. It eliminates non-physical free-stream dependence of 
+near-wall :math:`\tau` field. 
+
+All coefficients in the :math:`k-\tau` model are identical to the :math:`k-\omega` model and can be 
+found in [Wilcox2008]_. 
+
+  

@@ -1,0 +1,511 @@
+c-----------------------------------------------------------------------
+c  nek5000 user-file template
+c
+c  user specified routines:
+c     - uservp  : variable properties
+c     - userf   : local acceleration term for fluid
+c     - userq   : local source term for scalars
+c     - userbc  : boundary conditions
+c     - useric  : initial conditions
+c     - userchk : general purpose routine for checking errors etc.
+c     - userqtl : thermal divergence for lowMach number flows 
+c     - usrdat  : modify element vertices 
+c     - usrdat2 : modify mesh coordinates
+c     - usrdat3 : general purpose routine for initialization
+c     
+c-----------------------------------------------------------------------
+      include "experimental/rans_komg.f"
+      include "experimental/rans_wallfunctions.f"
+c---------------------------------------------------------------------
+      subroutine uservp (ix,iy,iz,eg)
+      implicit none
+      include 'SIZE'
+      include 'TOTAL'
+      include 'NEKUSE'
+      
+      integer ix,iy,iz,e,eg
+      
+      common /rans_usr/ ifld_k, ifld_omega, m_id
+      integer ifld_k,ifld_omega, m_id
+
+      real rans_mut,rans_mutsk,rans_mutso,rans_turbPrandtl
+      real mu_t,Pr_t
+      
+      e = gllel(eg)
+      
+      Pr_t=1.5                  !rans_turbPrandtl()
+      mu_t=rans_mut(ix,iy,iz,e)
+      
+      utrans = cpfld(ifield,2)
+      if(ifield.eq.1) then
+         udiff = cpfld(ifield,1)+mu_t
+      elseif(ifield.eq.2) then
+         udiff = cpfld(ifield,1)+mu_t*cpfld(ifield,2)/(Pr_t*cpfld(1,2))
+      elseif(ifield.eq.ifld_k) then
+         udiff = cpfld(1,1)+rans_mutsk(ix,iy,iz,e)
+      elseif(ifield.eq.ifld_omega) then
+         udiff = cpfld(1,1)+rans_mutso(ix,iy,iz,e)
+      endif
+      
+      return
+      end
+c---------------------------------------------------------------------
+      subroutine userf(ix,iy,iz,eg) ! set acceleration term
+c     
+c     Note: this is an acceleration term, NOT a force!
+c     Thus, ffx will subsequently be multiplied by rho(x,t).
+c
+c      implicit none
+      
+      integer ix,iy,iz,eg
+
+      include 'SIZE'
+      include 'TOTAL'
+      include 'NEKUSE'
+
+      integer e
+c     e = gllel(eg)
+
+      ffx = 0.0
+      ffy = 0.0
+      ffz = 0.0
+
+      return
+      end
+c---------------------------------------------------------------------
+      subroutine userq  (ix,iy,iz,ieg)
+      implicit none
+      include 'SIZE'
+      include 'TOTAL'
+      include 'NEKUSE'
+      
+      common /rans_usr/ ifld_k, ifld_omega, m_id
+      integer ifld_k,ifld_omega, m_id
+      
+      real rans_kSrc,rans_omgSrc
+      real rans_kDiag,rans_omgDiag
+      
+      integer ie,ix,iy,iz,ieg
+      ie = gllel(ieg)
+      
+      if(ifield.eq.2) then
+         qvol = 0.0
+         avol = 0.0
+      elseif(ifield.eq.ifld_k) then
+         qvol = rans_kSrc  (ix,iy,iz,ie)
+         avol = rans_kDiag (ix,iy,iz,ie)
+      elseif(ifield.eq.ifld_omega) then
+         qvol = rans_omgSrc (ix,iy,iz,ie)
+         avol = rans_omgDiag(ix,iy,iz,ie)
+      endif
+      
+      return
+      end
+c---------------------------------------------------------------------
+      subroutine userbc (ix,iy,iz,iside,eg)
+      implicit none
+      include 'SIZE'
+      include 'TOTAL'
+      include 'NEKUSE'
+      include 'NEKNEK'
+      
+      integer ix,iy,iz,iside,eg,e
+
+      real wd
+      common /walldist/ wd(lx1,ly1,lz1,lelv)
+
+      common /rans_usr/ ifld_k, ifld_omega, m_id
+      integer ifld_k,ifld_omega, m_id
+      
+      real uin,kin,tauin,wdist
+      real din,zmid
+
+      integer id_face
+      
+      integer icalld
+      save icalld
+      data icalld /0/
+
+      e = gllel(eg)
+      
+      if(icalld.eq.0)then
+         call getInletProf      !Initialize spline routine
+         icalld = 1
+      endif
+      
+      ux = 0.0
+      uy = 0.0
+      uz = 0.0
+      temp = 0.0
+      flux = 0.0
+      
+      id_face = bc(5,iside,e,1)
+
+      if(imask(ix,iy,iz,e).eq.0)then
+         continue
+      else
+         ux = valint(ix,iy,iz,e,1)
+         uy = valint(ix,iy,iz,e,2)
+         uz = valint(ix,iy,iz,e,3)
+         if(nfld_neknek.gt.3)temp = valint(ix,iy,iz,e,ldim+ifield)
+      endif
+      
+!     Inlet condition
+      if(idsess.eq.0 .and. id_face.eq.2)then
+         din = 1.875            !Inlet diameter
+         wdist = min(wd(ix,iy,iz,e),din/2.) !Wall distance
+         call init_prof(wdist,uin,kin,tauin) !Spline interpolation from InletProf.dat
+         uz = uin
+         if(ifield.eq.2)temp = 1.0
+         if(ifield.eq.ifld_k)temp = kin
+         if(ifield.eq.ifld_omega)temp = tauin
+      endif
+      
+!     Heat flux on walls
+      if(ifield.eq.2)then
+         if(idsess.eq.0)then
+            flux = 0.0
+         else
+            zmid = 12.5/2.0
+            flux=0.0
+            if(id_face.eq.1)then !Pin walls
+               flux = 0.5*(1.0+tanh(2.0*PI*(zm1(ix,iy,iz,e)-zmid)))
+            endif
+         endif
+      endif
+      
+      return
+      end
+c---------------------------------------------------------------------
+      subroutine useric (ix,iy,iz,eg)
+      implicit none
+      include 'SIZE'
+      include 'TOTAL'
+      include 'NEKUSE'
+      
+      integer ix,iy,iz,e,eg
+
+      common /rans_usr/ ifld_k, ifld_omega, m_id
+      integer ifld_k,ifld_omega, m_id
+      
+      e = gllel(eg)
+      
+      ux   = 0.0
+      uy   = 0.0
+      uz   = 1.0
+      temp = 1.0
+      
+      if(ifield.eq.2) temp = 1.0
+      if(ifield.eq.ifld_k) temp = 0.01
+      if(ifield.eq.ifld_omega) temp = 0.2
+      
+      return
+      end
+c---------------------------------------------------------------------
+      subroutine userchk()
+c     
+      include 'SIZE'
+      include 'TOTAL'
+     
+      return
+      end
+c---------------------------------------------------------------------
+      subroutine userqtl        ! Set thermal divergence
+      
+      call userqtl_scig 
+      
+      return
+      end
+c---------------------------------------------------------------------
+      subroutine usrdat()
+      include 'SIZE'
+      include 'TOTAL'
+      
+!     ngeom - parameter controlling the number of iterations,
+!     set to ngeom=2 by default (no iterations)
+!     One could change the number of iterations as
+      ngeom = 2
+      
+!     ninter - parameter controlling the order of interface extrapolation for neknek,
+!     set to ninter=1 by default
+!     Caution: if ninter greater than 1 is chosen, ngeom greater than 2
+!     should be used for stability
+      ninter = 1
+      
+      nfld_neknek=7             !velocity+pressure+t+sc1+sc2
+      
+      return
+      end
+c---------------------------------------------------------------------
+      subroutine usrdat2()
+      implicit none
+      include 'SIZE'
+      include 'TOTAL'
+      include 'NEKNEK'
+      
+      real wd
+      common /walldist/ wd(lx1,ly1,lz1,lelv)
+
+      common /rans_usr/ ifld_k, ifld_omega, m_id
+      integer ifld_k,ifld_omega, m_id
+      
+      integer w_id,imid,i
+      real coeffs(30)           !array for passing your own coeffs
+      logical ifcoeffs
+      
+      integer ifc,iel,id_face
+      
+      if(idsess.eq.0)then       !BCs for inlet mesh
+         do iel=1,nelt
+            do ifc=1,2*ndim
+               id_face = bc(5,ifc,iel,1)
+               if (id_face.eq.2) then !inlet
+                  cbc(ifc,iel,1) = 'v  '
+                  cbc(ifc,iel,2) = 't  '
+                  cbc(ifc,iel,3) = 't  '
+                  cbc(ifc,iel,4) = 't  '
+               elseif (id_face.eq.3) then !interface
+                  cbc(ifc,iel,1) = 'int'
+                  cbc(ifc,iel,2) = 'int'
+                  cbc(ifc,iel,3) = 'int'
+                  cbc(ifc,iel,4) = 'int'
+               elseif (id_face.eq.4) then !walls
+                  cbc(ifc,iel,1) = 'W  '
+                  cbc(ifc,iel,2) = 'I  '
+                  cbc(ifc,iel,3) = 't  '
+                  cbc(ifc,iel,4) = 't  '
+               endif
+            enddo
+         enddo
+      else                      !BCs for pin-wire bundle mesh
+         do iel=1,nelt
+            do ifc=1,2*ndim
+               id_face = bc(5,ifc,iel,1)
+               if (id_face.eq.3) then !interface
+                  cbc(ifc,iel,1) = 'int'
+                  cbc(ifc,iel,2) = 'int'
+                  cbc(ifc,iel,3) = 'int'
+                  cbc(ifc,iel,4) = 'int'
+               elseif (id_face.eq.4) then !outlet
+                  cbc(ifc,iel,1) = 'O  '
+                  cbc(ifc,iel,2) = 'O  '
+                  cbc(ifc,iel,3) = 'O  '
+                  cbc(ifc,iel,4) = 'O  '
+               elseif (id_face.eq.1) then !pin walls
+                  cbc(ifc,iel,1) = 'W  '
+                  cbc(ifc,iel,2) = 'f  '
+                  cbc(ifc,iel,3) = 't  '
+                  cbc(ifc,iel,4) = 't  '
+               elseif (id_face.eq.2) then !outer walls
+                  cbc(ifc,iel,1) = 'W  '
+                  cbc(ifc,iel,2) = 'I  '
+                  cbc(ifc,iel,3) = 't  '
+                  cbc(ifc,iel,4) = 't  '
+               endif
+            enddo
+         enddo
+      endif
+      
+!     RANS initialization
+      ifld_k     = 3
+      ifld_omega = 4
+      ifcoeffs=.false.
+      
+      m_id = 4       ! non-regularized standard k-tau
+      w_id = 2       ! distf (coordinate difference, provides smoother function)
+
+      call rans_init(ifld_k,ifld_omega,ifcoeffs,coeffs,w_id,wd,m_id)
+
+      return
+      end
+c---------------------------------------------------------------------
+      subroutine usrdat3()
+      include 'SIZE'
+      include 'TOTAL'
+      
+      return
+      end
+c---------------------------------------------------------------------
+      subroutine getInletProf
+      
+      include 'SPLINE'
+      
+      real YY(npts),ZZ(npts)
+      
+c     read in the 1-D profile computed by turbChan2D
+C     velocity       in fU
+C     kinetic energy in fK
+C     omega          in fO
+      
+      open(unit=100,file='InletProf.dat',status='old')
+      read(100, *)     ! skip the header
+      do i=1,npts
+         read(100,*)  YY(i), fU(i), fK(i), fO(i)
+      enddo
+      close(100)
+
+C  compute spline coefficients for U
+      do i=1,npts
+         ZZ(i)  = fU(i)
+         SYY(i) = YY(i)
+      enddo
+      call spline (npts, YY, ZZ, sbU, scU, sdU)
+      
+C     compute spline coefficients for T
+      do i=1,npts
+         ZZ(i) = fK(i)
+      enddo
+      call spline (npts, YY, ZZ, sbK, scK, sdK)
+      
+C  compute spline coefficients for species mass fractions
+      do i=1,npts
+         ZZ(i) = fO(i)
+      enddo
+      call spline (npts, YY, ZZ, sbO, scO, sdO)
+      
+      return
+      end
+
+c-----------------------------------------------------------------------
+      subroutine spline (n, x, y, b, c, d)
+
+c     the coefficients b(i), c(i), and d(i), i=1,2,...,n are computed
+c     for a cubic interpolating spline
+c
+c     s(x) = y(i) + b(i)*(x-x(i)) + c(i)*(x-x(i))**2 + d(i)*(x-x(i))**3
+c     
+c     for  x(i) .le. x .le. x(i+1)
+c     
+c     input.. 
+c     
+c     n = the number of data points or knots (n.ge.2)
+c     x = the abscissas of the knots in strictly increasing order
+c     y = the ordinates of the knots
+c
+c     output..
+c
+c     b, c, d  = arrays of spline coefficients as defined above.
+c     
+c     using  p  to denote differentiation,
+c     
+c     y(i) = s(x(i))
+c     b(i) = sp(x(i))
+c     c(i) = spp(x(i))/2
+c     d(i) = sppp(x(i))/6  (derivative from the right)
+c     
+c     the accompanying function subprogram  seval  can be used
+c     to evaluate the spline.
+      
+      integer n
+      real x(n), y(n), b(n), c(n), d(n)
+
+      integer nm1, ib, i
+      real t
+      
+      nm1 = n-1
+      if ( n .lt. 2 ) return
+      if ( n .lt. 3 ) go to 50
+
+c     set up tridiagonal system
+c     b = diagonal, d = offdiagonal, c = right hand side.
+
+      d(1) = x(2) - x(1)
+      c(2) = (y(2) - y(1))/d(1)
+      do 10 i = 2, nm1
+         d(i) = x(i+1) - x(i)
+         b(i) = 2.*(d(i-1) + d(i))
+         c(i+1) = (y(i+1) - y(i))/d(i)
+         c(i) = c(i+1) - c(i)
+ 10   continue
+      
+c     end conditions.  third derivatives at  x(1)  and  x(n)
+c     obtained from divided differences
+      
+      b(1) = -d(1)
+      b(n) = -d(n-1)
+      c(1) = 0.0
+      c(n) = 0.0
+      if ( n .eq. 3 ) go to 15
+      c(1) = c(3)/(x(4)-x(2)) - c(2)/(x(3)-x(1))
+      c(n) = c(n-1)/(x(n)-x(n-2)) - c(n-2)/(x(n-1)-x(n-3))
+      c(1) = c(1)*d(1)**2/(x(4)-x(1))
+      c(n) = -c(n)*d(n-1)**2/(x(n)-x(n-3))
+      
+c  forward elimination
+      
+ 15   do 20 i = 2, n
+         t = d(i-1)/b(i-1)
+         b(i) = b(i) - t*d(i-1)
+         c(i) = c(i) - t*c(i-1)
+ 20   continue
+      
+c     back substitution
+      
+      c(n) = c(n)/b(n)
+      do 30 ib = 1, nm1
+         i = n-ib
+         c(i) = (c(i) - d(i)*c(i+1))/b(i)
+ 30   continue
+      
+c     c(i) is now the sigma(i) of the text
+c     
+c     compute polynomial coefficients
+      
+      b(n) = (y(n) - y(nm1))/d(nm1) + d(nm1)*(c(nm1) + 2.*c(n))
+      do 40 i = 1, nm1
+         b(i) = (y(i+1) - y(i))/d(i) - d(i)*(c(i+1) + 2.*c(i))
+         d(i) = (c(i+1) - c(i))/d(i)
+         c(i) = 3.*c(i)
+ 40   continue
+      c(n) = 3.0*c(n)
+      d(n) = d(n-1)
+      return
+      
+ 50   b(1) = (y(2)-y(1))/(x(2)-x(1))
+      c(1) = 0.0
+      d(1) = 0.0
+      b(2) = b(1)
+      c(2) = 0.0
+      d(2) = 0.0
+      
+      return
+      end
+c---------------------------------------------------------------------
+      subroutine init_prof(y,Uin,Kin,Oin)
+c     
+c     Compute temperature + species using cubic splines
+c     f(y) = s(i) + sb(i)*(y-SYY(i)) + sc(i)*(y-SYY(i))**2 + sd(i)*(y-SYY(i))**3
+      
+      include 'SPLINE'
+      
+      real y, Uin, Kin, Oin
+      
+      ii = 0
+      do i=1,npts-1
+         if (y.ge.SYY(i) .and. y.lt.SYY(i+1)) ii=i
+      enddo
+      if(abs(y-SYY(npts)).lt.1e-7) ii=npts
+
+      if (ii.le.0) then
+         write(*,*) 'Error in init_mean: ii= ', ii,'>npts=', npts, y
+         call exitt
+      endif
+      
+      Uin=fU(ii) + sbU(ii)*(y-SYY(ii))
+     *     +scU(ii)*(y-SYY(ii))**2+sdU(ii)*(y-SYY(ii))**3
+      
+      if (y.ge.SYY(npts)) Uin=fU(npts)
+      
+      Kin=fK(ii) + sbK(ii)*(y-SYY(ii))
+     *     +scK(ii)*(y-SYY(ii))**2+sdK(ii)*(y-SYY(ii))**3
+      
+      if (y.ge.SYY(npts)) Kin=fK(npts)
+      
+      Oin=fO(ii) + sbO(ii)*(y-SYY(ii))
+     *     +scO(ii)*(y-SYY(ii))**2+sdO(ii)*(y-SYY(ii))**3
+      
+      if (y.ge.SYY(npts)) Oin=fO(npts)
+      
+      return
+      end
+c---------------------------------------------------------------------
