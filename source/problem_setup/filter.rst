@@ -135,7 +135,8 @@ The weights for this filter are shown below in :numref:`fig:expfilt` for a 7\ :s
 
    Weighting for the recommend explicit LES filter
 
-:Note:
+.. Note::
+
   The explicit filter is applied after every time step, consequently its strength is inversely proportional to time step size for marginally resolved cases.
 
 ----------------
