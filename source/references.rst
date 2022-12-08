@@ -37,10 +37,10 @@ References
 
 .. [Schlatter2006] Schlatter, P., Stolz, S., and Kleiser, L., "Analysis of the SGS energy budget for deconvolution- and relaxation-based models in channel flow", in *Direct and Large-Eddy Simulation VI*, pp. 135--142, Springer, Dordrecht, 2006. `doi.org/10.1007/978-1-4020-5152-2_15 <https://doi.org/10.1007/978-1-4020-5152-2_15>`_
 
-.. [Wilcox2008] Wilcox, David C. "Formulation of the kw turbulence model revisited." AIAA journal 46, no. 11 (2008): 2823-2838.
+.. [Wilcox2008] Wilcox, David C. "Formulation of the k-ω turbulence model revisited." AIAA journal 46, no. 11 (2008): 2823-2838. `doi.org/10.2514/1.36541 <https://doi.org/10.2514/1.36541>`_
 
-.. [Speziale1992] Speziale, Charles G., Ridha Abid, and E. Clay Anderson. "Critical evaluation of two-equation models for near-wall turbulence." AIAA journal 30, no. 2 (1992): 324-331.
+.. [Speziale1992] Speziale, Charles G., Ridha Abid, and E. Clay Anderson. "Critical evaluation of two-equation models for near-wall turbulence." AIAA journal 30, no. 2 (1992): 324-331. `doi.org/10.2514/3.10922 <https://doi.org/10.2514/3.10922>`_
 
-.. [Tombo2018] Tomboulides, A., S. M. Aithal, P. F. Fischer, E. Merzari, A. V. Obabko, and D. R. Shaver. "A novel numerical treatment of the near-wall regions in the k− ω class of RANS models." International Journal of Heat and Fluid Flow 72 (2018): 186-199.
+.. [Tombo2018] Tomboulides, A., S. M. Aithal, P. F. Fischer, E. Merzari, A. V. Obabko, and D. R. Shaver. "A novel numerical treatment of the near-wall regions in the k−ω class of RANS models." International Journal of Heat and Fluid Flow 72 (2018): 186-199. `doi.org/10.1016/j.ijheatfluidflow.2018.05.017 <https://doi.org/10.1016/j.ijheatfluidflow.2018.05.017>`_
 
-.. [Kok2000] Kok, Johannes Christiaan, and Stephanus Petrus Spekreijse. "Efficient and accurate implementation of the k-omega turbulence model in the NLR multi-block Navier-Stokes system." (2000).
+.. [Kok2000] Kok, Johannes Christiaan, and Stephanus Petrus Spekreijse. "Efficient and accurate implementation of the k-omega turbulence model in the NLR multi-block Navier-Stokes system." tech. rep. NLR-RP-2000-144, National Aerospace Laboratory NLR, The Netherlands (2000). `<http://hdl.handle.net/10921/822>`_
