@@ -1,9 +1,9 @@
 -2                    spatial dimension
-4                     number of fields (U T TKE Omg)
+1                     number of fields (U)          
 #=======================================================================
 #
 #    Example of .box file for channel flow
-#    Note that the character bcs _must_ have 3 spaces.
+#    Note that the character bcs _must_ have 3 characters.
 #
 #=======================================================================
 #
@@ -12,6 +12,3 @@ Box
 -0.5 0.5 1.0                             x0,x1,gain
 0.0 1.0 0.35
 P  ,P  ,SYM,W  
-P  ,P  ,SYM,I  
-P  ,P  ,SYM,t  
-P  ,P  ,SYM,t  

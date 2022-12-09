@@ -10,8 +10,8 @@ c-----------------------------------------------------------------------
       
       integer ix,iy,iz,e,eg
       
-      common /rans_usr/ ifld_k, ifld_omega, m_id
-      integer ifld_k,ifld_omega, m_id
+      common /rans_usr/ ifld_tke, ifld_tau, m_id
+      integer ifld_tke,ifld_tau, m_id
       
       real rans_mut,rans_mutsk,rans_mutso,rans_turbPrandtl
       real mu_t,Pr_t
@@ -21,16 +21,19 @@ c-----------------------------------------------------------------------
       Pr_t=rans_turbPrandtl()
       mu_t=rans_mut(ix,iy,iz,e)
       
-      utrans = cpfld(ifield,2)
       if(ifield.eq.1) then
-         udiff = cpfld(ifield,1)+mu_t
-      elseif(ifield.eq.2) then
-         udiff = cpfld(ifield,1)+mu_t*cpfld(ifield,2)/(Pr_t*cpfld(1,2))
-      elseif(ifield.eq.ifld_k) then
-         udiff = cpfld(1,1)+rans_mutsk(ix,iy,iz,e)
-      elseif(ifield.eq.ifld_omega) then
-         udiff = cpfld(1,1)+rans_mutso(ix,iy,iz,e)
-      endif
+        udiff  = cpfld(ifield,1)+mu_t
+        utrans = cpfld(ifield,2)
+      else if(ifield.eq.2) then
+        udiff  = cpfld(ifield,1)+mu_t*cpfld(ifield,2)/(Pr_t*cpfld(1,2))
+        utrans = cpfld(ifield,2)
+      else if(ifield.eq.ifld_tke) then
+        udiff  = cpfld(1,1)+rans_mutsk(ix,iy,iz,e)
+        utrans = cpfld(1,2)
+      else if(ifield.eq.ifld_tau) then
+        udiff  = cpfld(1,1)+rans_mutso(ix,iy,iz,e)
+        utrans = cpfld(1,2)
+      end if
       
       return
       end
@@ -61,11 +64,11 @@ c-----------------------------------------------------------------------
       include 'TOTAL'
       include 'NEKUSE'
 
-      common /rans_usr/ ifld_k, ifld_omega, m_id
-      integer ifld_k,ifld_omega, m_id
+      common /rans_usr/ ifld_tke, ifld_tau, m_id
+      integer ifld_tke,ifld_tau, m_id
 
       real rans_kSrc,rans_omgSrc
-	  real rans_kDiag,rans_omgDiag
+      real rans_kDiag,rans_omgDiag
 
       integer ie,ix,iy,iz,ieg
       ie = gllel(ieg)
@@ -73,13 +76,13 @@ c-----------------------------------------------------------------------
       if (ifield.eq.2) then
         qvol = 0.0 
         avol = 0.0
-      elseif (ifield.eq.ifld_k) then
+      else if (ifield.eq.ifld_tke) then
         qvol = rans_kSrc  (ix,iy,iz,ie)
         avol = rans_kDiag (ix,iy,iz,ie)
-      elseif (ifield.eq.ifld_omega) then
+      else if (ifield.eq.ifld_tau) then
         qvol = rans_omgSrc (ix,iy,iz,ie)
         avol = rans_omgDiag(ix,iy,iz,ie)
-      endif
+      end if
 
       return
       end
@@ -91,21 +94,26 @@ c-----------------------------------------------------------------------
       include 'NEKUSE'
 c
       integer ix,iy,iz,iside,e,eg
-	  
-      common /rans_usr/ ifld_k, ifld_omega, m_id
-      integer ifld_k,ifld_omega, m_id
+      character*3 cb1
+  
+      common /rans_usr/ ifld_tke, ifld_tau, m_id
+      integer ifld_tke,ifld_tau, m_id
       
       e = gllel(eg)
+      cb1 = cbc(iside,e,1) !velocity boundary condition
 
       ux   = 0.0
       uy   = 0.0
       uz   = 0.0
+      temp = 0.0
       
-      if(ifield.eq.ifld_k) then
-         temp = 0.0
-      elseif(ifield.eq.ifld_omega) then
-         temp = 0.0
-      endif
+      if(cb1.eq.'W  ') then
+        if(ifield.eq.ifld_tke) then
+          temp = 0.0
+        else if(ifield.eq.ifld_tau) then
+          temp = 0.0
+        end if
+      end if
 
       return
       end
@@ -118,8 +126,8 @@ c-----------------------------------------------------------------------
 
       integer ix,iy,iz,e,eg
 
-      common /rans_usr/ ifld_k, ifld_omega, m_id
-      integer ifld_k,ifld_omega, m_id
+      common /rans_usr/ ifld_tke, ifld_tau, m_id
+      integer ifld_tke,ifld_tau, m_id
       
       e = gllel(eg)
       
@@ -128,8 +136,8 @@ c-----------------------------------------------------------------------
       uz   = 0.0
       temp = 0.0
 
-      if(ifield.eq.ifld_k) temp = 0.01
-      if(ifield.eq.ifld_omega) temp = 0.2
+      if(ifield.eq.ifld_tke) temp = 0.01
+      if(ifield.eq.ifld_tau) temp = 0.2
       
       return
       end
@@ -163,33 +171,32 @@ c-----------------------------------------------------------------------
       real wd
       common /walldist/ wd(lx1,ly1,lz1,lelv)
 
-      common /rans_usr/ ifld_k, ifld_omega, m_id
-      integer ifld_k,ifld_omega, m_id
+      common /rans_usr/ ifld_tke, ifld_tau, m_id
+      integer ifld_tke,ifld_tau, m_id
 
-      integer w_id,imid,i
+      integer w_id
       real coeffs(30) !array for passing your own coeffs
       logical ifcoeffs
       
-      ifld_k     = 3 !address of tke equation in t array
-      ifld_omega = 4 !address of omega equation in t array
-      ifcoeffs=.false. !set to true to pass your own coeffs
+      ifld_tke = 3 !address of tke equation in t array
+      ifld_tau = 4 !address of omega equation in t array
+      ifcoeffs =.false. !set to true to pass your own coeffs
 
 C     Supported models:
-c      m_id = 0 !regularized standard k-omega (no wall functions)
-c      m_id = 1 !regularized low-Re k-omega (no wall functions)
-c      m_id = 2 !regularized standard k-omega SST (no wall functions)
-c      m_id = 3 !non-regularized standard k-omega (wall functions)
-      m_id = 4                  !non-regularized standard k-tau
-c      m_id = 5 !non-regularized low Re k-tau 
-c      m_id = 6 !non-regularized standard k-tau SST
+c     m_id = 0 !regularized standard k-omega (no wall functions)
+c     m_id = 1 !regularized low-Re k-omega (no wall functions)
+c     m_id = 2 !regularized standard k-omega SST (no wall functions)
+c     m_id = 3 !Not supported
+      m_id = 4 !standard k-tau
+c     m_id = 5 !low Re k-tau 
+c     m_id = 6 !standard k-tau SST
 
 C     Wall distance function:
-c     use w_id = 2 for wallfunctions      
-c      w_id = 0                  ! user specified
-c      w_id = 1 ! cheap_dist (path to wall, may work better for periodic boundaries)
+c     w_id = 0 ! user specified
+c     w_id = 1 ! cheap_dist (path to wall, may work better for periodic boundaries)
       w_id = 2 ! distf (coordinate difference, provides smoother function)
 
-      call rans_init(ifld_k,ifld_omega,ifcoeffs,coeffs,w_id,wd,m_id)
+      call rans_init(ifld_tke,ifld_tau,ifcoeffs,coeffs,w_id,wd,m_id)
 
       return
       end

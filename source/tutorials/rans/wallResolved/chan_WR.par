@@ -18,18 +18,14 @@ density = 1.0
 viscosity = -125000.0
 residualTol = 1.0e-6
 
-[TEMPERATURE]
-solver = none
-rhoCp = 1.0
-conductivity = -500.0
-residualTol = 1.0e-6
-
-[SCALAR01] #k
+#tke
+[SCALAR01]
 density = 1.0
 diffusivity = -125000.0
 residualTol = 1.0e-6
 
-[SCALAR02] #tau
+#tau
+[SCALAR02]
 density = 1.0
 diffusivity = -125000.0
 residualTol = 1.0e-6

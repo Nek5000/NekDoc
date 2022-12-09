@@ -25,7 +25,7 @@ Before You Begin
 
 It is highly recommended that new users familiarize themselves with the basic Nek5000 simulation
 setup files and procedures outlined in the :ref:`fdlf` and :ref:`perhill` tutorials. Further, some 
-sections of the tutorial will assume familiarity with :ref:`rans` and :ref:`neknek` tutorials.
+sections of the tutorial will assume familiarity with :ref:`tutorial_rans` and :ref:`neknek` tutorials.
 
 ..........................
 Case Overview
@@ -384,7 +384,7 @@ User Routines (.usr file)
 ......................................... 
 
 Basics of the required setup routines for a NekNek simulation can be found in the :ref:`neknek` turorial, while for a RANS simulation
-in the :ref:`rans` tutorial. Although this section decribes all user routines required for a NekNek RANS simulation in detail, 
+in the :ref:`tutorial_rans` tutorial. Although this section decribes all user routines required for a NekNek RANS simulation in detail, 
 a comprehensive understanding of routines from these simpler cases is recommended before proceeding.
 
 Following headers are required at the beginning of ``.usr`` file for loading RANS related subroutines:
@@ -433,13 +433,13 @@ pin walls for temperature field while insulated, ``I``, is assigned to all other
 With regards to RANS initialization; ``m_id=4`` selects the :math:`k-\tau` RANS model and ``w_id=2`` selects the
 wall distance computing algorithm. :math:`k` and :math:`\tau` fields are stored in the 3rd and 4th index, respectively, 
 specified with ``ifld_k`` and ``ifld_omega``. Set ``ifcoeffs`` to ``.true.`` only if user specified RANS coefficients
-are required. For details on the RANS related parameters, refer :ref:`rans` tutorial.  
+are required. For details on the RANS related parameters, refer :ref:`tutorial_rans` tutorial.  
 
 :Note:
 	``rans_init`` must be called after populating ``cbc`` array
 
 For RANS simulation, diffusion coefficients are assigned in the ``uservp`` routine. The routine used here remains 
-nearly identical to the :ref:`rans` tutorial:
+nearly identical to the :ref:`tutorial_rans` tutorial:
 
 .. literalinclude:: multi_rans/inlet_bundle/inlet_bundle.usr
 	:language: fortran
@@ -450,7 +450,7 @@ molten sodium salts as compared to the default value of 0.85 (for air), which is
 function call.
 
 Source terms for the temperature and scalar equations are assigned through ``userq``. The routine here is identical
-to the basic :ref:`rans` case:
+to the basic :ref:`tutorial_rans` case:
 
 .. literalinclude:: multi_rans/inlet_bundle/inlet_bundle.usr
 	:language: fortran
