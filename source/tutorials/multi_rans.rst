@@ -72,46 +72,85 @@ These are shown below with the inlet nozzle domain in red and the pin bundle dom
    Component geometries including an inlet nozzle (red) connected to a wire-wrapped pin bundle (gray)
    
 The geometry is non-dimensionalized with respect to the pin diameter, :math:`D`. 
-The axial extent of the inlet nozzle component is :math:`z/D=[-4.75,0.25]` and the wire-pin bundle axial dimensions
-are :math:`z/D=[0,12.5]`.  The two components, therefore, have an axial overlap of :math:`\Delta z/D= 0.25`,
-while the lateral dimensions are conformal. 
+The axial extent of the inlet nozzle component is :math:`z/D=[-4.75,0.25]` and the wire-pin bundle axial dimensions are :math:`z/D=[0,12.5]`.  
+The two components, therefore, have an axial overlap of :math:`\Delta z/D= 0.25`,while the lateral dimensions are conformal. 
+The inlet nozzle has an inlet diameter of :math:`D_{in}/D=1.875`.dd 
 
 .. Note::
+
   A reasonable overlap in the computational domains is imperative for a robust ``NekNek`` simulation.
   As a general rule, increasing the extent of overlap will render more stability to the coupled solver.
 
-The Pitch-to-diameter ratio of the wire-pin bundle is 1.13 and the wire diameter is :math:`D_w=0.12875D`. 
-To prevent sharp corners, a fillet of diameter :math:`0.05 D` is introduced between the pin and the wire and the wire is slightly submerged in the pin by a distance of :math:`0.025D_w`.
-The side length of the hexagonal bundle is :math:`1.865D` and the diameter of the inlet nozzle boundary is :math:`1.875D`.
-The length of the bundle component is equal to the wire pitch, :math:`12.5 D`.
+The Pitch-to-diameter ratio of the wire-pin bundle is 1.13 and the wire diameter is :math:`D_w/D=0.12875`. 
+To prevent sharp corners, a fillet of diameter :math:`D_f/D=0.05` is introduced between the pin and the wire and the wire is slightly submerged in the pin by a distance of :math:`0.025D_w`.
+The side length of the hexagonal bundle is :math:`1.865D` and the diameter of the inlet nozzle boundary is :math:`D_{in}/D=1.875`.
+The length of the bundle component is equal to the wire pitch, :math:`L_b/D=12.5`.
+All geometric values are given in both dimensional and dimensionless form in the next section in :numref:`tab:nb_BC` along with other flow parameters.
 
 .....................................................
 Thermal-hydraulic Parameters and Boundary Conditions
 .....................................................
 
+For non-dimensionalizing this case, the pin diameter and inlet velocity are chosen as reference values.
+This leads to the definition of Reynolds number as
+
+.. math::
+
+  Re = \frac{U_{in}D_{pin}}{\nu}
+
+It is also useful to define the inlet Reynolds number as
+
+.. math::
+
+  Re_{in} = \frac{U_{in}D_{in}}{\nu}=\frac{D_{in}}{D_{pin}}Re
+
+and an alternate bundle Reynolds number as
+
+.. math::
+
+  Re_b = \frac{U_{b}D_h}{\nu}=\frac{A_{in}}{A_{b}}\frac{D_h}{D_{pin}}Re
+
+The bundle area is approximated as
+
+.. math::
+
+  A_b = A_{hex} - N_{pins}\frac{\pi}{4}\left( D_{pin}^2 + D_w^2\right)
+
+and the hydraulic diameter as
+
+.. math::
+
+  D_h = \frac{4 A_b}{P_{hex}+N_{pins}\pi\left(D_{pin}+D_w\right)}
+
+A value for the Reynolds number is chosen as :math:`Re = 32,000`.
 All flow and thermal properties are listed in :numref:`tab:nb_BC`. 
-A non-dimensional bulk velocity of  :math:`U_{in}=1` is specified at the inlet and inlet non-dimensional diameter is :math:`D_{in}=1.875 D`. 
-The hydraulic diameter of the pin-wire bundle is :math:`D_b\approx 0.398 D`. 
+
 A no-slip boundary condition is  specified on all walls and the corresponding values of :math:`k` and :math:`\tau` on the walls is zero. 
 A constant non-dimensional temperature :math:`T^*=1` is specified at the inlet and a non-dimensional heat flux of :math:`q'' =1` is applied on the pin walls from half axial length of the bundle. 
 An insulated wall condition is specified on all remaining boundaries. 
-A Prandtl number of 0.005 was chosen corresponding to liquid Sodium.
+A Prandtl number of 0.005 was chosen corresponding to liquid Sodium. 
 
 .. _tab:nb_BC:
 
 .. csv-table:: Flow and Thermal Properties 
-   :header: Parameter, Variable, Value
+   :header: Parameter, Variable, Dimensional Value, Dimensionless Value
 
-   Inlet Reynolds number, :math:`Re_{in}`, 60000                           
-   Bundle Reynolds number, :math:`Re_{b}`, 10000 (approx)                  
-   Dimensionless Kinematic visocity, :math:`\nu^*`, 3.125e-5                        
-   Prandtl Number, :math:`Pr`, 0.005                           
-   Peclet Number, :math:`Pe`, 160                             
-   Turbulent Prandtl number, :math:`Pr_t`, 1.5                             
+   Pin diameter, :math:`D_{pin}`, :math:`8` mm, :math:`1`
+   Inlet diameter, :math:`D_{in}`,:math:`15` mm ,:math:`1.875`
+   Hydraulic diameter,:math:`D_h`,:math:`3.06` mm,:math:`0.383`
+   Inlet velocity,:math:`U_{in}`,:math:`1.0` m/s,:math:`1`
+   Bundle velocity,:math:`U_b`,:math:`0.801` m/s,:math:`0.801`
+   Kinematic viscosity,:math:`\nu`,:math:`2.5\cdot(10^{-7})` m\ :sup:`2`\ /s,:math:`3.125\cdot(10^{-5})`
+   Reynolds number, :math:`Re`, -- , :math:`32000`
+   Inlet Reynolds number, :math:`Re_{in}`, -- , :math:`60000`                           
+   Bundle Reynolds number, :math:`Re_{b}`, --, :math:`9814`
+   Prandtl number, :math:`Pr`,--, :math:`0.005`                           
+   Peclet number, :math:`Pe`,--, :math:`160`               
+   Turbulent Prandtl number, :math:`Pr_t`,--, :math:`1.5`                             
 
-..............................
+...............
 Mesh Generation
-.............................. 
+............... 
 
 ########################
 Inlet Nozzle (exo2nek)
@@ -171,13 +210,16 @@ The output from ``exo2nek`` is shown below, where the expected user input is hig
    :language: none
    :emphasize-lines: 2,4,28,59,61
 	
-Following the above steps will generate the file ``inlet.re2`` in the current directory. Note that the 
-``sideSet ID`` for all mesh boundaries must be specified in the ``.exo`` file using the third-party 
-meshing software of user's choice. For the inlet nozzle component, the following IDs are assigned:
+Following the above steps will generate the file ``inlet.re2`` in the current directory. 
+For the inlet nozzle component, the following IDs are assigned:
 
  * 2 --> Nozzle inlet
- * 3 --> Interfacing surface (bundle surface)
+ * 3 --> Interfacing surface (nozzle outlet/bundle inlet)
  * 4 --> Walls
+
+.. Note::
+  The ``sideSet ID`` for all mesh boundaries must be specified in the ``.exo`` file using the third-party meshing software of user's choice. 
+  These values are accessible in *Nek5000* in the ``BoundaryID`` array.
 
 Return and move the mesh file to the parent directory:
 
@@ -203,11 +245,11 @@ script are specified in the header of the ``matlab/wire_mesher.m`` file, as show
 	:language: matlab
 	:lines: 1-20
 	
-All input variables are suitably annotated in the above code snippet. Although all input dimensions shown are in ``mm``, the 
-script eventually produces the wiremesh in non-dimensional units, normalized with pin diameter ``D``. It will usually
-take some heuristic experimentation to specify optimum parameters based on user requirements (such as resolution,
-number of elements) and to ensure that the mesh does not have Jacobian related errors. Critical parameters, that 
-control the mesh resolution and contribute towards a successful mesh, include: 
+All input variables are annotated in the above code snippet. 
+Although all input dimensions shown are in ``mm``, the script produces the wiremesh in non-dimensional units, normalized with pin diameter ``D``. 
+It will usually take some heuristic experimentation to specify optimum parameters based on user requirements (such as resolution, number of elements, etc.).
+Additionally some combinations of parameters may result in invalid elements with small or negative Jacobians. 
+Critical parameters, that control the mesh resolution and contribute towards a successful mesh, include: 
 
  * ``Df`` --> Higher fillet diameter will be less likely to cause any errors and produce a smoother mesh. Should be adjusted to a reasonable value.
  * ``T`` --> Trims off a portion of the wire to avoid pinching between the wire and neighboring pin. Typically set to ``0.05*Dw``.
@@ -222,15 +264,21 @@ control the mesh resolution and contribute towards a successful mesh, include:
  * ``Rowdist`` --> Controls layer width distribution percentage in radial direction, from interior to pin wall. Must add up to 100 and entries must be equal to ``Row``.
  * ``Lay`` --> Controls resolution in axial direction. Specifies number of elements in axial length equal to 60 degree rotation of wire.  
 
-The mesher is initiated by simply running the ``doall.sh`` bash script. Ensure that both Matlab and Python with numpy
-(tested with Python 3.8) are active before launching the script and that Fortran compilers are available. 
+.. Note::
+  If you encounter Jacobian errors with your mesh, try increasing the fillet diameter, ``Df`` or number of columns, ``Col``.
+
+The preset values included with the tarball should not be changed for this tutorial as the overlapping geometry between the components is fixed.
+The mesher is initiated by simply running the ``doall.sh`` bash script. 
+Ensure that both Matlab and Python with numpy (tested with Python 3.8) are active before launching the script and that either ``gfortran`` or ``ifort`` is available. 
+By default the ``wire2nek`` converter utility looks for ``gfortran``, to use ``ifort`` instead, the compiler script ``bundleMesh/wire2nek/compile_wire2nek`` must be modified.
 
 .. code-block:: console
 
    $ ./doall.sh
 	
-The script can take a while to complete. Upon completion it generates ``wire_out.rea`` mesh file, which is the 
-ASCII mesh file for Nek5000. Convert this into the binary format by running ``reatore2`` tool. Follow the prompts:
+The script can take a while to complete. 
+Upon completion it generates ``wire_out.rea`` mesh file, which is the ASCII mesh file for Nek5000. 
+Convert this into the binary format by running ``reatore2`` tool. Follow the prompts:
 
 .. code-block:: console
 
