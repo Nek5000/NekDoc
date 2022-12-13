@@ -1,0 +1,55 @@
+#!/usr/bin/env bash
+if [[ $# -lt 6 ]] || [[ $# -gt 7 ]]; then
+  echo "submission script for NekNek jobs"
+  echo "usage: \$ neknekk \"session 1\" \"session 2\" \"nodes for session 1\" \"nodes for session 2\" \"hours\" \"minutes\" \"(optional) ntasks-per-node\""
+  exit
+fi
+
+prj=neams
+
+ntpn=48
+[[ ! -z $7 ]] && ntpn=$7
+
+sess1=$1
+sess2=$2
+
+nn1=$3
+nn2=$4
+nnt=$(($nn1 + $nn2))
+np1=$(($nn1 * $ntpn))
+np2=$(($nn2 * $ntpn))
+
+ndss="nodes"
+[ $nnt -eq 1 ] && ndss="node"
+
+hrs=`printf "%02u" $5`
+mns=`printf "%02u" $6`
+
+echo "submitting NekNek job on $nnt $ndss ($ntpn ranks per node) for $hrs:$mns"
+
+echo "     session \"$sess1\" on $np1 ranks, session \"$sess2\" on $np2 ranks"
+echo "#!/bin/bash"                                    >  "neknek.batch"
+echo "#PBS -N neknek"                                 >> "neknek.batch"
+echo "#PBS -l select=$nnt:ncpus=$ntpn:mpiprocs=$ntpn" >> "neknek.batch"
+echo "#PBS -l walltime=$hrs:$mns:00"                  >> "neknek.batch"
+echo "#PBS -j oe"                                     >> "neknek.batch"
+echo "#PBS -P $prj"                                   >> "neknek.batch"
+echo "#PBS -o $1.out"                                 >> "neknek.batch"
+echo "cd \$PBS_O_WORKDIR"                             >> "neknek.batch"
+echo "export OMP_NUM_THREADS=1"                       >> "neknek.batch"
+echo "echo 2 > SESSION.NAME"                          >> "neknek.batch"
+echo "echo T >> SESSION.NAME"                         >> "neknek.batch"
+echo "echo " $sess1 " >> SESSION.NAME"                >> "neknek.batch"
+echo "echo \`pwd\`'/' >> SESSION.NAME"                >> "neknek.batch"
+echo "echo " $np1 " >> SESSION.NAME"                  >> "neknek.batch"
+echo "echo " $sess2 " >> SESSION.NAME"                >> "neknek.batch"
+echo "echo \`pwd\`'/' >> SESSION.NAME"                >> "neknek.batch"
+echo "echo " $np2 " >> SESSION.NAME"                  >> "neknek.batch"
+echo rm -f  *.sch                                     >> "neknek.batch"
+echo rm -f ioinfo                                     >> "neknek.batch"
+echo "module purge"                                   >> "neknek.batch"
+echo "module load openmpi/4.0.5_ucx1.9_gcc4.9.4"      >> "neknek.batch"
+echo "mpirun ./nek5000 > logfile"                     >> "neknek.batch"
+qsub neknek.batch
+sleep 3
+qstat -u `whoami`

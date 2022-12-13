@@ -44,3 +44,7 @@ References
 .. [Tombo2018] Tomboulides, A., S. M. Aithal, P. F. Fischer, E. Merzari, A. V. Obabko, and D. R. Shaver. "A novel numerical treatment of the near-wall regions in the k−ω class of RANS models." International Journal of Heat and Fluid Flow 72 (2018): 186-199. `doi.org/10.1016/j.ijheatfluidflow.2018.05.017 <https://doi.org/10.1016/j.ijheatfluidflow.2018.05.017>`_
 
 .. [Kok2000] Kok, Johannes Christiaan, and Stephanus Petrus Spekreijse. "Efficient and accurate implementation of the k-omega turbulence model in the NLR multi-block Navier-Stokes system." tech. rep. NLR-RP-2000-144, National Aerospace Laboratory NLR, The Netherlands (2000). `<http://hdl.handle.net/10921/822>`_
+
+.. [Grandy2007] Grandy, C. et al. "Advanced Burner Reactor 1000MWth Reference Concept." tech. rep. ANL-ABR-4, Argonne National Laboratory, Lemont, IL (2007). `doi.org/10.2172/946035 <https://doi.org/10.2172/946035>`_
+
+.. [Yoon2021] Yoon, S.J., Shaver, D. and Heidet, F. "CFD Evaluation of Local Pressure Losses in a Sodium-cooled Fast Reactor Fuel Bundle." Proc. of. 2021 ANS Virtual Annual Meeting. (2021)

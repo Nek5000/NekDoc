@@ -7,6 +7,7 @@ Multi-Component RANS
 This is an advanced tutorial comprising RANS simulation in a multi-component geometry. 
 The components include an inlet nozzle coupled with a wire-pin bundle. 
 Given the scale of the geometry and mesh used in this  tutorial, it is assumed that the user has access to a computing cluster for running the case. 
+The final mesh for the inlet nozzle contains 662,360 hexahedral elements and the wire-wrapped fuel bundle contains 207,360 hexahedral elements.
 The NekNek module is used for interfacing between the two components, allowing for runtime transfer of field data and coupled simultaneous solution of the flow and temperature equations. 
 The tutorial employs several advanced  Nek5000 tools, procedures and user routines including
 
@@ -54,7 +55,7 @@ It has the following directories and files, discussed in detail in the following
 * ``bundle.par`` --> Nek5000 parameter file.
 * ``SPLINE`` --> Common block Fortran file for spline interpolation.
 * ``InletProf.dat`` --> Inlet condition data file.
-* ``neksaw`` --> Sample script for launching NekNek job (on Sawtooth cluster).
+* ``neknekk`` --> Sample script for launching NekNek job (on Sawtooth cluster).
 
 ..............................
 Geometry Description
@@ -62,6 +63,7 @@ Geometry Description
 
 The geometry under consideration consists of two components including an inlet nozzle connected to a wire-wrapped pin bundle.
 These are shown below with the inlet nozzle domain in red and the pin bundle domain in light gray. 
+The bundle geometry is based loosely on the Advanced Burner Reactor [Grandy2007]_ and the inlet nozzle is based on designs considered for the Versatile Test Reactor [Yoon2021]_.
 
 .. _fig:sfr_geom:
 
@@ -136,6 +138,7 @@ A Prandtl number of 0.005 was chosen corresponding to liquid Sodium.
    :header: Parameter, Variable, Dimensional Value, Dimensionless Value
 
    Pin diameter, :math:`D_{pin}`, :math:`8` mm, :math:`1`
+   Wire diameter, :math:`D_{w}`, :math:`1.03` mm, :math:`0.129`
    Inlet diameter, :math:`D_{in}`,:math:`15` mm ,:math:`1.875`
    Hydraulic diameter,:math:`D_h`,:math:`3.06` mm,:math:`0.383`
    Inlet velocity,:math:`U_{in}`,:math:`1.0` m/s,:math:`1`
@@ -161,7 +164,7 @@ In this case, the mesh was saved as an ``EXODUS II (.exo)`` mesh file.
 *Nek5000* offers the ``exo2nek`` mesh conversion tool for converting an ``.exo`` mesh file to ``.re2`` format, as well as ``gmsh2nek`` for converting ``.msh`` files from Gmsh.
 
 By default, all Nektools support only 150,000 elements. 
-To run this case, ``exo2nek`` and ``gencon`` will need to be compiled with support for more than 1,000,000 elements. 
+To run this case, ``exo2nek`` and ``gencon`` will need to be compiled with support for considerably more elements. 
 To do this, go to the ``Nek5000/tools`` directory and edit the ``maketools`` file.
 
 .. code-block:: console
@@ -169,7 +172,7 @@ To do this, go to the ``Nek5000/tools`` directory and edit the ``maketools`` fil
   $ cd ~/Nek5000/tools
   $ vi maketools
 
-Uncomment the line specifying the maximum number of elements and change it to a large value, such as that shown on the highlighted line below.
+Uncomment the line specifying the maximum number of elements and change it to a value larger than the number of elements in the largest mesh, such as that shown on the highlighted line below.
 
 .. literalinclude:: multi_rans/maketools
    :emphasize-lines: 4
@@ -188,16 +191,17 @@ The ``exo2nek`` and ``gencon`` tools can then be recompiled with
 The above command will compile the ``exo2nek`` and ``genmap`` tools. 
 The latter is required for :ref:`generating the mesh connectivity <multi_gencon>` file at a later step.  
 
-
 Currently, ``exo2nek`` supports the following mesh elements,
 
- * ``TET4``
- * ``WEDGE6``
- * ``HEX8``
- * ``HEX20``
+ * 1\ :sup:`st` order tetrahedra, ``TET4``
+ * 1\ :sup:`st` order wedges, ``WEDGE6``
+ * 1\ :sup:`st` order hexahedra, ``HEX8``
+ * 2\ :sup:`nd` order hexahedra, ``HEX20``
 
-The user must ensure that the third-party mesh comprises only the above listed element types. Navigate to the folder 
-containing inlet mesh and run ``exo2nek``.
+The user must ensure that the third-party mesh comprises only the above listed element types. 
+The ``inlet.exo`` file included with this tutorial contains 165590 ``TET4`` elements.
+The ``exo2nek`` tool includes built-in tet-to-hex and wedge-to-hex conversions, so the 165590 tetrahedral elements will be converted to 662360 hexahedral elements.
+Navigate to the folder containing inlet mesh and run ``exo2nek``.
 
 .. code-block:: console
 	
@@ -218,7 +222,7 @@ For the inlet nozzle component, the following IDs are assigned:
  * 4 --> Walls
 
 .. Note::
-  The ``sideSet ID`` for all mesh boundaries must be specified in the ``.exo`` file using the third-party meshing software of user's choice. 
+  The ``sideSet ID`` for all mesh boundaries must be specified in the ``.exo`` file using the third-party meshing software of the user's choice. 
   These values are accessible in *Nek5000* in the ``BoundaryID`` array.
 
 Return and move the mesh file to the parent directory:
@@ -270,15 +274,17 @@ Critical parameters, that control the mesh resolution and contribute towards a s
 The preset values included with the tarball should not be changed for this tutorial as the overlapping geometry between the components is fixed.
 The mesher is initiated by simply running the ``doall.sh`` bash script. 
 Ensure that both Matlab and Python with numpy (tested with Python 3.8) are active before launching the script and that either ``gfortran`` or ``ifort`` is available. 
-By default the ``wire2nek`` converter utility looks for ``gfortran``, to use ``ifort`` instead, the compiler script ``bundleMesh/wire2nek/compile_wire2nek`` must be modified.
+By default the ``wire2nek`` converter utility looks for ``gfortran``.
+To use ``ifort`` instead, the compiler script ``bundleMesh/wire2nek/compile_wire2nek`` must be modified.
 
 .. code-block:: console
 
    $ ./doall.sh
 	
 The script can take a while to complete. 
-Upon completion it generates ``wire_out.rea`` mesh file, which is the ASCII mesh file for Nek5000. 
-Convert this into the binary format by running ``reatore2`` tool. Follow the prompts:
+Upon completion it generates the ``wire_out.rea`` mesh file, which is a legacy ASCII mesh file for *Nek5000*. 
+Convert this into the binary format by running the ``reatore2`` tool. 
+Follow the prompts:
 
 .. code-block:: console
 
@@ -290,13 +296,14 @@ Convert this into the binary format by running ``reatore2`` tool. Follow the pro
    Input .rea/.re2 output name:
    bundle
 	
-We finally obtain the ``bundle.re2`` file which contains the pin-wire bundle mesh for Nek5000 run. Boundary IDs
-are assigned by the ``wiremesher`` as:
+We finally obtain the ``bundle.re2`` file which contains the pin-wire bundle mesh for Nek5000 run. 
+Boundary IDs are assigned by the ``wiremesher`` as:
 
  * 1 --> Fuel pin walls
  * 2 --> Bundle hexagonal (outer) walls
  * 3 & 4 --> Axial end surfaces
 
+which are available in the ``.usr`` file in the ``BoundaryID`` array.
 Return and move the mesh file to the parent directory:
 
 .. code-block:: console
@@ -311,62 +318,61 @@ Return and move the mesh file to the parent directory:
 Generating Connectivity file (.co2)
 ####################################
 
-After generating the mesh files for both components, it is necessary to generate the corresponding connectivity files
-using ``gencon`` tool. Note that using ``gencon`` tool instead of ``genmap``, which generates  map (``.ma2``) file, is the 
-recommended procedure for large meshes. See :ref:`build_pplist` for details. 
+After generating the mesh files for both components, it is necessary to generate the corresponding connectivity files using the ``gencon`` tool. 
+Note that using ``gencon`` instead of ``genmap``, which generates  map (``.ma2``) file, is the recommended procedure for large meshes. 
 
-Users must include ``PARRSB`` in the ``PPLIST`` in ``makenek`` file (location: Nek5000/bin/makenek) which instructs Nek5000
-to partition the mesh during run-time and requires ``.co2`` file instead of ``.ma2`` for running the case. 
+.. Note::
 
-Run ``gencon`` from the parent folder for each mesh file. Users will be prompted to specify the mesh file name and tolerance.
-Use 0.01 for inlet and 0.2 (default) for bundle mesh:
+  If compiled to support a large number of elements, ``genmap`` can be used to generate the ``.ma2`` file as an alternative to ``gencon`` and parRSB.
+  However, for large meshes this can take a *very* long time.
 
-.. code-block:: console
+Users must include ``PARRSB`` in the ``PPLIST`` in the ``makenek`` file, which instructs *Nek5000* to partition the mesh during run-time and requires the ``.co2`` file instead of the ``.ma2`` for running the case. 
+It is recommended to copy ``makenek`` from ``Nek5000/bin`` into the project directory to edit, rather than editing the version in ``Nek5000/bin`` directly, as this may have unintended side-effects when trying to recompile other cases.
+See :ref:`build_pplist` for details on ``PPLIST`` and ``makenek``.
+Run ``gencon`` from the parent folder for each mesh file. 
+Users will be prompted to specify the mesh file name and tolerance.
+Use 0.01 for inlet and 0.2 (default) for the bundle mesh:
 
-	Input .rea / .re2 name:
-	inlet
-	reading inlet.re2                                                                   
-	Input mesh tolerance (default 0.2):
-	0.01
-	
-.. code-block:: console
+.. literalinclude:: multi_rans/gencon.inlet
+   :language: none
+   :emphasize-lines: 2,5
 
-	Input .rea / .re2 name:
-	bundle
-	reading bundle.re2                                                                   
-	Input mesh tolerance (default 0.2):
-	0.2
-	
-The above will generate ``inlet.co2`` and ``bundle.co2`` connectivity files, respectively.
+.. literalinclude:: multi_rans/gencon.bundle
+   :language: none
+   :emphasize-lines: 2,5
+
+The above will generate the ``inlet.co2`` and ``bundle.co2`` connectivity files, respectively.
 
 .........................................
 Parameter File (.par)
 .........................................
 
-``NEKNEK`` requires separate ``.par`` file for each of the components. The files are included in the parent folder and shown below:
+``NEKNEK`` requires separate ``.par`` files for each of the components. 
+The files are included in the parent folder and shown below:
 
 .. literalinclude:: multi_rans/inlet_bundle/inlet.par
-	:language: ini
+   :language: ini
 	
 .. literalinclude:: multi_rans/inlet_bundle/bundle.par
-	:language: ini
+   :language: ini
 	
-Both parameter files are identical, except for one important difference. To restart the case from
-any given time, separate restart file names should be specified to the ``startFrom`` parameter. It is critical that the
-properties and time step size are identical for both ``.par`` files. Values are assigned in dimensionless form;
-density is set to unity, viscosity and diffusivity are set to :math:`1/\nu^*` and conductivity to Peclet number 
-(-ve sign indicates that solver is run in dimensionless form).
+Both parameter files are identical, except for one important difference. 
+To restart the case from any given time, separate restart file names should be specified to the ``startFrom`` parameter. 
+It is critical that the properties and time step size are identical for both ``.par`` files. 
+Values are assigned in dimensionless form -- density is set to unity, viscosity and diffusivity are set to :math:`-Re` and conductivity to :math:`-Pe`.
+The negative values indicate that the solver is run in dimensionless form.
 
-Note that given the large size of meshes, the ``preconditioner`` must be set to ``semg_amg_hypre``. This invokes the algebraic
-multigrid (AMG) solver for pressure instead of the default ``XXT`` solver. The AMG preconditioner requires third party ``HYPRE``
-libraries which must be included in the preprocessor list option in ``makenek`` file (location: Nek5000/bin/makenek). 
+Note that given the large size of meshes, the ``preconditioner`` must be set to ``semg_amg_hypre``. 
+This invokes the algebraic multigrid (AMG) solver for pressure instead of the default ``XXT`` solver. 
+The AMG preconditioner requires third party ``HYPRE`` libraries which must be included in the preprocessor list option in the ``makenek`` file.
+It is recommended to copy ``makenek`` from ``Nek5000/bin`` into the project directory to edit.
 Also including the ``PARRSB`` option, as mentioned earlier, the ``PPLIST`` therefore is:
 
 .. code-block:: console
 	
 	PPLIST = "HYPRE PARRSB"
 
-Further details on all parameters of ``.par`` file can be found :ref:`here <case_files_par>`.
+Further details on all parameters of ``.par`` file can be found :ref:`here <case_files_par>` and further information on ``PPLIST`` is available :ref:`here <build_pplist>`. 
  
 .........................................
 User Routines (.usr file)
@@ -396,7 +402,8 @@ For computational savings, we maintain first order temporal extrapolation for th
 and must be equal to 7 for 3D RANS cases (3 velocity, 1 pressure and 3 scalar field arrays - temperature,
 :math:`k` and :math:`\tau`).
 
-:Note:
+.. Note::
+
 	Ensure that proper common block headers are included in subroutines. ``NEKNEK`` header is required 
 	for routines where ``idsess`` needs to be accessed, as shown below.
 	
@@ -424,7 +431,8 @@ wall distance computing algorithm. :math:`k` and :math:`\tau` fields are stored 
 specified with ``ifld_k`` and ``ifld_omega``. Set ``ifcoeffs`` to ``.true.`` only if user specified RANS coefficients
 are required. For details on the RANS related parameters, refer :ref:`tutorial_rans` tutorial.  
 
-:Note:
+.. Note::
+
 	``rans_init`` must be called after populating ``cbc`` array
 
 For RANS simulation, diffusion coefficients are assigned in the ``uservp`` routine. The routine used here remains 
@@ -493,15 +501,22 @@ set to 2 for ``NEKNEK`` simulation. Other details on the contents of the ``SIZE`
 Compilation and Running
 ..............................
 
-Compile from the parent directory with the usual command ``makenek``. 
+Compile from the parent directory with the command ``$ ./makenek``. 
 
-A sample script for running the case on a cluster computing environment is included in the tar file (``neksaw``). 
-The command in the script that launches the ``NEKNEK`` job is
+.. Warning::
 
-.. code-block:: console
+  The ``makenek`` file was copied from ``Nek5000/bin`` and edited specifically for this case. 
+  It is imperative to include ``./`` in front of ``makenek`` to ensure the terminal environment executes the local version of ``makenek`` instead of the version in ``Nek5000/bin``.
 
-	neknek inlet bundle $((ntpn*nodes/2)) $((ntpn*nodes/2))
-	
+A sample script for running the case on a cluster computing environment is included in the tar file (``neknekk``). 
+This script is specific to the PBS job scheduler on the `Sawtooth cluster at Idaho National Laboratory <https://hpc.inl.gov/SitePages/Home.aspx>`_.
+It is offered only as an example.
+Work with your local system administrator to develop a script to run on the cluster you have access to.
+
+.. literalinclude:: multi_rans/neknekk
+   :language: bash
+
+
 Here, ``nodes`` variable is the user input on number of nodes assigned for the job. ``ntpn`` is the number of processors/threads 
 per node. First two parameters are the names of the component meshes and the following two parameters specify the number of total
 threads used for each session, respectively. We use equal number of threads for this turorial, but the user may modify the
@@ -510,10 +525,13 @@ the script is launched as follows:
 
 .. code-block:: console 
 	
-	./neksaw inlet_bundle 40 4 30
+	./neknekk inlet bundle 30 10 4 30
 	
-The above runs ``NEKNEK`` job on 40 nodes (20 dedicated to each session) for 4 hours and 30 minutes. Remember to specify
-the project name before launching, assigned to ``prj`` variable in the ``neksaw`` script file.
+The above submits a ``NEKNEK`` job on 40 nodes (30 dedicated to the inlet nozzle and 10 dedicated to the wire-wrapped bundle) for 4 hours and 30 minutes. 
+
+.. Note:: 
+
+  When running any NekNek case, the number of nodes for each session should be proportional to the number of elements.
 
 ..............................
 Helpful Tips

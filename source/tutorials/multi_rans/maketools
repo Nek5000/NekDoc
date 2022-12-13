@@ -1,7 +1,7 @@
 #!/bin/bash
 
 # maximum number of elements
-MAXNEL=2500000
+MAXNEL=1000000
 
 # binary path
 #bin_nek_tools=`cd ../bin && pwd`

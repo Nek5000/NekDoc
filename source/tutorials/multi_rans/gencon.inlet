@@ -1,0 +1,5 @@
+ Input .rea / .re2 name:
+inlet
+ reading inlet.re2
+ Input mesh tolerance (default 0.2):
+0.01
