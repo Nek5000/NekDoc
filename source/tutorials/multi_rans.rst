@@ -4,12 +4,11 @@
 Multi-Component RANS 
 -----------------------------------
 
-This is an advanced tutorial comprising RANS simulation in a multi-component geometry. The components
-include an inlet nozzle coupled with a wire-pin bundle. Given the scale of the geometry and mesh used in this 
-tutorial, it is assumed that the user has access to a computing cluster for running the case.
-NekNek module is used for interfacing between the two components, allowing for runtime transfer of field data
-and coupled simultaneous solve of flow and temperature equations. The tutorial employs several advanced 
-Nek5000 tools, procedures and user routines including,
+This is an advanced tutorial comprising RANS simulation in a multi-component geometry. 
+The components include an inlet nozzle coupled with a wire-pin bundle. 
+Given the scale of the geometry and mesh used in this  tutorial, it is assumed that the user has access to a computing cluster for running the case. 
+The NekNek module is used for interfacing between the two components, allowing for runtime transfer of field data and coupled simultaneous solution of the flow and temperature equations. 
+The tutorial employs several advanced  Nek5000 tools, procedures and user routines including
 
  * ``exo2nek`` for importing third party mesh file to Nek5000
  * ``reatore2`` for converting ASCII Nek5000 mesh to binary format
@@ -27,40 +26,42 @@ It is highly recommended that new users familiarize themselves with the basic Ne
 setup files and procedures outlined in the :ref:`fdlf` and :ref:`perhill` tutorials. Further, some 
 sections of the tutorial will assume familiarity with :ref:`tutorial_rans` and :ref:`neknek` tutorials.
 
+.. Warning::
+  The RANS models rely on setting an implicit source term for robustness. This is not supported in V19 or earlier versions of *Nek5000*. Any implementation of RANS models should use the latest master branch from github.
+
 ..........................
 Case Overview
 ..........................
 
 All required files for this tutorial can be downloaded using the following link:
 
- * :download:`inlet_bundle.tar <multi_rans/inlet_bundle.tar>`
+* :download:`inlet_bundle.tar <multi_rans/inlet_bundle.tar.gz>`
 
 Extract the above tar file and navigate to the ``inlet_bundle`` (parent) directory
 
 .. code-block:: console
 
-	tar -xvf inlet_bundle.tar
-	cd inlet_bundle
+ $ tar -xzvf inlet_bundle.tar.gz
+ $ cd inlet_bundle
 	
 It has the following directories and files, discussed in detail in the following sections:
 
- * ``inletMesh`` --> Directory containing inlet mesh related files.
- * ``bundleMesh`` --> Directory containing pin-wire bundle mesh related files.
- * ``SIZE`` --> Parameter file for defining problem size.
- * ``inlet_bundle.usr`` --> Fortran file for user specified subroutines.
- * ``inlet.par`` --> Nek5000 parameter file.
- * ``bundle.par`` --> Nek5000 parameter file.
- * ``SPLINE`` --> Common block Fortran file for spline interpolation.
- * ``InletProf.dat`` --> Inlet condition data file.
- * ``neksaw`` --> Sample script for launching NekNek job (on Sawtooth cluster).
- 
+* ``inletMesh`` --> Directory containing inlet mesh related files.
+* ``bundleMesh`` --> Directory containing pin-wire bundle mesh related files.
+* ``SIZE`` --> Parameter file for defining problem size.
+* ``inlet_bundle.usr`` --> Fortran file for user specified subroutines.
+* ``inlet.par`` --> Nek5000 parameter file.
+* ``bundle.par`` --> Nek5000 parameter file.
+* ``SPLINE`` --> Common block Fortran file for spline interpolation.
+* ``InletProf.dat`` --> Inlet condition data file.
+* ``neksaw`` --> Sample script for launching NekNek job (on Sawtooth cluster).
 
 ..............................
 Geometry Description
 ..............................
 
-The geometry under consideration consists of two components including an inlet nozzle connected to a
-wire-wrapped pin bundle, as shown: 
+The geometry under consideration consists of two components including an inlet nozzle connected to a wire-wrapped pin bundle.
+These are shown below with the inlet nozzle domain in red and the pin bundle domain in light gray. 
 
 .. _fig:sfr_geom:
 
@@ -68,53 +69,45 @@ wire-wrapped pin bundle, as shown:
    :align: center
    :figclass: align-center
 
-   Component geometries including an inlet nozzle (red) connected to a wire-wrapped pin bundle
+   Component geometries including an inlet nozzle (red) connected to a wire-wrapped pin bundle (gray)
    
 The geometry is non-dimensionalized with respect to the pin diameter, :math:`D`. 
-Axial extent of the inlet nozzle component is :math:`z/D=[-4.75,0.25]` and the wire-pin bundle axial dimensions
+The axial extent of the inlet nozzle component is :math:`z/D=[-4.75,0.25]` and the wire-pin bundle axial dimensions
 are :math:`z/D=[0,12.5]`.  The two components, therefore, have an axial overlap of :math:`\Delta z/D= 0.25`,
 while the lateral dimensions are conformal. 
 
-:Note:
-	A reasonable overlap in the computational domains is imperative for a robust ``NekNek`` simulation.
-	As a general rule, increasing the extent of overlap will render more stability to the coupled solver.
+.. Note::
+  A reasonable overlap in the computational domains is imperative for a robust ``NekNek`` simulation.
+  As a general rule, increasing the extent of overlap will render more stability to the coupled solver.
 
-Pitch-to-diameter ratio of the wire-pin bundle is 1.13 and the wire diameter is 
-:math:`D_w=0.12875D`. To prevent sharp corners, a fillet of diameter :math:`0.05 D` is introduced between the 
-pin and the wire and the wire is slightly submerged in the pin by a distance of :math:`0.025D_w`.
-The side length of the hexagonal bundle is :math:`1.865D` and the diameter of the inlet nozzle boundary 
-is :math:`1.875D`. Length of the bundle component is equal to the wire pitch.
+The Pitch-to-diameter ratio of the wire-pin bundle is 1.13 and the wire diameter is :math:`D_w=0.12875D`. 
+To prevent sharp corners, a fillet of diameter :math:`0.05 D` is introduced between the pin and the wire and the wire is slightly submerged in the pin by a distance of :math:`0.025D_w`.
+The side length of the hexagonal bundle is :math:`1.865D` and the diameter of the inlet nozzle boundary is :math:`1.875D`.
+The length of the bundle component is equal to the wire pitch, :math:`12.5 D`.
 
 .....................................................
 Thermal-hydraulic Parameters and Boundary Conditions
 .....................................................
 
-All flow and thermal properties are listed in :numref:`tab:nb_BC`. A non-dimensional bulk velocity of 
-:math:`U_{in}=1` is specified at the inlet and inlet non-dimensional diameter is :math:`D_{in}=1.875`.
-Hydraulic diameter of the pin-wire bundle is :math:`D_b\approx 0.398`. No-slip boundary condition is 
-specified on all walls and the corresponding values of :math:`k` and :math:`\tau` on the walls is zero.
-
-A constant non-dimensional temperature :math:`T^*=1` is specified at the inlet and a non-dimensional heat flux
-of :math:`q'' =1` is applied on the pin walls from half axial length of the bundle. Insulated wall condition
-is specified on all remaining boundaries.
+All flow and thermal properties are listed in :numref:`tab:nb_BC`. 
+A non-dimensional bulk velocity of  :math:`U_{in}=1` is specified at the inlet and inlet non-dimensional diameter is :math:`D_{in}=1.875 D`. 
+The hydraulic diameter of the pin-wire bundle is :math:`D_b\approx 0.398 D`. 
+A no-slip boundary condition is  specified on all walls and the corresponding values of :math:`k` and :math:`\tau` on the walls is zero. 
+A constant non-dimensional temperature :math:`T^*=1` is specified at the inlet and a non-dimensional heat flux of :math:`q'' =1` is applied on the pin walls from half axial length of the bundle. 
+An insulated wall condition is specified on all remaining boundaries. 
+A Prandtl number of 0.005 was chosen corresponding to liquid Sodium.
 
 .. _tab:nb_BC:
 
-.. table:: Flow and Thermal Properties 
+.. csv-table:: Flow and Thermal Properties 
+   :header: Parameter, Variable, Value
 
-   +--------------------------------------------------+--------------------------------+
-   |Inlet Reynolds number, :math:`Re_{in}`            |60000                           |
-   +--------------------------------------------------+--------------------------------+
-   |Bundle Reynolds number, :math:`Re_{b}`            |10000 (approx)                  |
-   +--------------------------------------------------+--------------------------------+
-   |Dimensionless Kinematic visocity, :math:`\nu^*`   |3.125e-5                        |
-   +--------------------------------------------------+--------------------------------+
-   |Prandtl Number, :math:`Pr`                        |0.005                           |
-   +--------------------------------------------------+--------------------------------+
-   |Peclet Number, :math:`Pe`                         |160                             |
-   +--------------------------------------------------+--------------------------------+
-   |Turbulent Prandtl number, :math:`Pr_t`            |1.5                             |
-   +--------------------------------------------------+--------------------------------+
+   Inlet Reynolds number, :math:`Re_{in}`, 60000                           
+   Bundle Reynolds number, :math:`Re_{b}`, 10000 (approx)                  
+   Dimensionless Kinematic visocity, :math:`\nu^*`, 3.125e-5                        
+   Prandtl Number, :math:`Pr`, 0.005                           
+   Peclet Number, :math:`Pe`, 160                             
+   Turbulent Prandtl number, :math:`Pr_t`, 1.5                             
 
 ..............................
 Mesh Generation
@@ -124,22 +117,38 @@ Mesh Generation
 Inlet Nozzle (exo2nek)
 ########################
 
-A third-party meshing tool (e.g., ANSYS ICEM) is required for generating the mesh for the inlet component,
-which must be saved as an ``EXODUS II (.exo)`` mesh file. Nek5000 offers the ``exo2nek`` mesh conversion tool
-for converting an ``.exo`` mesh file to ``.re2`` format. Ensure that the ``exo2nek`` tool is compiled, available
-in the  ``Nek5000/tools`` directory:
+A third-party meshing tool (e.g., ANSYS ICEM) is required for generating the mesh for the inlet component.
+In this case, the mesh was saved as an ``EXODUS II (.exo)`` mesh file. 
+*Nek5000* offers the ``exo2nek`` mesh conversion tool for converting an ``.exo`` mesh file to ``.re2`` format, as well as ``gmsh2nek`` for converting ``.msh`` files from Gmsh.
+
+By default, all Nektools support only 150,000 elements. 
+To run this case, ``exo2nek`` and ``gencon`` will need to be compiled with support for more than 1,000,000 elements. 
+To do this, go to the ``Nek5000/tools`` directory and edit the ``maketools`` file.
 
 .. code-block:: console
 
-	cd ~/Nek5000/tools
-	./maketools exo2nek gencon
+  $ cd ~/Nek5000/tools
+  $ vi maketools
 
-The above command will compile ``exo2nek`` and ``genmap`` tool. The latter is required for :ref:`generating mesh connectivity <multi_gencon>`
-file at a later step.  
+Uncomment the line specifying the maximum number of elements and change it to a large value, such as that shown on the highlighted line below.
 
-:Note:
-	Ensure that ``MAXNEL`` parameter in ``maketools.inc`` file is set to a high value. Default value is 150000. 
-	Set to a number greater than the number of elements in the mesh (1000000) before running the above command.
+.. literalinclude:: multi_rans/maketools
+   :emphasize-lines: 4
+
+The ``exo2nek`` and ``gencon`` tools can then be recompiled with
+
+.. code-block:: console
+
+  $ ./maketools exo2nek gencon
+
+.. Note::
+
+  If you still get errors about the tools not supporting enough elements, you may need to delete the binary in ``Nek5000/bin`` and corresponding ``*.o`` files in the tool's subdirectory manually before recompiling.
+  Executing ``$ ./makenek clean`` will also work, but this will delete all of the tools.
+
+The above command will compile the ``exo2nek`` and ``genmap`` tools. 
+The latter is required for :ref:`generating the mesh connectivity <multi_gencon>` file at a later step.  
+
 
 Currently, ``exo2nek`` supports the following mesh elements,
 
@@ -148,87 +157,19 @@ Currently, ``exo2nek`` supports the following mesh elements,
  * ``HEX8``
  * ``HEX20``
 
-User must ensure that the third-party mesh comprises only the above listed element types. Navigate to the folder 
-containing inlet mesh and run ``exo2nek``. Provide inputs to the prompts as shown:
+The user must ensure that the third-party mesh comprises only the above listed element types. Navigate to the folder 
+containing inlet mesh and run ``exo2nek``.
 
 .. code-block:: console
 	
-	cd inletMesh
-	exo2nek
-	
-	please input number of fluid exo files: 
-	1
+  $ cd inletMesh
+  $ exo2nek
 
-.. code-block:: console
+The output from ``exo2nek`` is shown below, where the expected user input is highlighted
 
-	please input exo file: 
-	inlet
-	
-.. code-block:: console
-
-	inlet.exo                        is an EXODUSII file; version 0.00
-	I/O word size 8
-
-	database parameters:
-
-	title         =  Created by ICEMCFD - EXODUS II Interface                            
-
-	num_dim       =        3
-	num_nodes     =    35901
-	num_elem      =   165590
-	num_elem_blk  =        1
-	num_side_sets =        3
-
-	element block id   =        1
-	element type       =    TETRA
-	num_elem_in_block  =   165590
-	num_nodes_per_elem =        4
-
-	TETRA4 is valid element in a 3D mesh.
-	assume linear hybrid mesh (tetra-hex-wedge)
-	one TETRA4 divide into 4 Nek hex elements
-	please input number of solid exo files for CHT problem (input 0 for no solid mesh): 
-	0
-	
-.. code-block:: console
-
-	done pre-read exo files
-	now converting to nek mesh
-
-
-	Store SideSet information from EXO file
-	Sideset  2 ...
-	Sideset  3 ...
-	Sideset  4 ...
-
-	Converting elements ...
-	flag1
-	flag2
-	Converting elements in block            1
-	nvert,                     4
-	Converted elements in nek:               662360
-	Done :: Converting elements
-	Domain max xyz:   1.8650400000000000        1.6151700000000000       0.25000000000000000
-	Domain min xyz:  -1.8650400000000000       -1.6151700000000002       -4.7500000000000000
-	total element now is                662360
-	fluid exo file            1  has elements       662360
-	calling: gather_bc_info()
-	done: gather_bc_info()
-	******************************************************
-	Boundary info summary
-	sideSet ID
-           2
-           3
-           4
-	******************************************************
-	Enter number of periodic boundary surface pairs:
-	0
-	
-
-.. code-block:: console
-
-	please give re2 file name: 
-	inlet
+.. literalinclude:: multi_rans/exo2nek.output
+   :language: none
+   :emphasize-lines: 2,4,28,59,61
 	
 Following the above steps will generate the file ``inlet.re2`` in the current directory. Note that the 
 ``sideSet ID`` for all mesh boundaries must be specified in the ``.exo`` file using the third-party 
@@ -242,8 +183,8 @@ Return and move the mesh file to the parent directory:
 
 .. code-block:: console
 
-	cd ../
-	mv inletMesh/inlet.re2 .
+   $ cd ../
+   $ mv inletMesh/inlet.re2 .
 
 #############################
 Wire-pin Bundle (wiremesher)
@@ -253,7 +194,7 @@ To generate the pin-wire bundle mesh, navigate to the ``wireMesh`` folder:
 
 .. code-block:: console
 
-	cd wireMesh
+   $ cd wireMesh
 	
 It contains two sub-directories, viz., ``wire2nek`` and ``matlab``. Input parameters for the meshing 
 script are specified in the header of the ``matlab/wire_mesher.m`` file, as shown:
@@ -281,25 +222,25 @@ control the mesh resolution and contribute towards a successful mesh, include:
  * ``Rowdist`` --> Controls layer width distribution percentage in radial direction, from interior to pin wall. Must add up to 100 and entries must be equal to ``Row``.
  * ``Lay`` --> Controls resolution in axial direction. Specifies number of elements in axial length equal to 60 degree rotation of wire.  
 
-The mesher is initiated by simply running the ``doall_binary`` bash file. Ensure that both Matlab and Python 
+The mesher is initiated by simply running the ``doall.sh`` bash script. Ensure that both Matlab and Python with numpy
 (tested with Python 3.8) are active before launching the script and that Fortran compilers are available. 
 
 .. code-block:: console
 
-	./doall_binary
+   $ ./doall.sh
 	
 The script can take a while to complete. Upon completion it generates ``wire_out.rea`` mesh file, which is the 
 ASCII mesh file for Nek5000. Convert this into the binary format by running ``reatore2`` tool. Follow the prompts:
 
 .. code-block:: console
 
-	Input .rea name:
-	wire_out
+   Input .rea name:
+   wire_out
 	
 .. code-block:: console
 
-	Input .rea/.re2 output name:
-	bundle
+   Input .rea/.re2 output name:
+   bundle
 	
 We finally obtain the ``bundle.re2`` file which contains the pin-wire bundle mesh for Nek5000 run. Boundary IDs
 are assigned by the ``wiremesher`` as:
@@ -312,8 +253,8 @@ Return and move the mesh file to the parent directory:
 
 .. code-block:: console
 
-	cd ../
-	mv bundleMesh/bundle.re2 .
+   $ cd ../
+   $ mv bundleMesh/bundle.re2 .
 
 
 .. _multi_gencon:

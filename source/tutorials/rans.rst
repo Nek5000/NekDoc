@@ -4,7 +4,7 @@
 RANS Channel
 ------------
 
-This tutorial describes the essential setup details for a RANS wall-resolved simulation, illustrated through a 2D channel case. 
+This tutorial describes the essential setup details for a wall-resolved RANS simulation, illustrated through a 2D channel case. 
 The :math:`k-\tau` RANS model is employed for this tutorial, which is the recommended RANS model in *Nek5000*. 
 Other RANS models, including the regularized :math:`k-\omega`, are also available.
 For more information see :ref:`here <intro_ktau>`. 
@@ -17,7 +17,7 @@ It is highly recommended that new users familiarize themselves with the basic *N
 setup files and procedures outlined in the :ref:`fdlf` and :ref:`perhill` tutorials before proceeding.
 
 .. Warning::
-  The RANS models rely on setting an implicit source term for robustness. This is not supported in V19 or earlier versions of *Nek5000*. Any implementation of RANS models should use the latest master branch from github
+  The RANS models rely on setting an implicit source term for robustness. This is not supported in V19 or earlier versions of *Nek5000*. Any implementation of RANS models should use the latest master branch from github.
 
 ..............................
 Mesh and Boundary Conditions
