@@ -25,8 +25,8 @@ c---------------------------------------------------------------------
       
       integer ix,iy,iz,e,eg
       
-      common /rans_usr/ ifld_k, ifld_omega, m_id
-      integer ifld_k,ifld_omega, m_id
+      common /rans_usr/ ifld_tke, ifld_tau, m_id
+      integer ifld_tke,ifld_tau, m_id
 
       real rans_mut,rans_mutsk,rans_mutso,rans_turbPrandtl
       real mu_t,Pr_t
@@ -36,15 +36,18 @@ c---------------------------------------------------------------------
       Pr_t=1.5                  !rans_turbPrandtl()
       mu_t=rans_mut(ix,iy,iz,e)
       
-      utrans = cpfld(ifield,2)
       if(ifield.eq.1) then
-         udiff = cpfld(ifield,1)+mu_t
+         udiff  = cpfld(ifield,1)+mu_t
+         utrans = cpfld(ifield,2)
       elseif(ifield.eq.2) then
-         udiff = cpfld(ifield,1)+mu_t*cpfld(ifield,2)/(Pr_t*cpfld(1,2))
-      elseif(ifield.eq.ifld_k) then
-         udiff = cpfld(1,1)+rans_mutsk(ix,iy,iz,e)
-      elseif(ifield.eq.ifld_omega) then
-         udiff = cpfld(1,1)+rans_mutso(ix,iy,iz,e)
+         udiff  = cpfld(ifield,1)+mu_t*cpfld(ifield,2)/(Pr_t*cpfld(1,2))
+         utrans = cpfld(ifield,2)
+      elseif(ifield.eq.ifld_tke) then
+         udiff  = cpfld(1,1)+rans_mutsk(ix,iy,iz,e)
+         utrans = cpfld(1,2)
+      elseif(ifield.eq.ifld_tau) then
+         udiff  = cpfld(1,1)+rans_mutso(ix,iy,iz,e)
+         utrans = cpfld(1,2)
       endif
       
       return
@@ -79,8 +82,8 @@ c---------------------------------------------------------------------
       include 'TOTAL'
       include 'NEKUSE'
       
-      common /rans_usr/ ifld_k, ifld_omega, m_id
-      integer ifld_k,ifld_omega, m_id
+      common /rans_usr/ ifld_tke, ifld_tau, m_id
+      integer ifld_tke,ifld_tau, m_id
       
       real rans_kSrc,rans_omgSrc
       real rans_kDiag,rans_omgDiag
@@ -91,10 +94,10 @@ c---------------------------------------------------------------------
       if(ifield.eq.2) then
          qvol = 0.0
          avol = 0.0
-      elseif(ifield.eq.ifld_k) then
+      elseif(ifield.eq.ifld_tke) then
          qvol = rans_kSrc  (ix,iy,iz,ie)
          avol = rans_kDiag (ix,iy,iz,ie)
-      elseif(ifield.eq.ifld_omega) then
+      elseif(ifield.eq.ifld_tau) then
          qvol = rans_omgSrc (ix,iy,iz,ie)
          avol = rans_omgDiag(ix,iy,iz,ie)
       endif
@@ -114,8 +117,8 @@ c---------------------------------------------------------------------
       real wd
       common /walldist/ wd(lx1,ly1,lz1,lelv)
 
-      common /rans_usr/ ifld_k, ifld_omega, m_id
-      integer ifld_k,ifld_omega, m_id
+      common /rans_usr/ ifld_tke, ifld_tau, m_id
+      integer ifld_tke,ifld_tau, m_id
       
       real uin,kin,tauin,wdist
       real din,zmid
@@ -139,7 +142,7 @@ c---------------------------------------------------------------------
       temp = 0.0
       flux = 0.0
       
-      id_face = bc(5,iside,e,1)
+      id_face = BoundaryID(iside,e)
 
       if(imask(ix,iy,iz,e).eq.0)then
          continue
@@ -157,8 +160,8 @@ c---------------------------------------------------------------------
          call init_prof(wdist,uin,kin,tauin) !Spline interpolation from InletProf.dat
          uz = uin
          if(ifield.eq.2)temp = 1.0
-         if(ifield.eq.ifld_k)temp = kin
-         if(ifield.eq.ifld_omega)temp = tauin
+         if(ifield.eq.ifld_tke)temp = kin
+         if(ifield.eq.ifld_tau)temp = tauin
       endif
       
 !     Heat flux on walls
@@ -185,8 +188,8 @@ c---------------------------------------------------------------------
       
       integer ix,iy,iz,e,eg
 
-      common /rans_usr/ ifld_k, ifld_omega, m_id
-      integer ifld_k,ifld_omega, m_id
+      common /rans_usr/ ifld_tke, ifld_tau, m_id
+      integer ifld_tke,ifld_tau, m_id
       
       e = gllel(eg)
       
@@ -196,8 +199,8 @@ c---------------------------------------------------------------------
       temp = 1.0
       
       if(ifield.eq.2) temp = 1.0
-      if(ifield.eq.ifld_k) temp = 0.01
-      if(ifield.eq.ifld_omega) temp = 0.2
+      if(ifield.eq.ifld_tke) temp = 0.01
+      if(ifield.eq.ifld_tau) temp = 0.2
       
       return
       end
@@ -220,6 +223,7 @@ c---------------------------------------------------------------------
       subroutine usrdat()
       include 'SIZE'
       include 'TOTAL'
+      include 'NEKNEK'
       
 !     ngeom - parameter controlling the number of iterations,
 !     set to ngeom=2 by default (no iterations)
@@ -246,8 +250,8 @@ c---------------------------------------------------------------------
       real wd
       common /walldist/ wd(lx1,ly1,lz1,lelv)
 
-      common /rans_usr/ ifld_k, ifld_omega, m_id
-      integer ifld_k,ifld_omega, m_id
+      common /rans_usr/ ifld_tke, ifld_tau, m_id
+      integer ifld_tke,ifld_tau, m_id
       
       integer w_id,imid,i
       real coeffs(30)           !array for passing your own coeffs
@@ -258,63 +262,49 @@ c---------------------------------------------------------------------
       if(idsess.eq.0)then       !BCs for inlet mesh
          do iel=1,nelt
             do ifc=1,2*ndim
-               id_face = bc(5,ifc,iel,1)
+               id_face = BoundaryID(ifc,iel)
                if (id_face.eq.2) then !inlet
                   cbc(ifc,iel,1) = 'v  '
                   cbc(ifc,iel,2) = 't  '
-                  cbc(ifc,iel,3) = 't  '
-                  cbc(ifc,iel,4) = 't  '
                elseif (id_face.eq.3) then !interface
                   cbc(ifc,iel,1) = 'int'
                   cbc(ifc,iel,2) = 'int'
-                  cbc(ifc,iel,3) = 'int'
-                  cbc(ifc,iel,4) = 'int'
                elseif (id_face.eq.4) then !walls
                   cbc(ifc,iel,1) = 'W  '
                   cbc(ifc,iel,2) = 'I  '
-                  cbc(ifc,iel,3) = 't  '
-                  cbc(ifc,iel,4) = 't  '
                endif
             enddo
          enddo
       else                      !BCs for pin-wire bundle mesh
          do iel=1,nelt
             do ifc=1,2*ndim
-               id_face = bc(5,ifc,iel,1)
+               id_face = BoundaryID(ifc,iel)
                if (id_face.eq.3) then !interface
                   cbc(ifc,iel,1) = 'int'
                   cbc(ifc,iel,2) = 'int'
-                  cbc(ifc,iel,3) = 'int'
-                  cbc(ifc,iel,4) = 'int'
                elseif (id_face.eq.4) then !outlet
                   cbc(ifc,iel,1) = 'O  '
                   cbc(ifc,iel,2) = 'O  '
-                  cbc(ifc,iel,3) = 'O  '
-                  cbc(ifc,iel,4) = 'O  '
                elseif (id_face.eq.1) then !pin walls
                   cbc(ifc,iel,1) = 'W  '
                   cbc(ifc,iel,2) = 'f  '
-                  cbc(ifc,iel,3) = 't  '
-                  cbc(ifc,iel,4) = 't  '
                elseif (id_face.eq.2) then !outer walls
                   cbc(ifc,iel,1) = 'W  '
                   cbc(ifc,iel,2) = 'I  '
-                  cbc(ifc,iel,3) = 't  '
-                  cbc(ifc,iel,4) = 't  '
                endif
             enddo
          enddo
       endif
       
 !     RANS initialization
-      ifld_k     = 3
-      ifld_omega = 4
+      ifld_tke = 3
+      ifld_tau = 4
       ifcoeffs=.false.
       
       m_id = 4       ! non-regularized standard k-tau
       w_id = 2       ! distf (coordinate difference, provides smoother function)
 
-      call rans_init(ifld_k,ifld_omega,ifcoeffs,coeffs,w_id,wd,m_id)
+      call rans_init(ifld_tke,ifld_tau,ifcoeffs,coeffs,w_id,wd,m_id)
 
       return
       end

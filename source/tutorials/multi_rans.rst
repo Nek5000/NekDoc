@@ -130,7 +130,7 @@ All flow and thermal properties are listed in :numref:`tab:nb_BC`.
 A no-slip boundary condition is  specified on all walls and the corresponding values of :math:`k` and :math:`\tau` on the walls is zero. 
 A constant non-dimensional temperature :math:`T^*=1` is specified at the inlet and a non-dimensional heat flux of :math:`q'' =1` is applied on the pin walls from half axial length of the bundle. 
 An insulated wall condition is specified on all remaining boundaries. 
-A Prandtl number of 0.005 was chosen corresponding to liquid Sodium. 
+A Prandtl number of 0.005 was chosen corresponding to liquid Sodium and an increased turbulent Prandtl number was chosen to account for turbulent mixing.
 
 .. _tab:nb_BC:
 
@@ -185,10 +185,10 @@ The ``exo2nek`` and ``gencon`` tools can then be recompiled with
 
 .. Note::
 
-  If you still get errors about the tools not supporting enough elements, you may need to delete the binary in ``Nek5000/bin`` and corresponding ``*.o`` files in the tool's subdirectory manually before recompiling.
-  Executing ``$ ./makenek clean`` will also work, but this will delete all of the tools.
+  If you still get errors about the tools not supporting enough elements, you may need to delete the ``exo2nek`` or ``gencon`` binary in ``Nek5000/bin`` and the corresponding ``*.o`` files in the tool's subdirectory manually before recompiling.
+  Executing ``$ ./maketools clean`` will also work, but this will delete **all** of the tools.
 
-The above command will compile the ``exo2nek`` and ``genmap`` tools. 
+The above command will compile the ``exo2nek`` and ``gencon`` tools. 
 The latter is required for :ref:`generating the mesh connectivity <multi_gencon>` file at a later step.  
 
 Currently, ``exo2nek`` supports the following mesh elements,
@@ -208,18 +208,26 @@ Navigate to the folder containing inlet mesh and run ``exo2nek``.
   $ cd inletMesh
   $ exo2nek
 
-The output from ``exo2nek`` is shown below, where the expected user input is highlighted
+The output from ``exo2nek`` is shown below, where the expected user input is highlighted below and the inputs are explained as:
+
+ * We are converting the file ``inlet.exo``, where the ``.exo`` file extension is implied.
+ * This case does not use a conjugate heat transfer model, so there are 0 solid ``.exo`` files.
+ * This case is not periodic, so there are 0 periodic boundary surface pairs.
+ * The produced file will be named ``inlet.re2``, where the ``.re2`` file extension is again implied.
 
 .. literalinclude:: multi_rans/exo2nek.output
    :language: none
    :emphasize-lines: 2,4,28,59,61
 	
 Following the above steps will generate the file ``inlet.re2`` in the current directory. 
-For the inlet nozzle component, the following IDs are assigned:
+For the inlet nozzle component, the following boundary IDs are assigned:
 
  * 2 --> Nozzle inlet
  * 3 --> Interfacing surface (nozzle outlet/bundle inlet)
  * 4 --> Walls
+
+These are generated from the sideset numbers assigned when generating the original mesh.
+As a basic sanity check, ``exo2nek`` prints out any sideset IDs it finds.
 
 .. Note::
   The ``sideSet ID`` for all mesh boundaries must be specified in the ``.exo`` file using the third-party meshing software of the user's choice. 
@@ -257,10 +265,10 @@ Critical parameters, that control the mesh resolution and contribute towards a s
 
  * ``Df`` --> Higher fillet diameter will be less likely to cause any errors and produce a smoother mesh. Should be adjusted to a reasonable value.
  * ``T`` --> Trims off a portion of the wire to avoid pinching between the wire and neighboring pin. Typically set to ``0.05*Dw``.
- * ``S`` --> Submerges the wire slightly into the pin to avoid sharp corners. Typically set to ``0.025*Dw``.
+ * ``S`` --> Submerges the wire slightly into the pin to avoid sharp corners. Typically set to :math:`0.025*Dw`.
  * ``Adjust`` --> Ensures trimming only occurs if wire passes neighboring pins. Typically set to 1.
  * ``iFtF`` --> (Deprecated) Adds a layer next to outer wall. Set to 0.
- * ``FtF_rescale`` --> (Deprecated) Inactive if ``iFtF=0``. 
+ * ``FtF_rescale`` --> (Deprecated) Inactive i:math:f ``iFtF=0``. 
  * ``G`` --> Controls gap between peripheral wire and outer wall. Adjust to needed value.
  * ``ne`` --> controls the number of pins in the radial direction. ``ne=2`` will produce a bundle with 7 pins, ``ne=3`` will produce 19 pins, and so on. 
  * ``Col`` --> Controls the resolution in the azimuthal direction.
@@ -319,16 +327,21 @@ Generating Connectivity file (.co2)
 ####################################
 
 After generating the mesh files for both components, it is necessary to generate the corresponding connectivity files using the ``gencon`` tool. 
-Note that using ``gencon`` instead of ``genmap``, which generates  map (``.ma2``) file, is the recommended procedure for large meshes. 
+Note that using ``gencon`` instead of ``genmap`` -- which generates  map (``.ma2``) files -- is the recommended procedure for large meshes. 
 
 .. Note::
 
   If compiled to support a large number of elements, ``genmap`` can be used to generate the ``.ma2`` file as an alternative to ``gencon`` and parRSB.
-  However, for large meshes this can take a *very* long time.
+  However, for large meshes this can take a **very** long time.
 
-Users must include ``PARRSB`` in the ``PPLIST`` in the ``makenek`` file, which instructs *Nek5000* to partition the mesh during run-time and requires the ``.co2`` file instead of the ``.ma2`` for running the case. 
-It is recommended to copy ``makenek`` from ``Nek5000/bin`` into the project directory to edit, rather than editing the version in ``Nek5000/bin`` directly, as this may have unintended side-effects when trying to recompile other cases.
+Users must include ``PARRSB`` in the ``PPLIST`` in the ``makenek`` file, which instructs *Nek5000* to partition the mesh at run-time and requires the ``.co2`` file instead of the ``.ma2`` file for running the case. 
 See :ref:`build_pplist` for details on ``PPLIST`` and ``makenek``.
+It is recommended to copy ``makenek`` from ``Nek5000/bin`` into the project directory to edit.
+
+.. Warning::
+
+  Editing the copy of ``makenek`` in the ``Nek5000/bin`` directory directly can have unintended side-effects when trying to recompile other cases.
+
 Run ``gencon`` from the parent folder for each mesh file. 
 Users will be prompted to specify the mesh file name and tolerance.
 Use 0.01 for inlet and 0.2 (default) for the bundle mesh:
@@ -347,7 +360,7 @@ The above will generate the ``inlet.co2`` and ``bundle.co2`` connectivity files,
 Parameter File (.par)
 .........................................
 
-``NEKNEK`` requires separate ``.par`` files for each of the components. 
+Using NekNek requires separate ``.par`` files for each of the components. 
 The files are included in the parent folder and shown below:
 
 .. literalinclude:: multi_rans/inlet_bundle/inlet.par
@@ -362,11 +375,17 @@ It is critical that the properties and time step size are identical for both ``.
 Values are assigned in dimensionless form -- density is set to unity, viscosity and diffusivity are set to :math:`-Re` and conductivity to :math:`-Pe`.
 The negative values indicate that the solver is run in dimensionless form.
 
-Note that given the large size of meshes, the ``preconditioner`` must be set to ``semg_amg_hypre``. 
+Note that given the large size of the meshes, the ``preconditioner`` must be set to ``semg_amg_hypre``. 
 This invokes the algebraic multigrid (AMG) solver for pressure instead of the default ``XXT`` solver. 
 The AMG preconditioner requires third party ``HYPRE`` libraries which must be included in the preprocessor list option in the ``makenek`` file.
-It is recommended to copy ``makenek`` from ``Nek5000/bin`` into the project directory to edit.
-Also including the ``PARRSB`` option, as mentioned earlier, the ``PPLIST`` therefore is:
+
+.. Note::
+
+  By default, *Nek5000* does not support using the default ``XXT`` preconditioner for meshes with :math:`E\ge250,000`.
+  Generally, the AMG preconditioners perform better for larger meshes.
+
+As mentioned above, it is recommended to copy ``makenek`` from ``Nek5000/bin`` into the project directory to edit.
+Also including the ``PARRSB`` option, as mentioned earlier, the ``PPLIST`` should be:
 
 .. code-block:: console
 	
@@ -382,41 +401,46 @@ Basics of the required setup routines for a NekNek simulation can be found in th
 in the :ref:`tutorial_rans` tutorial. Although this section decribes all user routines required for a NekNek RANS simulation in detail, 
 a comprehensive understanding of routines from these simpler cases is recommended before proceeding.
 
-Following headers are required at the beginning of ``.usr`` file for loading RANS related subroutines:
+The following files are required to be included in the ``.usr`` file for loading RANS related subroutines
+They can be included anywhere in the ``.usr`` file outside of a subroutine, but we recommend keeping them at the top for consistency and quick reference.
 
 .. literalinclude:: multi_rans/inlet_bundle/inlet_bundle.usr
 	:language: fortran
 	:lines: 17-18
 	
-``NekNek`` related parameters are specified in ``usrdat`` routine:
+NekNek related parameters are specified in ``usrdat`` routine:
 
 .. literalinclude:: multi_rans/inlet_bundle/inlet_bundle.usr
 	:language: fortran
-	:lines: 220-238
+	:lines: 223-242
 		
-``ngeom`` specifies the number of overlapping Schwarz-like iterations, while ``ninter`` controls the time 
-extrapolation order of boundary conditions at the overlapping interface. ``ninter=1`` is unconditionally 
-stable, while a higher temporal order will typically require more iterations for stability (``ngeom>2``). 
+The ``ngeom`` variable specifies the number of overlapping Schwarz-like iterations, while ``ninter`` controls the time extrapolation order of boundary conditions at the overlapping interface. 
+Using ``ninter=1`` is unconditionally stable, while a higher temporal order will typically require more iterations for stability (``ngeom>2``). 
 For computational savings, we maintain first order temporal extrapolation for this tutorial. 
-``nfld_neknek`` specifies the number of total field arrays that are transferred between the two meshes 
-and must be equal to 7 for 3D RANS cases (3 velocity, 1 pressure and 3 scalar field arrays - temperature,
+The number of total field arrays that are transferred between the two meshes is specified by ``nfld_neknek``. 
+For 3D RANS cases it must be equal to 7 (3 velocity, 1 pressure and 3 scalar field arrays - temperature,
 :math:`k` and :math:`\tau`).
 
 .. Note::
 
-	Ensure that proper common block headers are included in subroutines. ``NEKNEK`` header is required 
-	for routines where ``idsess`` needs to be accessed, as shown below.
+  Ensure that proper common block headers are included in subroutines. 
+  The ``NEKNEK`` header is required for routines where ``idsess``, ``nfld_neknek``, the ``valint`` array, and other NEKNEK variables need to be accessed.
 	
 Boundary Condition specification and RANS initialization is performed in ``usrdat2``:
 
 .. literalinclude:: multi_rans/inlet_bundle/inlet_bundle.usr
 	:language: fortran
-	:lines: 240-320
+	:lines: 243-311
 	
-``NekNek`` solver launches two Nek5000 sessions simultaneously and field data transfer is performed between the
-two sessions on each time iteration. Each session is assigned a unique id, stored in the variable ``idsess``.
-Here, ``idsess=0`` is assigned to the inlet component solve and ``idsess=1`` to bundle component. Boundary 
-conditions are assigned using this variable for each component, as shown above. 
+The NekNek solver launches two Nek5000 sessions simultaneously and field data transfer is performed between the two sessions on each time iteration. 
+Each session is assigned a unique sequential ID, stored in the variable ``idsess``.
+Here, ``idsess=0`` is assigned to the inlet component solve and ``idsess=1`` to bundle component. 
+Boundary conditions are assigned using this variable for each component, as shown above. 
+
+.. Note::
+
+  The ``idsess`` variable is determined by the call order during job submission. 
+  See :ref:`sec:compile` for more information.
 
 Recall the boundary IDs assigned to each component during the mesh generation process, described in the preceding section.
 Character codes for different boundary conditions are stored in the ``cbc`` array. Their detailed description can be found in
@@ -440,7 +464,7 @@ nearly identical to the :ref:`tutorial_rans` tutorial:
 
 .. literalinclude:: multi_rans/inlet_bundle/inlet_bundle.usr
 	:language: fortran
-	:lines: 20-51
+	:lines: 20-54
 	
 Only turbulent Prandtl number is changed to ``Pr_t=1.5`` for this tutorial. This value is more appropriate for 
 molten sodium salts as compared to the default value of 0.85 (for air), which is assigned through ``rans_turbPrandtl()`` 
@@ -451,7 +475,7 @@ to the basic :ref:`tutorial_rans` case:
 
 .. literalinclude:: multi_rans/inlet_bundle/inlet_bundle.usr
 	:language: fortran
-	:lines: 76-103
+	:lines: 79-106
 
 Note that either component does not have any volumetric source heat source and hence ``qvol=0`` for temperature
 field (``ifield.eq.2``).
@@ -461,7 +485,7 @@ implementation is straightforward. Temperature is initalized to 1 for both compo
 
 .. literalinclude:: multi_rans/inlet_bundle/inlet_bundle.usr
 	:language: fortran
-	:lines: 180-203
+	:lines: 183-206
 
 Boundary conditions are assigned in ``userbc``. For the inlet component, inlet conditions are assigned using data
 generated from RANS simulation in a pipe with identical diameter as the inlet surface. The data is stored in the 
@@ -472,7 +496,7 @@ file and can be used without modification. The usage is shown below:
 
 .. literalinclude:: multi_rans/inlet_bundle/inlet_bundle.usr
 	:language: fortran
-	:lines: 105-178
+	:lines: 108-181
 	
 Note that the diameter of the inlet surface is ``din=1.875``. Spline interpolation routine, ``init_prof``, requires
 the wall distance array, ``wd``, which is populated in ``usrdat2`` (in ``rans_init`` call). The distance should be
@@ -496,6 +520,8 @@ The ``SIZE`` file used for this tutorial is included in the provided tar file. T
 auxiliary fields specified in the SIZE file is at minimum ``ldimt=3`` for RANS. Further, ``nsessmax`` must be
 set to 2 for ``NEKNEK`` simulation. Other details on the contents of the ``SIZE`` file can be found 
 :ref:`here<case_files_SIZE>`.
+
+.. _sec:compile:
 
 ..............................
 Compilation and Running
