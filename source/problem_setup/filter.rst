@@ -58,7 +58,8 @@ From there, the convolution operator representing the three-dimensional low-pass
 
   {\bf \tilde u} = G * {\bf u} = (F \otimes F \otimes F) {\bf u}.
 
-:Important:
+.. Warning::
+
   The filtered wavelengths depend on the local element size, so the filtering operation is **NOT** necessarily uniform across the domain.
 
 ---------------

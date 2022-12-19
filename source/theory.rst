@@ -441,6 +441,12 @@ The diffusion terms are given by
   \Gamma_k & = \mu + \frac{\mu_t}{\sigma_k} \\
   \Gamma_\omega & = \mu + \frac{\mu_t}{\sigma_\omega}
 
+Where, in the :math:`k-\tau` model
+
+.. math::
+
+  \mu_t = \rho\alpha^* k \tau
+  
 The production term is given by
 
 .. math::
