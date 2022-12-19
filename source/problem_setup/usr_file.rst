@@ -36,7 +36,8 @@ For a more complete list see :ref:`sec:commonvars`.
    ``idsess``,session ID for NekNek, see :ref:`neknek`
    ``ifield``,active solution field,see :numref:`tab:ifield`
 
-:Note: 
+.. Note:: 
+
   ``nelt`` is always greater than or equal to ``nelv``. 
   For non-conjugate heat transfer cases, ``nelv`` and ``nelt`` are identical. 
   Similarly for ``nelgv`` and ``nelgt``.
@@ -61,7 +62,7 @@ For simulations with variable properties, this array can be useful as it retains
    "``cpfld(i+2,1)``",``scalar i:density``,Reference density for scalar :math:`i`
    "``cpfld(i+2,2)``",``scalar i:diffusivity``,Reference diffusivity for :math:`i`
 
-:Note:
+.. Note::
   The entries in the field coefficient array for velocity and temperature correspond directly to parameters 1, 2, 7, and 8 from the old ``.rea`` format.
   However, no corresponding parameters exist for the passive scalars.
 
@@ -161,7 +162,8 @@ The transport coefficient refers to the coefficient attached to the convective t
    |            |                       | :math:`\rho_i` in the :ref:`passive scalar equations <intro_pass_scal>`       | ``ifield = 3 .. npscal+2`` |
    +------------+-----------------------+-------------------------------------------------------------------------------+----------------------------+
 
-:Warning:
+.. Warning::
+
   The corresponding entries in ``vdiff`` and ``vtrans`` are overwritten by whatever is assigned to ``udiff`` and ``utrans``. Setting ``vdiff`` and ``vtrans`` directly is not supported.
 
 :Example:
@@ -255,7 +257,8 @@ The available values that can be set for velocity are listed in :numref:`tab:vel
    ``tr1``,"traction tangent* to the boundary face",":math:`(\boldsymbol{\underline\tau}\cdot\mathbf{\hat e_n})\cdot\mathbf{\hat e_t}`","``sl``, ``shl``"
    ``tr2``,"traction bitangent* to the boundary face",":math:`(\boldsymbol{\underline\tau}\cdot\mathbf{\hat e_n})\cdot\mathbf{\hat e_b}`","``sl``, ``shl``"
 
-:Warning:
+.. Warning::
+
   \*The tangent and bitangent directions are not guaranteed to be consistent between elements in 3D domains.
 
 The available values that can be set for temperature are listed in :numref:`tab:Tbcs` along with their definitions and the corresponding entry in the ``cbc`` array.
@@ -272,12 +275,12 @@ These correspond to standard Dirichlet, Neumann, and Robin boundary conditions.
    +----------+-----------------------------------------+---------------------------------------------------------------+---------------+
    | ``flux`` | heat flux, :math:`q''`                  | :math:`\lambda\nabla T\cdot\mathbf{\hat e_n}=q''`             | ``f``         |
    +----------+-----------------------------------------+---------------------------------------------------------------+---------------+
-   | ``hc``   | heat transfer coefficient, :math:`h`    | :math:`\lambda\nabla T\cdot\mathbf{\hat e_n}=h(T-T_{\infty})` | ``r``         |
+   | ``hc``   | heat transfer coefficient, :math:`h`    | :math:`\lambda\nabla T\cdot\mathbf{\hat e_n}=h(T-T_{\infty})` | ``c``         |
    +----------+-----------------------------------------+                                                               |               |
    | ``tinf`` | ambient temperature, :math:`T_{\infty}` |                                                               |               |
    +----------+-----------------------------------------+---------------------------------------------------------------+---------------+
 
-:Note:
+.. Note::
   Both heat transfer coefficient and ambient temperature must be specified for a Robin boundary condition.
 
 A few examples are shown next to demonstrate how to set simple boundary conditions.
@@ -319,15 +322,15 @@ These are listed in :numref:`tab:psbcs` along with their definitions and the cor
    +----------+-----------------------------------------+----------------------------------------------------------------------------------+---------------+
    | ``flux`` | Neumann, :math:`\psi_i`                 | :math:`\Gamma_i\nabla \phi_i\cdot\mathbf{\hat e_n}=\psi_i`                       | ``f``         |
    +----------+-----------------------------------------+----------------------------------------------------------------------------------+---------------+
-   | ``hc``   | transfer coefficient, :math:`\eta`      | :math:`\Gamma_i\nabla \phi_i\cdot\mathbf{\hat e_n}=\eta(\phi_i-\phi_{i,\infty})` | ``r``         |
+   | ``hc``   | transfer coefficient, :math:`\eta`      | :math:`\Gamma_i\nabla \phi_i\cdot\mathbf{\hat e_n}=\eta(\phi_i-\phi_{i,\infty})` | ``c``         |
    +----------+-----------------------------------------+                                                                                  |               |
    | ``tinf`` | ambient value, :math:`\phi_{i,\infty}`  |                                                                                  |               |
    +----------+-----------------------------------------+----------------------------------------------------------------------------------+---------------+
 
-:Note:
+.. Note::
   Temperature and passive scalar boundary conditions are contextual and will set the boundary condition for the active solution field. See :numref:`tab:ifield`.
 
-:Warning:
+.. Warning::
   The ``ps(i)`` variable array provided by ``NEKUSE`` is **NOT** used to set the passive scalar boundary conditions.
 
 :Example:
@@ -350,7 +353,7 @@ useric
 This functions sets the initial conditions and behaves similarly to ``userbc``.
 It is called only during initialization after ``usrdat3`` for every solution field on every GLL point in the domain.
 
-:Warning:
+.. Warning::
   ``useric`` is **NOT** called for any fields loaded from a restart file.
 
 .. .. literalinclude:: examples/useric.txt

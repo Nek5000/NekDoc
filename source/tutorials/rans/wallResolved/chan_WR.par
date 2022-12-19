@@ -1,0 +1,31 @@
+#
+# nek parameter file
+#
+[GENERAL]
+numSteps = 60000
+dt = 5.0e-3
+writeInterval = 20000
+
+[PROBLEMTYPE]
+variableProperties = yes
+stressFormulation = yes
+
+[PRESSURE]
+residualTol = 1.0e-5
+
+[VELOCITY]
+density = 1.0
+viscosity = -125000.0
+residualTol = 1.0e-6
+
+#tke
+[SCALAR01]
+density = 1.0
+diffusivity = -125000.0
+residualTol = 1.0e-6
+
+#tau
+[SCALAR02]
+density = 1.0
+diffusivity = -125000.0
+residualTol = 1.0e-6
