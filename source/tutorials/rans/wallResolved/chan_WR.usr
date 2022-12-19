@@ -1,0 +1,211 @@
+c-----------------------------------------------------------------------
+      include "experimental/rans_komg.f"
+      include "experimental/rans_wallfunctions.f"
+c-----------------------------------------------------------------------
+      subroutine uservp (ix,iy,iz,eg)
+      implicit none
+      include 'SIZE'
+      include 'TOTAL'
+      include 'NEKUSE'
+      
+      integer ix,iy,iz,e,eg
+      
+      common /rans_usr/ ifld_tke, ifld_tau, m_id
+      integer ifld_tke,ifld_tau, m_id
+      
+      real rans_mut,rans_mutsk,rans_mutso,rans_turbPrandtl
+      real mu_t,Pr_t
+      
+      e = gllel(eg)
+      
+      Pr_t=rans_turbPrandtl()
+      mu_t=rans_mut(ix,iy,iz,e)
+      
+      if(ifield.eq.1) then
+        udiff  = cpfld(ifield,1)+mu_t
+        utrans = cpfld(ifield,2)
+      else if(ifield.eq.2) then
+        udiff  = cpfld(ifield,1)+mu_t*cpfld(ifield,2)/(Pr_t*cpfld(1,2))
+        utrans = cpfld(ifield,2)
+      else if(ifield.eq.ifld_tke) then
+        udiff  = cpfld(1,1)+rans_mutsk(ix,iy,iz,e)
+        utrans = cpfld(1,2)
+      else if(ifield.eq.ifld_tau) then
+        udiff  = cpfld(1,1)+rans_mutso(ix,iy,iz,e)
+        utrans = cpfld(1,2)
+      end if
+      
+      return
+      end
+c-----------------------------------------------------------------------
+      subroutine userf(ix,iy,iz,eg) ! set acceleration term
+      implicit none
+      include 'SIZE'
+      include 'TOTAL'
+      include 'NEKUSE'
+c
+c     Note: this is an acceleration term, NOT a force!
+c     Thus, ffx will subsequently be multiplied by rho(x,t).
+c
+      integer ix,iy,iz,e,eg
+
+c     e = gllel(eg)
+
+      ffx = 0.0
+      ffy = 0.0
+      ffz = 0.0
+
+      return
+      end
+c-----------------------------------------------------------------------
+      subroutine userq  (ix,iy,iz,ieg)
+      implicit none
+      include 'SIZE'
+      include 'TOTAL'
+      include 'NEKUSE'
+
+      common /rans_usr/ ifld_tke, ifld_tau, m_id
+      integer ifld_tke,ifld_tau, m_id
+
+      real rans_kSrc,rans_omgSrc
+      real rans_kDiag,rans_omgDiag
+
+      integer ie,ix,iy,iz,ieg
+      ie = gllel(ieg)
+
+      if (ifield.eq.2) then
+        qvol = 0.0 
+        avol = 0.0
+      else if (ifield.eq.ifld_tke) then
+        qvol = rans_kSrc  (ix,iy,iz,ie)
+        avol = rans_kDiag (ix,iy,iz,ie)
+      else if (ifield.eq.ifld_tau) then
+        qvol = rans_omgSrc (ix,iy,iz,ie)
+        avol = rans_omgDiag(ix,iy,iz,ie)
+      end if
+
+      return
+      end
+c-----------------------------------------------------------------------
+      subroutine userbc(ix,iy,iz,iside,eg) ! set up boundary conditions
+      implicit none
+      include 'SIZE'
+      include 'TOTAL'
+      include 'NEKUSE'
+c
+      integer ix,iy,iz,iside,e,eg
+      character*3 cb1
+  
+      common /rans_usr/ ifld_tke, ifld_tau, m_id
+      integer ifld_tke,ifld_tau, m_id
+      
+      e = gllel(eg)
+      cb1 = cbc(iside,e,1) !velocity boundary condition
+
+      ux   = 0.0
+      uy   = 0.0
+      uz   = 0.0
+      temp = 0.0
+      
+      if(cb1.eq.'W  ') then
+        if(ifield.eq.ifld_tke) then
+          temp = 0.0
+        else if(ifield.eq.ifld_tau) then
+          temp = 0.0
+        end if
+      end if
+
+      return
+      end
+c-----------------------------------------------------------------------
+      subroutine useric (ix,iy,iz,eg)
+      implicit none
+      include 'SIZE'
+      include 'TOTAL'
+      include 'NEKUSE'
+
+      integer ix,iy,iz,e,eg
+
+      common /rans_usr/ ifld_tke, ifld_tau, m_id
+      integer ifld_tke,ifld_tau, m_id
+      
+      e = gllel(eg)
+      
+      ux   = 1.0
+      uy   = 0.0
+      uz   = 0.0
+      temp = 0.0
+
+      if(ifield.eq.ifld_tke) temp = 0.01
+      if(ifield.eq.ifld_tau) temp = 0.2
+      
+      return
+      end
+c-----------------------------------------------------------------------
+      subroutine userchk()
+      implicit none
+      include 'SIZE'
+      include 'TOTAL'
+
+      
+      return
+      end
+c-----------------------------------------------------------------------
+      subroutine usrdat   ! This routine to modify element vertices
+      implicit none
+      include 'SIZE'       
+      include 'TOTAL'     
+
+! apply mass flux to drive the flow such that Ubar = 1
+      param(54) =-1       !x-direction
+      param(55) = 1.0     !Mean Bulk velocity, Ubar
+
+      return
+      end
+c-----------------------------------------------------------------------
+      subroutine usrdat2()
+      implicit none
+      include 'SIZE'
+      include 'TOTAL'
+
+      real wd
+      common /walldist/ wd(lx1,ly1,lz1,lelv)
+
+      common /rans_usr/ ifld_tke, ifld_tau, m_id
+      integer ifld_tke,ifld_tau, m_id
+
+      integer w_id
+      real coeffs(30) !array for passing your own coeffs
+      logical ifcoeffs
+      
+      ifld_tke = 3 !address of tke equation in t array
+      ifld_tau = 4 !address of omega equation in t array
+      ifcoeffs =.false. !set to true to pass your own coeffs
+
+C     Supported models:
+c     m_id = 0 !regularized standard k-omega (no wall functions)
+c     m_id = 1 !regularized low-Re k-omega (no wall functions)
+c     m_id = 2 !regularized standard k-omega SST (no wall functions)
+c     m_id = 3 !Not supported
+      m_id = 4 !standard k-tau
+c     m_id = 5 !low Re k-tau 
+c     m_id = 6 !standard k-tau SST
+
+C     Wall distance function:
+c     w_id = 0 ! user specified
+c     w_id = 1 ! cheap_dist (path to wall, may work better for periodic boundaries)
+      w_id = 2 ! distf (coordinate difference, provides smoother function)
+
+      call rans_init(ifld_tke,ifld_tau,ifcoeffs,coeffs,w_id,wd,m_id)
+
+      return
+      end
+c-----------------------------------------------------------------------
+      subroutine usrdat3()  
+      implicit none
+      include 'SIZE'
+      include 'TOTAL'
+
+      return
+      end
+c-----------------------------------------------------------------------

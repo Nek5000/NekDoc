@@ -35,7 +35,8 @@ For example, to run the eddy example from the repository, the ``SESSION.NAME`` f
 This file is generated automatically by the ``nek``, ``nekb``, ``nekmpi``, ``nekbmpi``, ``neknek`` and ``neknekb`` scripts at runtime.
 If you are calling ``$ mpirun`` directly, such as in a submission script for an HPC system, you must manually generate this file or setup your script to generate it for you.
 
-:Warning:
+.. Warning::
+
   When using :ref:`NekNek <neknek>`, ``SESSION.NAME`` is substantially different. 
   We recommend running the example and checking the ``neknek`` script for further information.
 
