@@ -207,14 +207,10 @@ However, by making use of the restart options, a Frankenstein’s Monster type o
 <span class="na">startFrom</span> <span class="o">=</span> <span class="s">mshfoo0.f00001 X, foo0.f00001 UPT int</span>
 </pre></div>
 </div>
-<table class="docutils field-list" frame="void" rules="none">
-<col class="field-name" />
-<col class="field-body" />
-<tbody valign="top">
-<tr class="field-odd field"><th class="field-name">Feature:</th><td class="field-body">If a restart file contains coordinates, <em>Nek5000</em> will overwrite the coordinates generated from the <code class="docutils literal notranslate"><span class="pre">.re2</span></code> file. This behavior may or may not be desirable, use the restart options to control it!</td>
-</tr>
-</tbody>
-</table>
+<div class="admonition note">
+<p class="first admonition-title">Note</p>
+<p class="last">If a restart file contains coordinates, <em>Nek5000</em> will overwrite the coordinates generated from the <code class="docutils literal notranslate"><span class="pre">.re2</span></code> file. This behavior may or may not be desirable, use the restart options to control it!</p>
+</div>
 </div>
 <div class="section" id="averaging">
 <span id="features-avg"></span><h2>Averaging<a class="headerlink" href="#averaging" title="Permalink to this headline">¶</a></h2>
@@ -240,14 +236,10 @@ To activate time-averaging, simply call <code class="docutils literal notranslat
 </div>
 <p>Adding this call to <code class="docutils literal notranslate"><span class="pre">userchk</span></code> will output three additional files, <code class="docutils literal notranslate"><span class="pre">avgfoo</span></code>, <code class="docutils literal notranslate"><span class="pre">rmsfoo</span></code>, and <code class="docutils literal notranslate"><span class="pre">rm2foo</span></code>, where “foo” is your case name.
 As the case is running, the running averages are stored in memory in the arrays documented <a class="reference internal" href="../appendix.html#sec-avgvars"><span class="std std-ref">here</span></a>.</p>
-<table class="docutils field-list" frame="void" rules="none">
-<col class="field-name" />
-<col class="field-body" />
-<tbody valign="top">
-<tr class="field-odd field"><th class="field-name">WARNING:</th><td class="field-body">Averaging files are written in double precision by default and can very quickly consume a large amount of disk space!</td>
-</tr>
-</tbody>
-</table>
+<div class="admonition warning">
+<p class="first admonition-title">Warning</p>
+<p class="last">Averaging files are written in double precision by default and can very quickly consume a large amount of disk space!</p>
+</div>
 <p>These files will be written at the same interval as the standard restart output.
 When the files are written, the averaging restarts.
 The average files thus only contain averages over the window specified by <code class="docutils literal notranslate"><span class="pre">writeInterval</span></code> in the <code class="docutils literal notranslate"><span class="pre">.par</span></code> file.</p>
@@ -337,15 +329,11 @@ Additionally, the width of the time-window is recorded as the physical time in e
 </tr>
 </tbody>
 </table>
-<table class="docutils field-list" frame="void" rules="none">
-<col class="field-name" />
-<col class="field-body" />
-<tbody valign="top">
-<tr class="field-odd field"><th class="field-name">Note:</th><td class="field-body"><code class="docutils literal notranslate"><span class="pre">avg_all</span></code> does NOT output enough information to reconstruct the turbulent heat fluxes by default.
-Currently, custom user code is necessary to accomplish this.</td>
-</tr>
-</tbody>
-</table>
+<div class="admonition note">
+<p class="first admonition-title">Note</p>
+<p class="last"><code class="docutils literal notranslate"><span class="pre">avg_all</span></code> does NOT output enough information to reconstruct the turbulent heat fluxes by default.
+Currently, custom user code is necessary to accomplish this.</p>
+</div>
 <p>The averaging files can then be reloaded into <em>Nek5000</em> as a standard restart file for post processing.
 The files contain enough information to reconstruct Reynolds stresses considering that for a sufficiently large time-window at statistically steady state:</p>
 <div class="math notranslate nohighlight">

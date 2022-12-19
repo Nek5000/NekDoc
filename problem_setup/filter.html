@@ -125,14 +125,10 @@ However, if the energy of the input signal is fully resolved on the first six mo
 From there, the convolution operator representing the three-dimensional low-pass filter, <span class="math notranslate nohighlight">\((G*)\)</span>, on the reference element, <span class="math notranslate nohighlight">\(\hat\Omega\)</span>, is given by the Kronecker product <span class="math notranslate nohighlight">\(F \otimes F \otimes F\)</span></p>
 <div class="math notranslate nohighlight">
 \[{\bf \tilde u} = G * {\bf u} = (F \otimes F \otimes F) {\bf u}.\]</div>
-<table class="docutils field-list" frame="void" rules="none">
-<col class="field-name" />
-<col class="field-body" />
-<tbody valign="top">
-<tr class="field-odd field"><th class="field-name">Important:</th><td class="field-body">The filtered wavelengths depend on the local element size, so the filtering operation is <strong>NOT</strong> necessarily uniform across the domain.</td>
-</tr>
-</tbody>
-</table>
+<div class="admonition warning">
+<p class="first admonition-title">Warning</p>
+<p class="last">The filtered wavelengths depend on the local element size, so the filtering operation is <strong>NOT</strong> necessarily uniform across the domain.</p>
+</div>
 <div class="section" id="explicit-filter">
 <h2>Explicit Filter<a class="headerlink" href="#explicit-filter" title="Permalink to this headline">¶</a></h2>
 <p>The explicit filter is based on a method described by Fischer and Mullen <a class="reference internal" href="../references.html#fischer2001" id="id1">[Fischer2001]</a>.
@@ -198,14 +194,10 @@ The weights for this filter are shown below in <a class="reference internal" hre
 <span id="fig-expfilt"></span><img alt="explicit LES filter" src="../_images/expfilter.png" />
 <p class="caption"><span class="caption-number">Fig. 6 </span><span class="caption-text">Weighting for the recommend explicit LES filter</span></p>
 </div>
-<table class="docutils field-list" frame="void" rules="none">
-<col class="field-name" />
-<col class="field-body" />
-<tbody valign="top">
-<tr class="field-odd field"><th class="field-name">Note:</th><td class="field-body">The explicit filter is applied after every time step, consequently its strength is inversely proportional to time step size for marginally resolved cases.</td>
-</tr>
-</tbody>
-</table>
+<div class="admonition note">
+<p class="first admonition-title">Note</p>
+<p class="last">The explicit filter is applied after every time step, consequently its strength is inversely proportional to time step size for marginally resolved cases.</p>
+</div>
 </div>
 <div class="section" id="high-pass-filter">
 <h2>High-Pass Filter<a class="headerlink" href="#high-pass-filter" title="Permalink to this headline">¶</a></h2>

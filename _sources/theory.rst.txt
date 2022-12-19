@@ -16,11 +16,11 @@ Vectorization and cache efficiency derive from the local lexicographical orderin
 The SEM exhibits very little numerical dispersion and dissipation, which can be important, for example, in stability calculations, for long time integrations, and for high Reynolds number flows. 
 We refer to [Denville2002]_ for more details.
 
-Nek5000 solves the unsteady incompressible two-dimensional, axisymmetric, or three-dimensional Stokes or Navier-Stokes equations with forced or natural convection heat transfer in both stationary (fixed) or time-dependent geometry. 
+*Nek5000* solves the unsteady incompressible two-dimensional, axisymmetric, or three-dimensional Stokes or Navier-Stokes equations with forced or natural convection heat transfer in both stationary (fixed) or time-dependent geometry. 
 It also solves the compressible Navier-Stokes in the Low Mach regime, and the magnetohydrodynamic equation (MHD).  
 The solution variables are the fluid velocity :math:`\mathbf u=(u_{x},u_{y},u_{z})`, the pressure :math:`p`, the temperature :math:`T`.
 All of the above field variables are functions of space :math:`{\bf x}=(x,y,z)` and time :math:`t` in domains :math:`\Omega_f` and/or :math:`\Omega_s` defined in :numref:`fig-walls`.
-Additionally Nek5000 can handle conjugate heat transfer problems.
+Additionally *Nek5000* can handle conjugate heat transfer problems.
 
 .. _fig-walls:
 
@@ -94,7 +94,7 @@ The non-dimensional number here is the Reynolds number :math:`Re=\frac{\rho U L}
 Energy Equation
 ---------------
 
-In addition to the fluid flow, Nek5000 computes automatically the energy equation
+In addition to the fluid flow, *Nek5000* computes automatically the energy equation
 
 .. math::
     :label: energy
@@ -146,7 +146,7 @@ exists) is found as stable evolution of the initial-value-problem. Secondly, the
 must be selected if the geometry is time-dependent. In addition, stress formulation must be
 employed if there are traction boundary conditions applied on any fluid boundary, or if any mixed
 velocity/traction boundaries, such as symmetry and outflow/n, are not aligned with either one of
-the Cartesian :math:`x,y` or :math:`z` axes.  Other capabilities of Nek5000 are the linearized
+the Cartesian :math:`x,y` or :math:`z` axes.  Other capabilities of *Nek5000* are the linearized
 Navier-Stokes for flow stability, magnetohydrodynamic flows etc.
 
 .. _intro_ns_stokes:
@@ -155,7 +155,7 @@ Navier-Stokes for flow stability, magnetohydrodynamic flows etc.
 Unsteady Stokes
 ---------------
 
-In the case of flows dominated by viscous effects Nek5000 can solve the reduced Stokes equations
+In the case of flows dominated by viscous effects *Nek5000* can solve the reduced Stokes equations
 
 .. math::
     :label: ns_momentum_stokes
@@ -179,7 +179,7 @@ viscous scaling of the pressure.
 Steady Stokes
 -------------
 
-If there is no time-dependence, then Nek5000 can further reduce to
+If there is no time-dependence, then *Nek5000* can further reduce to
 
 .. math::
     :label: ns_momentum_steady_stokes
@@ -199,7 +199,7 @@ where :math:`\boldsymbol{\underline\tau}=\mu[\nabla \mathbf u+\nabla {\mathbf u}
 Linearized Equations
 --------------------
 
-In addition to the basic evolution equations described above, Nek5000 provides support for the
+In addition to the basic evolution equations described above, *Nek5000* provides support for the
 evolution of small perturbations about a base state by solving the *linearized equations*
 
 .. math::
@@ -265,7 +265,7 @@ Magnetohydrodynamics is based on the idea that magnetic fields can induce curren
 conductive fluid, which in turn creates forces on the fluid and changing the magnetic field itself.
 The set of equations which describe MHD are a combination of the Navier-Stokes equations of fluid
 dynamics and Maxwell's equations of electromagnetism. These differential equations have to be
-solved simultaneously, and Nek5000 has an implementation for the incompressible MHD.
+solved simultaneously, and *Nek5000* has an implementation for the incompressible MHD.
 
 Consider a fluid of velocity :math:`\mathbf u` subject to a magnetic field :math:`\mathbf B` then
 the incompressible MHD equations are
@@ -378,3 +378,96 @@ derivatives on :math:`\Omega(t^n)` are computed;  the extrapolated right-hand-si
 evaluated; and the implicit linear system is solved for :math:`\mathbf u^n`.   Note that it is only
 the *operators* that are updated, not the *matrices*.  Matrices are never formed in Nek5000
 and because of this, the overhead for the moving domain formulation is very low.
+
+.. _intro_ktau:
+
+-------------------------------------------------------
+Reynolds Averaged Navier-Stokes Models (Experimental)
+-------------------------------------------------------
+
+Two-equation Reynolds Averaged Navier Stokes (RANS) models rely on the Bousinessq approximation which relates the Reynolds stress tensor to the mean strain rate, :math:`\boldsymbol{\underline {S}}`, linearly through eddy viscosity. 
+The time-averaged momentum equation is given as,
+
+.. math::
+   :label: ns_rans
+   
+   \rho \left(\frac{\partial \mathbf u}{\partial t} + \mathbf u \cdot \nabla \mathbf u \right) &= 
+   - \nabla p + \nabla \cdot \left[ (\mu + \mu_t) 
+   \left( 2 \boldsymbol{\underline S} - 
+   \frac{2}{3} Q \boldsymbol{\underline I}\right) \right] \\
+   \boldsymbol{\underline S} &= \frac{1}{2} \left( \nabla \mathbf u + \mathbf{u}^T \right) \nonumber
+
+where :math:`\mu_t` is the turbulent or eddy viscosity and :math:`\boldsymbol{\underline I}` is an
+identity tensor. 
+It only supports incompressible flow where the divergence constraint, :math:`Q`, is zero,
+
+.. math::
+	:label: ns_rans_cont
+	
+	Q = \nabla \cdot \mathbf u = 0
+	
+.. RANS implementation in *Nek5000* accomodates for low Mach number compressible, reactive or multi-phase
+   flows where divergence of velocity may be non-zero.
+
+In two-equation models, the description of the local eddy viscosity is given by two additional transported variables, which provide the velocity and length (or time) scale of turbulence. 
+The velocity scale is given by turbulent kinetic energy while the choice of the second variable, which provides the length scale, depends on the specific two-equation model used. 
+*Nek5000* offers several two-equation RANS models based on the :math:`k-\omega` [Wilcox2008]_ family of models.
+These include the regularized :math:`k-\omega` [Tombo2018]_ and the :math:`k-\tau` [Speziale1992]_ model. 
+In addition, the SST (shear stress transport) and low-Re variants of both models are available.
+
+.. Note::
+
+  All currently available RANS models are wall-resolved models.
+
+The :math:`k-\tau` model offers certain favorable characteristics over the :math:`k-\omega` model, including bounded asymptotic behavior of :math:`\tau` and its source terms and favorable near-wall gradients. 
+These make it especially suited for high-order codes and complex geometries. 
+It is, therefore, the preferred two-equation RANS model in *Nek5000*. 
+The :math:`k-\tau` transport equations are,
+
+.. math::
+  :label: ktau
+  
+  \rho\left( \frac{\partial k}{\partial t} + \mathbf u \cdot \nabla k\right) & = 
+  \nabla \cdot (\Gamma_k \nabla k) + P_k - \rho \beta^* \frac{k}{\tau} \\
+  \rho\left( \frac{\partial \tau}{\partial t} + \mathbf u \cdot \nabla\tau\right) & = 
+  \nabla \cdot (\Gamma_\omega \nabla \tau) - \alpha \frac{\tau}{k}P_k + \rho \beta - 
+  2\frac{\Gamma_\omega}{\tau} (\nabla \tau \cdot \nabla \tau) + C_{D_\tau}
+	
+These are implemented using the :ref:`passive scalar solver <intro_pass_scal>`.
+The diffusion terms are given by
+
+.. math::
+
+  \Gamma_k & = \mu + \frac{\mu_t}{\sigma_k} \\
+  \Gamma_\omega & = \mu + \frac{\mu_t}{\sigma_\omega}
+
+Where, in the :math:`k-\tau` model
+
+.. math::
+
+  \mu_t = \rho\alpha^* k \tau
+  
+The production term is given by
+
+.. math::
+
+  P_k = \mu_t\left( \boldsymbol{\underline S : \underline S} \right)
+
+where ":math:`\boldsymbol :`" denotes the double dot product.
+The final term in the :math:`\tau` equation is the cross-diffusion term, introduced by [Kok2000]_,
+
+.. math::
+  :label: ktau_cd
+	
+  C_{D_\tau} =(\rho \sigma_d \tau) \text{min}(\nabla k \cdot \nabla \tau,0)
+	
+The above term is especially relevant for external flows. 
+It eliminates non-physical free-stream dependence of the near-wall :math:`\tau` field. 
+
+All coefficients in the :math:`k-\tau` model are identical to the :math:`k-\omega` model and can be 
+found in [Wilcox2008]_. 
+
+The current RANS implementation is offered on an *experimental*, as-is basis.
+It cannot be guaranteed to work with all other features of *Nek5000* and is still being tested for robustness.
+As such, it is not automatically compiled with the base code and the required subroutines will need to be included in the ``.usr`` file from the ``Nek5000/core/experimental`` directory.
+

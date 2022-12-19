@@ -18,7 +18,7 @@
     <link rel="index" title="Index" href="genindex.html" />
     <link rel="search" title="Search" href="search.html" />
     <link rel="next" title="Build Options" href="build.html" />
-    <link rel="prev" title="Overlapping Overset Grids" href="tutorials/neknek.html" /> 
+    <link rel="prev" title="RANS Channel" href="tutorials/rans.html" /> 
 </head>
 
 <body class="wy-body-for-nav"> 
@@ -55,6 +55,7 @@
 <li class="toctree-l2"><a class="reference internal" href="#low-mach-navier-stokes">Low-Mach Navier-Stokes</a></li>
 <li class="toctree-l2"><a class="reference internal" href="#incompressible-mhd-equations">Incompressible MHD Equations</a></li>
 <li class="toctree-l2"><a class="reference internal" href="#arbitrary-lagrangian-eulerian-ale">Arbitrary Lagrangian-Eulerian (ALE)</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#reynolds-averaged-navier-stokes-models-experimental">Reynolds Averaged Navier-Stokes Models (Experimental)</a></li>
 </ul>
 </li>
 <li class="toctree-l1"><a class="reference internal" href="build.html">Build Options</a></li>
@@ -97,14 +98,14 @@ Typical discretizations involve <span class="math notranslate nohighlight">\(E=\
 Vectorization and cache efficiency derive from the local lexicographical ordering within each macro-element and from the fact that the action of discrete operators, which nominally have <span class="math notranslate nohighlight">\(O(EN^6)\)</span> nonzeros, can be evaluated in only <span class="math notranslate nohighlight">\(O(EN^4)\)</span> work and <span class="math notranslate nohighlight">\(O(EN^3)\)</span> storage through the use of tensor-product-sum factorization <a class="reference internal" href="references.html#orszag1980" id="id2">[Orszag1980]</a>.
 The SEM exhibits very little numerical dispersion and dissipation, which can be important, for example, in stability calculations, for long time integrations, and for high Reynolds number flows.
 We refer to <a class="reference internal" href="references.html#denville2002" id="id3">[Denville2002]</a> for more details.</p>
-<p>Nek5000 solves the unsteady incompressible two-dimensional, axisymmetric, or three-dimensional Stokes or Navier-Stokes equations with forced or natural convection heat transfer in both stationary (fixed) or time-dependent geometry.
+<p><em>Nek5000</em> solves the unsteady incompressible two-dimensional, axisymmetric, or three-dimensional Stokes or Navier-Stokes equations with forced or natural convection heat transfer in both stationary (fixed) or time-dependent geometry.
 It also solves the compressible Navier-Stokes in the Low Mach regime, and the magnetohydrodynamic equation (MHD).
 The solution variables are the fluid velocity <span class="math notranslate nohighlight">\(\mathbf u=(u_{x},u_{y},u_{z})\)</span>, the pressure <span class="math notranslate nohighlight">\(p\)</span>, the temperature <span class="math notranslate nohighlight">\(T\)</span>.
-All of the above field variables are functions of space <span class="math notranslate nohighlight">\({\bf x}=(x,y,z)\)</span> and time <span class="math notranslate nohighlight">\(t\)</span> in domains <span class="math notranslate nohighlight">\(\Omega_f\)</span> and/or <span class="math notranslate nohighlight">\(\Omega_s\)</span> defined in <a class="reference internal" href="#fig-walls"><span class="std std-numref">Fig. 19</span></a>.
-Additionally Nek5000 can handle conjugate heat transfer problems.</p>
-<div class="align-center figure" id="id6">
+All of the above field variables are functions of space <span class="math notranslate nohighlight">\({\bf x}=(x,y,z)\)</span> and time <span class="math notranslate nohighlight">\(t\)</span> in domains <span class="math notranslate nohighlight">\(\Omega_f\)</span> and/or <span class="math notranslate nohighlight">\(\Omega_s\)</span> defined in <a class="reference internal" href="#fig-walls"><span class="std std-numref">Fig. 21</span></a>.
+Additionally <em>Nek5000</em> can handle conjugate heat transfer problems.</p>
+<div class="align-center figure" id="id11">
 <span id="fig-walls"></span><img alt="domains" src="_images/walls.png" />
-<p class="caption"><span class="caption-number">Fig. 19 </span><span class="caption-text">Computational domain showing respective fluid and solid subdomains, <span class="math notranslate nohighlight">\(\Omega_f\)</span> and
+<p class="caption"><span class="caption-number">Fig. 21 </span><span class="caption-text">Computational domain showing respective fluid and solid subdomains, <span class="math notranslate nohighlight">\(\Omega_f\)</span> and
 <span class="math notranslate nohighlight">\(\Omega_s\)</span>.  The shared boundaries are denoted <span class="math notranslate nohighlight">\(\partial\Omega_f=\partial\Omega_s\)</span>
 and the solid boundary which is not shared by fluid is <span class="math notranslate nohighlight">\(\overline{\partial\Omega_s}\)</span>,
 while the fluid boundary not shared by solid <span class="math notranslate nohighlight">\(\overline{\partial\Omega_f}\)</span>.</span></p>
@@ -146,7 +147,7 @@ non-dimensional Navier-Stokes:</p>
 </div>
 <div class="section" id="energy-equation">
 <span id="intro-energy"></span><h2>Energy Equation<a class="headerlink" href="#energy-equation" title="Permalink to this headline">¶</a></h2>
-<p>In addition to the fluid flow, Nek5000 computes automatically the energy equation</p>
+<p>In addition to the fluid flow, <em>Nek5000</em> computes automatically the energy equation</p>
 <div class="math notranslate nohighlight" id="equation-energy">
 <span class="eqno">(6)<a class="headerlink" href="#equation-energy" title="Permalink to this equation">¶</a></span>\[\rho c_{p} \left( \frac{\partial T}{\partial t} + \mathbf u \cdot \nabla T \right) =
    \nabla \cdot (\lambda \nabla T) + q'''\,\, ,\text{in } \Omega_f\cup \Omega_s  \text{  (Energy)  }\]</div>
@@ -179,12 +180,12 @@ exists) is found as stable evolution of the initial-value-problem. Secondly, the
 must be selected if the geometry is time-dependent. In addition, stress formulation must be
 employed if there are traction boundary conditions applied on any fluid boundary, or if any mixed
 velocity/traction boundaries, such as symmetry and outflow/n, are not aligned with either one of
-the Cartesian <span class="math notranslate nohighlight">\(x,y\)</span> or <span class="math notranslate nohighlight">\(z\)</span> axes.  Other capabilities of Nek5000 are the linearized
+the Cartesian <span class="math notranslate nohighlight">\(x,y\)</span> or <span class="math notranslate nohighlight">\(z\)</span> axes.  Other capabilities of <em>Nek5000</em> are the linearized
 Navier-Stokes for flow stability, magnetohydrodynamic flows etc.</p>
 </div>
 <div class="section" id="unsteady-stokes">
 <span id="intro-ns-stokes"></span><h2>Unsteady Stokes<a class="headerlink" href="#unsteady-stokes" title="Permalink to this headline">¶</a></h2>
-<p>In the case of flows dominated by viscous effects Nek5000 can solve the reduced Stokes equations</p>
+<p>In the case of flows dominated by viscous effects <em>Nek5000</em> can solve the reduced Stokes equations</p>
 <div class="math notranslate nohighlight" id="equation-ns-momentum-stokes">
 <span class="eqno">(9)<a class="headerlink" href="#equation-ns-momentum-stokes" title="Permalink to this equation">¶</a></span>\[\rho\left(\frac{\partial \mathbf u}{\partial t} \right) = - \nabla p + \nabla \cdot \boldsymbol{\underline\tau} + \rho {\bf f} \,\, , \text{in } \Omega_f \text{  (Momentum)  }\]</div>
 <p>where <span class="math notranslate nohighlight">\(\boldsymbol{\underline\tau}=\mu[\nabla \mathbf u+\nabla \mathbf u^{T}]\)</span> and</p>
@@ -196,7 +197,7 @@ viscous scaling of the pressure.</p>
 </div>
 <div class="section" id="steady-stokes">
 <span id="intro-ns-steady-stokes"></span><h2>Steady Stokes<a class="headerlink" href="#steady-stokes" title="Permalink to this headline">¶</a></h2>
-<p>If there is no time-dependence, then Nek5000 can further reduce to</p>
+<p>If there is no time-dependence, then <em>Nek5000</em> can further reduce to</p>
 <div class="math notranslate nohighlight" id="equation-ns-momentum-steady-stokes">
 <span class="eqno">(11)<a class="headerlink" href="#equation-ns-momentum-steady-stokes" title="Permalink to this equation">¶</a></span>\[- \nabla p + \nabla \cdot \boldsymbol{\underline\tau} + \rho {\bf f}=0 \,\, , \text{in } \Omega_f \text{  (Momentum)  }\]</div>
 <p>where <span class="math notranslate nohighlight">\(\boldsymbol{\underline\tau}=\mu[\nabla \mathbf u+\nabla {\mathbf u}^{T}]\)</span> and</p>
@@ -205,7 +206,7 @@ viscous scaling of the pressure.</p>
 </div>
 <div class="section" id="linearized-equations">
 <span id="intro-linear-eq"></span><h2>Linearized Equations<a class="headerlink" href="#linearized-equations" title="Permalink to this headline">¶</a></h2>
-<p>In addition to the basic evolution equations described above, Nek5000 provides support for the
+<p>In addition to the basic evolution equations described above, <em>Nek5000</em> provides support for the
 evolution of small perturbations about a base state by solving the <em>linearized equations</em></p>
 <div class="math notranslate nohighlight" id="equation-pertu">
 <span class="eqno">(13)<a class="headerlink" href="#equation-pertu" title="Permalink to this equation">¶</a></span>\[\begin{split}\rho\left(\frac{\partial \mathbf u_i'}{\partial t} + \mathbf u \cdot \nabla {\mathbf u_i}^{'} + \mathbf u_i' \cdot \nabla \mathbf u \right) &amp;=
@@ -246,7 +247,7 @@ The system is solved by substituting <span class="math notranslate nohighlight">
 conductive fluid, which in turn creates forces on the fluid and changing the magnetic field itself.
 The set of equations which describe MHD are a combination of the Navier-Stokes equations of fluid
 dynamics and Maxwell’s equations of electromagnetism. These differential equations have to be
-solved simultaneously, and Nek5000 has an implementation for the incompressible MHD.</p>
+solved simultaneously, and <em>Nek5000</em> has an implementation for the incompressible MHD.</p>
 <p>Consider a fluid of velocity <span class="math notranslate nohighlight">\(\mathbf u\)</span> subject to a magnetic field <span class="math notranslate nohighlight">\(\mathbf B\)</span> then
 the incompressible MHD equations are</p>
 <div class="math notranslate nohighlight" id="equation-mhd">
@@ -330,13 +331,70 @@ evaluated; and the implicit linear system is solved for <span class="math notran
 the <em>operators</em> that are updated, not the <em>matrices</em>.  Matrices are never formed in Nek5000
 and because of this, the overhead for the moving domain formulation is very low.</p>
 </div>
+<div class="section" id="reynolds-averaged-navier-stokes-models-experimental">
+<span id="intro-ktau"></span><h2>Reynolds Averaged Navier-Stokes Models (Experimental)<a class="headerlink" href="#reynolds-averaged-navier-stokes-models-experimental" title="Permalink to this headline">¶</a></h2>
+<p>Two-equation Reynolds Averaged Navier Stokes (RANS) models rely on the Bousinessq approximation which relates the Reynolds stress tensor to the mean strain rate, <span class="math notranslate nohighlight">\(\boldsymbol{\underline {S}}\)</span>, linearly through eddy viscosity.
+The time-averaged momentum equation is given as,</p>
+<div class="math notranslate nohighlight" id="equation-ns-rans">
+<span class="eqno">(20)<a class="headerlink" href="#equation-ns-rans" title="Permalink to this equation">¶</a></span>\[\begin{split}\rho \left(\frac{\partial \mathbf u}{\partial t} + \mathbf u \cdot \nabla \mathbf u \right) &amp;=
+- \nabla p + \nabla \cdot \left[ (\mu + \mu_t)
+\left( 2 \boldsymbol{\underline S} -
+\frac{2}{3} Q \boldsymbol{\underline I}\right) \right] \\
+\boldsymbol{\underline S} &amp;= \frac{1}{2} \left( \nabla \mathbf u + \mathbf{u}^T \right) \nonumber\end{split}\]</div>
+<p>where <span class="math notranslate nohighlight">\(\mu_t\)</span> is the turbulent or eddy viscosity and <span class="math notranslate nohighlight">\(\boldsymbol{\underline I}\)</span> is an
+identity tensor.
+It only supports incompressible flow where the divergence constraint, <span class="math notranslate nohighlight">\(Q\)</span>, is zero,</p>
+<div class="math notranslate nohighlight" id="equation-ns-rans-cont">
+<span class="eqno">(21)<a class="headerlink" href="#equation-ns-rans-cont" title="Permalink to this equation">¶</a></span>\[Q = \nabla \cdot \mathbf u = 0\]</div>
+<p>In two-equation models, the description of the local eddy viscosity is given by two additional transported variables, which provide the velocity and length (or time) scale of turbulence.
+The velocity scale is given by turbulent kinetic energy while the choice of the second variable, which provides the length scale, depends on the specific two-equation model used.
+<em>Nek5000</em> offers several two-equation RANS models based on the <span class="math notranslate nohighlight">\(k-\omega\)</span> <a class="reference internal" href="references.html#wilcox2008" id="id6">[Wilcox2008]</a> family of models.
+These include the regularized <span class="math notranslate nohighlight">\(k-\omega\)</span> <a class="reference internal" href="references.html#tombo2018" id="id7">[Tombo2018]</a> and the <span class="math notranslate nohighlight">\(k-\tau\)</span> <a class="reference internal" href="references.html#speziale1992" id="id8">[Speziale1992]</a> model.
+In addition, the SST (shear stress transport) and low-Re variants of both models are available.</p>
+<div class="admonition note">
+<p class="first admonition-title">Note</p>
+<p class="last">All currently available RANS models are wall-resolved models.</p>
+</div>
+<p>The <span class="math notranslate nohighlight">\(k-\tau\)</span> model offers certain favorable characteristics over the <span class="math notranslate nohighlight">\(k-\omega\)</span> model, including bounded asymptotic behavior of <span class="math notranslate nohighlight">\(\tau\)</span> and its source terms and favorable near-wall gradients.
+These make it especially suited for high-order codes and complex geometries.
+It is, therefore, the preferred two-equation RANS model in <em>Nek5000</em>.
+The <span class="math notranslate nohighlight">\(k-\tau\)</span> transport equations are,</p>
+<div class="math notranslate nohighlight" id="equation-ktau">
+<span class="eqno">(22)<a class="headerlink" href="#equation-ktau" title="Permalink to this equation">¶</a></span>\[\begin{split}\rho\left( \frac{\partial k}{\partial t} + \mathbf u \cdot \nabla k\right) &amp; =
+\nabla \cdot (\Gamma_k \nabla k) + P_k - \rho \beta^* \frac{k}{\tau} \\
+\rho\left( \frac{\partial \tau}{\partial t} + \mathbf u \cdot \nabla\tau\right) &amp; =
+\nabla \cdot (\Gamma_\omega \nabla \tau) - \alpha \frac{\tau}{k}P_k + \rho \beta -
+2\frac{\Gamma_\omega}{\tau} (\nabla \tau \cdot \nabla \tau) + C_{D_\tau}\end{split}\]</div>
+<p>These are implemented using the <a class="reference internal" href="#intro-pass-scal"><span class="std std-ref">passive scalar solver</span></a>.
+The diffusion terms are given by</p>
+<div class="math notranslate nohighlight">
+\[\begin{split}\Gamma_k &amp; = \mu + \frac{\mu_t}{\sigma_k} \\
+\Gamma_\omega &amp; = \mu + \frac{\mu_t}{\sigma_\omega}\end{split}\]</div>
+<p>Where, in the <span class="math notranslate nohighlight">\(k-\tau\)</span> model</p>
+<div class="math notranslate nohighlight">
+\[\mu_t = \rho\alpha^* k \tau\]</div>
+<p>The production term is given by</p>
+<div class="math notranslate nohighlight">
+\[P_k = \mu_t\left( \boldsymbol{\underline S : \underline S} \right)\]</div>
+<p>where “<span class="math notranslate nohighlight">\(\boldsymbol :\)</span>” denotes the double dot product.
+The final term in the <span class="math notranslate nohighlight">\(\tau\)</span> equation is the cross-diffusion term, introduced by <a class="reference internal" href="references.html#kok2000" id="id9">[Kok2000]</a>,</p>
+<div class="math notranslate nohighlight" id="equation-ktau-cd">
+<span class="eqno">(23)<a class="headerlink" href="#equation-ktau-cd" title="Permalink to this equation">¶</a></span>\[C_{D_\tau} =(\rho \sigma_d \tau) \text{min}(\nabla k \cdot \nabla \tau,0)\]</div>
+<p>The above term is especially relevant for external flows.
+It eliminates non-physical free-stream dependence of the near-wall <span class="math notranslate nohighlight">\(\tau\)</span> field.</p>
+<p>All coefficients in the <span class="math notranslate nohighlight">\(k-\tau\)</span> model are identical to the <span class="math notranslate nohighlight">\(k-\omega\)</span> model and can be
+found in <a class="reference internal" href="references.html#wilcox2008" id="id10">[Wilcox2008]</a>.</p>
+<p>The current RANS implementation is offered on an <em>experimental</em>, as-is basis.
+It cannot be guaranteed to work with all other features of <em>Nek5000</em> and is still being tested for robustness.
+As such, it is not automatically compiled with the base code and the required subroutines will need to be included in the <code class="docutils literal notranslate"><span class="pre">.usr</span></code> file from the <code class="docutils literal notranslate"><span class="pre">Nek5000/core/experimental</span></code> directory.</p>
+</div>
 </div>
 
 
            </div>
           </div>
           <footer><div class="rst-footer-buttons" role="navigation" aria-label="Footer">
-        <a href="tutorials/neknek.html" class="btn btn-neutral float-left" title="Overlapping Overset Grids" accesskey="p" rel="prev"><span class="fa fa-arrow-circle-left" aria-hidden="true"></span> Previous</a>
+        <a href="tutorials/rans.html" class="btn btn-neutral float-left" title="RANS Channel" accesskey="p" rel="prev"><span class="fa fa-arrow-circle-left" aria-hidden="true"></span> Previous</a>
         <a href="build.html" class="btn btn-neutral float-right" title="Build Options" accesskey="n" rel="next">Next <span class="fa fa-arrow-circle-right" aria-hidden="true"></span></a>
     </div>
 

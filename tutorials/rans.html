@@ -1,0 +1,510 @@
+<!DOCTYPE html>
+<html class="writer-html4" lang="en" >
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>RANS Channel &mdash; Nek5000  documentation</title><link rel="stylesheet" href="../_static/css/theme.css" type="text/css" />
+    <link rel="stylesheet" href="../_static/pygments.css" type="text/css" />
+  <!--[if lt IE 9]>
+    <script src="../_static/js/html5shiv.min.js"></script>
+  <![endif]-->
+  <script id="documentation_options" data-url_root="../" src="../_static/documentation_options.js"></script>
+        <script type="text/javascript" src="../_static/jquery.js"></script>
+        <script type="text/javascript" src="../_static/underscore.js"></script>
+        <script type="text/javascript" src="../_static/doctools.js"></script>
+        <script type="text/javascript" src="../_static/language_data.js"></script>
+        <script async="async" type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.5/latest.js?config=TeX-AMS-MML_HTMLorMML"></script>
+    <script src="../_static/js/theme.js"></script>
+    <link rel="index" title="Index" href="../genindex.html" />
+    <link rel="search" title="Search" href="../search.html" />
+    <link rel="next" title="Theory" href="../theory.html" />
+    <link rel="prev" title="Overlapping Overset Grids" href="neknek.html" /> 
+</head>
+
+<body class="wy-body-for-nav"> 
+  <div class="wy-grid-for-nav">
+    <nav data-toggle="wy-nav-shift" class="wy-nav-side">
+      <div class="wy-side-scroll">
+        <div class="wy-side-nav-search" >
+            <a href="../index.html" class="icon icon-home"> Nek5000
+          </a>
+<div role="search">
+  <form id="rtd-search-form" class="wy-form" action="../search.html" method="get">
+    <input type="text" name="q" placeholder="Search docs" />
+    <input type="hidden" name="check_keywords" value="yes" />
+    <input type="hidden" name="area" value="default" />
+  </form>
+</div>
+        </div><div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="Navigation menu">
+              <ul class="current">
+<li class="toctree-l1"><a class="reference internal" href="../quickstart.html">Quickstart</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../faq.html">FAQ</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../problem_setup.html">Problem Setup</a></li>
+<li class="toctree-l1 current"><a class="reference internal" href="../tutorials.html">Tutorials</a><ul class="current">
+<li class="toctree-l2"><a class="reference internal" href="fdlf.html">Fully Developed Laminar Flow</a></li>
+<li class="toctree-l2"><a class="reference internal" href="perhill.html">Periodic Hill</a></li>
+<li class="toctree-l2"><a class="reference internal" href="conjht.html">Conjugate Heat Transfer</a></li>
+<li class="toctree-l2"><a class="reference internal" href="neknek.html">Overlapping Overset Grids</a></li>
+<li class="toctree-l2 current"><a class="current reference internal" href="#">RANS Channel</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="#before-you-begin">Before You Begin</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#mesh-and-boundary-conditions">Mesh and Boundary Conditions</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#control-parameters-par-file">Control Parameters (.par file)</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#user-routines-usr-file">User Routines (.usr file)</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#size-file">SIZE file</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#compilation">Compilation</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#results">Results</a></li>
+</ul>
+</li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="../theory.html">Theory</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../build.html">Build Options</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../appendix.html">Appendices</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../references.html">References</a></li>
+</ul>
+
+        </div>
+      </div>
+    </nav>
+
+    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap"><nav class="wy-nav-top" aria-label="Mobile navigation menu" >
+          <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
+          <a href="../index.html">Nek5000</a>
+      </nav>
+
+      <div class="wy-nav-content">
+        <div class="rst-content">
+          <div role="navigation" aria-label="Page navigation">
+  <ul class="wy-breadcrumbs">
+      <li><a href="../index.html" class="icon icon-home"></a> &raquo;</li>
+          <li><a href="../tutorials.html">Tutorials</a> &raquo;</li>
+      <li>RANS Channel</li>
+      <li class="wy-breadcrumbs-aside">
+            <a href="../_sources/tutorials/rans.rst.txt" rel="nofollow"> View page source</a>
+      </li>
+  </ul>
+  <hr/>
+</div>
+          <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
+           <div itemprop="articleBody">
+             
+  <div class="section" id="rans-channel">
+<span id="tutorial-rans"></span><h1>RANS Channel<a class="headerlink" href="#rans-channel" title="Permalink to this headline">¶</a></h1>
+<p>This tutorial describes the essential setup details for a wall-resolved RANS simulation, illustrated through a 2D channel case.
+The <span class="math notranslate nohighlight">\(k-\tau\)</span> RANS model is employed for this tutorial, which is the recommended RANS model in <em>Nek5000</em>.
+Other RANS models, including the regularized <span class="math notranslate nohighlight">\(k-\omega\)</span>, are also available.
+For more information see <a class="reference internal" href="../theory.html#intro-ktau"><span class="std std-ref">here</span></a>.</p>
+<div class="section" id="before-you-begin">
+<h2>Before You Begin<a class="headerlink" href="#before-you-begin" title="Permalink to this headline">¶</a></h2>
+<p>It is highly recommended that new users familiarize themselves with the basic <em>Nek5000</em> simulation
+setup files and procedures outlined in the <a class="reference internal" href="fdlf.html#fdlf"><span class="std std-ref">Fully Developed Laminar Flow</span></a> and <a class="reference internal" href="perhill.html#perhill"><span class="std std-ref">Periodic Hill</span></a> tutorials before proceeding.</p>
+<div class="admonition warning">
+<p class="first admonition-title">Warning</p>
+<p class="last">The RANS models rely on setting an implicit source term for robustness. This is not supported in V19 or earlier versions of <em>Nek5000</em>. Any implementation of RANS models should use the latest master branch from github.</p>
+</div>
+</div>
+<div class="section" id="mesh-and-boundary-conditions">
+<h2>Mesh and Boundary Conditions<a class="headerlink" href="#mesh-and-boundary-conditions" title="Permalink to this headline">¶</a></h2>
+<p>The mesh is generated with <code class="docutils literal notranslate"><span class="pre">genbox</span></code> using the following input file</p>
+<div class="highlight-none notranslate"><div class="highlight"><pre><span></span>-2                    spatial dimension
+1                     number of fields (U)          
+#=======================================================================
+#
+#    Example of .box file for channel flow
+#    Note that the character bcs _must_ have 3 characters.
+#
+#=======================================================================
+#
+Box
+-3  -7                                nelx,nely,nelz for Box
+-0.5 0.5 1.0                             x0,x1,gain
+0.0 1.0 0.35
+P  ,P  ,SYM,W  
+</pre></div>
+</div>
+<p>It creates an infinite 2D half-channel of non-dimensional width <span class="math notranslate nohighlight">\(1\)</span>.
+The streamwise (<span class="math notranslate nohighlight">\(x\)</span>) direction has 3 elements with periodic (<code class="docutils literal notranslate"><span class="pre">P</span></code>) boundary conditions.
+The spanwise (<span class="math notranslate nohighlight">\(y\)</span>) direction has 7 geometrically spaced elements with a symmetry (<code class="docutils literal notranslate"><span class="pre">SYM</span></code>) boundary condition specified at the bottom face and a wall (<code class="docutils literal notranslate"><span class="pre">W</span></code>) boundary on the top face.
+The elements shrink from the bottom of the domain to the top with a ratio of <span class="math notranslate nohighlight">\(0.35\)</span>.</p>
+<div class="admonition note">
+<p class="first admonition-title">Note</p>
+<p class="last">Boundary conditions for the turbulent scalars are handled internally by <em>Nek5000</em> and do not need to be specified at the time of mesh generation.</p>
+</div>
+</div>
+<div class="section" id="control-parameters-par-file">
+<h2>Control Parameters (.par file)<a class="headerlink" href="#control-parameters-par-file" title="Permalink to this headline">¶</a></h2>
+<p>Details of the structure of the parameter file can be found <a class="reference internal" href="../problem_setup/case_files.html#case-files-par"><span class="std std-ref">here</span></a>.
+For RANS simulations it is critical to include two additional scalars which correspond to the <span class="math notranslate nohighlight">\(k\)</span> and
+<span class="math notranslate nohighlight">\(\tau\)</span> fields respectively.
+Here, they are included as the <code class="docutils literal notranslate"><span class="pre">[SCALAR01]</span></code> and <code class="docutils literal notranslate"><span class="pre">[SCALAR02]</span></code> cards.
+In addition, it is essential to also include the <code class="docutils literal notranslate"><span class="pre">[PROBLEMTYPE]</span></code> card and enable <code class="docutils literal notranslate"><span class="pre">variableProperties</span></code> and <code class="docutils literal notranslate"><span class="pre">stressFormulation</span></code>.</p>
+<p>For this particular tutorial, the simulation is <a class="reference internal" href="../theory.html#intro-ns-nondim"><span class="std std-ref">non-dimensionalized</span></a> and flow properties are <code class="docutils literal notranslate"><span class="pre">density=1.0</span></code> and <code class="docutils literal notranslate"><span class="pre">viscosity=-125000</span></code>.
+It is strongly recommended to run RANS simulations in non-dimensional form.
+By assigning a negative value to the viscosity, <em>Nek5000</em> will treat it as a Reynolds number.
+This setup corresponds to <span class="math notranslate nohighlight">\(Re = 125,000\)</span>, which is well above the critical Reynolds number for a channel.
+<code class="docutils literal notranslate"><span class="pre">density</span></code> and <code class="docutils literal notranslate"><span class="pre">diffusivity</span></code>  for <code class="docutils literal notranslate"><span class="pre">SCALAR01</span></code> and <code class="docutils literal notranslate"><span class="pre">SCALAR02</span></code> are not used by the solver, but should be assigned identical values as <code class="docutils literal notranslate"><span class="pre">density</span></code> and <code class="docutils literal notranslate"><span class="pre">viscosity</span></code> for velocity field for consistency.</p>
+<div class="admonition note">
+<p class="first admonition-title">Note</p>
+<p class="last">Property values for turblent scalars will be replaced with those specified for the velocity field.</p>
+</div>
+<div class="highlight-ini notranslate"><div class="highlight"><pre><span></span><span class="c1">#</span>
+<span class="c1"># nek parameter file</span>
+<span class="c1">#</span>
+<span class="k">[GENERAL]</span>
+<span class="na">numSteps</span> <span class="o">=</span> <span class="s">60000</span>
+<span class="na">dt</span> <span class="o">=</span> <span class="s">5.0e-3</span>
+<span class="na">writeInterval</span> <span class="o">=</span> <span class="s">20000</span>
+
+<span class="k">[PROBLEMTYPE]</span>
+<span class="na">variableProperties</span> <span class="o">=</span> <span class="s">yes</span>
+<span class="na">stressFormulation</span> <span class="o">=</span> <span class="s">yes</span>
+
+<span class="k">[PRESSURE]</span>
+<span class="na">residualTol</span> <span class="o">=</span> <span class="s">1.0e-5</span>
+
+<span class="k">[VELOCITY]</span>
+<span class="na">density</span> <span class="o">=</span> <span class="s">1.0</span>
+<span class="na">viscosity</span> <span class="o">=</span> <span class="s">-125000.0</span>
+<span class="na">residualTol</span> <span class="o">=</span> <span class="s">1.0e-6</span>
+
+<span class="hll"><span class="c1">#tke</span>
+</span><span class="hll"><span class="k">[SCALAR01]</span>
+</span><span class="hll"><span class="na">density</span> <span class="o">=</span> <span class="s">1.0</span>
+</span><span class="hll"><span class="na">diffusivity</span> <span class="o">=</span> <span class="s">-125000.0</span>
+</span><span class="hll"><span class="na">residualTol</span> <span class="o">=</span> <span class="s">1.0e-6</span>
+</span><span class="hll">
+</span><span class="hll"><span class="c1">#tau</span>
+</span><span class="hll"><span class="k">[SCALAR02]</span>
+</span><span class="hll"><span class="na">density</span> <span class="o">=</span> <span class="s">1.0</span>
+</span><span class="hll"><span class="na">diffusivity</span> <span class="o">=</span> <span class="s">-125000.0</span>
+</span><span class="hll"><span class="na">residualTol</span> <span class="o">=</span> <span class="s">1.0e-6</span>
+</span></pre></div>
+</div>
+<p>The Temperature field is not solved in this tutorial, but can be turned on by adding the <code class="docutils literal notranslate"><span class="pre">[TEMPERATURE]</span></code> card and the requisite properties.</p>
+</div>
+<div class="section" id="user-routines-usr-file">
+<h2>User Routines (.usr file)<a class="headerlink" href="#user-routines-usr-file" title="Permalink to this headline">¶</a></h2>
+<p>This section describes the essential code snippets required in the <code class="docutils literal notranslate"><span class="pre">.usr</span></code> file for RANS simulations.
+Other details of all the subroutines can be found <a class="reference internal" href="../problem_setup/usr_file.html#case-files-usr"><span class="std std-ref">here</span></a>.</p>
+<p>Foremost, it is essential to include the following header at the beginning of the <code class="docutils literal notranslate"><span class="pre">.usr</span></code> file.</p>
+<div class="highlight-fortran notranslate"><div class="highlight"><pre><span></span>      <span class="k">include</span> <span class="s2">&quot;experimental/rans_komg.f&quot;</span>
+      <span class="k">include</span> <span class="s2">&quot;experimental/rans_wallfunctions.f&quot;</span>
+</pre></div>
+</div>
+<p>Files in the above relative locations in the <em>Nek5000</em> repo load the essential RANS subroutines.</p>
+<p>RANS initialization is done through the <code class="docutils literal notranslate"><span class="pre">rans_init</span></code> subroutine call from <code class="docutils literal notranslate"><span class="pre">usrdat2</span></code>.
+The required code snippet is shown below.</p>
+<div class="highlight-fortran notranslate"><div class="highlight"><pre><span></span>      <span class="k">subroutine </span><span class="n">usrdat2</span><span class="p">()</span>
+      <span class="k">implicit none</span>
+<span class="k">      include</span> <span class="s1">&#39;SIZE&#39;</span>
+      <span class="k">include</span> <span class="s1">&#39;TOTAL&#39;</span>
+
+      <span class="kt">real </span><span class="n">wd</span>
+      <span class="k">common</span> <span class="o">/</span><span class="n">walldist</span><span class="o">/</span> <span class="n">wd</span><span class="p">(</span><span class="n">lx1</span><span class="p">,</span><span class="n">ly1</span><span class="p">,</span><span class="n">lz1</span><span class="p">,</span><span class="n">lelv</span><span class="p">)</span>
+
+      <span class="k">common</span> <span class="o">/</span><span class="n">rans_usr</span><span class="o">/</span> <span class="n">ifld_tke</span><span class="p">,</span> <span class="n">ifld_tau</span><span class="p">,</span> <span class="n">m_id</span>
+      <span class="kt">integer </span><span class="n">ifld_tke</span><span class="p">,</span><span class="n">ifld_tau</span><span class="p">,</span> <span class="n">m_id</span>
+
+      <span class="kt">integer </span><span class="n">w_id</span>
+      <span class="kt">real </span><span class="n">coeffs</span><span class="p">(</span><span class="mi">30</span><span class="p">)</span> <span class="c">!array for passing your own coeffs</span>
+      <span class="kt">logical </span><span class="n">ifcoeffs</span>
+      
+      <span class="n">ifld_tke</span> <span class="o">=</span> <span class="mi">3</span> <span class="c">!address of tke equation in t array</span>
+      <span class="n">ifld_tau</span> <span class="o">=</span> <span class="mi">4</span> <span class="c">!address of omega equation in t array</span>
+      <span class="n">ifcoeffs</span> <span class="o">=</span><span class="p">.</span><span class="n">false</span><span class="p">.</span> <span class="c">!set to true to pass your own coeffs</span>
+
+<span class="n">C</span>     <span class="n">Supported</span> <span class="n">models</span><span class="p">:</span>
+<span class="n">c</span>     <span class="n">m_id</span> <span class="o">=</span> <span class="mi">0</span> <span class="c">!regularized standard k-omega (no wall functions)</span>
+<span class="n">c</span>     <span class="n">m_id</span> <span class="o">=</span> <span class="mi">1</span> <span class="c">!regularized low-Re k-omega (no wall functions)</span>
+<span class="n">c</span>     <span class="n">m_id</span> <span class="o">=</span> <span class="mi">2</span> <span class="c">!regularized standard k-omega SST (no wall functions)</span>
+<span class="n">c</span>     <span class="n">m_id</span> <span class="o">=</span> <span class="mi">3</span> <span class="c">!Not supported</span>
+      <span class="n">m_id</span> <span class="o">=</span> <span class="mi">4</span> <span class="c">!standard k-tau</span>
+<span class="n">c</span>     <span class="n">m_id</span> <span class="o">=</span> <span class="mi">5</span> <span class="c">!low Re k-tau </span>
+<span class="n">c</span>     <span class="n">m_id</span> <span class="o">=</span> <span class="mi">6</span> <span class="c">!standard k-tau SST</span>
+
+<span class="n">C</span>     <span class="n">Wall</span> <span class="n">distance</span> <span class="k">function</span><span class="p">:</span>
+<span class="n">c</span>     <span class="n">w_id</span> <span class="o">=</span> <span class="mi">0</span> <span class="c">! user specified</span>
+<span class="n">c</span>     <span class="n">w_id</span> <span class="o">=</span> <span class="mi">1</span> <span class="c">! cheap_dist (path to wall, may work better for periodic boundaries)</span>
+      <span class="n">w_id</span> <span class="o">=</span> <span class="mi">2</span> <span class="c">! distf (coordinate difference, provides smoother function)</span>
+
+      <span class="k">call </span><span class="n">rans_init</span><span class="p">(</span><span class="n">ifld_tke</span><span class="p">,</span><span class="n">ifld_tau</span><span class="p">,</span><span class="n">ifcoeffs</span><span class="p">,</span><span class="n">coeffs</span><span class="p">,</span><span class="n">w_id</span><span class="p">,</span><span class="n">wd</span><span class="p">,</span><span class="n">m_id</span><span class="p">)</span>
+
+      <span class="k">return</span>
+<span class="k">      end</span>
+</pre></div>
+</div>
+<p>The <code class="docutils literal notranslate"><span class="pre">rans_init</span></code> subroutine sets up the necessary solver variables to use RANS models.
+This includes loading the model coefficients, setting up the character boundary condition (<code class="docutils literal notranslate"><span class="pre">cbc</span></code>) array for the turbulent scalars, and calculating the regularization <a class="reference internal" href="../references.html#tombo2018" id="id1">[Tombo2018]</a> for the <span class="math notranslate nohighlight">\(k-\omega\)</span> models.
+The <code class="docutils literal notranslate"><span class="pre">ifld_tke</span></code> and <code class="docutils literal notranslate"><span class="pre">ifld_tau</span></code> variables specify the field index location of the transport variables of the two-equation RANS model.
+The specific RANS model used is identified by the <code class="docutils literal notranslate"><span class="pre">m_id</span></code> variable.
+All available RANS models are annotated in the above code.
+The recommended <span class="math notranslate nohighlight">\(k-\tau\)</span> model is invoked with <code class="docutils literal notranslate"><span class="pre">m_id=4</span></code>.
+Selecting <code class="docutils literal notranslate"><span class="pre">ifcoeffs=.false.</span></code> sets the standard RANS coefficients outlined in <a class="reference internal" href="../references.html#wilcox2008" id="id2">[Wilcox2008]</a>.
+Advanced users have the option of specifying their own coefficients which have to populated in the <code class="docutils literal notranslate"><span class="pre">coeffs</span></code> array, with <code class="docutils literal notranslate"><span class="pre">ifcoeffs=.true.</span></code>.
+The final parameter to be aware of is the wall distance function code <code class="docutils literal notranslate"><span class="pre">w_id</span></code>.
+The recommended value for it is <code class="docutils literal notranslate"><span class="pre">w_id=2</span></code> which provides a smoother distance function, populated in the <code class="docutils literal notranslate"><span class="pre">wd</span></code> array.
+A cheaper option is available through <code class="docutils literal notranslate"><span class="pre">w_id=1</span></code> which provides “taxicab” distance and can search across periodic boundaries.
+The user also has the option of specifying their own wall distance array by setting <code class="docutils literal notranslate"><span class="pre">w_id=0</span></code> which will require <code class="docutils literal notranslate"><span class="pre">wd</span></code> array to
+be populated with user computed wall distance before the <code class="docutils literal notranslate"><span class="pre">rans_init</span></code> call.</p>
+<p>Diffusion coefficients for all fields in RANS simulation runs must be modified to include eddy viscosity.
+This is done by the following inclusions in the <code class="docutils literal notranslate"><span class="pre">uservp</span></code> subroutine</p>
+<div class="highlight-fortran notranslate"><div class="highlight"><pre><span></span>      <span class="k">subroutine </span><span class="n">uservp</span> <span class="p">(</span><span class="n">ix</span><span class="p">,</span><span class="n">iy</span><span class="p">,</span><span class="n">iz</span><span class="p">,</span><span class="n">eg</span><span class="p">)</span>
+      <span class="k">implicit none</span>
+<span class="k">      include</span> <span class="s1">&#39;SIZE&#39;</span>
+      <span class="k">include</span> <span class="s1">&#39;TOTAL&#39;</span>
+      <span class="k">include</span> <span class="s1">&#39;NEKUSE&#39;</span>
+      
+      <span class="kt">integer </span><span class="n">ix</span><span class="p">,</span><span class="n">iy</span><span class="p">,</span><span class="n">iz</span><span class="p">,</span><span class="n">e</span><span class="p">,</span><span class="n">eg</span>
+      
+      <span class="k">common</span> <span class="o">/</span><span class="n">rans_usr</span><span class="o">/</span> <span class="n">ifld_tke</span><span class="p">,</span> <span class="n">ifld_tau</span><span class="p">,</span> <span class="n">m_id</span>
+      <span class="kt">integer </span><span class="n">ifld_tke</span><span class="p">,</span><span class="n">ifld_tau</span><span class="p">,</span> <span class="n">m_id</span>
+      
+      <span class="kt">real </span><span class="n">rans_mut</span><span class="p">,</span><span class="n">rans_mutsk</span><span class="p">,</span><span class="n">rans_mutso</span><span class="p">,</span><span class="n">rans_turbPrandtl</span>
+      <span class="kt">real </span><span class="n">mu_t</span><span class="p">,</span><span class="n">Pr_t</span>
+      
+      <span class="n">e</span> <span class="o">=</span> <span class="n">gllel</span><span class="p">(</span><span class="n">eg</span><span class="p">)</span>
+      
+      <span class="n">Pr_t</span><span class="o">=</span><span class="n">rans_turbPrandtl</span><span class="p">()</span>
+      <span class="n">mu_t</span><span class="o">=</span><span class="n">rans_mut</span><span class="p">(</span><span class="n">ix</span><span class="p">,</span><span class="n">iy</span><span class="p">,</span><span class="n">iz</span><span class="p">,</span><span class="n">e</span><span class="p">)</span>
+      
+      <span class="k">if</span><span class="p">(</span><span class="n">ifield</span><span class="p">.</span><span class="n">eq</span><span class="p">.</span><span class="mi">1</span><span class="p">)</span> <span class="k">then</span>
+<span class="k">        </span><span class="n">udiff</span>  <span class="o">=</span> <span class="n">cpfld</span><span class="p">(</span><span class="n">ifield</span><span class="p">,</span><span class="mi">1</span><span class="p">)</span><span class="o">+</span><span class="n">mu_t</span>
+        <span class="n">utrans</span> <span class="o">=</span> <span class="n">cpfld</span><span class="p">(</span><span class="n">ifield</span><span class="p">,</span><span class="mi">2</span><span class="p">)</span>
+      <span class="k">else if</span><span class="p">(</span><span class="n">ifield</span><span class="p">.</span><span class="n">eq</span><span class="p">.</span><span class="mi">2</span><span class="p">)</span> <span class="k">then</span>
+<span class="k">        </span><span class="n">udiff</span>  <span class="o">=</span> <span class="n">cpfld</span><span class="p">(</span><span class="n">ifield</span><span class="p">,</span><span class="mi">1</span><span class="p">)</span><span class="o">+</span><span class="n">mu_t</span><span class="o">*</span><span class="n">cpfld</span><span class="p">(</span><span class="n">ifield</span><span class="p">,</span><span class="mi">2</span><span class="p">)</span><span class="o">/</span><span class="p">(</span><span class="n">Pr_t</span><span class="o">*</span><span class="n">cpfld</span><span class="p">(</span><span class="mi">1</span><span class="p">,</span><span class="mi">2</span><span class="p">))</span>
+        <span class="n">utrans</span> <span class="o">=</span> <span class="n">cpfld</span><span class="p">(</span><span class="n">ifield</span><span class="p">,</span><span class="mi">2</span><span class="p">)</span>
+      <span class="k">else if</span><span class="p">(</span><span class="n">ifield</span><span class="p">.</span><span class="n">eq</span><span class="p">.</span><span class="n">ifld_tke</span><span class="p">)</span> <span class="k">then</span>
+<span class="k">        </span><span class="n">udiff</span>  <span class="o">=</span> <span class="n">cpfld</span><span class="p">(</span><span class="mi">1</span><span class="p">,</span><span class="mi">1</span><span class="p">)</span><span class="o">+</span><span class="n">rans_mutsk</span><span class="p">(</span><span class="n">ix</span><span class="p">,</span><span class="n">iy</span><span class="p">,</span><span class="n">iz</span><span class="p">,</span><span class="n">e</span><span class="p">)</span>
+        <span class="n">utrans</span> <span class="o">=</span> <span class="n">cpfld</span><span class="p">(</span><span class="mi">1</span><span class="p">,</span><span class="mi">2</span><span class="p">)</span>
+      <span class="k">else if</span><span class="p">(</span><span class="n">ifield</span><span class="p">.</span><span class="n">eq</span><span class="p">.</span><span class="n">ifld_tau</span><span class="p">)</span> <span class="k">then</span>
+<span class="k">        </span><span class="n">udiff</span>  <span class="o">=</span> <span class="n">cpfld</span><span class="p">(</span><span class="mi">1</span><span class="p">,</span><span class="mi">1</span><span class="p">)</span><span class="o">+</span><span class="n">rans_mutso</span><span class="p">(</span><span class="n">ix</span><span class="p">,</span><span class="n">iy</span><span class="p">,</span><span class="n">iz</span><span class="p">,</span><span class="n">e</span><span class="p">)</span>
+        <span class="n">utrans</span> <span class="o">=</span> <span class="n">cpfld</span><span class="p">(</span><span class="mi">1</span><span class="p">,</span><span class="mi">2</span><span class="p">)</span>
+      <span class="k">end if</span>
+<span class="k">      </span>
+<span class="k">      return</span>
+<span class="k">      end</span>
+</pre></div>
+</div>
+<p>As above, eddy viscosity, <code class="docutils literal notranslate"><span class="pre">mu_t</span></code>, is added to the momentum diffusion coefficient and <span class="math notranslate nohighlight">\(k\)</span> and <span class="math notranslate nohighlight">\(\tau\)</span> diffusion coefficients are modified as described by Eq. <a class="reference internal" href="../theory.html#equation-ktau">(22)</a> in the <a class="reference internal" href="../theory.html#intro-ktau"><span class="std std-ref">RANS theory section</span></a>.</p>
+<div class="admonition note">
+<p class="first admonition-title">Note</p>
+<p class="last">The transport and diffusion coefficients (<code class="docutils literal notranslate"><span class="pre">utrans</span></code> and <code class="docutils literal notranslate"><span class="pre">udiff</span></code>) for the RANS scalars are set with the <a class="reference internal" href="../problem_setup/usr_file.html#tab-cpfld"><span class="std std-ref">field coefficient array</span></a> vaules (<code class="docutils literal notranslate"><span class="pre">cpfld</span></code>) for field 1, velocity. This is done to ensure consistency in the problem setup.</p>
+</div>
+<p>Source terms in the <span class="math notranslate nohighlight">\(k-\tau\)</span> transport equations, Eq. <a class="reference internal" href="../theory.html#equation-ktau">(22)</a>, are added with the following inputs in the <code class="docutils literal notranslate"><span class="pre">userq</span></code> subroutine</p>
+<div class="highlight-fortran notranslate"><div class="highlight"><pre><span></span>      <span class="k">subroutine </span><span class="n">userq</span>  <span class="p">(</span><span class="n">ix</span><span class="p">,</span><span class="n">iy</span><span class="p">,</span><span class="n">iz</span><span class="p">,</span><span class="n">ieg</span><span class="p">)</span>
+      <span class="k">implicit none</span>
+<span class="k">      include</span> <span class="s1">&#39;SIZE&#39;</span>
+      <span class="k">include</span> <span class="s1">&#39;TOTAL&#39;</span>
+      <span class="k">include</span> <span class="s1">&#39;NEKUSE&#39;</span>
+
+      <span class="k">common</span> <span class="o">/</span><span class="n">rans_usr</span><span class="o">/</span> <span class="n">ifld_tke</span><span class="p">,</span> <span class="n">ifld_tau</span><span class="p">,</span> <span class="n">m_id</span>
+      <span class="kt">integer </span><span class="n">ifld_tke</span><span class="p">,</span><span class="n">ifld_tau</span><span class="p">,</span> <span class="n">m_id</span>
+
+      <span class="kt">real </span><span class="n">rans_kSrc</span><span class="p">,</span><span class="n">rans_omgSrc</span>
+      <span class="kt">real </span><span class="n">rans_kDiag</span><span class="p">,</span><span class="n">rans_omgDiag</span>
+
+      <span class="kt">integer </span><span class="n">ie</span><span class="p">,</span><span class="n">ix</span><span class="p">,</span><span class="n">iy</span><span class="p">,</span><span class="n">iz</span><span class="p">,</span><span class="n">ieg</span>
+      <span class="n">ie</span> <span class="o">=</span> <span class="n">gllel</span><span class="p">(</span><span class="n">ieg</span><span class="p">)</span>
+
+      <span class="k">if</span> <span class="p">(</span><span class="n">ifield</span><span class="p">.</span><span class="n">eq</span><span class="p">.</span><span class="mi">2</span><span class="p">)</span> <span class="k">then</span>
+<span class="k">        </span><span class="n">qvol</span> <span class="o">=</span> <span class="mf">0.0</span> 
+        <span class="n">avol</span> <span class="o">=</span> <span class="mf">0.0</span>
+      <span class="k">else if</span> <span class="p">(</span><span class="n">ifield</span><span class="p">.</span><span class="n">eq</span><span class="p">.</span><span class="n">ifld_tke</span><span class="p">)</span> <span class="k">then</span>
+<span class="k">        </span><span class="n">qvol</span> <span class="o">=</span> <span class="n">rans_kSrc</span>  <span class="p">(</span><span class="n">ix</span><span class="p">,</span><span class="n">iy</span><span class="p">,</span><span class="n">iz</span><span class="p">,</span><span class="n">ie</span><span class="p">)</span>
+        <span class="n">avol</span> <span class="o">=</span> <span class="n">rans_kDiag</span> <span class="p">(</span><span class="n">ix</span><span class="p">,</span><span class="n">iy</span><span class="p">,</span><span class="n">iz</span><span class="p">,</span><span class="n">ie</span><span class="p">)</span>
+      <span class="k">else if</span> <span class="p">(</span><span class="n">ifield</span><span class="p">.</span><span class="n">eq</span><span class="p">.</span><span class="n">ifld_tau</span><span class="p">)</span> <span class="k">then</span>
+<span class="k">        </span><span class="n">qvol</span> <span class="o">=</span> <span class="n">rans_omgSrc</span> <span class="p">(</span><span class="n">ix</span><span class="p">,</span><span class="n">iy</span><span class="p">,</span><span class="n">iz</span><span class="p">,</span><span class="n">ie</span><span class="p">)</span>
+        <span class="n">avol</span> <span class="o">=</span> <span class="n">rans_omgDiag</span><span class="p">(</span><span class="n">ix</span><span class="p">,</span><span class="n">iy</span><span class="p">,</span><span class="n">iz</span><span class="p">,</span><span class="n">ie</span><span class="p">)</span>
+      <span class="k">end if</span>
+
+<span class="k">      return</span>
+<span class="k">      end</span>
+</pre></div>
+</div>
+<p>Implicit source terms contributions are specified to the <code class="docutils literal notranslate"><span class="pre">avol</span></code> variable, while remaining terms are
+in the <code class="docutils literal notranslate"><span class="pre">qvol</span></code> variable.</p>
+<p>For the wall-resolved <span class="math notranslate nohighlight">\(k-\tau\)</span> RANS model, the wall boundary conditions for <span class="math notranslate nohighlight">\(k\)</span> and <span class="math notranslate nohighlight">\(\tau\)</span> are both zero.
+These are set in <code class="docutils literal notranslate"><span class="pre">userbc</span></code> as</p>
+<div class="highlight-fortran notranslate"><div class="highlight"><pre><span></span>      <span class="k">subroutine </span><span class="n">userbc</span><span class="p">(</span><span class="n">ix</span><span class="p">,</span><span class="n">iy</span><span class="p">,</span><span class="n">iz</span><span class="p">,</span><span class="n">iside</span><span class="p">,</span><span class="n">eg</span><span class="p">)</span> <span class="c">! set up boundary conditions</span>
+      <span class="k">implicit none</span>
+<span class="k">      include</span> <span class="s1">&#39;SIZE&#39;</span>
+      <span class="k">include</span> <span class="s1">&#39;TOTAL&#39;</span>
+      <span class="k">include</span> <span class="s1">&#39;NEKUSE&#39;</span>
+<span class="n">c</span>
+      <span class="kt">integer </span><span class="n">ix</span><span class="p">,</span><span class="n">iy</span><span class="p">,</span><span class="n">iz</span><span class="p">,</span><span class="n">iside</span><span class="p">,</span><span class="n">e</span><span class="p">,</span><span class="n">eg</span>
+      <span class="kt">character</span><span class="o">*</span><span class="mi">3</span> <span class="n">cb1</span>
+  
+      <span class="k">common</span> <span class="o">/</span><span class="n">rans_usr</span><span class="o">/</span> <span class="n">ifld_tke</span><span class="p">,</span> <span class="n">ifld_tau</span><span class="p">,</span> <span class="n">m_id</span>
+      <span class="kt">integer </span><span class="n">ifld_tke</span><span class="p">,</span><span class="n">ifld_tau</span><span class="p">,</span> <span class="n">m_id</span>
+      
+      <span class="n">e</span> <span class="o">=</span> <span class="n">gllel</span><span class="p">(</span><span class="n">eg</span><span class="p">)</span>
+      <span class="n">cb1</span> <span class="o">=</span> <span class="n">cbc</span><span class="p">(</span><span class="n">iside</span><span class="p">,</span><span class="n">e</span><span class="p">,</span><span class="mi">1</span><span class="p">)</span> <span class="c">!velocity boundary condition</span>
+
+      <span class="n">ux</span>   <span class="o">=</span> <span class="mf">0.0</span>
+      <span class="n">uy</span>   <span class="o">=</span> <span class="mf">0.0</span>
+      <span class="n">uz</span>   <span class="o">=</span> <span class="mf">0.0</span>
+      <span class="n">temp</span> <span class="o">=</span> <span class="mf">0.0</span>
+      
+<span class="hll">      <span class="k">if</span><span class="p">(</span><span class="n">cb1</span><span class="p">.</span><span class="n">eq</span><span class="p">.</span><span class="s1">&#39;W  &#39;</span><span class="p">)</span> <span class="k">then</span>
+</span><span class="k">        if</span><span class="p">(</span><span class="n">ifield</span><span class="p">.</span><span class="n">eq</span><span class="p">.</span><span class="n">ifld_tke</span><span class="p">)</span> <span class="k">then</span>
+<span class="k">          </span><span class="n">temp</span> <span class="o">=</span> <span class="mf">0.0</span>
+        <span class="k">else if</span><span class="p">(</span><span class="n">ifield</span><span class="p">.</span><span class="n">eq</span><span class="p">.</span><span class="n">ifld_tau</span><span class="p">)</span> <span class="k">then</span>
+<span class="k">          </span><span class="n">temp</span> <span class="o">=</span> <span class="mf">0.0</span>
+        <span class="k">end if</span>
+<span class="k">      end if</span>
+
+<span class="k">      return</span>
+<span class="k">      end</span>
+</pre></div>
+</div>
+<p>The velocity boundary condition is checked in <code class="docutils literal notranslate"><span class="pre">cb1</span></code> for a wall on the highlighted line.
+For this periodic case, this is not strictly necessary.
+However, for any inlet/outlet case it is needed to distinguish between the Dirichlet BC values for <span class="math notranslate nohighlight">\(k\)</span> and <span class="math notranslate nohighlight">\(\tau\)</span> on the wall versus an inlet, where <code class="docutils literal notranslate"><span class="pre">cb1</span></code> would have a value of <code class="docutils literal notranslate"><span class="pre">v</span></code>.</p>
+<p>Initial conditions are specified in the <code class="docutils literal notranslate"><span class="pre">useric</span></code> routine.
+For RANS simulations, positive non-zero initial values for <span class="math notranslate nohighlight">\(k\)</span> and <span class="math notranslate nohighlight">\(\tau\)</span> are recommended.
+The following is used for the channel simulation,</p>
+<div class="highlight-fortran notranslate"><div class="highlight"><pre><span></span>      <span class="k">subroutine </span><span class="n">useric</span> <span class="p">(</span><span class="n">ix</span><span class="p">,</span><span class="n">iy</span><span class="p">,</span><span class="n">iz</span><span class="p">,</span><span class="n">eg</span><span class="p">)</span>
+      <span class="k">implicit none</span>
+<span class="k">      include</span> <span class="s1">&#39;SIZE&#39;</span>
+      <span class="k">include</span> <span class="s1">&#39;TOTAL&#39;</span>
+      <span class="k">include</span> <span class="s1">&#39;NEKUSE&#39;</span>
+
+      <span class="kt">integer </span><span class="n">ix</span><span class="p">,</span><span class="n">iy</span><span class="p">,</span><span class="n">iz</span><span class="p">,</span><span class="n">e</span><span class="p">,</span><span class="n">eg</span>
+
+      <span class="k">common</span> <span class="o">/</span><span class="n">rans_usr</span><span class="o">/</span> <span class="n">ifld_tke</span><span class="p">,</span> <span class="n">ifld_tau</span><span class="p">,</span> <span class="n">m_id</span>
+      <span class="kt">integer </span><span class="n">ifld_tke</span><span class="p">,</span><span class="n">ifld_tau</span><span class="p">,</span> <span class="n">m_id</span>
+      
+      <span class="n">e</span> <span class="o">=</span> <span class="n">gllel</span><span class="p">(</span><span class="n">eg</span><span class="p">)</span>
+      
+      <span class="n">ux</span>   <span class="o">=</span> <span class="mf">1.0</span>
+      <span class="n">uy</span>   <span class="o">=</span> <span class="mf">0.0</span>
+      <span class="n">uz</span>   <span class="o">=</span> <span class="mf">0.0</span>
+      <span class="n">temp</span> <span class="o">=</span> <span class="mf">0.0</span>
+
+      <span class="k">if</span><span class="p">(</span><span class="n">ifield</span><span class="p">.</span><span class="n">eq</span><span class="p">.</span><span class="n">ifld_tke</span><span class="p">)</span> <span class="n">temp</span> <span class="o">=</span> <span class="mf">0.01</span>
+      <span class="k">if</span><span class="p">(</span><span class="n">ifield</span><span class="p">.</span><span class="n">eq</span><span class="p">.</span><span class="n">ifld_tau</span><span class="p">)</span> <span class="n">temp</span> <span class="o">=</span> <span class="mf">0.2</span>
+      
+      <span class="k">return</span>
+<span class="k">      end</span>
+</pre></div>
+</div>
+<p>Flow is driven through the channel by the application of streamwise mass flux, specified in <code class="docutils literal notranslate"><span class="pre">usrdat</span></code></p>
+<div class="highlight-fortran notranslate"><div class="highlight"><pre><span></span>      <span class="k">subroutine </span><span class="n">usrdat</span>   <span class="c">! This routine to modify element vertices</span>
+      <span class="k">implicit none</span>
+<span class="k">      include</span> <span class="s1">&#39;SIZE&#39;</span>       
+      <span class="k">include</span> <span class="s1">&#39;TOTAL&#39;</span>     
+
+<span class="c">! apply mass flux to drive the flow such that Ubar = 1</span>
+      <span class="n">param</span><span class="p">(</span><span class="mi">54</span><span class="p">)</span> <span class="o">=-</span><span class="mi">1</span>       <span class="c">!x-direction</span>
+      <span class="n">param</span><span class="p">(</span><span class="mi">55</span><span class="p">)</span> <span class="o">=</span> <span class="mf">1.0</span>     <span class="c">!Mean Bulk velocity, Ubar</span>
+
+      <span class="k">return</span>
+<span class="k">      end</span>
+</pre></div>
+</div>
+</div>
+<div class="section" id="size-file">
+<h2>SIZE file<a class="headerlink" href="#size-file" title="Permalink to this headline">¶</a></h2>
+<p>The <code class="docutils literal notranslate"><span class="pre">SIZE</span></code> file can be copied from the available template included at the <code class="docutils literal notranslate"><span class="pre">Nek5000/core/SIZE.template</span></code> and changing the basic parameters as necessary for this case.
+The user needs to ensure that the auxiliary fields specified in the SIZE file is at minimum <code class="docutils literal notranslate"><span class="pre">ldimt=3</span></code> for RANS simulations.
+This includes the reserved field for temperature and the two additional fields for the turbulent scalars.
+In order to use the stress formulation, additional memory must be allocated by setting, <code class="docutils literal notranslate"><span class="pre">lx1m=lx1</span></code>
+These two changes are highlighted below.
+Other details on the contents of the <code class="docutils literal notranslate"><span class="pre">SIZE</span></code> file can be found <a class="reference internal" href="../problem_setup/case_files.html#case-files-size"><span class="std std-ref">here</span></a>.</p>
+<div class="highlight-fortran notranslate"><div class="highlight"><pre><span></span>      <span class="c">! BASIC</span>
+      <span class="k">parameter</span> <span class="p">(</span><span class="n">ldim</span><span class="o">=</span><span class="mi">2</span><span class="p">)</span>               <span class="c">! domain dimension (2 or 3)</span>
+      <span class="k">parameter</span> <span class="p">(</span><span class="n">lx1</span><span class="o">=</span><span class="mi">8</span><span class="p">)</span>                <span class="c">! GLL points per element along each direction</span>
+      <span class="k">parameter</span> <span class="p">(</span><span class="n">lxd</span><span class="o">=</span><span class="mi">12</span><span class="p">)</span>               <span class="c">! GL  points for over-integration (dealiasing) </span>
+      <span class="k">parameter</span> <span class="p">(</span><span class="n">lx2</span><span class="o">=</span><span class="n">lx1</span><span class="p">)</span>              <span class="c">! GLL points for pressure (lx1 or lx1-2)</span>
+                                     
+      <span class="k">parameter</span> <span class="p">(</span><span class="n">lelg</span><span class="o">=</span><span class="mi">3</span><span class="o">*</span><span class="mi">7</span><span class="p">)</span>             <span class="c">! max number of global elements</span>
+      <span class="k">parameter</span> <span class="p">(</span><span class="n">lpmin</span><span class="o">=</span><span class="mi">1</span><span class="p">)</span>              <span class="c">! min number of MPI ranks </span>
+      <span class="k">parameter</span> <span class="p">(</span><span class="n">lelt</span><span class="o">=</span><span class="n">lelg</span><span class="o">/</span><span class="n">lpmin</span> <span class="o">+</span> <span class="mi">3</span><span class="p">)</span>  <span class="c">! max number of local elements per MPI rank</span>
+<span class="hll">      <span class="k">parameter</span> <span class="p">(</span><span class="n">ldimt</span><span class="o">=</span><span class="mi">3</span><span class="p">)</span>              <span class="c">! max auxiliary fields (temperature + scalars)</span>
+</span>
+      <span class="c">! OPTIONAL</span>
+      <span class="k">parameter</span> <span class="p">(</span><span class="n">ldimt_proj</span><span class="o">=</span><span class="mi">1</span><span class="p">)</span>         <span class="c">! max auxiliary fields residual projection</span>
+      <span class="k">parameter</span> <span class="p">(</span><span class="n">lelr</span><span class="o">=</span><span class="n">lelt</span><span class="p">)</span>            <span class="c">! max number of local elements per restart file</span>
+      <span class="k">parameter</span> <span class="p">(</span><span class="n">lhis</span><span class="o">=</span><span class="mi">1001</span><span class="p">)</span>            <span class="c">! max history/monitoring points</span>
+      <span class="k">parameter</span> <span class="p">(</span><span class="n">maxobj</span><span class="o">=</span><span class="mi">1</span><span class="p">)</span>             <span class="c">! max number of objects</span>
+      <span class="k">parameter</span> <span class="p">(</span><span class="n">lpert</span><span class="o">=</span><span class="mi">1</span><span class="p">)</span>              <span class="c">! max number of perturbations</span>
+      <span class="k">parameter</span> <span class="p">(</span><span class="n">toteq</span><span class="o">=</span><span class="mi">1</span><span class="p">)</span>              <span class="c">! max number of conserved scalars in CMT</span>
+      <span class="k">parameter</span> <span class="p">(</span><span class="n">nsessmax</span><span class="o">=</span><span class="mi">1</span><span class="p">)</span>           <span class="c">! max sessions to NEKNEK</span>
+      <span class="k">parameter</span> <span class="p">(</span><span class="n">lxo</span><span class="o">=</span><span class="n">lx1</span><span class="p">)</span>              <span class="c">! max GLL points on output (lxo&gt;=lx1)</span>
+      <span class="k">parameter</span> <span class="p">(</span><span class="n">mxprev</span><span class="o">=</span><span class="mi">20</span><span class="p">)</span>            <span class="c">! max dim of projection space</span>
+      <span class="k">parameter</span> <span class="p">(</span><span class="n">lgmres</span><span class="o">=</span><span class="mi">30</span><span class="p">)</span>            <span class="c">! max dim Krylov space</span>
+      <span class="k">parameter</span> <span class="p">(</span><span class="n">lorder</span><span class="o">=</span><span class="mi">3</span><span class="p">)</span>             <span class="c">! max order in time</span>
+<span class="hll">      <span class="k">parameter</span> <span class="p">(</span><span class="n">lx1m</span><span class="o">=</span><span class="n">lx1</span><span class="p">)</span>             <span class="c">! GLL points mesh solver</span>
+</span>      <span class="k">parameter</span> <span class="p">(</span><span class="n">lfdm</span><span class="o">=</span><span class="mi">0</span><span class="p">)</span>               <span class="c">! unused </span>
+      <span class="k">parameter</span> <span class="p">(</span><span class="n">lelx</span><span class="o">=</span><span class="mi">1</span><span class="p">,</span><span class="n">lely</span><span class="o">=</span><span class="mi">1</span><span class="p">,</span><span class="n">lelz</span><span class="o">=</span><span class="mi">1</span><span class="p">)</span> <span class="c">! global tensor mesh dimensions</span>
+
+      <span class="k">parameter</span> <span class="p">(</span><span class="n">lbelt</span><span class="o">=</span><span class="mi">1</span><span class="p">)</span>              <span class="c">! lelt for mhd</span>
+      <span class="k">parameter</span> <span class="p">(</span><span class="n">lpelt</span><span class="o">=</span><span class="mi">1</span><span class="p">)</span>              <span class="c">! lelt for linear stability</span>
+      <span class="k">parameter</span> <span class="p">(</span><span class="n">lcvelt</span><span class="o">=</span><span class="mi">1</span><span class="p">)</span>             <span class="c">! lelt for cvode</span>
+</pre></div>
+</div>
+</div>
+<div class="section" id="compilation">
+<h2>Compilation<a class="headerlink" href="#compilation" title="Permalink to this headline">¶</a></h2>
+<p>All required case files for RANS wall-resolved channel simulation can be downloaded using the links below:</p>
+<blockquote>
+<div><ul class="simple">
+<li><a class="reference download internal" download="" href="../_downloads/14874c260a76af04635ebea20f2b039c/chan_WR.usr"><code class="xref download docutils literal notranslate"><span class="pre">chan_WR.usr</span></code></a></li>
+<li><a class="reference download internal" download="" href="../_downloads/1f361d1da270c135eaf7a027df9a0d13/chan_WR.par"><code class="xref download docutils literal notranslate"><span class="pre">chan_WR.par</span></code></a></li>
+<li><a class="reference download internal" download="" href="../_downloads/d1afcdcc4c94bcdb02e606f8a536cd6c/chan_WR.re2"><code class="xref download docutils literal notranslate"><span class="pre">chan_WR.re2</span></code></a></li>
+<li><a class="reference download internal" download="" href="../_downloads/db2387249b356f38ddf54443b57c626f/chan_WR.ma2"><code class="xref download docutils literal notranslate"><span class="pre">chan_WR.ma2</span></code></a></li>
+<li><a class="reference download internal" download="" href="../_downloads/55ef0d3b6dbd2f01d80e5f74c26b4a0c/SIZE"><code class="xref download docutils literal notranslate"><span class="pre">SIZE</span></code></a></li>
+</ul>
+</div></blockquote>
+</div>
+<div class="section" id="results">
+<h2>Results<a class="headerlink" href="#results" title="Permalink to this headline">¶</a></h2>
+<p>For reference, the results obtained from the <span class="math notranslate nohighlight">\(k-\tau\)</span> RANS wall-resolved simulation are shown below and
+compared with results from low-Re <span class="math notranslate nohighlight">\(k-\tau\)</span> (<code class="docutils literal notranslate"><span class="pre">m_id=5</span></code>), regularized <span class="math notranslate nohighlight">\(k-\omega\)</span> (<code class="docutils literal notranslate"><span class="pre">m_id=0</span></code>) and low-Re regularized
+<span class="math notranslate nohighlight">\(k-\omega\)</span> (<code class="docutils literal notranslate"><span class="pre">m_id=1</span></code>) models.</p>
+<div class="align-center figure" id="id3">
+<span id="fig-streamwise-vel"></span><img alt="../_images/U1.png" src="../_images/U1.png" />
+<p class="caption"><span class="caption-number">Fig. 19 </span><span class="caption-text">Normalized stream-wise velocity from different RANS models.</span></p>
+</div>
+<div class="align-center figure" id="id4">
+<span id="fig-chan-tke"></span><img alt="../_images/k1.png" src="../_images/k1.png" />
+<p class="caption"><span class="caption-number">Fig. 20 </span><span class="caption-text">Normalized TKE from different RANS models.</span></p>
+</div>
+<p>RANS models may be simply switched by using the appropriate <code class="docutils literal notranslate"><span class="pre">m_id</span></code> in <code class="docutils literal notranslate"><span class="pre">usrdat2</span></code>.
+The low-Re versions of the model should be employed only for capturing the near wall TKE peak.
+It may require additional resolution in the near-wall region and has only minimal impact on the velocity profile.</p>
+</div>
+</div>
+
+
+           </div>
+          </div>
+          <footer><div class="rst-footer-buttons" role="navigation" aria-label="Footer">
+        <a href="neknek.html" class="btn btn-neutral float-left" title="Overlapping Overset Grids" accesskey="p" rel="prev"><span class="fa fa-arrow-circle-left" aria-hidden="true"></span> Previous</a>
+        <a href="../theory.html" class="btn btn-neutral float-right" title="Theory" accesskey="n" rel="next">Next <span class="fa fa-arrow-circle-right" aria-hidden="true"></span></a>
+    </div>
+
+  <hr/>
+
+  <div role="contentinfo">
+    <p>&#169; Copyright 2015-2022, UCHICAGO ARGONNE, LLC.</p>
+  </div>
+
+  Built with <a href="https://www.sphinx-doc.org/">Sphinx</a> using a
+    <a href="https://github.com/readthedocs/sphinx_rtd_theme">theme</a>
+    provided by <a href="https://readthedocs.org">Read the Docs</a>.
+   
+
+</footer>
+        </div>
+      </div>
+    </section>
+  </div>
+  <script>
+      jQuery(function () {
+          SphinxRtdTheme.Navigation.enable(true);
+      });
+  </script> 
+
+</body>
+</html>

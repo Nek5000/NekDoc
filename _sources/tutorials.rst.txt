@@ -14,4 +14,5 @@ For a user brand new to Nek5000, we strongly recommend beginning with the fully 
   tutorials/perhill
   tutorials/conjht
   tutorials/neknek
+  tutorials/rans
 

@@ -58,7 +58,8 @@ From there, the convolution operator representing the three-dimensional low-pass
 
   {\bf \tilde u} = G * {\bf u} = (F \otimes F \otimes F) {\bf u}.
 
-:Important:
+.. Warning::
+
   The filtered wavelengths depend on the local element size, so the filtering operation is **NOT** necessarily uniform across the domain.
 
 ---------------
@@ -135,7 +136,8 @@ The weights for this filter are shown below in :numref:`fig:expfilt` for a 7\ :s
 
    Weighting for the recommend explicit LES filter
 
-:Note:
+.. Note::
+
   The explicit filter is applied after every time step, consequently its strength is inversely proportional to time step size for marginally resolved cases.
 
 ----------------
