@@ -1,0 +1,17 @@
+-2                    spatial dimension
+4                     number of fields (U T TKE Omg)
+#=======================================================================
+#
+#    Example of .box file for channel flow
+#    Note that the character bcs _must_ have 3 spaces.
+#
+#=======================================================================
+#
+Box
+-3  -7                                nelx,nely,nelz for Box
+-0.5 0.5 1.0                             x0,x1,gain
+0.0 1.0 0.6
+P  ,P  ,SYM,shl  
+P  ,P  ,SYM,I  
+P  ,P  ,SYM,f  
+P  ,P  ,SYM,f  
