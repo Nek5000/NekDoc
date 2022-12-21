@@ -36,7 +36,7 @@ Case Overview
 
 All required files for this tutorial can be downloaded using the following link:
 
-* :download:`inlet_bundle.tar <multi_rans/inlet_bundle.tar.gz>`
+* :download:`inlet_bundle.tar.gz <multi_rans/inlet_bundle.tar.gz>`
 
 Extract the above tar file and navigate to the ``inlet_bundle`` (parent) directory
 
@@ -75,8 +75,8 @@ The bundle geometry is based loosely on the Advanced Burner Reactor [Grandy2007]
    
 The geometry is non-dimensionalized with respect to the pin diameter, :math:`D`. 
 The axial extent of the inlet nozzle component is :math:`z/D=[-4.75,0.25]` and the wire-pin bundle axial dimensions are :math:`z/D=[0,12.5]`.  
-The two components, therefore, have an axial overlap of :math:`\Delta z/D= 0.25`,while the lateral dimensions are conformal. 
-The inlet nozzle has an inlet diameter of :math:`D_{in}/D=1.875`.dd 
+The two components, therefore, have an axial overlap of :math:`\Delta z/D= 0.25`, while the lateral dimensions are conformal. 
+The inlet nozzle has an inlet diameter of :math:`D_{in}/D=1.875`. 
 
 .. Note::
 
@@ -124,7 +124,8 @@ and the hydraulic diameter as
 
   D_h = \frac{4 A_b}{P_{hex}+N_{pins}\pi\left(D_{pin}+D_w\right)}
 
-A value for the Reynolds number is chosen as :math:`Re = 32,000`.
+For this case, an inlet velocity of :math:`U_{in}=1` m/s was chosen.
+This gives an inlet Reynolds number of :math:`Re_{in}=60,000`, a bundle Reynolds number of :math:`Re_b\approx9800`, and a case Reynolds number of :math:`Re = 32,000`
 All flow and thermal properties are listed in :numref:`tab:nb_BC`. 
 
 A no-slip boundary condition is  specified on all walls and the corresponding values of :math:`k` and :math:`\tau` on the walls is zero. 
@@ -137,13 +138,14 @@ A Prandtl number of 0.005 was chosen corresponding to liquid Sodium and an incre
 .. csv-table:: Flow and Thermal Properties 
    :header: Parameter, Variable, Dimensional Value, Dimensionless Value
 
-   Pin diameter, :math:`D_{pin}`, :math:`8` mm, :math:`1`
+   Pin diameter, :math:`D_{pin}`, :math:`8` mm, :math:`1` (reference)
    Wire diameter, :math:`D_{w}`, :math:`1.03` mm, :math:`0.129`
    Inlet diameter, :math:`D_{in}`,:math:`15` mm ,:math:`1.875`
    Hydraulic diameter,:math:`D_h`,:math:`3.06` mm,:math:`0.383`
-   Inlet velocity,:math:`U_{in}`,:math:`1.0` m/s,:math:`1`
+   Inlet velocity,:math:`U_{in}`,:math:`1.0` m/s,:math:`1` (reference)
    Bundle velocity,:math:`U_b`,:math:`0.801` m/s,:math:`0.801`
    Kinematic viscosity,:math:`\nu`,:math:`2.5\cdot(10^{-7})` m\ :sup:`2`\ /s,:math:`3.125\cdot(10^{-5})`
+   Thermal diffusivity,:math:`\alpha`,:math:`5.0\cdot(10^{-5})` m\ :sup:`2`\ /s, :math:`6.25\cdot(10^{-3})`
    Reynolds number, :math:`Re`, -- , :math:`32000`
    Inlet Reynolds number, :math:`Re_{in}`, -- , :math:`60000`                           
    Bundle Reynolds number, :math:`Re_{b}`, --, :math:`9814`
@@ -196,6 +198,8 @@ Currently, ``exo2nek`` supports the following mesh elements,
  * 1\ :sup:`st` order tetrahedra, ``TET4``
  * 1\ :sup:`st` order wedges, ``WEDGE6``
  * 1\ :sup:`st` order hexahedra, ``HEX8``
+ * 2\ :sup:`nd` order tetrahedra, ``TET10``
+ * 2\ :sup:`nd` order wedges, ``WEDGE15``
  * 2\ :sup:`nd` order hexahedra, ``HEX20``
 
 The user must ensure that the third-party mesh comprises only the above listed element types. 
@@ -304,12 +308,13 @@ Follow the prompts:
    Input .rea/.re2 output name:
    bundle
 	
-We finally obtain the ``bundle.re2`` file which contains the pin-wire bundle mesh for Nek5000 run. 
+We finally obtain the ``bundle.re2`` file which contains the pin-wire bundle mesh in the *Nek5000* format. 
 Boundary IDs are assigned by the ``wiremesher`` as:
 
- * 1 --> Fuel pin walls
+ * 1 --> Fuel pin, wire, and fillet walls
  * 2 --> Bundle hexagonal (outer) walls
- * 3 & 4 --> Axial end surfaces
+ * 3 --> Axial inlet surface
+ * 4 --> Axial outlet surface
 
 which are available in the ``.usr`` file in the ``BoundaryID`` array.
 Return and move the mesh file to the parent directory:
@@ -521,6 +526,11 @@ auxiliary fields specified in the SIZE file is at minimum ``ldimt=3`` for RANS. 
 set to 2 for ``NEKNEK`` simulation. Other details on the contents of the ``SIZE`` file can be found 
 :ref:`here<case_files_SIZE>`.
 
+.. Note::
+
+  The choice of ``lelg``, ``lpmin``, and ``lelt`` is different for a NekNek case.
+  See the :ref:`Overlapping Overset Grids <neknek_size>` tutorial for guidance.
+
 .. _sec:compile:
 
 ..............................
@@ -542,18 +552,33 @@ Work with your local system administrator to develop a script to run on the clus
 .. literalinclude:: multi_rans/neknekk
    :language: bash
 
+This script expects at least six arguments with an optional seventh.
+The arguments are:
 
-Here, ``nodes`` variable is the user input on number of nodes assigned for the job. ``ntpn`` is the number of processors/threads 
-per node. First two parameters are the names of the component meshes and the following two parameters specify the number of total
-threads used for each session, respectively. We use equal number of threads for this turorial, but the user may modify the
-distribution of threads as needed. The script can be adopted suitably for any cluster being used. On Sawtooth cluster, 
-the script is launched as follows:
+ * session 1 name (must match one set of ``par``, ``re2``, and ``con`` files)
+ * session 2 name (must match the other set of input files)
+ * number of nodes for session 1
+ * number of nodes for session 2
+ * runtime hours
+ * runtime minutes (between 0 - 60)
+ * number of MPI ranks per node (optional, defaults to 48)
+
+.. Note::
+ 
+  The first session name given as an argument will be assigned ``idsess=0``, with the second will be assigned ``idsess=1``.
+  Keep in mind how these were used in the ``.usr`` file.
+
+
+As an example, the script can be launched as follows:
 
 .. code-block:: console 
 	
-	./neknekk inlet bundle 30 10 4 30
-	
-The above submits a ``NEKNEK`` job on 40 nodes (30 dedicated to the inlet nozzle and 10 dedicated to the wire-wrapped bundle) for 4 hours and 30 minutes. 
+   $ ./neknekk inlet bundle 30 10 4 30
+
+This submits a ``NEKNEK`` job on 40 nodes (30 dedicated to the inlet nozzle and 10 dedicated to the wire-wrapped bundle) for 4 hours and 30 minutes. 
+The combined case will likely require significantly longer runtime.
+As the case runs, output from both sessions will be written to a common logfile. 
+This can make interpreting the logfile quite difficult.
 
 .. Note:: 
 
@@ -565,24 +590,32 @@ Helpful Tips
 
 The following tips may be helpful to make the simulations more tractable:
 
- * Commence with a small time step size and high viscosity value (low Re) to stabilize the pressure solver
-   during initial transients.
- * Accelerate the simulation by running standalone case for inlet component, allowing flow to evolve 
-   before using ``NEKNEK`` solver for coupled simulation. Replace the ``int`` boundary condition with ``O`` (outlet)
-   for the inlet component. The standalone case setup, if opted for, is left to the user as an exercise.
- * Use OIFS solver to run the simulation at larger time steps (CFL>1). This requires the following entries in the ``.par``
-   file (uncomment to use):
+ * Start with a small time step size and high viscosity value (low Re) to stabilize the pressure solver during initial transients.
+ * Accelerate the simulation by running a standalone case for the inlet component, allowing flow to evolve before using the ``NEKNEK`` solver for the coupled simulation. Replace the ``int`` boundary condition with ``O`` (outlet) for the inlet component.
+ * Once the case is stable, use characteristics to run the simulation at larger time steps (CFL>1). This requires the following entries in the ``.par`` file (uncomment to use):
  
 .. literalinclude:: multi_rans/inlet_bundle/inlet.par
 	:language: ini
-	:lines: 11-12
+	:lines: 10-12
 	
-It is necessary to specify target CFL for the OIFS solver. It calculates the number of extrapolation iterations
-based on ``targetCFL`` value.
+It is necessary to specify a target CFL to use characteristics, also known as operator-integrator factor splitting. 
+It uses a Runge-Kutta substepping method to exceed the CFL constraint.
+The number of substeps is based on the ``targetCFL`` value.
+
+.. Warning::
+
+  The characteristics require time to compute.
+  It is not unusual for the wall-time per time step to increase by a factor of 3 or 4. 
+  It should only be used if your case can achieve at least a comparable increase in time step size. 
+  This should be tested on a case-by-case basis!
 
 ..............................
 Results
 ..............................
+
+Once the case has been running, it will produce output files for each session independently. 
+They can be visualized using either ParaView or VisIt.
+The metadata files necessary to do this can be generated by using the ``visnek`` script.
 
 For reference, normalized velocity magnitude and turbulent kinetic energy (TKE) contour plots are shown below along lateral
 cross-sections of the inlet and wire-pin bundle components. Note that the overlap plane is located at :math:`z=0` axial location,

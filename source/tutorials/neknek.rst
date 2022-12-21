@@ -137,6 +137,8 @@ Create two files called ``lower.par`` and ``upper.par``, and type in each the fo
 
 .. literalinclude:: neknek/lower.par
 
+.. _neknek_size:
+
 ..........................
 SIZE file 
 ..........................
