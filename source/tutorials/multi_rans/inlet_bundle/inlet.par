@@ -1,0 +1,42 @@
+#
+#nek parameter file - inlet.par
+#
+[GENERAL]
+#startFrom = inlet.fld
+stopAt = numSteps
+numSteps = 10000
+dt = 1.0e-6
+writeInterval = 1000
+#extrapolation = OIFS
+#targetCFL = 3.5
+
+[PROBLEMTYPE]
+variableProperties = yes
+stressFormulation = yes
+
+[PRESSURE]
+preconditioner = semg_amg_hypre
+residualTol = 1.0e-5
+residualProj = yes
+
+[VELOCITY]
+density = 1.0
+viscosity = -32000.0
+residualTol = 1.0e-6
+
+[TEMPERATURE]
+rhoCp = 1.0
+conductivity = -160.0
+residualTol = 1.0e-6
+
+#tke
+[SCALAR01]
+density = 1.0
+diffusivity = -32000.0
+residualTol = 1.0e-6
+
+#tau
+[SCALAR02]
+density = 1.0
+diffusivity = -32000.0
+residualTol = 1.0e-6
