@@ -137,6 +137,8 @@ Create two files called ``lower.par`` and ``upper.par``, and type in each the fo
 
 .. literalinclude:: neknek/lower.par
 
+.. _neknek_size:
+
 ..........................
 SIZE file 
 ..........................
@@ -159,8 +161,8 @@ If we have :math:`L_{tot}` MPI-ranks (CPU-cores) available, we might choose
 
 .. math::
 
-  L_{lower}&=\mathrm{floor}\left[\frac{E_{lower}}{E_{lower}+E_{upper}} L_{tot}\right]\\
-  L_{upper}&=L_{tot}-L_{lower}\\
+  L_{lower} & =\mathrm{floor}\left[\frac{E_{lower}}{E_{lower}+E_{upper}} L_{tot}\right]\\
+  L_{upper} & =L_{tot}-L_{lower}\\
   \mathrm{lelt}&=\mathrm{max}\left[\frac{E_{upper}}{L_{upper}},\frac{E_{lower}}{L_{lower}}\right]+3
 
 We then pick the largest mesh size for ``lelg``, and the smallest rank count for ``lpmin``

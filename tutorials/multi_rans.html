@@ -1,0 +1,1238 @@
+<!DOCTYPE html>
+<html class="writer-html4" lang="en" >
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Multi-Component RANS &mdash; Nek5000  documentation</title><link rel="stylesheet" href="../_static/css/theme.css" type="text/css" />
+    <link rel="stylesheet" href="../_static/pygments.css" type="text/css" />
+  <!--[if lt IE 9]>
+    <script src="../_static/js/html5shiv.min.js"></script>
+  <![endif]-->
+  <script id="documentation_options" data-url_root="../" src="../_static/documentation_options.js"></script>
+        <script type="text/javascript" src="../_static/jquery.js"></script>
+        <script type="text/javascript" src="../_static/underscore.js"></script>
+        <script type="text/javascript" src="../_static/doctools.js"></script>
+        <script type="text/javascript" src="../_static/language_data.js"></script>
+        <script async="async" type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.5/latest.js?config=TeX-AMS-MML_HTMLorMML"></script>
+    <script src="../_static/js/theme.js"></script>
+    <link rel="index" title="Index" href="../genindex.html" />
+    <link rel="search" title="Search" href="../search.html" />
+    <link rel="next" title="Theory" href="../theory.html" />
+    <link rel="prev" title="RANS Channel" href="rans.html" /> 
+</head>
+
+<body class="wy-body-for-nav"> 
+  <div class="wy-grid-for-nav">
+    <nav data-toggle="wy-nav-shift" class="wy-nav-side">
+      <div class="wy-side-scroll">
+        <div class="wy-side-nav-search" >
+            <a href="../index.html" class="icon icon-home"> Nek5000
+          </a>
+<div role="search">
+  <form id="rtd-search-form" class="wy-form" action="../search.html" method="get">
+    <input type="text" name="q" placeholder="Search docs" />
+    <input type="hidden" name="check_keywords" value="yes" />
+    <input type="hidden" name="area" value="default" />
+  </form>
+</div>
+        </div><div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="Navigation menu">
+              <ul class="current">
+<li class="toctree-l1"><a class="reference internal" href="../quickstart.html">Quickstart</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../faq.html">FAQ</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../problem_setup.html">Problem Setup</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../tools.html">Nek Tools</a></li>
+<li class="toctree-l1 current"><a class="reference internal" href="../tutorials.html">Tutorials</a><ul class="current">
+<li class="toctree-l2"><a class="reference internal" href="fdlf.html">Fully Developed Laminar Flow</a></li>
+<li class="toctree-l2"><a class="reference internal" href="perhill.html">Periodic Hill</a></li>
+<li class="toctree-l2"><a class="reference internal" href="conjht.html">Conjugate Heat Transfer</a></li>
+<li class="toctree-l2"><a class="reference internal" href="neknek.html">Overlapping Overset Grids</a></li>
+<li class="toctree-l2"><a class="reference internal" href="rans.html">RANS Channel</a></li>
+<li class="toctree-l2 current"><a class="current reference internal" href="#">Multi-Component RANS</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="#before-you-begin">Before You Begin</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#case-overview">Case Overview</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#geometry-description">Geometry Description</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#thermal-hydraulic-parameters-and-boundary-conditions">Thermal-hydraulic Parameters and Boundary Conditions</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#mesh-generation">Mesh Generation</a><ul>
+<li class="toctree-l4"><a class="reference internal" href="#inlet-nozzle-exo2nek">Inlet Nozzle (exo2nek)</a></li>
+<li class="toctree-l4"><a class="reference internal" href="#wire-pin-bundle-wiremesher">Wire-pin Bundle (wiremesher)</a></li>
+<li class="toctree-l4"><a class="reference internal" href="#generating-connectivity-file-co2">Generating Connectivity file (.co2)</a></li>
+</ul>
+</li>
+<li class="toctree-l3"><a class="reference internal" href="#parameter-file-par">Parameter File (.par)</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#user-routines-usr-file">User Routines (.usr file)</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#size-file">SIZE file</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#compilation-and-running">Compilation and Running</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#helpful-tips">Helpful Tips</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#results">Results</a></li>
+</ul>
+</li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="../theory.html">Theory</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../build.html">Build Options</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../appendix.html">Appendices</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../references.html">References</a></li>
+</ul>
+
+        </div>
+      </div>
+    </nav>
+
+    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap"><nav class="wy-nav-top" aria-label="Mobile navigation menu" >
+          <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
+          <a href="../index.html">Nek5000</a>
+      </nav>
+
+      <div class="wy-nav-content">
+        <div class="rst-content">
+          <div role="navigation" aria-label="Page navigation">
+  <ul class="wy-breadcrumbs">
+      <li><a href="../index.html" class="icon icon-home"></a> &raquo;</li>
+          <li><a href="../tutorials.html">Tutorials</a> &raquo;</li>
+      <li>Multi-Component RANS</li>
+      <li class="wy-breadcrumbs-aside">
+            <a href="../_sources/tutorials/multi_rans.rst.txt" rel="nofollow"> View page source</a>
+      </li>
+  </ul>
+  <hr/>
+</div>
+          <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
+           <div itemprop="articleBody">
+             
+  <div class="section" id="multi-component-rans">
+<span id="multi-rans"></span><h1>Multi-Component RANS<a class="headerlink" href="#multi-component-rans" title="Permalink to this headline">¶</a></h1>
+<p>This is an advanced tutorial comprising RANS simulation in a multi-component geometry.
+The components include an inlet nozzle coupled with a wire-pin bundle.
+Given the scale of the geometry and mesh used in this  tutorial, it is assumed that the user has access to a computing cluster for running the case.
+The final mesh for the inlet nozzle contains 662,360 hexahedral elements and the wire-wrapped fuel bundle contains 207,360 hexahedral elements.
+The NekNek module is used for interfacing between the two components, allowing for runtime transfer of field data and coupled simultaneous solution of the flow and temperature equations.
+The tutorial employs several advanced  Nek5000 tools, procedures and user routines including</p>
+<blockquote>
+<div><ul class="simple">
+<li><code class="docutils literal notranslate"><span class="pre">exo2nek</span></code> for importing third party mesh file to Nek5000</li>
+<li><code class="docutils literal notranslate"><span class="pre">reatore2</span></code> for converting ASCII Nek5000 mesh to binary format</li>
+<li><code class="docutils literal notranslate"><span class="pre">gencon</span></code> for generating mesh connectivity file</li>
+<li><code class="docutils literal notranslate"><span class="pre">wiremesher</span></code> for generating wire-wrapped pin bundle mesh</li>
+<li><code class="docutils literal notranslate"><span class="pre">nekamg_setup</span></code> for generating algebraic multi-grid solver (AMG) files</li>
+<li><span class="math notranslate nohighlight">\(k-\tau\)</span> RANS simulation setup</li>
+<li><code class="docutils literal notranslate"><span class="pre">NekNek</span></code> setup</li>
+</ul>
+</div></blockquote>
+<div class="section" id="before-you-begin">
+<h2>Before You Begin<a class="headerlink" href="#before-you-begin" title="Permalink to this headline">¶</a></h2>
+<p>It is highly recommended that new users familiarize themselves with the basic Nek5000 simulation
+setup files and procedures outlined in the <a class="reference internal" href="fdlf.html#fdlf"><span class="std std-ref">Fully Developed Laminar Flow</span></a> and <a class="reference internal" href="perhill.html#perhill"><span class="std std-ref">Periodic Hill</span></a> tutorials. Further, some
+sections of the tutorial will assume familiarity with <a class="reference internal" href="rans.html#tutorial-rans"><span class="std std-ref">RANS Channel</span></a> and <a class="reference internal" href="neknek.html#neknek"><span class="std std-ref">Overlapping Overset Grids</span></a> tutorials.</p>
+<div class="admonition warning">
+<p class="first admonition-title">Warning</p>
+<p class="last">The RANS models rely on setting an implicit source term for robustness. This is not supported in V19 or earlier versions of <em>Nek5000</em>. Any implementation of RANS models should use the latest master branch from github.</p>
+</div>
+</div>
+<div class="section" id="case-overview">
+<h2>Case Overview<a class="headerlink" href="#case-overview" title="Permalink to this headline">¶</a></h2>
+<p>All required files for this tutorial can be downloaded using the following link:</p>
+<ul class="simple">
+<li><a class="reference download internal" download="" href="../_downloads/95c807609fff9cd7bf14903b75ea856e/inlet_bundle.tar.gz"><code class="xref download docutils literal notranslate"><span class="pre">inlet_bundle.tar.gz</span></code></a></li>
+</ul>
+<p>Extract the above tar file and navigate to the <code class="docutils literal notranslate"><span class="pre">inlet_bundle</span></code> (parent) directory</p>
+<div class="highlight-console notranslate"><div class="highlight"><pre><span></span><span class="gp">$</span> tar -xzvf inlet_bundle.tar.gz
+<span class="gp">$</span> <span class="nb">cd</span> inlet_bundle
+</pre></div>
+</div>
+<p>It has the following directories and files, discussed in detail in the following sections:</p>
+<ul class="simple">
+<li><code class="docutils literal notranslate"><span class="pre">inletMesh</span></code> –&gt; Directory containing inlet mesh related files.</li>
+<li><code class="docutils literal notranslate"><span class="pre">bundleMesh</span></code> –&gt; Directory containing pin-wire bundle mesh related files.</li>
+<li><code class="docutils literal notranslate"><span class="pre">SIZE</span></code> –&gt; Parameter file for defining problem size.</li>
+<li><code class="docutils literal notranslate"><span class="pre">inlet_bundle.usr</span></code> –&gt; Fortran file for user specified subroutines.</li>
+<li><code class="docutils literal notranslate"><span class="pre">inlet.par</span></code> –&gt; Nek5000 parameter file.</li>
+<li><code class="docutils literal notranslate"><span class="pre">bundle.par</span></code> –&gt; Nek5000 parameter file.</li>
+<li><code class="docutils literal notranslate"><span class="pre">SPLINE</span></code> –&gt; Common block Fortran file for spline interpolation.</li>
+<li><code class="docutils literal notranslate"><span class="pre">InletProf.dat</span></code> –&gt; Inlet condition data file.</li>
+<li><code class="docutils literal notranslate"><span class="pre">neknekk</span></code> –&gt; Sample script for launching NekNek job (on Sawtooth cluster).</li>
+</ul>
+</div>
+<div class="section" id="geometry-description">
+<h2>Geometry Description<a class="headerlink" href="#geometry-description" title="Permalink to this headline">¶</a></h2>
+<p>The geometry under consideration consists of two components including an inlet nozzle connected to a wire-wrapped pin bundle.
+These are shown below with the inlet nozzle domain in red and the pin bundle domain in light gray.
+The bundle geometry is based loosely on the Advanced Burner Reactor <a class="reference internal" href="../references.html#grandy2007" id="id1">[Grandy2007]</a> and the inlet nozzle is based on designs considered for the Versatile Test Reactor <a class="reference internal" href="../references.html#yoon2021" id="id2">[Yoon2021]</a>.</p>
+<div class="align-center figure" id="id3">
+<span id="fig-sfr-geom"></span><img alt="../_images/geom.png" src="../_images/geom.png" />
+<p class="caption"><span class="caption-number">Fig. 24 </span><span class="caption-text">Component geometries including an inlet nozzle (red) connected to a wire-wrapped pin bundle (gray)</span></p>
+</div>
+<p>The geometry is non-dimensionalized with respect to the pin diameter, <span class="math notranslate nohighlight">\(D\)</span>.
+The axial extent of the inlet nozzle component is <span class="math notranslate nohighlight">\(z/D=[-4.75,0.25]\)</span> and the wire-pin bundle axial dimensions are <span class="math notranslate nohighlight">\(z/D=[0,12.5]\)</span>.
+The two components, therefore, have an axial overlap of <span class="math notranslate nohighlight">\(\Delta z/D= 0.25\)</span>, while the lateral dimensions are conformal.
+The inlet nozzle has an inlet diameter of <span class="math notranslate nohighlight">\(D_{in}/D=1.875\)</span>.</p>
+<div class="admonition note">
+<p class="first admonition-title">Note</p>
+<p class="last">A reasonable overlap in the computational domains is imperative for a robust <code class="docutils literal notranslate"><span class="pre">NekNek</span></code> simulation.
+As a general rule, increasing the extent of overlap will render more stability to the coupled solver.</p>
+</div>
+<p>The Pitch-to-diameter ratio of the wire-pin bundle is 1.13 and the wire diameter is <span class="math notranslate nohighlight">\(D_w/D=0.12875\)</span>.
+To prevent sharp corners, a fillet of diameter <span class="math notranslate nohighlight">\(D_f/D=0.05\)</span> is introduced between the pin and the wire and the wire is slightly submerged in the pin by a distance of <span class="math notranslate nohighlight">\(0.025D_w\)</span>.
+The side length of the hexagonal bundle is <span class="math notranslate nohighlight">\(1.865D\)</span> and the diameter of the inlet nozzle boundary is <span class="math notranslate nohighlight">\(D_{in}/D=1.875\)</span>.
+The length of the bundle component is equal to the wire pitch, <span class="math notranslate nohighlight">\(L_b/D=12.5\)</span>.
+All geometric values are given in both dimensional and dimensionless form in the next section in <a class="reference internal" href="#tab-nb-bc"><span class="std std-numref">Table 29</span></a> along with other flow parameters.</p>
+</div>
+<div class="section" id="thermal-hydraulic-parameters-and-boundary-conditions">
+<h2>Thermal-hydraulic Parameters and Boundary Conditions<a class="headerlink" href="#thermal-hydraulic-parameters-and-boundary-conditions" title="Permalink to this headline">¶</a></h2>
+<p>For non-dimensionalizing this case, the pin diameter and inlet velocity are chosen as reference values.
+This leads to the definition of Reynolds number as</p>
+<div class="math notranslate nohighlight">
+\[Re = \frac{U_{in}D_{pin}}{\nu}\]</div>
+<p>It is also useful to define the inlet Reynolds number as</p>
+<div class="math notranslate nohighlight">
+\[Re_{in} = \frac{U_{in}D_{in}}{\nu}=\frac{D_{in}}{D_{pin}}Re\]</div>
+<p>and an alternate bundle Reynolds number as</p>
+<div class="math notranslate nohighlight">
+\[Re_b = \frac{U_{b}D_h}{\nu}=\frac{A_{in}}{A_{b}}\frac{D_h}{D_{pin}}Re\]</div>
+<p>The bundle area is approximated as</p>
+<div class="math notranslate nohighlight">
+\[A_b = A_{hex} - N_{pins}\frac{\pi}{4}\left( D_{pin}^2 + D_w^2\right)\]</div>
+<p>and the hydraulic diameter as</p>
+<div class="math notranslate nohighlight">
+\[D_h = \frac{4 A_b}{P_{hex}+N_{pins}\pi\left(D_{pin}+D_w\right)}\]</div>
+<p>For this case, an inlet velocity of <span class="math notranslate nohighlight">\(U_{in}=1\)</span> m/s was chosen.
+This gives an inlet Reynolds number of <span class="math notranslate nohighlight">\(Re_{in}=60,000\)</span>, a bundle Reynolds number of <span class="math notranslate nohighlight">\(Re_b\approx9800\)</span>, and a case Reynolds number of <span class="math notranslate nohighlight">\(Re = 32,000\)</span>
+All flow and thermal properties are listed in <a class="reference internal" href="#tab-nb-bc"><span class="std std-numref">Table 29</span></a>.</p>
+<p>A no-slip boundary condition is  specified on all walls and the corresponding values of <span class="math notranslate nohighlight">\(k\)</span> and <span class="math notranslate nohighlight">\(\tau\)</span> on the walls is zero.
+A constant non-dimensional temperature <span class="math notranslate nohighlight">\(T^*=1\)</span> is specified at the inlet and a non-dimensional heat flux of <span class="math notranslate nohighlight">\(q'' =1\)</span> is applied on the pin walls from half axial length of the bundle.
+An insulated wall condition is specified on all remaining boundaries.
+A Prandtl number of 0.005 was chosen corresponding to liquid Sodium and an increased turbulent Prandtl number was chosen to account for turbulent mixing.</p>
+<span id="tab-nb-bc"></span><table border="1" class="docutils" id="id4">
+<caption><span class="caption-number">Table 29 </span><span class="caption-text">Flow and Thermal Properties</span><a class="headerlink" href="#id4" title="Permalink to this table">¶</a></caption>
+<colgroup>
+<col width="25%" />
+<col width="25%" />
+<col width="25%" />
+<col width="25%" />
+</colgroup>
+<thead valign="bottom">
+<tr class="row-odd"><th class="head">Parameter</th>
+<th class="head">Variable</th>
+<th class="head">Dimensional Value</th>
+<th class="head">Dimensionless Value</th>
+</tr>
+</thead>
+<tbody valign="top">
+<tr class="row-even"><td>Pin diameter</td>
+<td><span class="math notranslate nohighlight">\(D_{pin}\)</span></td>
+<td><span class="math notranslate nohighlight">\(8\)</span> mm</td>
+<td><span class="math notranslate nohighlight">\(1\)</span> (reference)</td>
+</tr>
+<tr class="row-odd"><td>Wire diameter</td>
+<td><span class="math notranslate nohighlight">\(D_{w}\)</span></td>
+<td><span class="math notranslate nohighlight">\(1.03\)</span> mm</td>
+<td><span class="math notranslate nohighlight">\(0.129\)</span></td>
+</tr>
+<tr class="row-even"><td>Inlet diameter</td>
+<td><span class="math notranslate nohighlight">\(D_{in}\)</span></td>
+<td><span class="math notranslate nohighlight">\(15\)</span> mm</td>
+<td><span class="math notranslate nohighlight">\(1.875\)</span></td>
+</tr>
+<tr class="row-odd"><td>Hydraulic diameter</td>
+<td><span class="math notranslate nohighlight">\(D_h\)</span></td>
+<td><span class="math notranslate nohighlight">\(3.06\)</span> mm</td>
+<td><span class="math notranslate nohighlight">\(0.383\)</span></td>
+</tr>
+<tr class="row-even"><td>Inlet velocity</td>
+<td><span class="math notranslate nohighlight">\(U_{in}\)</span></td>
+<td><span class="math notranslate nohighlight">\(1.0\)</span> m/s</td>
+<td><span class="math notranslate nohighlight">\(1\)</span> (reference)</td>
+</tr>
+<tr class="row-odd"><td>Bundle velocity</td>
+<td><span class="math notranslate nohighlight">\(U_b\)</span></td>
+<td><span class="math notranslate nohighlight">\(0.801\)</span> m/s</td>
+<td><span class="math notranslate nohighlight">\(0.801\)</span></td>
+</tr>
+<tr class="row-even"><td>Kinematic viscosity</td>
+<td><span class="math notranslate nohighlight">\(\nu\)</span></td>
+<td><span class="math notranslate nohighlight">\(2.5\cdot(10^{-7})\)</span> m<sup>2</sup>/s</td>
+<td><span class="math notranslate nohighlight">\(3.125\cdot(10^{-5})\)</span></td>
+</tr>
+<tr class="row-odd"><td>Thermal diffusivity</td>
+<td><span class="math notranslate nohighlight">\(\alpha\)</span></td>
+<td><span class="math notranslate nohighlight">\(5.0\cdot(10^{-5})\)</span> m<sup>2</sup>/s</td>
+<td><span class="math notranslate nohighlight">\(6.25\cdot(10^{-3})\)</span></td>
+</tr>
+<tr class="row-even"><td>Reynolds number</td>
+<td><span class="math notranslate nohighlight">\(Re\)</span></td>
+<td>–</td>
+<td><span class="math notranslate nohighlight">\(32000\)</span></td>
+</tr>
+<tr class="row-odd"><td>Inlet Reynolds number</td>
+<td><span class="math notranslate nohighlight">\(Re_{in}\)</span></td>
+<td>–</td>
+<td><span class="math notranslate nohighlight">\(60000\)</span></td>
+</tr>
+<tr class="row-even"><td>Bundle Reynolds number</td>
+<td><span class="math notranslate nohighlight">\(Re_{b}\)</span></td>
+<td>–</td>
+<td><span class="math notranslate nohighlight">\(9814\)</span></td>
+</tr>
+<tr class="row-odd"><td>Prandtl number</td>
+<td><span class="math notranslate nohighlight">\(Pr\)</span></td>
+<td>–</td>
+<td><span class="math notranslate nohighlight">\(0.005\)</span></td>
+</tr>
+<tr class="row-even"><td>Peclet number</td>
+<td><span class="math notranslate nohighlight">\(Pe\)</span></td>
+<td>–</td>
+<td><span class="math notranslate nohighlight">\(160\)</span></td>
+</tr>
+<tr class="row-odd"><td>Turbulent Prandtl number</td>
+<td><span class="math notranslate nohighlight">\(Pr_t\)</span></td>
+<td>–</td>
+<td><span class="math notranslate nohighlight">\(1.5\)</span></td>
+</tr>
+</tbody>
+</table>
+</div>
+<div class="section" id="mesh-generation">
+<h2>Mesh Generation<a class="headerlink" href="#mesh-generation" title="Permalink to this headline">¶</a></h2>
+<div class="section" id="inlet-nozzle-exo2nek">
+<h3>Inlet Nozzle (exo2nek)<a class="headerlink" href="#inlet-nozzle-exo2nek" title="Permalink to this headline">¶</a></h3>
+<p>A third-party meshing tool (e.g., ANSYS ICEM) is required for generating the mesh for the inlet component.
+In this case, the mesh was saved as an <code class="docutils literal notranslate"><span class="pre">EXODUS</span> <span class="pre">II</span> <span class="pre">(.exo)</span></code> mesh file.
+<em>Nek5000</em> offers the <code class="docutils literal notranslate"><span class="pre">exo2nek</span></code> mesh conversion tool for converting an <code class="docutils literal notranslate"><span class="pre">.exo</span></code> mesh file to <code class="docutils literal notranslate"><span class="pre">.re2</span></code> format, as well as <code class="docutils literal notranslate"><span class="pre">gmsh2nek</span></code> for converting <code class="docutils literal notranslate"><span class="pre">.msh</span></code> files from Gmsh.</p>
+<p>By default, all Nektools support only 150,000 elements.
+To run this case, <code class="docutils literal notranslate"><span class="pre">exo2nek</span></code> and <code class="docutils literal notranslate"><span class="pre">gencon</span></code> will need to be compiled with support for considerably more elements.
+To do this, go to the <code class="docutils literal notranslate"><span class="pre">Nek5000/tools</span></code> directory and edit the <code class="docutils literal notranslate"><span class="pre">maketools</span></code> file.</p>
+<div class="highlight-console notranslate"><div class="highlight"><pre><span></span><span class="gp">$</span> <span class="nb">cd</span> ~/Nek5000/tools
+<span class="gp">$</span> vi maketools
+</pre></div>
+</div>
+<p>Uncomment the line specifying the maximum number of elements and change it to a value larger than the number of elements in the largest mesh, such as that shown on the highlighted line below.</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="ch">#!/bin/bash</span>
+
+<span class="c1"># maximum number of elements</span>
+<span class="hll"><span class="n">MAXNEL</span><span class="o">=</span><span class="mi">1000000</span>
+</span>
+<span class="c1"># binary path</span>
+<span class="c1">#bin_nek_tools=`cd ../bin &amp;&amp; pwd`</span>
+
+<span class="c1"># Fortran compiler</span>
+<span class="c1">#FC=&quot;gfortran&quot;</span>
+<span class="c1">#FFLAGS=&quot;&quot;</span>
+
+<span class="c1"># C compiler</span>
+<span class="c1">#CC=&quot;gcc&quot;</span>
+<span class="c1">#CFLAGS=&quot;&quot;</span>
+
+<span class="c1"># linking flags</span>
+<span class="c1">#LDFLAGS=&quot;-L$HOME/lib -lm&quot;</span>
+
+<span class="n">source</span> <span class="o">./</span><span class="n">maketools</span><span class="o">.</span><span class="n">inc</span>
+</pre></div>
+</div>
+<p>The <code class="docutils literal notranslate"><span class="pre">exo2nek</span></code> and <code class="docutils literal notranslate"><span class="pre">gencon</span></code> tools can then be recompiled with</p>
+<div class="highlight-console notranslate"><div class="highlight"><pre><span></span><span class="gp">$</span> ./maketools exo2nek gencon
+</pre></div>
+</div>
+<div class="admonition note">
+<p class="first admonition-title">Note</p>
+<p class="last">If you still get errors about the tools not supporting enough elements, you may need to delete the <code class="docutils literal notranslate"><span class="pre">exo2nek</span></code> or <code class="docutils literal notranslate"><span class="pre">gencon</span></code> binary in <code class="docutils literal notranslate"><span class="pre">Nek5000/bin</span></code> and the corresponding <code class="docutils literal notranslate"><span class="pre">*.o</span></code> files in the tool’s subdirectory manually before recompiling.
+Executing <code class="docutils literal notranslate"><span class="pre">$</span> <span class="pre">./maketools</span> <span class="pre">clean</span></code> will also work, but this will delete <strong>all</strong> of the tools.</p>
+</div>
+<p>The above command will compile the <code class="docutils literal notranslate"><span class="pre">exo2nek</span></code> and <code class="docutils literal notranslate"><span class="pre">gencon</span></code> tools.
+The latter is required for <a class="reference internal" href="#multi-gencon"><span class="std std-ref">generating the mesh connectivity</span></a> file at a later step.</p>
+<p>Currently, <code class="docutils literal notranslate"><span class="pre">exo2nek</span></code> supports the following mesh elements,</p>
+<blockquote>
+<div><ul class="simple">
+<li>1<sup>st</sup> order tetrahedra, <code class="docutils literal notranslate"><span class="pre">TET4</span></code></li>
+<li>1<sup>st</sup> order wedges, <code class="docutils literal notranslate"><span class="pre">WEDGE6</span></code></li>
+<li>1<sup>st</sup> order hexahedra, <code class="docutils literal notranslate"><span class="pre">HEX8</span></code></li>
+<li>2<sup>nd</sup> order tetrahedra, <code class="docutils literal notranslate"><span class="pre">TET10</span></code></li>
+<li>2<sup>nd</sup> order wedges, <code class="docutils literal notranslate"><span class="pre">WEDGE15</span></code></li>
+<li>2<sup>nd</sup> order hexahedra, <code class="docutils literal notranslate"><span class="pre">HEX20</span></code></li>
+</ul>
+</div></blockquote>
+<p>The user must ensure that the third-party mesh comprises only the above listed element types.
+The <code class="docutils literal notranslate"><span class="pre">inlet.exo</span></code> file included with this tutorial contains 165590 <code class="docutils literal notranslate"><span class="pre">TET4</span></code> elements.
+The <code class="docutils literal notranslate"><span class="pre">exo2nek</span></code> tool includes built-in tet-to-hex and wedge-to-hex conversions, so the 165590 tetrahedral elements will be converted to 662360 hexahedral elements.
+Navigate to the folder containing inlet mesh and run <code class="docutils literal notranslate"><span class="pre">exo2nek</span></code>.</p>
+<div class="highlight-console notranslate"><div class="highlight"><pre><span></span><span class="gp">$</span> <span class="nb">cd</span> inletMesh
+<span class="gp">$</span> exo2nek
+</pre></div>
+</div>
+<p>The output from <code class="docutils literal notranslate"><span class="pre">exo2nek</span></code> is shown below, where the expected user input is highlighted below and the inputs are explained as:</p>
+<blockquote>
+<div><ul class="simple">
+<li>We are converting the file <code class="docutils literal notranslate"><span class="pre">inlet.exo</span></code>, where the <code class="docutils literal notranslate"><span class="pre">.exo</span></code> file extension is implied.</li>
+<li>This case does not use a conjugate heat transfer model, so there are 0 solid <code class="docutils literal notranslate"><span class="pre">.exo</span></code> files.</li>
+<li>This case is not periodic, so there are 0 periodic boundary surface pairs.</li>
+<li>The produced file will be named <code class="docutils literal notranslate"><span class="pre">inlet.re2</span></code>, where the <code class="docutils literal notranslate"><span class="pre">.re2</span></code> file extension is again implied.</li>
+</ul>
+</div></blockquote>
+<div class="highlight-none notranslate"><div class="highlight"><pre><span></span> please input number of fluid exo files:
+<span class="hll">1
+</span> please input exo file:
+<span class="hll">inlet
+</span>
+inlet.exo                        is an EXODUSII file; version 0.00
+I/O word size 8
+
+database parameters:
+
+title         =  Created by ICEMCFD - EXODUS II Interface
+
+num_dim       =        3
+num_nodes     =    35901
+num_elem      =   165590
+num_elem_blk  =        1
+num_side_sets =        3
+
+element block id   =        1
+element type       =    TETRA
+num_elem_in_block  =   165590
+num_nodes_per_elem =        4
+
+ TETRA4 is valid element in a 3D mesh.
+ assume linear hybrid mesh (tetra-hex-wedge)
+ one TETRA4 divide into 4 Nek hex elements
+ please input number of solid exo files for CHT problem (input 0 for no solid mesh):
+<span class="hll">0
+</span> done pre-read exo files
+ now converting to nek mesh
+
+
+Store SideSet information from EXO file
+Sideset  2 ...
+Sideset  3 ...
+Sideset  4 ...
+
+Converting elements ...
+ flag1
+ flag2
+ Converting elements in block            1
+ nvert,                     4
+ Converted elements in nek:               662360
+Done :: Converting elements
+ Domain max xyz:   1.8650400000000000        1.6151700000000000       0.25000000000000000
+ Domain min xyz:  -1.8650400000000000       -1.6151700000000002       -4.7500000000000000
+ total element now is                662360
+ fluid exo file            1  has elements       662360
+ calling: gather_bc_info()
+ done: gather_bc_info()
+ ******************************************************
+ Boundary info summary
+ sideSet ID
+           2
+           3
+           4
+ ******************************************************
+ Enter number of periodic boundary surface pairs:
+<span class="hll">0
+</span> please give re2 file name:
+<span class="hll">inlet
+</span>
+writing inlet.re2
+ velocity boundary faces:        95148
+</pre></div>
+</div>
+<p>Following the above steps will generate the file <code class="docutils literal notranslate"><span class="pre">inlet.re2</span></code> in the current directory.
+For the inlet nozzle component, the following boundary IDs are assigned:</p>
+<blockquote>
+<div><ul class="simple">
+<li>2 –&gt; Nozzle inlet</li>
+<li>3 –&gt; Interfacing surface (nozzle outlet/bundle inlet)</li>
+<li>4 –&gt; Walls</li>
+</ul>
+</div></blockquote>
+<p>These are generated from the sideset numbers assigned when generating the original mesh.
+As a basic sanity check, <code class="docutils literal notranslate"><span class="pre">exo2nek</span></code> prints out any sideset IDs it finds.</p>
+<div class="admonition note">
+<p class="first admonition-title">Note</p>
+<p class="last">The <code class="docutils literal notranslate"><span class="pre">sideSet</span> <span class="pre">ID</span></code> for all mesh boundaries must be specified in the <code class="docutils literal notranslate"><span class="pre">.exo</span></code> file using the third-party meshing software of the user’s choice.
+These values are accessible in <em>Nek5000</em> in the <code class="docutils literal notranslate"><span class="pre">BoundaryID</span></code> array.</p>
+</div>
+<p>Return and move the mesh file to the parent directory:</p>
+<div class="highlight-console notranslate"><div class="highlight"><pre><span></span><span class="gp">$</span> <span class="nb">cd</span> ../
+<span class="gp">$</span> mv inletMesh/inlet.re2 .
+</pre></div>
+</div>
+</div>
+<div class="section" id="wire-pin-bundle-wiremesher">
+<h3>Wire-pin Bundle (wiremesher)<a class="headerlink" href="#wire-pin-bundle-wiremesher" title="Permalink to this headline">¶</a></h3>
+<p>To generate the pin-wire bundle mesh, navigate to the <code class="docutils literal notranslate"><span class="pre">wireMesh</span></code> folder:</p>
+<div class="highlight-console notranslate"><div class="highlight"><pre><span></span><span class="gp">$</span> <span class="nb">cd</span> wireMesh
+</pre></div>
+</div>
+<p>It contains two sub-directories, viz., <code class="docutils literal notranslate"><span class="pre">wire2nek</span></code> and <code class="docutils literal notranslate"><span class="pre">matlab</span></code>. Input parameters for the meshing
+script are specified in the header of the <code class="docutils literal notranslate"><span class="pre">matlab/wire_mesher.m</span></code> file, as shown:</p>
+<div class="highlight-matlab notranslate"><div class="highlight"><pre><span></span><span class="c">% Mesh parameters %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%</span>
+<span class="n">D</span>    <span class="p">=</span> <span class="mf">8.00</span><span class="p">;</span>            <span class="c">%  pin diameter  (mm)</span>
+<span class="n">P</span>    <span class="p">=</span> <span class="mf">9.04</span><span class="p">;</span>            <span class="c">%  pin pitch</span>
+<span class="n">Dw</span>   <span class="p">=</span> <span class="mf">1.03</span><span class="p">;</span>            <span class="c">%  wire diameter (mm)</span>
+<span class="n">Df</span>   <span class="p">=</span> <span class="mf">0.4</span><span class="p">;</span>             <span class="c">%  fillet diameter (mm) (making this too small can cause bad elements)</span>
+<span class="n">H</span>    <span class="p">=</span> <span class="mf">100.0</span><span class="p">;</span>           <span class="c">%  wire pitch (mm)</span>
+<span class="n">T</span>    <span class="p">=</span> <span class="mf">0.05</span><span class="o">*</span><span class="n">Dw</span>          <span class="c">% trimmed off of wire (mm) (cuts off the tip of the wire)</span>
+<span class="n">S</span>    <span class="p">=</span> <span class="mf">0.025</span><span class="o">*</span><span class="n">Dw</span><span class="p">;</span>        <span class="c">% Wire submerged (mm) (how sunken in the wire is into the pin)</span>
+<span class="n">Adjust</span> <span class="p">=</span> <span class="mi">1</span><span class="p">;</span>             <span class="c">% if 1, Adjust flattness of wire when away from pins (if trimmed is on, only trim when wire passes pin)</span>
+<span class="n">iFtF</span>   <span class="p">=</span> <span class="mi">0</span><span class="p">;</span>             <span class="c">% if 1, add layer next to outer can</span>
+<span class="n">G</span>  <span class="p">=</span> <span class="mf">0.0525</span><span class="p">;</span>            <span class="c">% gap between wire and wall (mm)</span>
+<span class="n">FtF_rescale</span> <span class="p">=</span> <span class="mf">1.0086</span><span class="p">;</span>   <span class="c">% rescaling of outer FtF, the difference is given by an additional mesh layer - MUST BE BIGGER THAN 1</span>
+<span class="n">ne</span><span class="p">=</span><span class="mi">2</span><span class="p">;</span>                   <span class="c">% Number of edge pins. e.g., ne=3 for 19 pin assembly. MINIMUM is 2</span>
+<span class="n">Col</span><span class="p">=</span><span class="mi">12</span><span class="p">;</span>                 <span class="c">% Number of columns per block (5 or 6 blocks surround each pin)</span>
+<span class="n">Row</span><span class="p">=</span><span class="mi">3</span><span class="p">;</span>                  <span class="c">% Number of rows per block (2 blocks fit between neighboring pins)</span>
+<span class="n">Rowdist</span><span class="p">=[</span><span class="mi">65</span> <span class="mi">30</span> <span class="mi">5</span><span class="p">];</span>      <span class="c">% distribution of elements in the row (for creating boundary layer)</span>
+<span class="n">Lay</span><span class="p">=</span><span class="mi">20</span><span class="p">;</span>                 <span class="c">% Number of layers for 60 degree turn (this should be a reasonable number - above 10, tested typically for ~20)</span>
+<span class="n">rperiodic</span><span class="p">=</span><span class="mf">1.0</span><span class="p">;</span>          <span class="c">% Less than zero if periodic, Greater than zero if inlet/outlet</span>
+<span class="n">ipolar</span><span class="p">=</span><span class="mf">0.25</span><span class="o">*</span><span class="p">(</span><span class="n">D</span><span class="o">/</span><span class="n">H</span><span class="p">)</span><span class="o">*</span><span class="mi">360</span>   <span class="c">% Starting polar orientation of wire (in degrees)</span>
+<span class="c">%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%</span>
+</pre></div>
+</div>
+<p>All input variables are annotated in the above code snippet.
+Although all input dimensions shown are in <code class="docutils literal notranslate"><span class="pre">mm</span></code>, the script produces the wiremesh in non-dimensional units, normalized with pin diameter <code class="docutils literal notranslate"><span class="pre">D</span></code>.
+It will usually take some heuristic experimentation to specify optimum parameters based on user requirements (such as resolution, number of elements, etc.).
+Additionally some combinations of parameters may result in invalid elements with small or negative Jacobians.
+Critical parameters, that control the mesh resolution and contribute towards a successful mesh, include:</p>
+<blockquote>
+<div><ul class="simple">
+<li><code class="docutils literal notranslate"><span class="pre">Df</span></code> –&gt; Higher fillet diameter will be less likely to cause any errors and produce a smoother mesh. Should be adjusted to a reasonable value.</li>
+<li><code class="docutils literal notranslate"><span class="pre">T</span></code> –&gt; Trims off a portion of the wire to avoid pinching between the wire and neighboring pin. Typically set to <code class="docutils literal notranslate"><span class="pre">0.05*Dw</span></code>.</li>
+<li><code class="docutils literal notranslate"><span class="pre">S</span></code> –&gt; Submerges the wire slightly into the pin to avoid sharp corners. Typically set to <span class="math notranslate nohighlight">\(0.025*Dw\)</span>.</li>
+<li><code class="docutils literal notranslate"><span class="pre">Adjust</span></code> –&gt; Ensures trimming only occurs if wire passes neighboring pins. Typically set to 1.</li>
+<li><code class="docutils literal notranslate"><span class="pre">iFtF</span></code> –&gt; (Deprecated) Adds a layer next to outer wall. Set to 0.</li>
+<li><code class="docutils literal notranslate"><span class="pre">FtF_rescale</span></code> –&gt; (Deprecated) Inactive i:math:f <code class="docutils literal notranslate"><span class="pre">iFtF=0</span></code>.</li>
+<li><code class="docutils literal notranslate"><span class="pre">G</span></code> –&gt; Controls gap between peripheral wire and outer wall. Adjust to needed value.</li>
+<li><code class="docutils literal notranslate"><span class="pre">ne</span></code> –&gt; controls the number of pins in the radial direction. <code class="docutils literal notranslate"><span class="pre">ne=2</span></code> will produce a bundle with 7 pins, <code class="docutils literal notranslate"><span class="pre">ne=3</span></code> will produce 19 pins, and so on.</li>
+<li><code class="docutils literal notranslate"><span class="pre">Col</span></code> –&gt; Controls the resolution in the azimuthal direction.</li>
+<li><code class="docutils literal notranslate"><span class="pre">Row</span></code> –&gt; Controls the resolution in radial direction.</li>
+<li><code class="docutils literal notranslate"><span class="pre">Rowdist</span></code> –&gt; Controls layer width distribution percentage in radial direction, from interior to pin wall. Must add up to 100 and entries must be equal to <code class="docutils literal notranslate"><span class="pre">Row</span></code>.</li>
+<li><code class="docutils literal notranslate"><span class="pre">Lay</span></code> –&gt; Controls resolution in axial direction. Specifies number of elements in axial length equal to 60 degree rotation of wire.</li>
+</ul>
+</div></blockquote>
+<div class="admonition note">
+<p class="first admonition-title">Note</p>
+<p class="last">If you encounter Jacobian errors with your mesh, try increasing the fillet diameter, <code class="docutils literal notranslate"><span class="pre">Df</span></code> or number of columns, <code class="docutils literal notranslate"><span class="pre">Col</span></code>.</p>
+</div>
+<p>The preset values included with the tarball should not be changed for this tutorial as the overlapping geometry between the components is fixed.
+The mesher is initiated by simply running the <code class="docutils literal notranslate"><span class="pre">doall.sh</span></code> bash script.
+Ensure that both Matlab and Python with numpy (tested with Python 3.8) are active before launching the script and that either <code class="docutils literal notranslate"><span class="pre">gfortran</span></code> or <code class="docutils literal notranslate"><span class="pre">ifort</span></code> is available.
+By default the <code class="docutils literal notranslate"><span class="pre">wire2nek</span></code> converter utility looks for <code class="docutils literal notranslate"><span class="pre">gfortran</span></code>.
+To use <code class="docutils literal notranslate"><span class="pre">ifort</span></code> instead, the compiler script <code class="docutils literal notranslate"><span class="pre">bundleMesh/wire2nek/compile_wire2nek</span></code> must be modified.</p>
+<div class="highlight-console notranslate"><div class="highlight"><pre><span></span><span class="gp">$</span> ./doall.sh
+</pre></div>
+</div>
+<p>The script can take a while to complete.
+Upon completion it generates the <code class="docutils literal notranslate"><span class="pre">wire_out.rea</span></code> mesh file, which is a legacy ASCII mesh file for <em>Nek5000</em>.
+Convert this into the binary format by running the <code class="docutils literal notranslate"><span class="pre">reatore2</span></code> tool.
+Follow the prompts:</p>
+<div class="highlight-console notranslate"><div class="highlight"><pre><span></span><span class="go">Input .rea name:</span>
+<span class="go">wire_out</span>
+</pre></div>
+</div>
+<div class="highlight-console notranslate"><div class="highlight"><pre><span></span><span class="go">Input .rea/.re2 output name:</span>
+<span class="go">bundle</span>
+</pre></div>
+</div>
+<p>We finally obtain the <code class="docutils literal notranslate"><span class="pre">bundle.re2</span></code> file which contains the pin-wire bundle mesh in the <em>Nek5000</em> format.
+Boundary IDs are assigned by the <code class="docutils literal notranslate"><span class="pre">wiremesher</span></code> as:</p>
+<blockquote>
+<div><ul class="simple">
+<li>1 –&gt; Fuel pin, wire, and fillet walls</li>
+<li>2 –&gt; Bundle hexagonal (outer) walls</li>
+<li>3 –&gt; Axial inlet surface</li>
+<li>4 –&gt; Axial outlet surface</li>
+</ul>
+</div></blockquote>
+<p>which are available in the <code class="docutils literal notranslate"><span class="pre">.usr</span></code> file in the <code class="docutils literal notranslate"><span class="pre">BoundaryID</span></code> array.
+Return and move the mesh file to the parent directory:</p>
+<div class="highlight-console notranslate"><div class="highlight"><pre><span></span><span class="gp">$</span> <span class="nb">cd</span> ../
+<span class="gp">$</span> mv bundleMesh/bundle.re2 .
+</pre></div>
+</div>
+</div>
+<div class="section" id="generating-connectivity-file-co2">
+<span id="multi-gencon"></span><h3>Generating Connectivity file (.co2)<a class="headerlink" href="#generating-connectivity-file-co2" title="Permalink to this headline">¶</a></h3>
+<p>After generating the mesh files for both components, it is necessary to generate the corresponding connectivity files using the <code class="docutils literal notranslate"><span class="pre">gencon</span></code> tool.
+Note that using <code class="docutils literal notranslate"><span class="pre">gencon</span></code> instead of <code class="docutils literal notranslate"><span class="pre">genmap</span></code> – which generates  map (<code class="docutils literal notranslate"><span class="pre">.ma2</span></code>) files – is the recommended procedure for large meshes.</p>
+<div class="admonition note">
+<p class="first admonition-title">Note</p>
+<p class="last">If compiled to support a large number of elements, <code class="docutils literal notranslate"><span class="pre">genmap</span></code> can be used to generate the <code class="docutils literal notranslate"><span class="pre">.ma2</span></code> file as an alternative to <code class="docutils literal notranslate"><span class="pre">gencon</span></code> and parRSB.
+However, for large meshes this can take a <strong>very</strong> long time.</p>
+</div>
+<p>Users must include <code class="docutils literal notranslate"><span class="pre">PARRSB</span></code> in the <code class="docutils literal notranslate"><span class="pre">PPLIST</span></code> in the <code class="docutils literal notranslate"><span class="pre">makenek</span></code> file, which instructs <em>Nek5000</em> to partition the mesh at run-time and requires the <code class="docutils literal notranslate"><span class="pre">.co2</span></code> file instead of the <code class="docutils literal notranslate"><span class="pre">.ma2</span></code> file for running the case.
+See <a class="reference internal" href="../build.html#build-pplist"><span class="std std-ref">Preprocessor List</span></a> for details on <code class="docutils literal notranslate"><span class="pre">PPLIST</span></code> and <code class="docutils literal notranslate"><span class="pre">makenek</span></code>.
+It is recommended to copy <code class="docutils literal notranslate"><span class="pre">makenek</span></code> from <code class="docutils literal notranslate"><span class="pre">Nek5000/bin</span></code> into the project directory to edit.</p>
+<div class="admonition warning">
+<p class="first admonition-title">Warning</p>
+<p class="last">Editing the copy of <code class="docutils literal notranslate"><span class="pre">makenek</span></code> in the <code class="docutils literal notranslate"><span class="pre">Nek5000/bin</span></code> directory directly can have unintended side-effects when trying to recompile other cases.</p>
+</div>
+<p>Run <code class="docutils literal notranslate"><span class="pre">gencon</span></code> from the parent folder for each mesh file.
+Users will be prompted to specify the mesh file name and tolerance.
+Use 0.01 for inlet and 0.2 (default) for the bundle mesh:</p>
+<div class="highlight-none notranslate"><div class="highlight"><pre><span></span> Input .rea / .re2 name:
+<span class="hll">inlet
+</span> reading inlet.re2
+ Input mesh tolerance (default 0.2):
+<span class="hll">0.01
+</span></pre></div>
+</div>
+<div class="highlight-none notranslate"><div class="highlight"><pre><span></span> Input .rea / .re2 name:
+<span class="hll">bundle
+</span> reading bundle.re2
+ Input mesh tolerance (default 0.2):
+<span class="hll">0.2
+</span></pre></div>
+</div>
+<p>The above will generate the <code class="docutils literal notranslate"><span class="pre">inlet.co2</span></code> and <code class="docutils literal notranslate"><span class="pre">bundle.co2</span></code> connectivity files, respectively.</p>
+</div>
+</div>
+<div class="section" id="parameter-file-par">
+<h2>Parameter File (.par)<a class="headerlink" href="#parameter-file-par" title="Permalink to this headline">¶</a></h2>
+<p>Using NekNek requires separate <code class="docutils literal notranslate"><span class="pre">.par</span></code> files for each of the components.
+The files are included in the parent folder and shown below:</p>
+<div class="highlight-ini notranslate"><div class="highlight"><pre><span></span><span class="c1">#</span>
+<span class="c1">#nek parameter file - inlet.par</span>
+<span class="c1">#</span>
+<span class="k">[GENERAL]</span>
+<span class="c1">#startFrom = inlet.fld</span>
+<span class="na">stopAt</span> <span class="o">=</span> <span class="s">numSteps</span>
+<span class="na">numSteps</span> <span class="o">=</span> <span class="s">10000</span>
+<span class="na">dt</span> <span class="o">=</span> <span class="s">1.0e-6</span>
+<span class="na">writeInterval</span> <span class="o">=</span> <span class="s">1000</span>
+<span class="c1">#extrapolation = OIFS</span>
+<span class="c1">#targetCFL = 3.5</span>
+
+<span class="k">[PROBLEMTYPE]</span>
+<span class="na">variableProperties</span> <span class="o">=</span> <span class="s">yes</span>
+<span class="na">stressFormulation</span> <span class="o">=</span> <span class="s">yes</span>
+
+<span class="k">[PRESSURE]</span>
+<span class="na">preconditioner</span> <span class="o">=</span> <span class="s">semg_amg_hypre</span>
+<span class="na">residualTol</span> <span class="o">=</span> <span class="s">1.0e-5</span>
+<span class="na">residualProj</span> <span class="o">=</span> <span class="s">yes</span>
+
+<span class="k">[VELOCITY]</span>
+<span class="na">density</span> <span class="o">=</span> <span class="s">1.0</span>
+<span class="na">viscosity</span> <span class="o">=</span> <span class="s">-32000.0</span>
+<span class="na">residualTol</span> <span class="o">=</span> <span class="s">1.0e-6</span>
+
+<span class="k">[TEMPERATURE]</span>
+<span class="na">rhoCp</span> <span class="o">=</span> <span class="s">1.0</span>
+<span class="na">conductivity</span> <span class="o">=</span> <span class="s">-160.0</span>
+<span class="na">residualTol</span> <span class="o">=</span> <span class="s">1.0e-6</span>
+
+<span class="c1">#tke</span>
+<span class="k">[SCALAR01]</span>
+<span class="na">density</span> <span class="o">=</span> <span class="s">1.0</span>
+<span class="na">diffusivity</span> <span class="o">=</span> <span class="s">-32000.0</span>
+<span class="na">residualTol</span> <span class="o">=</span> <span class="s">1.0e-6</span>
+
+<span class="c1">#tau</span>
+<span class="k">[SCALAR02]</span>
+<span class="na">density</span> <span class="o">=</span> <span class="s">1.0</span>
+<span class="na">diffusivity</span> <span class="o">=</span> <span class="s">-32000.0</span>
+<span class="na">residualTol</span> <span class="o">=</span> <span class="s">1.0e-6</span>
+</pre></div>
+</div>
+<div class="highlight-ini notranslate"><div class="highlight"><pre><span></span><span class="c1">#</span>
+<span class="c1">#nek parameter file - bundle.par</span>
+<span class="c1">#</span>
+<span class="k">[GENERAL]</span>
+<span class="c1">#startFrom = bundle.fld</span>
+<span class="na">stopAt</span> <span class="o">=</span> <span class="s">numSteps</span>
+<span class="na">numSteps</span> <span class="o">=</span> <span class="s">10000</span>
+<span class="na">dt</span> <span class="o">=</span> <span class="s">1.0e-6</span>
+<span class="na">writeInterval</span> <span class="o">=</span> <span class="s">1000</span>
+<span class="c1">#extrapolation = OIFS</span>
+<span class="c1">#targeCFL = 3.5</span>
+ 
+<span class="k">[PROBLEMTYPE]</span>
+<span class="na">variableProperties</span> <span class="o">=</span> <span class="s">yes</span>
+<span class="na">stressFormulation</span> <span class="o">=</span> <span class="s">yes</span>
+
+<span class="k">[PRESSURE]</span>
+<span class="na">preconditioner</span> <span class="o">=</span> <span class="s">semg_amg_hypre</span>
+<span class="na">residualTol</span> <span class="o">=</span> <span class="s">1.0e-5</span>
+<span class="na">residualProj</span> <span class="o">=</span> <span class="s">yes</span>
+
+<span class="k">[VELOCITY]</span>
+<span class="na">density</span> <span class="o">=</span> <span class="s">1.0</span>
+<span class="na">viscosity</span> <span class="o">=</span> <span class="s">-32000.0</span>
+<span class="na">residualTol</span> <span class="o">=</span> <span class="s">1.0e-6</span>
+
+<span class="k">[TEMPERATURE]</span>
+<span class="na">rhoCp</span> <span class="o">=</span> <span class="s">1.0</span>
+<span class="na">conductivity</span> <span class="o">=</span> <span class="s">-160.0</span>
+<span class="na">residualTol</span> <span class="o">=</span> <span class="s">1.0e-6</span>
+
+<span class="c1">#tke</span>
+<span class="k">[SCALAR01]</span>
+<span class="na">density</span> <span class="o">=</span> <span class="s">1.0</span>
+<span class="na">diffusivity</span> <span class="o">=</span> <span class="s">-32000.0</span>
+<span class="na">residualTol</span> <span class="o">=</span> <span class="s">1.0e-6</span>
+
+<span class="c1">#tau</span>
+<span class="k">[SCALAR02]</span>
+<span class="na">density</span> <span class="o">=</span> <span class="s">1.0</span>
+<span class="na">diffusivity</span> <span class="o">=</span> <span class="s">-32000.0</span>
+<span class="na">residualTol</span> <span class="o">=</span> <span class="s">1.0e-6</span>
+</pre></div>
+</div>
+<p>Both parameter files are identical, except for one important difference.
+To restart the case from any given time, separate restart file names should be specified to the <code class="docutils literal notranslate"><span class="pre">startFrom</span></code> parameter.
+It is critical that the properties and time step size are identical for both <code class="docutils literal notranslate"><span class="pre">.par</span></code> files.
+Values are assigned in dimensionless form – density is set to unity, viscosity and diffusivity are set to <span class="math notranslate nohighlight">\(-Re\)</span> and conductivity to <span class="math notranslate nohighlight">\(-Pe\)</span>.
+The negative values indicate that the solver is run in dimensionless form.</p>
+<p>Note that given the large size of the meshes, the <code class="docutils literal notranslate"><span class="pre">preconditioner</span></code> must be set to <code class="docutils literal notranslate"><span class="pre">semg_amg_hypre</span></code>.
+This invokes the algebraic multigrid (AMG) solver for pressure instead of the default <code class="docutils literal notranslate"><span class="pre">XXT</span></code> solver.
+The AMG preconditioner requires third party <code class="docutils literal notranslate"><span class="pre">HYPRE</span></code> libraries which must be included in the preprocessor list option in the <code class="docutils literal notranslate"><span class="pre">makenek</span></code> file.</p>
+<div class="admonition note">
+<p class="first admonition-title">Note</p>
+<p class="last">By default, <em>Nek5000</em> does not support using the default <code class="docutils literal notranslate"><span class="pre">XXT</span></code> preconditioner for meshes with <span class="math notranslate nohighlight">\(E\ge250,000\)</span>.
+Generally, the AMG preconditioners perform better for larger meshes.</p>
+</div>
+<p>As mentioned above, it is recommended to copy <code class="docutils literal notranslate"><span class="pre">makenek</span></code> from <code class="docutils literal notranslate"><span class="pre">Nek5000/bin</span></code> into the project directory to edit.
+Also including the <code class="docutils literal notranslate"><span class="pre">PARRSB</span></code> option, as mentioned earlier, the <code class="docutils literal notranslate"><span class="pre">PPLIST</span></code> should be:</p>
+<div class="highlight-console notranslate"><div class="highlight"><pre><span></span><span class="go">PPLIST = &quot;HYPRE PARRSB&quot;</span>
+</pre></div>
+</div>
+<p>Further details on all parameters of <code class="docutils literal notranslate"><span class="pre">.par</span></code> file can be found <a class="reference internal" href="../problem_setup/case_files.html#case-files-par"><span class="std std-ref">here</span></a> and further information on <code class="docutils literal notranslate"><span class="pre">PPLIST</span></code> is available <a class="reference internal" href="../build.html#build-pplist"><span class="std std-ref">here</span></a>.</p>
+</div>
+<div class="section" id="user-routines-usr-file">
+<h2>User Routines (.usr file)<a class="headerlink" href="#user-routines-usr-file" title="Permalink to this headline">¶</a></h2>
+<p>Basics of the required setup routines for a NekNek simulation can be found in the <a class="reference internal" href="neknek.html#neknek"><span class="std std-ref">Overlapping Overset Grids</span></a> turorial, while for a RANS simulation
+in the <a class="reference internal" href="rans.html#tutorial-rans"><span class="std std-ref">RANS Channel</span></a> tutorial. Although this section decribes all user routines required for a NekNek RANS simulation in detail,
+a comprehensive understanding of routines from these simpler cases is recommended before proceeding.</p>
+<p>The following files are required to be included in the <code class="docutils literal notranslate"><span class="pre">.usr</span></code> file for loading RANS related subroutines
+They can be included anywhere in the <code class="docutils literal notranslate"><span class="pre">.usr</span></code> file outside of a subroutine, but we recommend keeping them at the top for consistency and quick reference.</p>
+<div class="highlight-fortran notranslate"><div class="highlight"><pre><span></span>      <span class="k">include</span> <span class="s2">&quot;experimental/rans_komg.f&quot;</span>
+      <span class="k">include</span> <span class="s2">&quot;experimental/rans_wallfunctions.f&quot;</span>
+</pre></div>
+</div>
+<p>NekNek related parameters are specified in <code class="docutils literal notranslate"><span class="pre">usrdat</span></code> routine:</p>
+<div class="highlight-fortran notranslate"><div class="highlight"><pre><span></span>      <span class="k">subroutine </span><span class="n">usrdat</span><span class="p">()</span>
+      <span class="k">include</span> <span class="s1">&#39;SIZE&#39;</span>
+      <span class="k">include</span> <span class="s1">&#39;TOTAL&#39;</span>
+      <span class="k">include</span> <span class="s1">&#39;NEKNEK&#39;</span>
+      
+<span class="c">!     ngeom - parameter controlling the number of iterations,</span>
+<span class="c">!     set to ngeom=2 by default (no iterations)</span>
+<span class="c">!     One could change the number of iterations as</span>
+      <span class="n">ngeom</span> <span class="o">=</span> <span class="mi">2</span>
+      
+<span class="c">!     ninter - parameter controlling the order of interface extrapolation for neknek,</span>
+<span class="c">!     set to ninter=1 by default</span>
+<span class="c">!     Caution: if ninter greater than 1 is chosen, ngeom greater than 2</span>
+<span class="c">!     should be used for stability</span>
+      <span class="n">ninter</span> <span class="o">=</span> <span class="mi">1</span>
+      
+      <span class="n">nfld_neknek</span><span class="o">=</span><span class="mi">7</span>             <span class="c">!velocity+pressure+t+sc1+sc2</span>
+      
+      <span class="k">return</span>
+<span class="k">      end</span>
+</pre></div>
+</div>
+<p>The <code class="docutils literal notranslate"><span class="pre">ngeom</span></code> variable specifies the number of overlapping Schwarz-like iterations, while <code class="docutils literal notranslate"><span class="pre">ninter</span></code> controls the time extrapolation order of boundary conditions at the overlapping interface.
+Using <code class="docutils literal notranslate"><span class="pre">ninter=1</span></code> is unconditionally stable, while a higher temporal order will typically require more iterations for stability (<code class="docutils literal notranslate"><span class="pre">ngeom&gt;2</span></code>).
+For computational savings, we maintain first order temporal extrapolation for this tutorial.
+The number of total field arrays that are transferred between the two meshes is specified by <code class="docutils literal notranslate"><span class="pre">nfld_neknek</span></code>.
+For 3D RANS cases it must be equal to 7 (3 velocity, 1 pressure and 3 scalar field arrays - temperature,
+<span class="math notranslate nohighlight">\(k\)</span> and <span class="math notranslate nohighlight">\(\tau\)</span>).</p>
+<div class="admonition note">
+<p class="first admonition-title">Note</p>
+<p class="last">Ensure that proper common block headers are included in subroutines.
+The <code class="docutils literal notranslate"><span class="pre">NEKNEK</span></code> header is required for routines where <code class="docutils literal notranslate"><span class="pre">idsess</span></code>, <code class="docutils literal notranslate"><span class="pre">nfld_neknek</span></code>, the <code class="docutils literal notranslate"><span class="pre">valint</span></code> array, and other NEKNEK variables need to be accessed.</p>
+</div>
+<p>Boundary Condition specification and RANS initialization is performed in <code class="docutils literal notranslate"><span class="pre">usrdat2</span></code>:</p>
+<div class="highlight-fortran notranslate"><div class="highlight"><pre><span></span><span class="n">c</span><span class="o">---------------------------------------------------------------------</span>
+      <span class="k">subroutine </span><span class="n">usrdat2</span><span class="p">()</span>
+      <span class="k">implicit none</span>
+<span class="k">      include</span> <span class="s1">&#39;SIZE&#39;</span>
+      <span class="k">include</span> <span class="s1">&#39;TOTAL&#39;</span>
+      <span class="k">include</span> <span class="s1">&#39;NEKNEK&#39;</span>
+      
+      <span class="kt">real </span><span class="n">wd</span>
+      <span class="k">common</span> <span class="o">/</span><span class="n">walldist</span><span class="o">/</span> <span class="n">wd</span><span class="p">(</span><span class="n">lx1</span><span class="p">,</span><span class="n">ly1</span><span class="p">,</span><span class="n">lz1</span><span class="p">,</span><span class="n">lelv</span><span class="p">)</span>
+
+      <span class="k">common</span> <span class="o">/</span><span class="n">rans_usr</span><span class="o">/</span> <span class="n">ifld_tke</span><span class="p">,</span> <span class="n">ifld_tau</span><span class="p">,</span> <span class="n">m_id</span>
+      <span class="kt">integer </span><span class="n">ifld_tke</span><span class="p">,</span><span class="n">ifld_tau</span><span class="p">,</span> <span class="n">m_id</span>
+      
+      <span class="kt">integer </span><span class="n">w_id</span><span class="p">,</span><span class="n">imid</span><span class="p">,</span><span class="n">i</span>
+      <span class="kt">real </span><span class="n">coeffs</span><span class="p">(</span><span class="mi">30</span><span class="p">)</span>           <span class="c">!array for passing your own coeffs</span>
+      <span class="kt">logical </span><span class="n">ifcoeffs</span>
+      
+      <span class="kt">integer </span><span class="n">ifc</span><span class="p">,</span><span class="n">iel</span><span class="p">,</span><span class="n">id_face</span>
+      
+      <span class="k">if</span><span class="p">(</span><span class="n">idsess</span><span class="p">.</span><span class="n">eq</span><span class="p">.</span><span class="mi">0</span><span class="p">)</span><span class="k">then</span>       <span class="c">!BCs for inlet mesh</span>
+         <span class="k">do </span><span class="n">iel</span><span class="o">=</span><span class="mi">1</span><span class="p">,</span><span class="n">nelt</span>
+            <span class="k">do </span><span class="n">ifc</span><span class="o">=</span><span class="mi">1</span><span class="p">,</span><span class="mi">2</span><span class="o">*</span><span class="n">ndim</span>
+               <span class="n">id_face</span> <span class="o">=</span> <span class="n">BoundaryID</span><span class="p">(</span><span class="n">ifc</span><span class="p">,</span><span class="n">iel</span><span class="p">)</span>
+               <span class="k">if</span> <span class="p">(</span><span class="n">id_face</span><span class="p">.</span><span class="n">eq</span><span class="p">.</span><span class="mi">2</span><span class="p">)</span> <span class="k">then</span> <span class="c">!inlet</span>
+                  <span class="n">cbc</span><span class="p">(</span><span class="n">ifc</span><span class="p">,</span><span class="n">iel</span><span class="p">,</span><span class="mi">1</span><span class="p">)</span> <span class="o">=</span> <span class="s1">&#39;v  &#39;</span>
+                  <span class="n">cbc</span><span class="p">(</span><span class="n">ifc</span><span class="p">,</span><span class="n">iel</span><span class="p">,</span><span class="mi">2</span><span class="p">)</span> <span class="o">=</span> <span class="s1">&#39;t  &#39;</span>
+               <span class="n">elseif</span> <span class="p">(</span><span class="n">id_face</span><span class="p">.</span><span class="n">eq</span><span class="p">.</span><span class="mi">3</span><span class="p">)</span> <span class="k">then</span> <span class="c">!interface</span>
+                  <span class="n">cbc</span><span class="p">(</span><span class="n">ifc</span><span class="p">,</span><span class="n">iel</span><span class="p">,</span><span class="mi">1</span><span class="p">)</span> <span class="o">=</span> <span class="s1">&#39;int&#39;</span>
+                  <span class="n">cbc</span><span class="p">(</span><span class="n">ifc</span><span class="p">,</span><span class="n">iel</span><span class="p">,</span><span class="mi">2</span><span class="p">)</span> <span class="o">=</span> <span class="s1">&#39;int&#39;</span>
+               <span class="n">elseif</span> <span class="p">(</span><span class="n">id_face</span><span class="p">.</span><span class="n">eq</span><span class="p">.</span><span class="mi">4</span><span class="p">)</span> <span class="k">then</span> <span class="c">!walls</span>
+                  <span class="n">cbc</span><span class="p">(</span><span class="n">ifc</span><span class="p">,</span><span class="n">iel</span><span class="p">,</span><span class="mi">1</span><span class="p">)</span> <span class="o">=</span> <span class="s1">&#39;W  &#39;</span>
+                  <span class="n">cbc</span><span class="p">(</span><span class="n">ifc</span><span class="p">,</span><span class="n">iel</span><span class="p">,</span><span class="mi">2</span><span class="p">)</span> <span class="o">=</span> <span class="s1">&#39;I  &#39;</span>
+               <span class="n">endif</span>
+            <span class="n">enddo</span>
+         <span class="n">enddo</span>
+      <span class="k">else</span>                      <span class="c">!BCs for pin-wire bundle mesh</span>
+         <span class="k">do </span><span class="n">iel</span><span class="o">=</span><span class="mi">1</span><span class="p">,</span><span class="n">nelt</span>
+            <span class="k">do </span><span class="n">ifc</span><span class="o">=</span><span class="mi">1</span><span class="p">,</span><span class="mi">2</span><span class="o">*</span><span class="n">ndim</span>
+               <span class="n">id_face</span> <span class="o">=</span> <span class="n">BoundaryID</span><span class="p">(</span><span class="n">ifc</span><span class="p">,</span><span class="n">iel</span><span class="p">)</span>
+               <span class="k">if</span> <span class="p">(</span><span class="n">id_face</span><span class="p">.</span><span class="n">eq</span><span class="p">.</span><span class="mi">3</span><span class="p">)</span> <span class="k">then</span> <span class="c">!interface</span>
+                  <span class="n">cbc</span><span class="p">(</span><span class="n">ifc</span><span class="p">,</span><span class="n">iel</span><span class="p">,</span><span class="mi">1</span><span class="p">)</span> <span class="o">=</span> <span class="s1">&#39;int&#39;</span>
+                  <span class="n">cbc</span><span class="p">(</span><span class="n">ifc</span><span class="p">,</span><span class="n">iel</span><span class="p">,</span><span class="mi">2</span><span class="p">)</span> <span class="o">=</span> <span class="s1">&#39;int&#39;</span>
+               <span class="n">elseif</span> <span class="p">(</span><span class="n">id_face</span><span class="p">.</span><span class="n">eq</span><span class="p">.</span><span class="mi">4</span><span class="p">)</span> <span class="k">then</span> <span class="c">!outlet</span>
+                  <span class="n">cbc</span><span class="p">(</span><span class="n">ifc</span><span class="p">,</span><span class="n">iel</span><span class="p">,</span><span class="mi">1</span><span class="p">)</span> <span class="o">=</span> <span class="s1">&#39;O  &#39;</span>
+                  <span class="n">cbc</span><span class="p">(</span><span class="n">ifc</span><span class="p">,</span><span class="n">iel</span><span class="p">,</span><span class="mi">2</span><span class="p">)</span> <span class="o">=</span> <span class="s1">&#39;O  &#39;</span>
+               <span class="n">elseif</span> <span class="p">(</span><span class="n">id_face</span><span class="p">.</span><span class="n">eq</span><span class="p">.</span><span class="mi">1</span><span class="p">)</span> <span class="k">then</span> <span class="c">!pin walls</span>
+                  <span class="n">cbc</span><span class="p">(</span><span class="n">ifc</span><span class="p">,</span><span class="n">iel</span><span class="p">,</span><span class="mi">1</span><span class="p">)</span> <span class="o">=</span> <span class="s1">&#39;W  &#39;</span>
+                  <span class="n">cbc</span><span class="p">(</span><span class="n">ifc</span><span class="p">,</span><span class="n">iel</span><span class="p">,</span><span class="mi">2</span><span class="p">)</span> <span class="o">=</span> <span class="s1">&#39;f  &#39;</span>
+               <span class="n">elseif</span> <span class="p">(</span><span class="n">id_face</span><span class="p">.</span><span class="n">eq</span><span class="p">.</span><span class="mi">2</span><span class="p">)</span> <span class="k">then</span> <span class="c">!outer walls</span>
+                  <span class="n">cbc</span><span class="p">(</span><span class="n">ifc</span><span class="p">,</span><span class="n">iel</span><span class="p">,</span><span class="mi">1</span><span class="p">)</span> <span class="o">=</span> <span class="s1">&#39;W  &#39;</span>
+                  <span class="n">cbc</span><span class="p">(</span><span class="n">ifc</span><span class="p">,</span><span class="n">iel</span><span class="p">,</span><span class="mi">2</span><span class="p">)</span> <span class="o">=</span> <span class="s1">&#39;I  &#39;</span>
+               <span class="n">endif</span>
+            <span class="n">enddo</span>
+         <span class="n">enddo</span>
+      <span class="n">endif</span>
+      
+<span class="c">!     RANS initialization</span>
+      <span class="n">ifld_tke</span> <span class="o">=</span> <span class="mi">3</span>
+      <span class="n">ifld_tau</span> <span class="o">=</span> <span class="mi">4</span>
+      <span class="n">ifcoeffs</span><span class="o">=</span><span class="p">.</span><span class="n">false</span><span class="p">.</span>
+      
+      <span class="n">m_id</span> <span class="o">=</span> <span class="mi">4</span>       <span class="c">! non-regularized standard k-tau</span>
+      <span class="n">w_id</span> <span class="o">=</span> <span class="mi">2</span>       <span class="c">! distf (coordinate difference, provides smoother function)</span>
+
+      <span class="k">call </span><span class="n">rans_init</span><span class="p">(</span><span class="n">ifld_tke</span><span class="p">,</span><span class="n">ifld_tau</span><span class="p">,</span><span class="n">ifcoeffs</span><span class="p">,</span><span class="n">coeffs</span><span class="p">,</span><span class="n">w_id</span><span class="p">,</span><span class="n">wd</span><span class="p">,</span><span class="n">m_id</span><span class="p">)</span>
+
+      <span class="k">return</span>
+<span class="k">      end</span>
+<span class="n">c</span><span class="o">---------------------------------------------------------------------</span>
+</pre></div>
+</div>
+<p>The NekNek solver launches two Nek5000 sessions simultaneously and field data transfer is performed between the two sessions on each time iteration.
+Each session is assigned a unique sequential ID, stored in the variable <code class="docutils literal notranslate"><span class="pre">idsess</span></code>.
+Here, <code class="docutils literal notranslate"><span class="pre">idsess=0</span></code> is assigned to the inlet component solve and <code class="docutils literal notranslate"><span class="pre">idsess=1</span></code> to bundle component.
+Boundary conditions are assigned using this variable for each component, as shown above.</p>
+<div class="admonition note">
+<p class="first admonition-title">Note</p>
+<p class="last">The <code class="docutils literal notranslate"><span class="pre">idsess</span></code> variable is determined by the call order during job submission.
+See <a class="reference internal" href="#sec-compile"><span class="std std-ref">Compilation and Running</span></a> for more information.</p>
+</div>
+<p>Recall the boundary IDs assigned to each component during the mesh generation process, described in the preceding section.
+Character codes for different boundary conditions are stored in the <code class="docutils literal notranslate"><span class="pre">cbc</span></code> array. Their detailed description can be found in
+<a class="reference internal" href="../problem_setup/BCs.html#boundary-conditions"><span class="std std-ref">Boundary Conditions</span></a>. For each component, the nested loops go through all elements and their faces, populating
+<code class="docutils literal notranslate"><span class="pre">cbc</span></code> array for all fields based on mesh assigned boundary IDs. Note that <code class="docutils literal notranslate"><span class="pre">int</span></code> boundary condition
+must be assigned to the overlapping surfaces of the inlet and bundle components. <code class="docutils literal notranslate"><span class="pre">int</span></code> condition is replaced
+internally with Dirichlet boundary conditions subsequently by Nek5000. Flux boundary condition, <code class="docutils literal notranslate"><span class="pre">f</span></code>, is assigned to
+pin walls for temperature field while insulated, <code class="docutils literal notranslate"><span class="pre">I</span></code>, is assigned to all other walls.</p>
+<p>With regards to RANS initialization; <code class="docutils literal notranslate"><span class="pre">m_id=4</span></code> selects the <span class="math notranslate nohighlight">\(k-\tau\)</span> RANS model and <code class="docutils literal notranslate"><span class="pre">w_id=2</span></code> selects the
+wall distance computing algorithm. <span class="math notranslate nohighlight">\(k\)</span> and <span class="math notranslate nohighlight">\(\tau\)</span> fields are stored in the 3rd and 4th index, respectively,
+specified with <code class="docutils literal notranslate"><span class="pre">ifld_k</span></code> and <code class="docutils literal notranslate"><span class="pre">ifld_omega</span></code>. Set <code class="docutils literal notranslate"><span class="pre">ifcoeffs</span></code> to <code class="docutils literal notranslate"><span class="pre">.true.</span></code> only if user specified RANS coefficients
+are required. For details on the RANS related parameters, refer <a class="reference internal" href="rans.html#tutorial-rans"><span class="std std-ref">RANS Channel</span></a> tutorial.</p>
+<div class="admonition note">
+<p class="first admonition-title">Note</p>
+<p class="last"><code class="docutils literal notranslate"><span class="pre">rans_init</span></code> must be called after populating <code class="docutils literal notranslate"><span class="pre">cbc</span></code> array</p>
+</div>
+<p>For RANS simulation, diffusion coefficients are assigned in the <code class="docutils literal notranslate"><span class="pre">uservp</span></code> routine. The routine used here remains
+nearly identical to the <a class="reference internal" href="rans.html#tutorial-rans"><span class="std std-ref">RANS Channel</span></a> tutorial:</p>
+<div class="highlight-fortran notranslate"><div class="highlight"><pre><span></span>      <span class="k">subroutine </span><span class="n">uservp</span> <span class="p">(</span><span class="n">ix</span><span class="p">,</span><span class="n">iy</span><span class="p">,</span><span class="n">iz</span><span class="p">,</span><span class="n">eg</span><span class="p">)</span>
+      <span class="k">implicit none</span>
+<span class="k">      include</span> <span class="s1">&#39;SIZE&#39;</span>
+      <span class="k">include</span> <span class="s1">&#39;TOTAL&#39;</span>
+      <span class="k">include</span> <span class="s1">&#39;NEKUSE&#39;</span>
+      
+      <span class="kt">integer </span><span class="n">ix</span><span class="p">,</span><span class="n">iy</span><span class="p">,</span><span class="n">iz</span><span class="p">,</span><span class="n">e</span><span class="p">,</span><span class="n">eg</span>
+      
+      <span class="k">common</span> <span class="o">/</span><span class="n">rans_usr</span><span class="o">/</span> <span class="n">ifld_tke</span><span class="p">,</span> <span class="n">ifld_tau</span><span class="p">,</span> <span class="n">m_id</span>
+      <span class="kt">integer </span><span class="n">ifld_tke</span><span class="p">,</span><span class="n">ifld_tau</span><span class="p">,</span> <span class="n">m_id</span>
+
+      <span class="kt">real </span><span class="n">rans_mut</span><span class="p">,</span><span class="n">rans_mutsk</span><span class="p">,</span><span class="n">rans_mutso</span><span class="p">,</span><span class="n">rans_turbPrandtl</span>
+      <span class="kt">real </span><span class="n">mu_t</span><span class="p">,</span><span class="n">Pr_t</span>
+      
+      <span class="n">e</span> <span class="o">=</span> <span class="n">gllel</span><span class="p">(</span><span class="n">eg</span><span class="p">)</span>
+      
+      <span class="n">Pr_t</span><span class="o">=</span><span class="mf">1.5</span>                  <span class="c">!rans_turbPrandtl()</span>
+      <span class="n">mu_t</span><span class="o">=</span><span class="n">rans_mut</span><span class="p">(</span><span class="n">ix</span><span class="p">,</span><span class="n">iy</span><span class="p">,</span><span class="n">iz</span><span class="p">,</span><span class="n">e</span><span class="p">)</span>
+      
+      <span class="k">if</span><span class="p">(</span><span class="n">ifield</span><span class="p">.</span><span class="n">eq</span><span class="p">.</span><span class="mi">1</span><span class="p">)</span> <span class="k">then</span>
+<span class="k">         </span><span class="n">udiff</span>  <span class="o">=</span> <span class="n">cpfld</span><span class="p">(</span><span class="n">ifield</span><span class="p">,</span><span class="mi">1</span><span class="p">)</span><span class="o">+</span><span class="n">mu_t</span>
+         <span class="n">utrans</span> <span class="o">=</span> <span class="n">cpfld</span><span class="p">(</span><span class="n">ifield</span><span class="p">,</span><span class="mi">2</span><span class="p">)</span>
+      <span class="n">elseif</span><span class="p">(</span><span class="n">ifield</span><span class="p">.</span><span class="n">eq</span><span class="p">.</span><span class="mi">2</span><span class="p">)</span> <span class="k">then</span>
+<span class="k">         </span><span class="n">udiff</span>  <span class="o">=</span> <span class="n">cpfld</span><span class="p">(</span><span class="n">ifield</span><span class="p">,</span><span class="mi">1</span><span class="p">)</span><span class="o">+</span><span class="n">mu_t</span><span class="o">*</span><span class="n">cpfld</span><span class="p">(</span><span class="n">ifield</span><span class="p">,</span><span class="mi">2</span><span class="p">)</span><span class="o">/</span><span class="p">(</span><span class="n">Pr_t</span><span class="o">*</span><span class="n">cpfld</span><span class="p">(</span><span class="mi">1</span><span class="p">,</span><span class="mi">2</span><span class="p">))</span>
+         <span class="n">utrans</span> <span class="o">=</span> <span class="n">cpfld</span><span class="p">(</span><span class="n">ifield</span><span class="p">,</span><span class="mi">2</span><span class="p">)</span>
+      <span class="n">elseif</span><span class="p">(</span><span class="n">ifield</span><span class="p">.</span><span class="n">eq</span><span class="p">.</span><span class="n">ifld_tke</span><span class="p">)</span> <span class="k">then</span>
+<span class="k">         </span><span class="n">udiff</span>  <span class="o">=</span> <span class="n">cpfld</span><span class="p">(</span><span class="mi">1</span><span class="p">,</span><span class="mi">1</span><span class="p">)</span><span class="o">+</span><span class="n">rans_mutsk</span><span class="p">(</span><span class="n">ix</span><span class="p">,</span><span class="n">iy</span><span class="p">,</span><span class="n">iz</span><span class="p">,</span><span class="n">e</span><span class="p">)</span>
+         <span class="n">utrans</span> <span class="o">=</span> <span class="n">cpfld</span><span class="p">(</span><span class="mi">1</span><span class="p">,</span><span class="mi">2</span><span class="p">)</span>
+      <span class="n">elseif</span><span class="p">(</span><span class="n">ifield</span><span class="p">.</span><span class="n">eq</span><span class="p">.</span><span class="n">ifld_tau</span><span class="p">)</span> <span class="k">then</span>
+<span class="k">         </span><span class="n">udiff</span>  <span class="o">=</span> <span class="n">cpfld</span><span class="p">(</span><span class="mi">1</span><span class="p">,</span><span class="mi">1</span><span class="p">)</span><span class="o">+</span><span class="n">rans_mutso</span><span class="p">(</span><span class="n">ix</span><span class="p">,</span><span class="n">iy</span><span class="p">,</span><span class="n">iz</span><span class="p">,</span><span class="n">e</span><span class="p">)</span>
+         <span class="n">utrans</span> <span class="o">=</span> <span class="n">cpfld</span><span class="p">(</span><span class="mi">1</span><span class="p">,</span><span class="mi">2</span><span class="p">)</span>
+      <span class="n">endif</span>
+      
+      <span class="k">return</span>
+<span class="k">      end</span>
+</pre></div>
+</div>
+<p>Only turbulent Prandtl number is changed to <code class="docutils literal notranslate"><span class="pre">Pr_t=1.5</span></code> for this tutorial. This value is more appropriate for
+molten sodium salts as compared to the default value of 0.85 (for air), which is assigned through <code class="docutils literal notranslate"><span class="pre">rans_turbPrandtl()</span></code>
+function call.</p>
+<p>Source terms for the temperature and scalar equations are assigned through <code class="docutils literal notranslate"><span class="pre">userq</span></code>. The routine here is identical
+to the basic <a class="reference internal" href="rans.html#tutorial-rans"><span class="std std-ref">RANS Channel</span></a> case:</p>
+<div class="highlight-fortran notranslate"><div class="highlight"><pre><span></span>      <span class="k">subroutine </span><span class="n">userq</span>  <span class="p">(</span><span class="n">ix</span><span class="p">,</span><span class="n">iy</span><span class="p">,</span><span class="n">iz</span><span class="p">,</span><span class="n">ieg</span><span class="p">)</span>
+      <span class="k">implicit none</span>
+<span class="k">      include</span> <span class="s1">&#39;SIZE&#39;</span>
+      <span class="k">include</span> <span class="s1">&#39;TOTAL&#39;</span>
+      <span class="k">include</span> <span class="s1">&#39;NEKUSE&#39;</span>
+      
+      <span class="k">common</span> <span class="o">/</span><span class="n">rans_usr</span><span class="o">/</span> <span class="n">ifld_tke</span><span class="p">,</span> <span class="n">ifld_tau</span><span class="p">,</span> <span class="n">m_id</span>
+      <span class="kt">integer </span><span class="n">ifld_tke</span><span class="p">,</span><span class="n">ifld_tau</span><span class="p">,</span> <span class="n">m_id</span>
+      
+      <span class="kt">real </span><span class="n">rans_kSrc</span><span class="p">,</span><span class="n">rans_omgSrc</span>
+      <span class="kt">real </span><span class="n">rans_kDiag</span><span class="p">,</span><span class="n">rans_omgDiag</span>
+      
+      <span class="kt">integer </span><span class="n">ie</span><span class="p">,</span><span class="n">ix</span><span class="p">,</span><span class="n">iy</span><span class="p">,</span><span class="n">iz</span><span class="p">,</span><span class="n">ieg</span>
+      <span class="n">ie</span> <span class="o">=</span> <span class="n">gllel</span><span class="p">(</span><span class="n">ieg</span><span class="p">)</span>
+      
+      <span class="k">if</span><span class="p">(</span><span class="n">ifield</span><span class="p">.</span><span class="n">eq</span><span class="p">.</span><span class="mi">2</span><span class="p">)</span> <span class="k">then</span>
+<span class="k">         </span><span class="n">qvol</span> <span class="o">=</span> <span class="mf">0.0</span>
+         <span class="n">avol</span> <span class="o">=</span> <span class="mf">0.0</span>
+      <span class="n">elseif</span><span class="p">(</span><span class="n">ifield</span><span class="p">.</span><span class="n">eq</span><span class="p">.</span><span class="n">ifld_tke</span><span class="p">)</span> <span class="k">then</span>
+<span class="k">         </span><span class="n">qvol</span> <span class="o">=</span> <span class="n">rans_kSrc</span>  <span class="p">(</span><span class="n">ix</span><span class="p">,</span><span class="n">iy</span><span class="p">,</span><span class="n">iz</span><span class="p">,</span><span class="n">ie</span><span class="p">)</span>
+         <span class="n">avol</span> <span class="o">=</span> <span class="n">rans_kDiag</span> <span class="p">(</span><span class="n">ix</span><span class="p">,</span><span class="n">iy</span><span class="p">,</span><span class="n">iz</span><span class="p">,</span><span class="n">ie</span><span class="p">)</span>
+      <span class="n">elseif</span><span class="p">(</span><span class="n">ifield</span><span class="p">.</span><span class="n">eq</span><span class="p">.</span><span class="n">ifld_tau</span><span class="p">)</span> <span class="k">then</span>
+<span class="k">         </span><span class="n">qvol</span> <span class="o">=</span> <span class="n">rans_omgSrc</span> <span class="p">(</span><span class="n">ix</span><span class="p">,</span><span class="n">iy</span><span class="p">,</span><span class="n">iz</span><span class="p">,</span><span class="n">ie</span><span class="p">)</span>
+         <span class="n">avol</span> <span class="o">=</span> <span class="n">rans_omgDiag</span><span class="p">(</span><span class="n">ix</span><span class="p">,</span><span class="n">iy</span><span class="p">,</span><span class="n">iz</span><span class="p">,</span><span class="n">ie</span><span class="p">)</span>
+      <span class="n">endif</span>
+      
+      <span class="k">return</span>
+<span class="k">      end</span>
+</pre></div>
+</div>
+<p>Note that either component does not have any volumetric source heat source and hence <code class="docutils literal notranslate"><span class="pre">qvol=0</span></code> for temperature
+field (<code class="docutils literal notranslate"><span class="pre">ifield.eq.2</span></code>).</p>
+<p>Initial conditions are specified in <code class="docutils literal notranslate"><span class="pre">useric</span></code>. Similar values are assigned to both components and, thus, the routine
+implementation is straightforward. Temperature is initalized to 1 for both components.</p>
+<div class="highlight-fortran notranslate"><div class="highlight"><pre><span></span>      <span class="k">subroutine </span><span class="n">useric</span> <span class="p">(</span><span class="n">ix</span><span class="p">,</span><span class="n">iy</span><span class="p">,</span><span class="n">iz</span><span class="p">,</span><span class="n">eg</span><span class="p">)</span>
+      <span class="k">implicit none</span>
+<span class="k">      include</span> <span class="s1">&#39;SIZE&#39;</span>
+      <span class="k">include</span> <span class="s1">&#39;TOTAL&#39;</span>
+      <span class="k">include</span> <span class="s1">&#39;NEKUSE&#39;</span>
+      
+      <span class="kt">integer </span><span class="n">ix</span><span class="p">,</span><span class="n">iy</span><span class="p">,</span><span class="n">iz</span><span class="p">,</span><span class="n">e</span><span class="p">,</span><span class="n">eg</span>
+
+      <span class="k">common</span> <span class="o">/</span><span class="n">rans_usr</span><span class="o">/</span> <span class="n">ifld_tke</span><span class="p">,</span> <span class="n">ifld_tau</span><span class="p">,</span> <span class="n">m_id</span>
+      <span class="kt">integer </span><span class="n">ifld_tke</span><span class="p">,</span><span class="n">ifld_tau</span><span class="p">,</span> <span class="n">m_id</span>
+      
+      <span class="n">e</span> <span class="o">=</span> <span class="n">gllel</span><span class="p">(</span><span class="n">eg</span><span class="p">)</span>
+      
+      <span class="n">ux</span>   <span class="o">=</span> <span class="mf">0.0</span>
+      <span class="n">uy</span>   <span class="o">=</span> <span class="mf">0.0</span>
+      <span class="n">uz</span>   <span class="o">=</span> <span class="mf">1.0</span>
+      <span class="n">temp</span> <span class="o">=</span> <span class="mf">1.0</span>
+      
+      <span class="k">if</span><span class="p">(</span><span class="n">ifield</span><span class="p">.</span><span class="n">eq</span><span class="p">.</span><span class="mi">2</span><span class="p">)</span> <span class="n">temp</span> <span class="o">=</span> <span class="mf">1.0</span>
+      <span class="k">if</span><span class="p">(</span><span class="n">ifield</span><span class="p">.</span><span class="n">eq</span><span class="p">.</span><span class="n">ifld_tke</span><span class="p">)</span> <span class="n">temp</span> <span class="o">=</span> <span class="mf">0.01</span>
+      <span class="k">if</span><span class="p">(</span><span class="n">ifield</span><span class="p">.</span><span class="n">eq</span><span class="p">.</span><span class="n">ifld_tau</span><span class="p">)</span> <span class="n">temp</span> <span class="o">=</span> <span class="mf">0.2</span>
+      
+      <span class="k">return</span>
+<span class="k">      end</span>
+</pre></div>
+</div>
+<p>Boundary conditions are assigned in <code class="docutils literal notranslate"><span class="pre">userbc</span></code>. For the inlet component, inlet conditions are assigned using data
+generated from RANS simulation in a pipe with identical diameter as the inlet surface. The data is stored in the
+<code class="docutils literal notranslate"><span class="pre">InletProf.dat</span></code> file which contains axial velocity, <span class="math notranslate nohighlight">\(k\)</span> and <span class="math notranslate nohighlight">\(\tau\)</span> information as a function of
+radial wall distance. Two plugin subroutines are required, which perform spline interpolation of the data to the
+inlet mesh, viz., <code class="docutils literal notranslate"><span class="pre">getInletProf</span></code> and <code class="docutils literal notranslate"><span class="pre">init_prof</span></code>. These are provided for the user in the <code class="docutils literal notranslate"><span class="pre">inlet_bundle.usr</span></code>
+file and can be used without modification. The usage is shown below:</p>
+<div class="highlight-fortran notranslate"><div class="highlight"><pre><span></span>      <span class="k">subroutine </span><span class="n">userbc</span> <span class="p">(</span><span class="n">ix</span><span class="p">,</span><span class="n">iy</span><span class="p">,</span><span class="n">iz</span><span class="p">,</span><span class="n">iside</span><span class="p">,</span><span class="n">eg</span><span class="p">)</span>
+      <span class="k">implicit none</span>
+<span class="k">      include</span> <span class="s1">&#39;SIZE&#39;</span>
+      <span class="k">include</span> <span class="s1">&#39;TOTAL&#39;</span>
+      <span class="k">include</span> <span class="s1">&#39;NEKUSE&#39;</span>
+      <span class="k">include</span> <span class="s1">&#39;NEKNEK&#39;</span>
+      
+      <span class="kt">integer </span><span class="n">ix</span><span class="p">,</span><span class="n">iy</span><span class="p">,</span><span class="n">iz</span><span class="p">,</span><span class="n">iside</span><span class="p">,</span><span class="n">eg</span><span class="p">,</span><span class="n">e</span>
+
+      <span class="kt">real </span><span class="n">wd</span>
+      <span class="k">common</span> <span class="o">/</span><span class="n">walldist</span><span class="o">/</span> <span class="n">wd</span><span class="p">(</span><span class="n">lx1</span><span class="p">,</span><span class="n">ly1</span><span class="p">,</span><span class="n">lz1</span><span class="p">,</span><span class="n">lelv</span><span class="p">)</span>
+
+      <span class="k">common</span> <span class="o">/</span><span class="n">rans_usr</span><span class="o">/</span> <span class="n">ifld_tke</span><span class="p">,</span> <span class="n">ifld_tau</span><span class="p">,</span> <span class="n">m_id</span>
+      <span class="kt">integer </span><span class="n">ifld_tke</span><span class="p">,</span><span class="n">ifld_tau</span><span class="p">,</span> <span class="n">m_id</span>
+      
+      <span class="kt">real </span><span class="n">uin</span><span class="p">,</span><span class="n">kin</span><span class="p">,</span><span class="n">tauin</span><span class="p">,</span><span class="n">wdist</span>
+      <span class="kt">real </span><span class="n">din</span><span class="p">,</span><span class="n">zmid</span>
+
+      <span class="kt">integer </span><span class="n">id_face</span>
+      
+      <span class="kt">integer </span><span class="n">icalld</span>
+      <span class="k">save </span><span class="n">icalld</span>
+      <span class="k">data </span><span class="n">icalld</span> <span class="o">/</span><span class="mi">0</span><span class="o">/</span>
+
+      <span class="n">e</span> <span class="o">=</span> <span class="n">gllel</span><span class="p">(</span><span class="n">eg</span><span class="p">)</span>
+      
+      <span class="k">if</span><span class="p">(</span><span class="n">icalld</span><span class="p">.</span><span class="n">eq</span><span class="p">.</span><span class="mi">0</span><span class="p">)</span><span class="k">then</span>
+<span class="k">         call </span><span class="n">getInletProf</span>      <span class="c">!Initialize spline routine</span>
+         <span class="n">icalld</span> <span class="o">=</span> <span class="mi">1</span>
+      <span class="n">endif</span>
+      
+      <span class="n">ux</span> <span class="o">=</span> <span class="mf">0.0</span>
+      <span class="n">uy</span> <span class="o">=</span> <span class="mf">0.0</span>
+      <span class="n">uz</span> <span class="o">=</span> <span class="mf">0.0</span>
+      <span class="n">temp</span> <span class="o">=</span> <span class="mf">0.0</span>
+      <span class="n">flux</span> <span class="o">=</span> <span class="mf">0.0</span>
+      
+      <span class="n">id_face</span> <span class="o">=</span> <span class="n">BoundaryID</span><span class="p">(</span><span class="n">iside</span><span class="p">,</span><span class="n">e</span><span class="p">)</span>
+
+      <span class="k">if</span><span class="p">(</span><span class="n">imask</span><span class="p">(</span><span class="n">ix</span><span class="p">,</span><span class="n">iy</span><span class="p">,</span><span class="n">iz</span><span class="p">,</span><span class="n">e</span><span class="p">).</span><span class="n">eq</span><span class="p">.</span><span class="mi">0</span><span class="p">)</span><span class="k">then</span>
+<span class="k">         continue</span>
+<span class="k">      else</span>
+<span class="k">         </span><span class="n">ux</span> <span class="o">=</span> <span class="n">valint</span><span class="p">(</span><span class="n">ix</span><span class="p">,</span><span class="n">iy</span><span class="p">,</span><span class="n">iz</span><span class="p">,</span><span class="n">e</span><span class="p">,</span><span class="mi">1</span><span class="p">)</span>
+         <span class="n">uy</span> <span class="o">=</span> <span class="n">valint</span><span class="p">(</span><span class="n">ix</span><span class="p">,</span><span class="n">iy</span><span class="p">,</span><span class="n">iz</span><span class="p">,</span><span class="n">e</span><span class="p">,</span><span class="mi">2</span><span class="p">)</span>
+         <span class="n">uz</span> <span class="o">=</span> <span class="n">valint</span><span class="p">(</span><span class="n">ix</span><span class="p">,</span><span class="n">iy</span><span class="p">,</span><span class="n">iz</span><span class="p">,</span><span class="n">e</span><span class="p">,</span><span class="mi">3</span><span class="p">)</span>
+         <span class="k">if</span><span class="p">(</span><span class="n">nfld_neknek</span><span class="p">.</span><span class="n">gt</span><span class="p">.</span><span class="mi">3</span><span class="p">)</span><span class="n">temp</span> <span class="o">=</span> <span class="n">valint</span><span class="p">(</span><span class="n">ix</span><span class="p">,</span><span class="n">iy</span><span class="p">,</span><span class="n">iz</span><span class="p">,</span><span class="n">e</span><span class="p">,</span><span class="n">ldim</span><span class="o">+</span><span class="n">ifield</span><span class="p">)</span>
+      <span class="n">endif</span>
+      
+<span class="c">!     Inlet condition</span>
+      <span class="k">if</span><span class="p">(</span><span class="n">idsess</span><span class="p">.</span><span class="n">eq</span><span class="p">.</span><span class="mi">0</span> <span class="p">.</span><span class="nb">and</span><span class="p">.</span> <span class="n">id_face</span><span class="p">.</span><span class="n">eq</span><span class="p">.</span><span class="mi">2</span><span class="p">)</span><span class="k">then</span>
+<span class="k">         </span><span class="n">din</span> <span class="o">=</span> <span class="mf">1.875</span>            <span class="c">!Inlet diameter</span>
+         <span class="n">wdist</span> <span class="o">=</span> <span class="nb">min</span><span class="p">(</span><span class="n">wd</span><span class="p">(</span><span class="n">ix</span><span class="p">,</span><span class="n">iy</span><span class="p">,</span><span class="n">iz</span><span class="p">,</span><span class="n">e</span><span class="p">),</span><span class="n">din</span><span class="o">/</span><span class="mf">2.</span><span class="p">)</span> <span class="c">!Wall distance</span>
+         <span class="k">call </span><span class="n">init_prof</span><span class="p">(</span><span class="n">wdist</span><span class="p">,</span><span class="n">uin</span><span class="p">,</span><span class="n">kin</span><span class="p">,</span><span class="n">tauin</span><span class="p">)</span> <span class="c">!Spline interpolation from InletProf.dat</span>
+         <span class="n">uz</span> <span class="o">=</span> <span class="n">uin</span>
+         <span class="k">if</span><span class="p">(</span><span class="n">ifield</span><span class="p">.</span><span class="n">eq</span><span class="p">.</span><span class="mi">2</span><span class="p">)</span><span class="n">temp</span> <span class="o">=</span> <span class="mf">1.0</span>
+         <span class="k">if</span><span class="p">(</span><span class="n">ifield</span><span class="p">.</span><span class="n">eq</span><span class="p">.</span><span class="n">ifld_tke</span><span class="p">)</span><span class="n">temp</span> <span class="o">=</span> <span class="n">kin</span>
+         <span class="k">if</span><span class="p">(</span><span class="n">ifield</span><span class="p">.</span><span class="n">eq</span><span class="p">.</span><span class="n">ifld_tau</span><span class="p">)</span><span class="n">temp</span> <span class="o">=</span> <span class="n">tauin</span>
+      <span class="n">endif</span>
+      
+<span class="c">!     Heat flux on walls</span>
+      <span class="k">if</span><span class="p">(</span><span class="n">ifield</span><span class="p">.</span><span class="n">eq</span><span class="p">.</span><span class="mi">2</span><span class="p">)</span><span class="k">then</span>
+<span class="k">         if</span><span class="p">(</span><span class="n">idsess</span><span class="p">.</span><span class="n">eq</span><span class="p">.</span><span class="mi">0</span><span class="p">)</span><span class="k">then</span>
+<span class="k">            </span><span class="n">flux</span> <span class="o">=</span> <span class="mf">0.0</span>
+         <span class="k">else</span>
+<span class="k">            </span><span class="n">zmid</span> <span class="o">=</span> <span class="mi">1</span><span class="mf">2.5</span><span class="o">/</span><span class="mf">2.0</span>
+            <span class="n">flux</span><span class="o">=</span><span class="mf">0.0</span>
+            <span class="k">if</span><span class="p">(</span><span class="n">id_face</span><span class="p">.</span><span class="n">eq</span><span class="p">.</span><span class="mi">1</span><span class="p">)</span><span class="k">then</span> <span class="c">!Pin walls</span>
+               <span class="n">flux</span> <span class="o">=</span> <span class="mf">0.5</span><span class="o">*</span><span class="p">(</span><span class="mf">1.0</span><span class="o">+</span><span class="nb">tanh</span><span class="p">(</span><span class="mf">2.0</span><span class="o">*</span><span class="n">PI</span><span class="o">*</span><span class="p">(</span><span class="n">zm1</span><span class="p">(</span><span class="n">ix</span><span class="p">,</span><span class="n">iy</span><span class="p">,</span><span class="n">iz</span><span class="p">,</span><span class="n">e</span><span class="p">)</span><span class="o">-</span><span class="n">zmid</span><span class="p">)))</span>
+            <span class="n">endif</span>
+         <span class="n">endif</span>
+      <span class="n">endif</span>
+      
+      <span class="k">return</span>
+<span class="k">      end</span>
+</pre></div>
+</div>
+<p>Note that the diameter of the inlet surface is <code class="docutils literal notranslate"><span class="pre">din=1.875</span></code>. Spline interpolation routine, <code class="docutils literal notranslate"><span class="pre">init_prof</span></code>, requires
+the wall distance array, <code class="docutils literal notranslate"><span class="pre">wd</span></code>, which is populated in <code class="docutils literal notranslate"><span class="pre">usrdat2</span></code> (in <code class="docutils literal notranslate"><span class="pre">rans_init</span></code> call). The distance should be
+limited to inlet radius to avoid spline from extrapolating. Inlet component is identified with <code class="docutils literal notranslate"><span class="pre">idsess.eq.0</span></code> and
+inlet surface with its boundary ID, <code class="docutils literal notranslate"><span class="pre">id_face.eq.2</span></code>.</p>
+<p>Temperature flux must also be assigned in <code class="docutils literal notranslate"><span class="pre">userbc</span></code> on the pin surface walls. As mentioned earlier, non-dimensional
+unit heat flux is assigned from half axial length of the bundle (<code class="docutils literal notranslate"><span class="pre">zmid</span></code>). A smoothed axial flux profile is imposed using
+<code class="docutils literal notranslate"><span class="pre">tanh</span></code> step function as shown. Flux on all remaining walls is zero.</p>
+<p>Field data transfer between <code class="docutils literal notranslate"><span class="pre">NekNek</span></code> sessions is performed using <code class="docutils literal notranslate"><span class="pre">valint</span></code> array and the grid point locations of
+of overlapping boundaries are identified using the <code class="docutils literal notranslate"><span class="pre">imask</span></code> array. Thus, Dirichlet boundary condition values stored in
+<code class="docutils literal notranslate"><span class="pre">valint</span></code>, which contains spectral interpolation field values from overlapping mesh, are imposed at the boundary of
+current mesh, where <code class="docutils literal notranslate"><span class="pre">imask</span> <span class="pre">=</span> <span class="pre">1</span></code>.</p>
+</div>
+<div class="section" id="size-file">
+<h2>SIZE file<a class="headerlink" href="#size-file" title="Permalink to this headline">¶</a></h2>
+<p>The <code class="docutils literal notranslate"><span class="pre">SIZE</span></code> file used for this tutorial is included in the provided tar file. The user needs to ensure that the
+auxiliary fields specified in the SIZE file is at minimum <code class="docutils literal notranslate"><span class="pre">ldimt=3</span></code> for RANS. Further, <code class="docutils literal notranslate"><span class="pre">nsessmax</span></code> must be
+set to 2 for <code class="docutils literal notranslate"><span class="pre">NEKNEK</span></code> simulation. Other details on the contents of the <code class="docutils literal notranslate"><span class="pre">SIZE</span></code> file can be found
+<a class="reference internal" href="../problem_setup/case_files.html#case-files-size"><span class="std std-ref">here</span></a>.</p>
+<div class="admonition note">
+<p class="first admonition-title">Note</p>
+<p class="last">The choice of <code class="docutils literal notranslate"><span class="pre">lelg</span></code>, <code class="docutils literal notranslate"><span class="pre">lpmin</span></code>, and <code class="docutils literal notranslate"><span class="pre">lelt</span></code> is different for a NekNek case.
+See the <a class="reference internal" href="neknek.html#neknek-size"><span class="std std-ref">Overlapping Overset Grids</span></a> tutorial for guidance.</p>
+</div>
+</div>
+<div class="section" id="compilation-and-running">
+<span id="sec-compile"></span><h2>Compilation and Running<a class="headerlink" href="#compilation-and-running" title="Permalink to this headline">¶</a></h2>
+<p>Compile from the parent directory with the command <code class="docutils literal notranslate"><span class="pre">$</span> <span class="pre">./makenek</span></code>.</p>
+<div class="admonition warning">
+<p class="first admonition-title">Warning</p>
+<p class="last">The <code class="docutils literal notranslate"><span class="pre">makenek</span></code> file was copied from <code class="docutils literal notranslate"><span class="pre">Nek5000/bin</span></code> and edited specifically for this case.
+It is imperative to include <code class="docutils literal notranslate"><span class="pre">./</span></code> in front of <code class="docutils literal notranslate"><span class="pre">makenek</span></code> to ensure the terminal environment executes the local version of <code class="docutils literal notranslate"><span class="pre">makenek</span></code> instead of the version in <code class="docutils literal notranslate"><span class="pre">Nek5000/bin</span></code>.</p>
+</div>
+<p>A sample script for running the case on a cluster computing environment is included in the tar file (<code class="docutils literal notranslate"><span class="pre">neknekk</span></code>).
+This script is specific to the PBS job scheduler on the <a class="reference external" href="https://hpc.inl.gov/SitePages/Home.aspx">Sawtooth cluster at Idaho National Laboratory</a>.
+It is offered only as an example.
+Work with your local system administrator to develop a script to run on the cluster you have access to.</p>
+<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span><span class="ch">#!/usr/bin/env bash</span>
+<span class="k">if</span> <span class="o">[[</span> <span class="nv">$#</span> -lt <span class="m">6</span> <span class="o">]]</span> <span class="o">||</span> <span class="o">[[</span> <span class="nv">$#</span> -gt <span class="m">7</span> <span class="o">]]</span><span class="p">;</span> <span class="k">then</span>
+  <span class="nb">echo</span> <span class="s2">&quot;submission script for NekNek jobs&quot;</span>
+  <span class="nb">echo</span> <span class="s2">&quot;usage: \$ neknekk \&quot;session 1\&quot; \&quot;session 2\&quot; \&quot;nodes for session 1\&quot; \&quot;nodes for session 2\&quot; \&quot;hours\&quot; \&quot;minutes\&quot; \&quot;(optional) ntasks-per-node\&quot;&quot;</span>
+  <span class="nb">exit</span>
+<span class="k">fi</span>
+
+<span class="nv">prj</span><span class="o">=</span>neams
+
+<span class="nv">ntpn</span><span class="o">=</span><span class="m">48</span>
+<span class="o">[[</span> ! -z <span class="nv">$7</span> <span class="o">]]</span> <span class="o">&amp;&amp;</span> <span class="nv">ntpn</span><span class="o">=</span><span class="nv">$7</span>
+
+<span class="nv">sess1</span><span class="o">=</span><span class="nv">$1</span>
+<span class="nv">sess2</span><span class="o">=</span><span class="nv">$2</span>
+
+<span class="nv">nn1</span><span class="o">=</span><span class="nv">$3</span>
+<span class="nv">nn2</span><span class="o">=</span><span class="nv">$4</span>
+<span class="nv">nnt</span><span class="o">=</span><span class="k">$((</span><span class="nv">$nn1</span> <span class="o">+</span> <span class="nv">$nn2</span><span class="k">))</span>
+<span class="nv">np1</span><span class="o">=</span><span class="k">$((</span><span class="nv">$nn1</span> <span class="o">*</span> <span class="nv">$ntpn</span><span class="k">))</span>
+<span class="nv">np2</span><span class="o">=</span><span class="k">$((</span><span class="nv">$nn2</span> <span class="o">*</span> <span class="nv">$ntpn</span><span class="k">))</span>
+
+<span class="nv">ndss</span><span class="o">=</span><span class="s2">&quot;nodes&quot;</span>
+<span class="o">[</span> <span class="nv">$nnt</span> -eq <span class="m">1</span> <span class="o">]</span> <span class="o">&amp;&amp;</span> <span class="nv">ndss</span><span class="o">=</span><span class="s2">&quot;node&quot;</span>
+
+<span class="nv">hrs</span><span class="o">=</span><span class="sb">`</span><span class="nb">printf</span> <span class="s2">&quot;%02u&quot;</span> <span class="nv">$5</span><span class="sb">`</span>
+<span class="nv">mns</span><span class="o">=</span><span class="sb">`</span><span class="nb">printf</span> <span class="s2">&quot;%02u&quot;</span> <span class="nv">$6</span><span class="sb">`</span>
+
+<span class="nb">echo</span> <span class="s2">&quot;submitting NekNek job on </span><span class="nv">$nnt</span><span class="s2"> </span><span class="nv">$ndss</span><span class="s2"> (</span><span class="nv">$ntpn</span><span class="s2"> ranks per node) for </span><span class="nv">$hrs</span><span class="s2">:</span><span class="nv">$mns</span><span class="s2">&quot;</span>
+
+<span class="nb">echo</span> <span class="s2">&quot;     session \&quot;</span><span class="nv">$sess1</span><span class="s2">\&quot; on </span><span class="nv">$np1</span><span class="s2"> ranks, session \&quot;</span><span class="nv">$sess2</span><span class="s2">\&quot; on </span><span class="nv">$np2</span><span class="s2"> ranks&quot;</span>
+<span class="nb">echo</span> <span class="s2">&quot;#!/bin/bash&quot;</span>                                    &gt;  <span class="s2">&quot;neknek.batch&quot;</span>
+<span class="nb">echo</span> <span class="s2">&quot;#PBS -N neknek&quot;</span>                                 &gt;&gt; <span class="s2">&quot;neknek.batch&quot;</span>
+<span class="nb">echo</span> <span class="s2">&quot;#PBS -l select=</span><span class="nv">$nnt</span><span class="s2">:ncpus=</span><span class="nv">$ntpn</span><span class="s2">:mpiprocs=</span><span class="nv">$ntpn</span><span class="s2">&quot;</span> &gt;&gt; <span class="s2">&quot;neknek.batch&quot;</span>
+<span class="nb">echo</span> <span class="s2">&quot;#PBS -l walltime=</span><span class="nv">$hrs</span><span class="s2">:</span><span class="nv">$mns</span><span class="s2">:00&quot;</span>                  &gt;&gt; <span class="s2">&quot;neknek.batch&quot;</span>
+<span class="nb">echo</span> <span class="s2">&quot;#PBS -j oe&quot;</span>                                     &gt;&gt; <span class="s2">&quot;neknek.batch&quot;</span>
+<span class="nb">echo</span> <span class="s2">&quot;#PBS -P </span><span class="nv">$prj</span><span class="s2">&quot;</span>                                   &gt;&gt; <span class="s2">&quot;neknek.batch&quot;</span>
+<span class="nb">echo</span> <span class="s2">&quot;#PBS -o </span><span class="nv">$1</span><span class="s2">.out&quot;</span>                                 &gt;&gt; <span class="s2">&quot;neknek.batch&quot;</span>
+<span class="nb">echo</span> <span class="s2">&quot;cd \$PBS_O_WORKDIR&quot;</span>                             &gt;&gt; <span class="s2">&quot;neknek.batch&quot;</span>
+<span class="nb">echo</span> <span class="s2">&quot;export OMP_NUM_THREADS=1&quot;</span>                       &gt;&gt; <span class="s2">&quot;neknek.batch&quot;</span>
+<span class="nb">echo</span> <span class="s2">&quot;echo 2 &gt; SESSION.NAME&quot;</span>                          &gt;&gt; <span class="s2">&quot;neknek.batch&quot;</span>
+<span class="nb">echo</span> <span class="s2">&quot;echo T &gt;&gt; SESSION.NAME&quot;</span>                         &gt;&gt; <span class="s2">&quot;neknek.batch&quot;</span>
+<span class="nb">echo</span> <span class="s2">&quot;echo &quot;</span> <span class="nv">$sess1</span> <span class="s2">&quot; &gt;&gt; SESSION.NAME&quot;</span>                &gt;&gt; <span class="s2">&quot;neknek.batch&quot;</span>
+<span class="nb">echo</span> <span class="s2">&quot;echo \`pwd\`&#39;/&#39; &gt;&gt; SESSION.NAME&quot;</span>                &gt;&gt; <span class="s2">&quot;neknek.batch&quot;</span>
+<span class="nb">echo</span> <span class="s2">&quot;echo &quot;</span> <span class="nv">$np1</span> <span class="s2">&quot; &gt;&gt; SESSION.NAME&quot;</span>                  &gt;&gt; <span class="s2">&quot;neknek.batch&quot;</span>
+<span class="nb">echo</span> <span class="s2">&quot;echo &quot;</span> <span class="nv">$sess2</span> <span class="s2">&quot; &gt;&gt; SESSION.NAME&quot;</span>                &gt;&gt; <span class="s2">&quot;neknek.batch&quot;</span>
+<span class="nb">echo</span> <span class="s2">&quot;echo \`pwd\`&#39;/&#39; &gt;&gt; SESSION.NAME&quot;</span>                &gt;&gt; <span class="s2">&quot;neknek.batch&quot;</span>
+<span class="nb">echo</span> <span class="s2">&quot;echo &quot;</span> <span class="nv">$np2</span> <span class="s2">&quot; &gt;&gt; SESSION.NAME&quot;</span>                  &gt;&gt; <span class="s2">&quot;neknek.batch&quot;</span>
+<span class="nb">echo</span> rm -f  *.sch                                     &gt;&gt; <span class="s2">&quot;neknek.batch&quot;</span>
+<span class="nb">echo</span> rm -f ioinfo                                     &gt;&gt; <span class="s2">&quot;neknek.batch&quot;</span>
+<span class="nb">echo</span> <span class="s2">&quot;module purge&quot;</span>                                   &gt;&gt; <span class="s2">&quot;neknek.batch&quot;</span>
+<span class="nb">echo</span> <span class="s2">&quot;module load openmpi/4.0.5_ucx1.9_gcc4.9.4&quot;</span>      &gt;&gt; <span class="s2">&quot;neknek.batch&quot;</span>
+<span class="nb">echo</span> <span class="s2">&quot;mpirun ./nek5000 &gt; logfile&quot;</span>                     &gt;&gt; <span class="s2">&quot;neknek.batch&quot;</span>
+qsub neknek.batch
+sleep <span class="m">3</span>
+qstat -u <span class="sb">`</span>whoami<span class="sb">`</span>
+</pre></div>
+</div>
+<p>This script expects at least six arguments with an optional seventh.
+The arguments are:</p>
+<blockquote>
+<div><ul class="simple">
+<li>session 1 name (must match one set of <code class="docutils literal notranslate"><span class="pre">par</span></code>, <code class="docutils literal notranslate"><span class="pre">re2</span></code>, and <code class="docutils literal notranslate"><span class="pre">con</span></code> files)</li>
+<li>session 2 name (must match the other set of input files)</li>
+<li>number of nodes for session 1</li>
+<li>number of nodes for session 2</li>
+<li>runtime hours</li>
+<li>runtime minutes (between 0 - 60)</li>
+<li>number of MPI ranks per node (optional, defaults to 48)</li>
+</ul>
+</div></blockquote>
+<div class="admonition note">
+<p class="first admonition-title">Note</p>
+<p class="last">The first session name given as an argument will be assigned <code class="docutils literal notranslate"><span class="pre">idsess=0</span></code>, with the second will be assigned <code class="docutils literal notranslate"><span class="pre">idsess=1</span></code>.
+Keep in mind how these were used in the <code class="docutils literal notranslate"><span class="pre">.usr</span></code> file.</p>
+</div>
+<p>As an example, the script can be launched as follows:</p>
+<div class="highlight-console notranslate"><div class="highlight"><pre><span></span><span class="gp">$</span> ./neknekk inlet bundle <span class="m">30</span> <span class="m">10</span> <span class="m">4</span> <span class="m">30</span>
+</pre></div>
+</div>
+<p>This submits a <code class="docutils literal notranslate"><span class="pre">NEKNEK</span></code> job on 40 nodes (30 dedicated to the inlet nozzle and 10 dedicated to the wire-wrapped bundle) for 4 hours and 30 minutes.
+The combined case will likely require significantly longer runtime.
+As the case runs, output from both sessions will be written to a common logfile.
+This can make interpreting the logfile quite difficult.</p>
+<div class="admonition note">
+<p class="first admonition-title">Note</p>
+<p class="last">When running any NekNek case, the number of nodes for each session should be proportional to the number of elements.</p>
+</div>
+</div>
+<div class="section" id="helpful-tips">
+<h2>Helpful Tips<a class="headerlink" href="#helpful-tips" title="Permalink to this headline">¶</a></h2>
+<p>The following tips may be helpful to make the simulations more tractable:</p>
+<blockquote>
+<div><ul class="simple">
+<li>Start with a small time step size and high viscosity value (low Re) to stabilize the pressure solver during initial transients.</li>
+<li>Accelerate the simulation by running a standalone case for the inlet component, allowing flow to evolve before using the <code class="docutils literal notranslate"><span class="pre">NEKNEK</span></code> solver for the coupled simulation. Replace the <code class="docutils literal notranslate"><span class="pre">int</span></code> boundary condition with <code class="docutils literal notranslate"><span class="pre">O</span></code> (outlet) for the inlet component.</li>
+<li>Once the case is stable, use characteristics to run the simulation at larger time steps (CFL&gt;1). This requires the following entries in the <code class="docutils literal notranslate"><span class="pre">.par</span></code> file (uncomment to use):</li>
+</ul>
+</div></blockquote>
+<div class="highlight-ini notranslate"><div class="highlight"><pre><span></span><span class="c1">#extrapolation = OIFS</span>
+<span class="c1">#targetCFL = 3.5</span>
+</pre></div>
+</div>
+<p>It is necessary to specify a target CFL to use characteristics, also known as operator-integrator factor splitting.
+It uses a Runge-Kutta substepping method to exceed the CFL constraint.
+The number of substeps is based on the <code class="docutils literal notranslate"><span class="pre">targetCFL</span></code> value.</p>
+<div class="admonition warning">
+<p class="first admonition-title">Warning</p>
+<p class="last">The characteristics require time to compute.
+It is not unusual for the wall-time per time step to increase by a factor of 3 or 4.
+It should only be used if your case can achieve at least a comparable increase in time step size.
+This should be tested on a case-by-case basis!</p>
+</div>
+</div>
+<div class="section" id="results">
+<h2>Results<a class="headerlink" href="#results" title="Permalink to this headline">¶</a></h2>
+<p>Once the case has been running, it will produce output files for each session independently.
+They can be visualized using either ParaView or VisIt.
+The metadata files necessary to do this can be generated by using the <code class="docutils literal notranslate"><span class="pre">visnek</span></code> script.</p>
+<p>For reference, normalized velocity magnitude and turbulent kinetic energy (TKE) contour plots are shown below along lateral
+cross-sections of the inlet and wire-pin bundle components. Note that the overlap plane is located at <span class="math notranslate nohighlight">\(z=0\)</span> axial location,
+where the polar orientation of wire is <span class="math notranslate nohighlight">\(7.2^{\circ}\)</span>. Contour plots along axial sections at successive downstream locations
+are also shown, corresponding to wire polar orientiations of <span class="math notranslate nohighlight">\(\{7.2,90,180,360\}^{\circ}\)</span>.</p>
+<p>Dimensionless temperature axial distribution is shown in <a class="reference internal" href="#fig-multi-rans-temp"><span class="std std-numref">Fig. 29</span></a> along <span class="math notranslate nohighlight">\(x\)</span>-section. Temperature contours
+along axial cross-section near the bundle outlet is also included in the figure.</p>
+<div class="align-center figure" id="id5">
+<span id="fig-multi-rans-v"></span><img alt="../_images/umag_section.png" src="../_images/umag_section.png" />
+<p class="caption"><span class="caption-number">Fig. 25 </span><span class="caption-text">Normalized velocity magnitude along <span class="math notranslate nohighlight">\(x\)</span> and <span class="math notranslate nohighlight">\(y\)</span> cross-sections. Corresponding zoomed views near overlap region (<span class="math notranslate nohighlight">\(z=0\)</span>) shown.</span></p>
+</div>
+<div class="align-center figure" id="id6">
+<span id="fig-multi-rans-k"></span><img alt="../_images/k_section.png" src="../_images/k_section.png" />
+<p class="caption"><span class="caption-number">Fig. 26 </span><span class="caption-text">Normalized TKE along <span class="math notranslate nohighlight">\(x\)</span> and <span class="math notranslate nohighlight">\(y\)</span> cross-sections. Corresponding zoomed views near overlap region (<span class="math notranslate nohighlight">\(z=0\)</span>) shown.</span></p>
+</div>
+<div class="align-center figure" id="id7">
+<span id="fig-multi-rans-vpolar"></span><img alt="../_images/umag_polar.png" src="../_images/umag_polar.png" />
+<p class="caption"><span class="caption-number">Fig. 27 </span><span class="caption-text">Normalized velocity magnitude in bundle component at successive downstream locations (corresponding polar orientation annotated).</span></p>
+</div>
+<div class="align-center figure" id="id8">
+<span id="fig-multi-rans-kpolar"></span><img alt="../_images/k_polar.png" src="../_images/k_polar.png" />
+<p class="caption"><span class="caption-number">Fig. 28 </span><span class="caption-text">Normalized TKE in bundle component at successive downstream locations (corresponding polar orientation annotated).</span></p>
+</div>
+<div class="align-center figure" id="id9">
+<span id="fig-multi-rans-temp"></span><img alt="../_images/temp1.png" src="../_images/temp1.png" />
+<p class="caption"><span class="caption-number">Fig. 29 </span><span class="caption-text">Dimensionless Temperature contour plot along <span class="math notranslate nohighlight">\(x\)</span> cross-section. Axial cross-section near the outlet also shown.</span></p>
+</div>
+</div>
+</div>
+
+
+           </div>
+          </div>
+          <footer><div class="rst-footer-buttons" role="navigation" aria-label="Footer">
+        <a href="rans.html" class="btn btn-neutral float-left" title="RANS Channel" accesskey="p" rel="prev"><span class="fa fa-arrow-circle-left" aria-hidden="true"></span> Previous</a>
+        <a href="../theory.html" class="btn btn-neutral float-right" title="Theory" accesskey="n" rel="next">Next <span class="fa fa-arrow-circle-right" aria-hidden="true"></span></a>
+    </div>
+
+  <hr/>
+
+  <div role="contentinfo">
+    <p>&#169; Copyright 2015-2022, UCHICAGO ARGONNE, LLC.</p>
+  </div>
+
+  Built with <a href="https://www.sphinx-doc.org/">Sphinx</a> using a
+    <a href="https://github.com/readthedocs/sphinx_rtd_theme">theme</a>
+    provided by <a href="https://readthedocs.org">Read the Docs</a>.
+   
+
+</footer>
+        </div>
+      </div>
+    </section>
+  </div>
+  <script>
+      jQuery(function () {
+          SphinxRtdTheme.Navigation.enable(true);
+      });
+  </script> 
+
+</body>
+</html>

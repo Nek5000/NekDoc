@@ -40,6 +40,7 @@
 <li class="toctree-l1"><a class="reference internal" href="../quickstart.html">Quickstart</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../faq.html">FAQ</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../problem_setup.html">Problem Setup</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../tools.html">Nek Tools</a></li>
 <li class="toctree-l1 current"><a class="reference internal" href="../tutorials.html">Tutorials</a><ul class="current">
 <li class="toctree-l2"><a class="reference internal" href="fdlf.html">Fully Developed Laminar Flow</a></li>
 <li class="toctree-l2 current"><a class="current reference internal" href="#">Periodic Hill</a><ul>
@@ -60,6 +61,7 @@
 <li class="toctree-l2"><a class="reference internal" href="conjht.html">Conjugate Heat Transfer</a></li>
 <li class="toctree-l2"><a class="reference internal" href="neknek.html">Overlapping Overset Grids</a></li>
 <li class="toctree-l2"><a class="reference internal" href="rans.html">RANS Channel</a></li>
+<li class="toctree-l2"><a class="reference internal" href="multi_rans.html">Multi-Component RANS</a></li>
 </ul>
 </li>
 <li class="toctree-l1"><a class="reference internal" href="../theory.html">Theory</a></li>
@@ -132,7 +134,7 @@ Make sure <code class="docutils literal notranslate"><span class="pre">$HOME/Nek
 <p>For this mesh we are specifying 22 uniform elements in the stream-wise (x) direction.
 8 non-uniform elements are specified in the span-wise (y) direction in order to resolve the boundary layers.
 The boundary conditions are periodic in the x-direction and no-slip in the y.
-Additional details on generating meshes using <code class="docutils literal notranslate"><span class="pre">genbox</span></code> can be found <a class="reference internal" href="../appendix.html#mesh-gen"><span class="std std-ref">here</span></a>. Now we can run genbox with</p>
+Additional details on generating meshes using <code class="docutils literal notranslate"><span class="pre">genbox</span></code> can be found <a class="reference internal" href="../tools/genbox.html#tools-genbox"><span class="std std-ref">here</span></a>. Now we can run genbox with</p>
 <div class="highlight-console notranslate"><div class="highlight"><pre><span></span><span class="gp">$</span> genbox
 </pre></div>
 </div>
@@ -192,10 +194,10 @@ The second set of highlighted lines are used to set a forced flowrate.</p>
 </div>
 <p>By modifying the mesh in <code class="docutils literal notranslate"><span class="pre">usrdat2</span></code>, the modification is applied to the GLL points directly.
 This allows the mesh to conform to the specified profile to <span class="math notranslate nohighlight">\(N^{th}\)</span>-order accuracy.
-The deformed mesh with the GLL points is shown in <a class="reference internal" href="#fig-hill-mesh"><span class="std std-numref">Fig. 12</span></a> below.</p>
+The deformed mesh with the GLL points is shown in <a class="reference internal" href="#fig-hill-mesh"><span class="std std-numref">Fig. 15</span></a> below.</p>
 <div class="align-center figure" id="id2">
 <span id="fig-hill-mesh"></span><img alt="per_mesh" src="../_images/hillpmesh.png" />
-<p class="caption"><span class="caption-number">Fig. 12 </span><span class="caption-text">Modified box mesh graded</span></p>
+<p class="caption"><span class="caption-number">Fig. 15 </span><span class="caption-text">Modified box mesh graded</span></p>
 </div>
 </div>
 <div class="section" id="initial-boundary-conditions">
@@ -327,10 +329,10 @@ to use Visit/Paraview. One can use the script <em>visnek</em>, to be found in <c
 </div>
 <p><em>(or the name of your session)</em> to obatain a file named <code class="docutils literal notranslate"><span class="pre">hillp.nek5000</span></code> which can be recognized in Visit/Paraview.</p>
 <p>In the viewing window one can visualize the flow-field as depicted in
-<a class="reference internal" href="#fig-hill-flow"><span class="std std-numref">Fig. 13</span></a>.</p>
+<a class="reference internal" href="#fig-hill-flow"><span class="std std-numref">Fig. 16</span></a>.</p>
 <div class="align-center figure" id="id3">
 <span id="fig-hill-flow"></span><img alt="per_flow" src="../_images/hill_flow_v3.png" />
-<p class="caption"><span class="caption-number">Fig. 13 </span><span class="caption-text">Visualization of the steady-state flow field. Vectors represent velocity. Colors represent velocity magnitude. Note, velocity vectors are equal size and not scaled by magnitude.</span></p>
+<p class="caption"><span class="caption-number">Fig. 16 </span><span class="caption-text">Visualization of the steady-state flow field. Vectors represent velocity. Colors represent velocity magnitude. Note, velocity vectors are equal size and not scaled by magnitude.</span></p>
 </div>
 </div>
 </div>

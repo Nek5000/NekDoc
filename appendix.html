@@ -40,6 +40,7 @@
 <li class="toctree-l1"><a class="reference internal" href="quickstart.html">Quickstart</a></li>
 <li class="toctree-l1"><a class="reference internal" href="faq.html">FAQ</a></li>
 <li class="toctree-l1"><a class="reference internal" href="problem_setup.html">Problem Setup</a></li>
+<li class="toctree-l1"><a class="reference internal" href="tools.html">Nek Tools</a></li>
 <li class="toctree-l1"><a class="reference internal" href="tutorials.html">Tutorials</a></li>
 <li class="toctree-l1"><a class="reference internal" href="theory.html">Theory</a></li>
 <li class="toctree-l1"><a class="reference internal" href="build.html">Build Options</a></li>
@@ -57,17 +58,10 @@
 </ul>
 </li>
 <li class="toctree-l2"><a class="reference internal" href="#commonly-used-subroutines">Commonly used Subroutines</a></li>
-<li class="toctree-l2"><a class="reference internal" href="#generating-a-mesh-with-genbox">Generating a Mesh with Genbox</a><ul>
-<li class="toctree-l3"><a class="reference internal" href="#uniformly-distributed-mesh">Uniformly Distributed Mesh</a></li>
-<li class="toctree-l3"><a class="reference internal" href="#graded-mesh">Graded Mesh</a></li>
-<li class="toctree-l3"><a class="reference internal" href="#user-specified-distribution">User-Specified Distribution</a></li>
-</ul>
-</li>
 <li class="toctree-l2"><a class="reference internal" href="#mesh-modification">Mesh Modification</a><ul>
 <li class="toctree-l3"><a class="reference internal" href="#cylindrical-cartesian-transition-annuli">Cylindrical/Cartesian-transition Annuli</a></li>
 </ul>
 </li>
-<li class="toctree-l2"><a class="reference internal" href="#mesh-extrusion-and-mirroring">Mesh Extrusion and Mirroring</a></li>
 </ul>
 </li>
 <li class="toctree-l1"><a class="reference internal" href="references.html">References</a></li>
@@ -246,7 +240,7 @@ This list was explicitly set with the legacy <code class="docutils literal notra
 <div class="section" id="solution-variables">
 <h3>Solution Variables<a class="headerlink" href="#solution-variables" title="Permalink to this headline">¶</a></h3>
 <table border="1" class="docutils" id="id1">
-<caption><span class="caption-number">Table 32 </span><span class="caption-text">Solution Variables</span><a class="headerlink" href="#id1" title="Permalink to this table">¶</a></caption>
+<caption><span class="caption-number">Table 33 </span><span class="caption-text">Solution Variables</span><a class="headerlink" href="#id1" title="Permalink to this table">¶</a></caption>
 <colgroup>
 <col width="25%" />
 <col width="25%" />
@@ -680,124 +674,6 @@ This list was explicitly set with the legacy <code class="docutils literal notra
 The resulting integral is storted in <code class="docutils literal notranslate"><span class="pre">dphi</span></code> and the area in <code class="docutils literal notranslate"><span class="pre">dS</span></code>.</dd>
 </dl>
 </div>
-<div class="section" id="generating-a-mesh-with-genbox">
-<span id="sec-genbox"></span><span id="mesh-gen"></span><h2>Generating a Mesh with Genbox<a class="headerlink" href="#generating-a-mesh-with-genbox" title="Permalink to this headline">¶</a></h2>
-<div class="section" id="uniformly-distributed-mesh">
-<h3>Uniformly Distributed Mesh<a class="headerlink" href="#uniformly-distributed-mesh" title="Permalink to this headline">¶</a></h3>
-<p>Suppose you wish to simulate flow through an axisymmetric pipe,
-of radius <span class="math notranslate nohighlight">\(R=0.5\)</span> and length <span class="math notranslate nohighlight">\(L=4\)</span>.  You estimate that you will
-need 3 elements in radial <span class="math notranslate nohighlight">\((y)\)</span> direction, and 5 in the <span class="math notranslate nohighlight">\(x\)</span> direction,
-as depicted in <a class="reference internal" href="#fig-mesh-axi1"><span class="std std-numref">Fig. 22</span></a>.
-This would be specified by the following input file (called <code class="docutils literal notranslate"><span class="pre">pipe.box</span></code>)
-to <code class="docutils literal notranslate"><span class="pre">genbox</span></code>:</p>
-<div class="highlight-none notranslate"><div class="highlight"><pre><span></span>axisymmetric.rea
-2                      spatial dimension
-1                      number of fields
-#
-#    comments:   This is the box immediately behind the
-#                refined cylinder in Ugo&#39;s cyl+b.l. run.
-#
-#
-#========================================================
-#
-Box 1                         Pipe
--5 -3                         Nelx  Nely
-0.0   4.0   1.0               x0  x1   ratio
-0.0   0.5   1.0               y0  y1   ratio
-v  ,O  ,A  ,W  ,   ,          BC&#39;s:  (cbx0, cbx1, cby0, cby1, cbz0, cbz1)
-</pre></div>
-</div>
-<div class="align-center figure" id="id2">
-<span id="fig-mesh-axi1"></span><img alt="axis-pipe-mesh" src="_images/mesh_axi1.png" />
-<p class="caption"><span class="caption-number">Fig. 22 </span><span class="caption-text">Axisymmetric pipe mesh.</span></p>
-</div>
-<ul>
-<li><p class="first">The first line of this file supplies the name of an existing 2D <code class="docutils literal notranslate"><span class="pre">.rea</span></code> file that has the appropriate run parameters (viscosity, timestep size, etc.). These parameters can be modified later, but it is important that <code class="docutils literal notranslate"><span class="pre">axisymmetric.rea</span></code> be a 2D file, and not a 3D file.</p>
-</li>
-<li><p class="first">The second line indicates the number of fields for this simulation, in this case, just 1, corresponding to the velocity field (i.e., no heat transfer).</p>
-</li>
-<li><p class="first">The next set of lines just shows how one can place comments into a <code class="docutils literal notranslate"><span class="pre">genbox</span></code> input file.</p>
-</li>
-<li><p class="first">The line that starts with “Box” indicates that a new box is starting, and that the following lines describe a typical box input.  Other possible key characters (the first character of Box, “B”) are “C” and “M”, more on those later.</p>
-</li>
-<li><p class="first">The first line after “Box” specifies the number of elements in the
-<span class="math notranslate nohighlight">\(x\)</span> and <span class="math notranslate nohighlight">\(y\)</span> directions.   The fact that these values are negative indicates
-that you want <code class="docutils literal notranslate"><span class="pre">genbox</span></code> to automatically generate the element distribution
-along each axis, rather than providing it by hand.  (More on this below.)</p>
-</li>
-<li><p class="first">The next line specifies the distribution of the 5 elements in the <span class="math notranslate nohighlight">\(x\)</span> direction.
-The mesh starts at <span class="math notranslate nohighlight">\(x=0\)</span> and ends at <span class="math notranslate nohighlight">\(x=4.0\)</span>.  The <code class="docutils literal notranslate"><span class="pre">ratio</span></code> indicates the
-relative size of each element, progressing from left to right.</p>
-</li>
-<li><p class="first">The next line specifies the distribution of the 3 elements in the <span class="math notranslate nohighlight">\(y\)</span> direction,
-starting at <span class="math notranslate nohighlight">\(y=0\)</span> and going to <span class="math notranslate nohighlight">\(y=0.5\)</span>.  Again,
-<code class="docutils literal notranslate"><span class="pre">ratio</span></code> =1.0 indicates that the elements will be of uniform height.</p>
-</li>
-<li><p class="first">The last line specifies boundary conditions on each of the 4 sides of the
-box:</p>
-<ul class="simple">
-<li>Lower-case <em>v</em> indicates that the left <span class="math notranslate nohighlight">\((x)\)</span> boundary is to be a velocity
-boundary condition, with a user-specified distribution determined by
-routine <code class="docutils literal notranslate"><span class="pre">userbc</span></code> in the <code class="docutils literal notranslate"><span class="pre">.usr</span></code> file.  (Upper-case <span class="math notranslate nohighlight">\(V\)</span> would indicate that
-the velocity is constant, with values specified in the .rea file.)</li>
-<li><em>O</em> indicates that the right <span class="math notranslate nohighlight">\((x)\)</span> boundary is an outflow boundary – the
-flow leaves the domain at the left and the default exit pressure is <span class="math notranslate nohighlight">\(p=0\)</span>.</li>
-<li><em>A</em> indicates that the lower <span class="math notranslate nohighlight">\((y)\)</span> boundary is the axis—this condition
-is mandatory for the axisymmetric case, given the fact that the lower domain
-boundary is at <span class="math notranslate nohighlight">\(y=0\)</span>, which corresponds to <span class="math notranslate nohighlight">\(r=0\)</span>.</li>
-<li><em>W</em> indicates that the upper <span class="math notranslate nohighlight">\((y)\)</span> boundary is a wall.  This would be
-equivalent to a <em>v</em> or <em>V</em> boundary condition, with <span class="math notranslate nohighlight">\({\bf u}=0\)</span>.</li>
-</ul>
-<p>Other available boundary conditions are given in <a class="reference internal" href="problem_setup/BCs.html#boundary-conditions"><span class="std std-ref">Boundary Conditions</span></a>.</p>
-</li>
-</ul>
-</div>
-<div class="section" id="graded-mesh">
-<h3>Graded Mesh<a class="headerlink" href="#graded-mesh" title="Permalink to this headline">¶</a></h3>
-<div class="align-center figure" id="id3">
-<span id="fig-mesh-axi2"></span><img alt="axis-pipe-mesh-graded" src="_images/mesh_axi2.png" />
-<p class="caption"><span class="caption-number">Fig. 23 </span><span class="caption-text">Axisymmetric pipe mesh, graded</span></p>
-</div>
-<p>Suppose you wish to have the mesh be graded,
-that you have increased resolution near the wall.
-In this case you change <code class="docutils literal notranslate"><span class="pre">ratio</span></code> in the <span class="math notranslate nohighlight">\(y\)</span>-specification
-of the element distribution.  For example, changing the 3 lines
-in the above <code class="docutils literal notranslate"><span class="pre">genbox</span></code> input file from</p>
-<div class="highlight-none notranslate"><div class="highlight"><pre><span></span>-5 -3                         Nelx  Nely
-0.0   4.0   1.0               x0  x1   ratio
-0.0   0.5   1.0               y0  y1   ratio
-</pre></div>
-</div>
-<p>to</p>
-<div class="highlight-none notranslate"><div class="highlight"><pre><span></span>-5 -4                         Nelx  Nely
-0.0   4.0   1.0               x0  x1   ratio
-0.0   0.5   0.7               y0  y1   ratio
-</pre></div>
-</div>
-<p>yields the mesh shown in <a class="reference internal" href="#fig-mesh-axi2"><span class="std std-numref">Fig. 23</span></a>.</p>
-</div>
-<div class="section" id="user-specified-distribution">
-<h3>User-Specified Distribution<a class="headerlink" href="#user-specified-distribution" title="Permalink to this headline">¶</a></h3>
-<div class="align-center figure" id="id4">
-<span id="fig-mesh-axi3"></span><img alt="axis-pipe-mesh-user" src="_images/mesh_axi3.png" />
-<p class="caption"><span class="caption-number">Fig. 24 </span><span class="caption-text">Axisymmetric pipe mesh, user specified.</span></p>
-</div>
-<p>You can also specify your own, precise, distribution of element
-locations.   For example, another graded mesh similar to the
-one of the preceding example could be built by changing the
-<code class="docutils literal notranslate"><span class="pre">genbox</span></code> input file to contain:</p>
-<div class="highlight-none notranslate"><div class="highlight"><pre><span></span>-5  4                                               Nelx  Nely
-0.0   4.0   1.0                                     x0  x1   ratio
-0.000    0.250    0.375    0.450    0.500           y0  y1 ... y4
-</pre></div>
-</div>
-<p>Here, the positive number of elements for the <span class="math notranslate nohighlight">\(y\)</span> direction indicates
-that <code class="docutils literal notranslate"><span class="pre">genbox</span></code> is expecting <code class="docutils literal notranslate"><span class="pre">Nely+1</span></code> values of <span class="math notranslate nohighlight">\(y\)</span> positions on the
-<span class="math notranslate nohighlight">\(y\)</span>-element distribution line.   This is the <code class="docutils literal notranslate"><span class="pre">genbox</span></code> default, which
-explains why it corresponds to <code class="docutils literal notranslate"><span class="pre">Nely</span></code> <span class="math notranslate nohighlight">\(&gt;\)</span> 0.  The corresponding mesh
-is shown in <a class="reference internal" href="#fig-mesh-axi3"><span class="std std-numref">Fig. 24</span></a>.</p>
-</div>
-</div>
 <div class="section" id="mesh-modification">
 <h2>Mesh Modification<a class="headerlink" href="#mesh-modification" title="Permalink to this headline">¶</a></h2>
 <p>For complex shapes, it is often convenient to modify the mesh
@@ -846,27 +722,27 @@ looks to the <code class="docutils literal notranslate"><span class="pre">.rea</
 Nek5000 to communicate the new mesh to <code class="docutils literal notranslate"><span class="pre">postx</span></code> is via the <code class="docutils literal notranslate"><span class="pre">.fld</span></code>
 file, so you must request that the geometry be dumped to the
 <code class="docutils literal notranslate"><span class="pre">.fld</span></code> file.
-The result of above changes is shown in <a class="reference internal" href="#fig-wavypipe"><span class="std std-numref">Fig. 25</span></a>.</p>
-<div class="align-center figure" id="id5">
+The result of above changes is shown in <a class="reference internal" href="#fig-wavypipe"><span class="std std-numref">Fig. 31</span></a>.</p>
+<div class="align-center figure" id="id2">
 <span id="fig-wavypipe"></span><img alt="axis-pipe-mesh-wavy" src="_images/wavypipe.png" />
-<p class="caption"><span class="caption-number">Fig. 25 </span><span class="caption-text">Axisymmetric pipe mesh.</span></p>
+<p class="caption"><span class="caption-number">Fig. 31 </span><span class="caption-text">Axisymmetric pipe mesh.</span></p>
 </div>
 <div class="section" id="cylindrical-cartesian-transition-annuli">
 <h3>Cylindrical/Cartesian-transition Annuli<a class="headerlink" href="#cylindrical-cartesian-transition-annuli" title="Permalink to this headline">¶</a></h3>
-<div class="align-center figure" id="id6">
+<div class="align-center figure" id="id3">
 <span id="fig-cylbox-2d"></span><img alt="annuli-mesh-1" src="_images/cylbox_2d.png" />
-<p class="caption"><span class="caption-number">Fig. 26 </span><span class="caption-text">Cylinder mesh</span></p>
+<p class="caption"><span class="caption-number">Fig. 32 </span><span class="caption-text">Cylinder mesh</span></p>
 </div>
-<div class="align-center figure" id="id7">
+<div class="align-center figure" id="id4">
 <span id="fig-cylbox-2da"></span><img alt="annuli-mesh-2" src="_images/cylbox_2da.png" />
-<p class="caption"><span class="caption-number">Fig. 27 </span><span class="caption-text">Cylinder mesh</span></p>
+<p class="caption"><span class="caption-number">Fig. 33 </span><span class="caption-text">Cylinder mesh</span></p>
 </div>
 <p>More sophisticated
 transition treatments may be generated using the GLOBAL REFINE options in
 <em>preNek</em> or through an upgrade of <code class="docutils literal notranslate"><span class="pre">genb7</span></code>, as demand warrants.
 Example 2D and 3D input files are provided in the <code class="docutils literal notranslate"><span class="pre">nek5000/doc</span></code> files
 <code class="docutils literal notranslate"><span class="pre">box7.2d</span></code> and <code class="docutils literal notranslate"><span class="pre">box7.3d</span></code>.
-<a class="reference internal" href="#fig-cylbox-2d"><span class="std std-numref">Fig. 26</span></a> shows a 2D example generated using
+<a class="reference internal" href="#fig-cylbox-2d"><span class="std std-numref">Fig. 32</span></a> shows a 2D example generated using
 the <code class="docutils literal notranslate"><span class="pre">box7.2d</span></code> input file, which reads:</p>
 <div class="highlight-none notranslate"><div class="highlight"><pre><span></span>x2d.rea
 2                      spatial dimension
@@ -886,88 +762,11 @@ ccbb                descriptors: c-cyl, o-oct, b-box (1 character + space)
 v  ,W  ,E  ,E  ,    bc&#39;s (3 characters + comma)
 </pre></div>
 </div>
-<p>An example of a mesh is shown in <a class="reference internal" href="#fig-cylbox-2d"><span class="std std-numref">Fig. 26</span></a>.   The mesh has been quad-refined
+<p>An example of a mesh is shown in <a class="reference internal" href="#fig-cylbox-2d"><span class="std std-numref">Fig. 32</span></a>.   The mesh has been quad-refined
 once with oct-refine option of <em>preNek</em>. The 3D counterpart to this
 mesh could joined to a hemisphere/Cartesian transition built with
 the spherical mesh option in <em>preNek</em>.</p>
 </div>
-</div>
-<div class="section" id="mesh-extrusion-and-mirroring">
-<h2>Mesh Extrusion and Mirroring<a class="headerlink" href="#mesh-extrusion-and-mirroring" title="Permalink to this headline">¶</a></h2>
-<p>In <code class="docutils literal notranslate"><span class="pre">nek5000/tools</span></code>, there is a code <code class="docutils literal notranslate"><span class="pre">n2to3.f</span></code> that can be compiled with your
-local fortran compiler (preferably not g77).
-By running this code, you can extend two dimensional domains to
-three dimensional ones with a user-specified number of levels in the
-<span class="math notranslate nohighlight">\(z\)</span>-direction.  Such a mesh can then be modified using the mesh modification
-approach. Assuming you have a valid two-dimensional mesh, <code class="docutils literal notranslate"><span class="pre">n2to3</span></code> is straightforward
-to run.  Below is a typical session, upon typing <code class="docutils literal notranslate"><span class="pre">n2to3</span></code> the user is prompted at the command line</p>
-<div class="highlight-none notranslate"><div class="highlight"><pre><span></span> Input old (source) file name:
-h2e
- Input new (output) file name:
-h3e
- input number of levels: (1, 2, 3,... etc.?):
-16
- input z min:
-0
- input z max:
-16
- input gain (0=custom,1=uniform,other=geometric spacing):
-1
- This is for CEM: yes or no:
-n
- Enter Z (5) boundary condition (P,v,O):
-v
- Enter Z (6) boundary condition (v,O):
-0
- this is cbz: v  O   &lt;---
-
-      320 elements written to h3e.rea
-FORTRAN STOP
-</pre></div>
-</div>
-<p>In this context CEM stands for computational electromagnetics, a spin-off of the original Nek5000 code.</p>
-<p>The domain in which the fluid flow/heat transfer
-problem is solved consists of two distinct subdomains. The
-first subdomain is that part of the region occupied by
-fluid, denoted <span class="math notranslate nohighlight">\(\Omega_f\)</span>, while the second subdomain is that part
-of the region occupied by a solid, denoted <span class="math notranslate nohighlight">\(\Omega_s\)</span>. These two
-subdomains are depicted in <a class="reference internal" href="theory.html#fig-walls"><span class="std std-numref">Fig. 21</span></a>. The entire domain is denoted as <span class="math notranslate nohighlight">\(D=\Omega_f \cup \Omega_s\)</span>.
-The fluid problem is solved in the domain <span class="math notranslate nohighlight">\(\Omega_f\)</span>, while the
-temperature in the energy equation is solved in the
-entire domain; the passive scalars can be solved in either
-the fluid or the entire domain.</p>
-<p>We denote the entire boundary of <span class="math notranslate nohighlight">\(\Omega_f\)</span> as <span class="math notranslate nohighlight">\(\partial \Omega_f\)</span>, that part
-of the boundary of <span class="math notranslate nohighlight">\(\Omega_f\)</span> which is not shared by <span class="math notranslate nohighlight">\(\Omega_s\)</span> as
-<span class="math notranslate nohighlight">\(\overline{\partial \Omega_f}\)</span>, and
-that part of the boundary of <span class="math notranslate nohighlight">\(\Omega_f\)</span> which is shared by <span class="math notranslate nohighlight">\(\Omega_s\)</span>.
-In addition, <span class="math notranslate nohighlight">\(\partial \Omega_{s}, \overline{\partial \Omega_s}\)</span> are analogously defined.
-These distinct portions of the
-domain boundary are illustrated in <a class="reference internal" href="theory.html#fig-walls"><span class="std std-numref">Fig. 21</span></a>.
-The restrictions on the domain for Nek5000 are itemized below.</p>
-<ul class="simple">
-<li>The domain <span class="math notranslate nohighlight">\(\Omega=\Omega_f \cup \Omega_s\)</span> must correspond either to a
-planar (Cartesian) two-dimensional geometry, or to the
-cross-section of an axisymmetric region specified by
-revolution of the cross-section about a specified axis, or
-by a (Cartesian) three-dimensional geometry.</li>
-<li>For two-dimensional and axisymmetric geometries, the
-boundaries of both subdomains, <span class="math notranslate nohighlight">\(\partial \Omega_f\)</span> and
-<span class="math notranslate nohighlight">\(\partial \Omega_s\)</span>, must be
-representable as (or at least approximated by) the union of
-straight line segments, splines, or circular arcs.</li>
-<li>Nek5000 can interpret a two-dimensional image as either
-a planar Cartesian geometry, or
-the cross-section of an axisymmetric body. In the case of
-the latter, it is assumed that the <span class="math notranslate nohighlight">\(y\)</span>-direction is the radial
-direction, that is, the axis of revolution is at <span class="math notranslate nohighlight">\(y=0\)</span>.
-Although an axisymmetric geometry is, in fact,
-three-dimensional, Nek5000 can assume that the field variables
-are also axisymmetric ( that is, do not depend on azimuth,
-but only <span class="math notranslate nohighlight">\(y\)</span>, that is, radius, <span class="math notranslate nohighlight">\(x\)</span>, and <span class="math notranslate nohighlight">\(t\)</span> ), thus reducing the
-relevant equations to “two-dimensional” form.</li>
-</ul>
-<p>Fully general three-dimensional meshes generated by other softwares
-packages can be input to <em>preNek</em> as imported meshes.</p>
 </div>
 </div>
 

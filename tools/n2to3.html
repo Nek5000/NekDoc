@@ -1,0 +1,190 @@
+<!DOCTYPE html>
+<html class="writer-html4" lang="en" >
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Mesh Extrusion and Mirroring &mdash; Nek5000  documentation</title><link rel="stylesheet" href="../_static/css/theme.css" type="text/css" />
+    <link rel="stylesheet" href="../_static/pygments.css" type="text/css" />
+  <!--[if lt IE 9]>
+    <script src="../_static/js/html5shiv.min.js"></script>
+  <![endif]-->
+  <script id="documentation_options" data-url_root="../" src="../_static/documentation_options.js"></script>
+        <script type="text/javascript" src="../_static/jquery.js"></script>
+        <script type="text/javascript" src="../_static/underscore.js"></script>
+        <script type="text/javascript" src="../_static/doctools.js"></script>
+        <script type="text/javascript" src="../_static/language_data.js"></script>
+        <script async="async" type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.5/latest.js?config=TeX-AMS-MML_HTMLorMML"></script>
+    <script src="../_static/js/theme.js"></script>
+    <link rel="index" title="Index" href="../genindex.html" />
+    <link rel="search" title="Search" href="../search.html" />
+    <link rel="next" title="reatore2" href="reatore2.html" />
+    <link rel="prev" title="Genbox" href="genbox.html" /> 
+</head>
+
+<body class="wy-body-for-nav"> 
+  <div class="wy-grid-for-nav">
+    <nav data-toggle="wy-nav-shift" class="wy-nav-side">
+      <div class="wy-side-scroll">
+        <div class="wy-side-nav-search" >
+            <a href="../index.html" class="icon icon-home"> Nek5000
+          </a>
+<div role="search">
+  <form id="rtd-search-form" class="wy-form" action="../search.html" method="get">
+    <input type="text" name="q" placeholder="Search docs" />
+    <input type="hidden" name="check_keywords" value="yes" />
+    <input type="hidden" name="area" value="default" />
+  </form>
+</div>
+        </div><div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="Navigation menu">
+              <ul class="current">
+<li class="toctree-l1"><a class="reference internal" href="../quickstart.html">Quickstart</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../faq.html">FAQ</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../problem_setup.html">Problem Setup</a></li>
+<li class="toctree-l1 current"><a class="reference internal" href="../tools.html">Nek Tools</a><ul class="current">
+<li class="toctree-l2"><a class="reference internal" href="genbox.html">Genbox - generates simple 2D and 3D meshes</a></li>
+<li class="toctree-l2 current"><a class="current reference internal" href="#">n2to3 - extrudes 2D meshes</a></li>
+<li class="toctree-l2"><a class="reference internal" href="reatore2.html">reatore2 - converts ASCII (rea) meshes to binary (.re2)</a></li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="../tutorials.html">Tutorials</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../theory.html">Theory</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../build.html">Build Options</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../appendix.html">Appendices</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../references.html">References</a></li>
+</ul>
+
+        </div>
+      </div>
+    </nav>
+
+    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap"><nav class="wy-nav-top" aria-label="Mobile navigation menu" >
+          <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
+          <a href="../index.html">Nek5000</a>
+      </nav>
+
+      <div class="wy-nav-content">
+        <div class="rst-content">
+          <div role="navigation" aria-label="Page navigation">
+  <ul class="wy-breadcrumbs">
+      <li><a href="../index.html" class="icon icon-home"></a> &raquo;</li>
+          <li><a href="../tools.html">Nek Tools</a> &raquo;</li>
+      <li>Mesh Extrusion and Mirroring</li>
+      <li class="wy-breadcrumbs-aside">
+            <a href="../_sources/tools/n2to3.rst.txt" rel="nofollow"> View page source</a>
+      </li>
+  </ul>
+  <hr/>
+</div>
+          <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
+           <div itemprop="articleBody">
+             
+  <div class="section" id="mesh-extrusion-and-mirroring">
+<h1>Mesh Extrusion and Mirroring<a class="headerlink" href="#mesh-extrusion-and-mirroring" title="Permalink to this headline">¶</a></h1>
+<p>In <code class="docutils literal notranslate"><span class="pre">nek5000/tools</span></code>, there is a code <code class="docutils literal notranslate"><span class="pre">n2to3.f</span></code> that can be compiled with your
+local fortran compiler (preferably not g77).
+By running this code, you can extend two dimensional domains to
+three dimensional ones with a user-specified number of levels in the
+<span class="math notranslate nohighlight">\(z\)</span>-direction.  Such a mesh can then be modified using the mesh modification
+approach. Assuming you have a valid two-dimensional mesh, <code class="docutils literal notranslate"><span class="pre">n2to3</span></code> is straightforward
+to run.  Below is a typical session, upon typing <code class="docutils literal notranslate"><span class="pre">n2to3</span></code> the user is prompted at the command line</p>
+<div class="highlight-none notranslate"><div class="highlight"><pre><span></span> Input old (source) file name:
+h2e
+ Input new (output) file name:
+h3e
+ input number of levels: (1, 2, 3,... etc.?):
+16
+ input z min:
+0
+ input z max:
+16
+ input gain (0=custom,1=uniform,other=geometric spacing):
+1
+ This is for CEM: yes or no:
+n
+ Enter Z (5) boundary condition (P,v,O):
+v
+ Enter Z (6) boundary condition (v,O):
+0
+ this is cbz: v  O   &lt;---
+
+      320 elements written to h3e.rea
+FORTRAN STOP
+</pre></div>
+</div>
+<p>In this context CEM stands for computational electromagnetics, a spin-off of the original Nek5000 code.</p>
+<p>The domain in which the fluid flow/heat transfer
+problem is solved consists of two distinct subdomains. The
+first subdomain is that part of the region occupied by
+fluid, denoted <span class="math notranslate nohighlight">\(\Omega_f\)</span>, while the second subdomain is that part
+of the region occupied by a solid, denoted <span class="math notranslate nohighlight">\(\Omega_s\)</span>. These two
+subdomains are depicted in <a class="reference internal" href="../theory.html#fig-walls"><span class="std std-numref">Fig. 30</span></a>. The entire domain is denoted as <span class="math notranslate nohighlight">\(D=\Omega_f \cup \Omega_s\)</span>.
+The fluid problem is solved in the domain <span class="math notranslate nohighlight">\(\Omega_f\)</span>, while the
+temperature in the energy equation is solved in the
+entire domain; the passive scalars can be solved in either
+the fluid or the entire domain.</p>
+<p>We denote the entire boundary of <span class="math notranslate nohighlight">\(\Omega_f\)</span> as <span class="math notranslate nohighlight">\(\partial \Omega_f\)</span>, that part
+of the boundary of <span class="math notranslate nohighlight">\(\Omega_f\)</span> which is not shared by <span class="math notranslate nohighlight">\(\Omega_s\)</span> as
+<span class="math notranslate nohighlight">\(\overline{\partial \Omega_f}\)</span>, and
+that part of the boundary of <span class="math notranslate nohighlight">\(\Omega_f\)</span> which is shared by <span class="math notranslate nohighlight">\(\Omega_s\)</span>.
+In addition, <span class="math notranslate nohighlight">\(\partial \Omega_{s}, \overline{\partial \Omega_s}\)</span> are analogously defined.
+These distinct portions of the
+domain boundary are illustrated in <a class="reference internal" href="../theory.html#fig-walls"><span class="std std-numref">Fig. 30</span></a>.
+The restrictions on the domain for Nek5000 are itemized below.</p>
+<ul class="simple">
+<li>The domain <span class="math notranslate nohighlight">\(\Omega=\Omega_f \cup \Omega_s\)</span> must correspond either to a
+planar (Cartesian) two-dimensional geometry, or to the
+cross-section of an axisymmetric region specified by
+revolution of the cross-section about a specified axis, or
+by a (Cartesian) three-dimensional geometry.</li>
+<li>For two-dimensional and axisymmetric geometries, the
+boundaries of both subdomains, <span class="math notranslate nohighlight">\(\partial \Omega_f\)</span> and
+<span class="math notranslate nohighlight">\(\partial \Omega_s\)</span>, must be
+representable as (or at least approximated by) the union of
+straight line segments, splines, or circular arcs.</li>
+<li><em>Nek5000</em> can interpret a two-dimensional image as either
+a planar Cartesian geometry, or
+the cross-section of an axisymmetric body. In the case of
+the latter, it is assumed that the <span class="math notranslate nohighlight">\(y\)</span>-direction is the radial
+direction, that is, the axis of revolution is at <span class="math notranslate nohighlight">\(y=0\)</span>.
+Although an axisymmetric geometry is, in fact,
+three-dimensional, Nek5000 can assume that the field variables
+are also axisymmetric ( that is, do not depend on azimuth,
+but only <span class="math notranslate nohighlight">\(y\)</span>, that is, radius, <span class="math notranslate nohighlight">\(x\)</span>, and <span class="math notranslate nohighlight">\(t\)</span> ), thus reducing the
+relevant equations to “two-dimensional” form.</li>
+</ul>
+<p>Fully general three-dimensional meshes generated by other softwares
+packages can be input to <em>preNek</em> as imported meshes.</p>
+</div>
+
+
+           </div>
+          </div>
+          <footer><div class="rst-footer-buttons" role="navigation" aria-label="Footer">
+        <a href="genbox.html" class="btn btn-neutral float-left" title="Genbox" accesskey="p" rel="prev"><span class="fa fa-arrow-circle-left" aria-hidden="true"></span> Previous</a>
+        <a href="reatore2.html" class="btn btn-neutral float-right" title="reatore2" accesskey="n" rel="next">Next <span class="fa fa-arrow-circle-right" aria-hidden="true"></span></a>
+    </div>
+
+  <hr/>
+
+  <div role="contentinfo">
+    <p>&#169; Copyright 2015-2022, UCHICAGO ARGONNE, LLC.</p>
+  </div>
+
+  Built with <a href="https://www.sphinx-doc.org/">Sphinx</a> using a
+    <a href="https://github.com/readthedocs/sphinx_rtd_theme">theme</a>
+    provided by <a href="https://readthedocs.org">Read the Docs</a>.
+   
+
+</footer>
+        </div>
+      </div>
+    </section>
+  </div>
+  <script>
+      jQuery(function () {
+          SphinxRtdTheme.Navigation.enable(true);
+      });
+  </script> 
+
+</body>
+</html>

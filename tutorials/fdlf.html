@@ -40,6 +40,7 @@
 <li class="toctree-l1"><a class="reference internal" href="../quickstart.html">Quickstart</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../faq.html">FAQ</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../problem_setup.html">Problem Setup</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../tools.html">Nek Tools</a></li>
 <li class="toctree-l1 current"><a class="reference internal" href="../tutorials.html">Tutorials</a><ul class="current">
 <li class="toctree-l2 current"><a class="current reference internal" href="#">Fully Developed Laminar Flow</a><ul>
 <li class="toctree-l3"><a class="reference internal" href="#before-you-begin">Before You Begin</a></li>
@@ -59,6 +60,7 @@
 <li class="toctree-l2"><a class="reference internal" href="conjht.html">Conjugate Heat Transfer</a></li>
 <li class="toctree-l2"><a class="reference internal" href="neknek.html">Overlapping Overset Grids</a></li>
 <li class="toctree-l2"><a class="reference internal" href="rans.html">RANS Channel</a></li>
+<li class="toctree-l2"><a class="reference internal" href="multi_rans.html">Multi-Component RANS</a></li>
 </ul>
 </li>
 <li class="toctree-l1"><a class="reference internal" href="../theory.html">Theory</a></li>
@@ -96,11 +98,11 @@
 <span id="fdlf"></span><h1>Fully Developed Laminar Flow<a class="headerlink" href="#fully-developed-laminar-flow" title="Permalink to this headline">¶</a></h1>
 <p>In this tutorial we will be building a case that involves incompressible laminar flow in a channel with a constant heat flux applied.
 This case uses air as a working fluid and will be simulated using fully dimensional quantities.
-A diagram of the case is provided in <a class="reference internal" href="#fig-setup"><span class="std std-numref">Fig. 7</span></a> and the necessary case parameters are provided in <a class="reference internal" href="#tab-setup"><span class="std std-numref">Table 28</span></a>.
+A diagram of the case is provided in <a class="reference internal" href="#fig-setup"><span class="std std-numref">Fig. 10</span></a> and the necessary case parameters are provided in <a class="reference internal" href="#tab-setup"><span class="std std-numref">Table 28</span></a>.
 Note that round numbers have been selected for the fluid properties and simulation parameters for the sake of simplicity.</p>
 <div class="align-center figure" id="id1">
 <span id="fig-setup"></span><img alt="flow diagram" src="../_images/setup.png" />
-<p class="caption"><span class="caption-number">Fig. 7 </span><span class="caption-text">Diagram describing the case setup for fully developed laminar flow in a channel..</span></p>
+<p class="caption"><span class="caption-number">Fig. 10 </span><span class="caption-text">Diagram describing the case setup for fully developed laminar flow in a channel..</span></p>
 </div>
 <span id="tab-setup"></span><table border="1" class="colwidths-given docutils align-center" id="id2">
 <caption><span class="caption-number">Table 28 </span><span class="caption-text">Fluid properties and simulation parameters</span><a class="headerlink" href="#id2" title="Permalink to this table">¶</a></caption>
@@ -392,23 +394,23 @@ fdlf0.f00002
 <div class="highlight-console notranslate"><div class="highlight"><pre><span></span><span class="gp">$</span> visnek fdlf
 </pre></div>
 </div>
-<p>to obtain a file named <code class="docutils literal notranslate"><span class="pre">fdlf.nek5000</span></code> which can be recognized in Visit/ParaView. In the viewing window one can visualize the flow-field as depicted in <a class="reference internal" href="#fig-velocity-paraview"><span class="std std-numref">Fig. 8</span></a> as well as the temperature profile as depicted in <a class="reference internal" href="#fig-temperature-paraview"><span class="std std-numref">Fig. 9</span></a> below.</p>
+<p>to obtain a file named <code class="docutils literal notranslate"><span class="pre">fdlf.nek5000</span></code> which can be recognized in Visit/ParaView. In the viewing window one can visualize the flow-field as depicted in <a class="reference internal" href="#fig-velocity-paraview"><span class="std std-numref">Fig. 11</span></a> as well as the temperature profile as depicted in <a class="reference internal" href="#fig-temperature-paraview"><span class="std std-numref">Fig. 12</span></a> below.</p>
 <div class="align-center figure" id="id3">
 <span id="fig-velocity-paraview"></span><img alt="../_images/velocity_paraview.png" src="../_images/velocity_paraview.png" />
-<p class="caption"><span class="caption-number">Fig. 8 </span><span class="caption-text">Steady-State flow field visualized in Visit/ParaView. Colors represent velocity magnitude.</span></p>
+<p class="caption"><span class="caption-number">Fig. 11 </span><span class="caption-text">Steady-State flow field visualized in Visit/ParaView. Colors represent velocity magnitude.</span></p>
 </div>
 <div class="align-center figure" id="id4">
 <span id="fig-temperature-paraview"></span><img alt="../_images/temp.png" src="../_images/temp.png" />
-<p class="caption"><span class="caption-number">Fig. 9 </span><span class="caption-text">Temperature profile visualized in Visit/ParaView.</span></p>
+<p class="caption"><span class="caption-number">Fig. 12 </span><span class="caption-text">Temperature profile visualized in Visit/ParaView.</span></p>
 </div>
-<p>Plots of the velocity and temperature varying along the y-axis as evaluated by <em>Nek5000</em> compared to the analytic solutions provided by Eqs. <a class="reference internal" href="#equation-fdlf-vel">(1)</a> and <a class="reference internal" href="#equation-fdlf-temp">(2)</a> respectively are shown below in <a class="reference internal" href="#fig-velocity-lineplot"><span class="std std-numref">Fig. 10</span></a> and <a class="reference internal" href="#fig-temperature-lineplot"><span class="std std-numref">Fig. 11</span></a>.</p>
+<p>Plots of the velocity and temperature varying along the y-axis as evaluated by <em>Nek5000</em> compared to the analytic solutions provided by Eqs. <a class="reference internal" href="#equation-fdlf-vel">(1)</a> and <a class="reference internal" href="#equation-fdlf-temp">(2)</a> respectively are shown below in <a class="reference internal" href="#fig-velocity-lineplot"><span class="std std-numref">Fig. 13</span></a> and <a class="reference internal" href="#fig-temperature-lineplot"><span class="std std-numref">Fig. 14</span></a>.</p>
 <div class="align-center figure" id="id5">
 <span id="fig-velocity-lineplot"></span><img alt="../_images/velocity_lineplot.png" src="../_images/velocity_lineplot.png" />
-<p class="caption"><span class="caption-number">Fig. 10 </span><span class="caption-text"><em>Nek5000</em> velocity solutions plotted against analytical solutions.</span></p>
+<p class="caption"><span class="caption-number">Fig. 13 </span><span class="caption-text"><em>Nek5000</em> velocity solutions plotted against analytical solutions.</span></p>
 </div>
 <div class="align-center figure" id="id6">
 <span id="fig-temperature-lineplot"></span><img alt="../_images/temperature_lineplot.png" src="../_images/temperature_lineplot.png" />
-<p class="caption"><span class="caption-number">Fig. 11 </span><span class="caption-text"><em>Nek5000</em> temperature solutions plotted against analytical solutions.</span></p>
+<p class="caption"><span class="caption-number">Fig. 14 </span><span class="caption-text"><em>Nek5000</em> temperature solutions plotted against analytical solutions.</span></p>
 </div>
 </div>
 </div>

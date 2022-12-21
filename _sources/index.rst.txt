@@ -7,6 +7,7 @@ Nek5000
    quickstart
    faq
    problem_setup
+   tools
    tutorials
    theory
    build

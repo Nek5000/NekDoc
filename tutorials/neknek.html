@@ -40,6 +40,7 @@
 <li class="toctree-l1"><a class="reference internal" href="../quickstart.html">Quickstart</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../faq.html">FAQ</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../problem_setup.html">Problem Setup</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../tools.html">Nek Tools</a></li>
 <li class="toctree-l1 current"><a class="reference internal" href="../tutorials.html">Tutorials</a><ul class="current">
 <li class="toctree-l2"><a class="reference internal" href="fdlf.html">Fully Developed Laminar Flow</a></li>
 <li class="toctree-l2"><a class="reference internal" href="perhill.html">Periodic Hill</a></li>
@@ -61,6 +62,7 @@
 </ul>
 </li>
 <li class="toctree-l2"><a class="reference internal" href="rans.html">RANS Channel</a></li>
+<li class="toctree-l2"><a class="reference internal" href="multi_rans.html">Multi-Component RANS</a></li>
 </ul>
 </li>
 <li class="toctree-l1"><a class="reference internal" href="../theory.html">Theory</a></li>
@@ -206,7 +208,7 @@ Next do the same for the upper mesh to generate <code class="docutils literal no
 </div>
 <div class="align-center figure" id="id1">
 <span id="fig-hillnn-mesh"></span><img alt="neknek_mesh" src="../_images/hillnn_mesh.png" />
-<p class="caption"><span class="caption-number">Fig. 17 </span><span class="caption-text">Modified box mesh graded</span></p>
+<p class="caption"><span class="caption-number">Fig. 20 </span><span class="caption-text">Modified box mesh graded</span></p>
 </div>
 <p>Currently, applying a constant mass flux with <code class="docutils literal notranslate"><span class="pre">param(54)</span></code> and <code class="docutils literal notranslate"><span class="pre">param(55)</span></code> is <strong>not</strong> supported with overlapping overset grids.
 For this case, we drive the flow using a constant acceleration term in <code class="docutils literal notranslate"><span class="pre">userf</span></code> as:</p>
@@ -339,7 +341,7 @@ Create two files called <code class="docutils literal notranslate"><span class="
 </div>
 </div>
 <div class="section" id="size-file">
-<h2>SIZE file<a class="headerlink" href="#size-file" title="Permalink to this headline">¶</a></h2>
+<span id="neknek-size"></span><h2>SIZE file<a class="headerlink" href="#size-file" title="Permalink to this headline">¶</a></h2>
 <p>The static memory layout of Nek5000 requires the user to set some solver parameters through a so called <code class="docutils literal notranslate"><span class="pre">SIZE</span></code> file.
 Typically it’s a good idea to start from our template.
 Copy the <code class="docutils literal notranslate"><span class="pre">SIZE.template</span></code> file from the core directory and rename it <code class="docutils literal notranslate"><span class="pre">SIZE</span></code> in the working directory:</p>
@@ -353,8 +355,8 @@ However, for many practical cases, the two domains may not be of similar size an
 This can be overcome by setting <code class="docutils literal notranslate"><span class="pre">lelt</span></code> manually and preserving the ratio of number of elements, <span class="math notranslate nohighlight">\(E\)</span>, to the number of MPI-ranks, <span class="math notranslate nohighlight">\(L\)</span>.</p>
 <p>If we have <span class="math notranslate nohighlight">\(L_{tot}\)</span> MPI-ranks (CPU-cores) available, we might choose</p>
 <div class="math notranslate nohighlight">
-\[\begin{split}L_{lower}&amp;=\mathrm{floor}\left[\frac{E_{lower}}{E_{lower}+E_{upper}} L_{tot}\right]\\
-L_{upper}&amp;=L_{tot}-L_{lower}\\
+\[\begin{split}L_{lower} &amp; =\mathrm{floor}\left[\frac{E_{lower}}{E_{lower}+E_{upper}} L_{tot}\right]\\
+L_{upper} &amp; =L_{tot}-L_{lower}\\
 \mathrm{lelt}&amp;=\mathrm{max}\left[\frac{E_{upper}}{L_{upper}},\frac{E_{lower}}{L_{lower}}\right]+3\end{split}\]</div>
 <p>We then pick the largest mesh size for <code class="docutils literal notranslate"><span class="pre">lelg</span></code>, and the smallest rank count for <code class="docutils literal notranslate"><span class="pre">lpmin</span></code></p>
 <div class="math notranslate nohighlight">
@@ -432,7 +434,7 @@ You will need to use <code class="docutils literal notranslate"><span class="pre
 They can be visualized separately or together by loading both sets into ParaView or VisIt to post-process the results</p>
 <div class="align-center figure" id="id2">
 <span id="fig-hillnn-flow"></span><img alt="hillnn_flow" src="../_images/hillnn_result.png" />
-<p class="caption"><span class="caption-number">Fig. 18 </span><span class="caption-text">Steady-State flow field visualized in Visit/Paraview. Vectors represent velocity. Colors represent velocity magnitude. Note, velocity vectors are equal size and not scaled by magnitude.</span></p>
+<p class="caption"><span class="caption-number">Fig. 21 </span><span class="caption-text">Steady-State flow field visualized in Visit/Paraview. Vectors represent velocity. Colors represent velocity magnitude. Note, velocity vectors are equal size and not scaled by magnitude.</span></p>
 </div>
 </div>
 </div>
