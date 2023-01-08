@@ -99,7 +99,8 @@ However, by making use of the restart options, a Frankenstein's Monster type of 
    [GENERAL]
    startFrom = mshfoo0.f00001 X, foo0.f00001 UPT int
 
-:Feature:
+.. Note::
+
    If a restart file contains coordinates, *Nek5000* will overwrite the coordinates generated from the ``.re2`` file. This behavior may or may not be desirable, use the restart options to control it!
 
 .. _features_avg:
@@ -121,7 +122,8 @@ To activate time-averaging, simply call ``avg_all`` in ``userchk``.
 Adding this call to ``userchk`` will output three additional files, ``avgfoo``, ``rmsfoo``, and ``rm2foo``, where "foo" is your case name.
 As the case is running, the running averages are stored in memory in the arrays documented :ref:`here <sec:avgvars>`.
 
-:WARNING:
+.. Warning::
+
   Averaging files are written in double precision by default and can very quickly consume a large amount of disk space!
 
 These files will be written at the same interval as the standard restart output.
@@ -153,7 +155,8 @@ Additionally, the width of the time-window is recorded as the physical time in e
    :math:`\overline{p^2}`,rm2foo0.f00000,pressure
    :math:`\overline{T^2}`,rm2foo0.f00000,temperature
 
-:Note: 
+.. Note::
+ 
   ``avg_all`` does NOT output enough information to reconstruct the turbulent heat fluxes by default.
   Currently, custom user code is necessary to accomplish this.
 

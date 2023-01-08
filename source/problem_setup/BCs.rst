@@ -16,7 +16,7 @@ Boundary Conditions
 
 The boundary conditions can be imposed in various ways:
 
-- when the mesh is generated, e.g. with ``genbox``, as is explained in :ref:`sec:genbox`
+- when the mesh is generated, e.g. with ``genbox``, as is explained in :ref:`tools_genbox`
 - when an ``.rea`` file is read in *preNek*
 - translated from side-set numbers in ``usrdat`` when using ``exotonek`` or similar. For an example see :ref:`here <sec:usrdat>`.
 
