@@ -164,6 +164,7 @@ Inlet Nozzle (exo2nek)
 A third-party meshing tool (e.g., ANSYS ICEM) is required for generating the mesh for the inlet component.
 In this case, the mesh was saved as an ``EXODUS II (.exo)`` mesh file. 
 *Nek5000* offers the ``exo2nek`` mesh conversion tool for converting an ``.exo`` mesh file to ``.re2`` format, as well as ``gmsh2nek`` for converting ``.msh`` files from Gmsh.
+For more information see :ref:`tools_exo2nek`.
 
 By default, all Nektools support only 150,000 elements. 
 To run this case, ``exo2nek`` and ``gencon`` will need to be compiled with support for considerably more elements. 
@@ -212,7 +213,8 @@ Navigate to the folder containing inlet mesh and run ``exo2nek``.
   $ cd inletMesh
   $ exo2nek
 
-The output from ``exo2nek`` is shown below, where the expected user input is highlighted below and the inputs are explained as:
+The output from ``exo2nek`` is shown below, where the expected user input is highlighted.
+The inputs are explained as:
 
  * We are converting the file ``inlet.exo``, where the ``.exo`` file extension is implied.
  * This case does not use a conjugate heat transfer model, so there are 0 solid ``.exo`` files.

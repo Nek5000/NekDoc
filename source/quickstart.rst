@@ -4,6 +4,8 @@
 Quickstart
 ==============
 
+.. _qstart_before:
+
 -------------------
 Before You Begin...
 -------------------
@@ -31,7 +33,9 @@ Additionally, to install all of the NekTools, the following packages are necessa
   $ sudo apt install libx11-dev       #provides X11
   $ sudo apt install libxt-dev        #provides X11
 
-:Note: These package lists also work for Ubuntu on the Windows Subsystem for Linux
+.. Note::
+
+  These package lists also work for Ubuntu on the Windows Subsystem for Linux
 
 ----------------------------------
 Running your very first simulation
@@ -57,7 +61,8 @@ Then follow the instructions below
   $ tail logfile                 # prints the last few lines of the solver output to the terminal
   $ visnek eddy_uv               # produces the eddy_uv.nek5000 file
 
-:Note: 
+.. Note::
+ 
   The ``eddy_uv`` case will not be available if you cloned the master branch from GitHub, as the ``examples`` folder is NOT included.
   To obtain the examples using git, clone the ``Nek5000/NekExamples.git`` repository.
 
