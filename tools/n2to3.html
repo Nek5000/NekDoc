@@ -18,7 +18,7 @@
     <link rel="index" title="Index" href="../genindex.html" />
     <link rel="search" title="Search" href="../search.html" />
     <link rel="next" title="reatore2" href="reatore2.html" />
-    <link rel="prev" title="Genbox" href="genbox.html" /> 
+    <link rel="prev" title="gmsh2nek" href="gmsh2nek.html" /> 
 </head>
 
 <body class="wy-body-for-nav"> 
@@ -41,7 +41,9 @@
 <li class="toctree-l1"><a class="reference internal" href="../faq.html">FAQ</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../problem_setup.html">Problem Setup</a></li>
 <li class="toctree-l1 current"><a class="reference internal" href="../tools.html">Nek Tools</a><ul class="current">
-<li class="toctree-l2"><a class="reference internal" href="genbox.html">Genbox - generates simple 2D and 3D meshes</a></li>
+<li class="toctree-l2"><a class="reference internal" href="exo2nek.html">exo2nek - converts EXODUS II format meshes to re2</a></li>
+<li class="toctree-l2"><a class="reference internal" href="genbox.html">genbox - generates simple 2D and 3D meshes</a></li>
+<li class="toctree-l2"><a class="reference internal" href="gmsh2nek.html">gmsh2nek - converts GMSH meshes to re2</a></li>
 <li class="toctree-l2 current"><a class="current reference internal" href="#">n2to3 - extrudes 2D meshes</a></li>
 <li class="toctree-l2"><a class="reference internal" href="reatore2.html">reatore2 - converts ASCII (rea) meshes to binary (.re2)</a></li>
 </ul>
@@ -117,7 +119,7 @@ problem is solved consists of two distinct subdomains. The
 first subdomain is that part of the region occupied by
 fluid, denoted <span class="math notranslate nohighlight">\(\Omega_f\)</span>, while the second subdomain is that part
 of the region occupied by a solid, denoted <span class="math notranslate nohighlight">\(\Omega_s\)</span>. These two
-subdomains are depicted in <a class="reference internal" href="../theory.html#fig-walls"><span class="std std-numref">Fig. 30</span></a>. The entire domain is denoted as <span class="math notranslate nohighlight">\(D=\Omega_f \cup \Omega_s\)</span>.
+subdomains are depicted in <a class="reference internal" href="../theory.html#fig-walls"><span class="std std-numref">Fig. 31</span></a>. The entire domain is denoted as <span class="math notranslate nohighlight">\(D=\Omega_f \cup \Omega_s\)</span>.
 The fluid problem is solved in the domain <span class="math notranslate nohighlight">\(\Omega_f\)</span>, while the
 temperature in the energy equation is solved in the
 entire domain; the passive scalars can be solved in either
@@ -128,7 +130,7 @@ of the boundary of <span class="math notranslate nohighlight">\(\Omega_f\)</span
 that part of the boundary of <span class="math notranslate nohighlight">\(\Omega_f\)</span> which is shared by <span class="math notranslate nohighlight">\(\Omega_s\)</span>.
 In addition, <span class="math notranslate nohighlight">\(\partial \Omega_{s}, \overline{\partial \Omega_s}\)</span> are analogously defined.
 These distinct portions of the
-domain boundary are illustrated in <a class="reference internal" href="../theory.html#fig-walls"><span class="std std-numref">Fig. 30</span></a>.
+domain boundary are illustrated in <a class="reference internal" href="../theory.html#fig-walls"><span class="std std-numref">Fig. 31</span></a>.
 The restrictions on the domain for Nek5000 are itemized below.</p>
 <ul class="simple">
 <li>The domain <span class="math notranslate nohighlight">\(\Omega=\Omega_f \cup \Omega_s\)</span> must correspond either to a
@@ -160,7 +162,7 @@ packages can be input to <em>preNek</em> as imported meshes.</p>
            </div>
           </div>
           <footer><div class="rst-footer-buttons" role="navigation" aria-label="Footer">
-        <a href="genbox.html" class="btn btn-neutral float-left" title="Genbox" accesskey="p" rel="prev"><span class="fa fa-arrow-circle-left" aria-hidden="true"></span> Previous</a>
+        <a href="gmsh2nek.html" class="btn btn-neutral float-left" title="gmsh2nek" accesskey="p" rel="prev"><span class="fa fa-arrow-circle-left" aria-hidden="true"></span> Previous</a>
         <a href="reatore2.html" class="btn btn-neutral float-right" title="reatore2" accesskey="n" rel="next">Next <span class="fa fa-arrow-circle-right" aria-hidden="true"></span></a>
     </div>
 

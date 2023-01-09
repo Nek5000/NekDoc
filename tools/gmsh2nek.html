@@ -1,0 +1,227 @@
+<!DOCTYPE html>
+<html class="writer-html4" lang="en" >
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>gmsh2nek &mdash; Nek5000  documentation</title><link rel="stylesheet" href="../_static/css/theme.css" type="text/css" />
+    <link rel="stylesheet" href="../_static/pygments.css" type="text/css" />
+  <!--[if lt IE 9]>
+    <script src="../_static/js/html5shiv.min.js"></script>
+  <![endif]-->
+  <script id="documentation_options" data-url_root="../" src="../_static/documentation_options.js"></script>
+        <script type="text/javascript" src="../_static/jquery.js"></script>
+        <script type="text/javascript" src="../_static/underscore.js"></script>
+        <script type="text/javascript" src="../_static/doctools.js"></script>
+        <script type="text/javascript" src="../_static/language_data.js"></script>
+        <script async="async" type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.5/latest.js?config=TeX-AMS-MML_HTMLorMML"></script>
+    <script src="../_static/js/theme.js"></script>
+    <link rel="index" title="Index" href="../genindex.html" />
+    <link rel="search" title="Search" href="../search.html" />
+    <link rel="next" title="Mesh Extrusion and Mirroring" href="n2to3.html" />
+    <link rel="prev" title="Genbox" href="genbox.html" /> 
+</head>
+
+<body class="wy-body-for-nav"> 
+  <div class="wy-grid-for-nav">
+    <nav data-toggle="wy-nav-shift" class="wy-nav-side">
+      <div class="wy-side-scroll">
+        <div class="wy-side-nav-search" >
+            <a href="../index.html" class="icon icon-home"> Nek5000
+          </a>
+<div role="search">
+  <form id="rtd-search-form" class="wy-form" action="../search.html" method="get">
+    <input type="text" name="q" placeholder="Search docs" />
+    <input type="hidden" name="check_keywords" value="yes" />
+    <input type="hidden" name="area" value="default" />
+  </form>
+</div>
+        </div><div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="Navigation menu">
+              <ul class="current">
+<li class="toctree-l1"><a class="reference internal" href="../quickstart.html">Quickstart</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../faq.html">FAQ</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../problem_setup.html">Problem Setup</a></li>
+<li class="toctree-l1 current"><a class="reference internal" href="../tools.html">Nek Tools</a><ul class="current">
+<li class="toctree-l2"><a class="reference internal" href="exo2nek.html">exo2nek - converts EXODUS II format meshes to re2</a></li>
+<li class="toctree-l2"><a class="reference internal" href="genbox.html">genbox - generates simple 2D and 3D meshes</a></li>
+<li class="toctree-l2 current"><a class="current reference internal" href="#">gmsh2nek - converts GMSH meshes to re2</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="#periodic-boundaries">Periodic Boundaries</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#conjugate-heat-transfer-meshes">Conjugate Heat Transfer Meshes</a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="n2to3.html">n2to3 - extrudes 2D meshes</a></li>
+<li class="toctree-l2"><a class="reference internal" href="reatore2.html">reatore2 - converts ASCII (rea) meshes to binary (.re2)</a></li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="../tutorials.html">Tutorials</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../theory.html">Theory</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../build.html">Build Options</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../appendix.html">Appendices</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../references.html">References</a></li>
+</ul>
+
+        </div>
+      </div>
+    </nav>
+
+    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap"><nav class="wy-nav-top" aria-label="Mobile navigation menu" >
+          <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
+          <a href="../index.html">Nek5000</a>
+      </nav>
+
+      <div class="wy-nav-content">
+        <div class="rst-content">
+          <div role="navigation" aria-label="Page navigation">
+  <ul class="wy-breadcrumbs">
+      <li><a href="../index.html" class="icon icon-home"></a> &raquo;</li>
+          <li><a href="../tools.html">Nek Tools</a> &raquo;</li>
+      <li>gmsh2nek</li>
+      <li class="wy-breadcrumbs-aside">
+            <a href="../_sources/tools/gmsh2nek.rst.txt" rel="nofollow"> View page source</a>
+      </li>
+  </ul>
+  <hr/>
+</div>
+          <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
+           <div itemprop="articleBody">
+             
+  <div class="section" id="gmsh2nek">
+<span id="tools-gms2nek"></span><h1>gmsh2nek<a class="headerlink" href="#gmsh2nek" title="Permalink to this headline">¶</a></h1>
+<p><em>Nek5000</em> provides a conversion tool to convert <cite>Gmsh &lt;https://gmsh.info&gt;</cite> meshes (<code class="docutils literal notranslate"><span class="pre">.msh</span></code> files) into Nek meshes (<code class="docutils literal notranslate"><span class="pre">.re2</span></code> files) called <code class="docutils literal notranslate"><span class="pre">gmsh2nek</span></code>.
+The source code is located in <code class="docutils literal notranslate"><span class="pre">nek5000/tools</span></code>, and it can be compiled from that directory with <code class="docutils literal notranslate"><span class="pre">./maketools</span> <span class="pre">gmsh2nek</span></code>.
+In addition to the compilers necessary to use <em>Nek5000</em>, <code class="docutils literal notranslate"><span class="pre">gmsh2nek</span></code> requires <code class="docutils literal notranslate"><span class="pre">cmake</span></code>.
+See <a class="reference internal" href="../quickstart.html#qstart-before"><span class="std std-ref">Before You Begin</span></a> for more information on dependencies.
+Once it is compiled, the executable will be available in <code class="docutils literal notranslate"><span class="pre">nek5000/bin</span></code>.</p>
+<p>Before converting a Gmsh mesh, make sure to save it with the appropriate format.
+Both ASCII and binary version 2 formats are supported.
+The Binary format is recommend for large meshes.
+The appropriate options from Gmsh are shown in <a class="reference internal" href="#fig-gmshopts"><span class="std std-numref">Fig. 10</span></a>.</p>
+<div class="align-center figure" id="id1">
+<span id="fig-gmshopts"></span><img alt="../_images/gmshopts.png" src="../_images/gmshopts.png" />
+<p class="caption"><span class="caption-number">Fig. 10 </span><span class="caption-text">Recommended options when saving a Gmsh mesh for compatibility with <em>Nek5000</em></span></p>
+</div>
+<div class="admonition note">
+<p class="first admonition-title">Note</p>
+<p class="last">Leave both boxes <strong>unchecked</strong> when exporting the mesh from Gmsh.</p>
+</div>
+<p>The procedure for running <code class="docutils literal notranslate"><span class="pre">gmsh2nek</span></code> is simpler compared to <code class="docutils literal notranslate"><span class="pre">exo2nek</span></code>.
+The expected input steps are as follows:</p>
+<ul class="simple">
+<li>It will first ask you for the dimension of the mesh (either 2 or 3).</li>
+<li>Next, it will ask for the input Gmsh file.
+The <code class="docutils literal notranslate"><span class="pre">.msh</span></code> extension is implied and should not be included.</li>
+<li>The tool will then begin converting the mesh and will print a summary of the boundary IDs.</li>
+<li>Finally, it will ask for the number of periodic boundary pairs (see <a class="reference internal" href="#gmsh-pbound"><span class="std std-ref">Periodic Boundaries</span></a> below).
+If your mesh has none, simply enter 0.</li>
+<li><code class="docutils literal notranslate"><span class="pre">gmsh2nek</span></code> will then output a new <code class="docutils literal notranslate"><span class="pre">.re2</span></code> file with the same file name as the input Gmsh file.</li>
+</ul>
+<p>An example is shown below with the expected user input highlighted.</p>
+<div class="highlight-none notranslate"><div class="highlight"><pre><span></span><span class="hll">Enter mesh dimension: 3
+</span><span class="hll">Input .msh file name: pipe
+</span> total node number is         8569
+ total quad element number is          416
+ total hex element number is          960
+ ******************************************************
+ Boundary info summary
+ BoundaryName     BoundaryID
+ Inlet           1
+ Outlet           2
+ Wall           3
+ ******************************************************
+ Enter number of periodic boundary surface pairs:
+<span class="hll">0
+</span>
+writing pipe.re2
+</pre></div>
+</div>
+<p>When using a converted Gmsh mesh, the user must set up boundary condition in the <code class="docutils literal notranslate"><span class="pre">.usr</span></code> file in either the <code class="docutils literal notranslate"><span class="pre">usrdat</span></code> or <code class="docutils literal notranslate"><span class="pre">usrdat2</span></code> subroutines, e.g.</p>
+<div class="highlight-fortran notranslate"><div class="highlight"><pre><span></span><span class="k">do </span><span class="n">iel</span><span class="o">=</span><span class="mi">1</span><span class="p">,</span><span class="n">nelv</span>
+<span class="k">do </span><span class="n">ifc</span><span class="o">=</span><span class="mi">1</span><span class="p">,</span><span class="mi">2</span><span class="o">*</span><span class="n">ndim</span>
+  <span class="n">id_face</span> <span class="o">=</span> <span class="n">BoundaryID</span><span class="p">(</span><span class="n">ifc</span><span class="p">,</span><span class="n">iel</span><span class="p">)</span>
+  <span class="k">if</span> <span class="p">(</span><span class="n">id_face</span><span class="p">.</span><span class="n">eq</span><span class="p">.</span><span class="mi">1</span><span class="p">)</span> <span class="k">then</span>        <span class="c">! surface 1 for inlet</span>
+     <span class="n">cbc</span><span class="p">(</span><span class="n">ifc</span><span class="p">,</span><span class="n">iel</span><span class="p">,</span><span class="mi">1</span><span class="p">)</span> <span class="o">=</span> <span class="s1">&#39;v  &#39;</span>
+  <span class="n">elseif</span> <span class="p">(</span><span class="n">id_face</span><span class="p">.</span><span class="n">eq</span><span class="p">.</span><span class="mi">2</span><span class="p">)</span> <span class="k">then</span>    <span class="c">! surface 2 for outlet</span>
+     <span class="n">cbc</span><span class="p">(</span><span class="n">ifc</span><span class="p">,</span><span class="n">iel</span><span class="p">,</span><span class="mi">1</span><span class="p">)</span> <span class="o">=</span> <span class="s1">&#39;O  &#39;</span>
+  <span class="n">elseif</span> <span class="p">(</span><span class="n">id_face</span><span class="p">.</span><span class="n">eq</span><span class="p">.</span><span class="mi">3</span><span class="p">)</span> <span class="k">then</span>    <span class="c">! surface 3 for wall</span>
+     <span class="n">cbc</span><span class="p">(</span><span class="n">ifc</span><span class="p">,</span><span class="n">iel</span><span class="p">,</span><span class="mi">1</span><span class="p">)</span> <span class="o">=</span> <span class="s1">&#39;W  &#39;</span>
+  <span class="n">endif</span>
+<span class="n">enddo</span>
+<span class="n">enddo</span>
+</pre></div>
+</div>
+<p>or</p>
+<div class="highlight-fortran notranslate"><div class="highlight"><pre><span></span><span class="k">call </span><span class="n">setbc</span><span class="p">(</span><span class="mi">1</span><span class="p">,</span><span class="mi">1</span><span class="p">,</span><span class="s1">&#39;v  &#39;</span><span class="p">)</span> <span class="c">! set bcID 1 to inlet for field 1 (velocity)</span>
+<span class="k">call </span><span class="n">setbc</span><span class="p">(</span><span class="mi">2</span><span class="p">,</span><span class="mi">1</span><span class="p">,</span><span class="s1">&#39;O  &#39;</span><span class="p">)</span> <span class="c">! set bcID 2 to outlet for field 1 (velocity)</span>
+<span class="k">call </span><span class="n">setbc</span><span class="p">(</span><span class="mi">3</span><span class="p">,</span><span class="mi">1</span><span class="p">,</span><span class="s1">&#39;W  &#39;</span><span class="p">)</span> <span class="c">! set bcID 3 to wall for field 1 (velocity)</span>
+</pre></div>
+</div>
+<div class="section" id="periodic-boundaries">
+<span id="gmsh-pbound"></span><h2>Periodic Boundaries<a class="headerlink" href="#periodic-boundaries" title="Permalink to this headline">¶</a></h2>
+<p>Periodic boundaries in <em>Nek5000</em> are implemented on a mesh connectivity level.
+They must have a conformal element face distribution with a consistent offset vector.
+Only translational periodicity is supported in <code class="docutils literal notranslate"><span class="pre">gmsh2nek</span></code>.</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Example:</th><td class="field-body">The example below describes the expected inputs for a mesh with a single pair of periodic boundaries.</td>
+</tr>
+</tbody>
+</table>
+<p>First, the user must provide the number of periodic surface pairs.
+In this case, we have 1.</p>
+<div class="highlight-console notranslate"><div class="highlight"><pre><span></span><span class="go">Enter number of periodic boundary surface pairs</span>
+<span class="go">1</span>
+</pre></div>
+</div>
+<p>Next the user specifies which surface IDs are periodic.
+Here, we set the inlet (sideset 1) to be periodic with the outlet (sideset 2).</p>
+<div class="highlight-console notranslate"><div class="highlight"><pre><span></span><span class="go">input surface 1 and  surface 2  sideSet ID</span>
+<span class="go">1 2</span>
+</pre></div>
+</div>
+<p>The sideset 1 element faces will be mapped to sideset 2 element faces accordingly.
+However, this requires that you have conformal meshes on sidesets 1 and 2.
+The <code class="docutils literal notranslate"><span class="pre">P</span></code> boundary tag will be assigned to the <code class="docutils literal notranslate"><span class="pre">cbc</span></code> array, while the sideset ID number is still avaialble in the <code class="docutils literal notranslate"><span class="pre">BoundaryID</span></code> array.</p>
+<div class="admonition note">
+<p class="first admonition-title">Note</p>
+<p class="last">Mulitple pairs of periodic boundaries are supported</p>
+</div>
+</div>
+<div class="section" id="conjugate-heat-transfer-meshes">
+<h2>Conjugate Heat Transfer Meshes<a class="headerlink" href="#conjugate-heat-transfer-meshes" title="Permalink to this headline">¶</a></h2>
+<p>Coming soon!</p>
+</div>
+</div>
+
+
+           </div>
+          </div>
+          <footer><div class="rst-footer-buttons" role="navigation" aria-label="Footer">
+        <a href="genbox.html" class="btn btn-neutral float-left" title="Genbox" accesskey="p" rel="prev"><span class="fa fa-arrow-circle-left" aria-hidden="true"></span> Previous</a>
+        <a href="n2to3.html" class="btn btn-neutral float-right" title="Mesh Extrusion and Mirroring" accesskey="n" rel="next">Next <span class="fa fa-arrow-circle-right" aria-hidden="true"></span></a>
+    </div>
+
+  <hr/>
+
+  <div role="contentinfo">
+    <p>&#169; Copyright 2015-2022, UCHICAGO ARGONNE, LLC.</p>
+  </div>
+
+  Built with <a href="https://www.sphinx-doc.org/">Sphinx</a> using a
+    <a href="https://github.com/readthedocs/sphinx_rtd_theme">theme</a>
+    provided by <a href="https://readthedocs.org">Read the Docs</a>.
+   
+
+</footer>
+        </div>
+      </div>
+    </section>
+  </div>
+  <script>
+      jQuery(function () {
+          SphinxRtdTheme.Navigation.enable(true);
+      });
+  </script> 
+
+</body>
+</html>

@@ -722,27 +722,27 @@ looks to the <code class="docutils literal notranslate"><span class="pre">.rea</
 Nek5000 to communicate the new mesh to <code class="docutils literal notranslate"><span class="pre">postx</span></code> is via the <code class="docutils literal notranslate"><span class="pre">.fld</span></code>
 file, so you must request that the geometry be dumped to the
 <code class="docutils literal notranslate"><span class="pre">.fld</span></code> file.
-The result of above changes is shown in <a class="reference internal" href="#fig-wavypipe"><span class="std std-numref">Fig. 31</span></a>.</p>
+The result of above changes is shown in <a class="reference internal" href="#fig-wavypipe"><span class="std std-numref">Fig. 32</span></a>.</p>
 <div class="align-center figure" id="id2">
 <span id="fig-wavypipe"></span><img alt="axis-pipe-mesh-wavy" src="_images/wavypipe.png" />
-<p class="caption"><span class="caption-number">Fig. 31 </span><span class="caption-text">Axisymmetric pipe mesh.</span></p>
+<p class="caption"><span class="caption-number">Fig. 32 </span><span class="caption-text">Axisymmetric pipe mesh.</span></p>
 </div>
 <div class="section" id="cylindrical-cartesian-transition-annuli">
 <h3>Cylindrical/Cartesian-transition Annuli<a class="headerlink" href="#cylindrical-cartesian-transition-annuli" title="Permalink to this headline">¶</a></h3>
 <div class="align-center figure" id="id3">
 <span id="fig-cylbox-2d"></span><img alt="annuli-mesh-1" src="_images/cylbox_2d.png" />
-<p class="caption"><span class="caption-number">Fig. 32 </span><span class="caption-text">Cylinder mesh</span></p>
+<p class="caption"><span class="caption-number">Fig. 33 </span><span class="caption-text">Cylinder mesh</span></p>
 </div>
 <div class="align-center figure" id="id4">
 <span id="fig-cylbox-2da"></span><img alt="annuli-mesh-2" src="_images/cylbox_2da.png" />
-<p class="caption"><span class="caption-number">Fig. 33 </span><span class="caption-text">Cylinder mesh</span></p>
+<p class="caption"><span class="caption-number">Fig. 34 </span><span class="caption-text">Cylinder mesh</span></p>
 </div>
 <p>More sophisticated
 transition treatments may be generated using the GLOBAL REFINE options in
 <em>preNek</em> or through an upgrade of <code class="docutils literal notranslate"><span class="pre">genb7</span></code>, as demand warrants.
 Example 2D and 3D input files are provided in the <code class="docutils literal notranslate"><span class="pre">nek5000/doc</span></code> files
 <code class="docutils literal notranslate"><span class="pre">box7.2d</span></code> and <code class="docutils literal notranslate"><span class="pre">box7.3d</span></code>.
-<a class="reference internal" href="#fig-cylbox-2d"><span class="std std-numref">Fig. 32</span></a> shows a 2D example generated using
+<a class="reference internal" href="#fig-cylbox-2d"><span class="std std-numref">Fig. 33</span></a> shows a 2D example generated using
 the <code class="docutils literal notranslate"><span class="pre">box7.2d</span></code> input file, which reads:</p>
 <div class="highlight-none notranslate"><div class="highlight"><pre><span></span>x2d.rea
 2                      spatial dimension
@@ -762,7 +762,7 @@ ccbb                descriptors: c-cyl, o-oct, b-box (1 character + space)
 v  ,W  ,E  ,E  ,    bc&#39;s (3 characters + comma)
 </pre></div>
 </div>
-<p>An example of a mesh is shown in <a class="reference internal" href="#fig-cylbox-2d"><span class="std std-numref">Fig. 32</span></a>.   The mesh has been quad-refined
+<p>An example of a mesh is shown in <a class="reference internal" href="#fig-cylbox-2d"><span class="std std-numref">Fig. 33</span></a>.   The mesh has been quad-refined
 once with oct-refine option of <em>preNek</em>. The 3D counterpart to this
 mesh could joined to a hemisphere/Cartesian transition built with
 the spherical mesh option in <em>preNek</em>.</p>

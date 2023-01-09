@@ -85,7 +85,7 @@
   <div class="section" id="quickstart">
 <span id="qstart"></span><h1>Quickstart<a class="headerlink" href="#quickstart" title="Permalink to this headline">¶</a></h1>
 <div class="section" id="before-you-begin">
-<h2>Before You Begin…<a class="headerlink" href="#before-you-begin" title="Permalink to this headline">¶</a></h2>
+<span id="qstart-before"></span><h2>Before You Begin…<a class="headerlink" href="#before-you-begin" title="Permalink to this headline">¶</a></h2>
 <p>It is recommended that the user have basic familiarity with Linux or another Unix-based OS.
 The instructions provided in the quickstart guide and the tutorials use basic bash commands and assume the user has this knowledge.
 At an absolute minimum, to successfully build and run <em>Nek5000</em> will require compatible C and Fortran compilers, such as <code class="docutils literal notranslate"><span class="pre">gcc</span></code> and <code class="docutils literal notranslate"><span class="pre">gfortran</span></code>, and <em>GNU Make</em>.
@@ -104,14 +104,10 @@ Some of the tools and advanced features will have additional dependencies, such 
 <span class="gp">$</span> sudo apt install libxt-dev        <span class="c1">#provides X11</span>
 </pre></div>
 </div>
-<table class="docutils field-list" frame="void" rules="none">
-<col class="field-name" />
-<col class="field-body" />
-<tbody valign="top">
-<tr class="field-odd field"><th class="field-name">Note:</th><td class="field-body">These package lists also work for Ubuntu on the Windows Subsystem for Linux</td>
-</tr>
-</tbody>
-</table>
+<div class="admonition note">
+<p class="first admonition-title">Note</p>
+<p class="last">These package lists also work for Ubuntu on the Windows Subsystem for Linux</p>
+</div>
 </div>
 <div class="section" id="running-your-very-first-simulation">
 <h2>Running your very first simulation<a class="headerlink" href="#running-your-very-first-simulation" title="Permalink to this headline">¶</a></h2>
@@ -133,15 +129,11 @@ Then follow the instructions below</p>
 <span class="gp">$</span> visnek eddy_uv               <span class="c1"># produces the eddy_uv.nek5000 file</span>
 </pre></div>
 </div>
-<table class="docutils field-list" frame="void" rules="none">
-<col class="field-name" />
-<col class="field-body" />
-<tbody valign="top">
-<tr class="field-odd field"><th class="field-name">Note:</th><td class="field-body">The <code class="docutils literal notranslate"><span class="pre">eddy_uv</span></code> case will not be available if you cloned the master branch from GitHub, as the <code class="docutils literal notranslate"><span class="pre">examples</span></code> folder is NOT included.
-To obtain the examples using git, clone the <code class="docutils literal notranslate"><span class="pre">Nek5000/NekExamples.git</span></code> repository.</td>
-</tr>
-</tbody>
-</table>
+<div class="admonition note">
+<p class="first admonition-title">Note</p>
+<p class="last">The <code class="docutils literal notranslate"><span class="pre">eddy_uv</span></code> case will not be available if you cloned the master branch from GitHub, as the <code class="docutils literal notranslate"><span class="pre">examples</span></code> folder is NOT included.
+To obtain the examples using git, clone the <code class="docutils literal notranslate"><span class="pre">Nek5000/NekExamples.git</span></code> repository.</p>
+</div>
 <p>As the case runs, it will generate multiple <code class="docutils literal notranslate"><span class="pre">eddy_uv0.fXXXXX</span></code> files.
 These are the restart checkpoint and visualization data files.
 The metadata file, <code class="docutils literal notranslate"><span class="pre">eddy_uv.nek5000</span></code>, can be opened with either VisIt or ParaView, which will look for the data files in the same directory as the <code class="docutils literal notranslate"><span class="pre">eddy_uv.nek5000</span></code> file.</p>
