@@ -10,11 +10,11 @@ Nek Tools
   :glob:
   :maxdepth: 1
 
-  Genbox - generates simple 2D and 3D meshes <tools/genbox>
+  exo2nek - converts EXODUS II format meshes to re2 <tools/exo2nek>
+  genbox - generates simple 2D and 3D meshes <tools/genbox>
+  gmsh2nek - converts GMSH meshes to re2  <tools/gmsh2nek>
   n2to3 - extrudes 2D meshes <tools/n2to3>
   reatore2 - converts ASCII (rea) meshes to binary (.re2) <tools/reatore2>
-  exo2nek - converts EXODUS II format meshes to re2 <tools/exo2nek>
-  gmsh2nek - converts GMSH meshes to re2  <tools/gmsh2nek>
 
 ..
 

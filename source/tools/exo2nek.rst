@@ -17,10 +17,13 @@ When running this tool, the input steps are as follows:
 * It will first ask you for the number of fluid ``.exo`` files, this allows you merge multiple ``.exo`` files into one mesh. 
 * Then you input ``.exo`` file name (without extension) accordingly.
 * It will then ask for the number of solid ``.exo`` files for a conjugate heat transfer mesh.
-  if you do not have solid mesh, then just input 0.
+  If you do not have solid mesh, then just input 0.
 * The tool then starts converting the mesh and prints out some basic information, such as the min and max dimensions, number of elements, and the sideSet IDs.
+* Next, it will ask for the number of periodic boundary pairs (see :ref:`exo_pbound` below). 
+  If you have none, simply enter 0.
+* Finally it will ask for the name of the output file. The ``.re2`` extension is implied and should not be included.
 
-An example output is shown below with the expected user input highlighted.
+An example is shown below with the expected user input highlighted.
 
 .. literalinclude:: ../tutorials/multi_rans/exo2nek.output
    :language: none
@@ -51,6 +54,8 @@ or
   call setbc(2,1,'O  ') ! set bcID 2 to outlet for field 1 (velocity)
   call setbc(3,1,'W  ') ! set bcID 3 to wall for field 1 (velocity)
 
+.. _exo_pbound:
+
 ...................
 Periodic Boundaries
 ...................
@@ -80,11 +85,22 @@ Here, we set the inlet (sideset 1) to be periodic with the outlet (sideset 2).
 
 The sideset 1 element faces will be mapped to sideset 2 element faces accordingly.
 However, this requires that you have conformal meshes on sidesets 1 and 2.
-The ``P`` boundary tag will be assigned to the cbc array, while the sideset ID number is still avaialble in the ``BoundaryID`` array. 
+The ``P`` boundary tag will be assigned to the ``cbc`` array, while the sideset ID number is still avaialble in the ``BoundaryID`` array. 
 
 .. Note::
 
   Mulitple pairs of periodic boundaries are supported
+
+...................
+Automatic Tet-2-Hex
+...................
+
+As *Nek5000* supports only hexahedral elements, ``exo2nek`` includes a feature that automatically converts tetrahedral and prism meshes to pure hexahedral meshes.
+All tetrahedral elements are converted to 4 hexahedral elements and all wedge elements are converted to 3 hexahedral elements. 
+These conversions are supported for both 1\ :superscript:`st` and 2\ :superscript:`nd` order elements.
+
+* ``TET4`` + ``WEDGE6`` --> ``HEX8``
+* ``TET10`` + ``WEDGE15`` --> ``HEX20``
 
 ..............................
 Conjugate Heat Transfer Meshes
