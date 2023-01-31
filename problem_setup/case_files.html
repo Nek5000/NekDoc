@@ -394,7 +394,44 @@ Values in parentheses denote the default value.</p>
 </div>
 </td>
 </tr>
-<tr class="row-even"><td><code class="docutils literal notranslate"><span class="pre">optLevel</span></code></td>
+<tr class="row-even"><td><code class="docutils literal notranslate"><span class="pre">constFlowRate</span></code></td>
+<td><div class="first last line-block">
+<div class="line"><code class="docutils literal notranslate"><span class="pre">(none)</span></code></div>
+<div class="line"><code class="docutils literal notranslate"><span class="pre">X</span></code> <code class="docutils literal notranslate"><span class="pre">Y</span></code></div>
+<div class="line"><code class="docutils literal notranslate"><span class="pre">Z</span></code></div>
+</div>
+</td>
+<td><div class="first last line-block">
+<div class="line">If given, prescribes a constant volumetric</div>
+<div class="line">flow in the given direction. Requires</div>
+<div class="line"><code class="docutils literal notranslate"><span class="pre">meanVolumetricFlow</span></code> or <code class="docutils literal notranslate"><span class="pre">meanVelocity</span></code></div>
+</div>
+</td>
+</tr>
+<tr class="row-odd"><td><code class="docutils literal notranslate"><span class="pre">meanVolumetricFlow</span></code></td>
+<td><div class="first last line-block">
+<div class="line"><code class="docutils literal notranslate"><span class="pre">&lt;real&gt;</span></code></div>
+</div>
+</td>
+<td><div class="first last line-block">
+<div class="line">Sets the volumetric flow rate in the</div>
+<div class="line">direction of <code class="docutils literal notranslate"><span class="pre">constFlowRate</span></code></div>
+</div>
+</td>
+</tr>
+<tr class="row-even"><td><code class="docutils literal notranslate"><span class="pre">meanVelocity</span></code></td>
+<td><div class="first last line-block">
+<div class="line"><code class="docutils literal notranslate"><span class="pre">&lt;real&gt;</span></code></div>
+</div>
+</td>
+<td><div class="first last line-block">
+<div class="line">Sets the mean velocity (volume-weighted</div>
+<div class="line">velocity mean) in the direction of</div>
+<div class="line"><code class="docutils literal notranslate"><span class="pre">constFlowRate</span></code></div>
+</div>
+</td>
+</tr>
+<tr class="row-odd"><td><code class="docutils literal notranslate"><span class="pre">optLevel</span></code></td>
 <td><div class="first last line-block">
 <div class="line"><code class="docutils literal notranslate"><span class="pre">(2)</span></code></div>
 </div>
@@ -404,7 +441,7 @@ Values in parentheses denote the default value.</p>
 </div>
 </td>
 </tr>
-<tr class="row-odd"><td><code class="docutils literal notranslate"><span class="pre">logLevel</span></code></td>
+<tr class="row-even"><td><code class="docutils literal notranslate"><span class="pre">logLevel</span></code></td>
 <td><div class="first last line-block">
 <div class="line"><code class="docutils literal notranslate"><span class="pre">(2)</span></code></div>
 </div>
@@ -414,7 +451,7 @@ Values in parentheses denote the default value.</p>
 </div>
 </td>
 </tr>
-<tr class="row-even"><td><code class="docutils literal notranslate"><span class="pre">userParam%%</span></code></td>
+<tr class="row-odd"><td><code class="docutils literal notranslate"><span class="pre">userParam%%</span></code></td>
 <td><div class="first last line-block">
 <div class="line"><code class="docutils literal notranslate"><span class="pre">&lt;real&gt;</span></code></div>
 </div>

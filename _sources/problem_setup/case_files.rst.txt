@@ -154,6 +154,17 @@ Values in parentheses denote the default value.
    | ``extrapolation``       | | ``(standard)``| | Extrapolation method                       |
    |                         | | ``OIFS``      |                                              |
    +-------------------------+-----------------+----------------------------------------------+
+   | ``constFlowRate``       | | ``(none)``    | | If given, prescribes a constant volumetric |
+   |                         | | ``X`` ``Y``   | | flow in the given direction. Requires      |
+   |                         | | ``Z``         | | ``meanVolumetricFlow`` or ``meanVelocity`` |
+   +-------------------------+-----------------+----------------------------------------------+
+   | ``meanVolumetricFlow``  | | ``<real>``    | | Sets the volumetric flow rate in the       |
+   |                         |                 | | direction of ``constFlowRate``             |
+   +-------------------------+-----------------+----------------------------------------------+
+   | ``meanVelocity``        | | ``<real>``    | | Sets the mean velocity (volume-weighted    |
+   |                         |                 | | velocity mean) in the direction of         | 
+   |                         |                 | | ``constFlowRate``                          |
+   +-------------------------+-----------------+----------------------------------------------+
    | ``optLevel``            | | ``(2)``       | | Optimization level                         |
    +-------------------------+-----------------+----------------------------------------------+
    | ``logLevel``            | | ``(2)``       | | Verbosity level                            |
