@@ -7,6 +7,7 @@ SPHINXBUILD   = sphinx-build
 SPHINXPROJ    = Nek5000
 SOURCEDIR     = source
 BUILDDIR      = build
+BRANCH        = master
 
 # Put it first so that "make" without argument is like "make help".
 help:
@@ -22,11 +23,11 @@ help:
 gh-pages:
 	git checkout -t origin/gh-pages
 	rm -rf build _sources _static
-	git checkout master source/ Makefile
+	git checkout $(BRANCH) source/ Makefile
 	git reset HEAD
 	make html
 	cp -rf build/html/* ./
 	rm -rf source/ Makefile build/
 	touch .nojekyll
 	git add -A
-	git commit -m "Generated gh-pages for `git log master -1 --pretty=short --abbrev-commit`" && git push origin gh-pages
+	git commit -m "Generated gh-pages for `git log $(BRANCH) -1 --pretty=short --abbrev-commit`" && git push origin gh-pages
