@@ -53,14 +53,14 @@ For simulations with variable properties, this array can be useful as it retains
 .. csv-table:: The field coefficient array
    :header: Variable,Entry in ``.par`` file,Description
 
-   "``cpfld(1,1)``",``velocity:density``,Reference density
-   "``cpfld(1,2)``",``velocity:viscosity``,Reference viscosity
-   "``cpfld(2,1)``",``temperature:rhocp``,Reference rho-cp
-   "``cpfld(2,2)``",``temperature:conductivity``,Reference conductivity
-   "``cpfld(3,1)``",``scalar01:density``,Reference density for scalar 1
-   "``cpfld(3,2)``",``scalar01:diffusivity``,Reference diffusivity for scalar 1
-   "``cpfld(i+2,1)``",``scalar i:density``,Reference density for scalar :math:`i`
-   "``cpfld(i+2,2)``",``scalar i:diffusivity``,Reference diffusivity for :math:`i`
+   "``cpfld(1,1)``",``velocity:viscosity``,Reference viscosity
+   "``cpfld(1,2)``",``velocity:density``,Reference density
+   "``cpfld(2,1)``",``temperature:conductivity``,Reference conductivity
+   "``cpfld(2,2)``",``temperature:rhocp``,Reference rho-cp
+   "``cpfld(3,1)``",``scalar01:diffusivity``,Reference diffusivity for scalar 1
+   "``cpfld(3,2)``",``scalar01:density``,Reference density for scalar 1
+   "``cpfld(i+2,1)``",``scalar i:diffusivity``,Reference diffusivity for :math:`i`
+   "``cpfld(i+2,2)``",``scalar i:density``,Reference density for scalar :math:`i`
 
 .. Note::
   The entries in the field coefficient array for velocity and temperature correspond directly to parameters 1, 2, 7, and 8 from the old ``.rea`` format.
