@@ -16,9 +16,7 @@
         <script async="async" type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.5/latest.js?config=TeX-AMS-MML_HTMLorMML"></script>
     <script src="../_static/js/theme.js"></script>
     <link rel="index" title="Index" href="../genindex.html" />
-    <link rel="search" title="Search" href="../search.html" />
-    <link rel="next" title="Conjugate Heat Transfer" href="conjht.html" />
-    <link rel="prev" title="Fully Developed Laminar Flow" href="fdlf.html" /> 
+    <link rel="search" title="Search" href="../search.html" /> 
 </head>
 
 <body class="wy-body-for-nav"> 
@@ -36,34 +34,12 @@
   </form>
 </div>
         </div><div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="Navigation menu">
-              <ul class="current">
+              <ul>
 <li class="toctree-l1"><a class="reference internal" href="../quickstart.html">Quickstart</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../faq.html">FAQ</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../problem_setup.html">Problem Setup</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../tools.html">Nek Tools</a></li>
-<li class="toctree-l1 current"><a class="reference internal" href="../tutorials.html">Tutorials</a><ul class="current">
-<li class="toctree-l2"><a class="reference internal" href="fdlf.html">Fully Developed Laminar Flow</a></li>
-<li class="toctree-l2 current"><a class="current reference internal" href="#">Periodic Hill</a><ul>
-<li class="toctree-l3"><a class="reference internal" href="#pre-processing">Pre-processing</a></li>
-<li class="toctree-l3"><a class="reference internal" href="#mesh-generation">Mesh generation</a></li>
-<li class="toctree-l3"><a class="reference internal" href="#usr-file">usr file</a><ul>
-<li class="toctree-l4"><a class="reference internal" href="#modify-mesh">Modify mesh</a></li>
-<li class="toctree-l4"><a class="reference internal" href="#initial-boundary-conditions">Initial &amp; boundary conditions</a></li>
-</ul>
-</li>
-<li class="toctree-l3"><a class="reference internal" href="#control-parameters">Control parameters</a></li>
-<li class="toctree-l3"><a class="reference internal" href="#size-file">SIZE file</a></li>
-<li class="toctree-l3"><a class="reference internal" href="#compilation">Compilation</a></li>
-<li class="toctree-l3"><a class="reference internal" href="#running-the-case">Running the case</a></li>
-<li class="toctree-l3"><a class="reference internal" href="#post-processing-the-results">Post-processing the results</a></li>
-</ul>
-</li>
-<li class="toctree-l2"><a class="reference internal" href="conjht.html">Conjugate Heat Transfer</a></li>
-<li class="toctree-l2"><a class="reference internal" href="neknek.html">Overlapping Overset Grids</a></li>
-<li class="toctree-l2"><a class="reference internal" href="rans.html">RANS Channel</a></li>
-<li class="toctree-l2"><a class="reference internal" href="multi_rans.html">Multi-Component RANS</a></li>
-</ul>
-</li>
+<li class="toctree-l1"><a class="reference internal" href="../tutorials.html">Tutorials</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../theory.html">Theory</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../build.html">Build Options</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../appendix.html">Appendices</a></li>
@@ -84,10 +60,9 @@
           <div role="navigation" aria-label="Page navigation">
   <ul class="wy-breadcrumbs">
       <li><a href="../index.html" class="icon icon-home"></a> &raquo;</li>
-          <li><a href="../tutorials.html">Tutorials</a> &raquo;</li>
       <li>Periodic Hill</li>
       <li class="wy-breadcrumbs-aside">
-            <a href="../_sources/tutorials/perhill.rst.txt" rel="nofollow"> View page source</a>
+            <a href="../_sources/tutorials/perhill_old.rst.txt" rel="nofollow"> View page source</a>
       </li>
   </ul>
   <hr/>
@@ -96,11 +71,7 @@
            <div itemprop="articleBody">
              
   <div class="section" id="periodic-hill">
-<span id="perhill"></span><h1>Periodic Hill<a class="headerlink" href="#periodic-hill" title="Permalink to this headline">¶</a></h1>
-<div class="admonition warning">
-<p class="first admonition-title">Warning</p>
-<p class="last">This tutorial is written for the most recent version of <em>Nek5000</em> available on GitHub. To view the previous version of this tutorial compatible with V19, see <a class="reference internal" href="perhill_old.html#perhill-old"><span class="std std-ref">here</span></a>.</p>
-</div>
+<span id="perhill-old"></span><h1>Periodic Hill<a class="headerlink" href="#periodic-hill" title="Permalink to this headline">¶</a></h1>
 <p>This tutorial will describe how to run a case from scratch.
 We illustrate this procedure through a relatively simple example involving incompressible laminar flow in a two-dimensional periodic hill domain.
 Our implementation is loosely based on the case presented by Mellen et al. <a class="reference internal" href="../references.html#mellen2000" id="id1">[Mellen2000]</a>.
@@ -152,8 +123,9 @@ The tool will produce a binary mesh and boundary data file <code class="docutils
 <div class="highlight-console notranslate"><div class="highlight"><pre><span></span><span class="gp">$</span> cp <span class="nv">$HOME</span>/Nek5000/core/zero.usr hillp.usr
 </pre></div>
 </div>
-<div class="section" id="modify-mesh">
-<h3>Modify mesh<a class="headerlink" href="#modify-mesh" title="Permalink to this headline">¶</a></h3>
+<div class="section" id="modify-mesh-and-apply-mass-flux">
+<h3>Modify mesh and apply mass flux<a class="headerlink" href="#modify-mesh-and-apply-mass-flux" title="Permalink to this headline">¶</a></h3>
+<p>To drive the flow a mass flux is applied such that  bulk velocity <span class="math notranslate nohighlight">\(u_b=1\)</span>.</p>
 <p>For a periodic hill, we will need to modify the geometry.  Let <span class="math notranslate nohighlight">\({\bf x} := (x,y)\)</span> denote the old geometry, and <span class="math notranslate nohighlight">\({\bf x}' := (x',y')\)</span> denote the new geometry.  For a domain
 with <span class="math notranslate nohighlight">\(y\in [0,3]\)</span> and <span class="math notranslate nohighlight">\(x\in [0,9]\)</span> the following function will map the straight pipe geometry to a periodic hill:</p>
 <div class="math notranslate nohighlight">
@@ -163,7 +135,8 @@ We have chosen these constants so that the height of the hill (our reference len
 Note that, as <span class="math notranslate nohighlight">\(y \longrightarrow 3\)</span>, the perturbation, goes to zero.
 So that near <span class="math notranslate nohighlight">\(y = 3\)</span>, the mesh recovers its original form.</p>
 <p>In Nek5000, we can specify this through <code class="docutils literal notranslate"><span class="pre">usrdat2</span></code> in the <code class="docutils literal notranslate"><span class="pre">.usr</span></code> file as follows.
-The highlighted line shows where the mesh is deformed.</p>
+The first highlighted line shows where the mesh is deformed.
+The second set of highlighted lines are used to set a forced flowrate.</p>
 <div class="highlight-fortran notranslate"><div class="highlight"><pre><span></span>      <span class="k">subroutine </span><span class="n">usrdat2</span><span class="p">()</span>
       <span class="k">implicit none</span>
 <span class="k">      include</span> <span class="s1">&#39;SIZE&#39;</span>
@@ -186,16 +159,20 @@ The highlighted line shows where the mesh is deformed.</p>
 <span class="hll">         <span class="n">ym1</span><span class="p">(</span><span class="n">i</span><span class="p">,</span><span class="mi">1</span><span class="p">,</span><span class="mi">1</span><span class="p">,</span><span class="mi">1</span><span class="p">)</span> <span class="o">=</span> <span class="n">yy</span> <span class="o">+</span> <span class="p">(</span><span class="mi">3</span><span class="o">-</span><span class="n">yy</span><span class="p">)</span><span class="o">*</span><span class="n">A1</span>
 </span>      <span class="n">enddo</span>
       
+      <span class="c">! apply mass flux to drive the flow such that Ubar = 1</span>
+<span class="hll">      <span class="n">param</span><span class="p">(</span><span class="mi">54</span><span class="p">)</span> <span class="o">=</span> <span class="o">-</span><span class="mi">1</span>   <span class="c">! x-direction</span>
+</span><span class="hll">      <span class="n">param</span><span class="p">(</span><span class="mi">55</span><span class="p">)</span> <span class="o">=</span> <span class="mf">1.0</span>  <span class="c">! Ubar</span>
+</span>      
       <span class="k">return</span>
 <span class="k">      end</span>
 </pre></div>
 </div>
 <p>By modifying the mesh in <code class="docutils literal notranslate"><span class="pre">usrdat2</span></code>, the modification is applied to the GLL points directly.
 This allows the mesh to conform to the specified profile to <span class="math notranslate nohighlight">\(N^{th}\)</span>-order accuracy.
-The deformed mesh with the GLL points is shown in <a class="reference internal" href="#fig-hill-mesh"><span class="std std-numref">Fig. 16</span></a> below.</p>
+The deformed mesh with the GLL points is shown below.</p>
 <div class="align-center figure" id="id2">
-<span id="fig-hill-mesh"></span><img alt="per_mesh" src="../_images/hillpmesh.png" />
-<p class="caption"><span class="caption-number">Fig. 16 </span><span class="caption-text">Modified box mesh graded</span></p>
+<img alt="per_mesh" src="../_images/hillpmesh.png" />
+<p class="caption"><span class="caption-text">Modified box mesh graded</span></p>
 </div>
 </div>
 <div class="section" id="initial-boundary-conditions">
@@ -230,13 +207,14 @@ For this case, using any text editor, create a new file called <code class="docu
 <span class="p">[</span><span class="n">GENERAL</span><span class="p">]</span>
 <span class="n">stopAt</span> <span class="o">=</span> <span class="n">endTime</span>
 <span class="n">endTime</span>  <span class="o">=</span> <span class="mi">200</span>
+
 <span class="n">variableDT</span> <span class="o">=</span> <span class="n">yes</span>
 <span class="n">targetCFL</span> <span class="o">=</span> <span class="mf">0.4</span>
+<span class="n">timeStepper</span> <span class="o">=</span> <span class="n">bdf2</span>
+
 <span class="n">writeControl</span> <span class="o">=</span> <span class="n">runTime</span>
 <span class="n">writeInterval</span> <span class="o">=</span> <span class="mi">20</span>
-<span class="hll"><span class="n">constFlowRate</span> <span class="o">=</span> <span class="n">X</span>
-</span><span class="hll"><span class="n">meanVelocity</span> <span class="o">=</span> <span class="mf">1.0</span>
-</span>
+
 <span class="p">[</span><span class="n">PROBLEMTYPE</span><span class="p">]</span>
 <span class="n">equation</span> <span class="o">=</span> <span class="n">incompNS</span>
 
@@ -250,16 +228,9 @@ For this case, using any text editor, create a new file called <code class="docu
 <span class="n">viscosity</span> <span class="o">=</span> <span class="o">-</span><span class="mi">100</span>
 </pre></div>
 </div>
-<p>We have set the calculation to stop at the physical time of <span class="math notranslate nohighlight">\(T=200\)</span> (<code class="docutils literal notranslate"><span class="pre">endTime=200</span></code>) which is roughly 22 flow-thru time units (based on the bulk velocity <span class="math notranslate nohighlight">\(u_b\)</span> and length of periodic pitch, <span class="math notranslate nohighlight">\(L=9\)</span>).</p>
-<p>To drive the flow, a forced flow rate in the x-direction is applied such that bulk velocity <span class="math notranslate nohighlight">\(u_b=1\)</span>.
-This is accomplished with the two highlighted lines.</p>
-<div class="admonition warning">
-<p class="first admonition-title">Warning</p>
-<p class="last">The forced flow rate options are only intended for use with periodic boundaries!</p>
-</div>
 <p>In choosing <code class="docutils literal notranslate"><span class="pre">viscosity</span> <span class="pre">=</span> <span class="pre">-100</span></code> we are actually setting the Reynolds number. This assumes that
 <span class="math notranslate nohighlight">\(\rho \times u_b \times h = 1\)</span> where <span class="math notranslate nohighlight">\(u_b\)</span> denotes the bulk velocity and <span class="math notranslate nohighlight">\(h\)</span> the hill height.</p>
-<p>Additional details on the names of keys in the <code class="docutils literal notranslate"><span class="pre">.par</span></code> file can be found <a class="reference internal" href="../problem_setup/case_files.html#case-files-par"><span class="std std-ref">here</span></a>.</p>
+<p>We have set the calculation to stop at the physical time of <span class="math notranslate nohighlight">\(T=200\)</span> (<code class="docutils literal notranslate"><span class="pre">endTime=200</span></code>) which is roughly 22 flow-thru time units (based on the bulk velocity <span class="math notranslate nohighlight">\(u_b\)</span> and length of periodic pitch, <span class="math notranslate nohighlight">\(L=9\)</span>).  Additional details on the names of keys in the <code class="docutils literal notranslate"><span class="pre">.par</span></code> file can be found <a class="reference internal" href="../problem_setup/case_files.html#case-files-par"><span class="std std-ref">here</span></a>.</p>
 </div>
 <div class="section" id="size-file">
 <h2>SIZE file<a class="headerlink" href="#size-file" title="Permalink to this headline">¶</a></h2>
@@ -291,8 +262,8 @@ Additional details on the parameters in the <code class="docutils literal notran
 As a final check, you should have the following files:</p>
 <blockquote>
 <div><ul class="simple">
-<li><a class="reference download internal" download="" href="../_downloads/f2ae8282c15f7167f3e2f0bdcf84bba2/hillp.usr"><code class="xref download docutils literal notranslate"><span class="pre">hillp.usr</span></code></a></li>
-<li><a class="reference download internal" download="" href="../_downloads/78ad59d55e92fad5443c2c4b1345fd88/hillp.par"><code class="xref download docutils literal notranslate"><span class="pre">hillp.par</span></code></a></li>
+<li><a class="reference download internal" download="" href="../_downloads/e4b062ae66e4400efcd63cbeb6b819ed/hillp.usr"><code class="xref download docutils literal notranslate"><span class="pre">hillp.usr</span></code></a></li>
+<li><a class="reference download internal" download="" href="../_downloads/5349a3b951a017779a5d9a88a5438dd6/hillp.par"><code class="xref download docutils literal notranslate"><span class="pre">hillp.par</span></code></a></li>
 <li><a class="reference download internal" download="" href="../_downloads/f553de6c758186b45f00d18720544661/hillp.re2"><code class="xref download docutils literal notranslate"><span class="pre">hillp.re2</span></code></a></li>
 <li><a class="reference download internal" download="" href="../_downloads/04f507701c248acc022696890e54ee23/hillp.ma2"><code class="xref download docutils literal notranslate"><span class="pre">hillp.ma2</span></code></a></li>
 <li><a class="reference download internal" download="" href="../_downloads/ee8e92a67ddbde6348465d828dfc7d17/SIZE"><code class="xref download docutils literal notranslate"><span class="pre">SIZE</span></code></a></li>
@@ -332,11 +303,10 @@ to use Visit/Paraview. One can use the script <em>visnek</em>, to be found in <c
 </pre></div>
 </div>
 <p><em>(or the name of your session)</em> to obatain a file named <code class="docutils literal notranslate"><span class="pre">hillp.nek5000</span></code> which can be recognized in Visit/Paraview.</p>
-<p>In the viewing window one can visualize the flow-field as depicted in
-<a class="reference internal" href="#fig-hill-flow"><span class="std std-numref">Fig. 17</span></a>.</p>
+<p>In the viewing window one can visualize the flow-field.</p>
 <div class="align-center figure" id="id3">
-<span id="fig-hill-flow"></span><img alt="per_flow" src="../_images/hill_flow_v3.png" />
-<p class="caption"><span class="caption-number">Fig. 17 </span><span class="caption-text">Visualization of the steady-state flow field. Vectors represent velocity. Colors represent velocity magnitude. Note, velocity vectors are equal size and not scaled by magnitude.</span></p>
+<img alt="per_flow" src="../_images/hill_flow_v3.png" />
+<p class="caption"><span class="caption-text">Visualization of the steady-state flow field. Vectors represent velocity. Colors represent velocity magnitude. Note, velocity vectors are equal size and not scaled by magnitude.</span></p>
 </div>
 </div>
 </div>
@@ -344,10 +314,7 @@ to use Visit/Paraview. One can use the script <em>visnek</em>, to be found in <c
 
            </div>
           </div>
-          <footer><div class="rst-footer-buttons" role="navigation" aria-label="Footer">
-        <a href="fdlf.html" class="btn btn-neutral float-left" title="Fully Developed Laminar Flow" accesskey="p" rel="prev"><span class="fa fa-arrow-circle-left" aria-hidden="true"></span> Previous</a>
-        <a href="conjht.html" class="btn btn-neutral float-right" title="Conjugate Heat Transfer" accesskey="n" rel="next">Next <span class="fa fa-arrow-circle-right" aria-hidden="true"></span></a>
-    </div>
+          <footer>
 
   <hr/>
 

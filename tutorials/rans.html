@@ -130,7 +130,7 @@ The spanwise (<span class="math notranslate nohighlight">\(y\)</span>) direction
 The elements shrink from the bottom of the domain to the top with a ratio of <span class="math notranslate nohighlight">\(0.35\)</span>.</p>
 <div class="admonition note">
 <p class="first admonition-title">Note</p>
-<p class="last">Boundary conditions for the turbulent scalars are handled internally by <em>Nek5000</em> and do not need to be specified at the time of mesh generation.</p>
+<p class="last">Boundary conditions for the turbulent scalars are handled internally by <em>Nek5000</em> in the <a class="reference internal" href="#rans-init"><span class="std std-ref">rans_init</span></a> subroutine and do not need to be specified at the time of mesh generation.</p>
 </div>
 </div>
 <div class="section" id="control-parameters-par-file">
@@ -156,6 +156,8 @@ This setup corresponds to <span class="math notranslate nohighlight">\(Re = 125,
 <span class="na">numSteps</span> <span class="o">=</span> <span class="s">60000</span>
 <span class="na">dt</span> <span class="o">=</span> <span class="s">5.0e-3</span>
 <span class="na">writeInterval</span> <span class="o">=</span> <span class="s">20000</span>
+<span class="na">constFlowRate</span> <span class="o">=</span> <span class="s">X</span>
+<span class="na">meanVelocity</span> <span class="o">=</span> <span class="s">1.0</span>
 
 <span class="k">[PROBLEMTYPE]</span>
 <span class="na">variableProperties</span> <span class="o">=</span> <span class="s">yes</span>
@@ -194,7 +196,7 @@ Other details of all the subroutines can be found <a class="reference internal" 
 </pre></div>
 </div>
 <p>Files in the above relative locations in the <em>Nek5000</em> repo load the essential RANS subroutines.</p>
-<p>RANS initialization is done through the <code class="docutils literal notranslate"><span class="pre">rans_init</span></code> subroutine call from <code class="docutils literal notranslate"><span class="pre">usrdat2</span></code>.
+<p id="rans-init">RANS initialization is done through the <code class="docutils literal notranslate"><span class="pre">rans_init</span></code> subroutine call from <code class="docutils literal notranslate"><span class="pre">usrdat2</span></code>.
 The required code snippet is shown below.</p>
 <div class="highlight-fortran notranslate"><div class="highlight"><pre><span></span>      <span class="k">subroutine </span><span class="n">usrdat2</span><span class="p">()</span>
       <span class="k">implicit none</span>
@@ -386,20 +388,6 @@ The following is used for the channel simulation,</p>
       <span class="k">if</span><span class="p">(</span><span class="n">ifield</span><span class="p">.</span><span class="n">eq</span><span class="p">.</span><span class="n">ifld_tke</span><span class="p">)</span> <span class="n">temp</span> <span class="o">=</span> <span class="mf">0.01</span>
       <span class="k">if</span><span class="p">(</span><span class="n">ifield</span><span class="p">.</span><span class="n">eq</span><span class="p">.</span><span class="n">ifld_tau</span><span class="p">)</span> <span class="n">temp</span> <span class="o">=</span> <span class="mf">0.2</span>
       
-      <span class="k">return</span>
-<span class="k">      end</span>
-</pre></div>
-</div>
-<p>Flow is driven through the channel by the application of streamwise mass flux, specified in <code class="docutils literal notranslate"><span class="pre">usrdat</span></code></p>
-<div class="highlight-fortran notranslate"><div class="highlight"><pre><span></span>      <span class="k">subroutine </span><span class="n">usrdat</span>   <span class="c">! This routine to modify element vertices</span>
-      <span class="k">implicit none</span>
-<span class="k">      include</span> <span class="s1">&#39;SIZE&#39;</span>       
-      <span class="k">include</span> <span class="s1">&#39;TOTAL&#39;</span>     
-
-<span class="c">! apply mass flux to drive the flow such that Ubar = 1</span>
-      <span class="n">param</span><span class="p">(</span><span class="mi">54</span><span class="p">)</span> <span class="o">=-</span><span class="mi">1</span>       <span class="c">!x-direction</span>
-      <span class="n">param</span><span class="p">(</span><span class="mi">55</span><span class="p">)</span> <span class="o">=</span> <span class="mf">1.0</span>     <span class="c">!Mean Bulk velocity, Ubar</span>
-
       <span class="k">return</span>
 <span class="k">      end</span>
 </pre></div>
