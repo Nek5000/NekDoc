@@ -37,7 +37,7 @@ The elements shrink from the bottom of the domain to the top with a ratio of :ma
   However, the boundary conditions for these scalars will be assigned internally by *Nek5000* based on the values given for the velocity field and they do not need to be specified here.
 
 .. Note::
-  Boundary conditions for the turbulent scalars are handled internally by *Nek5000* and do not need to be specified at the time of mesh generation.
+  Boundary conditions for the turbulent scalars are handled internally by *Nek5000* in the :ref:`rans_init <rans_init>` subroutine and do not need to be specified at the time of mesh generation.
 
 
 ..............................
@@ -61,7 +61,7 @@ This setup corresponds to :math:`Re = 125,000`, which is well above the critical
 
 .. literalinclude:: rans/wallResolved/chan_WR.par
    :language: ini 
-   :emphasize-lines: 21-31
+   :emphasize-lines: 23-33
 
 The Temperature field is not solved in this tutorial, but can be turned on by adding the ``[TEMPERATURE]`` card and the requisite properties.
 
@@ -80,12 +80,14 @@ Foremost, it is essential to include the following header at the beginning of th
       
 Files in the above relative locations in the *Nek5000* repo load the essential RANS subroutines.
 
+.. _rans_init:
+
 RANS initialization is done through the ``rans_init`` subroutine call from ``usrdat2``. 
 The required code snippet is shown below.
 
 .. literalinclude:: rans/wallResolved/chan_WR.usr
    :language: fortran
-   :lines: 166-202
+   :lines: 162-198
    
 The ``rans_init`` subroutine sets up the necessary solver variables to use RANS models. 
 This includes loading the model coefficients, setting up the character boundary condition (``cbc``) array for the turbulent scalars, and calculating the regularization [Tombo2018]_ for the :math:`k-\omega` models.
@@ -142,12 +144,6 @@ The following is used for the channel simulation,
    :language: fortran
    :lines: 121-143
 	
-Flow is driven through the channel by the application of streamwise mass flux, specified in ``usrdat``
-
-.. literalinclude:: rans/wallResolved/chan_WR.usr
-   :language: fortran
-   :lines: 154-164
-
 ..............................
 SIZE file
 ..............................

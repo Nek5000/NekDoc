@@ -156,10 +156,6 @@ c-----------------------------------------------------------------------
       include 'SIZE'       
       include 'TOTAL'     
 
-! apply mass flux to drive the flow such that Ubar = 1
-      param(54) =-1       !x-direction
-      param(55) = 1.0     !Mean Bulk velocity, Ubar
-
       return
       end
 c-----------------------------------------------------------------------
