@@ -150,6 +150,10 @@ c-----------------------------------------------------------------------
          ym1(i,1,1,1) = yy + (3-yy)*A1
       enddo
       
+      ! apply mass flux to drive the flow such that Ubar = 1
+      param(54) = -1   ! x-direction
+      param(55) = 1.0  ! Ubar
+      
       return
       end
 c-----------------------------------------------------------------------
