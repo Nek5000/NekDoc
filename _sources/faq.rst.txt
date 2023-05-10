@@ -263,6 +263,25 @@ Computational Speed
 Troubleshooting
 ---------------------------
 
+**Why does Nek hang or produce an error when reading the boundary faces from the re2 file?**
+
+.. code-block:: none
+
+  reading boundary faces                28720 for field 1
+    readp_re2_bc:pack/cr/unpack : 0.73E-02 0.18E-0.1 0.61E-02
+    readp_re_bc:byte_read_mpi   : 0.65E+01 
+  ERROR: Error reading .re2 boundary data  ierr=120
+..
+
+  By default, *Nek5000* expects to find a set of boundary conditions for every field in the simulation, i.e. velocity, temperature, and passive scalars.
+  Third party meshes converted with ``gmsh2nek`` or ``exo2nek`` typically only include a single set of boundary IDs.
+  This error can be resolved by adding the following to the ``.par`` file.
+
+.. code-block:: ini
+
+   [MESH]
+   numberOfBCFields = 1
+
 **My simulation diverges. What should I do?**
 
   There are many potential root causes but here are some things you can experiment with:

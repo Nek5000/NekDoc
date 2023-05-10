@@ -5,6 +5,7 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <title>FAQ &mdash; Nek5000  documentation</title><link rel="stylesheet" href="_static/css/theme.css" type="text/css" />
     <link rel="stylesheet" href="_static/pygments.css" type="text/css" />
+      <link rel="stylesheet" href="_static/css/custom.css" type="text/css" />
   <!--[if lt IE 9]>
     <script src="_static/js/html5shiv.min.js"></script>
   <![endif]-->
@@ -297,6 +298,21 @@ A scalar solve requiring ~40 iterations or greater is a good candidate for use.<
 </div>
 <div class="section" id="troubleshooting">
 <h2>Troubleshooting<a class="headerlink" href="#troubleshooting" title="Permalink to this headline">¶</a></h2>
+<p><strong>Why does Nek hang or produce an error when reading the boundary faces from the re2 file?</strong></p>
+<div class="highlight-none notranslate"><div class="highlight"><pre><span></span>reading boundary faces                28720 for field 1
+  readp_re2_bc:pack/cr/unpack : 0.73E-02 0.18E-0.1 0.61E-02
+  readp_re_bc:byte_read_mpi   : 0.65E+01
+ERROR: Error reading .re2 boundary data  ierr=120
+</pre></div>
+</div>
+<blockquote>
+<div>By default, <em>Nek5000</em> expects to find a set of boundary conditions for every field in the simulation, i.e. velocity, temperature, and passive scalars.
+Third party meshes converted with <code class="docutils literal notranslate"><span class="pre">gmsh2nek</span></code> or <code class="docutils literal notranslate"><span class="pre">exo2nek</span></code> typically only include a single set of boundary IDs.
+This error can be resolved by adding the following to the <code class="docutils literal notranslate"><span class="pre">.par</span></code> file.</div></blockquote>
+<div class="highlight-ini notranslate"><div class="highlight"><pre><span></span><span class="k">[MESH]</span>
+<span class="na">numberOfBCFields</span> <span class="o">=</span> <span class="s">1</span>
+</pre></div>
+</div>
 <p><strong>My simulation diverges. What should I do?</strong></p>
 <blockquote>
 <div><p>There are many potential root causes but here are some things you can experiment with:</p>
@@ -354,7 +370,7 @@ You can also use the spectral interpolation tool (see examples for more details)
   <hr/>
 
   <div role="contentinfo">
-    <p>&#169; Copyright 2015-2022, UCHICAGO ARGONNE, LLC.</p>
+    <p>&#169; Copyright 2015-2023, UCHICAGO ARGONNE, LLC.</p>
   </div>
 
   Built with <a href="https://www.sphinx-doc.org/">Sphinx</a> using a
