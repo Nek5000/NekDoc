@@ -49,7 +49,7 @@ master_doc = 'index'
 
 # General information about the project.
 project = u'Nek5000'
-copyright = u'2015-2022, UCHICAGO ARGONNE, LLC'
+copyright = u'2015-2023, UCHICAGO ARGONNE, LLC'
 author = u''
 
 # The version info for the project you're documenting, acts as replacement for
@@ -177,4 +177,5 @@ epub_copyright = copyright
 # A list of files that should not be packed into the epub file.
 epub_exclude_files = ['search.html']
 
-
+def setup(app):
+  app.add_stylesheet('css/custom.css')
