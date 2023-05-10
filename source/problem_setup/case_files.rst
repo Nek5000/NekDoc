@@ -84,96 +84,35 @@ Values in parentheses denote the default value.
 
 .. _tab:generalparams:
 
-.. table:: ``GENERAL`` keys in the ``.par`` file
+.. csv-table:: ``GENERAL`` keys in the ``.par`` file
+   :widths: 20 20 60
+   :header: Key, Value(s), Description
 
-   +-------------------------+-----------------+----------------------------------------------+
-   |   Key                   | | Value(s)      | | Description                                |
-   +=========================+=================+==============================================+
-   | ``startFrom``           | | ``<string>``  | | Absolute/relative path of the field file   |
-   |                         |                 | | to restart the simulation from. Also       |
-   |                         |                 | | includes several restart options (see      |
-   |                         |                 | | :ref:`features_restart` for details)       |
-   |                         |                 | |                                            |
-   +-------------------------+-----------------+----------------------------------------------+
-   | ``stopAt``              | | ``(numSteps)``| | Stop mode                                  |
-   |                         | | ``endTime``   |                                              |
-   +-------------------------+-----------------+----------------------------------------------+
-   | ``endTime``             | | ``<real>``    | | Final physical time at which we want to    |
-   |                         |                 | | our simulation to stop                     |
-   +-------------------------+-----------------+----------------------------------------------+
-   | ``numSteps``            | | ``<real>``    | | Number of time steps instead of specifying |
-   |                         |                 | | final physical time                        |
-   +-------------------------+-----------------+----------------------------------------------+
-   | ``dt``                  | | ``<real>``    | | Specifies the step size or in case of a    |
-   |                         |                 | | a variable time step the maximum step size |
-   +-------------------------+-----------------+----------------------------------------------+
-   | ``variableDT``          | | ``(no)``      | | Controls if the step size will be adjusted |
-   |                         | | ``yes``       | | to match the targetCFL                     |
-   +-------------------------+-----------------+----------------------------------------------+
-   | ``targetCFL``           | | ``<real>``    | | Sets stability/target CFL number for       |
-   |                         |                 | | OIFS or variable time steps                |
-   |                         |                 | | (fixed to 0.5 for standard extrapolation   |
-   +-------------------------+-----------------+----------------------------------------------+
-   | ``writeControl``        | | ``(timeStep)``| | Specifies whether checkpointing is based   |
-   |                         | | ``runTime``   | | on number of time steps or physical time   |
-   +-------------------------+-----------------+----------------------------------------------+
-   | ``writeInterval``       | | ``<real>``    | | Checkpoint frequency in time steps or      |
-   |                         |                 | | physical time                              |
-   +-------------------------+-----------------+----------------------------------------------+
-   | ``filtering``           | | ``(none)``    | | Specifies the filtering method             |
-   |                         | | ``explicit``  | | See :ref:`sec:filter`                      | 
-   |                         | | ``hpfrt``     |                                              |
-   +-------------------------+-----------------+----------------------------------------------+
-   | ``filterModes``         | | ``<int>``     | | Specifies the number of modes filtered as  |
-   |                         |                 | | an alternative to specifying the cutoff    |
-   |                         |                 | | ratio                                      |
-   |                         |                 | | Note: requires the use of at least 2 modes |
-   +-------------------------+-----------------+----------------------------------------------+
-   | ``filterCutoffRatio``   | | ``<real>``    | | Ratio of modes not affected by the filter  |
-   |                         |                 | | Use i.e. for stabilization or LES 0.9/0.65 |
-   |                         |                 | | as an alternative to specifying the number |
-   |                         |                 | | of modes explicitly                        |
-   +-------------------------+-----------------+----------------------------------------------+
-   | ``filterWeight``        | | ``<real>``    | | Sets the filter strength of transfer       |
-   |                         |                 | | function of the last mode (explicit) or the|
-   |                         |                 | | relaxation parameter in case of hpfrt      |
-   +-------------------------+-----------------+----------------------------------------------+
-   | ``writeDoublePrecision``| | ``no``        | | Sets the precision of the field files      |
-   |                         | | ``(yes)``     |                                              |
-   +-------------------------+-----------------+----------------------------------------------+
-   | ``writeNFiles``         | | ``(1)``       | | Sets the number of output files            |
-   |                         |                 | | By default a parallel shared file is used  |
-   +-------------------------+-----------------+----------------------------------------------+
-   | ``dealiasing``          | | ``no``        | | Enable/diasble over-integration            |
-   |                         | | ``(yes)``     |                                              |
-   +-------------------------+-----------------+----------------------------------------------+
-   | ``timeStepper``         | | ``BDF1``      | | Time integration order                     |
-   |                         | | ``(BDF2)``    |                                              |
-   |                         | | ``BDF3``      |                                              |
-   +-------------------------+-----------------+----------------------------------------------+
-   | ``extrapolation``       | | ``(standard)``| | Extrapolation method                       |
-   |                         | | ``OIFS``      |                                              |
-   +-------------------------+-----------------+----------------------------------------------+
-   | ``constFlowRate``       | | ``(none)``    | | If given, prescribes a constant volumetric |
-   |                         | | ``X`` ``Y``   | | flow in the given direction. Requires      |
-   |                         | | ``Z``         | | ``meanVolumetricFlow`` or ``meanVelocity`` |
-   +-------------------------+-----------------+----------------------------------------------+
-   | ``meanVolumetricFlow``  | | ``<real>``    | | Sets the volumetric flow rate in the       |
-   |                         |                 | | direction of ``constFlowRate``             |
-   +-------------------------+-----------------+----------------------------------------------+
-   | ``meanVelocity``        | | ``<real>``    | | Sets the mean velocity (volume-weighted    |
-   |                         |                 | | velocity mean) in the direction of         | 
-   |                         |                 | | ``constFlowRate``                          |
-   +-------------------------+-----------------+----------------------------------------------+
-   | ``optLevel``            | | ``(2)``       | | Optimization level                         |
-   +-------------------------+-----------------+----------------------------------------------+
-   | ``logLevel``            | | ``(2)``       | | Verbosity level                            |
-   +-------------------------+-----------------+----------------------------------------------+
-   | ``userParam%%``         | | ``<real>``    | | User parameter (can be accessed through    |
-   |                         |                 | | uparam(%) array in ``.usr``                |
-   +-------------------------+-----------------+----------------------------------------------+
-
-
+   ``startFrom``           ,| ``<string>``                     ,"Absolute/relative path of the field file to restart the simulation from. Also includes several restart options (see :ref:`features_restart` for details)"
+   ``stopAt``              ,| ``(numSteps)`` ``endTime``       ,"Stops the simulation after a given number of time steps or at a given physical time."
+   ``endTime``             ,| ``<real>``                       ,"Final physical time at which we want to our simulation to stop. Required for ``stopAt = endTime``."
+   ``numSteps``            ,| ``<int>``                        ,"Number of time steps until the simulation stops. Required for ``stopAt = numSteps``."
+   ``dt``                  ,| ``<real>``                       ,"Specifies the step size or in case of a variable time step, the maximum step size"
+   ``variableDT``          ,| ``(no)`` ``yes``                 ,"Controls if the step size will be adjusted to match the targetCFL."
+   ``initialDT``           ,| ``<real>``                       ,"Controls the initial time step size. Requires ``variableDT = yes``."
+   ``targetCFL``           ,| ``<real>``                       ,"Sets stability/target CFL number for OIFS or variable time steps. This is fixed to 0.5 for ``extrapolation = standard``" 
+   ``writeControl``        ,| ``(timeStep)`` ``runTime``       ,"Specifies whether checkpointing is based on number of time steps or physical time."
+   ``writeInterval``       ,| ``<real>/<int>``                 ,"Checkpoint frequency in physical time (``<real>``) or number of time steps (``<int>``)"
+   ``filtering``           ,| ``(none)`` ``explicit`` ``hpfrt``,"Specifies the filtering method. See :ref:`sec:filter` for details."
+   ``filterModes``         ,| ``<int>``                        ,"Specifies the number of modes filtered as an alternative to specifying the cutoff ratio. Note: requires the use of at least 2 modes. See :ref:`sec:filter` for details."
+   ``filterCutoffRatio``   ,| ``<real>``                       ,"Ratio of modes not affected by the filter. Use as an alternative to specifying the number of modes explicitly. See :ref:`sec:filter` for details."
+   ``filterWeight``        ,| ``<real>``                       ,"Sets the filter strength of transfer function of the last mode (explicit) or the relaxation parameter in case of hpfrt. See :ref:`sec:filter` for more information."
+   ``writeDoublePrecision``,| ``no`` ``(yes)``                 ,"Sets the precision of the output field files."
+   ``writeNFiles``         ,| ``<int>`` ``(1)``                ,"Sets the number of output files. By default a parallel shared file is used."
+   ``dealiasing``          ,| ``no`` ``yes``                   ,"Enable/diasble over-integration."
+   ``timeStepper``         ,| ``BDF1`` ``(BDF2)`` ``BDF3``     ,"Time integration order."
+   ``extrapolation``       ,| ``(standard)`` ``OIFS``          ,"Extrapolation method. Can be used to achieve CFL > 0.5 with ``OIFS``."
+   ``constFlowRate``       ,| ``(none)`` ``X`` ``Y`` ``Z``     ,"Prescribes a constant volumetric flow in the given direction. Requires ``meanVolumetricFlow`` or ``meanVelocity``."
+   ``meanVolumetricFlow``  ,| ``<real>``                       ,"Sets the volumetric flow rate in the direction of ``constFlowRate``."
+   ``meanVelocity``        ,| ``<real>``                       ,"Sets the mean velocity (volume-weighted velocity mean) in the direction of ``constFlowRate``."
+   ``optLevel``            ,| ``<int>`` ``(2)``                ,"Optimization level"
+   ``logLevel``            ,| ``<int>`` ``(2)``                ,"Controls the verbosity level of the logfile."
+   ``userParam%%``         ,| ``<real>``                       ,"User parameter (can be accessed through uparam(%) array in ``.usr``. Supports up to 20 parameters."
 
 .. _tab:probtypeparams:
 
@@ -233,23 +172,14 @@ Values in parentheses denote the default value.
 
 .. _tab:meshparams:
 
-.. table:: ``MESH`` keys in the ``.par`` file
+.. csv-table:: ``MESH`` keys in the ``.par`` file
+   :widths: 20 15 65
+   :header: Key, Value(s), Description
 
-   +-------------------------+-----------------+-------------------------------------------------------+
-   |   Key                   | | Value(s)      | | Description                                         |
-   +=========================+=================+=======================================================+
-   | ``motion``              | | ``(none)``    | | Mesh motion solver                                  |
-   |                         | | ``user``      |                                                       |
-   |                         | | ``elasticity``|                                                       |
-   +-------------------------+-----------------+-------------------------------------------------------+
-   | ``viscosity``           | | ``(0.4)``     | | Diffusivity for elasticity solver                   |
-   +-------------------------+-----------------+-------------------------------------------------------+
-   | ``numberOfBCFields``    | | ``(nfields)`` | | Number of field variables which have a boundary     |
-   |                         |                 | |  condition in ``.re2`` file                         |
-   +-------------------------+-----------------+-------------------------------------------------------+
-   | ``firstBCFieldIndex``   | | ``(1 or 2)``  | | Field index of the first BC specified in ``.re2``   |
-   |                         |                 | | file                                                |
-   +-------------------------+-----------------+-------------------------------------------------------+
+   ``motion``, | ``(none)`` ``user`` ``elasticity``,"Mesh motion solver"
+   ``viscosity``, ``(0.4)``, Diffusivity for elasticity solver
+   ``numberOfBCFields``, ``(nfields)``, Number of field variables which have a boundary condition in ``.re2`` file
+   ``firstBCFieldIndex``, ``(1 or 2)``, Field index of the first BC specified in ``.re2`` file 
 
 .. _tab:velocityparams:
 
@@ -264,26 +194,20 @@ Values in parentheses denote the default value.
    | ``density``             | | ``<real>`` | | Density                                      |
    +-------------------------+--------------+------------------------------------------------+
 
+
+
 .. _tab:pressureparams:
 
-.. table:: ``PRESSURE`` keys in the ``.par`` file
+.. csv-table:: ``PRESSURE`` keys in the ``.par`` file
+   :widths: 20 15 65
+   :header: Key, Value(s), Description
 
-   +-------------------------+--------------------+-----------------------------------------------+
-   | Key                     | Value(s)           | Description                                   |
-   +=========================+====================+===============================================+
-   | ``preconditioner``      | ``(semg_xxt)``     | | Standard preconditioning method. Requires   |
-   |                         |                    | | no additional setup. Only works for problems|
-   |                         |                    | | with :math:`E<350,000`                      |
-   |                         +--------------------+-----------------------------------------------+
-   |                         | ``semg_amg``       | | First time usage of AMG will write three    |
-   |                         |                    | | dump files to disc. Subsequently please run |
-   |                         |                    | | the amg_hypre tool to create the setup files|
-   |                         |                    | | required for the AMG solver initialization  |
-   |                         +--------------------+-----------------------------------------------+
-   |                         | ``semg_amg_hypre`` | | Recommended for :math:`E≥350,000`. Requires |
-   |                         |                    | | compiling with HYPRE support. See           |
-   |                         |                    | | :ref:`build_pplist` for details.            |
-   +-------------------------+--------------------+-----------------------------------------------+
+   ``preconditioner``, ``(semg_xxt)``,"Standard preconditioning method. Requires no additional setup. Only recommended for problems with :math:`E<350,000`."
+     --,``semg_amg``, "First time usage of ``semg_amg`` with write three dump files to disc. The ``amg_hypre`` tool will then need to be run to create the setup files required for the AMG solver initialization."
+     --,``semg_amg_hypre``, "Recommended for :math:`E≥350,000`. Requires :ref:`compiling with HYPRE support <build_pplist>`."
+     --,``fem_amg_hypre``, "May be faster for meshes with high aspect ratios. Requires :ref:`compiling with HYPRE support <build_pplist>`."
+    ``solver``,| ``(GMRES)`` ``CGFLEX``, Solver for pressure
+
 
 .. _tab:tpscommonparams:
 
