@@ -1,12 +1,10 @@
-.. _perhill:
+:orphan:
+
+.. _perhill_old:
 
 -------------------
 Periodic Hill
 -------------------
-
-.. Warning::
-
-  This tutorial is written for the most recent version of *Nek5000* available on GitHub. To view the previous version of this tutorial compatible with V19, see :ref:`here <perhill_old>`.
 
 This tutorial will describe how to run a case from scratch. 
 We illustrate this procedure through a relatively simple example involving incompressible laminar flow in a two-dimensional periodic hill domain. 
@@ -64,9 +62,10 @@ To get started we copy the template to our case directory
    $ cp $HOME/Nek5000/core/zero.usr hillp.usr 
 
 _______________________________
-Modify mesh
+Modify mesh and apply mass flux
 _______________________________
 
+To drive the flow a mass flux is applied such that  bulk velocity :math:`u_b=1`.
 
 For a periodic hill, we will need to modify the geometry.  Let :math:`{\bf x} := (x,y)` denote the old geometry, and :math:`{\bf x}' := (x',y')` denote the new geometry.  For a domain
 with :math:`y\in [0,3]` and :math:`x\in [0,9]` the following function will map the straight pipe geometry to a periodic hill:
@@ -81,18 +80,17 @@ Note that, as :math:`y \longrightarrow 3`, the perturbation, goes to zero.
 So that near :math:`y = 3`, the mesh recovers its original form.
 
 In Nek5000, we can specify this through ``usrdat2`` in the ``.usr`` file as follows.
-The highlighted line shows where the mesh is deformed.
+The first highlighted line shows where the mesh is deformed.
+The second set of highlighted lines are used to set a forced flowrate.
 
-.. literalinclude:: perhill/hillp.usr
+.. literalinclude:: perhill/deprecated/hillp.usr
    :language: fortran
-   :lines: 131-154
-   :emphasize-lines: 20
+   :lines: 131-158
+   :emphasize-lines: 20,24,25
 
 By modifying the mesh in ``usrdat2``, the modification is applied to the GLL points directly. 
 This allows the mesh to conform to the specified profile to :math:`N^{th}`-order accuracy.
-The deformed mesh with the GLL points is shown in :numref:`fig:hill_mesh` below.
-
-.. _fig:hill_mesh:
+The deformed mesh with the GLL points is shown below.
 
 .. figure:: perhill/hillpmesh.png
     :align: center
@@ -108,7 +106,7 @@ _____________________________
 The next step is to specify the initial conditions.
 This can be done in the subroutine ``useric`` as follows:
 
-.. literalinclude:: perhill/hillp.usr
+.. literalinclude:: perhill/deprecated/hillp.usr
    :language: fortran
    :lines: 91-105
 
@@ -121,23 +119,12 @@ Control parameters
 The control parameters for any case are given in the ``.par`` file.
 For this case, using any text editor, create a new file called ``hillp.par`` and type in the following
 
-.. literalinclude:: perhill/hillp.par
-   :emphasize-lines: 9,10
-
-We have set the calculation to stop at the physical time of :math:`T=200` (``endTime=200``) which is roughly 22 flow-thru time units (based on the bulk velocity :math:`u_b` and length of periodic pitch, :math:`L=9`). 
-
-
-To drive the flow, a forced flow rate in the x-direction is applied such that bulk velocity :math:`u_b=1`.
-This is accomplished with the two highlighted lines.
-
-.. Warning::
-
-   The forced flow rate options are only intended for use with periodic boundaries!
+.. literalinclude:: perhill/deprecated/hillp.par
 
 In choosing ``viscosity = -100`` we are actually setting the Reynolds number. This assumes that
 :math:`\rho \times u_b \times h = 1` where :math:`u_b` denotes the bulk velocity and :math:`h` the hill height.  
 
-Additional details on the names of keys in the ``.par`` file can be found :ref:`here <case_files_par>`. 
+We have set the calculation to stop at the physical time of :math:`T=200` (``endTime=200``) which is roughly 22 flow-thru time units (based on the bulk velocity :math:`u_b` and length of periodic pitch, :math:`L=9`).  Additional details on the names of keys in the ``.par`` file can be found :ref:`here <case_files_par>`. 
 
 ..........................
 SIZE file 
@@ -167,8 +154,8 @@ Compilation
 With the ``hillp.usr``, and ``SIZE`` files created, you should now be all set to compile and run your case!
 As a final check, you should have the following files:
 
- * :download:`hillp.usr <perhill/hillp.usr>`
- * :download:`hillp.par <perhill/hillp.par>`
+ * :download:`hillp.usr <perhill/deprecated/hillp.usr>`
+ * :download:`hillp.par <perhill/deprecated/hillp.par>`
  * :download:`hillp.re2 <perhill/hillp.re2>`
  * :download:`hillp.ma2 <perhill/hillp.ma2>`
  * :download:`SIZE <perhill/SIZE>`
@@ -221,10 +208,7 @@ to use Visit/Paraview. One can use the script *visnek*, to be found in ``/script
 
 *(or the name of your session)* to obatain a file named ``hillp.nek5000`` which can be recognized in Visit/Paraview.
 
-In the viewing window one can visualize the flow-field as depicted in
-:numref:`fig:hill_flow`.
-
-.. _fig:hill_flow:
+In the viewing window one can visualize the flow-field.
 
 .. figure:: perhill/hill_flow_v3.png
     :align: center

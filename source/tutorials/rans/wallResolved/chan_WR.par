@@ -5,6 +5,8 @@
 numSteps = 60000
 dt = 5.0e-3
 writeInterval = 20000
+constFlowRate = X
+meanVelocity = 1.0
 
 [PROBLEMTYPE]
 variableProperties = yes

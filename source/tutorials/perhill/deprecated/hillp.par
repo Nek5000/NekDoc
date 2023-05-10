@@ -2,12 +2,13 @@
 [GENERAL]
 stopAt = endTime
 endTime  = 200
+
 variableDT = yes
 targetCFL = 0.4
+timeStepper = bdf2
+
 writeControl = runTime
 writeInterval = 20
-constFlowRate = X
-meanVelocity = 1.0
 
 [PROBLEMTYPE]
 equation = incompNS
