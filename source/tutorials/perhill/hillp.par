@@ -1,0 +1,22 @@
+# Nek5000 parameter file
+[GENERAL]
+stopAt = endTime
+endTime  = 200
+variableDT = yes
+targetCFL = 0.4
+writeControl = runTime
+writeInterval = 20
+constFlowRate = X
+meanVelocity = 1.0
+
+[PROBLEMTYPE]
+equation = incompNS
+
+[PRESSURE]
+residualTol = 1e-5
+residualProj = yes
+
+[VELOCITY]
+residualTol = 1e-8
+density = 1
+viscosity = -100

@@ -1,0 +1,64 @@
+ please input number of fluid exo files:
+1
+ please input exo file:
+inlet
+
+inlet.exo                        is an EXODUSII file; version 0.00
+I/O word size 8
+
+database parameters:
+
+title         =  Created by ICEMCFD - EXODUS II Interface
+
+num_dim       =        3
+num_nodes     =    35901
+num_elem      =   165590
+num_elem_blk  =        1
+num_side_sets =        3
+
+element block id   =        1
+element type       =    TETRA
+num_elem_in_block  =   165590
+num_nodes_per_elem =        4
+
+ TETRA4 is valid element in a 3D mesh.
+ assume linear hybrid mesh (tetra-hex-wedge)
+ one TETRA4 divide into 4 Nek hex elements
+ please input number of solid exo files for CHT problem (input 0 for no solid mesh):
+0
+ done pre-read exo files
+ now converting to nek mesh
+
+
+Store SideSet information from EXO file
+Sideset  2 ...
+Sideset  3 ...
+Sideset  4 ...
+
+Converting elements ...
+ flag1
+ flag2
+ Converting elements in block            1
+ nvert,                     4
+ Converted elements in nek:               662360
+Done :: Converting elements
+ Domain max xyz:   1.8650400000000000        1.6151700000000000       0.25000000000000000
+ Domain min xyz:  -1.8650400000000000       -1.6151700000000002       -4.7500000000000000
+ total element now is                662360
+ fluid exo file            1  has elements       662360
+ calling: gather_bc_info()
+ done: gather_bc_info()
+ ******************************************************
+ Boundary info summary
+ sideSet ID
+           2
+           3
+           4
+ ******************************************************
+ Enter number of periodic boundary surface pairs:
+0
+ please give re2 file name:
+inlet
+
+writing inlet.re2
+ velocity boundary faces:        95148

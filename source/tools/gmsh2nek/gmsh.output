@@ -1,0 +1,16 @@
+Enter mesh dimension: 3
+Input .msh file name: pipe
+ total node number is         8569
+ total quad element number is          416
+ total hex element number is          960
+ ******************************************************
+ Boundary info summary
+ BoundaryName     BoundaryID
+ Inlet           1
+ Outlet           2
+ Wall           3
+ ******************************************************
+ Enter number of periodic boundary surface pairs:
+0
+
+writing pipe.re2
