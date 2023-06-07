@@ -1,6 +1,5 @@
 c-----------------------------------------------------------------------
       include "experimental/rans_komg.f"
-      include "experimental/rans_wallfunctions.f"
 c-----------------------------------------------------------------------
       subroutine uservp (ix,iy,iz,eg)
       implicit none
