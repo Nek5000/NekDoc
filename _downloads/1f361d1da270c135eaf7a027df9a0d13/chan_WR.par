@@ -12,6 +12,9 @@ meanVelocity = 1.0
 variableProperties = yes
 stressFormulation = yes
 
+[MESH]
+numberOfBCFields = 1
+
 [PRESSURE]
 residualTol = 1.0e-5
 

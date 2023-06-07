@@ -76,7 +76,7 @@ Foremost, it is essential to include the following header at the beginning of th
 
 .. literalinclude:: rans/wallResolved/chan_WR.usr
    :language: fortran
-   :lines: 2-3
+   :lines: 2
       
 Files in the above relative locations in the *Nek5000* repo load the essential RANS subroutines.
 
