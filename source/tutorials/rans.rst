@@ -61,7 +61,7 @@ This setup corresponds to :math:`Re = 125,000`, which is well above the critical
 
 .. literalinclude:: rans/wallResolved/chan_WR.par
    :language: ini 
-   :emphasize-lines: 23-33
+   :emphasize-lines: 26-36
 
 The Temperature field is not solved in this tutorial, but can be turned on by adding the ``[TEMPERATURE]`` card and the requisite properties.
 
