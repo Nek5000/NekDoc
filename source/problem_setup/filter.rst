@@ -11,7 +11,7 @@ Both methods described here demonstrate spectral convergence for increasing poly
 
 The convolution operator is applied on an element-by-element basis.
 Functions in the SEM are locally represented on each element as :math:`N^{th}`-order tensor-product Lagrange polynomials in the reference element, :math:`\hat\Omega\equiv[-1,1]^3`.
-This representation can readily be expressed as a tensor-product of Legendre polynomials, :math:`P_k`.
+This representation can readily be expressed as a tensor-product of Lagrange polynomials, :math:`P_k`.
 For example, consider
 
 .. math::
@@ -22,7 +22,7 @@ For example, consider
   :math:`N` is the polynomial order, :math:`N=` ``lx1`` :math:`-1` (See :ref:`the SIZE file<case_files_SIZE>`)
 
 where :math:`u(x)` is any polynomial of degree :math:`N` on :math:`[-1,1]`.
-As each Legendre polynomial corresponds to a wavelength on :math:`[-1,1]`, a filtered variant of :math:`u(x)` can be constructed from
+As each Lagrange polynomial corresponds to a wavelength on :math:`[-1,1]`, a filtered variant of :math:`u(x)` can be constructed from
 
 .. math::
 
@@ -39,7 +39,7 @@ Weights are chosen as
 
 to construct a low-pass filter. 
 An example is shown below in :numref:`fig:filter`.
-The signal produced by this filter would have the highest Legendre mode (shortest wavelength) completely removed with the next two highest modes significantly diminished.
+The signal produced by this filter would have the highest Lagrange mode (shortest wavelength) completely removed with the next two highest modes significantly diminished.
 However, if the energy of the input signal is fully resolved on the first six modes, the filter would not affect the signal at all.
 
 .. _fig:filter:
@@ -125,7 +125,7 @@ Generally recommended settings for :math:`N\ge5` are as follows:
    filterModes = 2
    filterWeight = 0.05
 
-This will set up a low-pass filter that touches the two highest Legendre modes and decreases the amplitude of the highest mode by 5%.
+This will set up a low-pass filter that touches the two highest Lagrange modes and decreases the amplitude of the highest mode by 5%.
 The weights for this filter are shown below in :numref:`fig:expfilt` for a 7\ :sup:`th`-order case.
 
 .. _fig:expfilt:
@@ -155,7 +155,7 @@ For any scalar, this term has the form
   \chi\left(u-\tilde u\right)
 
 where :math:`u` is the original signal, :math:`\tilde u = G*u` is the low-pass filtered signal, and :math:`\chi` is a proportionality constant.
-In polynomial space, this term is only non-zero for the last few Legendre modes, :math:`k>N'`.
+In polynomial space, this term is only non-zero for the last few Lagrange modes, :math:`k>N'`.
 It is subtracted from the RHS of the momentum, energy, and scalar transport equations, respectively
 
 .. math::
@@ -169,7 +169,7 @@ and acts to provide the necessary drain of energy out of the discretized system.
 The high-pass filter can be invoked by setting the ``filtering=hpfrt`` key in the ``[GENERAL]`` section of the ``.par`` file.
 The cutoff ratio used in the convolution operator, :math:`(G*)`, is controlled by either the ``filterCutoffRatio`` or the ``filterModes`` keys, identically to the explicit filter.
 
-The convolution operation used to construct the filtered signal, :math:`\tilde u`, completely removes the highest Legendre mode :math:`\sigma_N = 0`.
+The convolution operation used to construct the filtered signal, :math:`\tilde u`, completely removes the highest Lagrange mode :math:`\sigma_N = 0`.
 The coefficients for the subsequent lower modes decrease parabolically until :math:`\sigma_{N'}=1`.
 This corresponds to a strong low-pass filtering operation, similar to the one shown in :numref:`fig:filter`.
 
