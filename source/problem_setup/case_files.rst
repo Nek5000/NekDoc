@@ -156,26 +156,58 @@ Values in parentheses denote the default value.
 
 .. _tab:commonparams:
 
-.. table:: ``COMMON`` keys for all field variables in the ``.par`` file
+.. csv-table:: ``COMMON`` keys for all field variables in the ``.par`` file
+   :header: Key,Value(s),Description
+   :widths: 20,20,60
 
-   +-------------------------+-----------------+-------------------------------------------------------+
-   |   Key                   | | Value(s)      | | Description                                         |
-   +=========================+=================+=======================================================+
-   | ``residualTol``         | | ``<real>``    | | Residual tolerance used by solver (not for CVODE)   |
-   +-------------------------+-----------------+-------------------------------------------------------+
-   | ``residualProj``        | | ``(no)``      | | Controls the residual projection                    |
-   |                         | | ``yes``       |                                                       |
-   +-------------------------+-----------------+-------------------------------------------------------+
-   | ``writeToFieldFile``    | | ``no``        | | Controls if fields will be written on output        |
-   |                         | | ``(yes)``     |                                                       |
-   +-------------------------+-----------------+-------------------------------------------------------+
+   ``residualTol``     , "``<real>``       ", Residual tolerance used by solver (not for CVODE)   
+   ``residualProj``    , "``(no)``, ``yes``", Controls the residual projection            
+   ``writeToFieldFile``, "``no``, ``(yes)``", Controls if fields will be written on output        
+   ``boundaryTypeMap`` , "``<string-list>``", Maps the boundary condition types to boundary IDs for third-party meshes 
+
+.. Note::
+
+   Some boundary types have plain-english equivalents that can be used in the ``.par`` file in lieu of the 3-character identifiers. See :numref:`tab:engvidentifiers` and :numref:`tab:engtidentifiers`. 
+   Additionally, ``none`` can be used to keep the ``cbc`` array empty.
+
+.. _tab:engvidentifiers:
+
+.. csv-table:: Velocity boundary identifier plain-english equivalents
+   :header: Identifier,Equivalents
+   :widths: 10,90
+
+   ``A``, axis
+   ``v``,"dirichlet, inlet"
+   ``int``,interpolated
+   ``O``,outlet
+   ``o``,pressure
+   ``P``,periodic
+   ``SYM``,symmetry
+   ``W``,wall
+
+.. _tab:engtidentifiers:
+
+.. csv-table:: Temperature and passive scalar boundary identifier plain-english equivalents
+   :header: Identifier,Equivalents
+   :widths: 10,90
+
+   ``A``,axis
+   ``c``,"convection, robin"
+   ``t``,"dirichlet, inlet"
+   ``f``,"flux, neumann"
+   ``I``,"insulated, outlet, symmetry"
+   ``int``,interpolated
+   ``P``,periodic
+   ``r``,radiation
+
 
 .. _tab:meshparams:
 
 .. csv-table:: ``MESH`` keys in the ``.par`` file
-   :widths: 20 15 65
+   :widths: 20 20 60
    :header: Key, Value(s), Description
 
+   ``boundaryIDMap``,"``<int-list>`` ``(1,2,3...)``",Maps the boundary types to their corresponding boundary IDs
    ``motion``, | ``(none)`` ``user`` ``elasticity``,"Mesh motion solver"
    ``viscosity``, ``(0.4)``, Diffusivity for elasticity solver
    ``numberOfBCFields``, ``(nfields)``, Number of field variables which have a boundary condition in ``.re2`` file

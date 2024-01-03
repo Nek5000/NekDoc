@@ -54,14 +54,27 @@ where :math:`\boldsymbol{\underline\tau}=\mu[\nabla \mathbf u+\nabla \mathbf u^{
 
     \nabla \cdot \mathbf u =0 \,\, , \text{in } \Omega_f, \quad \text{  (Continuity)  }   
 
-If the fluid viscosity is constant in the entire domain the viscous stress tensor can be contracted
-:math:`\nabla\cdot\boldsymbol{\underline\tau}=\mu\Delta \mathbf u`, therefore one may solve the Navier--Stokes equations
-in either the stress formulation, or no stress
+If the fluid viscosity is constant in the entire domain the viscous stress tensor can be contracted using the Laplace operator.
+Therefore one may solve the Navier--Stokes equations in either the full-stress formulation
 
-- Variable viscosity requires the full stress tensor :math:`\nabla \cdot \boldsymbol{\underline\tau}=\nabla \cdot
-  \mu[\nabla \mathbf u+\nabla \mathbf u^{T}]`, and we shall refer to this as the stress formulation
-- Constant viscosity leads to a simpler stress tensor :math:`\nabla \cdot \boldsymbol{\underline\tau}=\mu\Delta \mathbf u`,
-  which we refer to as the 'no stress' formulation
+.. _sec:fullstress:
+
+.. math::
+   :label: eq:fullstress
+
+   \nabla \cdot \boldsymbol{\underline\tau}=\nabla \cdot \mu[\nabla \mathbf u+\nabla \mathbf u^{T}]
+
+or the no-stress formulation
+
+.. _sec:nostress:
+
+.. math::
+   :label: eq:nostress
+
+   \nabla \cdot \boldsymbol{\underline\tau}=\mu\Delta \mathbf u
+
+- Variable viscosity and RANS models require the full stress tensor.
+- Constant viscosity leads to a simpler stress tensor, which we refer to as the 'no stress' formulation.
 
 .. _intro_ns_nondim:
 

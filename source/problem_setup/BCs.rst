@@ -4,31 +4,33 @@
 Boundary Conditions
 -------------------------------
 
-.. The boundary conditions for Nek5000 are stored as part of the mesh, i.e. either part of the ``.rea`` or ``.re2`` file.
-.. Any mesh generated with either *preNek* or ``genbox`` will include the assigned boundary conditions.
-.. These are available at runtime in the ``cbc(iface,iel,ifld)`` array, indexed by face number, local element number, and field number.
-.. For meshes converted from exodus format via the ``exo2nek`` script, the sideset numbers will be converted.
-.. These are available at runtime in the ``bc(5,iface,iel,1)`` array, indexed by face number and local element number.
-.. All sidesets will need to be translated into appropriate boundary conditions.
-.. It is recommended to do this in ``usrdat``.
-.. The available boundary conditions for velocity are listed in :numref:`tab:BCf`, and for temperature and passive scalars in :numref:`tab:BCt`.
-.. 
+For all boundaries, it is necessary to provide *Nek5000* with the boundary condition *type*, and for some types, the boundary condition *value*.
+Boundary condition values are assigned in the ``.usr`` file in the ``userbc`` subroutine (see :ref:`sec:userbc` for details).
+This section focuses on boundary condition types and how to assign them.
 
-The boundary conditions can be imposed in various ways:
+Assigning boundary condition types in *Nek5000* is handled differently depending on if you are using a third-party meshing tool such as *Gmsh*, *ICEM*, *Cubit*, etc. and importing the mesh with ``exo2nek``, ``gmsh2nek``, or ``cgns2nek``, or if you are using a Nek-native tool such as *preNek* or ``genbox`` (see :ref:`tools_genbox`).
+In either case, the boundary condition types are set by assigning the corresponding 3-character identifier code in the character boundary condition array, ``cbc``.
+The character boundary condition array itself is described :ref:`here <sec:probvars>` and the supported 3-character codes are described in the sections below for :ref:`momentum <sec:velbcs>` and :ref:`temperature and passive scalars <sec:tempbcs>`.
+The differences between Nek-native tools and third-party meshing tools are only in how this array gets set.
+For Nek-native tools, this array is read directly from the ``.rea`` or ``.re2`` file, which is set based on input provided to the tool itself.
+For third-party meshing tools, the boundary *ID* is set in the tool -- e.g. as a *sideset ID* in *ICEM* -- and this information is propagated to the ``.re2`` (mesh) file.
+The ``cbc`` array is later filled at runtime based on the boundary ID.
 
-- when the mesh is generated, e.g. with ``genbox``, as is explained in :ref:`tools_genbox`
-- when an ``.rea`` file is read in *preNek*
-- translated from side-set numbers in ``usrdat`` when using ``exotonek`` or similar. For an example see :ref:`here <sec:usrdat>`.
+The recommended method of setting the boundary condition type from the boundary ID is through the ``.par`` file.
+This is done through the ``boundaryTypeMap`` key, which is available for the ``VELOCITY``, ``TEMPERATURE``, and ``SCALARXX`` directives.
+By default, *Nek5000* assumes the boundary IDs are sequential and start from 1.
+If this is not the case, the optional ``boundaryIDMap`` key is available for the ``MESH`` directive.
+See :ref:`below <sec:settingbcs>` for a few simple examples, and :ref:`here <case_files_par>` for more information on the ``.par`` file.
 
-.. TODO: add exotonek tutorial
-
-The general convention for boundary conditions is
+The general convention for boundary conditions is:
 
 - uppercase letters correspond to primitive boundary conditions, as given in :numref:`tab:BCf`, :numref:`tab:BCt`
 - lowercase letters correspond to user defined boundary conditions, see :numref:`tab:uBCf` , :numref:`tab:userBCt`
 - lowercase letters ending with ``l``, i.e. ``'vl '``, are specified in face-local coordinates, i.e. normal, tangent and bitangent directions.
 
 Uppercase boundary conditions which require assigned values in the ``.rea`` file are considered legacy and are not recommended for use.
+
+.. _sec:velbcs:
 
 ..............
 Fluid Velocity
@@ -39,71 +41,52 @@ For segments that constitute the boundary :math:`\partial \Omega_f`, see :numref
 The fluid boundary condition can be *all Dirichlet* if all velocity components of :math:`{\bf u}` are specified, or it can be *all Neumann* if all traction components (:math:`\boldsymbol{\underline \tau} = [-P {\bf \underline I} + \mu (\nabla {\bf u} + (\nabla {\bf u})^{T})] \cdot {\bf \hat e_n}`) are specified. 
 Where :math:`{\bf \underline I}` is the identity tensor, :math:`{\bf \hat e_n}` is the unit normal and :math:`\mu` is the dynamic viscosity, are specified.
 It can also be *mixed Dirichlet/Neumann* if Dirichlet and Neumann conditions are selected for different velocity components.
-If the no stress formulation is selected, then traction is not defined on the boundary.
-In this case, any Neumann boundary condition imposed must be homogeneous, i.e. equal to zero.
-.. In addition, mixed Dirichlet/Neumann boundaries must be aligned with one of the Cartesian axes.
-For flow geometry which consists of a periodic repetition of a particular geometric unit, the periodic boundary conditions can be imposed, as illustrated in :numref:`fig-walls` .
+If the :ref:`no-stress formulation <sec:nostress>` is selected, then traction is not defined on the boundary.
+In this case, any Neumann boundary condition imposed must be homogeneous, i.e. equal to zero, and mixed Dirichlet/Neumann boundaries must be aligned with one of the Cartesian axes.
+These conditions are not required for the :ref:`full-stress formulation <sec:fullstress>`.
+For flow geometry which consists of a periodic repetition of a particular geometric unit, periodic boundary conditions can be imposed, as illustrated in :numref:`fig-walls` .
 The available primitive boundary conditions for the fluid are given in :numref:`tab:BCf` , with the user-specified boundary conditions in :numref:`tab:uBCf` .
 
 .. _tab:BCf:
 
-.. table:: Primitive boundary conditions for velocity
+.. csv-table:: Primitive boundary conditions for velocity
+   :header: Identifier,Description,Type,Note
+   :widths: 5,15,10,70
 
-   +------------+----------------------------+--------------+---------------------------------------------------+
-   | Identifier | Description                | Type         | Note                                              |
-   +============+============================+==============+===================================================+
-   | P          | Periodic                   | --           | Standard periodic boundary condition              |
-   +------------+----------------------------+--------------+---------------------------------------------------+
-   | p          | Periodic                   | --           | For periodicity within a single element           |
-   +------------+----------------------------+--------------+---------------------------------------------------+
-   | O          | Outflow                    | Neumann      | Open boundary condition, zero pressure            |
-   +------------+----------------------------+--------------+---------------------------------------------------+
-   | ON         | Outflow, Normal            | Mixed        | Zero velocity in non-normal directions            |
-   +------------+----------------------------+--------------+---------------------------------------------------+
-   | W          | Wall                       | Dirichlet    | No slip, :math:`{ \bf{u} = 0}`                    | 
-   +------------+----------------------------+--------------+---------------------------------------------------+
-   | SYM        | Symmetry                   | Mixed        |                                                   | 
-   +------------+----------------------------+--------------+---------------------------------------------------+
-   | A          | Axisymmetric boundary      | --           |                                                   |
-   +------------+----------------------------+--------------+---------------------------------------------------+
-   | E          | Interior boundary          | --           |                                                   |
-   +------------+----------------------------+--------------+---------------------------------------------------+
+   ``P`` , "Periodic", --, "Standard periodic boundary condition"
+   ``p`` , "Periodic", --, "For periodicity within a single element"
+   ``O`` , "Outflow", Neumann, "Open boundary condition, zero pressure"
+   ``ON`` , "Outflow, Normal", Mixed, "Zero velocity in non-normal directions"
+   ``W`` , "Wall", Dirichlet, "No slip, :math:`{ \bf{u} = 0}`" 
+   ``SYM`` , "Symmetry", Mixed, "Zero velocity in normal direction" 
+   ``A`` , "Axisymmetric boundary", --, "Can only be used on face 1"
+   ``E`` , "Interior boundary", --, "--"
+
+.. Note::
+
+   To use periodic boundary conditions, ``P``, in third-party meshes the face meshes must be conformal and must have a corresponding pair of boundary ID values which need to be provided during conversion, i.e. to ``exo2nek``, ``gmsh2nek``, or ``cgns2nek``. 
+   Additionally, the mesh must be at least 3 elements thick in the direction normal to the periodic boundaries.
    
 .. _tab:uBCf:
 
-.. table:: User defined boundary conditions for velocity
+.. csv-table:: User defined boundary conditions for velocity
+   :header: Identifier,Description,Type,Note
+   :widths: 5,30,10,55
 
-   +------------+-----------------------------+--------------+----------------------------------------------------------------------+
-   | Identifier | Description                 | Type         | Note                                                                 |
-   +============+=============================+==============+======================================================================+
-   | v          | Velocity                    | Dirichlet    | Standard velocity boundary condition                                 |
-   +------------+-----------------------------+--------------+----------------------------------------------------------------------+
-   | vl         | Velocity, local             | Dirichlet    | Face-local coordinates (normal, tangnent, bitangent)                 |
-   +------------+-----------------------------+--------------+----------------------------------------------------------------------+
-   | o          | Outflow                     | Neumann      | Open boundary condition, specified pressure                          |
-   +------------+-----------------------------+--------------+----------------------------------------------------------------------+
-   | on         | Outflow, Normal             | Mixed        | Zero velocity in non-normal directions                               |
-   +------------+-----------------------------+--------------+----------------------------------------------------------------------+
-   | s          | Traction                    | Neumann      | Specified traction in all directions                                 |
-   +------------+-----------------------------+--------------+----------------------------------------------------------------------+
-   | sl         | Traction, local             | Neumann      | Face-local coordinates (normal, tangent, bitangent)                  | 
-   +------------+-----------------------------+--------------+----------------------------------------------------------------------+
-   | sh         | Traction, horizontal        | Mixed        | Specified traction with zero normal velocity                         |
-   +------------+-----------------------------+--------------+----------------------------------------------------------------------+
-   | shl        | Traction, horizontal, local | Mixed        | Zero normal velocity, traction in tangent and bitangent              |
-   +------------+-----------------------------+--------------+----------------------------------------------------------------------+
-   | int        | Interpolated (NEKNEK)       | Dirichlet    | Interpolated from the adjacent overset mesh, see: :ref:`neknek`      |
-   +------------+-----------------------------+--------------+----------------------------------------------------------------------+
-   | mm         | Moving mesh                 | --           |                                                                      | 
-   +------------+-----------------------------+--------------+----------------------------------------------------------------------+
-   | ms         | Moving surface              | --           |                                                                      |
-   +------------+-----------------------------+--------------+----------------------------------------------------------------------+
-   | msi        | Moving internal surface     | --           |                                                                      |
-   +------------+-----------------------------+--------------+----------------------------------------------------------------------+   
-   | mv         | Moving boundary             | Dirichlet    |                                                                      |
-   +------------+-----------------------------+--------------+----------------------------------------------------------------------+
-   | mvn        | Moving boundary, normal     | Dirichlet    | Zero velocity in non-normal directions                               |
-   +------------+-----------------------------+--------------+----------------------------------------------------------------------+ 
+   ``v``  , "Velocity",                    Dirichlet, "Standard velocity boundary condition"
+   ``vl`` , "Velocity, local",             Dirichlet, "Face-local coordinates (normal, tangnent, bitangent)"
+   ``o``  , "Outflow",                     Neumann,   "Open boundary condition, specified pressure"
+   ``on`` , "Outflow,  normal",            Mixed,     "Zero velocity in non-normal directions"
+   ``s``  , "Traction",                    Neumann,   "Specified traction in all directions"
+   ``sl`` , "Traction, local",             Neumann,   "Face-local coordinates (normal, tangent, bitangent)"
+   ``sh`` , "Traction, horizontal",        Mixed,     "Specified traction with zero normal velocity"
+   ``shl``, "Traction, horizontal, local", Mixed,     "Zero normal velocity, traction in tangent and bitangent, "
+   ``int``, "Interpolated (NEKNEK)",       Dirichlet, "Interpolated from the adjacent overset mesh, see: :ref:`neknek`"
+   ``mm`` , "Moving mesh",                 --,        "--"
+   ``ms`` , "Moving surface",              --,        "--"
+   ``msi``, "Moving internal surface",     --,        "--"
+   ``mv`` , "Moving boundary",             Dirichlet, "--"
+   ``mvn``, "Moving boundary, normal",     Dirichlet, "Zero velocity in non-normal directions"
 
 ..  | ms         | Moving surface              | --           |                                                         |
     +------------+-----------------------------+--------------+---------------------------------------------------------+
@@ -135,16 +118,19 @@ We identify two situations
 
 where :math:`{\bf \hat e_n}` is the unit normal vector, :math:`{\bf \hat e_t}` the unit tangent vector and :math:`{\bf \hat e_b}` is the unit bitangent vector.
 If the normal, tangent, and bitangent vectors are not aligned with the mesh the stress formulation has to be used.
-- the periodic boundary condition ("P") needs to be prescribed in the ``.rea`` or ``.re2`` file since it already assigns the last point to first via :math:`{\bf u}({\bf x})={\bf u}({\bf x} + L)`, where :math:`L` is the periodic length.
-- the wall boundary condition ("W") corresponds to :math:`{\bf u}=0`.
 
-For a fully-developed flow in such a configuration, one can effect great computational efficiencies by considering the problem in a single geometric unit (here taken to be of length :math:`L`), and requiring periodicity of the field variables.
-Nek5000 requires that the pairs of sides (or faces, in the case of a three-dimensional mesh) identified as periodic be identical (i.e., that the geometry be periodic).
+The periodic boundary condition ("P") needs to be prescribed in the ``.rea`` or ``.re2`` file since it already assigns the last point to first via :math:`{\bf u}({\bf x})={\bf u}({\bf x} + L)`, where :math:`L` is the periodic length. 
+For a fully-developed flow in such a configuration, one can effect great computational efficiencies by considering the problem in a single geometric unit (here taken to be of length :math:`L`), and requiring periodicity of the field variables. 
+*Nek5000* requires that the pairs of sides (or faces, in the case of a three-dimensional mesh) identified as periodic be identical (i.e., that the geometry be periodic).
 
-For an axisymmetric flow geometry, the axis boundary condition is provided for boundary segments that lie entirely on the axis of symmetry.
-This is essentially a symmetry (mixed Dirichlet/Neumann) boundary condition in which the normal velocity and the tangential traction are set to zero.
+The wall boundary condition ("W") corresponds to :math:`{\bf u}=0`.
+
+For an axisymmetric flow geometry, the axis boundary condition ("A") is provided for boundary segments that lie entirely on the axis of symmetry. This is essentially a symmetry (mixed Dirichlet/Neumann) boundary condition in which the normal velocity and the tangential traction are set to zero.
+This requires a 2D mesh where the x-axis is the axis of rotation.
 
 For free-surface boundary segments, the inhomogeneous traction boundary conditions involve both the surface tension coefficient :math:`\sigma` and the mean curvature of the free surface.
+
+.. _sec:tempbcs:
 
 ...............................
 Temperature and Passive Scalars
@@ -299,4 +285,48 @@ throughout the solution.
 In addition, the volumetric latent heat of fusion :math:`\rho L`
 for the two phases,
 which is also assumed to be constant, should be specified.
+
+.. _sec:settingbcs:
+
+..........................................................
+Setting Boundary Conditions for Imported Meshes
+..........................................................
+
+In this section, we show a few examples of how to set boundary conditions using the ``.par`` file for a mesh with boundary IDs assigned in a third-party meshing software.
+
+In the simplest example, the mesh has 4 boundaries each with a sequentially numbered boundary ID.
+
+.. csv-table:: Desired Boundary Types
+   :header: Boundary ID, Velocity, Temperature
+
+   1,``v``,``t``
+   2,``O``,``I``
+   3,``W``,``f``
+   4,``SYM``,``I``
+
+Setting these boundary types requires only the ``boundaryTypeMap`` keys in the ``VELOCITY`` and ``TEMPERATURE`` directives:
+
+.. code-block:: ini
+
+   [VELOCITY]
+   boundaryTypeMap = v  ,O  ,W  ,SYM
+
+   [TEMPERATURE]
+   boundaryTypeMap = t  ,I  ,f  ,I  
+
+When the ``boundaryIDMap`` key is omitted, *Nek5000* assumes the boundary IDs in your mesh start with 1 and are numbered sequentially.
+If for any reason your boundary IDs are not sequential or do not start with 1, the same can be accomplished with:
+
+.. code-block:: ini
+
+   [MESH]
+   boundaryIDMap = 3, 4, 1, 2
+
+   [VELOCITY]
+   boundaryTypeMap = W  ,SYM,v  ,O  
+
+   [TEMPERATURE]
+   boundaryTypeMap = f  ,I  ,t  ,I
+
+When using the ``boundaryIDMap`` key, *Nek5000* makes no assumptions regarding the boundary ID values.
 
