@@ -247,6 +247,7 @@ The available values that can be set for velocity are listed in :numref:`tab:vel
    ``ux``,x-velocity,":math:`\mathbf u\cdot\mathbf{\hat e_x}`",``v``
    ``uy``,y-velocity,":math:`\mathbf u\cdot\mathbf{\hat e_y}`",``v``
    ``uz``,z-velocity,":math:`\mathbf u\cdot\mathbf{\hat e_z}`",``v``
+   ``pa``,pressure,":math:`p`","``o``, ``on``"
    ``un``,velocity normal to the boundary face,":math:`\mathbf u\cdot\mathbf {\hat e_n}`",``vl``   
    ``u1``,velocity tangent* to the boundary face,":math:`\mathbf u\cdot\mathbf {\hat e_t}`",``vl``   
    ``u2``,velocity bitangent* to boundary face,":math:`\mathbf u\cdot\mathbf {\hat e_b}`",``vl``   

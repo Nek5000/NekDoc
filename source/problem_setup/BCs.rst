@@ -15,67 +15,206 @@ It is declared in a common block in ``Nek5000/core/INPUT`` as ``cbc(6,lelt,0:ldi
 Each boundary condition type has a corresponding *character identifier code* which tells *Nek5000* how to treat the boundary on each element.
 The ``cbc`` array is set at runtime either from information carried directly in the mesh file (``.rea``/``.re2``), from information provided in the ``.par`` file, or (for advanced users) directly in ``usrdat`` or ``usrdat2``.
 
+The general conventions for boundary conditions identifiers are:
+
+- uppercase letters correspond to boundary conditions which do not require any additional user input.
+- lowercase letters correspond to user defined boundary conditions which require values to be set in the :ref:`user file <sec:userbc>`.
+- lowercase letters ending with ``l``, e.g. ``vl``, are specified in face-local coordinates, i.e. normal, tangent and bitangent directions.
+
+The available boundary condition types, along with the identifier codes, are described in the following sections for the fluid velocity and pressure, and the temperature and passive scalars.
+
 .. _sec:velbcs:
 
-..............
-Fluid Velocity
-..............
+...........................
+Fluid Velocity and Pressure
+...........................
 
 Two kinds of boundary conditions are applicable to the fluid velocity: essential (Dirichlet) boundary conditions in which the velocity is specified, and natural (Neumann) boundary conditions in which the traction is specified.
 For segments that constitute the boundary :math:`\partial \Omega_f`, see :numref:`fig-walls`, one of these two types of boundary conditions must be assigned to each component of the fluid velocity.
 
-The fluid boundary condition can be *all Dirichlet* if all velocity components of :math:`{\bf u}` are specified, or it can be *all Neumann* if all traction components (:math:`\boldsymbol{\underline \tau} = [-P {\bf \underline I} + \mu (\nabla {\bf u} + (\nabla {\bf u})^{T})] \cdot {\bf \hat e_n}`) are specified. 
-Where :math:`{\bf \underline I}` is the identity tensor, :math:`{\bf \hat e_n}` is the unit normal and :math:`\mu` is the dynamic viscosity.
+The fluid boundary condition can be *all Dirichlet* if all velocity components of :math:`{\bf u}` are specified, or it can be *all Neumann* if all three traction components (:math:`\boldsymbol{\tau} = [\mu (\nabla {\bf u} + (\nabla {\bf u})^{T})] \cdot {\bf \hat e_n}`) are specified on the boundary face. 
+Where :math:`{\bf \hat e_n}` is the unit vector normal to the boundary face and :math:`\mu` is the local dynamic viscosity.
 It can also be *mixed Dirichlet/Neumann* if Dirichlet and Neumann conditions are selected for different velocity components.
 If the :ref:`no-stress formulation <sec:nostress>` is selected, then traction is not defined on the boundary.
 In this case, any Neumann boundary condition imposed must be homogeneous, i.e. equal to zero, and mixed Dirichlet/Neumann boundaries must be aligned with one of the Cartesian axes.
 These conditions are not required for the :ref:`full-stress formulation <sec:fullstress>`.
-For flow geometries which consist of a periodic repetition of a particular geometric unit, periodic boundary conditions can be imposed, as illustrated in :numref:`fig-walls` .
+.. For flow geometries which consist of a periodic repetition of a particular geometric unit, periodic boundary conditions can be imposed, as illustrated in :numref:`fig-walls` .
 
-The available primitive boundary conditions for the fluid are given in :numref:`tab:BCf` , with the user-specified boundary conditions in :numref:`tab:uBCf` .
 
-The general convention for boundary conditions is:
+  
+Inlet (Dirichlet), ``v``
+````````````````````````
 
-- uppercase letters correspond to primitive boundary conditions, as given in :numref:`tab:BCf`, :numref:`tab:BCt`
-- lowercase letters correspond to user defined boundary conditions, see :numref:`tab:uBCf` , :numref:`tab:userBCt`
-- lowercase letters ending with ``l``, i.e. ``'vl '``, are specified in face-local coordinates, i.e. normal, tangent and bitangent directions.
+Standard Dirichlet boundary condition for velocity.
 
-Uppercase boundary conditions which require assigned values in the ``.rea`` file are considered legacy and are not recommended for use.
+ .. math::
+
+     \nabla p \cdot {\bf \hat e_n} &= 0\\
+     {\bf u} \cdot {\bf \hat e_x} &= u_x\\
+     {\bf u} \cdot {\bf \hat e_y} &= u_y\\
+     {\bf u} \cdot {\bf \hat e_z} &= u_z
+    
+Where, :math:`{\bf \hat e_x}`, :math:`{\bf \hat e_y}`, and :math:`{\bf \hat e_z}` are unit vectors aligned with the Cartesian axes and :math:`u_x`, :math:`u_y`, and :math:`u_z` are set in the :ref:`user file <sec:userbc>`.
+
+Inlet (Dirichlet) - local ``vl``
+````````````````````````````````
+
+Standard Dirichlet boundary condition for velocity in local coordinates.
+
+ .. math::
+
+     \nabla p \cdot {\bf \hat e_n} &= 0\\
+     {\bf u} \cdot {\bf \hat e_n} &= u_n\\
+     {\bf u} \cdot {\bf \hat e_t} &= u_1\\
+     {\bf u} \cdot {\bf \hat e_b} &= u_2
+    
+Where, :math:`{\bf \hat e_n}`, :math:`{\bf \hat e_t}`, and :math:`{\bf \hat e_b}` are the normal, tangent, and bitangent unit vectors on the boundary face and :math:`u_n`, :math:`u_1`, and :math:`u_2` are set in the :ref:`user file <sec:userbc>`.
+
+
+Outlet, ``O``
+`````````````
+
+The open (outflow) boundary condition arises as a natural boundary condition from the variational formulation of Navier Stokes. 
+
+  .. math::
+
+     p &= 0\\
+     \mu(\nabla {\bf u}+\nabla {\bf u}^T)\cdot {\bf \hat e_n} &= 0
+
+Where :math:`{\bf \hat e_n}` is the unit vector normal to the boundary face.
+The ``userbc`` subroutine is not called for this face.
+
+Pressure Outlet, ``o``
+``````````````````````
+
+Similar to a standard outlet, but with a specified pressure.
+
+  .. math::
+
+     p &= p_a\\
+     \mu(\nabla {\bf u}+\nabla {\bf u}^T)\cdot {\bf \hat e_n} &= 0
+
+Where :math:`{\bf \hat e_n}` is the unit vector normal to the boundary face and :math:`p_a` is set in the :ref:`user file <sec:userbc>`.
+The ``userbc`` subroutine is not called for this face.
+
+Outlet - Normal, ``ON``
+```````````````````````
+
+Open boundary with zero velocity in the tangent and bitangent directions.
+
+  .. math::
+     p &= 0\\
+     \mu(\nabla {\bf u}+\nabla {\bf u}^T) \cdot {\bf \hat e_n} \cdot {\bf \hat e_n} &= 0\\
+     {\bf u} \cdot {\bf \hat e_t} &= 0\\
+     {\bf u} \cdot {\bf \hat e_b} &= 0
+
+Where, :math:`{\bf \hat e_n}`, :math:`{\bf \hat e_t}`, and :math:`{\bf \hat e_b}` are the normal, tangent, and bitangent unit vectors on the boundary face.
+If the normal, tangent, and bitangent vectors are not aligned with the principal Cartesian axes, the :ref:`full-stress formulation <sec:fullstress>` must be used.
+The ``userbc`` subroutine is not called for this face.
+
+Pressure Outlet - normal, ``on``
+````````````````````````````````
+
+Similar to an outlet - normal boundary, but with a specified pressure.
+
+  .. math::
+
+     p &= p_a\\
+     \mu(\nabla {\bf u}+\nabla {\bf u}^T) \cdot {\bf \hat e_n} \cdot {\bf \hat e_n} &= 0\\
+     {\bf u} \cdot {\bf \hat e_t} &= 0\\
+     {\bf u} \cdot {\bf \hat e_b} &= 0
+
+Where, :math:`{\bf \hat e_n}`, :math:`{\bf \hat e_t}`, and :math:`{\bf \hat e_b}` are the normal, tangent, and bitangent unit vectors on the boundary face, and :math:`p_a` is set in the :ref:`user file <sec:userbc>`.
+If the normal, tangent, and bitangent vectors are not aligned with the principal Cartesian axes, the :ref:`full-stress formulation <sec:fullstress>` must be used.
+
+Symmetry, ``SYM``
+`````````````````
+
+Symmetric face or a slip wall.
+
+  .. math::
+
+     \nabla p \cdot {\bf \hat e_n} &= 0\\
+     {\bf u} \cdot {\bf \hat e_n} &= 0\\
+     \mu\left(\nabla {\bf u} + \nabla {\bf u}^T\right) \cdot {\bf \hat e_n}\cdot {\bf \hat e_t} &= 0\\
+     \mu\left(\nabla {\bf u} + \nabla {\bf u}^T\right) \cdot {\bf \hat e_n}\cdot {\bf \hat e_b} &= 0
+
+Where, :math:`{\bf \hat e_n}`, :math:`{\bf \hat e_t}`, and :math:`{\bf \hat e_b}` are the normal, tangent, and bitangent unit vectors on the boundary face.
+If the normal, tangent, and bitangent vectors are not aligned with the principal Cartesian axes, the :ref:`full-stress formulation <sec:fullstress>` must be used.
+The ``userbc`` subroutine is not called for this face.
+
+Traction, ``s``
+```````````````
+
+Full Neumann boundary conditions for velocity.
+
+  .. math::
+
+     p &= 0\\
+     \mu\left(\nabla {\bf u} + \nabla {\bf u}^T\right) \cdot {\bf \hat e_n}\cdot {\bf \hat e_x} &= tr_x\\
+     \mu\left(\nabla {\bf u} + \nabla {\bf u}^T\right) \cdot {\bf \hat e_n}\cdot {\bf \hat e_y} &= tr_y\\
+     \mu\left(\nabla {\bf u} + \nabla {\bf u}^T\right) \cdot {\bf \hat e_n}\cdot {\bf \hat e_z} &= tr_z
+
+Where, :math:`{\bf \hat e_n}` is the unit vector normal to the boundary face, :math:`{\bf \hat e_x}`, :math:`{\bf \hat e_y}`, and :math:`{\bf \hat e_z}` are unit vectors aligned with the Cartesian axes and :math:`tr_x`, :math:`tr_y`, and :math:`tr_z` are set in the :ref:`user file <sec:userbc>`.
+If the normal, tangent, and bitangent vectors are not aligned with the principal Cartesian axes, the :ref:`full-stress formulation <sec:fullstress>` must be used.
+
+Traction - local, ``sl``
+````````````````````````
+
+Similar to traction, but in local coordinates.
+
+  .. math::
+
+     p &= 0\\
+     \mu\left(\nabla {\bf u} + \nabla {\bf u}^T\right) \cdot {\bf \hat e_n}\cdot {\bf \hat e_n} &= tr_n\\
+     \mu\left(\nabla {\bf u} + \nabla {\bf u}^T\right) \cdot {\bf \hat e_n}\cdot {\bf \hat e_t} &= tr_1\\
+     \mu\left(\nabla {\bf u} + \nabla {\bf u}^T\right) \cdot {\bf \hat e_n}\cdot {\bf \hat e_b} &= tr_2
+
+Where, :math:`{\bf \hat e_n}`, :math:`{\bf \hat e_t}`, and :math:`{\bf \hat e_b}` are the normal, tangent, and bitangent unit vectors on the boundary face, and :math:`tr_n`, :math:`tr_1`, and :math:`tr_2` are set in the :ref:`user file <sec:userbc>`.
+If the normal, tangent, and bitangent vectors are not aligned with the principal Cartesian axes, the :ref:`full-stress formulation <sec:fullstress>` must be used.
+
+Traction - horizontal, local, ``shl``
+`````````````````````````````````````
+
+Similar to symmetry, but with specified non-zero traction in the tangent and bitangent directions.
+
+  .. math::
+
+     \nabla p \cdot {\bf \hat e_n} &= 0\\
+     {\bf u} \cdot {\bf \hat e_n} &= 0\\
+     \mu\left(\nabla {\bf u} + \nabla {\bf u}^T\right) \cdot {\bf \hat e_n}\cdot {\bf \hat e_t} &= tr_1\\
+     \mu\left(\nabla {\bf u} + \nabla {\bf u}^T\right) \cdot {\bf \hat e_n}\cdot {\bf \hat e_b} &= tr_2
+
+Where, :math:`{\bf \hat e_n}`, :math:`{\bf \hat e_t}`, and :math:`{\bf \hat e_b}` are the normal, tangent, and bitangent unit vectors on the boundary face, and :math:`tr_1` and :math:`tr_2` are set in the :ref:`user file <sec:userbc>`.
+If the normal, tangent, and bitangent vectors are not aligned with the principal Cartesian axes, the :ref:`full-stress formulation <sec:fullstress>` must be used.
+
+Wall, ``W``
+```````````
+
+Dirichlet boundary condition corresponding to a no-slip wall.
+
+  .. math::
+
+     \nabla p \cdot {\bf \hat e_n} &= 0\\
+     {\bf u} &= 0
+
+The ``userbc`` subroutine is not called for this face.
+  
+Other BCs
+`````````
 
 .. _tab:BCf:
 
 .. csv-table:: Primitive boundary conditions for velocity
    :header: Identifier,Description,Type,Note
-   :widths: 5,15,10,70
+   :widths: 5,30,10,55
 
    ``P`` , "Periodic", --, "Standard periodic boundary condition"
    ``p`` , "Periodic", --, "For periodicity within a single element"
-   ``O`` , "Outflow", Neumann, "Open boundary condition, zero pressure"
-   ``ON`` , "Outflow, Normal", Mixed, "Zero velocity in non-normal directions"
-   ``W`` , "Wall", Dirichlet, "No slip, :math:`{ \bf{u} = 0}`" 
-   ``SYM`` , "Symmetry", Mixed, "Zero velocity in normal direction" 
    ``A`` , "Axisymmetric boundary", --, "Can only be used on face 1, treated as ``SYM``"
    ``E`` , "Interior boundary", --, "--"
-
-.. Note::
-
-   To use periodic boundary conditions, ``P``, in third-party meshes the face meshes must be conformal and must have a corresponding pair of boundary ID values which need to be provided during conversion, i.e. to ``exo2nek``, ``gmsh2nek``, or ``cgns2nek``. 
-   Additionally, the mesh must be at least 3 elements thick in the direction normal to the periodic boundaries.
-   
-.. _tab:uBCf:
-
-.. csv-table:: User defined boundary conditions for velocity
-   :header: Identifier,Description,Type,Note
-   :widths: 5,30,10,55
-
-   ``v``  , "Velocity",                    Dirichlet, "Standard velocity boundary condition"
-   ``vl`` , "Velocity, local",             Dirichlet, "Face-local coordinates (normal, tangnent, bitangent)"
-   ``o``  , "Outflow",                     Neumann,   "Open boundary condition, specified pressure"
-   ``on`` , "Outflow,  normal",            Mixed,     "Zero velocity in non-normal directions"
-   ``s``  , "Traction",                    Neumann,   "Specified traction in all directions"
-   ``sl`` , "Traction, local",             Neumann,   "Face-local coordinates (normal, tangent, bitangent)"
+   ``'   '`` , "Empty", --, "Treated as an interior boundary"
    ``sh`` , "Traction, horizontal",        Mixed,     "Specified traction with zero normal velocity"
-   ``shl``, "Traction, horizontal, local", Mixed,     "Zero normal velocity, traction in tangent and bitangent, "
    ``int``, "Interpolated (NEKNEK)",       Dirichlet, "Interpolated from the adjacent overset mesh, see: :ref:`neknek`"
    ``mm`` , "Moving mesh",                 --,        "--"
    ``ms`` , "Moving surface",              --,        "--"
@@ -83,54 +222,16 @@ Uppercase boundary conditions which require assigned values in the ``.rea`` file
    ``mv`` , "Moving boundary",             Dirichlet, "--"
    ``mvn``, "Moving boundary, normal",     Dirichlet, "Zero velocity in non-normal directions"
 
-..  | ms         | Moving surface              | --           |                                                         |
-    +------------+-----------------------------+--------------+---------------------------------------------------------+
-    | msi        | Moving internal surface     | --           |                                                         |
-    +------------+-----------------------------+--------------+---------------------------------------------------------+    
+.. Note::
 
-The open(outflow) boundary condition ("O") arises as a natural boundary condition from the variational formulation of Navier Stokes. 
-We identify two situations
-
-- In the non-stress formulation, open boundary condition ('Do nothing')
-
-  .. math::
-
-     [-p{\bf I} + \nu(\nabla {\bf u})]\cdot {\bf \hat e_n}=0
-
-- In the stress formulation, free traction boundary condition
-
-  .. math::
-
-     [-p{\bf I} + \nu(\nabla {\bf u}+\nabla {\bf u}^T)]\cdot {\bf \hat e_n}=0
-
-where :math:`{\bf \hat e_n}` is the unit surface normal vector.
-
-The symmetric boundary condition ("SYM") is given as
-
-  .. math::
-
-     {\bf u} \cdot {\bf \hat e_n} &= 0,\\
-     (\nabla {\bf u} \cdot {\bf \hat e_t})\cdot {\bf \hat e_n} &= 0,\\
-     (\nabla {\bf u} \cdot {\bf \hat e_b})\cdot {\bf \hat e_n} &= 0
-
-or with full-stress
-
-  .. math::
-
-     {\bf u} \cdot {\bf \hat e_n} &= 0,\\
-     \left[\left(\nabla {\bf u} + \nabla {\bf u}^T\right) \cdot {\bf \hat e_t}\right]\cdot {\bf \hat e_n} &= 0,\\
-     \left[\left(\nabla {\bf u} + \nabla {\bf u}^T\right) \cdot {\bf \hat e_b}\right]\cdot {\bf \hat e_n} &= 0
-
-where :math:`{\bf \hat e_t}` the unit tangent vector and :math:`{\bf \hat e_b}` is the unit bitangent vector.
-If the normal, tangent, and bitangent vectors are not aligned with the principal Cartesian axes, the full-stress formulation has to be used.
-
-The periodic boundary condition ("P") needs to be prescribed in the ``.rea`` or ``.re2`` file since it already assigns the last point to first via :math:`{\bf u}({\bf x})={\bf u}({\bf x} + L)`, where :math:`L` is the periodic length. 
+   To use periodic boundary conditions, ``P``, in third-party meshes the face meshes must be conformal and must have a corresponding pair of boundary ID values which need to be provided during conversion, i.e. to ``exo2nek``, ``gmsh2nek``, or ``cgns2nek``. 
+   Additionally, the mesh must be at least 3 elements thick in the direction normal to the periodic boundaries.
+ 
+The periodic boundary condition (``P``) needs to be prescribed in the ``.rea`` or ``.re2`` file since it already assigns the last point to first via :math:`{\bf u}({\bf x})={\bf u}({\bf x} + L)`, where :math:`L` is the periodic length. 
 For a fully-developed flow in such a configuration, one can effect great computational efficiencies by considering the problem in a single geometric unit (here taken to be of length :math:`L`), and requiring periodicity of the field variables. 
 *Nek5000* requires that the pairs of sides (or faces, in the case of a three-dimensional mesh) identified as periodic be identical (i.e., that the geometry be periodic).
 
-The wall boundary condition ("W") corresponds to :math:`{\bf u}=0`.
-
-For an axisymmetric flow geometry, the axis boundary condition ("A") is provided for boundary segments that lie entirely on the axis of symmetry. This is essentially a symmetry (mixed Dirichlet/Neumann) boundary condition in which the normal velocity and the tangential traction are set to zero.
+For an axisymmetric flow geometry, the axis boundary condition (``A``) is provided for boundary segments that lie entirely on the axis of symmetry. This is essentially a symmetry (mixed Dirichlet/Neumann) boundary condition in which the normal velocity and the tangential traction are set to zero.
 This requires a 2D mesh where the x-axis is the axis of rotation.
 
 For free-surface boundary segments, the inhomogeneous traction boundary conditions involve both the surface tension coefficient :math:`\sigma` and the mean curvature of the free surface.
