@@ -30,4 +30,4 @@ gh-pages:
 	rm -rf source/ Makefile build/
 	touch .nojekyll
 	git add -A
-	git commit -m "Generated gh-pages for `git log -1 --pretty=short --abbrev-commit $(BRANCH) --`" && git push origin gh-pages
+	git commit -m "Generated gh-pages for `git log -1 --pretty=short --abbrev-commit $(BRANCH) --`" && git push --force origin gh-pages
