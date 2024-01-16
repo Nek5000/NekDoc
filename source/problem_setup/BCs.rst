@@ -94,7 +94,7 @@ The open (outflow) boundary condition arises as a natural boundary condition fro
      \boldsymbol{\underline \tau} \cdot {\bf \hat e_n} &= 0
 
 Where :math:`{\bf \hat e_n}` is the unit vector normal to the boundary face.
-The ``userbc`` subroutine is not called for this face.
+The ``userbc`` subroutine is not called for this boundary condition type.
 
 Pressure Outlet, ``o``
 ``````````````````````
@@ -107,7 +107,7 @@ Similar to a standard outlet, but with a specified pressure.
      \boldsymbol{\underline \tau} \cdot {\bf \hat e_n} &= 0
 
 Where :math:`{\bf \hat e_n}` is the unit vector normal to the boundary face and :math:`p_a` is set in the :ref:`user file <sec:userbc>`.
-The ``userbc`` subroutine is not called for this face.
+The ``userbc`` subroutine is not called for this boundary condition type.
 
 Outlet - Normal, ``ON``
 ```````````````````````
@@ -122,7 +122,7 @@ Open boundary with zero velocity in the tangent and bitangent directions.
 
 Where, :math:`{\bf \hat e_n}`, :math:`{\bf \hat e_t}`, and :math:`{\bf \hat e_b}` are the normal, tangent, and bitangent unit vectors on the boundary face.
 If the normal, tangent, and bitangent vectors are not aligned with the principal Cartesian axes, the :ref:`full-stress formulation <sec:fullstress>` must be used.
-The ``userbc`` subroutine is not called for this face.
+The ``userbc`` subroutine is not called for this boundary condition type.
 
 Pressure Outlet - normal, ``on``
 ````````````````````````````````
@@ -153,7 +153,7 @@ Symmetric face or a slip wall.
 
 Where, :math:`{\bf \hat e_n}`, :math:`{\bf \hat e_t}`, and :math:`{\bf \hat e_b}` are the normal, tangent, and bitangent unit vectors on the boundary face.
 If the normal, tangent, and bitangent vectors are not aligned with the principal Cartesian axes, the :ref:`full-stress formulation <sec:fullstress>` must be used.
-The ``userbc`` subroutine is not called for this face.
+The ``userbc`` subroutine is not called for this boundary condition type.
 
 Traction, ``s``
 ```````````````
@@ -210,7 +210,7 @@ Dirichlet boundary condition corresponding to a no-slip wall.
      \nabla p \cdot {\bf \hat e_n} &= 0\\
      {\bf u} &= 0
 
-The ``userbc`` subroutine is not called for this face.
+The ``userbc`` subroutine is not called for this boundary condition type.
   
 Other BCs
 `````````
