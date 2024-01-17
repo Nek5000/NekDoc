@@ -61,12 +61,12 @@ Standard Dirichlet boundary condition for velocity.
 
  .. math::
 
-     \nabla p \cdot {\bf \hat e_n} &= 0\\
+     \nabla p \cdot {\bf \hat e_n} &= \mu\left(\nabla\times\boldsymbol{\omega}\right) \cdot {\bf \hat e_n}\\
      {\bf u} \cdot {\bf \hat e_x} &= u_x\\
      {\bf u} \cdot {\bf \hat e_y} &= u_y\\
      {\bf u} \cdot {\bf \hat e_z} &= u_z
     
-Where, :math:`{\bf \hat e_x}`, :math:`{\bf \hat e_y}`, and :math:`{\bf \hat e_z}` are unit vectors aligned with the Cartesian axes and :math:`u_x`, :math:`u_y`, and :math:`u_z` are set in the :ref:`user file <sec:userbc>`.
+Where, :math:`{\bf \hat e_n}` is the unit vector normal to the boundary face, :math:`\boldsymbol{\omega}` is the vorticity, :math:`{\bf \hat e_x}`, :math:`{\bf \hat e_y}`, and :math:`{\bf \hat e_z}` are unit vectors aligned with the Cartesian axes and :math:`u_x`, :math:`u_y`, and :math:`u_z` are set in the :ref:`user file <sec:userbc>`.
 
 Inlet (Dirichlet) - local ``vl``
 ````````````````````````````````
@@ -75,12 +75,12 @@ Standard Dirichlet boundary condition for velocity in local coordinates.
 
  .. math::
 
-     \nabla p \cdot {\bf \hat e_n} &= 0\\
+     \nabla p \cdot {\bf \hat e_n} &= \mu\left(\nabla\times\boldsymbol{\omega}\right) \cdot {\bf \hat e_n}\\
      {\bf u} \cdot {\bf \hat e_n} &= u_n\\
      {\bf u} \cdot {\bf \hat e_t} &= u_1\\
      {\bf u} \cdot {\bf \hat e_b} &= u_2
     
-Where, :math:`{\bf \hat e_n}`, :math:`{\bf \hat e_t}`, and :math:`{\bf \hat e_b}` are the normal, tangent, and bitangent unit vectors on the boundary face and :math:`u_n`, :math:`u_1`, and :math:`u_2` are set in the :ref:`user file <sec:userbc>`.
+Where, :math:`{\bf \hat e_n}`, :math:`{\bf \hat e_t}`, and :math:`{\bf \hat e_b}` are the normal, tangent, and bitangent unit vectors on the boundary face, :math:`\boldsymbol{\omega}` is the vorticity, and :math:`u_n`, :math:`u_1`, and :math:`u_2` are set in the :ref:`user file <sec:userbc>`.
 
 
 Outlet, ``O``
@@ -107,7 +107,6 @@ Similar to a standard outlet, but with a specified pressure.
      \boldsymbol{\underline \tau} \cdot {\bf \hat e_n} &= 0
 
 Where :math:`{\bf \hat e_n}` is the unit vector normal to the boundary face and :math:`p_a` is set in the :ref:`user file <sec:userbc>`.
-The ``userbc`` subroutine is not called for this boundary condition type.
 
 Outlet - Normal, ``ON``
 ```````````````````````
@@ -116,12 +115,12 @@ Open boundary with zero velocity in the tangent and bitangent directions.
 
   .. math::
      p &= 0\\
-     \boldsymbol{\underline \tau} \cdot {\bf \hat e_n} \cdot {\bf \hat e_n} &= 0\\
+     \left(\boldsymbol{\underline \tau} \cdot {\bf \hat e_n}\right) \cdot {\bf \hat e_n} &= 0\\
      {\bf u} \cdot {\bf \hat e_t} &= 0\\
      {\bf u} \cdot {\bf \hat e_b} &= 0
 
 Where, :math:`{\bf \hat e_n}`, :math:`{\bf \hat e_t}`, and :math:`{\bf \hat e_b}` are the normal, tangent, and bitangent unit vectors on the boundary face.
-If the normal, tangent, and bitangent vectors are not aligned with the principal Cartesian axes, the :ref:`full-stress formulation <sec:fullstress>` must be used.
+If the surface normal vector is not aligned with a principal Cartesian axis, the :ref:`full-stress formulation <sec:fullstress>` must be used.
 The ``userbc`` subroutine is not called for this boundary condition type.
 
 Pressure Outlet - normal, ``on``
@@ -132,12 +131,12 @@ Similar to an outlet - normal boundary, but with a specified pressure.
   .. math::
 
      p &= p_a\\
-     \boldsymbol{\underline \tau} \cdot {\bf \hat e_n} \cdot {\bf \hat e_n} &= 0\\
+     \left(\boldsymbol{\underline \tau} \cdot {\bf \hat e_n}\right) \cdot {\bf \hat e_n} &= 0\\
      {\bf u} \cdot {\bf \hat e_t} &= 0\\
      {\bf u} \cdot {\bf \hat e_b} &= 0
 
 Where, :math:`{\bf \hat e_n}`, :math:`{\bf \hat e_t}`, and :math:`{\bf \hat e_b}` are the normal, tangent, and bitangent unit vectors on the boundary face, and :math:`p_a` is set in the :ref:`user file <sec:userbc>`.
-If the normal, tangent, and bitangent vectors are not aligned with the principal Cartesian axes, the :ref:`full-stress formulation <sec:fullstress>` must be used.
+If the surface normal vector is not aligned with a principal Cartesian axis, the :ref:`full-stress formulation <sec:fullstress>` must be used.
 
 Symmetry, ``SYM``
 `````````````````
@@ -148,11 +147,11 @@ Symmetric face or a slip wall.
 
      \nabla p \cdot {\bf \hat e_n} &= 0\\
      {\bf u} \cdot {\bf \hat e_n} &= 0\\
-     \boldsymbol{\underline \tau} \cdot {\bf \hat e_n}\cdot {\bf \hat e_t} &= 0\\
-     \boldsymbol{\underline \tau} \cdot {\bf \hat e_n}\cdot {\bf \hat e_b} &= 0
+     \left(\boldsymbol{\underline \tau} \cdot {\bf \hat e_n}\right)\cdot {\bf \hat e_t} &= 0\\
+     \left(\boldsymbol{\underline \tau} \cdot {\bf \hat e_n}\right)\cdot {\bf \hat e_b} &= 0
 
 Where, :math:`{\bf \hat e_n}`, :math:`{\bf \hat e_t}`, and :math:`{\bf \hat e_b}` are the normal, tangent, and bitangent unit vectors on the boundary face.
-If the normal, tangent, and bitangent vectors are not aligned with the principal Cartesian axes, the :ref:`full-stress formulation <sec:fullstress>` must be used.
+If the surface normal vector is not aligned with a principal Cartesian axis, the :ref:`full-stress formulation <sec:fullstress>` must be used.
 The ``userbc`` subroutine is not called for this boundary condition type.
 
 Traction, ``s``
@@ -163,12 +162,12 @@ Full Neumann boundary conditions for velocity.
   .. math::
 
      p &= 0\\
-     \boldsymbol{\underline \tau} \cdot {\bf \hat e_n}\cdot {\bf \hat e_x} &= tr_x\\
-     \boldsymbol{\underline \tau} \cdot {\bf \hat e_n}\cdot {\bf \hat e_y} &= tr_y\\
-     \boldsymbol{\underline \tau} \cdot {\bf \hat e_n}\cdot {\bf \hat e_z} &= tr_z
+     \left(\boldsymbol{\underline \tau} \cdot {\bf \hat e_n}\right)\cdot {\bf \hat e_x} &= tr_x\\
+     \left(\boldsymbol{\underline \tau} \cdot {\bf \hat e_n}\right)\cdot {\bf \hat e_y} &= tr_y\\
+     \left(\boldsymbol{\underline \tau} \cdot {\bf \hat e_n}\right)\cdot {\bf \hat e_z} &= tr_z
 
 Where, :math:`{\bf \hat e_n}` is the unit vector normal to the boundary face, :math:`{\bf \hat e_x}`, :math:`{\bf \hat e_y}`, and :math:`{\bf \hat e_z}` are unit vectors aligned with the Cartesian axes and :math:`tr_x`, :math:`tr_y`, and :math:`tr_z` are set in the :ref:`user file <sec:userbc>`.
-If the normal, tangent, and bitangent vectors are not aligned with the principal Cartesian axes, the :ref:`full-stress formulation <sec:fullstress>` must be used.
+The :ref:`full-stress formulation <sec:fullstress>` must be used for the this boundary type.
 
 Traction - local, ``sl``
 ````````````````````````
@@ -178,12 +177,12 @@ Similar to traction, but in local coordinates.
   .. math::
 
      p &= 0\\
-     \boldsymbol{\underline \tau} \cdot {\bf \hat e_n}\cdot {\bf \hat e_n} &= tr_n\\
-     \boldsymbol{\underline \tau} \cdot {\bf \hat e_n}\cdot {\bf \hat e_t} &= tr_1\\
-     \boldsymbol{\underline \tau} \cdot {\bf \hat e_n}\cdot {\bf \hat e_b} &= tr_2
+     \left(\boldsymbol{\underline \tau} \cdot {\bf \hat e_n}\right)\cdot {\bf \hat e_n} &= tr_n\\
+     \left(\boldsymbol{\underline \tau} \cdot {\bf \hat e_n}\right)\cdot {\bf \hat e_t} &= tr_1\\
+     \left(\boldsymbol{\underline \tau} \cdot {\bf \hat e_n}\right)\cdot {\bf \hat e_b} &= tr_2
 
 Where, :math:`{\bf \hat e_n}`, :math:`{\bf \hat e_t}`, and :math:`{\bf \hat e_b}` are the normal, tangent, and bitangent unit vectors on the boundary face, and :math:`tr_n`, :math:`tr_1`, and :math:`tr_2` are set in the :ref:`user file <sec:userbc>`.
-If the normal, tangent, and bitangent vectors are not aligned with the principal Cartesian axes, the :ref:`full-stress formulation <sec:fullstress>` must be used.
+The :ref:`full-stress formulation <sec:fullstress>` must be used for the this boundary type.
 
 Traction - horizontal, local, ``shl``
 `````````````````````````````````````
@@ -192,13 +191,13 @@ Similar to symmetry, but with specified non-zero traction in the tangent and bit
 
   .. math::
 
-     \nabla p \cdot {\bf \hat e_n} &= 0\\
+     \nabla p \cdot {\bf \hat e_n} &= \mu\left(\nabla\times\boldsymbol{\omega}\right) \cdot {\bf \hat e_n}\\
      {\bf u} \cdot {\bf \hat e_n} &= 0\\
-     \boldsymbol{\underline \tau} \cdot {\bf \hat e_n}\cdot {\bf \hat e_t} &= tr_1\\
-     \boldsymbol{\underline \tau} \cdot {\bf \hat e_n}\cdot {\bf \hat e_b} &= tr_2
+     \left(\boldsymbol{\underline \tau} \cdot {\bf \hat e_n}\right)\cdot {\bf \hat e_t} &= tr_1\\
+     \left(\boldsymbol{\underline \tau} \cdot {\bf \hat e_n}\right)\cdot {\bf \hat e_b} &= tr_2
 
-Where, :math:`{\bf \hat e_n}`, :math:`{\bf \hat e_t}`, and :math:`{\bf \hat e_b}` are the normal, tangent, and bitangent unit vectors on the boundary face, and :math:`tr_1` and :math:`tr_2` are set in the :ref:`user file <sec:userbc>`.
-If the normal, tangent, and bitangent vectors are not aligned with the principal Cartesian axes, the :ref:`full-stress formulation <sec:fullstress>` must be used.
+Where, :math:`{\bf \hat e_n}`, :math:`{\bf \hat e_t}`, and :math:`{\bf \hat e_b}` are the normal, tangent, and bitangent unit vectors on the boundary face, :math:`\boldsymbol{\omega}` is the vorticity, and :math:`tr_1` and :math:`tr_2` are set in the :ref:`user file <sec:userbc>`.
+The :ref:`full-stress formulation <sec:fullstress>` must be used for the this boundary type.
 
 Wall, ``W``
 ```````````
@@ -207,9 +206,10 @@ Dirichlet boundary condition corresponding to a no-slip wall.
 
   .. math::
 
-     \nabla p \cdot {\bf \hat e_n} &= 0\\
+     \nabla p \cdot {\bf \hat e_n} &= \mu\left(\nabla\times\boldsymbol{\omega}\right) \cdot {\bf \hat e_n}\\
      {\bf u} &= 0
 
+Where, :math:`{\bf \hat e_n}` is the unit vector normal to the boundary face and :math:`\boldsymbol{\omega}` is the vorticity.
 The ``userbc`` subroutine is not called for this boundary condition type.
   
 Other BCs
