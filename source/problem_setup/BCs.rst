@@ -95,7 +95,7 @@ The open (outflow) boundary condition arises as a natural boundary condition fro
 Where :math:`{\bf \hat e_n}` is the unit vector normal to the boundary face.
 The ``userbc`` subroutine is not called for this boundary condition type.
 
-Pressure Outlet, ``o``
+Pressure outlet, ``o``
 ``````````````````````
 
 Similar to a standard outlet, but with a specified pressure.
@@ -107,7 +107,7 @@ Similar to a standard outlet, but with a specified pressure.
 
 Where :math:`{\bf \hat e_n}` is the unit vector normal to the boundary face and :math:`p_a` is set in the :ref:`user file <sec:userbc>`.
 
-Outlet - Normal, ``ON``
+Outlet - normal, ``ON``
 ```````````````````````
 
 Open boundary with zero velocity in the tangent and bitangent directions.
@@ -118,11 +118,11 @@ Open boundary with zero velocity in the tangent and bitangent directions.
      {\bf u} \cdot {\bf \hat e_t} &= 0\\
      {\bf u} \cdot {\bf \hat e_b} &= 0
 
-Where, :math:`{\bf \hat e_n}`, :math:`{\bf \hat e_t}`, and :math:`{\bf \hat e_b}` are the normal, tangent, and bitangent unit vectors on the boundary face.
+Where :math:`{\bf \hat e_n}`, :math:`{\bf \hat e_t}`, and :math:`{\bf \hat e_b}` are the normal, tangent, and bitangent unit vectors on the boundary face.
 If the surface normal vector is not aligned with a principal Cartesian axis, the :ref:`full-stress formulation <sec:fullstress>` must be used.
 The ``userbc`` subroutine is not called for this boundary condition type.
 
-Pressure Outlet - normal, ``on``
+Pressure outlet - normal, ``on``
 ````````````````````````````````
 
 Similar to an outlet - normal boundary, but with a specified pressure.
@@ -134,8 +134,28 @@ Similar to an outlet - normal boundary, but with a specified pressure.
      {\bf u} \cdot {\bf \hat e_t} &= 0\\
      {\bf u} \cdot {\bf \hat e_b} &= 0
 
-Where, :math:`{\bf \hat e_n}`, :math:`{\bf \hat e_t}`, and :math:`{\bf \hat e_b}` are the normal, tangent, and bitangent unit vectors on the boundary face, and :math:`p_a` is set in the :ref:`user file <sec:userbc>`.
+Where :math:`{\bf \hat e_n}`, :math:`{\bf \hat e_t}`, and :math:`{\bf \hat e_b}` are the normal, tangent, and bitangent unit vectors on the boundary face, and :math:`p_a` is set in the :ref:`user file <sec:userbc>`.
 If the surface normal vector is not aligned with a principal Cartesian axis, the :ref:`full-stress formulation <sec:fullstress>` must be used.
+
+.. _sec:periodicbc:
+
+Periodic, ``P``
+```````````````
+
+Where possible, one can effect great computational efficiencies by considering the problem in a single geometric unit and requiring periodicity of the field variables. 
+
+.. math::
+
+   p\left({\bf x}\right) &= p\left({\bf x} + \boldsymbol{\delta}{\bf x}\right)\\
+   {\bf u}\left({\bf x}\right) &= {\bf u}\left({\bf x} + \boldsymbol{\delta}{\bf x}\right)
+
+Where :math:`\boldsymbol{\delta}{\bf x}` is the offset vector between two periodic faces.
+The ``userbc`` subroutine is not called for this boundary condition type.
+
+Periodic boundaries are a special case where the boundary condition is enforced on the mesh connectivity level. 
+To use periodic boundary conditions, the surface meshes must be conformal.
+For third-party meshes they must also have a corresponding pair of boundary ID values which need to be provided during conversion, i.e. to ``exo2nek``, ``gmsh2nek``, or ``cgns2nek``. 
+Additionally, the mesh must be at least 3 elements thick in the direction normal to the periodic boundaries.
 
 Symmetry, ``SYM``
 `````````````````
@@ -149,7 +169,7 @@ Symmetric face or a slip wall.
      \left(\boldsymbol{\underline \tau} \cdot {\bf \hat e_n}\right)\cdot {\bf \hat e_t} &= 0\\
      \left(\boldsymbol{\underline \tau} \cdot {\bf \hat e_n}\right)\cdot {\bf \hat e_b} &= 0
 
-Where, :math:`{\bf \hat e_n}`, :math:`{\bf \hat e_t}`, and :math:`{\bf \hat e_b}` are the normal, tangent, and bitangent unit vectors on the boundary face.
+Where :math:`{\bf \hat e_n}`, :math:`{\bf \hat e_t}`, and :math:`{\bf \hat e_b}` are the normal, tangent, and bitangent unit vectors on the boundary face.
 If the surface normal vector is not aligned with a principal Cartesian axis, the :ref:`full-stress formulation <sec:fullstress>` must be used.
 The ``userbc`` subroutine is not called for this boundary condition type.
 
@@ -165,7 +185,7 @@ Full Neumann boundary conditions for velocity.
      \left(\boldsymbol{\underline \tau} \cdot {\bf \hat e_n}\right)\cdot {\bf \hat e_y} &= tr_y\\
      \left(\boldsymbol{\underline \tau} \cdot {\bf \hat e_n}\right)\cdot {\bf \hat e_z} &= tr_z
 
-Where, :math:`{\bf \hat e_n}` is the unit vector normal to the boundary face, :math:`{\bf \hat e_x}`, :math:`{\bf \hat e_y}`, and :math:`{\bf \hat e_z}` are unit vectors aligned with the Cartesian axes and :math:`tr_x`, :math:`tr_y`, and :math:`tr_z` are set in the :ref:`user file <sec:userbc>`.
+Where :math:`{\bf \hat e_n}` is the unit vector normal to the boundary face, :math:`{\bf \hat e_x}`, :math:`{\bf \hat e_y}`, and :math:`{\bf \hat e_z}` are unit vectors aligned with the Cartesian axes and :math:`tr_x`, :math:`tr_y`, and :math:`tr_z` are set in the :ref:`user file <sec:userbc>`.
 The :ref:`full-stress formulation <sec:fullstress>` must be used for the this boundary type.
 
 Traction - local, ``sl``
@@ -180,7 +200,7 @@ Similar to traction, but in local coordinates.
      \left(\boldsymbol{\underline \tau} \cdot {\bf \hat e_n}\right)\cdot {\bf \hat e_t} &= tr_1\\
      \left(\boldsymbol{\underline \tau} \cdot {\bf \hat e_n}\right)\cdot {\bf \hat e_b} &= tr_2
 
-Where, :math:`{\bf \hat e_n}`, :math:`{\bf \hat e_t}`, and :math:`{\bf \hat e_b}` are the normal, tangent, and bitangent unit vectors on the boundary face, and :math:`tr_n`, :math:`tr_1`, and :math:`tr_2` are set in the :ref:`user file <sec:userbc>`.
+Where :math:`{\bf \hat e_n}`, :math:`{\bf \hat e_t}`, and :math:`{\bf \hat e_b}` are the normal, tangent, and bitangent unit vectors on the boundary face, and :math:`tr_n`, :math:`tr_1`, and :math:`tr_2` are set in the :ref:`user file <sec:userbc>`.
 The :ref:`full-stress formulation <sec:fullstress>` must be used for the this boundary type.
 
 Traction - horizontal, local, ``shl``
@@ -216,36 +236,27 @@ Other BCs
 
 .. _tab:BCf:
 
-.. csv-table:: Primitive boundary conditions for velocity
+.. csv-table:: Other boundary conditions for velocity
    :header: Identifier,Description,Type,Note
    :widths: 5,30,10,55
 
-   ``P`` , "Periodic", --, "Standard periodic boundary condition"
-   ``p`` , "Periodic", --, "For periodicity within a single element"
-   ``A`` , "Axisymmetric boundary", --, "Can only be used on face 1, treated as ``SYM``"
-   ``E`` , "Interior boundary", --, "--"
+   ``A`` , "Axisymmetric boundary", Mixed, "Can only be used on face 1, treated as ``SYM``, see below"
+   ``E`` , "Interior boundary", --, "Denotes faces that connect adjacent elements"
    ``'   '`` , "Empty", --, "Treated as an interior boundary"
-   ``sh`` , "Traction, horizontal",        Mixed,     "Specified traction with zero normal velocity"
    ``int``, "Interpolated (NEKNEK)",       Dirichlet, "Interpolated from the adjacent overset mesh, see: :ref:`neknek`"
+   ``p`` , "Periodic", --, "For periodicity within a single element"
+   ``sh`` , "Traction, horizontal",        Mixed,     "Specified traction with zero normal velocity"
    ``mm`` , "Moving mesh",                 --,        "--"
    ``ms`` , "Moving surface",              --,        "--"
    ``msi``, "Moving internal surface",     --,        "--"
    ``mv`` , "Moving boundary",             Dirichlet, "--"
    ``mvn``, "Moving boundary, normal",     Dirichlet, "Zero velocity in non-normal directions"
 
-.. Note::
-
-   To use periodic boundary conditions, ``P``, in third-party meshes the face meshes must be conformal and must have a corresponding pair of boundary ID values which need to be provided during conversion, i.e. to ``exo2nek``, ``gmsh2nek``, or ``cgns2nek``. 
-   Additionally, the mesh must be at least 3 elements thick in the direction normal to the periodic boundaries.
- 
-The periodic boundary condition (``P``) needs to be prescribed in the ``.rea`` or ``.re2`` file since it already assigns the last point to first via :math:`{\bf u}({\bf x})={\bf u}({\bf x} + L)`, where :math:`L` is the periodic length. 
-For a fully-developed flow in such a configuration, one can effect great computational efficiencies by considering the problem in a single geometric unit (here taken to be of length :math:`L`), and requiring periodicity of the field variables. 
-*Nek5000* requires that the pairs of sides (or faces, in the case of a three-dimensional mesh) identified as periodic be identical (i.e., that the geometry be periodic).
-
-For an axisymmetric flow geometry, the axis boundary condition (``A``) is provided for boundary segments that lie entirely on the axis of symmetry. This is essentially a symmetry (mixed Dirichlet/Neumann) boundary condition in which the normal velocity and the tangential traction are set to zero.
+For an axisymmetric flow geometry, the axis boundary condition (``A``) is provided for boundary segments that lie entirely on the axis of symmetry. 
+This is essentially a symmetry (mixed Dirichlet/Neumann) boundary condition in which the normal velocity and the tangential traction are set to zero.
 This requires a 2D mesh where the x-axis is the axis of rotation.
 
-For free-surface boundary segments, the inhomogeneous traction boundary conditions involve both the surface tension coefficient :math:`\sigma` and the mean curvature of the free surface.
+.. For free-surface boundary segments, the inhomogeneous traction boundary conditions involve both the surface tension coefficient :math:`\sigma` and the mean curvature of the free surface.
 
 .. _sec:tempbcs:
 
@@ -253,142 +264,121 @@ For free-surface boundary segments, the inhomogeneous traction boundary conditio
 Temperature and Passive Scalars
 ...............................
 
-The three types of boundary conditions applicable to the
-temperature are: essential (Dirichlet) boundary
-condition in which the temperature is specified;
-natural (Neumann) boundary condition in which the heat flux
-is specified; and mixed (Robin) boundary condition
-in which the heat flux is dependent on the temperature
-on the boundary.
-For segments that constitute the boundary
-:math:`\partial \Omega_f' \cup \partial \Omega_s'` (refer to Fig. 2.1),
-one of the above three types of boundary conditions must be
-assigned to the temperature.
+The three types of boundary conditions applicable to the temperature are: essential (Dirichlet) boundary condition in which the temperature is specified; natural (Neumann) boundary condition in which the heat flux is specified; and mixed (Robin) boundary condition in which the heat flux is dependent on the temperature on the boundary.
+For segments that constitute the boundary :math:`\partial \Omega_f' \cup \partial \Omega_s'` (refer to Fig. 2.1), one of the above three types of boundary conditions must be assigned to the temperature.
 
-The two types of Robin boundary condition for temperature
-are: convection boundary conditions for which the heat
-flux into the domain depends on the heat transfer coefficient
-:math:`h_{c}` and the difference between the environmental temperature
-:math:`T_{\infty}` and the surface temperature; and radiation
-boundary conditions for which the heat flux into the domain
-depends on the Stefan-Boltzmann constant/view-factor
-product :math:`h_{rad}` and the difference between the fourth power
-of the environmental temperature :math:`T_{\infty}` and the fourth
-power of the surface temperature.
+The two types of Robin boundary condition for temperature are: convection boundary conditions for which the heat flux into the domain depends on the heat transfer coefficient :math:`h_{c}` and the difference between the environmental temperature :math:`T_{\infty}` and the surface temperature; and radiation boundary conditions for which the heat flux into the domain depends on the Stefan-Boltzmann constant/view-factor product :math:`h_{rad}` and the difference between the fourth power of the environmental temperature :math:`T_{\infty}` and the fourth power of the surface temperature.
 
 The boundary conditions for the passive scalar fields are analogous to those used for the temperature field.
-Thus, the temperature boundary condition menu will reappear for each passive scalar field so that the user can specify an independent set of boundary conditions for each passive scalar field.
+Thus, the temperature boundary conditions and character identifier codes are identical for the passive scalar fields.
+The user can specify an independent set of boundary conditions for each passive scalar field.
+
+Specified value (Dirichlet), ``t``
+``````````````````````````````````
+
+Standard Dirichlet boundary condition for temperature and passive scalars. Used for inlets, isothermal walls, etc.
+
+.. math::
+
+   T = temp
+
+Where :math:`temp` is set in the :ref:`user file <sec:userbc>`.
+
+Flux (Neumann), ``f``
+`````````````````````
+
+Standard heat flux boundary condition.
+
+.. math::
+
+  \lambda\nabla T \cdot {\bf \hat e_n} = flux
+
+Where :math:`{\bf \hat e_n}` is the unit vector normal to the boundary face and :math:`flux` is set in the :ref:`user file <sec:userbc>`.
+
+Insulated, ``I``
+````````````````
+
+Zero-Neumann boundary condition. Used for insulated walls, outlets, symmetry planes, etc.
+
+.. math::
+
+   \lambda \nabla T \cdot {\bf \hat e_n} = 0
+
+Where :math:`{\bf \hat e_n}` is the unit vector normal to the boundary face.
+The ``userbc`` subroutine is not called for this boundary condition type.
+
+Newton cooling (convection), ``c``
+``````````````````````````````````
+
+Robin boundary condition for a surface exposed to a fluid at given temperature and heat transfer coefficient.
+
+.. math::
+
+   \lambda \nabla T \cdot {\bf \hat e_n} = h_c\left(T-T_{\infty}\right)
+
+Where :math:`{\bf \hat e_n}` is the unit vector normal to the boundary face, :math:`h_c` is the convective heat transfer coefficient, and :math:`T_{\infty}` is the ambient temperature.
+The convective heat transfer coefficient and ambient temperature are set in the :ref:`user file <sec:userbc>`.
+
+Periodic, ``P``
+```````````````
+
+Periodic boundary conditions require that all fields in the simulation are periodic.
+
+.. math::
+
+   T \left({\bf x}\right) = T\left({\bf x}+\boldsymbol{\delta}{\bf x}\right)
+
+Where :math:`\boldsymbol{\delta}{\bf x}` is the offset vector between two periodic faces.
+The ``userbc`` subroutine is not called for this boundary condition type.
+See the fluid velocity and pressure :ref:`periodic boundary condition <sec:periodicbc>` for more information.
+
+Radiative cooling, ``r``
+````````````````````````
+
+Robin boundary condition for a surface where radiation heat transfer is significant.
+
+.. math::
+
+   \lambda \nabla T \cdot {\bf \hat e_n} = h_{rad}\left(T^4-T_{\infty}^4\right)
+
+Where :math:`{\bf \hat e_n}` is the unit vector normal to the boundary face, :math:`h_{rad}` is the radiative heat transfer coefficient, and :math:`T_{\infty}` is the ambient temperature.
+The radiative heat transfer coefficient and ambient temperature are set in the :ref:`user file <sec:userbc>`.
+
+Other BCs
+`````````
 
 .. _tab:BCt:
 
-.. csv-table:: Primitive boundary conditions (Temperature and Passive scalars)
+.. csv-table:: Other boundary conditions (Temperature and Passive scalars)
    :widths: 5,10,10,75
    :header: Identifier,Description,Type,Note
 
-   ``P``, Periodic, --, "Standard periodic boundary condition"
-   ``p``, Periodic, --, "For periodicity within a single element"
-   ``I``, Insulated, Neumann, "zero gradient"
-   ``O``, Outflow, Neumann, "Identical to ``I``"
-   ``SYM``, Symmetry, Neumann, "Identical to ``I``"
    ``A``, Axisymmetric boundary, --, "treated as ``I``"
    ``E``, Interior boundary, --, "--"
-
-.. _tab:userBCt:
-
-.. csv-table:: User defined boundary conditions for temperature and passive scalars
-   :widths: 5,10,10,75
-   :header: Identifier,Description,Type,Note
-
-   ``t``, "Temperature", "Dirichlet", "Standard Dirichlet boundary condition"
-   ``f``, "Flux", "Neumann", "Standard Neumann boundary condition"
-   ``c``, "Newton cooling", "Robin", "Specified heat transfer coefficient"
+   ``'   '`` , "Empty", --, "Treated as an interior boundary"
    ``int``, "Interpolated (NEKNEK)", "Dirichlet", "Interpolated from the adjacent overset mesh, see: :ref:`neknek`"
+   ``O``, Outflow, Neumann, "Identical to ``I``"
+   ``p``, Periodic, --, "For periodicity within a single element"
+   ``SYM``, Symmetry, Neumann, "Identical to ``I``"
   
-- open boundary condition ("O")
+.. ............................
+  Internal Boundary Conditions
+  ............................
 
-  .. math::
+  In the spatial discretization, the entire computational domain is subdivided into macro-elements, the boundary segments shared by any two of these macro-elements in :math:`\Omega_f` and :math:`\Omega_s` are denoted as internal boundaries. 
+  For fluid flow analysis with a single-fluid system or heat transfer analysis without change-of-phase, internal boundary conditions are irrelevant as the corresponding field variables on these segments are part of the solution. 
+  However, for a multi-fluid system and for heat transfer analysis with change-of-phase, special conditions are required at particular internal boundaries, as described in the following.
 
-     k(\nabla T)\cdot {\bf \hat e_n} =0
+  For a fluid system composes of multiple immiscible fluids, the boundary (and hence the identity) of each fluid must be tracked, and a jump in the normal traction exists at the fluid-fluid interface if the surface tension coefficient is nonzero.
+  For this purpose, the interface between any two fluids of different identity must be defined as a special type of internal boundary, namely, a fluid layer; and the associated surface tension coefficient also needs to be specified.
 
-- insulated boundary condition ("I")
-
-  .. math::
-
-     k(\nabla T)\cdot {\bf \hat e_n} =0
-
-where :math:`{\bf \hat e_n}` is the unit normal vector, :math:`{\bf \hat e_t}` the unit tangent vector and :math:`{\bf \hat e_b}` is the unit bitangent vector.
-If the normal, tangent, and bitangent vectors are not aligned with the mesh the stress formulation has to be used.
-- the periodic boundary condition ("P") needs to be prescribed in the ``.rea`` file since it already assigns the last point to first via :math:`{\bf u}({\bf x})={\bf u}({\bf x} + L)`, where :math:`L` is the periodic length.
-- Newton cooling boundary condition ("c")
-
-  .. math::
-
-     k(\nabla T)\cdot {\bf \hat e_n}=h(T-T_{\infty})
-
-- flux boundary condition ("f")
-
-  .. math::
-
-     k(\nabla T)\cdot {\bf \hat e_n} =f
-
-
-............................
-Internal Boundary Conditions
-............................
-
-In the spatial discretization, the entire computational
-domain is subdivided into macro-elements, the boundary
-segments shared by any two of these macro-elements
-in :math:`\Omega_f` and :math:`\Omega_s` are denoted as internal boundaries.
-For fluid flow analysis with a single-fluid system or heat
-transfer analysis without change-of-phase, internal
-boundary conditions are irrelevant as the corresponding
-field variables on these segments are part of the
-solution. However, for a multi-fluid system and for
-heat transfer analysis with change-of-phase, special
-conditions are required at particular internal
-boundaries, as described in the following.
-
-For a fluid system composes of multiple immiscible fluids,
-the boundary (and hence the identity) of each fluid must
-be tracked, and a jump in the normal traction exists
-at the fluid-fluid interface if the surface tension
-coefficient is nonzero.
-For this purpose, the interface between any two fluids
-of different identity must be defined as a special type of
-internal boundary, namely, a fluid layer;
-and the associated surface tension coefficient also
-needs to be specified.
-
-In a heat transfer analysis with change-of-phase, Nek5000 assumes
-that both phases exist at the start of the solution, and that
-all solid-liquid interfaces are specified as special internal
-boundaries, namely, the melting fronts.
-If the fluid flow problem is considered, i.e., the energy
-equation is solved in conjunction with the momentum and
-continuity equations, then only
-the common boundary between the fluid and the solid
-(i.e., all or portion of :math:`\partial \overline{\Omega}_f'` in :numref:`fig-walls`)
-can be defined as the melting front.
-In this case, segments on :math:`\partial \overline{\Omega}_f'` that
-belong to the dynamic melting/freezing interface need to be
-specified by the user.
-Nek5000 always assumes that the density of the two phases
-are the same (i.e., no Stefan flow); therefore at the melting
-front, the boundary condition for the fluid velocity is the
-same as that for a stationary wall, that is, all velocity
-components are zero.
-If no fluid flow is considered, i.e., only the energy equation
-is solved, then any internal boundary can be defined as
-a melting front.
-The temperature boundary condition at the melting front
-corresponds to a Dirichlet
-condition; that is, the entire segment maintains a constant temperature
-equal to the user-specified melting temperature :math:`T_{melt}`
-throughout the solution.
-In addition, the volumetric latent heat of fusion :math:`\rho L`
-for the two phases,
-which is also assumed to be constant, should be specified.
+  In a heat transfer analysis with change-of-phase, Nek5000 assumes that both phases exist at the start of the solution, and that all solid-liquid interfaces are specified as special internal boundaries, namely, the melting fronts.
+  If the fluid flow problem is considered, i.e., the energy equation is solved in conjunction with the momentum and continuity equations, then only the common boundary between the fluid and the solid (i.e., all or portion of :math:`\partial \overline{\Omega}_f'` in :numref:`fig-walls`) can be defined as the melting front.
+  In this case, segments on :math:`\partial \overline{\Omega}_f'` that belong to the dynamic melting/freezing interface need to be specified by the user.
+  *Nek5000* always assumes that the density of the two phases are the same (i.e., no Stefan flow); therefore at the melting front, the boundary condition for the fluid velocity is the same as that for a stationary wall, that is, all velocity components are zero.
+  If no fluid flow is considered, i.e., only the energy equation is solved, then any internal boundary can be defined as a melting front.
+  The temperature boundary condition at the melting front corresponds to a Dirichlet condition; that is, the entire segment maintains a constant temperature equal to the user-specified melting temperature :math:`T_{melt}` throughout the solution.
+  In addition, the volumetric latent heat of fusion :math:`\rho L` for the two phases, which is also assumed to be constant, should be specified.
 
 .. _sec:settingbcs:
 
