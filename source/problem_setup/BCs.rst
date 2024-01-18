@@ -9,10 +9,9 @@ Boundary condition values are assigned in the ``.usr`` file in the ``userbc`` su
 This section focuses on what boundary condition types are available in *Nek5000* and how to assign them.
 
 We first discuss how *Nek5000* stores the boundary condition information in the code itself.
-A boundary condition type is stored on every face of every element for every solution field.
+Boundary condition types are stored as a *character identifier code* on every face of every element for every solution field.
 These are stored in memory in the ``cbc`` array, which is of type ``character*3``.
-It is declared in a common block in ``Nek5000/core/INPUT`` as ``cbc(6,lelt,0:ldimt1)``, which is then included in the user subroutines in the ``.usr`` file as well as any relevant source code files.
-Each boundary condition type has a corresponding *character identifier code* which tells *Nek5000* how to treat the boundary on each element.
+It is declared in a common block in ``Nek5000/core/INPUT`` as ``cbc(6,lelt,0:ldimt1)``, which is then included as part of ``TOTAL`` in the user subroutines in the ``.usr`` file as well as any relevant source code files.
 The ``cbc`` array is set at runtime either from information carried directly in the mesh file (``.rea``/``.re2``), from information provided in the ``.par`` file, or (for advanced users) directly in ``usrdat`` or ``usrdat2``.
 
 The general conventions for boundary condition identifiers are:
