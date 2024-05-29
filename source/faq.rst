@@ -137,6 +137,29 @@ Pre-Processing and Numerics
 
    We currently support conversion from the exodusII with the ``exo2nek`` converter. This enables the import from popular mesh generators like ANSYS ICEM and CUBIT.
 
+**I received a warning message about Lanczos failing to reach a residual target, what does this mean and what should I do about it?**
+
+  ``Warning: Lanczos reached a residual of 12.840714 (target: 0.000010) after 50 x 50 iterations in Level=7!``  
+
+  This warning is from parRSB (parallel recursive spectral bisection) which can be used to distribute the elements to MPI ranks for large problems in lieu of *genmap* (see :ref:`build_pplist`).
+  parRSB guarantees "load-balancing", meaning the numbers of elements for each MPI rank are as close as possible.
+  It also tries to minimize the communication between ranks by finding the minimal number of separators for the graph partition. 
+  For each cut, we find the Fiedler vector, the eigenvector of the smallest positive eigenvalue of the graph Laplacian.
+  The warning you simply means Lanczos has hard time to converge at one of the levels, which is commonly shown for complex geometries at scale. 
+  As long as it doesn't produce an error, generally the warning can be ignored.
+  However, it's recommended to also track the quality of the partition. You can find lines like these
+
+.. code-block:: none
+
+   nElements   max/min/bal: 10290 10289 1.00        << num. elem. per MPI rank.
+   nMessages   max/min/avg: 51 5 15.97              << indicating num. of MPI neighbors
+   msgSize     max/min/avg: 92191 1 12156.50        << size of each message
+   msgSizeSum  max/min/avg: 428087 104476 187446.11 << total message size per MPI rank.
+
+..
+
+  There are some knobs we can adjust for the partitioning, but this only matters when you are in the communication dominant region.
+
 **Why is it important to non-dimensionalize my case?**
 
   Nek5000 can be run with dimensions, but we STRONGLY recommend that the case has been non-dimensionalized properly.
