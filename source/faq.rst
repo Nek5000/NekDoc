@@ -141,7 +141,7 @@ Pre-Processing and Numerics
 
   ``Warning: Lanczos reached a residual of 12.840714 (target: 0.000010) after 50 x 50 iterations in Level=7!``  
 
-  This warning is from parRSB (parallel recursive spectral bisection) which is used to distribute the elements to MPI ranks.
+  This warning is from parRSB (parallel recursive spectral bisection) which can be used to distribute the elements to MPI ranks for large problems in lieu of *genmap* (see :ref:`build_pplist`).
   parRSB guarantees "load-balancing", meaning the numbers of elements for each MPI rank are as close as possible.
   It also tries to minimize the communication between ranks by finding the minimal number of separators for the graph partition. 
   For each cut, we find the Fiedler vector, the eigenvector of the smallest positive eigenvalue of the graph Laplacian.
