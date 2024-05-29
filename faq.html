@@ -194,7 +194,7 @@ To select an AMG preconditioner see <a class="reference internal" href="problem_
 <p><strong>I received a warning message about Lanczos failing to reach a residual target, what does this mean and what should I do about it?</strong></p>
 <blockquote>
 <div><p><code class="docutils literal notranslate"><span class="pre">Warning:</span> <span class="pre">Lanczos</span> <span class="pre">reached</span> <span class="pre">a</span> <span class="pre">residual</span> <span class="pre">of</span> <span class="pre">12.840714</span> <span class="pre">(target:</span> <span class="pre">0.000010)</span> <span class="pre">after</span> <span class="pre">50</span> <span class="pre">x</span> <span class="pre">50</span> <span class="pre">iterations</span> <span class="pre">in</span> <span class="pre">Level=7!</span></code></p>
-<p>This warning is from parRSB (parallel recursive spectral bisection) which is used to distribute the elements to MPI ranks.
+<p>This warning is from parRSB (parallel recursive spectral bisection) which can be used to distribute the elements to MPI ranks for large problems in lieu of <em>genmap</em> (see <a class="reference internal" href="build.html#build-pplist"><span class="std std-ref">Preprocessor List</span></a>).
 parRSB guarantees “load-balancing”, meaning the numbers of elements for each MPI rank are as close as possible.
 It also tries to minimize the communication between ranks by finding the minimal number of separators for the graph partition.
 For each cut, we find the Fiedler vector, the eigenvector of the smallest positive eigenvalue of the graph Laplacian.
