@@ -5,6 +5,7 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <title>Case Files &mdash; Nek5000  documentation</title><link rel="stylesheet" href="../_static/css/theme.css" type="text/css" />
     <link rel="stylesheet" href="../_static/pygments.css" type="text/css" />
+      <link rel="stylesheet" href="../_static/css/custom.css" type="text/css" />
   <!--[if lt IE 9]>
     <script src="../_static/js/html5shiv.min.js"></script>
   <![endif]-->
@@ -162,305 +163,194 @@ between <code class="docutils literal notranslate"><span class="pre">SCALAR01</s
 following tables (all keys/values are case insensitive). The value assigned to each key can be a
 user input (e.g. a &lt;real&gt; value) or one of the avaliable options listed in the tables below.
 Values in parentheses denote the default value.</p>
-<span id="tab-generalparams"></span><table border="1" class="docutils" id="id2">
+<span id="tab-generalparams"></span><table border="1" class="colwidths-given docutils" id="id2">
 <caption><span class="caption-number">Table 5 </span><span class="caption-text"><code class="docutils literal notranslate"><span class="pre">GENERAL</span></code> keys in the <code class="docutils literal notranslate"><span class="pre">.par</span></code> file</span><a class="headerlink" href="#id2" title="Permalink to this table">¶</a></caption>
 <colgroup>
-<col width="28%" />
-<col width="19%" />
-<col width="52%" />
+<col width="20%" />
+<col width="20%" />
+<col width="60%" />
 </colgroup>
 <thead valign="bottom">
 <tr class="row-odd"><th class="head">Key</th>
-<th class="head"><div class="first last line-block">
-<div class="line">Value(s)</div>
-</div>
-</th>
-<th class="head"><div class="first last line-block">
-<div class="line">Description</div>
-</div>
-</th>
+<th class="head">Value(s)</th>
+<th class="head">Description</th>
 </tr>
 </thead>
 <tbody valign="top">
 <tr class="row-even"><td><code class="docutils literal notranslate"><span class="pre">startFrom</span></code></td>
 <td><div class="first last line-block">
-<div class="line"><code class="docutils literal notranslate"><span class="pre">&lt;string&gt;</span></code></div>
+<div class="line"><code class="docutils literal notranslate"><span class="pre">&lt;string&gt;</span></code>                     </div>
 </div>
 </td>
-<td><div class="first last line-block">
-<div class="line">Absolute/relative path of the field file</div>
-<div class="line">to restart the simulation from. Also</div>
-<div class="line">includes several restart options (see</div>
-<div class="line"><a class="reference internal" href="features.html#features-restart"><span class="std std-ref">Restart Options</span></a> for details)</div>
-<div class="line"><br /></div>
-</div>
-</td>
+<td>Absolute/relative path of the field file to restart the simulation from. Also includes several restart options (see <a class="reference internal" href="features.html#features-restart"><span class="std std-ref">Restart Options</span></a> for details)</td>
 </tr>
 <tr class="row-odd"><td><code class="docutils literal notranslate"><span class="pre">stopAt</span></code></td>
 <td><div class="first last line-block">
-<div class="line"><code class="docutils literal notranslate"><span class="pre">(numSteps)</span></code></div>
-<div class="line"><code class="docutils literal notranslate"><span class="pre">endTime</span></code></div>
+<div class="line"><code class="docutils literal notranslate"><span class="pre">(numSteps)</span></code> <code class="docutils literal notranslate"><span class="pre">endTime</span></code>       </div>
 </div>
 </td>
-<td><div class="first last line-block">
-<div class="line">Stop mode</div>
-</div>
-</td>
+<td>Stops the simulation after a given number of time steps or at a given physical time.</td>
 </tr>
 <tr class="row-even"><td><code class="docutils literal notranslate"><span class="pre">endTime</span></code></td>
 <td><div class="first last line-block">
-<div class="line"><code class="docutils literal notranslate"><span class="pre">&lt;real&gt;</span></code></div>
+<div class="line"><code class="docutils literal notranslate"><span class="pre">&lt;real&gt;</span></code>                       </div>
 </div>
 </td>
-<td><div class="first last line-block">
-<div class="line">Final physical time at which we want to</div>
-<div class="line">our simulation to stop</div>
-</div>
-</td>
+<td>Final physical time at which we want to our simulation to stop. Required for <code class="docutils literal notranslate"><span class="pre">stopAt</span> <span class="pre">=</span> <span class="pre">endTime</span></code>.</td>
 </tr>
 <tr class="row-odd"><td><code class="docutils literal notranslate"><span class="pre">numSteps</span></code></td>
 <td><div class="first last line-block">
-<div class="line"><code class="docutils literal notranslate"><span class="pre">&lt;real&gt;</span></code></div>
+<div class="line"><code class="docutils literal notranslate"><span class="pre">&lt;int&gt;</span></code>                        </div>
 </div>
 </td>
-<td><div class="first last line-block">
-<div class="line">Number of time steps instead of specifying</div>
-<div class="line">final physical time</div>
-</div>
-</td>
+<td>Number of time steps until the simulation stops. Required for <code class="docutils literal notranslate"><span class="pre">stopAt</span> <span class="pre">=</span> <span class="pre">numSteps</span></code>.</td>
 </tr>
 <tr class="row-even"><td><code class="docutils literal notranslate"><span class="pre">dt</span></code></td>
 <td><div class="first last line-block">
-<div class="line"><code class="docutils literal notranslate"><span class="pre">&lt;real&gt;</span></code></div>
+<div class="line"><code class="docutils literal notranslate"><span class="pre">&lt;real&gt;</span></code>                       </div>
 </div>
 </td>
-<td><div class="first last line-block">
-<div class="line">Specifies the step size or in case of a</div>
-<div class="line">a variable time step the maximum step size</div>
-</div>
-</td>
+<td>Specifies the step size or in case of a variable time step, the maximum step size</td>
 </tr>
 <tr class="row-odd"><td><code class="docutils literal notranslate"><span class="pre">variableDT</span></code></td>
 <td><div class="first last line-block">
-<div class="line"><code class="docutils literal notranslate"><span class="pre">(no)</span></code></div>
-<div class="line"><code class="docutils literal notranslate"><span class="pre">yes</span></code></div>
+<div class="line"><code class="docutils literal notranslate"><span class="pre">(no)</span></code> <code class="docutils literal notranslate"><span class="pre">yes</span></code>                 </div>
 </div>
 </td>
-<td><div class="first last line-block">
-<div class="line">Controls if the step size will be adjusted</div>
-<div class="line">to match the targetCFL</div>
-</div>
-</td>
+<td>Controls if the step size will be adjusted to match the targetCFL.</td>
 </tr>
-<tr class="row-even"><td><code class="docutils literal notranslate"><span class="pre">targetCFL</span></code></td>
+<tr class="row-even"><td><code class="docutils literal notranslate"><span class="pre">initialDT</span></code></td>
 <td><div class="first last line-block">
-<div class="line"><code class="docutils literal notranslate"><span class="pre">&lt;real&gt;</span></code></div>
+<div class="line"><code class="docutils literal notranslate"><span class="pre">&lt;real&gt;</span></code>                       </div>
 </div>
 </td>
-<td><div class="first last line-block">
-<div class="line">Sets stability/target CFL number for</div>
-<div class="line">OIFS or variable time steps</div>
-<div class="line">(fixed to 0.5 for standard extrapolation</div>
-</div>
-</td>
+<td>Controls the initial time step size. Requires <code class="docutils literal notranslate"><span class="pre">variableDT</span> <span class="pre">=</span> <span class="pre">yes</span></code>.</td>
 </tr>
-<tr class="row-odd"><td><code class="docutils literal notranslate"><span class="pre">writeControl</span></code></td>
+<tr class="row-odd"><td><code class="docutils literal notranslate"><span class="pre">targetCFL</span></code></td>
 <td><div class="first last line-block">
-<div class="line"><code class="docutils literal notranslate"><span class="pre">(timeStep)</span></code></div>
-<div class="line"><code class="docutils literal notranslate"><span class="pre">runTime</span></code></div>
+<div class="line"><code class="docutils literal notranslate"><span class="pre">&lt;real&gt;</span></code>                       </div>
 </div>
 </td>
-<td><div class="first last line-block">
-<div class="line">Specifies whether checkpointing is based</div>
-<div class="line">on number of time steps or physical time</div>
-</div>
-</td>
+<td>Sets stability/target CFL number for OIFS or variable time steps. This is fixed to 0.5 for <code class="docutils literal notranslate"><span class="pre">extrapolation</span> <span class="pre">=</span> <span class="pre">standard</span></code></td>
 </tr>
-<tr class="row-even"><td><code class="docutils literal notranslate"><span class="pre">writeInterval</span></code></td>
+<tr class="row-even"><td><code class="docutils literal notranslate"><span class="pre">writeControl</span></code></td>
 <td><div class="first last line-block">
-<div class="line"><code class="docutils literal notranslate"><span class="pre">&lt;real&gt;</span></code></div>
+<div class="line"><code class="docutils literal notranslate"><span class="pre">(timeStep)</span></code> <code class="docutils literal notranslate"><span class="pre">runTime</span></code>       </div>
 </div>
 </td>
-<td><div class="first last line-block">
-<div class="line">Checkpoint frequency in time steps or</div>
-<div class="line">physical time</div>
-</div>
-</td>
+<td>Specifies whether checkpointing is based on number of time steps or physical time.</td>
 </tr>
-<tr class="row-odd"><td><code class="docutils literal notranslate"><span class="pre">filtering</span></code></td>
+<tr class="row-odd"><td><code class="docutils literal notranslate"><span class="pre">writeInterval</span></code></td>
 <td><div class="first last line-block">
-<div class="line"><code class="docutils literal notranslate"><span class="pre">(none)</span></code></div>
-<div class="line"><code class="docutils literal notranslate"><span class="pre">explicit</span></code></div>
-<div class="line"><code class="docutils literal notranslate"><span class="pre">hpfrt</span></code></div>
+<div class="line"><code class="docutils literal notranslate"><span class="pre">&lt;real&gt;/&lt;int&gt;</span></code>                 </div>
 </div>
 </td>
-<td><div class="first last line-block">
-<div class="line">Specifies the filtering method</div>
-<div class="line">See <a class="reference internal" href="filter.html#sec-filter"><span class="std std-ref">Stabilizing Filters</span></a></div>
-</div>
-</td>
+<td>Checkpoint frequency in physical time (<code class="docutils literal notranslate"><span class="pre">&lt;real&gt;</span></code>) or number of time steps (<code class="docutils literal notranslate"><span class="pre">&lt;int&gt;</span></code>)</td>
 </tr>
-<tr class="row-even"><td><code class="docutils literal notranslate"><span class="pre">filterModes</span></code></td>
+<tr class="row-even"><td><code class="docutils literal notranslate"><span class="pre">filtering</span></code></td>
 <td><div class="first last line-block">
-<div class="line"><code class="docutils literal notranslate"><span class="pre">&lt;int&gt;</span></code></div>
+<div class="line"><code class="docutils literal notranslate"><span class="pre">(none)</span></code> <code class="docutils literal notranslate"><span class="pre">explicit</span></code> <code class="docutils literal notranslate"><span class="pre">hpfrt</span></code></div>
 </div>
 </td>
-<td><div class="first last line-block">
-<div class="line">Specifies the number of modes filtered as</div>
-<div class="line">an alternative to specifying the cutoff</div>
-<div class="line">ratio</div>
-<div class="line">Note: requires the use of at least 2 modes</div>
-</div>
-</td>
+<td>Specifies the filtering method. See <a class="reference internal" href="filter.html#sec-filter"><span class="std std-ref">Stabilizing Filters</span></a> for details.</td>
 </tr>
-<tr class="row-odd"><td><code class="docutils literal notranslate"><span class="pre">filterCutoffRatio</span></code></td>
+<tr class="row-odd"><td><code class="docutils literal notranslate"><span class="pre">filterModes</span></code></td>
 <td><div class="first last line-block">
-<div class="line"><code class="docutils literal notranslate"><span class="pre">&lt;real&gt;</span></code></div>
+<div class="line"><code class="docutils literal notranslate"><span class="pre">&lt;int&gt;</span></code>                        </div>
 </div>
 </td>
-<td><div class="first last line-block">
-<div class="line">Ratio of modes not affected by the filter</div>
-<div class="line">Use i.e. for stabilization or LES 0.9/0.65</div>
-<div class="line">as an alternative to specifying the number</div>
-<div class="line">of modes explicitly</div>
-</div>
-</td>
+<td>Specifies the number of modes filtered as an alternative to specifying the cutoff ratio. Note: requires the use of at least 2 modes. See <a class="reference internal" href="filter.html#sec-filter"><span class="std std-ref">Stabilizing Filters</span></a> for details.</td>
 </tr>
-<tr class="row-even"><td><code class="docutils literal notranslate"><span class="pre">filterWeight</span></code></td>
+<tr class="row-even"><td><code class="docutils literal notranslate"><span class="pre">filterCutoffRatio</span></code></td>
 <td><div class="first last line-block">
-<div class="line"><code class="docutils literal notranslate"><span class="pre">&lt;real&gt;</span></code></div>
+<div class="line"><code class="docutils literal notranslate"><span class="pre">&lt;real&gt;</span></code>                       </div>
 </div>
 </td>
-<td><div class="first last line-block">
-<div class="line">Sets the filter strength of transfer</div>
-<div class="line">function of the last mode (explicit) or the</div>
-<div class="line">relaxation parameter in case of hpfrt</div>
-</div>
-</td>
+<td>Ratio of modes not affected by the filter. Use as an alternative to specifying the number of modes explicitly. See <a class="reference internal" href="filter.html#sec-filter"><span class="std std-ref">Stabilizing Filters</span></a> for details.</td>
 </tr>
-<tr class="row-odd"><td><code class="docutils literal notranslate"><span class="pre">writeDoublePrecision</span></code></td>
+<tr class="row-odd"><td><code class="docutils literal notranslate"><span class="pre">filterWeight</span></code></td>
 <td><div class="first last line-block">
-<div class="line"><code class="docutils literal notranslate"><span class="pre">no</span></code></div>
-<div class="line"><code class="docutils literal notranslate"><span class="pre">(yes)</span></code></div>
+<div class="line"><code class="docutils literal notranslate"><span class="pre">&lt;real&gt;</span></code>                       </div>
 </div>
 </td>
-<td><div class="first last line-block">
-<div class="line">Sets the precision of the field files</div>
-</div>
-</td>
+<td>Sets the filter strength of transfer function of the last mode (explicit) or the relaxation parameter in case of hpfrt. See <a class="reference internal" href="filter.html#sec-filter"><span class="std std-ref">Stabilizing Filters</span></a> for more information.</td>
 </tr>
-<tr class="row-even"><td><code class="docutils literal notranslate"><span class="pre">writeNFiles</span></code></td>
+<tr class="row-even"><td><code class="docutils literal notranslate"><span class="pre">writeDoublePrecision</span></code></td>
 <td><div class="first last line-block">
-<div class="line"><code class="docutils literal notranslate"><span class="pre">(1)</span></code></div>
+<div class="line"><code class="docutils literal notranslate"><span class="pre">no</span></code> <code class="docutils literal notranslate"><span class="pre">(yes)</span></code>                 </div>
 </div>
 </td>
-<td><div class="first last line-block">
-<div class="line">Sets the number of output files</div>
-<div class="line">By default a parallel shared file is used</div>
-</div>
-</td>
+<td>Sets the precision of the output field files.</td>
 </tr>
-<tr class="row-odd"><td><code class="docutils literal notranslate"><span class="pre">dealiasing</span></code></td>
+<tr class="row-odd"><td><code class="docutils literal notranslate"><span class="pre">writeNFiles</span></code></td>
 <td><div class="first last line-block">
-<div class="line"><code class="docutils literal notranslate"><span class="pre">no</span></code></div>
-<div class="line"><code class="docutils literal notranslate"><span class="pre">(yes)</span></code></div>
+<div class="line"><code class="docutils literal notranslate"><span class="pre">&lt;int&gt;</span></code> <code class="docutils literal notranslate"><span class="pre">(1)</span></code>                </div>
 </div>
 </td>
-<td><div class="first last line-block">
-<div class="line">Enable/diasble over-integration</div>
-</div>
-</td>
+<td>Sets the number of output files. By default a parallel shared file is used.</td>
 </tr>
-<tr class="row-even"><td><code class="docutils literal notranslate"><span class="pre">timeStepper</span></code></td>
+<tr class="row-even"><td><code class="docutils literal notranslate"><span class="pre">dealiasing</span></code></td>
 <td><div class="first last line-block">
-<div class="line"><code class="docutils literal notranslate"><span class="pre">BDF1</span></code></div>
-<div class="line"><code class="docutils literal notranslate"><span class="pre">(BDF2)</span></code></div>
-<div class="line"><code class="docutils literal notranslate"><span class="pre">BDF3</span></code></div>
+<div class="line"><code class="docutils literal notranslate"><span class="pre">no</span></code> <code class="docutils literal notranslate"><span class="pre">yes</span></code>                   </div>
 </div>
 </td>
-<td><div class="first last line-block">
-<div class="line">Time integration order</div>
-</div>
-</td>
+<td>Enable/diasble over-integration.</td>
 </tr>
-<tr class="row-odd"><td><code class="docutils literal notranslate"><span class="pre">extrapolation</span></code></td>
+<tr class="row-odd"><td><code class="docutils literal notranslate"><span class="pre">timeStepper</span></code></td>
 <td><div class="first last line-block">
-<div class="line"><code class="docutils literal notranslate"><span class="pre">(standard)</span></code></div>
-<div class="line"><code class="docutils literal notranslate"><span class="pre">OIFS</span></code></div>
+<div class="line"><code class="docutils literal notranslate"><span class="pre">BDF1</span></code> <code class="docutils literal notranslate"><span class="pre">(BDF2)</span></code> <code class="docutils literal notranslate"><span class="pre">BDF3</span></code>     </div>
 </div>
 </td>
-<td><div class="first last line-block">
-<div class="line">Extrapolation method</div>
-</div>
-</td>
+<td>Time integration order.</td>
 </tr>
-<tr class="row-even"><td><code class="docutils literal notranslate"><span class="pre">constFlowRate</span></code></td>
+<tr class="row-even"><td><code class="docutils literal notranslate"><span class="pre">extrapolation</span></code></td>
 <td><div class="first last line-block">
-<div class="line"><code class="docutils literal notranslate"><span class="pre">(none)</span></code></div>
-<div class="line"><code class="docutils literal notranslate"><span class="pre">X</span></code> <code class="docutils literal notranslate"><span class="pre">Y</span></code></div>
-<div class="line"><code class="docutils literal notranslate"><span class="pre">Z</span></code></div>
+<div class="line"><code class="docutils literal notranslate"><span class="pre">(standard)</span></code> <code class="docutils literal notranslate"><span class="pre">OIFS</span></code>          </div>
 </div>
 </td>
-<td><div class="first last line-block">
-<div class="line">If given, prescribes a constant volumetric</div>
-<div class="line">flow in the given direction. Requires</div>
-<div class="line"><code class="docutils literal notranslate"><span class="pre">meanVolumetricFlow</span></code> or <code class="docutils literal notranslate"><span class="pre">meanVelocity</span></code></div>
-</div>
-</td>
+<td>Extrapolation method. Can be used to achieve CFL &gt; 0.5 with <code class="docutils literal notranslate"><span class="pre">OIFS</span></code>.</td>
 </tr>
-<tr class="row-odd"><td><code class="docutils literal notranslate"><span class="pre">meanVolumetricFlow</span></code></td>
+<tr class="row-odd"><td><code class="docutils literal notranslate"><span class="pre">constFlowRate</span></code></td>
 <td><div class="first last line-block">
-<div class="line"><code class="docutils literal notranslate"><span class="pre">&lt;real&gt;</span></code></div>
+<div class="line"><code class="docutils literal notranslate"><span class="pre">(none)</span></code> <code class="docutils literal notranslate"><span class="pre">X</span></code> <code class="docutils literal notranslate"><span class="pre">Y</span></code> <code class="docutils literal notranslate"><span class="pre">Z</span></code>     </div>
 </div>
 </td>
-<td><div class="first last line-block">
-<div class="line">Sets the volumetric flow rate in the</div>
-<div class="line">direction of <code class="docutils literal notranslate"><span class="pre">constFlowRate</span></code></div>
-</div>
-</td>
+<td>Prescribes a constant volumetric flow in the given direction. Requires <code class="docutils literal notranslate"><span class="pre">meanVolumetricFlow</span></code> or <code class="docutils literal notranslate"><span class="pre">meanVelocity</span></code>.</td>
 </tr>
-<tr class="row-even"><td><code class="docutils literal notranslate"><span class="pre">meanVelocity</span></code></td>
+<tr class="row-even"><td><code class="docutils literal notranslate"><span class="pre">meanVolumetricFlow</span></code></td>
 <td><div class="first last line-block">
-<div class="line"><code class="docutils literal notranslate"><span class="pre">&lt;real&gt;</span></code></div>
+<div class="line"><code class="docutils literal notranslate"><span class="pre">&lt;real&gt;</span></code>                       </div>
 </div>
 </td>
-<td><div class="first last line-block">
-<div class="line">Sets the mean velocity (volume-weighted</div>
-<div class="line">velocity mean) in the direction of</div>
-<div class="line"><code class="docutils literal notranslate"><span class="pre">constFlowRate</span></code></div>
-</div>
-</td>
+<td>Sets the volumetric flow rate in the direction of <code class="docutils literal notranslate"><span class="pre">constFlowRate</span></code>.</td>
 </tr>
-<tr class="row-odd"><td><code class="docutils literal notranslate"><span class="pre">optLevel</span></code></td>
+<tr class="row-odd"><td><code class="docutils literal notranslate"><span class="pre">meanVelocity</span></code></td>
 <td><div class="first last line-block">
-<div class="line"><code class="docutils literal notranslate"><span class="pre">(2)</span></code></div>
+<div class="line"><code class="docutils literal notranslate"><span class="pre">&lt;real&gt;</span></code>                       </div>
 </div>
 </td>
-<td><div class="first last line-block">
-<div class="line">Optimization level</div>
-</div>
-</td>
+<td>Sets the mean velocity (volume-weighted velocity mean) in the direction of <code class="docutils literal notranslate"><span class="pre">constFlowRate</span></code>.</td>
 </tr>
-<tr class="row-even"><td><code class="docutils literal notranslate"><span class="pre">logLevel</span></code></td>
+<tr class="row-even"><td><code class="docutils literal notranslate"><span class="pre">optLevel</span></code></td>
 <td><div class="first last line-block">
-<div class="line"><code class="docutils literal notranslate"><span class="pre">(2)</span></code></div>
+<div class="line"><code class="docutils literal notranslate"><span class="pre">&lt;int&gt;</span></code> <code class="docutils literal notranslate"><span class="pre">(2)</span></code>                </div>
 </div>
 </td>
-<td><div class="first last line-block">
-<div class="line">Verbosity level</div>
-</div>
-</td>
+<td>Optimization level</td>
 </tr>
-<tr class="row-odd"><td><code class="docutils literal notranslate"><span class="pre">userParam%%</span></code></td>
+<tr class="row-odd"><td><code class="docutils literal notranslate"><span class="pre">logLevel</span></code></td>
 <td><div class="first last line-block">
-<div class="line"><code class="docutils literal notranslate"><span class="pre">&lt;real&gt;</span></code></div>
+<div class="line"><code class="docutils literal notranslate"><span class="pre">&lt;int&gt;</span></code> <code class="docutils literal notranslate"><span class="pre">(2)</span></code>                </div>
 </div>
 </td>
+<td>Controls the verbosity level of the logfile.</td>
+</tr>
+<tr class="row-even"><td><code class="docutils literal notranslate"><span class="pre">userParam%%</span></code></td>
 <td><div class="first last line-block">
-<div class="line">User parameter (can be accessed through</div>
-<div class="line">uparam(%) array in <code class="docutils literal notranslate"><span class="pre">.usr</span></code></div>
+<div class="line"><code class="docutils literal notranslate"><span class="pre">&lt;real&gt;</span></code>                       </div>
 </div>
 </td>
+<td>User parameter (can be accessed through uparam(%) array in <code class="docutils literal notranslate"><span class="pre">.usr</span></code>. Supports up to 20 parameters.</td>
 </tr>
 </tbody>
 </table>
@@ -644,71 +534,38 @@ Values in parentheses denote the default value.</p>
 </tr>
 </tbody>
 </table>
-<span id="tab-meshparams"></span><table border="1" class="docutils" id="id5">
+<span id="tab-meshparams"></span><table border="1" class="colwidths-given docutils" id="id5">
 <caption><span class="caption-number">Table 8 </span><span class="caption-text"><code class="docutils literal notranslate"><span class="pre">MESH</span></code> keys in the <code class="docutils literal notranslate"><span class="pre">.par</span></code> file</span><a class="headerlink" href="#id5" title="Permalink to this table">¶</a></caption>
 <colgroup>
-<col width="26%" />
-<col width="18%" />
-<col width="57%" />
+<col width="20%" />
+<col width="15%" />
+<col width="65%" />
 </colgroup>
 <thead valign="bottom">
 <tr class="row-odd"><th class="head">Key</th>
-<th class="head"><div class="first last line-block">
-<div class="line">Value(s)</div>
-</div>
-</th>
-<th class="head"><div class="first last line-block">
-<div class="line">Description</div>
-</div>
-</th>
+<th class="head">Value(s)</th>
+<th class="head">Description</th>
 </tr>
 </thead>
 <tbody valign="top">
 <tr class="row-even"><td><code class="docutils literal notranslate"><span class="pre">motion</span></code></td>
 <td><div class="first last line-block">
-<div class="line"><code class="docutils literal notranslate"><span class="pre">(none)</span></code></div>
-<div class="line"><code class="docutils literal notranslate"><span class="pre">user</span></code></div>
-<div class="line"><code class="docutils literal notranslate"><span class="pre">elasticity</span></code></div>
+<div class="line"><code class="docutils literal notranslate"><span class="pre">(none)</span></code> <code class="docutils literal notranslate"><span class="pre">user</span></code> <code class="docutils literal notranslate"><span class="pre">elasticity</span></code></div>
 </div>
 </td>
-<td><div class="first last line-block">
-<div class="line">Mesh motion solver</div>
-</div>
-</td>
+<td>Mesh motion solver</td>
 </tr>
 <tr class="row-odd"><td><code class="docutils literal notranslate"><span class="pre">viscosity</span></code></td>
-<td><div class="first last line-block">
-<div class="line"><code class="docutils literal notranslate"><span class="pre">(0.4)</span></code></div>
-</div>
-</td>
-<td><div class="first last line-block">
-<div class="line">Diffusivity for elasticity solver</div>
-</div>
-</td>
+<td><code class="docutils literal notranslate"><span class="pre">(0.4)</span></code></td>
+<td>Diffusivity for elasticity solver</td>
 </tr>
 <tr class="row-even"><td><code class="docutils literal notranslate"><span class="pre">numberOfBCFields</span></code></td>
-<td><div class="first last line-block">
-<div class="line"><code class="docutils literal notranslate"><span class="pre">(nfields)</span></code></div>
-</div>
-</td>
-<td><div class="first last line-block">
-<div class="line">Number of field variables which have a boundary</div>
-<div class="line-block">
-<div class="line">condition in <code class="docutils literal notranslate"><span class="pre">.re2</span></code> file</div>
-</div>
-</div>
-</td>
+<td><code class="docutils literal notranslate"><span class="pre">(nfields)</span></code></td>
+<td>Number of field variables which have a boundary condition in <code class="docutils literal notranslate"><span class="pre">.re2</span></code> file</td>
 </tr>
 <tr class="row-odd"><td><code class="docutils literal notranslate"><span class="pre">firstBCFieldIndex</span></code></td>
-<td><div class="first last line-block">
-<div class="line"><code class="docutils literal notranslate"><span class="pre">(1</span> <span class="pre">or</span> <span class="pre">2)</span></code></div>
-</div>
-</td>
-<td><div class="first last line-block">
-<div class="line">Field index of the first BC specified in <code class="docutils literal notranslate"><span class="pre">.re2</span></code></div>
-<div class="line">file</div>
-</div>
-</td>
+<td><code class="docutils literal notranslate"><span class="pre">(1</span> <span class="pre">or</span> <span class="pre">2)</span></code></td>
+<td>Field index of the first BC specified in <code class="docutils literal notranslate"><span class="pre">.re2</span></code> file</td>
 </tr>
 </tbody>
 </table>
@@ -755,12 +612,12 @@ Values in parentheses denote the default value.</p>
 </tr>
 </tbody>
 </table>
-<span id="tab-pressureparams"></span><table border="1" class="docutils" id="id7">
+<span id="tab-pressureparams"></span><table border="1" class="colwidths-given docutils" id="id7">
 <caption><span class="caption-number">Table 10 </span><span class="caption-text"><code class="docutils literal notranslate"><span class="pre">PRESSURE</span></code> keys in the <code class="docutils literal notranslate"><span class="pre">.par</span></code> file</span><a class="headerlink" href="#id7" title="Permalink to this table">¶</a></caption>
 <colgroup>
-<col width="27%" />
-<col width="22%" />
-<col width="51%" />
+<col width="20%" />
+<col width="15%" />
+<col width="65%" />
 </colgroup>
 <thead valign="bottom">
 <tr class="row-odd"><th class="head">Key</th>
@@ -769,31 +626,28 @@ Values in parentheses denote the default value.</p>
 </tr>
 </thead>
 <tbody valign="top">
-<tr class="row-even"><td rowspan="3"><code class="docutils literal notranslate"><span class="pre">preconditioner</span></code></td>
+<tr class="row-even"><td><code class="docutils literal notranslate"><span class="pre">preconditioner</span></code></td>
 <td><code class="docutils literal notranslate"><span class="pre">(semg_xxt)</span></code></td>
-<td><div class="first last line-block">
-<div class="line">Standard preconditioning method. Requires</div>
-<div class="line">no additional setup. Only works for problems</div>
-<div class="line">with <span class="math notranslate nohighlight">\(E&lt;350,000\)</span></div>
-</div>
-</td>
+<td>Standard preconditioning method. Requires no additional setup. Only recommended for problems with <span class="math notranslate nohighlight">\(E&lt;350,000\)</span>.</td>
 </tr>
-<tr class="row-odd"><td><code class="docutils literal notranslate"><span class="pre">semg_amg</span></code></td>
-<td><div class="first last line-block">
-<div class="line">First time usage of AMG will write three</div>
-<div class="line">dump files to disc. Subsequently please run</div>
-<div class="line">the amg_hypre tool to create the setup files</div>
-<div class="line">required for the AMG solver initialization</div>
-</div>
-</td>
+<tr class="row-odd"><td>–</td>
+<td><code class="docutils literal notranslate"><span class="pre">semg_amg</span></code></td>
+<td>First time usage of <code class="docutils literal notranslate"><span class="pre">semg_amg</span></code> with write three dump files to disc. The <code class="docutils literal notranslate"><span class="pre">amg_hypre</span></code> tool will then need to be run to create the setup files required for the AMG solver initialization.</td>
 </tr>
-<tr class="row-even"><td><code class="docutils literal notranslate"><span class="pre">semg_amg_hypre</span></code></td>
+<tr class="row-even"><td>–</td>
+<td><code class="docutils literal notranslate"><span class="pre">semg_amg_hypre</span></code></td>
+<td>Recommended for <span class="math notranslate nohighlight">\(E≥350,000\)</span>. Requires <a class="reference internal" href="../build.html#build-pplist"><span class="std std-ref">compiling with HYPRE support</span></a>.</td>
+</tr>
+<tr class="row-odd"><td>–</td>
+<td><code class="docutils literal notranslate"><span class="pre">fem_amg_hypre</span></code></td>
+<td>May be faster for meshes with high aspect ratios. Requires <a class="reference internal" href="../build.html#build-pplist"><span class="std std-ref">compiling with HYPRE support</span></a>.</td>
+</tr>
+<tr class="row-even"><td><code class="docutils literal notranslate"><span class="pre">solver</span></code></td>
 <td><div class="first last line-block">
-<div class="line">Recommended for <span class="math notranslate nohighlight">\(E≥350,000\)</span>. Requires</div>
-<div class="line">compiling with HYPRE support. See</div>
-<div class="line"><a class="reference internal" href="../build.html#build-pplist"><span class="std std-ref">Preprocessor List</span></a> for details.</div>
+<div class="line"><code class="docutils literal notranslate"><span class="pre">(GMRES)</span></code> <code class="docutils literal notranslate"><span class="pre">CGFLEX</span></code></div>
 </div>
 </td>
+<td>Solver for pressure</td>
 </tr>
 </tbody>
 </table>
@@ -1564,7 +1418,7 @@ coordinates and any field data are optional.  Their presence of coordinates and 
   <hr/>
 
   <div role="contentinfo">
-    <p>&#169; Copyright 2015-2022, UCHICAGO ARGONNE, LLC.</p>
+    <p>&#169; Copyright 2015-2023, UCHICAGO ARGONNE, LLC.</p>
   </div>
 
   Built with <a href="https://www.sphinx-doc.org/">Sphinx</a> using a

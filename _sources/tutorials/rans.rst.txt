@@ -61,7 +61,7 @@ This setup corresponds to :math:`Re = 125,000`, which is well above the critical
 
 .. literalinclude:: rans/wallResolved/chan_WR.par
    :language: ini 
-   :emphasize-lines: 23-33
+   :emphasize-lines: 26-36
 
 The Temperature field is not solved in this tutorial, but can be turned on by adding the ``[TEMPERATURE]`` card and the requisite properties.
 
@@ -76,7 +76,7 @@ Foremost, it is essential to include the following header at the beginning of th
 
 .. literalinclude:: rans/wallResolved/chan_WR.usr
    :language: fortran
-   :lines: 2-3
+   :lines: 2
       
 Files in the above relative locations in the *Nek5000* repo load the essential RANS subroutines.
 
