@@ -4,7 +4,8 @@
 Boundary Conditions
 -------------------------------
 
-For all boundaries, it is necessary to provide *Nek5000* with the boundary condition *type* (e.g. that the velocity is to be specified), and for some types, the boundary condition *value* (e.g. what the velocity is specified as).
+For all boundaries, it is necessary to provide *Nek5000* with the boundary condition *type* and, for some types, the boundary condition *value*.
+
 Boundary condition values are assigned in the ``.usr`` file in the ``userbc`` subroutine (see :ref:`sec:userbc` for details).
 This section focuses on what boundary condition types are available in *Nek5000* and how to assign them.
 
@@ -17,7 +18,7 @@ The ``cbc`` array is set at runtime either from information carried directly in 
 The general conventions for boundary condition identifiers are:
 
 - uppercase letters correspond to boundary conditions which do not require any additional user input.
-- lowercase letters correspond to user defined boundary conditions which require values to be set in the :ref:`user file <sec:userbc>`.
+- lowercase letters correspond to user defined boundary conditions which require values to be set in the ``userbc`` subroutine in the :ref:`user file <sec:userbc>`.
 - lowercase letters ending with ``l``, e.g. ``vl``, are specified in face-local coordinates, i.e. normal, tangent and bitangent directions.
 
 The available boundary condition types, along with the identifier codes, are described in the following sections for the fluid velocity and pressure, and the temperature and passive scalars.
@@ -52,7 +53,13 @@ and in the full-stress formulation as:
  .. math::
 
    \boldsymbol{\underline \tau} \equiv \mu\left[\nabla {\bf u} + \left(\nabla {\bf u}\right)^T\right]
-  
+
+In general, the boundary condition for pressure satisfies the following equation, unless explicitly specified in the sections below.
+
+ .. math::
+
+  \nabla \cdot \frac{1}{\rho}\nabla p = -\nabla \cdot \frac{D \bf u}{D t} +\nabla \cdot \frac{1}{\rho}\left(\nabla \cdot \boldsymbol{\underline \tau}\right) + \nabla \cdot \bf f
+
 Inlet (Dirichlet), ``v``
 ````````````````````````
 
@@ -60,12 +67,11 @@ Standard Dirichlet boundary condition for velocity.
 
  .. math::
 
-     \nabla p \cdot {\bf \hat e_n} &= \mu\left(\nabla\times\boldsymbol{\omega}\right) \cdot {\bf \hat e_n}\\
      {\bf u} \cdot {\bf \hat e_x} &= u_x\\
      {\bf u} \cdot {\bf \hat e_y} &= u_y\\
      {\bf u} \cdot {\bf \hat e_z} &= u_z
     
-Where, :math:`{\bf \hat e_n}` is the unit vector normal to the boundary face, :math:`\boldsymbol{\omega}` is the vorticity, :math:`{\bf \hat e_x}`, :math:`{\bf \hat e_y}`, and :math:`{\bf \hat e_z}` are unit vectors aligned with the Cartesian axes and :math:`u_x`, :math:`u_y`, and :math:`u_z` are set in the :ref:`user file <sec:userbc>`.
+Where, :math:`{\bf \hat e_n}` is the unit vector normal to the boundary face, :math:`{\bf \hat e_x}`, :math:`{\bf \hat e_y}`, and :math:`{\bf \hat e_z}` are unit vectors aligned with the Cartesian axes and :math:`u_x`, :math:`u_y`, and :math:`u_z` are set in the ``userbc`` subroutine in the :ref:`user file <sec:userbc>`.
 
 Inlet (Dirichlet) - local ``vl``
 ````````````````````````````````
@@ -74,12 +80,11 @@ Standard Dirichlet boundary condition for velocity in local coordinates.
 
  .. math::
 
-     \nabla p \cdot {\bf \hat e_n} &= \mu\left(\nabla\times\boldsymbol{\omega}\right) \cdot {\bf \hat e_n}\\
      {\bf u} \cdot {\bf \hat e_n} &= u_n\\
      {\bf u} \cdot {\bf \hat e_t} &= u_1\\
      {\bf u} \cdot {\bf \hat e_b} &= u_2
     
-Where, :math:`{\bf \hat e_n}`, :math:`{\bf \hat e_t}`, and :math:`{\bf \hat e_b}` are the normal, tangent, and bitangent unit vectors on the boundary face, :math:`\boldsymbol{\omega}` is the vorticity, and :math:`u_n`, :math:`u_1`, and :math:`u_2` are set in the :ref:`user file <sec:userbc>`.
+Where, :math:`{\bf \hat e_n}`, :math:`{\bf \hat e_t}`, and :math:`{\bf \hat e_b}` are the normal, tangent, and bitangent unit vectors on the boundary face, and :math:`u_n`, :math:`u_1`, and :math:`u_2` are set in the ``userbc`` subroutine in the :ref:`user file <sec:userbc>`.
 
 
 Outlet, ``O``
@@ -105,7 +110,7 @@ Similar to a standard outlet, but with a specified pressure.
      p &= p_a\\
      \boldsymbol{\underline \tau} \cdot {\bf \hat e_n} &= 0
 
-Where :math:`{\bf \hat e_n}` is the unit vector normal to the boundary face and :math:`p_a` is set in the :ref:`user file <sec:userbc>`.
+Where :math:`{\bf \hat e_n}` is the unit vector normal to the boundary face and :math:`p_a` is set in the ``userbc`` subroutine in the :ref:`user file <sec:userbc>`.
 
 Outlet - normal, ``ON``
 ```````````````````````
@@ -134,7 +139,7 @@ Similar to an outlet - normal boundary, but with a specified pressure.
      {\bf u} \cdot {\bf \hat e_t} &= 0\\
      {\bf u} \cdot {\bf \hat e_b} &= 0
 
-Where :math:`{\bf \hat e_n}`, :math:`{\bf \hat e_t}`, and :math:`{\bf \hat e_b}` are the normal, tangent, and bitangent unit vectors on the boundary face, and :math:`p_a` is set in the :ref:`user file <sec:userbc>`.
+Where :math:`{\bf \hat e_n}`, :math:`{\bf \hat e_t}`, and :math:`{\bf \hat e_b}` are the normal, tangent, and bitangent unit vectors on the boundary face, and :math:`p_a` is set in the ``userbc`` subroutine in the :ref:`user file <sec:userbc>`.
 If the surface normal vector is not aligned with a principal Cartesian axis, the :ref:`full-stress formulation <sec:fullstress>` must be used.
 
 .. _sec:periodicbc:
@@ -185,8 +190,8 @@ Full Neumann boundary conditions for velocity.
      \left(\boldsymbol{\underline \tau} \cdot {\bf \hat e_n}\right)\cdot {\bf \hat e_y} &= tr_y\\
      \left(\boldsymbol{\underline \tau} \cdot {\bf \hat e_n}\right)\cdot {\bf \hat e_z} &= tr_z
 
-Where :math:`{\bf \hat e_n}` is the unit vector normal to the boundary face, :math:`{\bf \hat e_x}`, :math:`{\bf \hat e_y}`, and :math:`{\bf \hat e_z}` are unit vectors aligned with the Cartesian axes and :math:`tr_x`, :math:`tr_y`, and :math:`tr_z` are set in the :ref:`user file <sec:userbc>`.
-The :ref:`full-stress formulation <sec:fullstress>` must be used for the this boundary type.
+Where :math:`{\bf \hat e_n}` is the unit vector normal to the boundary face, :math:`{\bf \hat e_x}`, :math:`{\bf \hat e_y}`, and :math:`{\bf \hat e_z}` are unit vectors aligned with the Cartesian axes and :math:`tr_x`, :math:`tr_y`, and :math:`tr_z` are set in the ``userbc`` subroutine in the :ref:`user file <sec:userbc>`.
+The :ref:`full-stress formulation <sec:fullstress>` must be used for this boundary type.
 
 Traction - local, ``sl``
 ````````````````````````
@@ -200,8 +205,23 @@ Similar to traction, but in local coordinates.
      \left(\boldsymbol{\underline \tau} \cdot {\bf \hat e_n}\right)\cdot {\bf \hat e_t} &= tr_1\\
      \left(\boldsymbol{\underline \tau} \cdot {\bf \hat e_n}\right)\cdot {\bf \hat e_b} &= tr_2
 
-Where :math:`{\bf \hat e_n}`, :math:`{\bf \hat e_t}`, and :math:`{\bf \hat e_b}` are the normal, tangent, and bitangent unit vectors on the boundary face, and :math:`tr_n`, :math:`tr_1`, and :math:`tr_2` are set in the :ref:`user file <sec:userbc>`.
-The :ref:`full-stress formulation <sec:fullstress>` must be used for the this boundary type.
+Where :math:`{\bf \hat e_n}`, :math:`{\bf \hat e_t}`, and :math:`{\bf \hat e_b}` are the normal, tangent, and bitangent unit vectors on the boundary face, and :math:`tr_n`, :math:`tr_1`, and :math:`tr_2` are set in the ``userbc`` subroutine in the :ref:`user file <sec:userbc>`.
+The :ref:`full-stress formulation <sec:fullstress>` must be used for this boundary type.
+
+Traction - horizontal, ``sh``
+`````````````````````````````````````
+
+Similar to symmetry, but with specified non-zero traction in the tangent and bitangent directions given in Cartesian coordinates
+
+  .. math::
+
+     {\bf u} \cdot {\bf \hat e_n} &= 0\\
+     \left(\boldsymbol{\underline \tau} \cdot {\bf \hat e_n}\right)\cdot {\bf \hat e_x} &= tr_x\\
+     \left(\boldsymbol{\underline \tau} \cdot {\bf \hat e_n}\right)\cdot {\bf \hat e_y} &= tr_y\\
+     \left(\boldsymbol{\underline \tau} \cdot {\bf \hat e_n}\right)\cdot {\bf \hat e_z} &= tr_z
+
+Where :math:`{\bf \hat e_n}` is the unit vector normal to the boundary face, :math:`{\bf \hat e_x}`, :math:`{\bf \hat e_y}`, and :math:`{\bf \hat e_z}` are unit vectors aligned with the Cartesian axes and :math:`tr_x`, :math:`tr_y`, and :math:`tr_z` are set in the ``userbc`` subroutine in the :ref:`user file <sec:userbc>`.
+The :ref:`full-stress formulation <sec:fullstress>` must be used for this boundary type.
 
 Traction - horizontal, local, ``shl``
 `````````````````````````````````````
@@ -210,13 +230,12 @@ Similar to symmetry, but with specified non-zero traction in the tangent and bit
 
   .. math::
 
-     \nabla p \cdot {\bf \hat e_n} &= \mu\left(\nabla\times\boldsymbol{\omega}\right) \cdot {\bf \hat e_n}\\
      {\bf u} \cdot {\bf \hat e_n} &= 0\\
      \left(\boldsymbol{\underline \tau} \cdot {\bf \hat e_n}\right)\cdot {\bf \hat e_t} &= tr_1\\
      \left(\boldsymbol{\underline \tau} \cdot {\bf \hat e_n}\right)\cdot {\bf \hat e_b} &= tr_2
 
-Where, :math:`{\bf \hat e_n}`, :math:`{\bf \hat e_t}`, and :math:`{\bf \hat e_b}` are the normal, tangent, and bitangent unit vectors on the boundary face, :math:`\boldsymbol{\omega}` is the vorticity, and :math:`tr_1` and :math:`tr_2` are set in the :ref:`user file <sec:userbc>`.
-The :ref:`full-stress formulation <sec:fullstress>` must be used for the this boundary type.
+Where, :math:`{\bf \hat e_n}`, :math:`{\bf \hat e_t}`, and :math:`{\bf \hat e_b}` are the normal, tangent, and bitangent unit vectors on the boundary face, and :math:`tr_1` and :math:`tr_2` are set in the ``userbc`` subroutine in the :ref:`user file <sec:userbc>`.
+The :ref:`full-stress formulation <sec:fullstress>` must be used for this boundary type.
 
 Wall, ``W``
 ```````````
@@ -225,10 +244,8 @@ Dirichlet boundary condition corresponding to a no-slip wall.
 
   .. math::
 
-     \nabla p \cdot {\bf \hat e_n} &= \mu\left(\nabla\times\boldsymbol{\omega}\right) \cdot {\bf \hat e_n}\\
-     {\bf u} &= 0
+     \bf u = 0
 
-Where, :math:`{\bf \hat e_n}` is the unit vector normal to the boundary face and :math:`\boldsymbol{\omega}` is the vorticity.
 The ``userbc`` subroutine is not called for this boundary condition type.
   
 Other BCs
@@ -245,7 +262,6 @@ Other BCs
    ``'   '`` , "Empty", --, "Treated as an interior boundary"
    ``int``, "Interpolated (NEKNEK)",       Dirichlet, "Interpolated from the adjacent overset mesh, see: :ref:`neknek`"
    ``p`` , "Periodic", --, "For periodicity within a single element"
-   ``sh`` , "Traction, horizontal",        Mixed,     "Specified traction with zero normal velocity"
    ``mm`` , "Moving mesh",                 --,        "--"
    ``ms`` , "Moving surface",              --,        "--"
    ``msi``, "Moving internal surface",     --,        "--"
@@ -282,7 +298,7 @@ Standard Dirichlet boundary condition for temperature and passive scalars. Used 
 
    T = temp
 
-Where :math:`temp` is set in the :ref:`user file <sec:userbc>`.
+Where :math:`temp` is set in the ``userbc`` subroutine in the :ref:`user file <sec:userbc>`.
 
 Flux (Neumann), ``f``
 `````````````````````
@@ -293,7 +309,7 @@ Standard heat flux boundary condition.
 
   \lambda\nabla T \cdot {\bf \hat e_n} = flux
 
-Where :math:`{\bf \hat e_n}` is the unit vector normal to the boundary face and :math:`flux` is set in the :ref:`user file <sec:userbc>`.
+Where :math:`{\bf \hat e_n}` is the unit vector normal to the boundary face and :math:`flux` is set in the ``userbc`` subroutine in the :ref:`user file <sec:userbc>`.
 
 Insulated, ``I``
 ````````````````
@@ -317,7 +333,7 @@ Robin boundary condition for a surface exposed to a fluid at given temperature a
    \lambda \nabla T \cdot {\bf \hat e_n} = h_c\left(T-T_{\infty}\right)
 
 Where :math:`{\bf \hat e_n}` is the unit vector normal to the boundary face, :math:`h_c` is the convective heat transfer coefficient, and :math:`T_{\infty}` is the ambient temperature.
-The convective heat transfer coefficient and ambient temperature are set in the :ref:`user file <sec:userbc>`.
+The convective heat transfer coefficient and ambient temperature are set in the ``userbc`` subroutine in the :ref:`user file <sec:userbc>`.
 
 Periodic, ``P``
 ```````````````
@@ -342,7 +358,7 @@ Robin boundary condition for a surface where radiation heat transfer is signific
    \lambda \nabla T \cdot {\bf \hat e_n} = h_{rad}\left(T^4-T_{\infty}^4\right)
 
 Where :math:`{\bf \hat e_n}` is the unit vector normal to the boundary face, :math:`h_{rad}` is the radiative heat transfer coefficient, and :math:`T_{\infty}` is the ambient temperature.
-The radiative heat transfer coefficient and ambient temperature are set in the :ref:`user file <sec:userbc>`.
+The radiative heat transfer coefficient and ambient temperature are set in the ``userbc`` subroutine in the :ref:`user file <sec:userbc>`.
 
 Other BCs
 `````````

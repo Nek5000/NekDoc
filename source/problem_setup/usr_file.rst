@@ -307,7 +307,8 @@ In the example above, the ``cbc`` array does not need to be checked to assign th
   In this example, the ``boundaryID`` array is used to differentiate between the inlet and two different walls.
   The inlet (ID = 1) has a velocity profile and constant temperature value.
   The walls (IDs 2 and 3 respectively) are set as a positive heat flux on wall 2 and a negative (cooling) heat flux on wall 3.
-  This example corresponds to the example setup shown in :ref:`usrdat <usrdat_ex>`.
+
+.. This example corresponds to the example setup shown in :ref:`usrdat <usrdat_ex>`.
 
 .. literalinclude:: examples/userbc2.txt
    :language: fortran
@@ -417,16 +418,15 @@ usrdat
 ...................
 
 This function can be used to modify the element vertices and is called before the spectral element mesh (GLL points) has been laid out.
-It can be used to fill the ``cbc`` array based on ``BoundaryID`` for 3rd party meshes.
 
-.. _usrdat_ex:
+.. .. _usrdat_ex:
 
-:Example: 
+.. :Example: 
   In the code below, the ``cbc`` array is filled for a 3rd party mesh. 
   The ``boundaryID`` array is filled with the Boundary ID values set in Gmsh or the sideset numbers specified in an exodus mesh file.
   This example corresponds with the setup shown in the :ref:`second example for userbc <userbc_ex2>`.
 
-.. literalinclude:: examples/usrdat.txt
+.. .. literalinclude:: examples/usrdat.txt
    :language: fortran
 
 .. _sec:usrdat2:
