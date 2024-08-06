@@ -20,6 +20,7 @@ The general conventions for boundary condition identifiers are:
 - uppercase letters correspond to boundary conditions which do not require any additional user input.
 - lowercase letters correspond to user defined boundary conditions which require values to be set in the ``userbc`` subroutine in the :ref:`user file <sec:userbc>`.
 - lowercase letters ending with ``l``, e.g. ``vl``, are specified in face-local coordinates, i.e. normal, tangent and bitangent directions.
+- lowercase letters including an ``h``, e.g. ``sh``, are a "horizontal" variant where the normal velocity component is zero. This can be combined with ``l`` to produce a "horizontal, local" variant.
 
 The available boundary condition types, along with the identifier codes, are described in the following sections for the fluid velocity and pressure, and the temperature and passive scalars.
 
