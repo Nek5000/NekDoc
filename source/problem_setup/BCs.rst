@@ -51,7 +51,7 @@ where the stress tensor is given as
 
  .. math::
 
-   \boldsymbol{\underline \tau} \equiv \mu\left[\nabla {\bf u} + \left(\nabla {\bf u}\right)^T\right]
+   \boldsymbol{\underline \tau} = \mu\left[\nabla {\bf u} + \left(\nabla {\bf u}\right)^T\right]
 
 Inlet (Dirichlet), ``v``
 ````````````````````````
@@ -448,6 +448,7 @@ A few simple examples of setting the BC types via the ``.par`` file for a mesh w
 In the simplest example, the mesh has 4 boundaries each with a sequentially numbered boundary ID.
 
 .. csv-table:: Desired Boundary Types
+   :align: center
    :header: Boundary ID, Velocity, Temperature
 
    1,``v``,``t``
