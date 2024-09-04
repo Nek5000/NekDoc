@@ -66,148 +66,203 @@ The ``.par`` file follows the structure exemplified below.
 
 The sections are:
 
-* ``GENERAL`` (mandatory)
-* ``PROBLEMTYPE``
-* ``MESH``
-* ``VELOCITY``
-* ``PRESSURE`` (required for velocity)
-* ``TEMPERATURE``
-* ``SCALAR%%``
-* ``CVODE``
+* ``GENERAL`` (**mandatory**, see: :ref:`sec:generalpars`)
+* ``PROBLEMTYPE`` (see: :ref:`sec:problemtypepars`)
+* ``MESH`` (see: :ref:`sec:meshpars`)
+* ``VELOCITY`` (see: :ref:`sec:velpars`)
+* ``PRESSURE`` (**required for velocity** see: :ref:`sec:pressurepars`)
+* ``TEMPERATURE`` (see: :ref:`sec:temppars`)
+* ``SCALAR%%`` (see: :ref:`sec:scalarpars`)
+* ``CVODE`` (see: :ref:`sec:cvodepars`)
 
-When scalars are used, the keys of each scalar are defined under the section ``SCALAR%%`` varying
-between ``SCALAR01`` and ``SCALAR99``. The descripton of the keys of each section is given in the
-following tables (all keys/values are case insensitive). The value assigned to each key can be a
-user input (e.g. a <real> value) or one of the avaliable options listed in the tables below.
+Additionally, some parameters are common to multiple sections:
+
+* :ref:`sec:commonpars` (Common to all field variables)
+* :ref:`sec:tspars` (Common to both temperature and passive scalar fields)
+
+When scalars are used, the keys of each scalar are defined under the section ``SCALAR%%`` varying between ``SCALAR01`` and ``SCALAR99``. 
+The descripton of the keys of each section is given in the following tables (all keys/values are case insensitive). 
+The value assigned to each key can be a user input (e.g. a <real> value) or one of the avaliable options listed in the tables below. 
 Values in parentheses denote the default value.
 
+.. _sec:generalpars:
+
+..................
+General Parameters
+..................
 
 .. _tab:generalparams:
 
 .. csv-table:: ``GENERAL`` keys in the ``.par`` file
-   :widths: 20 20 60
+   :widths: 20,20,60
    :header: Key, Value(s), Description
 
-   ``startFrom``           ,| ``<string>``                     ,"Absolute/relative path of the field file to restart the simulation from. Also includes several restart options (see :ref:`features_restart` for details)"
-   ``stopAt``              ,| ``(numSteps)`` ``endTime``       ,"Stops the simulation after a given number of time steps or at a given physical time."
-   ``endTime``             ,| ``<real>``                       ,"Final physical time at which we want to our simulation to stop. Required for ``stopAt = endTime``."
-   ``numSteps``            ,| ``<int>``                        ,"Number of time steps until the simulation stops. Required for ``stopAt = numSteps``."
-   ``dt``                  ,| ``<real>``                       ,"Specifies the step size or in case of a variable time step, the maximum step size"
-   ``variableDT``          ,| ``(no)`` ``yes``                 ,"Controls if the step size will be adjusted to match the targetCFL."
-   ``initialDT``           ,| ``<real>``                       ,"Controls the initial time step size. Requires ``variableDT = yes``."
-   ``targetCFL``           ,| ``<real>``                       ,"Sets stability/target CFL number for OIFS or variable time steps. This is fixed to 0.5 for ``extrapolation = standard``" 
-   ``writeControl``        ,| ``(timeStep)`` ``runTime``       ,"Specifies whether checkpointing is based on number of time steps or physical time."
-   ``writeInterval``       ,| ``<real>/<int>``                 ,"Checkpoint frequency in physical time (``<real>``) or number of time steps (``<int>``)"
-   ``filtering``           ,| ``(none)`` ``explicit`` ``hpfrt``,"Specifies the filtering method. See :ref:`sec:filter` for details."
-   ``filterModes``         ,| ``<int>``                        ,"Specifies the number of modes filtered as an alternative to specifying the cutoff ratio. Note: requires the use of at least 2 modes. See :ref:`sec:filter` for details."
-   ``filterCutoffRatio``   ,| ``<real>``                       ,"Ratio of modes not affected by the filter. Use as an alternative to specifying the number of modes explicitly. See :ref:`sec:filter` for details."
-   ``filterWeight``        ,| ``<real>``                       ,"Sets the filter strength of transfer function of the last mode (explicit) or the relaxation parameter in case of hpfrt. See :ref:`sec:filter` for more information."
-   ``writeDoublePrecision``,| ``no`` ``(yes)``                 ,"Sets the precision of the output field files."
-   ``writeNFiles``         ,| ``<int>`` ``(1)``                ,"Sets the number of output files. By default a parallel shared file is used."
-   ``dealiasing``          ,| ``no`` ``yes``                   ,"Enable/diasble over-integration."
-   ``timeStepper``         ,| ``BDF1`` ``(BDF2)`` ``BDF3``     ,"Time integration order."
-   ``extrapolation``       ,| ``(standard)`` ``OIFS``          ,"Extrapolation method. Can be used to achieve CFL > 0.5 with ``OIFS``."
-   ``constFlowRate``       ,| ``(none)`` ``X`` ``Y`` ``Z``     ,"Prescribes a constant volumetric flow in the given direction. Requires ``meanVolumetricFlow`` or ``meanVelocity``."
-   ``meanVolumetricFlow``  ,| ``<real>``                       ,"Sets the volumetric flow rate in the direction of ``constFlowRate``."
-   ``meanVelocity``        ,| ``<real>``                       ,"Sets the mean velocity (volume-weighted velocity mean) in the direction of ``constFlowRate``."
-   ``optLevel``            ,| ``<int>`` ``(2)``                ,"Optimization level"
-   ``logLevel``            ,| ``<int>`` ``(2)``                ,"Controls the verbosity level of the logfile."
-   ``userParam%%``         ,| ``<real>``                       ,"User parameter (can be accessed through uparam(%) array in ``.usr``. Supports up to 20 parameters."
+   ``startFrom``, "``<string>``", "Absolute/relative path of the field file to restart the simulation from. Also includes several restart options (see :ref:`features_restart` for details)"
+   ``stopAt``, "(``numSteps``), ``endTime``", "Stops the simulation after a given number of time steps or at a given physical time."
+   ``endTime``, "``<real>``", "Final physical time at which we want to our simulation to stop. Required for ``stopAt = endTime``."
+   ``numSteps``, "``<int>``", "Number of time steps until the simulation stops. Required for ``stopAt = numSteps``."
+   ``dt``, "``<real>``", "Specifies the step size or in case of a variable time step, the maximum step size"
+   ``variableDT``, "(``no``), ``yes``", "Controls if the step size will be adjusted to match the targetCFL."
+   ``initialDT``, "``<real>``", "Controls the initial time step size. Requires ``variableDT = yes``."
+   ``targetCFL``, "``<real>``", "Sets stability/target CFL number for OIFS or variable time steps. This is fixed to 0.5 for ``extrapolation = standard``" 
+   ``writeControl``, "(``timeStep``), ``runTime``", "Specifies whether checkpointing is based on number of time steps or physical time."
+   ``writeInterval``, "``<real>/<int>``", "Checkpoint frequency in physical time (``<real>``) or number of time steps (``<int>``)"
+   ``filtering``, "(``none``), ``explicit``, ``hpfrt``", "Specifies the filtering method. See :ref:`sec:filter` for details."
+   ``filterModes``, "``<int>``", "Specifies the number of modes filtered as an alternative to specifying the cutoff ratio. Note: requires the use of at least 2 modes. See :ref:`sec:filter` for details."
+   ``filterCutoffRatio``, "``<real>``", "Ratio of modes not affected by the filter. Use as an alternative to specifying the number of modes explicitly. See :ref:`sec:filter` for details."
+   ``filterWeight``, "``<real>``", "Sets the filter strength of transfer function of the last mode (explicit) or the relaxation parameter in case of hpfrt. See :ref:`sec:filter` for more information."
+   ``writeDoublePrecision``, "``no``, (``yes``)", "Sets the precision of the output field files."
+   ``writeNFiles``, "``<int>``, (``1``)", "Sets the number of output files. By default a parallel shared file is used."
+   ``dealiasing``, "``no``, ``yes``", "Enable/diasble over-integration."
+   ``timeStepper``, "``BDF1``, (``BDF2``), ``BDF3``", "Time integration order."
+   ``extrapolation``, "(``standard``), ``OIFS``", "Extrapolation method. Can be used to achieve CFL > 0.5 with ``OIFS``."
+   ``constFlowRate``, "(``none``), ``X``, ``Y``, ``Z``", "Prescribes a constant volumetric flow in the given direction. Requires ``meanVolumetricFlow`` or ``meanVelocity``."
+   ``meanVolumetricFlow``, "``<real>``", "Sets the volumetric flow rate in the direction of ``constFlowRate``."
+   ``meanVelocity``, "``<real>``", "Sets the mean velocity (volume-weighted velocity mean) in the direction of ``constFlowRate``."
+   ``optLevel``, "``<int>``, (``2``)", "Optimization level"
+   ``logLevel``, "``<int>``, (``2``)", "Controls the verbosity level of the logfile."
+   ``userParam%%``, "``<real>``", "User parameter (can be accessed through uparam(%) array in ``.usr``. Supports up to 20 parameters."
+
+.. _sec:problemtypepars:
+
+.......................
+Problem Type Parameters
+.......................
 
 .. _tab:probtypeparams:
 
-.. table:: ``PROBLEMTYPE`` keys in the ``.par`` file
+.. csv-table:: ``PROBLEMTYPE`` keys in the ``.par`` file
+   :header: Key,Value(s),Description
+   :widths: 20,20,60
 
-   +---------------------------+---------------------+--------------------------------------------------+
-   |   Key                     | | Value(s)          | | Description                                    |
-   +===========================+=====================+==================================================+
-   | ``equation``              | | ``(incompNS)``    | | Specifies equation type                        |
-   |                           | | ``lowMachNS``     |                                                  |
-   |                           | | ``steadyStokes``  |                                                  |
-   |                           | | ``incompLinNS``   |                                                  |
-   |                           | | ``incompLinAdjNS``|                                                  |
-   |                           | | ``incompMHD``     |                                                  |
-   |                           | | ``compNS``        |                                                  |
-   |                           |                     |                                                  |
-   +---------------------------+---------------------+--------------------------------------------------+
-   | ``axiSymmetry``           | | ``(no)``          | | Axisymmetric problem                           |
-   |                           | | ``yes``           |                                                  |
-   +---------------------------+---------------------+--------------------------------------------------+
-   | ``swirl``                 | | ``(no)``          | | Enable axisymmetric azimuthal velocity         |
-   |                           | | ``yes``           | | component (stored in temperature field         |
-   +---------------------------+---------------------+--------------------------------------------------+
-   | ``cyclicBoundaries``      | | ``(no)``          | | Sets cyclic periodic boundaries                |
-   |                           | | ``yes``           |                                                  |
-   +---------------------------+---------------------+--------------------------------------------------+
-   | ``numberOfPerturbations`` | | ``(1)``           | | Number of perturbations for linearized NS      |
-   +---------------------------+---------------------+--------------------------------------------------+
-   | ``solveBaseFlow``         | | ``(no)``          | | Solve for base flow in case of linearized NS   |
-   |                           | | ``yes``           |                                                  |
-   +---------------------------+---------------------+--------------------------------------------------+
-   | ``variableProperties``    | | ``(no)``          | | Enable variable transport properties           |
-   |                           | | ``yes``           |                                                  |
-   +---------------------------+---------------------+--------------------------------------------------+
-   | ``stressFormulation``     | | ``(no)``          | | Enable stress formulation                      |
-   |                           | | ``yes``           |                                                  |
-   +---------------------------+---------------------+--------------------------------------------------+
-   | ``dp0dt``                 | | ``(no)``          | | Enable time-varying thermodynamic pressure     |
-   |                           | | ``yes``           |                                                  |
-   +---------------------------+---------------------+--------------------------------------------------+
+   ``equation``, "(``incompNS``), ``lowMachNS``, ``steadyStokes``, ``incompLinNS``, ``incompLinAdjNS``, ``incompMHD``, ``compNS``", "Specifies equation type"
+   ``axiSymmetry``, "(``no``), ``yes``", "Axisymmetric problem"
+   ``swirl``, "(``no``), ``yes``", "Enable axisymmetric azimuthal velocity component (stored in temperature field"
+   ``cyclicBoundaries``, "(``no``), ``yes``", "Sets cyclic periodic boundaries"
+   ``numberOfPerturbations``, "(``1``)", "Number of perturbations for linearized NS"
+   ``solveBaseFlow``, "(``no``), ``yes``", "Solve for base flow in case of linearized NS"
+   ``variableProperties``, "(``no``), ``yes``", "Enable variable transport properties"
+   ``stressFormulation``, "(``no``), ``yes``", "Enable stress formulation"
+   ``dp0dt``, "(``no``), ``yes``", "Enable time-varying thermodynamic pressure"
+
+.. _sec:commonpars:
+
+.......................
+Common Parameters
+.......................
+
+These parameters are available for field variables.
 
 .. _tab:commonparams:
 
-.. table:: ``COMMON`` keys for all field variables in the ``.par`` file
+.. csv-table:: ``COMMON`` keys for all field variables in the ``.par`` file
+   :header: Key,Value(s),Description
+   :widths: 20,20,60
 
-   +-------------------------+-----------------+-------------------------------------------------------+
-   |   Key                   | | Value(s)      | | Description                                         |
-   +=========================+=================+=======================================================+
-   | ``residualTol``         | | ``<real>``    | | Residual tolerance used by solver (not for CVODE)   |
-   +-------------------------+-----------------+-------------------------------------------------------+
-   | ``residualProj``        | | ``(no)``      | | Controls the residual projection                    |
-   |                         | | ``yes``       |                                                       |
-   +-------------------------+-----------------+-------------------------------------------------------+
-   | ``writeToFieldFile``    | | ``no``        | | Controls if fields will be written on output        |
-   |                         | | ``(yes)``     |                                                       |
-   +-------------------------+-----------------+-------------------------------------------------------+
+   ``residualTol``     , "``<real>``       ", Residual tolerance used by solver (not for CVODE)   
+   ``residualProj``    , "(``no``), ``yes``", Controls the residual projection            
+   ``writeToFieldFile``, "``no``, (``yes``)", Controls if fields will be written on output        
+   ``boundaryTypeMap`` , "``<string-list>``", Maps the boundary condition types to boundary IDs for third-party meshes 
+
+.. Note::
+
+   Some boundary types have plain-english equivalents that can be used in the ``.par`` file in lieu of the character identifiers. See :numref:`tab:engvidentifiers` and :numref:`tab:engtidentifiers`. 
+   Additionally, ``none`` can be used to keep the ``cbc`` array empty.
+
+.. _sec:engidentifiers:
+
+Plain-English BC Identifiers
+````````````````````````````
+
+The plain-English boundary condition identifiers can be used in the ``.par`` file instead of the character identifier codes. 
+Note that some character codes have multiple corresponding plain-English identifiers.
+
+.. _tab:engvidentifiers:
+
+.. csv-table:: Velocity boundary identifier plain-English equivalents
+   :header: Identifier,Equivalents
+   :widths: 10,30
+
+   ``A``, axis
+   ``v``,"dirichlet, inlet"
+   ``int``,interpolated
+   ``O``,outlet
+   ``o``,pressure
+   ``P``,periodic
+   ``SYM``,symmetry
+   ``W``,wall
+
+.. _tab:engtidentifiers:
+
+.. csv-table:: Temperature and passive scalar boundary identifier plain-English equivalents
+   :header: Identifier,Equivalents
+   :widths: 10,30
+
+   ``A``,axis
+   ``c``,"convection, robin"
+   ``t``,"dirichlet, inlet"
+   ``f``,"flux, neumann"
+   ``I``,"insulated, outlet, symmetry"
+   ``int``,interpolated
+   ``P``,periodic
+   ``r``,radiation
+
+.. _sec:meshpars:
+
+.......................
+Mesh Parameters
+.......................
 
 .. _tab:meshparams:
 
 .. csv-table:: ``MESH`` keys in the ``.par`` file
-   :widths: 20 15 65
+   :widths: 20,20,60
    :header: Key, Value(s), Description
 
-   ``motion``, | ``(none)`` ``user`` ``elasticity``,"Mesh motion solver"
-   ``viscosity``, ``(0.4)``, Diffusivity for elasticity solver
-   ``numberOfBCFields``, ``(nfields)``, Number of field variables which have a boundary condition in ``.re2`` file
-   ``firstBCFieldIndex``, ``(1 or 2)``, Field index of the first BC specified in ``.re2`` file 
+   ``boundaryIDMap``,"``<int-list>``, (``1,2,3...``)",Maps the boundary types to their corresponding boundary IDs
+   ``motion``, "(``none``), ``user``, ``elasticity``", "Mesh motion solver"
+   ``viscosity``, "``<real>``, (``0.4``)", Diffusivity for elasticity solver
+   ``numberOfBCFields``, (``nfields``), Number of field variables which have a boundary condition in ``.re2`` file
+   ``firstBCFieldIndex``, (``1``) or ``2``, Field index of the first BC specified in ``.re2`` file 
+
+.. _sec:velpars:
+
+.......................
+Velocity Parameters
+.......................
 
 .. _tab:velocityparams:
 
-.. table:: ``VELOCITY`` keys in the ``.par`` file
+.. csv-table:: ``VELOCITY`` keys in the ``.par`` file
+   :widths: 15,10,75
+   :header: Key,Value(s),Description
 
-   +-------------------------+--------------+------------------------------------------------+
-   |   Key                   | | Value(s)   | | Description                                  |
-   +=========================+==============+================================================+
-   | ``viscosity``           | | ``<real>`` | | Dynamic viscosity                            |
-   |                         |              | | A negative value sets the Reynolds number    |
-   +-------------------------+--------------+------------------------------------------------+
-   | ``density``             | | ``<real>`` | | Density                                      |
-   +-------------------------+--------------+------------------------------------------------+
+   ``viscosity``, ``<real>``, Dynamic viscosity. A negative value sets the Reynolds number
+   ``density``, ``<real>``, Density
 
+.. _sec:pressurepars:
 
+.......................
+Pressure Parameters
+.......................
 
 .. _tab:pressureparams:
 
 .. csv-table:: ``PRESSURE`` keys in the ``.par`` file
-   :widths: 20 15 65
+   :widths: 20, 15, 65
    :header: Key, Value(s), Description
 
-   ``preconditioner``, ``(semg_xxt)``,"Standard preconditioning method. Requires no additional setup. Only recommended for problems with :math:`E<350,000`."
+   ``preconditioner``, (``semg_xxt``),"Standard preconditioning method. Requires no additional setup. Only recommended for problems with :math:`E<350,000`."
      --,``semg_amg``, "First time usage of ``semg_amg`` with write three dump files to disc. The ``amg_hypre`` tool will then need to be run to create the setup files required for the AMG solver initialization."
      --,``semg_amg_hypre``, "Recommended for :math:`E≥350,000`. Requires :ref:`compiling with HYPRE support <build_pplist>`."
      --,``fem_amg_hypre``, "May be faster for meshes with high aspect ratios. Requires :ref:`compiling with HYPRE support <build_pplist>`."
-    ``solver``,| ``(GMRES)`` ``CGFLEX``, Solver for pressure
+    ``solver``, "(``GMRES``), ``CGFLEX``", Solver for pressure
 
+.. _sec:tspars:
+
+................................................
+Temperature and Passive Scalar Common Parameters
+................................................
 
 .. _tab:tpscommonparams:
 
@@ -216,15 +271,21 @@ Values in parentheses denote the default value.
    +-------------------------+--------------+--------------------------------------------+
    |   Key                   | | Value(s)   | | Description                              |
    +=========================+==============+============================================+
-   | ``solver``              | | ``(helm)`` | | Solver for scalar                        |
+   | ``solver``              | | (``helm``) | | Solver for scalar                        |
    |                         | | ``cvode``  |                                            |
    |                         | | ``none``   |                                            |
    +-------------------------+--------------+--------------------------------------------+
    | ``advection``           | | ``no``     | | Controls if advection is present         |
-   |                         | | ``(yes)``  |                                            |
+   |                         | | (``yes``)  |                                            |
    +-------------------------+--------------+--------------------------------------------+
    | ``absoluteTol``         | | ``<real>`` | | Absolute tolerance used by CVODE         |
    +-------------------------+--------------+--------------------------------------------+
+
+.. _sec:temppars:
+
+................................................
+Temperature Parameters
+................................................
 
 .. _tab:temperatureparams:
 
@@ -233,7 +294,7 @@ Values in parentheses denote the default value.
    +--------------------------+--------------+----------------------------------------------+
    |   Key                    | | Value(s)   | | Description                                |
    +==========================+==============+==============================================+
-   | ``ConjugateHeatTransfer``| | ``(no)``   | | Controls conjugate heat transfer           |
+   | ``ConjugateHeatTransfer``| | (``no``)   | | Controls conjugate heat transfer           |
    |                          | | ``yes``    |                                              |
    +--------------------------+--------------+----------------------------------------------+
    | ``conductivity``         | | ``<real>`` | | Thermal conductivity                       |
@@ -242,6 +303,12 @@ Values in parentheses denote the default value.
    +--------------------------+--------------+----------------------------------------------+
 
 Note: ``[TEMPERATURE] solver = none`` is incompatible with ``[PROBLEMTYPE] equation = lowMachNS`` without defining a custom thermal divergence in the ``usr`` file.
+
+.. _sec:scalarpars:
+
+................................................
+Passive Scalar Parameters
+................................................
 
 .. _tab:scalarparams:
 
@@ -255,6 +322,12 @@ Note: ``[TEMPERATURE] solver = none`` is incompatible with ``[PROBLEMTYPE] equat
    | ``diffusivity``          | | ``<real>``   | | Diffusivity                              |
    +--------------------------+----------------+--------------------------------------------+
 
+.. _sec:cvodepars:
+
+................................................
+CVODE Parameters
+................................................
+
 .. _tab:cvodeparams:
 
 .. table:: ``CVODE`` keys in the ``.par`` file
@@ -265,9 +338,9 @@ Note: ``[TEMPERATURE] solver = none`` is incompatible with ``[PROBLEMTYPE] equat
    | ``relativeTol``          | | ``<real>``   | | Relative tolerance (applies to all scalars)|
    +--------------------------+----------------+----------------------------------------------+
    | ``stiff``                | | ``no``       | | Controls if BDF or Adams Moulton is used   |
-   |                          | | ``(yes)``    |                                              |
+   |                          | | (``yes``)    |                                              |
    +--------------------------+----------------+----------------------------------------------+
-   | ``preconditioner``       | | ``(none)``   | | Preconditioner method                      |
+   | ``preconditioner``       | | (``none``)   | | Preconditioner method                      |
    |                          | | ``user``     |                                              |
    +--------------------------+----------------+----------------------------------------------+
    | ``dtMax``                | | ``<real>``   | | Maximum internal step size                 |
