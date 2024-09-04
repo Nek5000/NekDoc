@@ -54,14 +54,27 @@ where :math:`\boldsymbol{\underline\tau}=\mu[\nabla \mathbf u+\nabla \mathbf u^{
 
     \nabla \cdot \mathbf u =0 \,\, , \text{in } \Omega_f, \quad \text{  (Continuity)  }   
 
-If the fluid viscosity is constant in the entire domain the viscous stress tensor can be contracted
-:math:`\nabla\cdot\boldsymbol{\underline\tau}=\mu\Delta \mathbf u`, therefore one may solve the Navier--Stokes equations
-in either the stress formulation, or no stress
+If the fluid viscosity is constant in the entire domain the viscous stress tensor can be contracted using the Laplace operator.
+Therefore one may solve the Navier--Stokes equations in either the full-stress formulation
 
-- Variable viscosity requires the full stress tensor :math:`\nabla \cdot \boldsymbol{\underline\tau}=\nabla \cdot
-  \mu[\nabla \mathbf u+\nabla \mathbf u^{T}]`, and we shall refer to this as the stress formulation
-- Constant viscosity leads to a simpler stress tensor :math:`\nabla \cdot \boldsymbol{\underline\tau}=\mu\Delta \mathbf u`,
-  which we refer to as the 'no stress' formulation
+.. _sec:fullstress:
+
+.. math::
+   :label: eq:fullstress
+
+   \nabla \cdot \boldsymbol{\underline\tau}=\nabla \cdot \mu[\nabla \mathbf u+\nabla \mathbf u^{T}]
+
+or the no-stress formulation
+
+.. _sec:nostress:
+
+.. math::
+   :label: eq:nostress
+
+   \nabla \cdot \boldsymbol{\underline\tau}=\mu\Delta \mathbf u
+
+- Variable viscosity and RANS models require the full-stress tensor.
+- Constant viscosity leads to a simpler stress tensor, which we refer to as the 'no-stress' formulation.
 
 .. _intro_ns_nondim:
 
@@ -69,24 +82,31 @@ in either the stress formulation, or no stress
 Non-Dimensional Navier-Stokes
 -----------------------------
 
-Let us introduce the following non-dimensional variables :math:`\mathbf x^*\ = \frac{\mathbf x}{L}`,
-:math:`\mathbf u^*\ = \frac{u}{U}`, :math:`t^*\ = \frac{tU}{L}`, and :math:`\mathbf f^* =\frac{\mathbf f L}{U^2}`.  For the pressure scale we have
-two options:
+Let us introduce the following non-dimensional variables :math:`\mathbf x^*\ = \frac{\mathbf x}{L_0}`, :math:`\mathbf u^*\ = \frac{u}{u_0}`, :math:`t^*\ = \frac{tu_0}{L_0}`, and :math:`\mathbf f^* =\frac{\mathbf f L_0}{u_0^2}`. 
+Where :math:`L_0` and :math:`u_0` are the (constant) characteristic length and velocity scales, respectively.
+For the pressure scale we have two options:
 
-- Convective effects are dominant i.e. high velocity flows :math:`p^* = \frac{p}{\rho U^2}`
-- Viscous effects are dominant i.e. creeping flows (Stokes flow) :math:`p^* = \frac{p L}{\mu U}`
+- Convective effects are dominant i.e. high velocity flows :math:`p^* = \frac{p}{\rho u_0^2}`
+- Viscous effects are dominant i.e. creeping flows (Stokes flow) :math:`p^* = \frac{p L_0}{\mu_0 u_0}`,
 
-For highly convective flows we choose the first scaling of the pressure and obtain the
-non-dimensional Navier-Stokes:
+where :math:`\mu_0` is a constant reference value for molecular viscosity.
+For highly convective flows we choose the first scaling of the pressure and obtain the non-dimensional Navier-Stokes in the no-stress formulation:
 
 .. math::
-    :label: NS_nondim
+    :label: NS_nondim_nostress
 
-    \frac{\partial \mathbf{u^*}}{\partial t^*} + \mathbf{u^*} \cdot \nabla \mathbf{u^*}\ = -\nabla p^* + \frac{1}{Re} \nabla\cdot \boldsymbol{\underline\tau}^* + \mathbf f^*.
+    \frac{\partial \mathbf{u^*}}{\partial t^*} + \mathbf{u^*} \cdot \nabla \mathbf{u^*}\ = -\nabla p^* + \frac{1}{Re}\Delta\mathbf u^* + \mathbf f^*.
 
-where :math:`\boldsymbol{\underline\tau}^*=[\nabla \mathbf u^*+\nabla \mathbf u^{*T}]` and :math:`\mathbf f^*` is the dimensionless user defined forcing function, e.g. gravity.
+For the full-stress formulation, we further introduce the dimensionless viscosity, :math:`\mu^*=\frac{\mu}{\mu_0}`, and obtain:
 
-The non-dimensional number here is the Reynolds number :math:`Re=\frac{\rho U L}{\mu}`.
+.. math::
+    :label: NS_nondim_stress
+
+    \frac{\partial \mathbf{u^*}}{\partial t^*} + \mathbf{u^*} \cdot \nabla \mathbf{u^*}\ = -\nabla p^* + \frac{1}{Re}\nabla \cdot \left[ \mu^* \left(\nabla\mathbf u^* + \nabla\mathbf u^{* T}\right)\right] + \mathbf f^*,
+
+
+where :math:`\mathbf f^*` is the dimensionless user defined forcing function.
+The non-dimensional number here is the Reynolds number :math:`Re=\frac{\rho u_0 L_0}{\mu_0}`.
 
 .. _intro_energy:
 
@@ -100,7 +120,7 @@ In addition to the fluid flow, *Nek5000* computes automatically the energy equat
     :label: energy
 
     \rho c_{p} \left( \frac{\partial T}{\partial t} + \mathbf u \cdot \nabla T \right) =
-       \nabla \cdot (\lambda \nabla T) + q'''\,\, ,\text{in } \Omega_f\cup \Omega_s  \text{  (Energy)  } 
+       \nabla \cdot (\lambda \nabla T) + q''', \quad \text{in } \Omega_f\cup \Omega_s  \text{  (Energy)  } 
 
 .. _intro_energy_nondim:
 
@@ -108,17 +128,16 @@ In addition to the fluid flow, *Nek5000* computes automatically the energy equat
 Non-Dimensional Energy / Passive Scalar Equation
 ------------------------------------------------
 
-A similar non-dimensionalization as for the flow equations using the non-dimensional variables
-:math:`\mathbf x^*\ = \frac{\mathbf x}{L}`,  :math:`\mathbf u^*\ = \frac{u}{U}`, :math:`t^*\ =
-\frac{t}{L/U}`, :math:`T=\frac{T^*-T_0}{\delta T}` leads to
+A similar non-dimensionalization as for the flow equations using the non-dimensional variables :math:`\mathbf x^*\ = \frac{\mathbf x}{L_0}`,  :math:`\mathbf u^*\ = \frac{u}{u_0}`, :math:`t^*\ = \frac{tu_0}{L_0}`, :math:`T=\frac{T^*-T_0}{\delta T_0}`, and :math:`\lambda^*=\frac{\lambda}{\lambda_0}` leads to
 
 .. math::
     :label: energy_nondim
 
     \frac{\partial T^*}{\partial t^*} + \mathbf u^* \cdot \nabla T^* =
-      \frac{1}{Pe} \nabla \cdot \nabla T^* + q'''\,\, ,\text{in } \Omega_f\cup \Omega_s  \text{  (Energy)  } 
+      \frac{1}{Pe} \nabla \cdot \lambda^*\nabla T^* + q^*, \quad \text{in } \Omega_f\cup \Omega_s  \text{  (Energy)  } 
 
-where :math:`Pe=LU/\alpha`, with :math:`\alpha=\lambda/\rho c_p`.
+where :math:`q^*=\frac{q''' L_0}{\rho c_p u_0 \delta T_0}` is the dimensionless user defined source term.
+The non-dimensional number here is the Peclet number, :math:`Pe=\frac{\rho c_p u_0 L_0}{\lambda_0}`.
 
 .. _intro_pass_scal:
 
@@ -395,7 +414,7 @@ The time-averaged momentum equation is given as,
    - \nabla p + \nabla \cdot \left[ (\mu + \mu_t) 
    \left( 2 \boldsymbol{\underline S} - 
    \frac{2}{3} Q \boldsymbol{\underline I}\right) \right] \\
-   \boldsymbol{\underline S} &= \frac{1}{2} \left( \nabla \mathbf u + \mathbf{u}^T \right) \nonumber
+   \boldsymbol{\underline S} &= \frac{1}{2} \left( \nabla \mathbf u + \nabla\mathbf{u}^T \right) \nonumber
 
 where :math:`\mu_t` is the turbulent or eddy viscosity and :math:`\boldsymbol{\underline I}` is an
 identity tensor. 

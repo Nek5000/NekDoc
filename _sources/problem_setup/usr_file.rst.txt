@@ -247,6 +247,7 @@ The available values that can be set for velocity are listed in :numref:`tab:vel
    ``ux``,x-velocity,":math:`\mathbf u\cdot\mathbf{\hat e_x}`",``v``
    ``uy``,y-velocity,":math:`\mathbf u\cdot\mathbf{\hat e_y}`",``v``
    ``uz``,z-velocity,":math:`\mathbf u\cdot\mathbf{\hat e_z}`",``v``
+   ``pa``,pressure,":math:`p`","``o``, ``on``"
    ``un``,velocity normal to the boundary face,":math:`\mathbf u\cdot\mathbf {\hat e_n}`",``vl``   
    ``u1``,velocity tangent* to the boundary face,":math:`\mathbf u\cdot\mathbf {\hat e_t}`",``vl``   
    ``u2``,velocity bitangent* to boundary face,":math:`\mathbf u\cdot\mathbf {\hat e_b}`",``vl``   
@@ -268,17 +269,21 @@ These correspond to standard Dirichlet, Neumann, and Robin boundary conditions.
 
 .. table:: Temperature boundary conditions set in ``userbc``
 
-   +----------+-----------------------------------------+---------------------------------------------------------------+---------------+
-   |          | Description                             | Definition                                                    | ``cbc`` value |
-   +==========+=========================================+===============================================================+===============+
-   | ``temp`` | temperature                             | :math:`T`                                                     | ``t``         |
-   +----------+-----------------------------------------+---------------------------------------------------------------+---------------+
-   | ``flux`` | heat flux, :math:`q''`                  | :math:`\lambda\nabla T\cdot\mathbf{\hat e_n}=q''`             | ``f``         |
-   +----------+-----------------------------------------+---------------------------------------------------------------+---------------+
-   | ``hc``   | heat transfer coefficient, :math:`h`    | :math:`\lambda\nabla T\cdot\mathbf{\hat e_n}=h(T-T_{\infty})` | ``c``         |
-   +----------+-----------------------------------------+                                                               |               |
-   | ``tinf`` | ambient temperature, :math:`T_{\infty}` |                                                               |               |
-   +----------+-----------------------------------------+---------------------------------------------------------------+---------------+
+   +-------------+---------------------------------------------+-------------------------------------------------------------------------+---------------+
+   |             | Description                                 | Definition                                                              | ``cbc`` value |
+   +=============+=============================================+=========================================================================+===============+
+   | ``temp``    | temperature                                 | :math:`T`                                                               | ``t``         |
+   +-------------+---------------------------------------------+-------------------------------------------------------------------------+---------------+
+   | ``flux``    | heat flux, :math:`q''`                      | :math:`\lambda\nabla T\cdot\mathbf{\hat e_n}=q''`                       | ``f``         |
+   +-------------+---------------------------------------------+-------------------------------------------------------------------------+---------------+
+   | ``hc``      | heat transfer coefficient, :math:`h_c`      | :math:`\lambda\nabla T\cdot\mathbf{\hat e_n}=h_c(T-T_{\infty})`         | ``c``         |
+   +-------------+---------------------------------------------+                                                                         |               |
+   | ``tinf``    | ambient temperature, :math:`T_{\infty}`     |                                                                         |               |
+   +-------------+---------------------------------------------+-------------------------------------------------------------------------+---------------+
+   | ``hrad``    | heat transfer coefficient, :math:`h_{rad}`` | :math:`\lambda\nabla T\cdot\mathbf{\hat e_n}=h_{rad}(T^4-T^4_{\infty})` | ``r``         |
+   +-------------+---------------------------------------------+                                                                         |               |
+   | ``tinf``    | ambient temperature, :math:`T_{\infty}`     |                                                                         |               |
+   +-------------+---------------------------------------------+-------------------------------------------------------------------------+---------------+
 
 .. Note::
   Both heat transfer coefficient and ambient temperature must be specified for a Robin boundary condition.
@@ -302,7 +307,8 @@ In the example above, the ``cbc`` array does not need to be checked to assign th
   In this example, the ``boundaryID`` array is used to differentiate between the inlet and two different walls.
   The inlet (ID = 1) has a velocity profile and constant temperature value.
   The walls (IDs 2 and 3 respectively) are set as a positive heat flux on wall 2 and a negative (cooling) heat flux on wall 3.
-  This example corresponds to the example setup shown in :ref:`usrdat <usrdat_ex>`.
+
+.. This example corresponds to the example setup shown in :ref:`usrdat <usrdat_ex>`.
 
 .. literalinclude:: examples/userbc2.txt
    :language: fortran
@@ -412,16 +418,15 @@ usrdat
 ...................
 
 This function can be used to modify the element vertices and is called before the spectral element mesh (GLL points) has been laid out.
-It can be used to fill the ``cbc`` array based on ``BoundaryID`` for 3rd party meshes.
 
-.. _usrdat_ex:
+.. .. _usrdat_ex:
 
-:Example: 
+.. :Example: 
   In the code below, the ``cbc`` array is filled for a 3rd party mesh. 
   The ``boundaryID`` array is filled with the Boundary ID values set in Gmsh or the sideset numbers specified in an exodus mesh file.
   This example corresponds with the setup shown in the :ref:`second example for userbc <userbc_ex2>`.
 
-.. literalinclude:: examples/usrdat.txt
+.. .. literalinclude:: examples/usrdat.txt
    :language: fortran
 
 .. _sec:usrdat2:

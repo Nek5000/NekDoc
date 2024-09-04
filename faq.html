@@ -191,6 +191,25 @@ To select an AMG preconditioner see <a class="reference internal" href="problem_
 <p><strong>How do I import/convert a mesh to Nek5000?</strong></p>
 <blockquote>
 <div>We currently support conversion from the exodusII with the <code class="docutils literal notranslate"><span class="pre">exo2nek</span></code> converter. This enables the import from popular mesh generators like ANSYS ICEM and CUBIT.</div></blockquote>
+<p><strong>I received a warning message about Lanczos failing to reach a residual target, what does this mean and what should I do about it?</strong></p>
+<blockquote>
+<div><p><code class="docutils literal notranslate"><span class="pre">Warning:</span> <span class="pre">Lanczos</span> <span class="pre">reached</span> <span class="pre">a</span> <span class="pre">residual</span> <span class="pre">of</span> <span class="pre">12.840714</span> <span class="pre">(target:</span> <span class="pre">0.000010)</span> <span class="pre">after</span> <span class="pre">50</span> <span class="pre">x</span> <span class="pre">50</span> <span class="pre">iterations</span> <span class="pre">in</span> <span class="pre">Level=7!</span></code></p>
+<p>This warning is from parRSB (parallel recursive spectral bisection) which can be used to distribute the elements to MPI ranks for large problems in lieu of <em>genmap</em> (see <a class="reference internal" href="build.html#build-pplist"><span class="std std-ref">Preprocessor List</span></a>).
+parRSB guarantees “load-balancing”, meaning the numbers of elements for each MPI rank are as close as possible.
+It also tries to minimize the communication between ranks by finding the minimal number of separators for the graph partition.
+For each cut, we find the Fiedler vector, the eigenvector of the smallest positive eigenvalue of the graph Laplacian.
+The warning you simply means Lanczos has hard time to converge at one of the levels, which is commonly shown for complex geometries at scale.
+As long as it doesn’t produce an error, generally the warning can be ignored.
+However, it’s recommended to also track the quality of the partition. You can find lines like these</p>
+</div></blockquote>
+<div class="highlight-none notranslate"><div class="highlight"><pre><span></span>nElements   max/min/bal: 10290 10289 1.00        &lt;&lt; num. elem. per MPI rank.
+nMessages   max/min/avg: 51 5 15.97              &lt;&lt; indicating num. of MPI neighbors
+msgSize     max/min/avg: 92191 1 12156.50        &lt;&lt; size of each message
+msgSizeSum  max/min/avg: 428087 104476 187446.11 &lt;&lt; total message size per MPI rank.
+</pre></div>
+</div>
+<blockquote>
+<div>There are some knobs we can adjust for the partitioning, but this only matters when you are in the communication dominant region.</div></blockquote>
 <p><strong>Why is it important to non-dimensionalize my case?</strong></p>
 <blockquote>
 <div>Nek5000 can be run with dimensions, but we STRONGLY recommend that the case has been non-dimensionalized properly.
