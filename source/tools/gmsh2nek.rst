@@ -32,12 +32,15 @@ The procedure for running ``gmsh2nek`` is simpler compared to ``exo2nek``.
 The expected input steps are as follows:
 
 * It will first ask you for the dimension of the mesh (either 2 or 3).
-* Next, it will ask for the input Gmsh file.
+* Next, it will ask for the input fluid Gmsh file.
+  The ``.msh`` extension is implied and should not be included.
+* Then, it will ask if you have solid mesh (0 for no, 1 for yes)
+* Input solid Gmsh file name if you need.
   The ``.msh`` extension is implied and should not be included.
 * The tool will then begin converting the mesh and will print a summary of the boundary IDs.
 * Finally, it will ask for the number of periodic boundary pairs (see :ref:`gmsh_pbound` below).
   If your mesh has none, simply enter 0.
-* ``gmsh2nek`` will then output a new ``.re2`` file with the same file name as the input Gmsh file.
+* Finally it will ask for the name of the output file. The .re2 extension is implied and should not be included.
 
 An example is shown below with the expected user input highlighted.
 
