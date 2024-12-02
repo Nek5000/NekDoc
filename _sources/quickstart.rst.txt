@@ -35,25 +35,36 @@ Additionally, to install all of the NekTools, the following packages are necessa
 
 .. Note::
 
-  These package lists also work for Ubuntu on the Windows Subsystem for Linux
+  These package lists also work for Ubuntu on the Windows Subsystem for Linux. However, X11 integration is not supported natively with Windows 10.
 
 ----------------------------------
 Running your very first simulation
 ----------------------------------
 
 Hold your horses, this needs less than 5 min.  
-Begin by downloading the latest release tarball from `here <https://github.com/Nek5000/Nek5000/releases>`_.
-Then follow the instructions below
+Follow the commands below to download the latest master branch of the source code and build genmap
 
 .. code-block:: console
 
   $ cd ~
-  $ tar -xvzf Nek5000_X.Y.tar.gz
+  $ wget https://github.com/Nek5000/Nek5000/archive/refs/heads/master.zip
+  $ unzip master.zip
+  $ mv Nek5000-master Nek5000
+  $ rm master.zip
   $ export PATH=$HOME/Nek5000/bin:$PATH
   $ cd ~/Nek5000/tools
   $ ./maketools genmap
-  $ cd ~/Nek5000/run
-  $ cp -r ../examples/eddy_uv .
+
+Then follow the next set of commands to download the example cases and run one
+
+.. code-block:: console
+
+  $ cd ~
+  $ wget https://github.com/Nek5000/NekExamples/archive/refs/heads/master.zip
+  $ unzip master.zip
+  $ mv NekExamples-master NekExamples
+  $ rm master.zip
+  $ cp -r ~/NekExamples/eddy_uv .
   $ cd eddy_uv
   $ genmap                       # run partioner, on input type eddy_uv 
   $ makenek eddy_uv              # build case, edit script to change settings
@@ -61,16 +72,19 @@ Then follow the instructions below
   $ tail logfile                 # prints the last few lines of the solver output to the terminal
   $ visnek eddy_uv               # produces the eddy_uv.nek5000 file
 
-.. Note::
- 
-  The ``eddy_uv`` case will not be available if you cloned the master branch from GitHub, as the ``examples`` folder is NOT included.
-  To obtain the examples using git, clone the ``Nek5000/NekExamples.git`` repository.
-
 As the case runs, it will generate multiple ``eddy_uv0.fXXXXX`` files.
 These are the restart checkpoint and visualization data files.
 The metadata file, ``eddy_uv.nek5000``, can be opened with either VisIt or ParaView, which will look for the data files in the same directory as the ``eddy_uv.nek5000`` file.
 
 Assuming all went well, congratulations! You have now run your first simulation with *Nek5000*.
+
+.. Note::
+
+  We now recommend using the latest master branch from github rather than the V19 release. Some features, such as the RANS models, are not well supported with V19 or earlier releases.
+
+  We also recommend using git to clone both the source code repository and the examples repository. This will make it easier to get updates as the code advances.
+
+  If you download one of the release tarballs from `here <https://github.com/Nek5000/Nek5000/releases>`_, the NekExamples repository is included in ``Nek5000/examples`` already.
 
 -------------------
 Directory structure
