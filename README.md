@@ -2,12 +2,13 @@
 
 This is the repository of the [Nek5000](http://nek5000.mcs.anl.gov/) documentation written using
 the [Sphinx](http://www.sphinx-doc.org/) documentation framework.
+The main website is hosted at [here][gh-page].
 
 ## How to build
 
-* 'make html' builds the user documentation as a set of interlinked HTML 
-  and image files.  The top-level webpage is build/html/index.html.
-  Supporting HTML and image files are also in the build directory.
+* `make html` builds the user documentation as a set of interlinked HTML 
+  and image files.  The top-level webpage is `build/html/index.html`.
+  Supporting HTML and image files are also in the `build` directory.
   
 Note: This requires the [Sphinx](https://pypi.python.org/pypi/Sphinx) and
 [sphinx_rtd_theme](https://pypi.python.org/pypi/sphinx_rtd_theme) Python packages.  Both are
@@ -32,8 +33,6 @@ Workflow:
 1. Checkout the latest master
 2. run `make gh-pages`
 
-Links:
-
-- [gh-page](https://nek5000.github.io/NekDoc/index.html): Nek5000 user documentation on GitHub Pages
-- [main-repo](https://github.com/Nek5000/NekDoc): NekDoc repository
-- [master](https://github.com/Nek5000/NekDoc/tree/master): NekDoc master branch
+[gh-page]:   https://nek5000.github.io/NekDoc/index.html "Nek5000 user documentation on GitHub Pages"
+[main-repo]: https://github.com/Nek5000/NekDoc "NekDoc repository"
+[master]:    https://github.com/Nek5000/NekDoc/tree/master "NekDoc master branch"
