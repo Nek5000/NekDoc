@@ -197,23 +197,24 @@ Users can still adjust the mesh inside ``usrdat2`` after the refinement.
 
 .. csv-table:: Examples of :math:`h`-refine options
    :header: "Par Keys","Rounds","Refinement(s)",":math:`E_{new} / E_{old}`"
-   :widths: 30, 20, 30, 20
+   :widths: 30, 15, 40, 15
 
    "``hrefine=2``", 1, ":math:`N_{cut}=2`", ":math:`2^d`"
    "``hrefine=2,3``", 2, ":math:`N_{cut}=2` then :math:`3`", ":math:`6^d`"
    "``hrefine=3,2``", 2, ":math:`N_{cut}=3` then :math:`2`", ":math:`6^d`"
    "``hrefine=4``", 1, ":math:`N_{cut}=4`", ":math:`4^d`"
    "``hrefine=2,2``", 2, ":math:`N_{cut}=2` then :math:`2`", ":math:`4^d`"
+   "``hrefine=2,2,2``", 3, ":math:`(N_{cut}=2)\ \times` 3 times", ":math:`8^d`"
 
 .. Note::
 
   The order matters. Because elements are not renumbered, ``hrefine=2,3``
-  produce a different element numbering as ``hrefine3,2``. Same rule applies to
-  the restart option below.
+  produces a different element numbering as ``hrefine=3,2``. Same rule applies
+  to the restart option below.
 
 The corresponding restart option is also supported to reuse the solutions from
 the original mesh. Use the separator ``;`` to specify the refinement schedule
-for each checkpoint file.
+for a checkpoint file.
 
 .. code-block:: ini
 
