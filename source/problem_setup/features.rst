@@ -66,6 +66,7 @@ Restart Options
 
 By default, *Nek5000* will read all available variables from the restart file. 
 Restart options can be added after the filename in the ``.par`` file to control which variables are loaded, to manually set the time, and in the latest github version, to specify an interpolated restart (see :ref:`features_gfldr`).
+or apply :math:`h`-refinement (see :ref:`features_hrefine`).
 To control which variables are read from a restart file, add an additional string composed of the following:
 
 .. csv-table:: Variables loaded with restart options
@@ -78,6 +79,7 @@ To control which variables are read from a restart file, add an additional strin
    Temperature,``T``
    Passive scalar 'i',``Si``
    reset time,``time=0.0``
+   h-refinement,``href=2``
 
 :Example:
   The following directive will load only velocity and passive scalar 2, and set the physical time to 5.0.
@@ -166,6 +168,73 @@ The files contain enough information to reconstruct Reynolds stresses considerin
 .. math::
 
    \overline{u'u'}=\overline{u^2}-\overline{u}^2
+
+.. _features_hrefine:
+
+------------------
+h-Refinement
+------------------
+
+This is an on-the-fly global mesh refinement that splits the edges of each
+element into :math:`N_{cut}` uniform segments, resulting in a mesh with
+:math:`N_{cut}^d` times elements where :math:`d` is the dimension.
+The refinement is based on high-order tensor-product interpolation that inherits
+the original boundary conditions, connectivity, and partition.
+
+.. Note::
+
+  Since the partitioning is not re-generated, :math:`h`-refinement can create
+  an imbalance partition of up to :math:`N_{cut}^d` elements.
+
+To use this feature, specify the refinement schedule in the .par file, as shown
+in the following example with :math:`N_{cut}=2`.
+Users can still adjust the mesh inside ``usrdat2`` after the refinement.
+
+.. code-block:: ini
+
+   [MESH]
+   hrefine = 2
+
+.. csv-table:: Examples of :math:`h`-refine options
+   :header: "Par Keys","Rounds","Refinement(s)",":math:`E_{new} / E_{old}`"
+   :widths: 30, 20, 30, 20
+
+   "``hrefine=2``", 1, ":math:`N_{cut}=2`", ":math:`2^d`"
+   "``hrefine=2,3``", 2, ":math:`N_{cut}=2` then :math:`3`", ":math:`6^d`"
+   "``hrefine=3,2``", 2, ":math:`N_{cut}=3` then :math:`2`", ":math:`6^d`"
+   "``hrefine=4``", 1, ":math:`N_{cut}=4`", ":math:`4^d`"
+   "``hrefine=2,2``", 2, ":math:`N_{cut}=2` then :math:`2`", ":math:`4^d`"
+
+.. Note::
+
+  The order matters. Because elements are not renumbered, ``hrefine=2,3``
+  produce a different element numbering as ``hrefine3,2``. Same rule applies to
+  the restart option below.
+
+The corresponding restart option is also supported to reuse the solutions from
+the original mesh. Use the separator ``;`` to specify the refinement schedule
+for each checkpoint file.
+
+.. code-block:: ini
+
+   [GENERAL]
+   restartFrom = foo0.f00001 href=2
+
+.. csv-table:: Examples of :math:`h`-refine restart options
+   :header: "Case","``restartFrom``","Output (Size)"
+   :widths: 40, 50, 50
+
+   "Original ``.re2``", none (``useric``), ``aaa.fld`` (E)
+   "``hrefine=3``", ``aaa.fld href=3``, ``bbb.fld`` (27E)
+   "``hrefine=3,2``", ``aaa.fld href=3;2``, ``ccc.fld`` (216E)
+   "``hrefine=3,2``", ``bbb.fld href=2``,
+   "``hrefine=3,2``", ``ccc.fld``,
+
+.. Note::
+
+  The h-refine restart option can be combined with other options except ``int``.
+  Only the latest binary format with ``param(67)=6`` is supported and it will
+  skip the pressure field when ``if_full_pres=.true.``.
 
 .. _features_post:
 
