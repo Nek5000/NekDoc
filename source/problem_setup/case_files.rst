@@ -216,7 +216,7 @@ Mesh Parameters
 .. _tab:meshparams:
 
 .. csv-table:: ``MESH`` keys in the ``.par`` file
-   :widths: 20,20,60
+   :widths: 20,30,60
    :header: Key, Value(s), Description
 
    ``boundaryIDMap``,"``<int-list>``, (``1,2,3...``)",Maps the boundary types to their corresponding boundary IDs
@@ -224,6 +224,7 @@ Mesh Parameters
    ``viscosity``, "``<real>``, (``0.4``)", Diffusivity for elasticity solver
    ``numberOfBCFields``, (``nfields``), Number of field variables which have a boundary condition in ``.re2`` file
    ``firstBCFieldIndex``, (``1``) or ``2``, Field index of the first BC specified in ``.re2`` file 
+   ``hrefine``, "``<int-list>``, (e.g. ``2,3``)", h-refinement schedule of :math:`N_{cut}` (see :ref:`features_hrefine`); ``1`` disables it
 
 .. _sec:velpars:
 
