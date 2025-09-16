@@ -178,5 +178,4 @@ epub_copyright = copyright
 epub_exclude_files = ['search.html']
 
 def setup(app):
-#  app.add_stylesheet('css/custom.css') # older API
   app.add_css_file('css/custom.css')
