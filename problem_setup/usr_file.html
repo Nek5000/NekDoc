@@ -118,10 +118,10 @@ These subroutines can be broadly divided into 3 categories:</p>
 </ul>
 <p>All of the routines in the <code class="docutils literal notranslate"><span class="pre">.usr</span></code> file have access to a common set of global variables and arrays.
 These are included in the <code class="docutils literal notranslate"><span class="pre">TOTAL</span></code> common block, included at the beginning of each subroutine.
-Some of the more commonly used variables are shown in <a class="reference internal" href="#tab-globalvars"><span class="std std-numref">Table 18</span></a>.
+Some of the more commonly used variables are shown in <a class="reference internal" href="#tab-globalvars"><span class="std std-numref">Table 19</span></a>.
 For a more complete list see <a class="reference internal" href="../appendix.html#sec-commonvars"><span class="std std-ref">Commonly Used Variables</span></a>.</p>
 <span id="tab-globalvars"></span><table border="1" class="colwidths-given docutils" id="id5">
-<caption><span class="caption-number">Table 18 </span><span class="caption-text">Commonly used global variables available in <code class="docutils literal notranslate"><span class="pre">TOTAL</span></code></span><a class="headerlink" href="#id5" title="Permalink to this table">¶</a></caption>
+<caption><span class="caption-number">Table 19 </span><span class="caption-text">Commonly used global variables available in <code class="docutils literal notranslate"><span class="pre">TOTAL</span></code></span><a class="headerlink" href="#id5" title="Permalink to this table">¶</a></caption>
 <colgroup>
 <col width="21%" />
 <col width="58%" />
@@ -164,7 +164,7 @@ For a more complete list see <a class="reference internal" href="../appendix.htm
 </tr>
 <tr class="row-odd"><td><code class="docutils literal notranslate"><span class="pre">ifield</span></code></td>
 <td>active solution field</td>
-<td>see <a class="reference internal" href="#tab-ifield"><span class="std std-numref">Table 21</span></a></td>
+<td>see <a class="reference internal" href="#tab-ifield"><span class="std std-numref">Table 22</span></a></td>
 </tr>
 </tbody>
 </table>
@@ -180,7 +180,7 @@ For a simulation with constant properties, this array corresponds directly to de
 as the values from this array are copied directly into the <code class="docutils literal notranslate"><span class="pre">vtrans</span></code> and <code class="docutils literal notranslate"><span class="pre">vdiff</span></code> arrays internally by <em>Nek5000</em> (See <a class="reference internal" href="#sec-uservp"><span class="std std-ref">uservp</span></a> for more information on <code class="docutils literal notranslate"><span class="pre">vtrans</span></code> and <code class="docutils literal notranslate"><span class="pre">vdiff</span></code>).
 For simulations with variable properties, this array can be useful as it retains the values assigned in the <code class="docutils literal notranslate"><span class="pre">.par</span></code> file.</p>
 <span id="tab-cpfld"></span><table border="1" class="docutils" id="id6">
-<caption><span class="caption-number">Table 19 </span><span class="caption-text">The field coefficient array</span><a class="headerlink" href="#id6" title="Permalink to this table">¶</a></caption>
+<caption><span class="caption-number">Table 20 </span><span class="caption-text">The field coefficient array</span><a class="headerlink" href="#id6" title="Permalink to this table">¶</a></caption>
 <colgroup>
 <col width="33%" />
 <col width="33%" />
@@ -244,9 +244,9 @@ Note that the local element number can be accessed via the <code class="docutils
 This block contains solver variables that may be useful for defining custom models, such as variable properties, or a localized heating rate.
 Immediately before a local routine is called by <em>Nek5000</em>, the subroutine <code class="docutils literal notranslate"><span class="pre">nekasgn</span></code> is called.
 This routine sets many of the commonly used values in <code class="docutils literal notranslate"><span class="pre">NEKUSE</span></code>, making them available for use in the local subroutines.
-<a class="reference internal" href="#tab-nekusepre"><span class="std std-numref">Table 20</span></a> describes the variables that are assigned in <code class="docutils literal notranslate"><span class="pre">nekasgn</span></code>.</p>
+<a class="reference internal" href="#tab-nekusepre"><span class="std std-numref">Table 21</span></a> describes the variables that are assigned in <code class="docutils literal notranslate"><span class="pre">nekasgn</span></code>.</p>
 <span id="tab-nekusepre"></span><table border="1" class="colwidths-given docutils" id="id7">
-<caption><span class="caption-number">Table 20 </span><span class="caption-text">Prepopulated <code class="docutils literal notranslate"><span class="pre">NEKUSE</span></code> variables</span><a class="headerlink" href="#id7" title="Permalink to this table">¶</a></caption>
+<caption><span class="caption-number">Table 21 </span><span class="caption-text">Prepopulated <code class="docutils literal notranslate"><span class="pre">NEKUSE</span></code> variables</span><a class="headerlink" href="#id7" title="Permalink to this table">¶</a></caption>
 <colgroup>
 <col width="15%" />
 <col width="50%" />
@@ -324,21 +324,21 @@ This routine sets many of the commonly used values in <code class="docutils lite
 <tr class="row-even"><td><code class="docutils literal notranslate"><span class="pre">udiff</span></code></td>
 <td>diffusion coeffcient</td>
 <td><code class="docutils literal notranslate"><span class="pre">vdiff(ix,iy,iz,ie,ifield)</span></code></td>
-<td>See <a class="reference internal" href="#tab-uservp"><span class="std std-numref">Table 22</span></a></td>
+<td>See <a class="reference internal" href="#tab-uservp"><span class="std std-numref">Table 23</span></a></td>
 </tr>
 <tr class="row-odd"><td><code class="docutils literal notranslate"><span class="pre">utrans</span></code></td>
 <td>convective coefficient</td>
 <td><code class="docutils literal notranslate"><span class="pre">vtrans(ix,iy,iz,ie,ifield)</span></code></td>
-<td>See <a class="reference internal" href="#tab-uservp"><span class="std std-numref">Table 22</span></a></td>
+<td>See <a class="reference internal" href="#tab-uservp"><span class="std std-numref">Table 23</span></a></td>
 </tr>
 </tbody>
 </table>
 <p>The active solution field – velocity, temperature, etc. – is indicated by the global variable <code class="docutils literal notranslate"><span class="pre">ifield</span></code>.
-The value that corresponds to each field is described in <a class="reference internal" href="#tab-ifield"><span class="std std-numref">Table 21</span></a>.
+The value that corresponds to each field is described in <a class="reference internal" href="#tab-ifield"><span class="std std-numref">Table 22</span></a>.
 <code class="docutils literal notranslate"><span class="pre">ifield</span></code> is not explicitly passed as an input to any of the user subroutines, rather it is controlled at a higher level directly by <em>Nek5000</em>.
 It is set by the solver for all of the local routines, but not any of the initialization or global routines.</p>
 <span id="tab-ifield"></span><table border="1" class="docutils" id="id8">
-<caption><span class="caption-number">Table 21 </span><span class="caption-text">Corresponding solution fields for <code class="docutils literal notranslate"><span class="pre">ifield</span></code></span><a class="headerlink" href="#id8" title="Permalink to this table">¶</a></caption>
+<caption><span class="caption-number">Table 22 </span><span class="caption-text">Corresponding solution fields for <code class="docutils literal notranslate"><span class="pre">ifield</span></code></span><a class="headerlink" href="#id8" title="Permalink to this table">¶</a></caption>
 <colgroup>
 <col width="33%" />
 <col width="33%" />
@@ -383,7 +383,7 @@ The diffusion and transport coefficients should be set using the variables descr
 The diffusion coefficient refers the viscosity, thermal conductivity, or diffusivity for passive scalars.
 The transport coefficient refers to the coefficient attached to the convective term, typically density for velocity and passive scalars and the product of density and specific heat for temperature.</p>
 <span id="tab-uservp"></span><table border="1" class="docutils" id="id9">
-<caption><span class="caption-number">Table 22 </span><span class="caption-text">Terms set in <code class="docutils literal notranslate"><span class="pre">uservp</span></code></span><a class="headerlink" href="#id9" title="Permalink to this table">¶</a></caption>
+<caption><span class="caption-number">Table 23 </span><span class="caption-text">Terms set in <code class="docutils literal notranslate"><span class="pre">uservp</span></code></span><a class="headerlink" href="#id9" title="Permalink to this table">¶</a></caption>
 <colgroup>
 <col width="8%" />
 <col width="16%" />
@@ -591,9 +591,9 @@ It includes an additional argument compared to the other Local Routines.
 The <code class="docutils literal notranslate"><span class="pre">iside</span></code> variable refers to which side of the element the boundary condition is on.
 This can be used for accessing the appropriate entry in the <code class="docutils literal notranslate"><span class="pre">boundaryID</span></code> or <code class="docutils literal notranslate"><span class="pre">cbc</span></code> arrays.
 For a more complete list of all supported boundary conditions, see <a class="reference internal" href="BCs.html#boundary-conditions"><span class="std std-ref">Boundary Conditions</span></a>.</p>
-<p>The available values that can be set for velocity are listed in <a class="reference internal" href="#tab-velbcs"><span class="std std-numref">Table 23</span></a> along with their definitions and the corresponding entry in the <code class="docutils literal notranslate"><span class="pre">cbc</span></code> array, where <span class="math notranslate nohighlight">\(\mathbf{\hat e}\)</span> denotes a unit vector.</p>
+<p>The available values that can be set for velocity are listed in <a class="reference internal" href="#tab-velbcs"><span class="std std-numref">Table 24</span></a> along with their definitions and the corresponding entry in the <code class="docutils literal notranslate"><span class="pre">cbc</span></code> array, where <span class="math notranslate nohighlight">\(\mathbf{\hat e}\)</span> denotes a unit vector.</p>
 <span id="tab-velbcs"></span><table border="1" class="colwidths-given docutils" id="id10">
-<caption><span class="caption-number">Table 23 </span><span class="caption-text">Velocity boundary conditions set in <code class="docutils literal notranslate"><span class="pre">userbc</span></code></span><a class="headerlink" href="#id10" title="Permalink to this table">¶</a></caption>
+<caption><span class="caption-number">Table 24 </span><span class="caption-text">Velocity boundary conditions set in <code class="docutils literal notranslate"><span class="pre">userbc</span></code></span><a class="headerlink" href="#id10" title="Permalink to this table">¶</a></caption>
 <colgroup>
 <col width="10%" />
 <col width="45%" />
@@ -623,47 +623,52 @@ For a more complete list of all supported boundary conditions, see <a class="ref
 <td><span class="math notranslate nohighlight">\(\mathbf u\cdot\mathbf{\hat e_z}\)</span></td>
 <td><code class="docutils literal notranslate"><span class="pre">v</span></code></td>
 </tr>
-<tr class="row-odd"><td><code class="docutils literal notranslate"><span class="pre">un</span></code></td>
+<tr class="row-odd"><td><code class="docutils literal notranslate"><span class="pre">pa</span></code></td>
+<td>pressure</td>
+<td><span class="math notranslate nohighlight">\(p\)</span></td>
+<td><code class="docutils literal notranslate"><span class="pre">o</span></code>, <code class="docutils literal notranslate"><span class="pre">on</span></code></td>
+</tr>
+<tr class="row-even"><td><code class="docutils literal notranslate"><span class="pre">un</span></code></td>
 <td>velocity normal to the boundary face</td>
 <td><span class="math notranslate nohighlight">\(\mathbf u\cdot\mathbf {\hat e_n}\)</span></td>
 <td><code class="docutils literal notranslate"><span class="pre">vl</span></code></td>
 </tr>
-<tr class="row-even"><td><code class="docutils literal notranslate"><span class="pre">u1</span></code></td>
+<tr class="row-odd"><td><code class="docutils literal notranslate"><span class="pre">u1</span></code></td>
 <td>velocity tangent* to the boundary face</td>
 <td><span class="math notranslate nohighlight">\(\mathbf u\cdot\mathbf {\hat e_t}\)</span></td>
 <td><code class="docutils literal notranslate"><span class="pre">vl</span></code></td>
 </tr>
-<tr class="row-odd"><td><code class="docutils literal notranslate"><span class="pre">u2</span></code></td>
+<tr class="row-even"><td><code class="docutils literal notranslate"><span class="pre">u2</span></code></td>
 <td>velocity bitangent* to boundary face</td>
 <td><span class="math notranslate nohighlight">\(\mathbf u\cdot\mathbf {\hat e_b}\)</span></td>
 <td><code class="docutils literal notranslate"><span class="pre">vl</span></code></td>
 </tr>
-<tr class="row-even"><td><code class="docutils literal notranslate"><span class="pre">trx</span></code></td>
+<tr class="row-odd"><td><code class="docutils literal notranslate"><span class="pre">trx</span></code></td>
 <td>traction in the x-direction</td>
 <td><span class="math notranslate nohighlight">\((\boldsymbol{\underline\tau}\cdot\mathbf{\hat e_n})\cdot\mathbf{\hat e_x}\)</span></td>
 <td><code class="docutils literal notranslate"><span class="pre">s</span></code>, <code class="docutils literal notranslate"><span class="pre">sh</span></code></td>
 </tr>
-<tr class="row-odd"><td><code class="docutils literal notranslate"><span class="pre">try</span></code></td>
+<tr class="row-even"><td><code class="docutils literal notranslate"><span class="pre">try</span></code></td>
 <td>traction in the y-direction</td>
 <td><span class="math notranslate nohighlight">\((\boldsymbol{\underline\tau}\cdot\mathbf{\hat e_n})\cdot\mathbf{\hat e_y}\)</span></td>
 <td><code class="docutils literal notranslate"><span class="pre">s</span></code>, <code class="docutils literal notranslate"><span class="pre">sh</span></code></td>
 </tr>
-<tr class="row-even"><td><code class="docutils literal notranslate"><span class="pre">trz</span></code></td>
+<tr class="row-odd"><td><code class="docutils literal notranslate"><span class="pre">trz</span></code></td>
 <td>traction in the z-direction</td>
 <td><span class="math notranslate nohighlight">\((\boldsymbol{\underline\tau}\cdot\mathbf{\hat e_n})\cdot\mathbf{\hat e_z}\)</span></td>
 <td><code class="docutils literal notranslate"><span class="pre">s</span></code>, <code class="docutils literal notranslate"><span class="pre">sh</span></code></td>
 </tr>
-<tr class="row-odd"><td><code class="docutils literal notranslate"><span class="pre">trn</span></code></td>
+<tr class="row-even"><td><code class="docutils literal notranslate"><span class="pre">trn</span></code></td>
 <td>traction normal to the boundary face</td>
 <td><span class="math notranslate nohighlight">\((\boldsymbol{\underline\tau}\cdot\mathbf{\hat e_n})\cdot\mathbf{\hat e_n}\)</span></td>
 <td><code class="docutils literal notranslate"><span class="pre">sl</span></code></td>
 </tr>
-<tr class="row-even"><td><code class="docutils literal notranslate"><span class="pre">tr1</span></code></td>
+<tr class="row-odd"><td><code class="docutils literal notranslate"><span class="pre">tr1</span></code></td>
 <td>traction tangent* to the boundary face</td>
 <td><span class="math notranslate nohighlight">\((\boldsymbol{\underline\tau}\cdot\mathbf{\hat e_n})\cdot\mathbf{\hat e_t}\)</span></td>
 <td><code class="docutils literal notranslate"><span class="pre">sl</span></code>, <code class="docutils literal notranslate"><span class="pre">shl</span></code></td>
 </tr>
-<tr class="row-odd"><td><code class="docutils literal notranslate"><span class="pre">tr2</span></code></td>
+<tr class="row-even"><td><code class="docutils literal notranslate"><span class="pre">tr2</span></code></td>
 <td>traction bitangent* to the boundary face</td>
 <td><span class="math notranslate nohighlight">\((\boldsymbol{\underline\tau}\cdot\mathbf{\hat e_n})\cdot\mathbf{\hat e_b}\)</span></td>
 <td><code class="docutils literal notranslate"><span class="pre">sl</span></code>, <code class="docutils literal notranslate"><span class="pre">shl</span></code></td>
@@ -674,15 +679,15 @@ For a more complete list of all supported boundary conditions, see <a class="ref
 <p class="first admonition-title">Warning</p>
 <p class="last">*The tangent and bitangent directions are not guaranteed to be consistent between elements in 3D domains.</p>
 </div>
-<p>The available values that can be set for temperature are listed in <a class="reference internal" href="#tab-tbcs"><span class="std std-numref">Table 24</span></a> along with their definitions and the corresponding entry in the <code class="docutils literal notranslate"><span class="pre">cbc</span></code> array.
+<p>The available values that can be set for temperature are listed in <a class="reference internal" href="#tab-tbcs"><span class="std std-numref">Table 25</span></a> along with their definitions and the corresponding entry in the <code class="docutils literal notranslate"><span class="pre">cbc</span></code> array.
 These correspond to standard Dirichlet, Neumann, and Robin boundary conditions.</p>
 <span id="tab-tbcs"></span><table border="1" class="docutils" id="id11">
-<caption><span class="caption-number">Table 24 </span><span class="caption-text">Temperature boundary conditions set in <code class="docutils literal notranslate"><span class="pre">userbc</span></code></span><a class="headerlink" href="#id11" title="Permalink to this table">¶</a></caption>
+<caption><span class="caption-number">Table 25 </span><span class="caption-text">Temperature boundary conditions set in <code class="docutils literal notranslate"><span class="pre">userbc</span></code></span><a class="headerlink" href="#id11" title="Permalink to this table">¶</a></caption>
 <colgroup>
-<col width="8%" />
-<col width="32%" />
-<col width="49%" />
-<col width="12%" />
+<col width="9%" />
+<col width="31%" />
+<col width="50%" />
+<col width="10%" />
 </colgroup>
 <thead valign="bottom">
 <tr class="row-odd"><th class="head">&#160;</th>
@@ -703,9 +708,17 @@ These correspond to standard Dirichlet, Neumann, and Robin boundary conditions.<
 <td><code class="docutils literal notranslate"><span class="pre">f</span></code></td>
 </tr>
 <tr class="row-even"><td><code class="docutils literal notranslate"><span class="pre">hc</span></code></td>
-<td>heat transfer coefficient, <span class="math notranslate nohighlight">\(h\)</span></td>
-<td rowspan="2"><span class="math notranslate nohighlight">\(\lambda\nabla T\cdot\mathbf{\hat e_n}=h(T-T_{\infty})\)</span></td>
+<td>heat transfer coefficient, <span class="math notranslate nohighlight">\(h_c\)</span></td>
+<td rowspan="2"><span class="math notranslate nohighlight">\(\lambda\nabla T\cdot\mathbf{\hat e_n}=h_c(T-T_{\infty})\)</span></td>
 <td rowspan="2"><code class="docutils literal notranslate"><span class="pre">c</span></code></td>
+</tr>
+<tr class="row-odd"><td><code class="docutils literal notranslate"><span class="pre">tinf</span></code></td>
+<td>ambient temperature, <span class="math notranslate nohighlight">\(T_{\infty}\)</span></td>
+</tr>
+<tr class="row-even"><td><code class="docutils literal notranslate"><span class="pre">hrad</span></code></td>
+<td>heat transfer coefficient, <span class="math notranslate nohighlight">\(h_{rad}\)</span></td>
+<td rowspan="2"><span class="math notranslate nohighlight">\(\lambda\nabla T\cdot\mathbf{\hat e_n}=h_{rad}(T^4-T^4_{\infty})\)</span></td>
+<td rowspan="2"><code class="docutils literal notranslate"><span class="pre">r</span></code></td>
 </tr>
 <tr class="row-odd"><td><code class="docutils literal notranslate"><span class="pre">tinf</span></code></td>
 <td>ambient temperature, <span class="math notranslate nohighlight">\(T_{\infty}\)</span></td>
@@ -767,8 +780,7 @@ In the example above, the <code class="docutils literal notranslate"><span class
 <tbody valign="top">
 <tr class="field-odd field"><th class="field-name">Example:</th><td class="field-body">In this example, the <code class="docutils literal notranslate"><span class="pre">boundaryID</span></code> array is used to differentiate between the inlet and two different walls.
 The inlet (ID = 1) has a velocity profile and constant temperature value.
-The walls (IDs 2 and 3 respectively) are set as a positive heat flux on wall 2 and a negative (cooling) heat flux on wall 3.
-This example corresponds to the example setup shown in <a class="reference internal" href="#usrdat-ex"><span class="std std-ref">usrdat</span></a>.</td>
+The walls (IDs 2 and 3 respectively) are set as a positive heat flux on wall 2 and a negative (cooling) heat flux on wall 3.</td>
 </tr>
 </tbody>
 </table>
@@ -808,9 +820,9 @@ This example corresponds to the example setup shown in <a class="reference inter
 </div>
 <p>The temperature and passive scalars use the same form of governing equation and are handled practically identically by <em>Nek5000</em>.
 The boundary conditions available for passive scalars are therefore the same as those available for temperature.
-These are listed in <a class="reference internal" href="#tab-psbcs"><span class="std std-numref">Table 25</span></a> along with their definitions and the corresponding entry in the <code class="docutils literal notranslate"><span class="pre">cbc</span></code> array.</p>
+These are listed in <a class="reference internal" href="#tab-psbcs"><span class="std std-numref">Table 26</span></a> along with their definitions and the corresponding entry in the <code class="docutils literal notranslate"><span class="pre">cbc</span></code> array.</p>
 <span id="tab-psbcs"></span><table border="1" class="docutils" id="id12">
-<caption><span class="caption-number">Table 25 </span><span class="caption-text">Passive scalar boundary conditions set in <code class="docutils literal notranslate"><span class="pre">userbc</span></code></span><a class="headerlink" href="#id12" title="Permalink to this table">¶</a></caption>
+<caption><span class="caption-number">Table 26 </span><span class="caption-text">Passive scalar boundary conditions set in <code class="docutils literal notranslate"><span class="pre">userbc</span></code></span><a class="headerlink" href="#id12" title="Permalink to this table">¶</a></caption>
 <colgroup>
 <col width="7%" />
 <col width="28%" />
@@ -847,7 +859,7 @@ These are listed in <a class="reference internal" href="#tab-psbcs"><span class=
 </table>
 <div class="admonition note">
 <p class="first admonition-title">Note</p>
-<p class="last">Temperature and passive scalar boundary conditions are contextual and will set the boundary condition for the active solution field. See <a class="reference internal" href="#tab-ifield"><span class="std std-numref">Table 21</span></a>.</p>
+<p class="last">Temperature and passive scalar boundary conditions are contextual and will set the boundary condition for the active solution field. See <a class="reference internal" href="#tab-ifield"><span class="std std-numref">Table 22</span></a>.</p>
 </div>
 <div class="admonition warning">
 <p class="first admonition-title">Warning</p>
@@ -978,51 +990,7 @@ The implementation of any other model is left to the user.</p>
 <span id="id4"></span><h2>Initialization Routines<a class="headerlink" href="#initialization-routines" title="Permalink to this headline">¶</a></h2>
 <div class="section" id="usrdat">
 <span id="sec-usrdat"></span><h3>usrdat<a class="headerlink" href="#usrdat" title="Permalink to this headline">¶</a></h3>
-<p>This function can be used to modify the element vertices and is called before the spectral element mesh (GLL points) has been laid out.
-It can be used to fill the <code class="docutils literal notranslate"><span class="pre">cbc</span></code> array based on <code class="docutils literal notranslate"><span class="pre">BoundaryID</span></code> for 3rd party meshes.</p>
-<table class="docutils field-list" frame="void" id="usrdat-ex" rules="none">
-<col class="field-name" />
-<col class="field-body" />
-<tbody valign="top">
-<tr class="field-odd field"><th class="field-name">Example:</th><td class="field-body">In the code below, the <code class="docutils literal notranslate"><span class="pre">cbc</span></code> array is filled for a 3rd party mesh.
-The <code class="docutils literal notranslate"><span class="pre">boundaryID</span></code> array is filled with the Boundary ID values set in Gmsh or the sideset numbers specified in an exodus mesh file.
-This example corresponds with the setup shown in the <a class="reference internal" href="#userbc-ex2"><span class="std std-ref">second example for userbc</span></a>.</td>
-</tr>
-</tbody>
-</table>
-<div class="highlight-fortran notranslate"><div class="highlight"><pre><span></span>      <span class="k">subroutine </span><span class="n">usrdat</span><span class="p">()</span>   <span class="c">! This routine to modify element vertices</span>
-
-      <span class="k">implicit none</span>
-
-<span class="k">      include</span> <span class="s1">&#39;SIZE&#39;</span>
-      <span class="k">include</span> <span class="s1">&#39;TOTAL&#39;</span>
-
-      <span class="kt">integer </span><span class="n">ie</span><span class="p">,</span><span class="n">iside</span>
-
-      <span class="k">do </span><span class="n">ie</span><span class="o">=</span><span class="mi">1</span><span class="p">,</span><span class="n">nelv</span> <span class="c">!loop over all elements on the local MPI rank</span>
-        <span class="k">do </span><span class="n">iside</span><span class="o">=</span><span class="mi">1</span><span class="p">,</span><span class="mi">2</span><span class="o">*</span><span class="n">ldim</span> <span class="c">!loop over all sides on the element</span>
-          <span class="n">cbc</span><span class="p">(</span><span class="n">iside</span><span class="p">,</span><span class="n">ie</span><span class="p">,</span><span class="mi">1</span><span class="p">)</span><span class="o">=</span><span class="s2">&quot;E  &quot;</span> <span class="c">!first set all faces to internal boundaries</span>
-          <span class="n">cbc</span><span class="p">(</span><span class="n">iside</span><span class="p">,</span><span class="n">ie</span><span class="p">,</span><span class="mi">2</span><span class="p">)</span><span class="o">=</span><span class="s2">&quot;E  &quot;</span> <span class="c">!&quot;E  &quot; and &quot;   &quot; both work for this</span>
-          <span class="k">if</span><span class="p">(</span><span class="n">boundaryID</span><span class="p">(</span><span class="n">iside</span><span class="p">,</span><span class="n">ie</span><span class="p">).</span><span class="n">eq</span><span class="p">.</span><span class="mi">1</span><span class="p">)</span> <span class="k">then</span> <span class="c">!boundary 1 is the inlet</span>
-            <span class="n">cbc</span><span class="p">(</span><span class="n">iside</span><span class="p">,</span><span class="n">ie</span><span class="p">,</span><span class="mi">1</span><span class="p">)</span> <span class="o">=</span> <span class="s2">&quot;v  &quot;</span>
-            <span class="n">cbc</span><span class="p">(</span><span class="n">iside</span><span class="p">,</span><span class="n">ie</span><span class="p">,</span><span class="mi">2</span><span class="p">)</span> <span class="o">=</span> <span class="s2">&quot;t  &quot;</span>
-          <span class="n">elseif</span><span class="p">(</span><span class="n">boundaryID</span><span class="p">(</span><span class="n">iside</span><span class="p">,</span><span class="n">ie</span><span class="p">).</span><span class="n">eq</span><span class="p">.</span><span class="mi">2</span><span class="p">)</span> <span class="k">then</span> <span class="c">!boundary 2 is a heated wall</span>
-            <span class="n">cbc</span><span class="p">(</span><span class="n">iside</span><span class="p">,</span><span class="n">ie</span><span class="p">,</span><span class="mi">1</span><span class="p">)</span> <span class="o">=</span> <span class="s2">&quot;W  &quot;</span>
-            <span class="n">cbc</span><span class="p">(</span><span class="n">iside</span><span class="p">,</span><span class="n">ie</span><span class="p">,</span><span class="mi">2</span><span class="p">)</span> <span class="o">=</span> <span class="s2">&quot;f  &quot;</span>
-          <span class="n">elseif</span><span class="p">(</span><span class="n">boundaryID</span><span class="p">(</span><span class="n">iside</span><span class="p">,</span><span class="n">ie</span><span class="p">).</span><span class="n">eq</span><span class="p">.</span><span class="mi">3</span><span class="p">)</span> <span class="k">then</span> <span class="c">!boundary 3 is another heated wall</span>
-            <span class="n">cbc</span><span class="p">(</span><span class="n">iside</span><span class="p">,</span><span class="n">ie</span><span class="p">,</span><span class="mi">1</span><span class="p">)</span> <span class="o">=</span> <span class="s2">&quot;W  &quot;</span>
-            <span class="n">cbc</span><span class="p">(</span><span class="n">iside</span><span class="p">,</span><span class="n">ie</span><span class="p">,</span><span class="mi">2</span><span class="p">)</span> <span class="o">=</span> <span class="s2">&quot;f  &quot;</span>
-          <span class="n">elseif</span><span class="p">(</span><span class="n">boundaryID</span><span class="p">(</span><span class="n">iside</span><span class="p">,</span><span class="n">ie</span><span class="p">).</span><span class="n">eq</span><span class="p">.</span><span class="mi">4</span><span class="p">)</span> <span class="k">then</span> <span class="c">!boundary 4 is the outlet</span>
-            <span class="n">cbc</span><span class="p">(</span><span class="n">iside</span><span class="p">,</span><span class="n">ie</span><span class="p">,</span><span class="mi">1</span><span class="p">)</span> <span class="o">=</span> <span class="s2">&quot;O  &quot;</span>
-            <span class="n">cbc</span><span class="p">(</span><span class="n">iside</span><span class="p">,</span><span class="n">ie</span><span class="p">,</span><span class="mi">2</span><span class="p">)</span> <span class="o">=</span> <span class="s2">&quot;I  &quot;</span>
-          <span class="n">endif</span> 
-        <span class="n">enddo</span>
-      <span class="n">enddo</span>
-
-      <span class="k">return</span>
-<span class="k">      end</span>
-</pre></div>
-</div>
+<p>This function can be used to modify the element vertices and is called before the spectral element mesh (GLL points) has been laid out.</p>
 </div>
 <div class="section" id="usrdat2">
 <span id="sec-usrdat2"></span><h3>usrdat2<a class="headerlink" href="#usrdat2" title="Permalink to this headline">¶</a></h3>

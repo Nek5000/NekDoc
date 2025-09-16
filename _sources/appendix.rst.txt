@@ -188,6 +188,7 @@ Solution Variables
 
 .. csv-table:: Solution Variables
   :header: Name,Size,Type,Short Description
+  :widths: 5,10,5,75
 
   ``vx``, "(lx1,ly1,lz1,lelv)",real,x-velocity (:math:`u`)                  
   ``vy``, "(lx1,ly1,lz1,lelv)",real,y-velocity (:math:`v`)                  
@@ -210,71 +211,46 @@ Solution Variables
 Geometry Variables
 ..................
 
-.. table::
+.. csv-table:: Geometry Variables
+   :header: Name,Size,Type,Description
+   :widths: 5,10,5,75
 
-  +---------------+---------------------------+-------------+-------------------------------------------+
-  | Variable Name | Size                      | Type        | Short Description                         |
-  +===============+===========================+=============+===========================================+
-  | ``xm1``       | (lx1,ly1,lz1,lelt)        | real        | x-coordinates for velocity mesh           |
-  +---------------+---------------------------+-------------+-------------------------------------------+
-  | ``ym1``       | (lx1,ly1,lz1,lelt)        | real        | y-coordinates for velocity mesh           |
-  +---------------+---------------------------+-------------+-------------------------------------------+
-  | ``zm1``       | (lx1,ly1,lz1,lelt)        | real        | z-coordinates for velocity mesh           |
-  +---------------+---------------------------+-------------+-------------------------------------------+
-  | ``bm1``       | (lx1,ly1,lz1,lelt)        | real        | mass matrix for velocity mesh             |
-  +---------------+---------------------------+-------------+-------------------------------------------+
-  | ``binvm1``    | (lx1,ly1,lz1,lelv)        | real        | inverse mass matrix for velocity mesh     |
-  +---------------+---------------------------+-------------+-------------------------------------------+
-  | ``bintm1``    | (lx1,ly1,lz1,lelt)        | real        | inverse mass matrix for t mesh            |
-  +---------------+---------------------------+-------------+-------------------------------------------+
-  | ``volvm1``    | --                        | real        | total volume for velocity mesh            |
-  +---------------+---------------------------+-------------+-------------------------------------------+
-  | ``voltm1``    | --                        | real        | total volume for t mesh                   |
-  +---------------+---------------------------+-------------+-------------------------------------------+
-  | ``xm2``       | (lx2,ly2,lz2,lelv)        | real        | x-coordinates for pressure mesh           |
-  +---------------+---------------------------+-------------+-------------------------------------------+
-  | ``ym2``       | (lx2,ly2,lz2,lelv)        | real        | y-coordinates for pressure mesh           |
-  +---------------+---------------------------+-------------+-------------------------------------------+
-  | ``zm2``       | (lx2,ly2,lz2,lelv)        | real        | z-coordinates for pressure mesh           |
-  +---------------+---------------------------+-------------+-------------------------------------------+
-  | ``unx``       | (lx1,ly1,6,lelt)          | real        | x-component of face unit normal           |
-  +---------------+---------------------------+-------------+-------------------------------------------+
-  | ``uny``       | (lx1,ly1,6,lelt)          | real        | y-component of face unit normal           |
-  +---------------+---------------------------+-------------+-------------------------------------------+
-  | ``unz``       | (lx1,ly1,6,lelt)          | real        | z-component of face unit normal           |
-  +---------------+---------------------------+-------------+-------------------------------------------+
-  | ``area``      | (lx1,ly1,6,lelt)          | real        | face area (surface integral weights)      |
-  +---------------+---------------------------+-------------+-------------------------------------------+
+   ``xm1``      ,"(lx1,ly1,lz1,lelt)       ",real ,"x-coordinates for velocity mesh"
+   ``ym1``      ,"(lx1,ly1,lz1,lelt)       ",real ,"y-coordinates for velocity mesh"
+   ``zm1``      ,"(lx1,ly1,lz1,lelt)       ",real ,"z-coordinates for velocity mesh"
+   ``bm1``      ,"(lx1,ly1,lz1,lelt)       ",real ,"mass matrix for velocity mesh"
+   ``binvm1``   ,"(lx1,ly1,lz1,lelv)       ",real ,"inverse mass matrix for velocity mesh"
+   ``bintm1``   ,"(lx1,ly1,lz1,lelt)       ",real ,"inverse mass matrix for t mesh"
+   ``volvm1``   ,"--                       ",real ,"total volume for velocity mesh"
+   ``voltm1``   ,"--                       ",real ,"total volume for t mesh"
+   ``xm2``      ,"(lx2,ly2,lz2,lelv)       ",real ,"x-coordinates for pressure mesh"
+   ``ym2``      ,"(lx2,ly2,lz2,lelv)       ",real ,"y-coordinates for pressure mesh"
+   ``zm2``      ,"(lx2,ly2,lz2,lelv)       ",real ,"z-coordinates for pressure mesh"
+   ``unx``      ,"(lx1,ly1,6,lelt)         ",real ,"x-component of face unit normal"
+   ``uny``      ,"(lx1,ly1,6,lelt)         ",real ,"y-component of face unit normal"
+   ``unz``      ,"(lx1,ly1,6,lelt)         ",real ,"z-component of face unit normal"
+   ``area``     ,"(lx1,ly1,6,lelt)         ",real ,"face area (surface integral weights)"
+
+.. _sec:probvars:
 
 .......................
 Problem Setup Variables
 .......................
 
-.. table::
+.. csv-table:: Problem Setup Variables
+   :header: Name,Size,Type,Description
+   :widths: 5,10,5,75
 
-  +---------------+---------------------------+-------------+-------------------------------------------+
-  | Variable Name | Size                      | Type        | Short Description                         |
-  +===============+===========================+=============+===========================================+
-  | ``nid``       | --                        | integer     | MPI rank id (lowest rank is always 0)     |
-  +---------------+---------------------------+-------------+-------------------------------------------+
-  | ``nio``       | --                        | integer     | I/O node id                               |
-  +---------------+---------------------------+-------------+-------------------------------------------+
-  | ``nelv``      | --                        | integer     | number of elements in velocity mesh       |
-  +---------------+---------------------------+-------------+-------------------------------------------+
-  | ``nelt``      | --                        | integer     | number of elements in t mesh              |
-  +---------------+---------------------------+-------------+-------------------------------------------+
-  | ``ndim``      | --                        | integer     | dimensionality of problem (i.e. 2 or 3)   |
-  +---------------+---------------------------+-------------+-------------------------------------------+
-  | ``nsteps``    | --                        | integer     | number of time steps to run               |
-  +---------------+---------------------------+-------------+-------------------------------------------+
-  | ``iostep``    | --                        | integer     | time steps between data output            |
-  +---------------+---------------------------+-------------+-------------------------------------------+
-  | ``cbc``       | (6,lelt,ldimt+1)          | character*3 | boundary condition                        |
-  +---------------+---------------------------+-------------+-------------------------------------------+
-  | ``lglel``     | (lelt)                    | integer     | local to global element number map        |
-  +---------------+---------------------------+-------------+-------------------------------------------+
-  | ``gllel``     | (lelg)                    | integer     | global to local element number map        |
-  +---------------+---------------------------+-------------+-------------------------------------------+
+   "``nid``","--","integer","MPI rank id (lowest rank is always 0)"
+   "``nio``","--","integer","I/O node id"
+   "``nelv``","--","integer","number of elements in velocity mesh"
+   "``nelt``","--","integer","number of elements in t mesh"
+   "``ndim``","--","integer","dimensionality of problem (i.e. 2 or 3)"
+   "``nsteps``","--","integer","number of time steps to run"
+   "``iostep``","--","integer","time steps between data output"
+   "``cbc``","(6,lelt,ldimt+1)","character*3","character boundary condition, contains the 3-character BC code for every face of every element for every field"
+   "``lglel``","(lelt)","integer","local to global element number map"
+   "``gllel``","(lelg)","integer","global to local element number map"
 
 .. _sec:avgvars:
 

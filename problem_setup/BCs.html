@@ -42,9 +42,34 @@
 <li class="toctree-l1"><a class="reference internal" href="../faq.html">FAQ</a></li>
 <li class="toctree-l1 current"><a class="reference internal" href="../problem_setup.html">Problem Setup</a><ul class="current">
 <li class="toctree-l2 current"><a class="current reference internal" href="#">Boundary Conditions</a><ul>
-<li class="toctree-l3"><a class="reference internal" href="#fluid-velocity">Fluid Velocity</a></li>
-<li class="toctree-l3"><a class="reference internal" href="#temperature-and-passive-scalars">Temperature and Passive Scalars</a></li>
-<li class="toctree-l3"><a class="reference internal" href="#internal-boundary-conditions">Internal Boundary Conditions</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#fluid-velocity-and-pressure">Fluid Velocity and Pressure</a><ul>
+<li class="toctree-l4"><a class="reference internal" href="#inlet-dirichlet-v">Inlet (Dirichlet), <code class="docutils literal notranslate"><span class="pre">v</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="#inlet-dirichlet-local-vl">Inlet (Dirichlet) - local <code class="docutils literal notranslate"><span class="pre">vl</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="#outlet-o">Outlet, <code class="docutils literal notranslate"><span class="pre">O</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="#pressure-outlet-o">Pressure outlet, <code class="docutils literal notranslate"><span class="pre">o</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="#outlet-normal-on">Outlet - normal, <code class="docutils literal notranslate"><span class="pre">ON</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="#pressure-outlet-normal-on">Pressure outlet - normal, <code class="docutils literal notranslate"><span class="pre">on</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="#periodic-p">Periodic, <code class="docutils literal notranslate"><span class="pre">P</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="#symmetry-sym">Symmetry, <code class="docutils literal notranslate"><span class="pre">SYM</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="#traction-s">Traction, <code class="docutils literal notranslate"><span class="pre">s</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="#traction-local-sl">Traction - local, <code class="docutils literal notranslate"><span class="pre">sl</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="#traction-horizontal-sh">Traction - horizontal, <code class="docutils literal notranslate"><span class="pre">sh</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="#traction-horizontal-local-shl">Traction - horizontal, local, <code class="docutils literal notranslate"><span class="pre">shl</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="#wall-w">Wall, <code class="docutils literal notranslate"><span class="pre">W</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="#other-bcs">Other BCs</a></li>
+</ul>
+</li>
+<li class="toctree-l3"><a class="reference internal" href="#temperature-and-passive-scalars">Temperature and Passive Scalars</a><ul>
+<li class="toctree-l4"><a class="reference internal" href="#specified-value-dirichlet-t">Specified value (Dirichlet), <code class="docutils literal notranslate"><span class="pre">t</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="#flux-neumann-f">Flux (Neumann), <code class="docutils literal notranslate"><span class="pre">f</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="#insulated-i">Insulated, <code class="docutils literal notranslate"><span class="pre">I</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="#newton-cooling-convection-c">Newton cooling (convection), <code class="docutils literal notranslate"><span class="pre">c</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="#id2">Periodic, <code class="docutils literal notranslate"><span class="pre">P</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="#radiative-cooling-r">Radiative cooling, <code class="docutils literal notranslate"><span class="pre">r</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="#id3">Other BCs</a></li>
+</ul>
+</li>
+<li class="toctree-l3"><a class="reference internal" href="#setting-boundary-conditions-types">Setting Boundary Conditions Types</a></li>
 </ul>
 </li>
 <li class="toctree-l2"><a class="reference internal" href="case_files.html">Case Files</a></li>
@@ -88,96 +113,282 @@
              
   <div class="section" id="boundary-conditions">
 <span id="id1"></span><h1>Boundary Conditions<a class="headerlink" href="#boundary-conditions" title="Permalink to this headline">¶</a></h1>
-<p>The boundary conditions can be imposed in various ways:</p>
+<p>For all boundaries, it is necessary to provide <em>Nek5000</em> with the boundary condition <em>type</em> and, for some types, the boundary condition <em>value</em>.</p>
+<p>Boundary condition values are assigned in the <code class="docutils literal notranslate"><span class="pre">.usr</span></code> file in the <code class="docutils literal notranslate"><span class="pre">userbc</span></code> subroutine (see <a class="reference internal" href="usr_file.html#sec-userbc"><span class="std std-ref">userbc</span></a> for details).
+This section focuses on what boundary condition types are available in <em>Nek5000</em> and how to assign them.</p>
+<p>We first discuss how <em>Nek5000</em> stores the boundary condition information in the code itself.
+Boundary condition types are stored as a <em>character identifier code</em> on every face of every element for every solution field.
+These are stored in memory in the <code class="docutils literal notranslate"><span class="pre">cbc</span></code> array, which is of type <code class="docutils literal notranslate"><span class="pre">character*3</span></code>.
+It is declared in a common block in <code class="docutils literal notranslate"><span class="pre">Nek5000/core/INPUT</span></code> as <code class="docutils literal notranslate"><span class="pre">cbc(6,lelt,0:ldimt1)</span></code>, which is then included as part of <code class="docutils literal notranslate"><span class="pre">TOTAL</span></code> in the user subroutines in the <code class="docutils literal notranslate"><span class="pre">.usr</span></code> file as well as any relevant source code files.
+The <code class="docutils literal notranslate"><span class="pre">cbc</span></code> array is set at runtime either from information carried directly in the mesh file (<code class="docutils literal notranslate"><span class="pre">.rea</span></code>/<code class="docutils literal notranslate"><span class="pre">.re2</span></code>), from information provided in the <code class="docutils literal notranslate"><span class="pre">.par</span></code> file, or (for advanced users) directly in <code class="docutils literal notranslate"><span class="pre">usrdat</span></code> or <code class="docutils literal notranslate"><span class="pre">usrdat2</span></code>.</p>
+<p>The general conventions for boundary condition identifiers are:</p>
 <ul class="simple">
-<li>when the mesh is generated, e.g. with <code class="docutils literal notranslate"><span class="pre">genbox</span></code>, as is explained in <a class="reference internal" href="../tools/genbox.html#tools-genbox"><span class="std std-ref">Genbox</span></a></li>
-<li>when an <code class="docutils literal notranslate"><span class="pre">.rea</span></code> file is read in <em>preNek</em></li>
-<li>translated from side-set numbers in <code class="docutils literal notranslate"><span class="pre">usrdat</span></code> when using <code class="docutils literal notranslate"><span class="pre">exotonek</span></code> or similar. For an example see <a class="reference internal" href="usr_file.html#sec-usrdat"><span class="std std-ref">here</span></a>.</li>
+<li>uppercase letters correspond to boundary conditions which do not require any additional user input.</li>
+<li>lowercase letters correspond to user defined boundary conditions which require values to be set in the <code class="docutils literal notranslate"><span class="pre">userbc</span></code> subroutine in the <a class="reference internal" href="usr_file.html#sec-userbc"><span class="std std-ref">user file</span></a>.</li>
+<li>lowercase letters ending with <code class="docutils literal notranslate"><span class="pre">l</span></code>, e.g. <code class="docutils literal notranslate"><span class="pre">vl</span></code>, are specified in face-local coordinates, i.e. normal, tangent and bitangent directions.</li>
+<li>lowercase letters including an <code class="docutils literal notranslate"><span class="pre">h</span></code>, e.g. <code class="docutils literal notranslate"><span class="pre">sh</span></code>, are a “horizontal” variant where the normal velocity component is zero. This can be combined with <code class="docutils literal notranslate"><span class="pre">l</span></code> to produce a “horizontal, local” variant.</li>
 </ul>
-<p>The general convention for boundary conditions is</p>
-<ul class="simple">
-<li>uppercase letters correspond to primitive boundary conditions, as given in <a class="reference internal" href="#tab-bcf"><span class="std std-numref">Table 1</span></a>, <a class="reference internal" href="#tab-bct"><span class="std std-numref">Table 3</span></a></li>
-<li>lowercase letters correspond to user defined boundary conditions, see <a class="reference internal" href="#tab-ubcf"><span class="std std-numref">Table 2</span></a> , <a class="reference internal" href="#tab-userbct"><span class="std std-numref">Table 4</span></a></li>
-<li>lowercase letters ending with <code class="docutils literal notranslate"><span class="pre">l</span></code>, i.e. <code class="docutils literal notranslate"><span class="pre">'vl</span> <span class="pre">'</span></code>, are specified in face-local coordinates, i.e. normal, tangent and bitangent directions.</li>
-</ul>
-<p>Uppercase boundary conditions which require assigned values in the <code class="docutils literal notranslate"><span class="pre">.rea</span></code> file are considered legacy and are not recommended for use.</p>
-<div class="section" id="fluid-velocity">
-<h2>Fluid Velocity<a class="headerlink" href="#fluid-velocity" title="Permalink to this headline">¶</a></h2>
-<p>Two types of boundary conditions are applicable to the fluid velocity : essential (Dirichlet) boundary condition in which the velocity is specified and natural (Neumann) boundary condition in which the traction is specified.
-For segments that constitute the boundary <span class="math notranslate nohighlight">\(\partial \Omega_f\)</span>, see <a class="reference internal" href="../theory.html#fig-walls"><span class="std std-numref">Fig. 31</span></a>, one of these two types of boundary conditions must be assigned to each component of the fluid velocity.
-The fluid boundary condition can be <em>all Dirichlet</em> if all velocity components of <span class="math notranslate nohighlight">\({\bf u}\)</span> are specified, or it can be <em>all Neumann</em> if all traction components (<span class="math notranslate nohighlight">\(\boldsymbol{\underline \tau} = [-P {\bf \underline I} + \mu (\nabla {\bf u} + (\nabla {\bf u})^{T})] \cdot {\bf \hat e_n}\)</span>) are specified.
-Where <span class="math notranslate nohighlight">\({\bf \underline I}\)</span> is the identity tensor, <span class="math notranslate nohighlight">\({\bf \hat e_n}\)</span> is the unit normal and <span class="math notranslate nohighlight">\(\mu\)</span> is the dynamic viscosity, are specified.
+<p>The available boundary condition types, along with the identifier codes, are described in the following sections for the fluid velocity and pressure, and the temperature and passive scalars.</p>
+<div class="section" id="fluid-velocity-and-pressure">
+<span id="sec-velbcs"></span><h2>Fluid Velocity and Pressure<a class="headerlink" href="#fluid-velocity-and-pressure" title="Permalink to this headline">¶</a></h2>
+<p>Two kinds of boundary conditions are applicable to the fluid velocity: essential (Dirichlet) boundary conditions in which the velocity is specified, and natural (Neumann) boundary conditions in which the traction is specified.
+For segments that constitute the boundary <span class="math notranslate nohighlight">\(\partial \Omega_f\)</span>, see <a class="reference internal" href="../theory.html#fig-walls"><span class="std std-numref">Fig. 31</span></a>, one of these two types of boundary conditions must be assigned to each component of the fluid velocity.</p>
+<p>The fluid boundary condition can be <em>all Dirichlet</em> if all velocity components of <span class="math notranslate nohighlight">\({\bf u}\)</span> are specified, or it can be <em>all Neumann</em> if all three traction components (<span class="math notranslate nohighlight">\(\boldsymbol{\underline \tau} \cdot {\bf \hat e_n}\)</span>) are specified on the boundary face.
+Where <span class="math notranslate nohighlight">\({\bf \hat e_n}\)</span> is the unit vector normal to the boundary face.
 It can also be <em>mixed Dirichlet/Neumann</em> if Dirichlet and Neumann conditions are selected for different velocity components.
-If the no stress formulation is selected, then traction is not defined on the boundary.
-In this case, any Neumann boundary condition imposed must be homogeneous, i.e. equal to zero.
-.. In addition, mixed Dirichlet/Neumann boundaries must be aligned with one of the Cartesian axes.
-For flow geometry which consists of a periodic repetition of a particular geometric unit, the periodic boundary conditions can be imposed, as illustrated in <a class="reference internal" href="../theory.html#fig-walls"><span class="std std-numref">Fig. 31</span></a> .
-The available primitive boundary conditions for the fluid are given in <a class="reference internal" href="#tab-bcf"><span class="std std-numref">Table 1</span></a> , with the user-specified boundary conditions in <a class="reference internal" href="#tab-ubcf"><span class="std std-numref">Table 2</span></a> .</p>
-<span id="tab-bcf"></span><table border="1" class="docutils" id="id2">
-<caption><span class="caption-number">Table 1 </span><span class="caption-text">Primitive boundary conditions for velocity</span><a class="headerlink" href="#id2" title="Permalink to this table">¶</a></caption>
+Neumann boundary conditions for velocity are assigned differently depending on if the no-stress or full-stress formulation is used.
+If the <a class="reference internal" href="../theory.html#sec-nostress"><span class="std std-ref">no-stress formulation</span></a> is selected, then traction is not defined on the boundary, rather the individual components of the velocity gradient are defined.
+In this case, any Neumann boundary condition imposed must be homogeneous, i.e. equal to zero, and mixed Dirichlet/Neumann boundaries must be aligned with one of the Cartesian axes.
+These conditions are not required for the <a class="reference internal" href="../theory.html#sec-fullstress"><span class="std std-ref">full-stress formulation</span></a>, which assigns the components of the stress tensor directly.</p>
+<p>In general, the boundary condition for pressure satisfies the following equation, unless explicitly specified in the sections below.</p>
+<blockquote>
+<div><div class="math notranslate nohighlight">
+\[\nabla \cdot \frac{1}{\rho}\nabla p = -\nabla \cdot \frac{D \bf u}{D t} +\nabla \cdot \frac{1}{\rho}\left(\nabla \cdot \boldsymbol{\underline \tau}\right) + \nabla \cdot \bf f\]</div>
+</div></blockquote>
+<p>where the stress tensor is given as</p>
+<blockquote>
+<div><div class="math notranslate nohighlight">
+\[\boldsymbol{\underline \tau} = \mu\left[\nabla {\bf u} + \left(\nabla {\bf u}\right)^T\right]\]</div>
+</div></blockquote>
+<div class="section" id="inlet-dirichlet-v">
+<h3>Inlet (Dirichlet), <code class="docutils literal notranslate"><span class="pre">v</span></code><a class="headerlink" href="#inlet-dirichlet-v" title="Permalink to this headline">¶</a></h3>
+<p>Standard Dirichlet boundary condition for velocity.</p>
+<blockquote>
+<div><div class="math notranslate nohighlight">
+\[\begin{split}{\bf u} \cdot {\bf \hat e_x} &amp;= u_x\\
+{\bf u} \cdot {\bf \hat e_y} &amp;= u_y\\
+{\bf u} \cdot {\bf \hat e_z} &amp;= u_z\end{split}\]</div>
+</div></blockquote>
+<p>Where, <span class="math notranslate nohighlight">\({\bf \hat e_n}\)</span> is the unit vector normal to the boundary face, <span class="math notranslate nohighlight">\({\bf \hat e_x}\)</span>, <span class="math notranslate nohighlight">\({\bf \hat e_y}\)</span>, and <span class="math notranslate nohighlight">\({\bf \hat e_z}\)</span> are unit vectors aligned with the Cartesian axes and <span class="math notranslate nohighlight">\(u_x\)</span>, <span class="math notranslate nohighlight">\(u_y\)</span>, and <span class="math notranslate nohighlight">\(u_z\)</span> are set in the <code class="docutils literal notranslate"><span class="pre">userbc</span></code> subroutine in the <a class="reference internal" href="usr_file.html#sec-userbc"><span class="std std-ref">user file</span></a>.</p>
+</div>
+<div class="section" id="inlet-dirichlet-local-vl">
+<h3>Inlet (Dirichlet) - local <code class="docutils literal notranslate"><span class="pre">vl</span></code><a class="headerlink" href="#inlet-dirichlet-local-vl" title="Permalink to this headline">¶</a></h3>
+<p>Standard Dirichlet boundary condition for velocity in local coordinates.</p>
+<div class="math notranslate nohighlight">
+\[\begin{split}{\bf u} \cdot {\bf \hat e_n} &amp;= u_n\\
+{\bf u} \cdot {\bf \hat e_t} &amp;= u_1\\
+{\bf u} \cdot {\bf \hat e_b} &amp;= u_2\end{split}\]</div>
+<p>Where, <span class="math notranslate nohighlight">\({\bf \hat e_n}\)</span>, <span class="math notranslate nohighlight">\({\bf \hat e_t}\)</span>, and <span class="math notranslate nohighlight">\({\bf \hat e_b}\)</span> are the normal, tangent, and bitangent unit vectors on the boundary face, and <span class="math notranslate nohighlight">\(u_n\)</span>, <span class="math notranslate nohighlight">\(u_1\)</span>, and <span class="math notranslate nohighlight">\(u_2\)</span> are set in the <code class="docutils literal notranslate"><span class="pre">userbc</span></code> subroutine in the <a class="reference internal" href="usr_file.html#sec-userbc"><span class="std std-ref">user file</span></a>.</p>
+</div>
+<div class="section" id="outlet-o">
+<h3>Outlet, <code class="docutils literal notranslate"><span class="pre">O</span></code><a class="headerlink" href="#outlet-o" title="Permalink to this headline">¶</a></h3>
+<p>The open (outflow) boundary condition arises as a natural boundary condition from the variational formulation of Navier Stokes.</p>
+<div class="math notranslate nohighlight">
+\[p = 0\]</div>
+<table border="1" class="colwidths-given docutils align-center">
 <colgroup>
-<col width="11%" />
-<col width="27%" />
-<col width="13%" />
-<col width="49%" />
+<col width="50%" />
+<col width="50%" />
 </colgroup>
 <thead valign="bottom">
-<tr class="row-odd"><th class="head">Identifier</th>
-<th class="head">Description</th>
-<th class="head">Type</th>
-<th class="head">Note</th>
+<tr class="row-odd"><th class="head">no-stress</th>
+<th class="head">full-stress</th>
 </tr>
 </thead>
 <tbody valign="top">
-<tr class="row-even"><td>P</td>
-<td>Periodic</td>
-<td>–</td>
-<td>Standard periodic boundary condition</td>
-</tr>
-<tr class="row-odd"><td>p</td>
-<td>Periodic</td>
-<td>–</td>
-<td>For periodicity within a single element</td>
-</tr>
-<tr class="row-even"><td>O</td>
-<td>Outflow</td>
-<td>Neumann</td>
-<td>Open boundary condition, zero pressure</td>
-</tr>
-<tr class="row-odd"><td>ON</td>
-<td>Outflow, Normal</td>
-<td>Mixed</td>
-<td>Zero velocity in non-normal directions</td>
-</tr>
-<tr class="row-even"><td>W</td>
-<td>Wall</td>
-<td>Dirichlet</td>
-<td>No slip, <span class="math notranslate nohighlight">\({ \bf{u} = 0}\)</span></td>
-</tr>
-<tr class="row-odd"><td>SYM</td>
-<td>Symmetry</td>
-<td>Mixed</td>
-<td>&#160;</td>
-</tr>
-<tr class="row-even"><td>A</td>
-<td>Axisymmetric boundary</td>
-<td>–</td>
-<td>&#160;</td>
-</tr>
-<tr class="row-odd"><td>E</td>
-<td>Interior boundary</td>
-<td>–</td>
-<td>&#160;</td>
+<tr class="row-even"><td><span class="math notranslate nohighlight">\(\nabla {\bf u} = 0\)</span></td>
+<td><span class="math notranslate nohighlight">\(\boldsymbol{\underline \tau} \cdot {\bf \hat e_n} = 0\)</span></td>
 </tr>
 </tbody>
 </table>
-<span id="tab-ubcf"></span><table border="1" class="docutils" id="id3">
-<caption><span class="caption-number">Table 2 </span><span class="caption-text">User defined boundary conditions for velocity</span><a class="headerlink" href="#id3" title="Permalink to this table">¶</a></caption>
+<p>Where <span class="math notranslate nohighlight">\({\bf \hat e_n}\)</span> is the unit vector normal to the boundary face.
+The <code class="docutils literal notranslate"><span class="pre">userbc</span></code> subroutine is not called for this boundary condition type.</p>
+</div>
+<div class="section" id="pressure-outlet-o">
+<h3>Pressure outlet, <code class="docutils literal notranslate"><span class="pre">o</span></code><a class="headerlink" href="#pressure-outlet-o" title="Permalink to this headline">¶</a></h3>
+<p>Similar to a standard outlet, but with a specified pressure.</p>
+<div class="math notranslate nohighlight">
+\[p = p_a\]</div>
+<table border="1" class="colwidths-given docutils align-center">
 <colgroup>
+<col width="50%" />
+<col width="50%" />
+</colgroup>
+<thead valign="bottom">
+<tr class="row-odd"><th class="head">no-stress</th>
+<th class="head">full-stress</th>
+</tr>
+</thead>
+<tbody valign="top">
+<tr class="row-even"><td><span class="math notranslate nohighlight">\(\nabla {\bf u} = 0\)</span></td>
+<td><span class="math notranslate nohighlight">\(\boldsymbol{\underline \tau} \cdot {\bf \hat e_n} = 0\)</span></td>
+</tr>
+</tbody>
+</table>
+<p>Where <span class="math notranslate nohighlight">\({\bf \hat e_n}\)</span> is the unit vector normal to the boundary face and <span class="math notranslate nohighlight">\(p_a\)</span> is set in the <code class="docutils literal notranslate"><span class="pre">userbc</span></code> subroutine in the <a class="reference internal" href="usr_file.html#sec-userbc"><span class="std std-ref">user file</span></a>.</p>
+</div>
+<div class="section" id="outlet-normal-on">
+<h3>Outlet - normal, <code class="docutils literal notranslate"><span class="pre">ON</span></code><a class="headerlink" href="#outlet-normal-on" title="Permalink to this headline">¶</a></h3>
+<p>Open boundary with zero velocity in the tangent and bitangent directions.</p>
+<div class="math notranslate nohighlight">
+\[p = 0\]</div>
+<table border="1" class="colwidths-given docutils align-center">
+<colgroup>
+<col width="50%" />
+<col width="50%" />
+</colgroup>
+<thead valign="bottom">
+<tr class="row-odd"><th class="head">no-stress</th>
+<th class="head">full-stress</th>
+</tr>
+</thead>
+<tbody valign="top">
+<tr class="row-even"><td><span class="math notranslate nohighlight">\(\nabla {\bf u}\cdot{\bf \hat e_n} = 0\)</span></td>
+<td><span class="math notranslate nohighlight">\(\left(\boldsymbol{\underline \tau} \cdot {\bf \hat e_n}\right) \cdot {\bf \hat e_n} = 0\)</span></td>
+</tr>
+<tr class="row-odd"><td><span class="math notranslate nohighlight">\({\bf u} \cdot {\bf \hat e_t} = 0\)</span></td>
+<td><span class="math notranslate nohighlight">\({\bf u} \cdot {\bf \hat e_t} = 0\)</span></td>
+</tr>
+<tr class="row-even"><td><span class="math notranslate nohighlight">\({\bf u} \cdot {\bf \hat e_b} = 0\)</span></td>
+<td><span class="math notranslate nohighlight">\({\bf u} \cdot {\bf \hat e_b} = 0\)</span></td>
+</tr>
+</tbody>
+</table>
+<p>Where <span class="math notranslate nohighlight">\({\bf \hat e_n}\)</span>, <span class="math notranslate nohighlight">\({\bf \hat e_t}\)</span>, and <span class="math notranslate nohighlight">\({\bf \hat e_b}\)</span> are the normal, tangent, and bitangent unit vectors on the boundary face.
+If the surface normal vector is not aligned with a principal Cartesian axis, the <a class="reference internal" href="../theory.html#sec-fullstress"><span class="std std-ref">full-stress formulation</span></a> must be used.
+The <code class="docutils literal notranslate"><span class="pre">userbc</span></code> subroutine is not called for this boundary condition type.</p>
+</div>
+<div class="section" id="pressure-outlet-normal-on">
+<h3>Pressure outlet - normal, <code class="docutils literal notranslate"><span class="pre">on</span></code><a class="headerlink" href="#pressure-outlet-normal-on" title="Permalink to this headline">¶</a></h3>
+<p>Similar to an outlet - normal boundary, but with a specified pressure.</p>
+<div class="math notranslate nohighlight">
+\[p = p_a\]</div>
+<table border="1" class="colwidths-given docutils align-center">
+<colgroup>
+<col width="50%" />
+<col width="50%" />
+</colgroup>
+<thead valign="bottom">
+<tr class="row-odd"><th class="head">no-stress</th>
+<th class="head">full-stress</th>
+</tr>
+</thead>
+<tbody valign="top">
+<tr class="row-even"><td><span class="math notranslate nohighlight">\(\nabla {\bf u}\cdot{\bf \hat e_n} = 0\)</span></td>
+<td><span class="math notranslate nohighlight">\(\left(\boldsymbol{\underline \tau} \cdot {\bf \hat e_n}\right) \cdot {\bf \hat e_n} = 0\)</span></td>
+</tr>
+<tr class="row-odd"><td><span class="math notranslate nohighlight">\({\bf u} \cdot {\bf \hat e_t} = 0\)</span></td>
+<td><span class="math notranslate nohighlight">\({\bf u} \cdot {\bf \hat e_t} = 0\)</span></td>
+</tr>
+<tr class="row-even"><td><span class="math notranslate nohighlight">\({\bf u} \cdot {\bf \hat e_b} = 0\)</span></td>
+<td><span class="math notranslate nohighlight">\({\bf u} \cdot {\bf \hat e_b} = 0\)</span></td>
+</tr>
+</tbody>
+</table>
+<p>Where <span class="math notranslate nohighlight">\({\bf \hat e_n}\)</span>, <span class="math notranslate nohighlight">\({\bf \hat e_t}\)</span>, and <span class="math notranslate nohighlight">\({\bf \hat e_b}\)</span> are the normal, tangent, and bitangent unit vectors on the boundary face, and <span class="math notranslate nohighlight">\(p_a\)</span> is set in the <code class="docutils literal notranslate"><span class="pre">userbc</span></code> subroutine in the <a class="reference internal" href="usr_file.html#sec-userbc"><span class="std std-ref">user file</span></a>.
+If the surface normal vector is not aligned with a principal Cartesian axis, the <a class="reference internal" href="../theory.html#sec-fullstress"><span class="std std-ref">full-stress formulation</span></a> must be used.</p>
+</div>
+<div class="section" id="periodic-p">
+<span id="sec-periodicbc"></span><h3>Periodic, <code class="docutils literal notranslate"><span class="pre">P</span></code><a class="headerlink" href="#periodic-p" title="Permalink to this headline">¶</a></h3>
+<p>Where possible, one can effect great computational efficiencies by considering the problem in a single geometric unit and requiring periodicity of the field variables.</p>
+<div class="math notranslate nohighlight">
+\[\begin{split}p\left({\bf x}\right) &amp;= p\left({\bf x} + \boldsymbol{\delta}{\bf x}\right)\\
+{\bf u}\left({\bf x}\right) &amp;= {\bf u}\left({\bf x} + \boldsymbol{\delta}{\bf x}\right)\end{split}\]</div>
+<p>Where <span class="math notranslate nohighlight">\(\boldsymbol{\delta}{\bf x}\)</span> is the offset vector between two periodic faces.
+The <code class="docutils literal notranslate"><span class="pre">userbc</span></code> subroutine is not called for this boundary condition type.</p>
+<p>Periodic boundaries are a special case where the boundary condition is enforced on the mesh connectivity level.
+To use periodic boundary conditions, the surface meshes must be conformal.
+For third-party meshes they must also have a corresponding pair of boundary ID values which need to be provided during conversion, i.e. to <code class="docutils literal notranslate"><span class="pre">exo2nek</span></code>, <code class="docutils literal notranslate"><span class="pre">gmsh2nek</span></code>, or <code class="docutils literal notranslate"><span class="pre">cgns2nek</span></code>.
+Additionally, the mesh must be at least 3 elements thick in the direction normal to the periodic boundaries.</p>
+</div>
+<div class="section" id="symmetry-sym">
+<h3>Symmetry, <code class="docutils literal notranslate"><span class="pre">SYM</span></code><a class="headerlink" href="#symmetry-sym" title="Permalink to this headline">¶</a></h3>
+<p>Symmetric face or a slip wall.</p>
+<div class="math notranslate nohighlight">
+\[\nabla p \cdot {\bf \hat e_n} = 0\]</div>
+<table border="1" class="colwidths-given docutils align-center">
+<colgroup>
+<col width="50%" />
+<col width="50%" />
+</colgroup>
+<thead valign="bottom">
+<tr class="row-odd"><th class="head">no-stress</th>
+<th class="head">full-stress</th>
+</tr>
+</thead>
+<tbody valign="top">
+<tr class="row-even"><td><span class="math notranslate nohighlight">\({\bf u} \cdot {\bf \hat e_n} = 0\)</span></td>
+<td><span class="math notranslate nohighlight">\({\bf u} \cdot {\bf \hat e_n} = 0\)</span></td>
+</tr>
+<tr class="row-odd"><td><span class="math notranslate nohighlight">\(\nabla{\bf u}\cdot {\bf \hat e_t} = 0\)</span></td>
+<td><span class="math notranslate nohighlight">\(\left(\boldsymbol{\underline \tau} \cdot {\bf \hat e_n}\right)\cdot {\bf \hat e_t} = 0\)</span></td>
+</tr>
+<tr class="row-even"><td><span class="math notranslate nohighlight">\(\nabla{\bf u}\cdot {\bf \hat e_b} = 0\)</span></td>
+<td><span class="math notranslate nohighlight">\(\left(\boldsymbol{\underline \tau} \cdot {\bf \hat e_n}\right)\cdot {\bf \hat e_b} = 0\)</span></td>
+</tr>
+</tbody>
+</table>
+<p>Where <span class="math notranslate nohighlight">\({\bf \hat e_n}\)</span>, <span class="math notranslate nohighlight">\({\bf \hat e_t}\)</span>, and <span class="math notranslate nohighlight">\({\bf \hat e_b}\)</span> are the normal, tangent, and bitangent unit vectors on the boundary face.
+If the surface normal vector is not aligned with a principal Cartesian axis, the <a class="reference internal" href="../theory.html#sec-fullstress"><span class="std std-ref">full-stress formulation</span></a> must be used.
+The <code class="docutils literal notranslate"><span class="pre">userbc</span></code> subroutine is not called for this boundary condition type.</p>
+</div>
+<div class="section" id="traction-s">
+<h3>Traction, <code class="docutils literal notranslate"><span class="pre">s</span></code><a class="headerlink" href="#traction-s" title="Permalink to this headline">¶</a></h3>
+<p>Full Neumann boundary conditions for velocity.</p>
+<div class="math notranslate nohighlight">
+\[\begin{split}p &amp;= 0\\
+\left(\boldsymbol{\underline \tau} \cdot {\bf \hat e_n}\right)\cdot {\bf \hat e_x} &amp;= tr_x\\
+\left(\boldsymbol{\underline \tau} \cdot {\bf \hat e_n}\right)\cdot {\bf \hat e_y} &amp;= tr_y\\
+\left(\boldsymbol{\underline \tau} \cdot {\bf \hat e_n}\right)\cdot {\bf \hat e_z} &amp;= tr_z\end{split}\]</div>
+<p>Where <span class="math notranslate nohighlight">\({\bf \hat e_n}\)</span> is the unit vector normal to the boundary face, <span class="math notranslate nohighlight">\({\bf \hat e_x}\)</span>, <span class="math notranslate nohighlight">\({\bf \hat e_y}\)</span>, and <span class="math notranslate nohighlight">\({\bf \hat e_z}\)</span> are unit vectors aligned with the Cartesian axes and <span class="math notranslate nohighlight">\(tr_x\)</span>, <span class="math notranslate nohighlight">\(tr_y\)</span>, and <span class="math notranslate nohighlight">\(tr_z\)</span> are set in the <code class="docutils literal notranslate"><span class="pre">userbc</span></code> subroutine in the <a class="reference internal" href="usr_file.html#sec-userbc"><span class="std std-ref">user file</span></a>.
+The <a class="reference internal" href="../theory.html#sec-fullstress"><span class="std std-ref">full-stress formulation</span></a> must be used for this boundary type.</p>
+</div>
+<div class="section" id="traction-local-sl">
+<h3>Traction - local, <code class="docutils literal notranslate"><span class="pre">sl</span></code><a class="headerlink" href="#traction-local-sl" title="Permalink to this headline">¶</a></h3>
+<p>Similar to traction, but in local coordinates.</p>
+<blockquote>
+<div><div class="math notranslate nohighlight">
+\[\begin{split}p &amp;= 0\\
+\left(\boldsymbol{\underline \tau} \cdot {\bf \hat e_n}\right)\cdot {\bf \hat e_n} &amp;= tr_n\\
+\left(\boldsymbol{\underline \tau} \cdot {\bf \hat e_n}\right)\cdot {\bf \hat e_t} &amp;= tr_1\\
+\left(\boldsymbol{\underline \tau} \cdot {\bf \hat e_n}\right)\cdot {\bf \hat e_b} &amp;= tr_2\end{split}\]</div>
+</div></blockquote>
+<p>Where <span class="math notranslate nohighlight">\({\bf \hat e_n}\)</span>, <span class="math notranslate nohighlight">\({\bf \hat e_t}\)</span>, and <span class="math notranslate nohighlight">\({\bf \hat e_b}\)</span> are the normal, tangent, and bitangent unit vectors on the boundary face, and <span class="math notranslate nohighlight">\(tr_n\)</span>, <span class="math notranslate nohighlight">\(tr_1\)</span>, and <span class="math notranslate nohighlight">\(tr_2\)</span> are set in the <code class="docutils literal notranslate"><span class="pre">userbc</span></code> subroutine in the <a class="reference internal" href="usr_file.html#sec-userbc"><span class="std std-ref">user file</span></a>.
+The <a class="reference internal" href="../theory.html#sec-fullstress"><span class="std std-ref">full-stress formulation</span></a> must be used for this boundary type.</p>
+</div>
+<div class="section" id="traction-horizontal-sh">
+<h3>Traction - horizontal, <code class="docutils literal notranslate"><span class="pre">sh</span></code><a class="headerlink" href="#traction-horizontal-sh" title="Permalink to this headline">¶</a></h3>
+<p>Similar to symmetry, but with specified non-zero traction in the tangent and bitangent directions given in Cartesian coordinates</p>
+<blockquote>
+<div><div class="math notranslate nohighlight">
+\[\begin{split}{\bf u} \cdot {\bf \hat e_n} &amp;= 0\\
+\left(\boldsymbol{\underline \tau} \cdot {\bf \hat e_n}\right)\cdot {\bf \hat e_x} &amp;= tr_x\\
+\left(\boldsymbol{\underline \tau} \cdot {\bf \hat e_n}\right)\cdot {\bf \hat e_y} &amp;= tr_y\\
+\left(\boldsymbol{\underline \tau} \cdot {\bf \hat e_n}\right)\cdot {\bf \hat e_z} &amp;= tr_z\end{split}\]</div>
+</div></blockquote>
+<p>Where <span class="math notranslate nohighlight">\({\bf \hat e_n}\)</span> is the unit vector normal to the boundary face, <span class="math notranslate nohighlight">\({\bf \hat e_x}\)</span>, <span class="math notranslate nohighlight">\({\bf \hat e_y}\)</span>, and <span class="math notranslate nohighlight">\({\bf \hat e_z}\)</span> are unit vectors aligned with the Cartesian axes and <span class="math notranslate nohighlight">\(tr_x\)</span>, <span class="math notranslate nohighlight">\(tr_y\)</span>, and <span class="math notranslate nohighlight">\(tr_z\)</span> are set in the <code class="docutils literal notranslate"><span class="pre">userbc</span></code> subroutine in the <a class="reference internal" href="usr_file.html#sec-userbc"><span class="std std-ref">user file</span></a>.
+The <a class="reference internal" href="../theory.html#sec-fullstress"><span class="std std-ref">full-stress formulation</span></a> must be used for this boundary type.</p>
+</div>
+<div class="section" id="traction-horizontal-local-shl">
+<h3>Traction - horizontal, local, <code class="docutils literal notranslate"><span class="pre">shl</span></code><a class="headerlink" href="#traction-horizontal-local-shl" title="Permalink to this headline">¶</a></h3>
+<p>Similar to symmetry, but with specified non-zero traction in the tangent and bitangent directions.</p>
+<blockquote>
+<div><div class="math notranslate nohighlight">
+\[\begin{split}{\bf u} \cdot {\bf \hat e_n} &amp;= 0\\
+\left(\boldsymbol{\underline \tau} \cdot {\bf \hat e_n}\right)\cdot {\bf \hat e_t} &amp;= tr_1\\
+\left(\boldsymbol{\underline \tau} \cdot {\bf \hat e_n}\right)\cdot {\bf \hat e_b} &amp;= tr_2\end{split}\]</div>
+</div></blockquote>
+<p>Where, <span class="math notranslate nohighlight">\({\bf \hat e_n}\)</span>, <span class="math notranslate nohighlight">\({\bf \hat e_t}\)</span>, and <span class="math notranslate nohighlight">\({\bf \hat e_b}\)</span> are the normal, tangent, and bitangent unit vectors on the boundary face, and <span class="math notranslate nohighlight">\(tr_1\)</span> and <span class="math notranslate nohighlight">\(tr_2\)</span> are set in the <code class="docutils literal notranslate"><span class="pre">userbc</span></code> subroutine in the <a class="reference internal" href="usr_file.html#sec-userbc"><span class="std std-ref">user file</span></a>.
+The <a class="reference internal" href="../theory.html#sec-fullstress"><span class="std std-ref">full-stress formulation</span></a> must be used for this boundary type.</p>
+</div>
+<div class="section" id="wall-w">
+<h3>Wall, <code class="docutils literal notranslate"><span class="pre">W</span></code><a class="headerlink" href="#wall-w" title="Permalink to this headline">¶</a></h3>
+<p>Dirichlet boundary condition corresponding to a no-slip wall.</p>
+<blockquote>
+<div><div class="math notranslate nohighlight">
+\[\bf u = 0\]</div>
+</div></blockquote>
+<p>The <code class="docutils literal notranslate"><span class="pre">userbc</span></code> subroutine is not called for this boundary condition type.</p>
+</div>
+<div class="section" id="other-bcs">
+<h3>Other BCs<a class="headerlink" href="#other-bcs" title="Permalink to this headline">¶</a></h3>
+<span id="tab-bcf"></span><table border="1" class="colwidths-given docutils" id="id4">
+<caption><span class="caption-number">Table 1 </span><span class="caption-text">Other boundary conditions for velocity</span><a class="headerlink" href="#id4" title="Permalink to this table">¶</a></caption>
+<colgroup>
+<col width="5%" />
+<col width="30%" />
 <col width="10%" />
-<col width="23%" />
-<col width="11%" />
-<col width="56%" />
+<col width="55%" />
 </colgroup>
 <thead valign="bottom">
 <tr class="row-odd"><th class="head">Identifier</th>
@@ -187,138 +398,127 @@ The available primitive boundary conditions for the fluid are given in <a class=
 </tr>
 </thead>
 <tbody valign="top">
-<tr class="row-even"><td>v</td>
-<td>Velocity</td>
-<td>Dirichlet</td>
-<td>Standard velocity boundary condition</td>
-</tr>
-<tr class="row-odd"><td>vl</td>
-<td>Velocity, local</td>
-<td>Dirichlet</td>
-<td>Face-local coordinates (normal, tangnent, bitangent)</td>
-</tr>
-<tr class="row-even"><td>o</td>
-<td>Outflow</td>
-<td>Neumann</td>
-<td>Open boundary condition, specified pressure</td>
-</tr>
-<tr class="row-odd"><td>on</td>
-<td>Outflow, Normal</td>
+<tr class="row-even"><td><code class="docutils literal notranslate"><span class="pre">A</span></code></td>
+<td>Axisymmetric boundary</td>
 <td>Mixed</td>
-<td>Zero velocity in non-normal directions</td>
+<td>Can only be used on face 1, treated as <code class="docutils literal notranslate"><span class="pre">SYM</span></code>, see below</td>
 </tr>
-<tr class="row-even"><td>s</td>
-<td>Traction</td>
-<td>Neumann</td>
-<td>Specified traction in all directions</td>
+<tr class="row-odd"><td><code class="docutils literal notranslate"><span class="pre">E</span></code></td>
+<td>Interior boundary</td>
+<td>–</td>
+<td>Denotes faces that connect adjacent elements</td>
 </tr>
-<tr class="row-odd"><td>sl</td>
-<td>Traction, local</td>
-<td>Neumann</td>
-<td>Face-local coordinates (normal, tangent, bitangent)</td>
+<tr class="row-even"><td><code class="docutils literal notranslate"><span class="pre">'</span>&#160;&#160; <span class="pre">'</span></code></td>
+<td>Empty</td>
+<td>–</td>
+<td>Treated as an interior boundary</td>
 </tr>
-<tr class="row-even"><td>sh</td>
-<td>Traction, horizontal</td>
-<td>Mixed</td>
-<td>Specified traction with zero normal velocity</td>
-</tr>
-<tr class="row-odd"><td>shl</td>
-<td>Traction, horizontal, local</td>
-<td>Mixed</td>
-<td>Zero normal velocity, traction in tangent and bitangent</td>
-</tr>
-<tr class="row-even"><td>int</td>
+<tr class="row-odd"><td><code class="docutils literal notranslate"><span class="pre">int</span></code></td>
 <td>Interpolated (NEKNEK)</td>
 <td>Dirichlet</td>
 <td>Interpolated from the adjacent overset mesh, see: <a class="reference internal" href="../tutorials/neknek.html#neknek"><span class="std std-ref">Overlapping Overset Grids</span></a></td>
 </tr>
-<tr class="row-odd"><td>mm</td>
+<tr class="row-even"><td><code class="docutils literal notranslate"><span class="pre">p</span></code></td>
+<td>Periodic</td>
+<td>–</td>
+<td>For periodicity within a single element</td>
+</tr>
+<tr class="row-odd"><td><code class="docutils literal notranslate"><span class="pre">mm</span></code></td>
 <td>Moving mesh</td>
 <td>–</td>
-<td>&#160;</td>
+<td>–</td>
 </tr>
-<tr class="row-even"><td>ms</td>
+<tr class="row-even"><td><code class="docutils literal notranslate"><span class="pre">ms</span></code></td>
 <td>Moving surface</td>
 <td>–</td>
-<td>&#160;</td>
+<td>–</td>
 </tr>
-<tr class="row-odd"><td>msi</td>
+<tr class="row-odd"><td><code class="docutils literal notranslate"><span class="pre">msi</span></code></td>
 <td>Moving internal surface</td>
 <td>–</td>
-<td>&#160;</td>
+<td>–</td>
 </tr>
-<tr class="row-even"><td>mv</td>
+<tr class="row-even"><td><code class="docutils literal notranslate"><span class="pre">mv</span></code></td>
 <td>Moving boundary</td>
 <td>Dirichlet</td>
-<td>&#160;</td>
+<td>–</td>
 </tr>
-<tr class="row-odd"><td>mvn</td>
+<tr class="row-odd"><td><code class="docutils literal notranslate"><span class="pre">mvn</span></code></td>
 <td>Moving boundary, normal</td>
 <td>Dirichlet</td>
 <td>Zero velocity in non-normal directions</td>
 </tr>
 </tbody>
 </table>
-<p>The open(outflow) boundary condition (“O”) arises as a natural boundary condition from the variational formulation of Navier Stokes.
-We identify two situations</p>
-<ul>
-<li><p class="first">In the non-stress formulation, open boundary condition (‘Do nothing’)</p>
-<div class="math notranslate nohighlight">
-\[[-p{\bf I} + \nu(\nabla {\bf u})]\cdot {\bf \hat e_n}=0\]</div>
-</li>
-<li><p class="first">In the stress formulation, free traction boundary condition</p>
-<div class="math notranslate nohighlight">
-\[[-p{\bf I} + \nu(\nabla {\bf u}+\nabla {\bf u}^T)]\cdot {\bf \hat e_n}=0\]</div>
-</li>
-<li><p class="first">the symmetric boundary condition (“SYM”) is given as</p>
-<div class="math notranslate nohighlight">
-\[\begin{split}{\bf u} \cdot {\bf \hat e_n} &amp;= 0\ ,\\
-(\nabla {\bf u} \cdot {\bf \hat e_t})\cdot {\bf \hat e_n} &amp;= 0\,\\
-(\nabla {\bf u} \cdot {\bf \hat e_b})\cdot {\bf \hat e_n} &amp;= 0\end{split}\]</div>
-</li>
-</ul>
-<p>where <span class="math notranslate nohighlight">\({\bf \hat e_n}\)</span> is the unit normal vector, <span class="math notranslate nohighlight">\({\bf \hat e_t}\)</span> the unit tangent vector and <span class="math notranslate nohighlight">\({\bf \hat e_b}\)</span> is the unit bitangent vector.
-If the normal, tangent, and bitangent vectors are not aligned with the mesh the stress formulation has to be used.
-- the periodic boundary condition (“P”) needs to be prescribed in the <code class="docutils literal notranslate"><span class="pre">.rea</span></code> or <code class="docutils literal notranslate"><span class="pre">.re2</span></code> file since it already assigns the last point to first via <span class="math notranslate nohighlight">\({\bf u}({\bf x})={\bf u}({\bf x} + L)\)</span>, where <span class="math notranslate nohighlight">\(L\)</span> is the periodic length.
-- the wall boundary condition (“W”) corresponds to <span class="math notranslate nohighlight">\({\bf u}=0\)</span>.</p>
-<p>For a fully-developed flow in such a configuration, one can effect great computational efficiencies by considering the problem in a single geometric unit (here taken to be of length <span class="math notranslate nohighlight">\(L\)</span>), and requiring periodicity of the field variables.
-Nek5000 requires that the pairs of sides (or faces, in the case of a three-dimensional mesh) identified as periodic be identical (i.e., that the geometry be periodic).</p>
-<p>For an axisymmetric flow geometry, the axis boundary condition is provided for boundary segments that lie entirely on the axis of symmetry.
-This is essentially a symmetry (mixed Dirichlet/Neumann) boundary condition in which the normal velocity and the tangential traction are set to zero.</p>
-<p>For free-surface boundary segments, the inhomogeneous traction boundary conditions involve both the surface tension coefficient <span class="math notranslate nohighlight">\(\sigma\)</span> and the mean curvature of the free surface.</p>
+<p>For an axisymmetric flow geometry, the axis boundary condition (<code class="docutils literal notranslate"><span class="pre">A</span></code>) is provided for boundary segments that lie entirely on the axis of symmetry.
+This is essentially a symmetry (mixed Dirichlet/Neumann) boundary condition in which the normal velocity and the tangential traction are set to zero.
+This requires a 2D mesh where the x-axis is the axis of rotation.</p>
+</div>
 </div>
 <div class="section" id="temperature-and-passive-scalars">
-<h2>Temperature and Passive Scalars<a class="headerlink" href="#temperature-and-passive-scalars" title="Permalink to this headline">¶</a></h2>
-<p>The three types of boundary conditions applicable to the
-temperature are: essential (Dirichlet) boundary
-condition in which the temperature is specified;
-natural (Neumann) boundary condition in which the heat flux
-is specified; and mixed (Robin) boundary condition
-in which the heat flux is dependent on the temperature
-on the boundary.
-For segments that constitute the boundary
-<span class="math notranslate nohighlight">\(\partial \Omega_f' \cup \partial \Omega_s'\)</span> (refer to Fig. 2.1),
-one of the above three types of boundary conditions must be
-assigned to the temperature.</p>
-<p>The two types of Robin boundary condition for temperature
-are: convection boundary conditions for which the heat
-flux into the domain depends on the heat transfer coefficient
-<span class="math notranslate nohighlight">\(h_{c}\)</span> and the difference between the environmental temperature
-<span class="math notranslate nohighlight">\(T_{\infty}\)</span> and the surface temperature; and radiation
-boundary conditions for which the heat flux into the domain
-depends on the Stefan-Boltzmann constant/view-factor
-product <span class="math notranslate nohighlight">\(h_{rad}\)</span> and the difference between the fourth power
-of the environmental temperature <span class="math notranslate nohighlight">\(T_{\infty}\)</span> and the fourth
-power of the surface temperature.</p>
+<span id="sec-tempbcs"></span><h2>Temperature and Passive Scalars<a class="headerlink" href="#temperature-and-passive-scalars" title="Permalink to this headline">¶</a></h2>
+<p>The three types of boundary conditions applicable to the temperature are: essential (Dirichlet) boundary condition in which the temperature is specified; natural (Neumann) boundary condition in which the heat flux is specified; and mixed (Robin) boundary condition in which the heat flux is dependent on the temperature on the boundary.
+For segments that constitute the boundary <span class="math notranslate nohighlight">\(\partial \Omega_f' \cup \partial \Omega_s'\)</span> (refer to Fig. 2.1), one of the above three types of boundary conditions must be assigned to the temperature.</p>
+<p>The two types of Robin boundary condition for temperature are: convection boundary conditions for which the heat flux into the domain depends on the heat transfer coefficient <span class="math notranslate nohighlight">\(h_{c}\)</span> and the difference between the environmental temperature <span class="math notranslate nohighlight">\(T_{\infty}\)</span> and the surface temperature; and radiation boundary conditions for which the heat flux into the domain depends on the Stefan-Boltzmann constant/view-factor product <span class="math notranslate nohighlight">\(h_{rad}\)</span> and the difference between the fourth power of the environmental temperature <span class="math notranslate nohighlight">\(T_{\infty}\)</span> and the fourth power of the surface temperature.</p>
 <p>The boundary conditions for the passive scalar fields are analogous to those used for the temperature field.
-Thus, the temperature boundary condition menu will reappear for each passive scalar field so that the user can specify an independent set of boundary conditions for each passive scalar field.</p>
-<span id="tab-bct"></span><table border="1" class="docutils" id="id4">
-<caption><span class="caption-number">Table 3 </span><span class="caption-text">Primitive boundary conditions (Temperature and Passive scalars)</span><a class="headerlink" href="#id4" title="Permalink to this table">¶</a></caption>
+Thus, the temperature boundary conditions and character identifier codes are identical for the passive scalar fields.
+The user can specify an independent set of boundary conditions for each passive scalar field.</p>
+<div class="section" id="specified-value-dirichlet-t">
+<h3>Specified value (Dirichlet), <code class="docutils literal notranslate"><span class="pre">t</span></code><a class="headerlink" href="#specified-value-dirichlet-t" title="Permalink to this headline">¶</a></h3>
+<p>Standard Dirichlet boundary condition for temperature and passive scalars. Used for inlets, isothermal walls, etc.</p>
+<div class="math notranslate nohighlight">
+\[T = temp\]</div>
+<p>Where <span class="math notranslate nohighlight">\(temp\)</span> is set in the <code class="docutils literal notranslate"><span class="pre">userbc</span></code> subroutine in the <a class="reference internal" href="usr_file.html#sec-userbc"><span class="std std-ref">user file</span></a>.</p>
+</div>
+<div class="section" id="flux-neumann-f">
+<h3>Flux (Neumann), <code class="docutils literal notranslate"><span class="pre">f</span></code><a class="headerlink" href="#flux-neumann-f" title="Permalink to this headline">¶</a></h3>
+<p>Standard heat flux boundary condition.</p>
+<div class="math notranslate nohighlight">
+\[\lambda\nabla T \cdot {\bf \hat e_n} = flux\]</div>
+<p>Where <span class="math notranslate nohighlight">\({\bf \hat e_n}\)</span> is the unit vector normal to the boundary face and <span class="math notranslate nohighlight">\(flux\)</span> is set in the <code class="docutils literal notranslate"><span class="pre">userbc</span></code> subroutine in the <a class="reference internal" href="usr_file.html#sec-userbc"><span class="std std-ref">user file</span></a>.</p>
+</div>
+<div class="section" id="insulated-i">
+<h3>Insulated, <code class="docutils literal notranslate"><span class="pre">I</span></code><a class="headerlink" href="#insulated-i" title="Permalink to this headline">¶</a></h3>
+<p>Zero-Neumann boundary condition. Used for insulated walls, outlets, symmetry planes, etc.</p>
+<div class="math notranslate nohighlight">
+\[\lambda \nabla T \cdot {\bf \hat e_n} = 0\]</div>
+<p>Where <span class="math notranslate nohighlight">\({\bf \hat e_n}\)</span> is the unit vector normal to the boundary face.
+The <code class="docutils literal notranslate"><span class="pre">userbc</span></code> subroutine is not called for this boundary condition type.</p>
+</div>
+<div class="section" id="newton-cooling-convection-c">
+<h3>Newton cooling (convection), <code class="docutils literal notranslate"><span class="pre">c</span></code><a class="headerlink" href="#newton-cooling-convection-c" title="Permalink to this headline">¶</a></h3>
+<p>Robin boundary condition for a surface exposed to a fluid at given temperature and heat transfer coefficient.</p>
+<div class="math notranslate nohighlight">
+\[\lambda \nabla T \cdot {\bf \hat e_n} = h_c\left(T-T_{\infty}\right)\]</div>
+<p>Where <span class="math notranslate nohighlight">\({\bf \hat e_n}\)</span> is the unit vector normal to the boundary face, <span class="math notranslate nohighlight">\(h_c\)</span> is the convective heat transfer coefficient, and <span class="math notranslate nohighlight">\(T_{\infty}\)</span> is the ambient temperature.
+The convective heat transfer coefficient and ambient temperature are set in the <code class="docutils literal notranslate"><span class="pre">userbc</span></code> subroutine in the <a class="reference internal" href="usr_file.html#sec-userbc"><span class="std std-ref">user file</span></a>.</p>
+</div>
+<div class="section" id="id2">
+<h3>Periodic, <code class="docutils literal notranslate"><span class="pre">P</span></code><a class="headerlink" href="#id2" title="Permalink to this headline">¶</a></h3>
+<p>Periodic boundary conditions require that all fields in the simulation are periodic.</p>
+<div class="math notranslate nohighlight">
+\[T \left({\bf x}\right) = T\left({\bf x}+\boldsymbol{\delta}{\bf x}\right)\]</div>
+<p>Where <span class="math notranslate nohighlight">\(\boldsymbol{\delta}{\bf x}\)</span> is the offset vector between two periodic faces.
+The <code class="docutils literal notranslate"><span class="pre">userbc</span></code> subroutine is not called for this boundary condition type.
+See the fluid velocity and pressure <a class="reference internal" href="#sec-periodicbc"><span class="std std-ref">periodic boundary condition</span></a> for more information.</p>
+</div>
+<div class="section" id="radiative-cooling-r">
+<h3>Radiative cooling, <code class="docutils literal notranslate"><span class="pre">r</span></code><a class="headerlink" href="#radiative-cooling-r" title="Permalink to this headline">¶</a></h3>
+<p>Robin boundary condition for a surface where radiation heat transfer is significant.</p>
+<div class="math notranslate nohighlight">
+\[\lambda \nabla T \cdot {\bf \hat e_n} = h_{rad}\left(T^4-T_{\infty}^4\right)\]</div>
+<p>Where <span class="math notranslate nohighlight">\({\bf \hat e_n}\)</span> is the unit vector normal to the boundary face, <span class="math notranslate nohighlight">\(h_{rad}\)</span> is the radiative heat transfer coefficient, and <span class="math notranslate nohighlight">\(T_{\infty}\)</span> is the ambient temperature.
+The radiative heat transfer coefficient and ambient temperature are set in the <code class="docutils literal notranslate"><span class="pre">userbc</span></code> subroutine in the <a class="reference internal" href="usr_file.html#sec-userbc"><span class="std std-ref">user file</span></a>.</p>
+</div>
+<div class="section" id="id3">
+<h3>Other BCs<a class="headerlink" href="#id3" title="Permalink to this headline">¶</a></h3>
+<span id="tab-bct"></span><table border="1" class="colwidths-given docutils" id="id5">
+<caption><span class="caption-number">Table 2 </span><span class="caption-text">Other boundary conditions (Temperature and Passive scalars)</span><a class="headerlink" href="#id5" title="Permalink to this table">¶</a></caption>
 <colgroup>
-<col width="11%" />
-<col width="27%" />
-<col width="13%" />
-<col width="49%" />
+<col width="5%" />
+<col width="10%" />
+<col width="10%" />
+<col width="75%" />
 </colgroup>
 <thead valign="bottom">
 <tr class="row-odd"><th class="head">Identifier</th>
@@ -328,159 +528,124 @@ Thus, the temperature boundary condition menu will reappear for each passive sca
 </tr>
 </thead>
 <tbody valign="top">
-<tr class="row-even"><td>P</td>
-<td>Periodic</td>
-<td>–</td>
-<td>Standard periodic boundary condition</td>
-</tr>
-<tr class="row-odd"><td>p</td>
-<td>Periodic</td>
-<td>–</td>
-<td>For periodicity within a single element</td>
-</tr>
-<tr class="row-even"><td>I</td>
-<td>Insulated</td>
-<td>Neumann</td>
-<td>zero gradient</td>
-</tr>
-<tr class="row-odd"><td>O</td>
-<td>Outflow</td>
-<td>Neumann</td>
-<td>Identical to “I”</td>
-</tr>
-<tr class="row-even"><td>SYM</td>
-<td>Symmetry</td>
-<td>Neumann</td>
-<td>Identical to “I”</td>
-</tr>
-<tr class="row-odd"><td>A</td>
+<tr class="row-even"><td><code class="docutils literal notranslate"><span class="pre">A</span></code></td>
 <td>Axisymmetric boundary</td>
 <td>–</td>
-<td>&#160;</td>
+<td>treated as <code class="docutils literal notranslate"><span class="pre">I</span></code></td>
 </tr>
-<tr class="row-even"><td>E</td>
+<tr class="row-odd"><td><code class="docutils literal notranslate"><span class="pre">E</span></code></td>
 <td>Interior boundary</td>
 <td>–</td>
-<td>&#160;</td>
+<td>–</td>
 </tr>
-</tbody>
-</table>
-<span id="tab-userbct"></span><table border="1" class="docutils" id="id5">
-<caption><span class="caption-number">Table 4 </span><span class="caption-text">User defined boundary conditions for temperature and passive scalars</span><a class="headerlink" href="#id5" title="Permalink to this table">¶</a></caption>
-<colgroup>
-<col width="10%" />
-<col width="23%" />
-<col width="11%" />
-<col width="56%" />
-</colgroup>
-<thead valign="bottom">
-<tr class="row-odd"><th class="head">Identifier</th>
-<th class="head">Description</th>
-<th class="head">Type</th>
-<th class="head">Note</th>
+<tr class="row-even"><td><code class="docutils literal notranslate"><span class="pre">'</span>&#160;&#160; <span class="pre">'</span></code></td>
+<td>Empty</td>
+<td>–</td>
+<td>Treated as an interior boundary</td>
 </tr>
-</thead>
-<tbody valign="top">
-<tr class="row-even"><td>t</td>
-<td>Temperature</td>
-<td>Dirichlet</td>
-<td>Standard Dirichlet boundary condition</td>
-</tr>
-<tr class="row-odd"><td>f</td>
-<td>Flux</td>
-<td>Neumann</td>
-<td>Standard Neumann boundary condition</td>
-</tr>
-<tr class="row-even"><td>c</td>
-<td>Newton cooling</td>
-<td>Robin</td>
-<td>Specified heat transfer coefficient</td>
-</tr>
-<tr class="row-odd"><td>int</td>
+<tr class="row-odd"><td><code class="docutils literal notranslate"><span class="pre">int</span></code></td>
 <td>Interpolated (NEKNEK)</td>
 <td>Dirichlet</td>
 <td>Interpolated from the adjacent overset mesh, see: <a class="reference internal" href="../tutorials/neknek.html#neknek"><span class="std std-ref">Overlapping Overset Grids</span></a></td>
 </tr>
+<tr class="row-even"><td><code class="docutils literal notranslate"><span class="pre">O</span></code></td>
+<td>Outflow</td>
+<td>Neumann</td>
+<td>Identical to <code class="docutils literal notranslate"><span class="pre">I</span></code></td>
+</tr>
+<tr class="row-odd"><td><code class="docutils literal notranslate"><span class="pre">p</span></code></td>
+<td>Periodic</td>
+<td>–</td>
+<td>For periodicity within a single element</td>
+</tr>
+<tr class="row-even"><td><code class="docutils literal notranslate"><span class="pre">SYM</span></code></td>
+<td>Symmetry</td>
+<td>Neumann</td>
+<td>Identical to <code class="docutils literal notranslate"><span class="pre">I</span></code></td>
+</tr>
 </tbody>
 </table>
-<ul>
-<li><p class="first">open boundary condition (“O”)</p>
-<div class="math notranslate nohighlight">
-\[k(\nabla T)\cdot {\bf \hat e_n} =0\]</div>
-</li>
-<li><p class="first">insulated boundary condition (“I”)</p>
-<div class="math notranslate nohighlight">
-\[k(\nabla T)\cdot {\bf \hat e_n} =0\]</div>
-</li>
-</ul>
-<p>where <span class="math notranslate nohighlight">\({\bf \hat e_n}\)</span> is the unit normal vector, <span class="math notranslate nohighlight">\({\bf \hat e_t}\)</span> the unit tangent vector and <span class="math notranslate nohighlight">\({\bf \hat e_b}\)</span> is the unit bitangent vector.
-If the normal, tangent, and bitangent vectors are not aligned with the mesh the stress formulation has to be used.
-- the periodic boundary condition (“P”) needs to be prescribed in the <code class="docutils literal notranslate"><span class="pre">.rea</span></code> file since it already assigns the last point to first via <span class="math notranslate nohighlight">\({\bf u}({\bf x})={\bf u}({\bf x} + L)\)</span>, where <span class="math notranslate nohighlight">\(L\)</span> is the periodic length.
-- Newton cooling boundary condition (“c”)</p>
-<blockquote>
-<div><div class="math notranslate nohighlight">
-\[k(\nabla T)\cdot {\bf \hat e_n}=h(T-T_{\infty})\]</div>
-</div></blockquote>
-<ul>
-<li><p class="first">flux boundary condition (“f”)</p>
-<div class="math notranslate nohighlight">
-\[k(\nabla T)\cdot {\bf \hat e_n} =f\]</div>
-</li>
-</ul>
 </div>
-<div class="section" id="internal-boundary-conditions">
-<h2>Internal Boundary Conditions<a class="headerlink" href="#internal-boundary-conditions" title="Permalink to this headline">¶</a></h2>
-<p>In the spatial discretization, the entire computational
-domain is subdivided into macro-elements, the boundary
-segments shared by any two of these macro-elements
-in <span class="math notranslate nohighlight">\(\Omega_f\)</span> and <span class="math notranslate nohighlight">\(\Omega_s\)</span> are denoted as internal boundaries.
-For fluid flow analysis with a single-fluid system or heat
-transfer analysis without change-of-phase, internal
-boundary conditions are irrelevant as the corresponding
-field variables on these segments are part of the
-solution. However, for a multi-fluid system and for
-heat transfer analysis with change-of-phase, special
-conditions are required at particular internal
-boundaries, as described in the following.</p>
-<p>For a fluid system composes of multiple immiscible fluids,
-the boundary (and hence the identity) of each fluid must
-be tracked, and a jump in the normal traction exists
-at the fluid-fluid interface if the surface tension
-coefficient is nonzero.
-For this purpose, the interface between any two fluids
-of different identity must be defined as a special type of
-internal boundary, namely, a fluid layer;
-and the associated surface tension coefficient also
-needs to be specified.</p>
-<p>In a heat transfer analysis with change-of-phase, Nek5000 assumes
-that both phases exist at the start of the solution, and that
-all solid-liquid interfaces are specified as special internal
-boundaries, namely, the melting fronts.
-If the fluid flow problem is considered, i.e., the energy
-equation is solved in conjunction with the momentum and
-continuity equations, then only
-the common boundary between the fluid and the solid
-(i.e., all or portion of <span class="math notranslate nohighlight">\(\partial \overline{\Omega}_f'\)</span> in <a class="reference internal" href="../theory.html#fig-walls"><span class="std std-numref">Fig. 31</span></a>)
-can be defined as the melting front.
-In this case, segments on <span class="math notranslate nohighlight">\(\partial \overline{\Omega}_f'\)</span> that
-belong to the dynamic melting/freezing interface need to be
-specified by the user.
-Nek5000 always assumes that the density of the two phases
-are the same (i.e., no Stefan flow); therefore at the melting
-front, the boundary condition for the fluid velocity is the
-same as that for a stationary wall, that is, all velocity
-components are zero.
-If no fluid flow is considered, i.e., only the energy equation
-is solved, then any internal boundary can be defined as
-a melting front.
-The temperature boundary condition at the melting front
-corresponds to a Dirichlet
-condition; that is, the entire segment maintains a constant temperature
-equal to the user-specified melting temperature <span class="math notranslate nohighlight">\(T_{melt}\)</span>
-throughout the solution.
-In addition, the volumetric latent heat of fusion <span class="math notranslate nohighlight">\(\rho L\)</span>
-for the two phases,
-which is also assumed to be constant, should be specified.</p>
+</div>
+<div class="section" id="setting-boundary-conditions-types">
+<span id="sec-settingbcs"></span><h2>Setting Boundary Conditions Types<a class="headerlink" href="#setting-boundary-conditions-types" title="Permalink to this headline">¶</a></h2>
+<p>Assigning boundary condition types in <em>Nek5000</em> is handled differently depending on if you are using a third-party meshing tool such as <em>Gmsh</em>, <em>ICEM</em>, <em>Cubit</em>, etc. and importing the mesh with <code class="docutils literal notranslate"><span class="pre">exo2nek</span></code>, <code class="docutils literal notranslate"><span class="pre">gmsh2nek</span></code>, or <code class="docutils literal notranslate"><span class="pre">cgns2nek</span></code>, or if you are using a Nek-native tool such as <em>preNek</em> or <code class="docutils literal notranslate"><span class="pre">genbox</span></code> (see <a class="reference internal" href="../tools/genbox.html#tools-genbox"><span class="std std-ref">Genbox</span></a>).
+In either case, the boundary condition types are set by assigning the corresponding character identifier code in the character boundary condition array, <code class="docutils literal notranslate"><span class="pre">cbc</span></code>.
+The character boundary condition array itself is described <a class="reference internal" href="../appendix.html#sec-probvars"><span class="std std-ref">here</span></a> and the supported character codes were described in the sections above for <a class="reference internal" href="#sec-velbcs"><span class="std std-ref">momentum</span></a> and <a class="reference internal" href="#sec-tempbcs"><span class="std std-ref">temperature and passive scalars</span></a>.
+The differences between Nek-native tools and third-party meshing tools are only in how this array gets set.
+For Nek-native tools, this array is read directly from the <code class="docutils literal notranslate"><span class="pre">.rea</span></code> or <code class="docutils literal notranslate"><span class="pre">.re2</span></code> file, which is set based on input provided to the tool itself.
+For third-party meshing tools, the boundary <em>ID</em> is set in the tool – e.g. as a <em>sideset ID</em> in <em>ICEM</em> – and this information is propagated to the <code class="docutils literal notranslate"><span class="pre">.re2</span></code> (mesh) file.
+The <code class="docutils literal notranslate"><span class="pre">cbc</span></code> array is later filled at runtime based on the boundary IDs.</p>
+<p>The recommended method of setting the boundary condition type from the boundary ID is through the <code class="docutils literal notranslate"><span class="pre">.par</span></code> file.
+This is done through the <code class="docutils literal notranslate"><span class="pre">boundaryTypeMap</span></code> key, which is available for the <code class="docutils literal notranslate"><span class="pre">VELOCITY</span></code>, <code class="docutils literal notranslate"><span class="pre">TEMPERATURE</span></code>, and <code class="docutils literal notranslate"><span class="pre">SCALARXX</span></code> directives.
+By default, <em>Nek5000</em> assumes the boundary IDs are sequential and start from 1.
+If this is not the case, the optional <code class="docutils literal notranslate"><span class="pre">boundaryIDMap</span></code> key is available for the <code class="docutils literal notranslate"><span class="pre">MESH</span></code> directive.
+See <a class="reference internal" href="case_files.html#case-files-par"><span class="std std-ref">here</span></a> for more information on the <code class="docutils literal notranslate"><span class="pre">.par</span></code> file.
+A few simple examples of setting the BC types via the <code class="docutils literal notranslate"><span class="pre">.par</span></code> file for a mesh with boundary IDs assigned in a third-party mesher are below.</p>
+<div class="admonition warning">
+<p class="first admonition-title">Warning</p>
+<p class="last">Setting the boundary condition types in the <code class="docutils literal notranslate"><span class="pre">.par</span></code> file is <strong>NOT</strong> supported in V19 or earlier versions.</p>
+</div>
+<p>In the simplest example, the mesh has 4 boundaries each with a sequentially numbered boundary ID.</p>
+<table border="1" class="docutils align-center" id="id6">
+<caption><span class="caption-number">Table 3 </span><span class="caption-text">Desired Boundary Types</span><a class="headerlink" href="#id6" title="Permalink to this table">¶</a></caption>
+<colgroup>
+<col width="33%" />
+<col width="33%" />
+<col width="33%" />
+</colgroup>
+<thead valign="bottom">
+<tr class="row-odd"><th class="head">Boundary ID</th>
+<th class="head">Velocity</th>
+<th class="head">Temperature</th>
+</tr>
+</thead>
+<tbody valign="top">
+<tr class="row-even"><td>1</td>
+<td><code class="docutils literal notranslate"><span class="pre">v</span></code></td>
+<td><code class="docutils literal notranslate"><span class="pre">t</span></code></td>
+</tr>
+<tr class="row-odd"><td>2</td>
+<td><code class="docutils literal notranslate"><span class="pre">O</span></code></td>
+<td><code class="docutils literal notranslate"><span class="pre">I</span></code></td>
+</tr>
+<tr class="row-even"><td>3</td>
+<td><code class="docutils literal notranslate"><span class="pre">W</span></code></td>
+<td><code class="docutils literal notranslate"><span class="pre">f</span></code></td>
+</tr>
+<tr class="row-odd"><td>4</td>
+<td><code class="docutils literal notranslate"><span class="pre">SYM</span></code></td>
+<td><code class="docutils literal notranslate"><span class="pre">I</span></code></td>
+</tr>
+</tbody>
+</table>
+<p>To set the boundary condition types, the <code class="docutils literal notranslate"><span class="pre">boundaryTypeMap</span></code> key is used in the <code class="docutils literal notranslate"><span class="pre">.par</span></code> file.
+The <code class="docutils literal notranslate"><span class="pre">boundaryTypeMap</span></code> key is a comma-separated list of the boundary condition types to be assigned to the domain and is avaialble for the velocity, temperature and passive scalar fields.
+The character identifiers can always be used for assignment.
+Additionally, some of the common boundary types can be assigned using plain-English equivalents in the <code class="docutils literal notranslate"><span class="pre">.par</span></code> file only.
+For a list of these see <a class="reference internal" href="case_files.html#sec-engidentifiers"><span class="std std-ref">here</span></a>.
+By default, <em>Nek5000</em> assumes the boundary IDs in your mesh start with 1 and are numbered sequentially.
+Due to the sequential ordering of the boundary IDs in this example, these boundary types can be set using only the <code class="docutils literal notranslate"><span class="pre">boundaryTypeMap</span></code> keys in the <code class="docutils literal notranslate"><span class="pre">VELOCITY</span></code> and <code class="docutils literal notranslate"><span class="pre">TEMPERATURE</span></code> directives:</p>
+<div class="highlight-ini notranslate"><div class="highlight"><pre><span></span><span class="k">[VELOCITY]</span>
+<span class="na">boundaryTypeMap</span> <span class="o">=</span> <span class="s">v, O, W, SYM</span>
+
+<span class="k">[TEMPERATURE]</span>
+<span class="na">boundaryTypeMap</span> <span class="o">=</span> <span class="s">t, I, f, I</span>
+</pre></div>
+</div>
+<p>If your boundary IDs are not sequential or do not start with 1, they can be explicitly declared using the <code class="docutils literal notranslate"><span class="pre">boundaryIDMap</span></code> key in the <code class="docutils literal notranslate"><span class="pre">MESH</span></code> directive.
+The <code class="docutils literal notranslate"><span class="pre">boundaryIDMap</span></code> key is a comma-separated list of integers corresponding to the boundary IDs in your mesh.
+When using the <code class="docutils literal notranslate"><span class="pre">boundaryIDMap</span></code> key, <em>Nek5000</em> makes no assumptions regarding the boundary ID values.</p>
+<div class="highlight-ini notranslate"><div class="highlight"><pre><span></span><span class="k">[MESH]</span>
+<span class="na">boundaryIDMap</span> <span class="o">=</span> <span class="s">3, 4, 1, 2</span>
+
+<span class="k">[VELOCITY]</span>
+<span class="na">boundaryTypeMap</span> <span class="o">=</span> <span class="s">W, SYM, v, O</span>
+
+<span class="k">[TEMPERATURE]</span>
+<span class="na">boundaryTypeMap</span> <span class="o">=</span> <span class="s">f, I, t, I</span>
+</pre></div>
+</div>
 </div>
 </div>
 

@@ -107,21 +107,30 @@ Some of the tools and advanced features will have additional dependencies, such 
 </div>
 <div class="admonition note">
 <p class="first admonition-title">Note</p>
-<p class="last">These package lists also work for Ubuntu on the Windows Subsystem for Linux</p>
+<p class="last">These package lists also work for Ubuntu on the Windows Subsystem for Linux. However, X11 integration is not supported natively with Windows 10.</p>
 </div>
 </div>
 <div class="section" id="running-your-very-first-simulation">
 <h2>Running your very first simulation<a class="headerlink" href="#running-your-very-first-simulation" title="Permalink to this headline">¶</a></h2>
 <p>Hold your horses, this needs less than 5 min.
-Begin by downloading the latest release tarball from <a class="reference external" href="https://github.com/Nek5000/Nek5000/releases">here</a>.
-Then follow the instructions below</p>
+Follow the commands below to download the latest master branch of the source code and build genmap</p>
 <div class="highlight-console notranslate"><div class="highlight"><pre><span></span><span class="gp">$</span> <span class="nb">cd</span> ~
-<span class="gp">$</span> tar -xvzf Nek5000_X.Y.tar.gz
+<span class="gp">$</span> wget https://github.com/Nek5000/Nek5000/archive/refs/heads/master.zip
+<span class="gp">$</span> unzip master.zip
+<span class="gp">$</span> mv Nek5000-master Nek5000
+<span class="gp">$</span> rm master.zip
 <span class="gp">$</span> <span class="nb">export</span> <span class="nv">PATH</span><span class="o">=</span><span class="nv">$HOME</span>/Nek5000/bin:<span class="nv">$PATH</span>
 <span class="gp">$</span> <span class="nb">cd</span> ~/Nek5000/tools
 <span class="gp">$</span> ./maketools genmap
-<span class="gp">$</span> <span class="nb">cd</span> ~/Nek5000/run
-<span class="gp">$</span> cp -r ../examples/eddy_uv .
+</pre></div>
+</div>
+<p>Then follow the next set of commands to download the example cases and run one</p>
+<div class="highlight-console notranslate"><div class="highlight"><pre><span></span><span class="gp">$</span> <span class="nb">cd</span> ~
+<span class="gp">$</span> wget https://github.com/Nek5000/NekExamples/archive/refs/heads/master.zip
+<span class="gp">$</span> unzip master.zip
+<span class="gp">$</span> mv NekExamples-master NekExamples
+<span class="gp">$</span> rm master.zip
+<span class="gp">$</span> cp -r ~/NekExamples/eddy_uv .
 <span class="gp">$</span> <span class="nb">cd</span> eddy_uv
 <span class="gp">$</span> genmap                       <span class="c1"># run partioner, on input type eddy_uv</span>
 <span class="gp">$</span> makenek eddy_uv              <span class="c1"># build case, edit script to change settings</span>
@@ -130,15 +139,16 @@ Then follow the instructions below</p>
 <span class="gp">$</span> visnek eddy_uv               <span class="c1"># produces the eddy_uv.nek5000 file</span>
 </pre></div>
 </div>
-<div class="admonition note">
-<p class="first admonition-title">Note</p>
-<p class="last">The <code class="docutils literal notranslate"><span class="pre">eddy_uv</span></code> case will not be available if you cloned the master branch from GitHub, as the <code class="docutils literal notranslate"><span class="pre">examples</span></code> folder is NOT included.
-To obtain the examples using git, clone the <code class="docutils literal notranslate"><span class="pre">Nek5000/NekExamples.git</span></code> repository.</p>
-</div>
 <p>As the case runs, it will generate multiple <code class="docutils literal notranslate"><span class="pre">eddy_uv0.fXXXXX</span></code> files.
 These are the restart checkpoint and visualization data files.
 The metadata file, <code class="docutils literal notranslate"><span class="pre">eddy_uv.nek5000</span></code>, can be opened with either VisIt or ParaView, which will look for the data files in the same directory as the <code class="docutils literal notranslate"><span class="pre">eddy_uv.nek5000</span></code> file.</p>
 <p>Assuming all went well, congratulations! You have now run your first simulation with <em>Nek5000</em>.</p>
+<div class="admonition note">
+<p class="first admonition-title">Note</p>
+<p>We now recommend using the latest master branch from github rather than the V19 release. Some features, such as the RANS models, are not well supported with V19 or earlier releases.</p>
+<p>We also recommend using git to clone both the source code repository and the examples repository. This will make it easier to get updates as the code advances.</p>
+<p class="last">If you download one of the release tarballs from <a class="reference external" href="https://github.com/Nek5000/Nek5000/releases">here</a>, the NekExamples repository is included in <code class="docutils literal notranslate"><span class="pre">Nek5000/examples</span></code> already.</p>
+</div>
 </div>
 <div class="section" id="directory-structure">
 <h2>Directory structure<a class="headerlink" href="#directory-structure" title="Permalink to this headline">¶</a></h2>

@@ -292,12 +292,12 @@ This is done by the following inclusions in the <code class="docutils literal no
 <span class="n">c</span><span class="o">-----------------------------------------------------------------------</span>
 </pre></div>
 </div>
-<p>As above, eddy viscosity, <code class="docutils literal notranslate"><span class="pre">mu_t</span></code>, is added to the momentum diffusion coefficient and <span class="math notranslate nohighlight">\(k\)</span> and <span class="math notranslate nohighlight">\(\tau\)</span> diffusion coefficients are modified as described by Eq. <a class="reference internal" href="../theory.html#equation-ktau">(22)</a> in the <a class="reference internal" href="../theory.html#intro-ktau"><span class="std std-ref">RANS theory section</span></a>.</p>
+<p>As above, eddy viscosity, <code class="docutils literal notranslate"><span class="pre">mu_t</span></code>, is added to the momentum diffusion coefficient and <span class="math notranslate nohighlight">\(k\)</span> and <span class="math notranslate nohighlight">\(\tau\)</span> diffusion coefficients are modified as described by Eq. <a class="reference internal" href="../theory.html#equation-ktau">(25)</a> in the <a class="reference internal" href="../theory.html#intro-ktau"><span class="std std-ref">RANS theory section</span></a>.</p>
 <div class="admonition note">
 <p class="first admonition-title">Note</p>
 <p class="last">The transport and diffusion coefficients (<code class="docutils literal notranslate"><span class="pre">utrans</span></code> and <code class="docutils literal notranslate"><span class="pre">udiff</span></code>) for the RANS scalars are set with the <a class="reference internal" href="../problem_setup/usr_file.html#tab-cpfld"><span class="std std-ref">field coefficient array</span></a> vaules (<code class="docutils literal notranslate"><span class="pre">cpfld</span></code>) for field 1, velocity. This is done to ensure consistency in the problem setup.</p>
 </div>
-<p>Source terms in the <span class="math notranslate nohighlight">\(k-\tau\)</span> transport equations, Eq. <a class="reference internal" href="../theory.html#equation-ktau">(22)</a>, are added with the following inputs in the <code class="docutils literal notranslate"><span class="pre">userq</span></code> subroutine</p>
+<p>Source terms in the <span class="math notranslate nohighlight">\(k-\tau\)</span> transport equations, Eq. <a class="reference internal" href="../theory.html#equation-ktau">(25)</a>, are added with the following inputs in the <code class="docutils literal notranslate"><span class="pre">userq</span></code> subroutine</p>
 <div class="highlight-fortran notranslate"><div class="highlight"><pre><span></span>      <span class="k">implicit none</span>
 <span class="k">      include</span> <span class="s1">&#39;SIZE&#39;</span>
       <span class="k">include</span> <span class="s1">&#39;TOTAL&#39;</span>
