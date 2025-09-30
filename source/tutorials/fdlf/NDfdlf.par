@@ -1,0 +1,15 @@
+#
+# nek parameter file
+#
+[GENERAL]
+dt = 2.5e-3
+numsteps = 10000
+writeInterval = 2000
+
+[VELOCITY]
+density = 1        #kg/m3
+viscosity = -600  #kg/m-s
+
+[TEMPERATURE]
+rhoCp = 1       #J/m3-K
+conductivity = -480 #W/m-K

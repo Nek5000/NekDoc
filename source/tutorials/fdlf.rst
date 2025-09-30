@@ -156,7 +156,6 @@ To get started we copy the template to our case directory
 
 Boundary and initial conditions
 _______________________________
-
 The boundary conditions can be setup in subroutine ``userbc`` as shown below, where the highlighted lines indicate where the actual boundary condition is specified.
 The velocity and temperature are set to the analytic profiles given by Eqs. :eq:`fdlf_vel` and :eq:`fdlf_temp` and the heat flux is set to a constant value.
 
@@ -329,6 +328,7 @@ Plots of the velocity and temperature varying along the y-axis as evaluated by *
 .. figure:: fdlf/velocity_lineplot.png
    :align: center
    :figclass: align-center
+   :scale: 50 %
 
    *Nek5000* velocity solutions plotted against analytical solutions.
 
@@ -337,6 +337,215 @@ Plots of the velocity and temperature varying along the y-axis as evaluated by *
 .. figure:: fdlf/temperature_lineplot.png
    :align: center
    :figclass: align-center
+   :scale: 50 % 
 
    *Nek5000* temperature solutions plotted against analytical solutions.
+
+........................
+Nondimensionalizing the case
+........................
+
+This case can also be ran nondimensionally in Nek5000 to yield the same results. 
+
+First, the length scale needs to be determined to nondimensionalize the fluid domain. 
+The length scale can be found by calculating the hydraulic diameter.
+
+.. math::
+   D_H = \frac{4A_{xs}}{P_w}= \frac{4 \Delta z H}{2 \Delta z} = 2H
+
+The dimensions of the channel can now both be nondimensionalized using the hydraulic diameter.
+
+.. math::
+   x_{max}^*=\frac{x_{max}}{D_H}=\frac{H/2}{2H}=\frac{1}{4}
+   y_{max}^*=\frac{y_{max}}{D_H}=\frac{L}{2H}=\frac{0.2}{0.02}=10
+
+These changes to the fluid domain can be done in ``usrdat2`` in the ``fdlf.usr`` which modifeies the mesh domain.
+
+ 
+The first file that needs to be modified is the ``fdlf.par`` file.
+The user parameters can be removed from the par file as they won't be needed anymore to run the case nondimensionally and instead they will be adjusted for in the ``fdlf.usr`` file later.
+The time step ``dt`` can be nondimensionalized as follows:
+
+.. math::
+   dt^* = \frac{dt*u_m}{D_h} = \frac{(0.0001 \ s)(0.5 \ m/s)}{0.02 \ m} = 2.5*10^{-3}
+
+Before editing the ``fdlf.par`` file further the Reynold's number and Peclet number need to be calculated in order to define the case nondimensionally.
+The Reynold's number is calculated as shown :ref:`here _https://nek5000.github.io/NekDoc/theory.html#non-dimensional-navier-stokes` and for this case can be calculated as follows:
+
+.. math::
+   Re = \frac{\rho u_m D_h}{\mu} = \frac{(1.2 \ kg/m^3)(0.5 \ m/s)(0.02 \ m)}{0.00002 \ kg/m-s} = 600
+
+The Peclet number is calculated as shown :ref:`here _https://nek5000.github.io/NekDoc/theory.html#non-dimensional-energy-passive-scalar-equation`:
+
+.. math::
+   Pe = \frac{\rho u_m D_h c_p}{k} = {(1.2 \ kg/m^3)(0.5 \ m/s)(0.02 \ m)(1000 \ J/kg-K)}{0.025 \ W/m-K} = 480  
+
+Both ``rho`` and ``rhoCp`` become 1 and ``viscosity`` is set to -600 to define the Reynolds number while ``conductivity`` is set to -480 to define the Peclet number.
+The time step size was also increased because the case took longer to develop and the CFL was low enough to support the increase in step size.
+
+.. .. literalinclude:: fdlf/NDfdlf.par
+   :language: ini
+
+.. code-block:: ini
+
+   #
+   # nek parameter file
+   #
+   [GENERAL]
+   dt = 2.5e-3
+   numsteps = 10000
+   writeInterval = 2000
+
+   [VELOCITY]
+   density = 1        #kg/m3
+   viscosity = -600  #kg/m-s
+
+   [TEMPERATURE]
+   rhoCp = 1       #J/m3-K
+   conductivity = -480 #W/m-K
+
+
+The last file that needs to be modified to nondimensionalize the case is the ``fdlf.usr``  file.
+The inlet conditions are nondimensionalized as shown and the resulting values are defined in ``useric``.
+
+.. math::
+   u_m^* = u_m/u_m = 1
+   T_{in}^* = \frac{T_{in}-T_{in}}{\Delta T_{ref}} = 0
+
+.. .. literalinclude:: fdlf/NDfdlf.usr
+   :language: fortran
+   :lines: 96-112
+   :emphasis-lines: 106
+
+.. code-block:: fortran
+   
+        subroutine useric(ix,iy,iz,ieg) ! set up initial conditions
+
+ c      implicit none
+
+        integer ix,iy,iz,ieg
+
+        include 'SIZE'
+        include 'TOTAL'
+        include 'NEKUSE'
+
+        ux   = 1
+        uy   = 0.0
+        uz   = 0.0
+        temp = 0.0
+
+        return
+        end
+
+
+In ``userbc`` the heat flux is simply set equal to 1 and the equations for velocity and temperature are replaced with their respective nondimensional forms. 
+
+.. .. literalinclude:: fdlf/NDfdlf.usr
+   :language: fortran
+   :lines: 77-94
+   :emphasis-lines: 87,90,91
+
+.. code-block:: fortran
+
+        subroutine userbc(ix,iy,iz,iside,eg) ! set up boundary conditions
+ c      implicit none
+        include 'SIZE'
+        include 'TOTAL'
+        include 'NEKUSE'
+ 
+        integer ix,iy,iz,iside,eg
+ 
+        con  = cpfld(2,1)    !thermal conductivity
+ 
+        ux   = 3./2.*(1-16*y**2)
+        uy   = 0.0
+        uz   = 0.0
+ 
+        temp = (1/(4*con))*(12.*y**2-32.*y**4-39./280.)
+        flux = 1
+ 
+        return
+        end
+
+
+The last change needed to be made is in ``usrdat2`` to nondimensionalize the domain.
+
+.. .. literalinclude:: fdlf/NDfdlf.usr
+   :language: fortran
+   :lines: 142-157
+
+.. code-block:: fortran
+
+        subroutine usrdat2()  ! This routine to modify mesh coordinates
+
+ c      implicit none
+
+        include 'SIZE'
+        include 'TOTAL'
+
+        Dh = 0.02 !m
+
+        n = lx1*ly1*lz1*nelv
+
+        call cmult(xm1,1/Dh,n)
+        call cmult(ym1,1/Dh,n)
+
+        return
+        end
+
+
+This edit multiplies all of the :math:`x` and :math:`y` coordinates in the domain by :math:`1/Dh`.   
+The rest of the files used for the case remain the same and the process of compiling the case is also unchanged.
+The results from running the case can be seen below.
+
+It's important to note that the nondimensional results need to be scaled for an accurate comparison to the dimensional results. The two separate scales before adjusting the nondimensional results are shown below in :numref:`fig:velocity_lineplot_nondim_unscaled` and :numref:`fig:temperature_lineplot_nondim_unscaled`.
+
+
+.. _fig:velocity_lineplot_nondim_unscaled:
+
+.. figure:: fdlf/velocity_lineplot_nondim_unscaled.png
+   :align: center
+   :figclass: align-center
+   :scale: 50 %
+
+   Nondimensional and dimensional Nek5000 velocity solutions plotted against analytical solutions without scaling.
+
+.. _fig:temperature_lineplot_nondim_unscaled:
+
+.. figure:: fdlf/temperature_lineplot_nondim_unscaled.png
+   :align: center
+   :figclass: align-center
+   :scale: 50 %
+
+   Nondimensional and dimensional Nek5000 temperature solutions plotted against analytical solutions without scaling.
+
+The nondimensional results can be scaled to match the dimensional results by dimensionalizing the results using the relationship between the dimensional and nondimensional variables defined previously:
+
+.. math::
+   x^*=\frac{x}{D_H}=\frac{x}{2H} \xrightarrow x=x^* * 2H=0.2x
+   y^*=\frac{y}{D_H}=\frac{y}{2H} \xrightarrow y=y^* * 2H=0.2y
+   \vec{u}^* = \vec{u}/u_m \xrightarrow \vec{u} = \vec{u}^* * u_m =0.5 \vec{u}
+   T^* = \frac{T-T_{in}}{\Delta T_{ref}} \xrightarrow T = T^* * \Delta T_{ref} + T_{in}
+ 
+The scaled nondimensional results can be seen below in :numref:`fig:velocity_lineplot_nondim` and :numref:`fig:temperature_lineplot_nondim`.
+
+ 
+.. _fig:velocity_lineplot_nondim:
+
+.. figure:: fdlf/velocity_lineplot_nondim.png
+   :align: center
+   :figclass: align-center
+   :scale: 50 %
+
+   Nondimensional and dimensional Nek5000 velocity solutions plotted against analytical solutions.
+
+.. _fig:temperature_lineplot_nondim:
+
+.. figure:: fdlf/temperature_lineplot_nondim.png
+   :align: center
+   :figclass: align-center
+   :scale: 50 %
+
+   Nondimensional and dimensional Nek5000 temperature solutions plotted against analytical solutions.
+
 
