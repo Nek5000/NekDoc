@@ -72,6 +72,19 @@ Then follow the next set of commands to download the example cases and run one
   $ tail logfile                 # prints the last few lines of the solver output to the terminal
   $ visnek eddy_uv               # produces the eddy_uv.nek5000 file
 
+
+``makenek`` should print out the following message if the compilation successes.
+If not, check the error message and troubleshoot from there (also recorded in ``build.log``).
+
+.. code-block:: console
+
+  #############################################################
+  #                  Compilation successful!                  #
+  #############################################################
+     text     data      bss      dec      hex  filename
+  1730502    39876  124109568   125879946   780c68a  nek5000
+
+
 As the case runs, it will generate multiple ``eddy_uv0.fXXXXX`` files.
 These are the restart checkpoint and visualization data files.
 The metadata file, ``eddy_uv.nek5000``, can be opened with either VisIt or ParaView, which will look for the data files in the same directory as the ``eddy_uv.nek5000`` file.
