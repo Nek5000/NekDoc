@@ -646,7 +646,7 @@ Some elements that require additional explanation are:
    +-------------------+--------+-------+---------+--------------+---------------------------------------------------+
    | ``time``          | 38     | 20    | ASCII   | decimal      | Absolute simulation time of this file's state     |
    +-------------------+--------+-------+---------+--------------+---------------------------------------------------+
-   | ``iostep``        | 59     | 9     | ASCII   | integer      | I/O timestep of this file's state                 |
+   | ``istep``         | 59     | 9     | ASCII   | integer      | timestep of this file's state                     |
    +-------------------+--------+-------+---------+--------------+---------------------------------------------------+
    | ``fid``           | 69     | 6     | ASCII   | integer      | Index of this file (when using multi-file output) |
    +-------------------+--------+-------+---------+--------------+---------------------------------------------------+
