@@ -167,6 +167,115 @@ The files contain enough information to reconstruct Reynolds stresses considerin
 
    \overline{u'u'}=\overline{u^2}-\overline{u}^2
 
+.. _features_hrefine:
+
+------------------
+*h*-Refinement
+------------------
+
+This option performs an on-the-fly global mesh refinement. Each element edge is
+split into :math:`N_{\text{cut}}` uniform segments, so the total number of
+elements increases by a factor :math:`N_{\text{cut}}^d`, where :math:`d = 2, 3`
+is the spatial dimension. The refined mesh is built by high-order tensor-product
+interpolation and preserves the original boundary conditions, connectivity, and
+partitioning.
+
+To use this feature, set the refinement schedule in the ``.par`` file, as shown
+below for :math:`N_{\text{cut}} = 3`. See :numref:`fig:hrefine_mesh` for a 2D
+illustration.
+
+.. code-block:: ini
+
+   [MESH]
+   hrefine = 3
+
+.. _fig:hrefine_mesh:
+
+.. figure:: ../figs/hrefine_mesh.png
+   :width: 90%
+   :align: center
+   :figclass: align-center
+   :alt: hrefine-mesh
+
+   h-refinement demo. Each element (red) of a 4×4 2D mesh is refined into 3×3
+   smaller elements, resulting in 144 elements.
+
+Refinement is applied before ``usrdat2``, so users can still adjust mesh
+coordinates and boundary conditions in ``usrdat2``. Multiple rounds of
+*h*-refinement are also supported (up to ``lhref = 10`` in ``SIZE.inc``). See
+:numref:`tab:hrefine_ex1` for examples.
+
+.. _tab:hrefine_ex1:
+
+.. csv-table:: Examples of *h*-refinement options
+   :header: "Par keys","Rounds","Refinement(s)",":math:`E_{new} / E_{old}`"
+   :widths: 30, 15, 40, 15
+
+   "``hrefine=2``", 1, ":math:`N_{\text{cut}} = 2`", ":math:`2^d`"
+   "``hrefine=2,3``", 2, ":math:`N_{\text{cut}} = 2` then :math:`3`", ":math:`6^d`"
+   "``hrefine=3,2``", 2, ":math:`N_{\text{cut}} = 3` then :math:`2`", ":math:`6^d`"
+   "``hrefine=4``", 1, ":math:`N_{\text{cut}} = 4`", ":math:`4^d`"
+   "``hrefine=2,2``", 2, ":math:`N_{\text{cut}} = 2` then :math:`2`", ":math:`4^d`"
+   "``hrefine=2,2,2``", 3, ":math:`(N_{\text{cut}} = 2)\ \times` 3 times", ":math:`8^d`"
+
+.. Note::
+
+   The order of the refinement schedule matters. Because elements are not
+   renumbered, ``hrefine=2,3`` produces a different element numbering than
+   ``hrefine=3,2``. The same rule applies to the restart option below.
+
+.. Note::
+
+   Because the partitioning is not recomputed, :math:`h`-refinement can introduce
+   load imbalance of up to :math:`N_{\text{cut}}^d` elements per rank.
+
+The restart option also works with *h*-refinement so you can reuse solutions on
+refined meshes. Each checkpoint stores up to four refinement steps in its header.
+On restart, *Nek5000* compares the *h*-schedule in the ``.par`` with the
+*h*-schedule stored in the ``*0.f00001`` file and applies any required refinement
+to the fields. A checkpoint is valid as long as its *h*-schedule is an ordered
+subset of the *h*-schedule requested for the new run. See the table and diagram
+below for an example.
+
+.. csv-table:: Example of *h*-refinement and restart options
+   :header: "Simulations","Input mesh","``hrefine``","Output size"
+   :widths: 15,30,20,35
+
+   "0","``a.re2``","*(none)*",":math:`E`"
+   "1","``a.re2``","3",":math:`3^d E`"
+   "2","``a.re2``","3,2",":math:`6^d E`"
+   "3","``b.re2``","*(none)*",":math:`6^d E`"
+   "4","``b.re2``","2",":math:`12^d E`"
+
+.. _fig:hrefine_restart:
+
+.. figure:: ../figs/hrefine_restart.png
+   :width: 90%
+   :align: center
+   :figclass: align-center
+   :alt: hrefine-restart
+
+   Restart diagram for *h*-refinement. Starting from the top-left ``a.re2``
+   (green), each simulation (blue) dumps a checkpoint file (white) whose header
+   shows the stored *h*-schedule. After writing a new ``b.re2``, the schedule is
+   reset and older checkpoint files are no longer compatible.
+
+.. csv-table:: Supported restart scenarios
+   :header: "","Sim 1","Sim 2","Sim 3","Sim 4"
+   :widths: 12,22,22,22,22
+
+   "fld 0","ok","ok","Not supported","Not supported"
+   "fld 1","ok","ok","Not supported","Not supported"
+   "fld 2","NA","ok","Not supported","Not supported"
+   "fld 3","NA","NA","ok","ok"
+
+.. Note::
+
+   The *h*-refinement restart option can be combined with other restart options
+   except ``int``. It also requires the latest binary format
+   (``param(67) = 6``) and skips the pressure field when
+   ``if_full_pres = .true.``.
+
 .. _features_post:
 
 ------------------

@@ -646,7 +646,7 @@ Some elements that require additional explanation are:
    +-------------------+--------+-------+---------+--------------+---------------------------------------------------+
    | ``time``          | 38     | 20    | ASCII   | decimal      | Absolute simulation time of this file's state     |
    +-------------------+--------+-------+---------+--------------+---------------------------------------------------+
-   | ``iostep``        | 59     | 9     | ASCII   | integer      | I/O timestep of this file's state                 |
+   | ``istep``         | 59     | 9     | ASCII   | integer      | timestep of this file's state                     |
    +-------------------+--------+-------+---------+--------------+---------------------------------------------------+
    | ``fid``           | 69     | 6     | ASCII   | integer      | Index of this file (when using multi-file output) |
    +-------------------+--------+-------+---------+--------------+---------------------------------------------------+
@@ -654,11 +654,13 @@ Some elements that require additional explanation are:
    +-------------------+--------+-------+---------+--------------+---------------------------------------------------+
    | ``rdcode``        | 83     | 10    | ASCII   | text         | Specifies which fields contained in this file     |
    +-------------------+--------+-------+---------+--------------+---------------------------------------------------+
-   | ``p0th``          | 94     | 15    | ASCII   | decimal      | Thermodynamic pressure                            |
+   | ``p0th``          | 93     | 15    | ASCII   | decimal      | Thermodynamic pressure                            |
    +-------------------+--------+-------+---------+--------------+---------------------------------------------------+
-   | ``if_press_mesh`` | 110    | 1     | ASCII   | text         | States whether pressure mesh is being used        |
+   | ``if_press_mesh`` | 109    | 1     | ASCII   | text         | States whether pressure mesh is being used        |
    +-------------------+--------+-------+---------+--------------+---------------------------------------------------+
-   | ``test_value``    | 112    | 4     | binary  | 32-bit float | The decimal 6.54321.  Used to test endianness.    |
+   | ``h_schedule``    | 111    | 4     | ASCII   | text         | Encoded :ref:`h-schedule <features_hrefine>`      |
+   +-------------------+--------+-------+---------+--------------+---------------------------------------------------+
+   | ``test_value``    | 132    | 4     | binary  | 32-bit float | The decimal 6.54321.  Used to test endianness.    |
    +-------------------+--------+-------+---------+--------------+---------------------------------------------------+
 
 The **global element IDs, coordinates, and field data** start at offset 136 bytes.  Integer data are always 32-bit.
