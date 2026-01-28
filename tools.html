@@ -82,7 +82,20 @@
              
   <div class="section" id="nek-tools">
 <span id="tools"></span><h1>Nek Tools<a class="headerlink" href="#nek-tools" title="Permalink to this headline">¶</a></h1>
-<p><em>Nek5000</em> includes several tools to help with case setup.</p>
+<p>Nek5000* includes several tools to help with case setup.  To build or clean
+them, go to the <code class="docutils literal notranslate"><span class="pre">tools/</span></code> directory and run <code class="docutils literal notranslate"><span class="pre">./maketools</span></code>.  The resulting
+executables will be placed in <code class="docutils literal notranslate"><span class="pre">bin/</span></code>.</p>
+<div class="highlight-console notranslate"><div class="highlight"><pre><span></span><span class="gp">$</span> maketools --help
+<span class="go">Usage: maketools [clean|all|core|tool(s)]</span>
+<span class="go">Examples:</span>
+<span class="go">  ./maketool all                    # build all tools</span>
+<span class="go">  ./maketool core                   # build commonly used tools</span>
+<span class="go">  ./maketool n2to3 reatore2         # only build listed tools</span>
+<span class="go">  ./maketool clean n2to3 reatore2   # only clean listed tools</span>
+<span class="go">  ./maketool clean                  # clean all tools</span>
+</pre></div>
+</div>
+<p>For details on each tool, see the pages below.</p>
 <div class="toctree-wrapper compound">
 <ul>
 <li class="toctree-l1"><a class="reference internal" href="tools/exo2nek.html">exo2nek - converts EXODUS II format meshes to re2</a></li>

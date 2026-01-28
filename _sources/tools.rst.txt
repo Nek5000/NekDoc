@@ -4,7 +4,22 @@
 Nek Tools
 =========
 
-*Nek5000* includes several tools to help with case setup.
+Nek5000* includes several tools to help with case setup.  To build or clean
+them, go to the ``tools/`` directory and run ``./maketools``.  The resulting
+executables will be placed in ``bin/``.
+
+.. code-block:: console
+
+  $ maketools --help
+  Usage: maketools [clean|all|core|tool(s)]
+  Examples:
+    ./maketool all                    # build all tools
+    ./maketool core                   # build commonly used tools
+    ./maketool n2to3 reatore2         # only build listed tools
+    ./maketool clean n2to3 reatore2   # only clean listed tools
+    ./maketool clean                  # clean all tools
+
+For details on each tool, see the pages below.
 
 .. toctree::
   :glob:
